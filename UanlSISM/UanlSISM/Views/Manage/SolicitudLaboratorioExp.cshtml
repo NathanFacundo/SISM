@@ -1,0 +1,202 @@
+﻿@model UanlSISM.Models.SolicitudLaboratorioExp
+@{
+    Layout = "";
+}
+
+<table style="width:100%" class="table table-bordered">
+    <tbody>
+        <tr>
+
+            <td>
+                <b>Folio: </b>
+                @Html.DisplayFor(model => model.LabExpediente.Folio_lab, new { @class = "" })
+            </td>
+            <td>
+                Agregar estudio
+            </td>
+            <td>
+                <div style="display:flex;justify-content:start" class="input-group-sm">
+                    <input style="width:2px;visibility:hidden" type="password" id="lab_id" />
+                    <input placeholder="Buscar estudio..." class="form-control form-control-sm" id="estudioslabtxt" />
+                    <span>
+                        <i style="margin-left:5px;" class="glyphicon glyphicon-search"></i>
+                    </span>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table style="width:100%" id="tblEstudios" class="table table-bordered">
+    <thead style="background-color: rgba(0,74,143,1) !important;">
+        @*<tr>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> Grupo</td>
+                <td> Nombre</td>
+            </tr>*@
+
+    </thead>
+    <tbody>
+        @foreach (var property in Model.LabDetalle)
+        {
+            <tr>
+
+                <td style="width:1%;max-width:1%;display:none">
+                </td>
+                <td style="width:1%;max-width:1%;display:none">
+                </td>
+                <td style="width:1%;max-width:1%;display:none">
+                </td>
+                <td style="width:5px;">
+                </td>
+                <td>
+                    @property.lab_grupo
+                </td>
+                <td>
+                    @property.lab_des
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+<hr />
+
+<div class="form-group">
+    <div class="col-md-offset-0 col-md-12">
+
+        <button type="submit" onclick="cancelBtn()" style="color: white;background-color: lightgray;"  class="next action-button">Regresar</button>
+        @if (Model.LabExpediente.fecha_crea.Date == Model.SysDatetimeNow.Date)
+        {
+            <input type="submit" value="Guardar" onclick="GuardarExpDetalle(@Model.LabExpediente.Folio_lab)" style="background-color: rgba(0,74,143,1) !important;color: white;" class="next action-button" />
+        }
+        else
+        {
+            <input type="submit" value="Guardar" onclick="alert('Solo puede editar en el mismo dia')" style="background-color: rgba(0,74,143,1) !important;color: white;" class="next action-button" />
+        }
+
+    </div>
+</div>
+
+<script src="https://kit.fontawesome.com/c1c7b8f39a.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+
+      $(function() {
+
+        $("#estudioslabtxt").autocomplete({
+                source: function (request, response) {
+                $.ajax({
+                        url: "@Url.Action("GetLaboratorioCatalogo", "Manage")",
+                    dataType: "json",
+                    data: {
+                            search: request.term
+                    },
+                    success: function (data) {
+                                response(data);
+                            }
+                        });
+                    },
+            minLength: 2,
+            focus: function (event, ui) {
+                // prevent autocomplete from updating the textbox
+                event.preventDefault();
+                // manually update the textbox
+                $(this).val(ui.item.label);
+            },
+            select: function (event, ui) {
+                // prevent autocomplete from updating the textbox
+                event.preventDefault();
+                // manually update the textbox and hidden field
+
+
+                $("#lab_id").val(ui.item.value);
+                $(this).val('');
+
+                $('#tblEstudios > tbody:last').append('<tr class="added"> <td style="width:1px;max-width:1px;display:none;">' + ui.item.idserv + '</td>   <td style="width:1px;max-width:1px;display:none;">' + ui.item.idlab + '</td>  <td style="width:1px;max-width:1px;display:none;">' + ui.item.instructions + '</td>  <td> <button style="width:30px;margin-top:-10px;" onclick="DeleteEstudioMedico(this);" class="btn btn-default"><img style="width:20px;height:20px;" src="../Imagenes/iconos/trashcan.png" /></button>  </td>   <td>' + ui.item.value + '</td>    <td>' + ui.item.label + '</td> </tr>');
+
+            }
+        });
+    });
+
+</script>
+
+<script>
+
+   function DeleteEstudioMedico(row) {
+        if (window.confirm("Desea eliminar el estudio de la lista?")) {
+            $(row).closest('tr').remove();
+        }
+    }
+
+
+    function GuardarExpDetalle(folio) {
+
+        var Detalle = [];
+        $('#tblEstudios tr').each(function (i) {
+            if ($(this).hasClass('added')) {
+
+                var lab_lab = document.getElementById('tblEstudios').rows[i].cells[0].innerText;
+                var lab_id = document.getElementById('tblEstudios').rows[i].cells[1].innerText;
+                var lab_instrucciones = document.getElementById('tblEstudios').rows[i].cells[2].innerText;
+
+                var newLabDetalle = {};
+                newLabDetalle.lab_lab = lab_lab;
+                newLabDetalle.lab_id = lab_id;
+                newLabDetalle.lab_instrucciones = lab_instrucciones;
+
+                Detalle.push(newLabDetalle);
+                }
+            });
+
+        if (Detalle.length == 0) {
+            alert('Por favor agregue los estudios mediante el cuadro de búsqueda');
+            return;
+        }
+
+        $.ajax({
+            url: '@Url.Action("GuardarSolicitudLaboratorioExp", "Manage")',
+            data: { folioLab: folio, labDetalle: JSON.stringify(Detalle) },
+            success: function (data) {
+                if (data == '1') {
+                    alert('Estudio(s) añadido(s) con éxito! ');
+                }
+                else {
+                    alert('Error: ' + data);
+                }
+                Refresh(folio);
+            },
+            error: function (reponse) {
+                alert("error");
+                console.log(reponse);
+            }
+        });
+    }
+
+    function Refresh(folio)
+    {
+         $.ajax({
+                url: '@Url.Action("SolicitudLaboratorioExp", "Manage")?folio='+ folio,
+                success: function (data) {
+                    $('#divSolLab').html(data);
+                },
+                error: function (reponse) {
+                    alert("error");
+                    console.log(reponse);
+                }
+         });
+    }
+
+
+    function cancelBtn() {
+
+        $("#divSolLab").hide();
+        $("#divListSolLab").show();
+    }
+
+</script>
+

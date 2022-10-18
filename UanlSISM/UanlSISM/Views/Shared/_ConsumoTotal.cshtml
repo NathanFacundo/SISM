@@ -1,0 +1,120 @@
+﻿@model List<UanlSISM.Models._TotalConsumo>
+@{
+    ViewBag.Title = "_ConsumoTotal";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<table class="table table-striped" id="tblTotal" width="95%">
+    <thead>
+        <tr>
+            <th>Clave</th>
+            <th>Descripcion_21</th>
+            <th>GONZALITOS</th>
+            <th>UER</th>
+            <th>MEDEROS</th>
+            <th>SEMAC</th>
+            <th>ALMACEN SM</th>
+            <th>TOTAL CONSUMO</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            int Gonzalitos = 0;
+            int UER = 0;
+            int Mederos = 0;
+            int SEMAC = 0;
+            int Almacen = 0;
+            <tr>
+                <td>@item.Clave</td>
+                <td>@item.Descripcion_21</td>
+
+                @if (item.GONZALITOS != null)
+                {
+                    Gonzalitos = item.GONZALITOS.Value;
+                    <td>@item.GONZALITOS</td>
+                }
+                else
+                {
+                    Gonzalitos = 0;
+                    <td>0</td>
+                }
+                @if (item.UER != null)
+                {
+                    UER = Convert.ToInt32(item.UER.Value);
+                    <td>@item.UER</td>
+                }
+                else
+                {
+                    UER = 0;
+                    <td>0</td>
+                }
+                @if (item.MEDEROS != null)
+                {
+                    Mederos = Convert.ToInt32(item.MEDEROS.Value);
+                    <td>@item.MEDEROS</td>
+                }
+                else
+                {
+                    Mederos = 0;
+                    <td>0</td>
+                }
+                @if (item.SEMAC != null)
+                {
+                    SEMAC = Convert.ToInt32(item.SEMAC.Value);
+                    <td>@item.SEMAC</td>
+                }
+                else
+                {
+                    SEMAC = 0;
+                    <td>0</td>
+                }
+                @if (item.ALMACEN_SM != null)
+                {
+                    Almacen = item.ALMACEN_SM.Value;
+                    <td>@item.ALMACEN_SM</td>
+                }
+                else
+                {
+                    Almacen = 0;
+                    <td>0</td>
+                }
+                <td>@Convert.ToInt32(Gonzalitos + UER + Mederos + SEMAC).ToString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tblTotal').dataTable({
+            responsive: true,
+            searching: true,
+            info: false,
+            lengthChange: false,
+            language: {
+                "zeroRecords": "Lista Vacía",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+                "select": {
+                    "rows": " %d filas seleccionadas"
+                },
+            },
+            pageLength: 2000
+        });
+    });
+</script>

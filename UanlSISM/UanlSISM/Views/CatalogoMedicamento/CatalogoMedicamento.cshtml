@@ -1,0 +1,584 @@
+﻿@{
+    ViewBag.Title = "CatalogoMedicamento";
+}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+@*<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>*@
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+
+<link href="~/Scripts/plugins/DataTables-1.10.15/media/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/plugins/DataTables-1.10.15/media/js/jquery.js"></script>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<br />
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("CatalogoMedicamento", "CatalogoMedicamento")"><b>Catalogo Medicamentos</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<br />
+<h2>Catalogo Medicamento</h2>
+<div style=" margin-top: 2px; background-color: #fff; padding: 10px; border-radius: 10px 10px 10px 10px; border: 1px solid; margin-top: 30px; box-shadow: 0 4px 5px #306695; border-color: #306695; ">
+    <br />
+    <form class="row g-3">
+        <div class="col-auto">
+            <label>Codigo</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" id="txtBuscar" class="form-control" />
+        </div>
+        <div class="col-auto">
+            <button type="button" class="btn btn-warning" id="btnBuscar">Buscar</button>
+        </div>
+        <div class="col-auto">
+            <button type="button" class="btn btn-success" id="btnNuevo">Nuevo Medicamento</button>
+        </div>
+        <div class="col-auto">
+            <button type="button" class="btn btn-primary" id="btnClean">Limpiar Campos</button>
+        </div>
+    </form>
+    <br />
+    <center>
+        <div>
+            <label for="GrupoTerapeutico" class="col-sm-2 col-form-label">Descripción Anterior:</label>
+            <strong><label for="GrupoTerapeutico" class="col-sm-6 col-form-label" id="lblDesp"></label></strong>
+        </div>
+    </center>
+    <br />
+    <center>
+        <div>
+            <label for="GrupoTerapeutico" class="col-sm-2 col-form-label">Grupo Terapéutico:</label>
+            <select class="form-select" aria-label="Default select example" id="cmbGrupo"></select>
+        </div>
+    </center>
+    <br />
+    <div class="form-row">
+        <div class="form-group col-xl-3">
+            <label for="GrupoTerapeutico">Principio Activo:</label>
+            <select class="form-select" aria-label="Default select example" id="cmbPrincipio"></select>
+        </div>
+        <div class="form-group col-xl-3">
+            <label for="GrupoTerapeutico">Cantidad de Envases:</label>
+            <select class="form-select" aria-label="Default select example" id="cmbCantidad"></select>
+        </div>
+        <div class="form-group col-xl-3">
+            <label for="GrupoTerapeutico">Tipo de Envase:</label>
+            <select class="form-select" aria-label="Default select example" id="cmbTipoEnvace"></select>
+        </div>
+        <div class="col-md-3" id="div1">
+            <div class="btn-group-vertical" role="group" aria-label="Basic example">
+                <button type="button" class="botones btn btn-primary" id="btnCon1">con</button>
+                <button type="button" class="botones btn btn-primary" id="btnDe1">de</button>
+                <button type="button" class="botones btn btn-primary" id="btnAl1">al</button>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div style="margin-top:-20px;" class="form-row">
+        <div class="form-group col-xl-3">
+            <label for="GrupoTerapeutico">Unidades Licitación:</label>
+            <select class="form-select" aria-label="Default select example" id="cmbUnidadesLic"></select>
+        </div>
+        <div class="form-group col-xl-3">
+            <label for="GrupoTerapeutico">Unidad de Medida:</label>
+            <select class="form-select" aria-label="Default select example" id="cmbUnidadMedida"></select>
+        </div>
+        <div class="form-group col-xl-3">
+            <label for="GrupoTerapeutico">Forma Farmacéutica:</label>
+            <select class="form-select" aria-label="Default select example" id="cmbFormaFarm"></select>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-xl-3">
+            <label for="GrupoTerapeutico">Concentración:</label>
+            <select class="form-select" aria-label="Default select example" id="cmbConcentracion"></select>
+        </div>
+        <div class="form-group col-xl-3">
+            <div class="form-check">
+                <br />
+                <input class="form-check-input" type="checkbox" id="chk_SalidaMed">
+                <label class="form-check-label" for="flexCheckDefault">
+                    Salida Medicamento
+                </label>
+            </div>
+
+        </div>
+    </div>
+    <br />
+    <center>
+        <strong><label for="Descricion" id="lblDescripcion"></label></strong>
+    </center>
+    <br />
+    <center>
+        <button type="button" class="btn btn-primary" id="btnGuardar">Guardar Medicamento</button>
+        <button type="button" class="btn btn-primary" id="btnEditar">Editar Medicamento</button>
+    </center>
+</div>
+<script>
+    //Aqui carga de inicio los elemento de la pagina
+    $(document).ready(function () {
+        $('#btnGuardar').hide();
+        $('#btnEditar').hide();
+        CargaCombo();
+        DesactivaControles();
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    var txtBuscar = '';
+    var Id = '';
+    var Descripcion = '';
+    var IdPrincipio = '';
+    var IdForma ='';
+    var IdConcentracion = '';
+    var IdLicitacion = '';
+    var IdMedida = '';
+    var IdCantidad = '';
+    var TipoEnvace = '';
+    var Cod21 = '';
+    var SobranteInv2022 = '';
+
+    function getIP(json) {
+        IP = json.ip;
+    }
+    //funcion para generar la descripcion del medicamento
+    $(document).ready(function () {
+        $("#cmbPrincipio").change(function () {
+            var Grupo = $('#cmbPrincipio option:selected').html()
+            Descripcion = Grupo + "" + ", Envase con";
+            document.getElementById('lblDescripcion').innerHTML = Descripcion;
+
+            $("#cmbPrincipio").prop("disabled", true);
+        });
+        $("#cmbCantidad").change(function () {
+            var Cantidad = $('#cmbCantidad option:selected').html();
+            Descripcion = Descripcion + " " + Cantidad;
+            document.getElementById('lblDescripcion').innerHTML = Descripcion;
+
+            $("#cmbCantidad").prop("disabled", true);
+        });
+        $("#cmbTipoEnvace").change(function () {
+            var Envace = $('#cmbTipoEnvace option:selected').html();
+            Descripcion = Descripcion + " " + Envace;
+            document.getElementById('lblDescripcion').innerHTML = Descripcion;
+
+            $("#cmbTipoEnvace").prop("disabled", true);
+        });
+        $("#cmbUnidadesLic").change(function () {
+            var UniLic = $('#cmbUnidadesLic option:selected').html();
+            Descripcion = Descripcion + " " + UniLic;
+            document.getElementById('lblDescripcion').innerHTML = Descripcion;
+
+            $("#cmbUnidadesLic").prop("disabled", true);
+        });
+        $("#cmbUnidadMedida").change(function () {
+            var Envace = $('#cmbUnidadMedida option:selected').html();
+            Descripcion = Descripcion + " " + Envace;
+            document.getElementById('lblDescripcion').value = Descripcion;
+
+            $("#cmbUnidadMedida").prop("disabled", true);
+        });
+        $("#cmbFormaFarm").change(function () {
+            var Envace1 = $('#cmbFormaFarm option:selected').html();
+            Descripcion = Descripcion + " " + Envace1;
+            document.getElementById('lblDescripcion').innerHTML = Descripcion;
+
+            $("#cmbFormaFarm").prop("disabled", true);
+        });
+        $("#cmbConcentracion").change(function () {
+            var Envace2 = $('#cmbConcentracion option:selected').html();
+            Descripcion = Descripcion + " " + Envace2;
+            document.getElementById('lblDescripcion').innerHTML = Descripcion;
+
+            $("#cmbConcentracion").prop("disabled", true);
+        });
+    });
+    const botones = document.querySelectorAll(".botones");
+    const cuandoSeHaceClick = function (evento) {
+        Descripcion = Descripcion + " " + this.innerText
+        document.getElementById('lblDescripcion').innerHTML = Descripcion;
+    }
+    botones.forEach(boton => {
+        boton.addEventListener("click", cuandoSeHaceClick);
+    });
+    //Funcion para buscar para validar si la clave existe o no esta registrada
+    $('#btnBuscar').click(function () {
+        txtBuscar = $('#txtBuscar').val();
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("ValidaCodigo", "CatalogoMedicamento")?Codigo=' + txtBuscar,
+            dataType: 'json',
+            cache: false,
+            success: function (data) {
+                if (txtBuscar == '') {
+                    alert('No hay clave para buscar');
+                } else {
+                    if (data.length > 0) {
+                        var x = data[0].codigo_21;
+                        if (x != null) {
+                            alert('Ya existe el Medicamento');
+                            DesactivaControles();
+                        }
+                        else {
+                            $('#btnGuardar').hide();
+                            $('#btnEditar').show();
+                            $.ajax({
+                                type: 'GET',
+                                url: '@Url.Action("DescripcionAnt", "CatalogoMedicamento")?Codigo=' + txtBuscar,
+                                dataType: 'json',
+                                cache: false,
+                                success: function (data) {
+                                    var y = data[0].Clave + " - " + data[0].Descripcion_Sal + " - " + data[0].Presentacion;
+                                    document.getElementById("lblDesp").innerHTML = y.trim();
+                                },
+                                error: function (xhr, status, error) {
+                                    alert("Error");
+                                }
+                            });
+                            ActivaControles();
+                        }
+                    } else {
+                        alert('No existe la clave');
+                    }
+                }
+            },
+            error: function (xhr, status, error) {
+                alert("Error");
+            }
+        });
+    });
+    //Funcion para editar un medicamento que ya existia en el cuadro basico anterior
+    $('#btnEditar').click(function () {
+        Id = $("#cmbGrupo").val();
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("ValidaExistencia", "CatalogoMedicamento")?Descripcion=' + Descripcion + '&Grupo=' + Id,
+            dataType: 'json',
+            cache: false,
+            success: function (data) {
+                if (data.length > 0) {
+                    alert('Ya existe el Medicamento');
+                    LimpiaCampos();
+                    DesactivaControles();
+                    location.reload();
+                }
+                else {
+                    if ($('#chk_SalidaMed').prop('checked')) {
+                        SobranteInv2022 = '2';
+                    } else {
+                        SobranteInv2022 = '0';
+                    }
+                    if ($('#cmbPrincipio').val() == null) {
+                        IdPrincipio = '00';
+                    } else {
+                        IdPrincipio = $('#cmbPrincipio').val();
+                    }
+                    if (IdForma = $('#cmbFormaFarm').val() == null) {
+                        IdForma = '00';
+                    } else {
+                        IdForma = $('#cmbFormaFarm').val();
+                    }
+                    if ($('#cmbConcentracion').val() == null) {
+                        IdConcentracion = '00';
+                    } else {
+                        IdConcentracion = $('#cmbConcentracion').val();
+                    }
+                    if ($('#cmbUnidadesLic').val() == null) {
+                        IdLicitacion = '00';
+                    } else {
+                        IdLicitacion = $('#cmbUnidadesLic').val();
+                    }
+                    if ($('#cmbUnidadMedida').val() == null) {
+                        IdMedida = '00';
+                    } else {
+                        IdMedida = $('#cmbUnidadMedida').val();
+                    }
+                    if ($('#cmbCantidad').val() == null) {
+                        IdCantidad = '00';
+                    } else {
+                        IdCantidad = $('#cmbCantidad').val();
+                    }
+                    if ($('#cmbTipoEnvace').val() == null) {
+                        TipoEnvace = '00';
+                    } else {
+                        TipoEnvace = $('#cmbTipoEnvace').val();
+                    }
+                    Cod21 = Id + IdPrincipio + IdCantidad + TipoEnvace + IdLicitacion + IdMedida + IdForma + IdConcentracion;
+                    var array = {
+                        Codigo: txtBuscar,
+                        Descripcion: Descripcion,
+                        IdGrupo: Id,
+                        IdPrincipio: IdPrincipio,
+                        IdForma: IdForma,
+                        IdConcentracion: IdConcentracion,
+                        IdLicitacion: IdLicitacion,
+                        IdMedida: IdMedida,
+                        IdCantidad: IdCantidad,
+                        TipoEnvace: TipoEnvace,
+                        Cod21: Cod21,
+                        SobranteInv2022: SobranteInv2022,
+                        IP: IP
+                    };
+                    var url = "@Url.Action("UpdateDescripcion", "CatalogoMedicamento")";
+                    $.post(url, array).done();
+                    LimpiaCampos();
+                    DesactivaControles();
+                    $('#btnGuardar').hide();
+                    $('#btnEditar').hide();
+                    alert('Descripcion Guardada');
+                    location.reload();
+                }
+            }
+        });
+    });
+    function CargaCombo() {
+        $.ajax({
+            url: '@Url.Action("GetGrupoTerapeutico", "CatalogoMedicamento")',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    $('<option value="' + item.clave + '">' + item.descripcion + '</option>').appendTo('#cmbGrupo');
+                });
+            },
+            error: function () {
+                console.log('err');
+            }
+        });
+        $.ajax({
+            url: '@Url.Action("PrincipioActivo", "CatalogoMedicamento")',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    $('<option value="' + item.clave + '">' + item._Descp + '</option>').appendTo('#cmbPrincipio');
+                });
+            },
+            error: function () {
+                console.log('err');
+            }
+        });
+        $.ajax({
+            url: '@Url.Action("CantidadEnvaces", "CatalogoMedicamento")',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    $('<option value="' + item.clave + '">' + item._Descp + '</option>').appendTo('#cmbCantidad');
+                });
+            },
+            error: function () {
+                console.log('err');
+            }
+        });
+        $.ajax({
+            url: '@Url.Action("TipoEnvace", "CatalogoMedicamento")',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    $('<option value="' + item.clave + '">' + item._Descp + '</option>').appendTo('#cmbTipoEnvace');
+                });
+            },
+            error: function () {
+                console.log('err');
+            }
+        });
+        $.ajax({
+            url: '@Url.Action("UnidadesLicitacion", "CatalogoMedicamento")',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    $('<option value="' + item.clave + '">' + item._Descp + '</option>').appendTo('#cmbUnidadesLic');
+                });
+            },
+            error: function () {
+                console.log('err');
+            }
+        });
+        $.ajax({
+            url: '@Url.Action("UnidadesMedida", "CatalogoMedicamento")',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    $('<option value="' + item.clave + '">' + item._Descp + '</option>').appendTo('#cmbUnidadMedida');
+                });
+            },
+            error: function () {
+                console.log('err');
+            }
+        });
+        $.ajax({
+            url: '@Url.Action("FormaFarm", "CatalogoMedicamento")',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    $('<option value="' + item.clave + '">' + item._Descp + '</option>').appendTo('#cmbFormaFarm');
+                });
+            },
+            error: function () {
+                console.log('err');
+            }
+        });
+        $.ajax({
+            url: '@Url.Action("Concentracion", "CatalogoMedicamento")',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    $('<option value="' + item.clave + '">' + item._Descp + '</option>').appendTo('#cmbConcentracion');
+                });
+            },
+            error: function () {
+                console.log('err');
+            }
+        });
+    }
+    //Registro de nuevo medicamento
+    $('#btnGuardar').click(function () {
+        Id = $("#cmbGrupo").val();
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("ValidaExistencia", "CatalogoMedicamento")?Descripcion=' + Descripcion + '&Grupo=' + Id,
+            dataType: 'json',
+            cache: false,
+            success: function (data) {
+                if (data.length > 0) {
+                    alert('Ya existe el Medicamento');
+                    LimpiaCampos();
+                    DesactivaControles();
+                    location.reload();
+                }
+                else {
+                    if ($('#cmbPrincipio').val() == null) {
+                        IdPrincipio = '00';
+                    } else {
+                        IdPrincipio = $('#cmbPrincipio').val();
+                    }
+                    if (IdForma = $('#cmbFormaFarm').val() == null) {
+                        IdForma = '00';
+                    } else {
+                        IdForma = $('#cmbFormaFarm').val();
+                    }
+                    if ($('#cmbConcentracion').val() == null) {
+                        IdConcentracion = '00';
+                    } else {
+                        IdConcentracion = $('#cmbConcentracion').val();
+                    }
+                    if ($('#cmbUnidadesLic').val() == null) {
+                        IdLicitacion = '00';
+                    } else {
+                        IdLicitacion = $('#cmbUnidadesLic').val();
+                    }
+                    if ($('#cmbUnidadMedida').val() == null) {
+                        IdMedida = '00';
+                    } else {
+                        IdMedida = $('#cmbUnidadMedida').val();
+                    }
+                    if ($('#cmbCantidad').val() == null) {
+                        IdCantidad = '00';
+                    } else {
+                        IdCantidad = $('#cmbCantidad').val();
+                    }
+                    if ($('#cmbTipoEnvace').val() == null) {
+                        TipoEnvace = '00';
+                    } else {
+                        TipoEnvace = $('#cmbTipoEnvace').val();
+                    }
+                    Cod21 = Id + IdPrincipio + IdCantidad + TipoEnvace + IdLicitacion + IdMedida + IdForma + IdConcentracion;
+                    var array1 = {
+                        Descripcion: Descripcion,
+                        IdGrupo: Id,
+                        IdPrincipio: IdPrincipio,
+                        IdForma: IdForma,
+                        IdConcentracion: IdConcentracion,
+                        IdLicitacion: IdLicitacion,
+                        IdMedida: IdMedida,
+                        IdCantidad: IdCantidad,
+                        TipoEnvace: TipoEnvace,
+                        Cod21: Cod21
+                    };
+
+                    var url1 = "@Url.Action("GuardaNuevaDesc", "CatalogoMedicamento")";
+                    $.post(url1, array1).done();
+                    LimpiaCampos();
+                    DesactivaControles();
+                    $('#btnGuardar').hide();
+                    $('#btnEditar').hide();
+                    alert('Descripcion Guardada');
+                    location.reload();
+                }
+            }, error: function (xhr, status, error) {
+                alert("Error");
+            }
+        });
+    });
+</script>
+<script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
+
+<script>
+    $('#btnNuevo').click(function () {
+        LimpiaCampos();
+        $('#btnGuardar').show();
+        $('#btnEditar').hide();
+        ActivaControles();
+    });
+</script>
+<script>
+    $('#btnClean').click(function () {
+        $('#btnGuardar').hide();
+        $('#btnEditar').hide();
+        LimpiaCampos();
+    });
+</script>
+<script>
+    function LimpiaCampos() {
+        document.getElementById("lblDescripcion").innerHTML = "";
+        document.getElementById("lblDesp").innerHTML = "";
+        $("#cmbPrincipio").val('0');
+        $("#cmbCantidad").val('0');
+        $("#cmbTipoEnvace").val('0');
+        $("#cmbUnidadesLic").val('0');
+        $("#cmbUnidadMedida").val('0');
+        $("#cmbFormaFarm").val('0');
+        $("#cmbConcentracion").val('0');
+        $("#cmbGrupo").val('0');
+        $('#txtBuscar').val('');
+        $('#btnGuardar').hide();
+        $('#btnEditar').hide();
+    }
+</script>
+<script>
+    function DesactivaControles() {
+        $("#cmbGrupo").prop("disabled", true);
+        $("#cmbPrincipio").prop("disabled", true);
+        $("#cmbFormaFarm").prop("disabled", true);
+        $("#cmbConcentracion").prop("disabled", true);
+        $("#cmbUnidadesLic").prop("disabled", true);
+        $("#cmbUnidadMedida").prop("disabled", true);
+        $("#cmbCantidad").prop("disabled", true);
+        $("#cmbTipoEnvace").prop("disabled", true);
+    }
+</script>
+<script>
+    function ActivaControles() {
+        $("#cmbGrupo").prop("disabled", false);
+        $("#cmbPrincipio").prop("disabled", false);
+        $("#cmbFormaFarm").prop("disabled", false);
+        $("#cmbConcentracion").prop("disabled", false);
+        $("#cmbUnidadesLic").prop("disabled", false);
+        $("#cmbUnidadMedida").prop("disabled", false);
+        $("#cmbCantidad").prop("disabled", false);
+        $("#cmbTipoEnvace").prop("disabled", false);
+    }
+</script>

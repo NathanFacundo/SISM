@@ -1,0 +1,325 @@
+﻿@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Consultas - Servicios Médicos";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+<link rel='stylesheet' href='https://fullcalendar.io/releases/core/4.0.1/main.min.css'>
+<link rel='stylesheet' href='https://fullcalendar.io/releases/timeline/4.0.1/main.min.css'>
+<link rel='stylesheet' href='https://fullcalendar.io/releases/resource-timeline/4.0.1/main.min.css'>
+
+
+<style>
+    .uanl-logo {
+        width: 10vw;
+        margin-top: 0vw;
+        margin-bottom: 1vw;
+    }
+
+    @@font-face {
+        font-family: 'Effra-Regular';
+        src: url('~/fonts/Effra-Regular.eot');
+        src: url('~/fonts/Effra-Regular.eot?#iefix') format('embedded-opentype'), url('~/fonts/Effra-Regular.ttf') format('truetype');
+    }
+
+    @@font-face {
+        font-family: 'Effra-Bold';
+        src: url('~/fonts/Effra-Bold.eot');
+        src: url('~/fonts/Effra-Bold.eot?#iefix') format('embedded-opentype'), url('~/fonts/Effra-Bold.ttf') format('truetype');
+    }
+
+
+    .somos-uni {
+        width: 5vw;
+        margin-top: 1vw;
+        margin-bottom: 3vw;
+    }
+
+    .linea-arriba {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: -1;
+        width: 2.5vw;
+        margin-top: 5.8vw;
+    }
+
+    .linea-abajo {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 2.5vw;
+        margin-bottom: 0.7vw;
+    }
+</style>
+
+
+<img class="linea-abajo" src="~/Imagenes/lineas-uanl-izquierda.png">
+<img class="linea-arriba" src="~/Imagenes/lineas-uanl-derecha.png">
+
+<div id="loadingDiv" style="display:none;">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Consultas", "Manage")"><b>Consultas</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("ServiciosMedicos", "Manage")"><b>Servicios Médicos</b></a></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="col-md-10 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
+        <img src="~/Imagenes/uanl-logo.png" class="uanl-logo" />
+        <h3 style="font-family: 'Roboto', sans-serif;">Médico: <span class="putUserName"></span></h3>
+    </div>
+
+    <div class="col-12">
+        <div id='calendar'></div>
+    </div>
+
+    <div class="col-md-10 text-center m-auto p-3">
+        <img src="~/Imagenes/somos-uni.png" class="somos-uni" />
+    </div>
+</div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script type="text/javascript">
+    $.ajax({
+        type: 'GET',
+        url: '@Url.Action("GetMedicoNombres", "Manage")',
+        dataType: 'json',
+        cache: false,
+        success: function (data) {
+            $('.putUserName').html(data.nombres + " " + data.apellido_paterno + " " + data.apellido_materno);
+        },
+        error: function (xhr, status, error) {
+            Swal.fire('Error', 'No cuenta con número de Médico', 'No cuenta con número de Médico');
+        }
+    });
+</script>
+
+<script>
+    function imgError(image) {
+        image.onerror = "";
+        image.src = "http://148.234.143.205/SISM/Imagenes/uanl.png";
+        return true;
+    }
+</script>
+
+
+<link href='~/fullcalendar/packages/core/main.css' rel='stylesheet' />
+<link href='~/fullcalendar/packages/daygrid/main.css' rel='stylesheet' />
+<link href='~/fullcalendar/packages/timegrid/main.css' rel='stylesheet' />
+<link href='~/fullcalendar/packages/list/main.css' rel='stylesheet' />
+<script src='~/fullcalendar/packages/core/main.js'></script>
+<script src='~/fullcalendar/packages/interaction/main.js'></script>
+<script src='~/fullcalendar/packages/daygrid/main.js'></script>
+<script src='~/fullcalendar/packages/timegrid/main.js'></script>
+<script src='~/fullcalendar/packages/list/main.js'></script>
+
+<script>
+    var v_obj = null;
+
+    function  BsqCalendario() {
+        try {
+             
+
+            $.ajax({
+                type: 'POST',
+             //   url: "/ServiciosMedicos/BsqCalendario?v_med=" + $("#TxtBuscarPac").val(),
+                url: "http://148.234.143.203/SISM-Medico/ServiciosMedicos/BsqCalendario" ,
+                data: '',
+                async: false,
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: (function (Resultado) {
+                    v_obj = Resultado; 
+
+                }
+                ),
+                error: erroresJs
+            });
+
+        } catch (e) {
+            alert(e.message);
+        }
+    }
+
+
+    function erroresJs(msg) {
+        var jsonObj = JSON.parse(msg.responseText);
+        alert('Error: ' + jsonObj.Message);
+    }
+    if (window.innerWidth < 800) {
+        BsqCalendario();
+        document.addEventListener('DOMContentLoaded', function () {
+            var initialTimeZone = 'local';
+            var timeZoneSelectorEl = document.getElementById('time-zone-selector');
+            var loadingEl = document.getElementById('loadingDiv');
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['interaction', 'dayGrid', 'timeGrid', 'list'],
+                timeZone: initialTimeZone,
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                },
+                //defaultDate: '2020-02-12',
+                navLinks: true, // can click day/week names to navigate views
+                defaultView: 'listWeek',
+                locale: 'es',
+                editable: true,
+                selectable: true,
+                eventLimit: true, // allow "more" link when too many events
+                buttonText: {
+                    today: 'Hoy',
+                    month: 'Mes',
+                    week: 'Semana',
+                    day: 'Día',
+                    list: 'Lista'
+                },
+
+                events:[
+                    { "title": "JESUS                   HERNANDEZ GARCIA", "color": null, "url": "/ServiciosMedicos/SOAP/62759100", "start": "2021-02-03T00:00:00" },
+                    { "title": "JESUS                   HERNANDEZ GARCIA", "color": null, "url": "/ServiciosMedicos/SOAP/62759100", "start": "2021-02-05T00:00:00" },
+                    { "title": "SOCORRO ARACELI         HERNANDEZ TEJEDA", "color": null, "url": "/ServiciosMedicos/SOAP/62759102", "start": "2021-02-09T00:00:00" },
+                    { "title": "ARELI MARIANA                  HERNANDEZ TEJEDA", "color": null, "url": "/ServiciosMedicos/SOAP/62759103", "start": "2021-02-09T00:00:00" }
+                ],
+                loading: function (bool) {
+                    if (bool) {
+                        loadingEl.style.display = 'inline'; // show
+                    } else {
+                        loadingEl.style.display = 'none'; // hide
+                    }
+                },
+
+                eventTimeFormat: { hour: 'numeric', minute: '2-digit', timeZoneName: 'short' },
+
+                dateClick: function (arg) {
+                    console.log('dateClick', calendar.formatIso(arg.date));
+                },
+                select: function (arg) {
+                    console.log('select', calendar.formatIso(arg.start), calendar.formatIso(arg.end));
+                }
+            });
+
+            calendar.render();
+
+            // load the list of available timezones, build the <select> options
+            // it's HIGHLY recommended to use a different library for network requests, not this internal util func
+            /*FullCalendar.requestJson('GET', '{{asset("horarios/examples/php/get-time-zones.php")}}', {}, function (timeZones) {
+
+                timeZones.forEach(function (timeZone) {
+                    var optionEl;
+
+                    if (timeZone !== 'UTC') { // UTC is already in the list
+                        optionEl = document.createElement('option');
+                        optionEl.value = timeZone;
+                        optionEl.innerText = timeZone;
+                        timeZoneSelectorEl.appendChild(optionEl);
+                    }
+                });
+            }, function () {
+                // TODO: handle error
+            });
+
+            // when the timezone selector changes, dynamically change the calendar option
+            timeZoneSelectorEl.addEventListener('change', function () {
+                calendar.setOption('timeZone', this.value);
+            });*/
+        });
+
+    } else {
+        
+        BsqCalendario();
+        document.addEventListener('DOMContentLoaded', function () {
+            var initialTimeZone = 'local';
+            var timeZoneSelectorEl = document.getElementById('time-zone-selector');
+            var loadingEl = document.getElementById('loading');
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['interaction', 'dayGrid', 'timeGrid', 'list'],
+                timeZone: initialTimeZone,
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                },
+                //defaultDate: '2020-02-12',
+                navLinks: true, // can click day/week names to navigate views
+                locale: 'es',
+                editable: true,
+                selectable: true,
+                eventLimit: true, // allow "more" link when too many events
+                buttonText: {
+                    today: 'Hoy',
+                    month: 'Mes',
+                    week: 'Semana',
+                    day: 'Día',
+                    list: 'Lista'
+                },
+                events: v_obj,
+                loading: function (bool) {
+                    if (bool) {
+                        loadingEl.style.display = 'inline'; // show
+                    } else {
+                        loadingEl.style.display = 'none'; // hide
+                    }
+                },
+
+                eventTimeFormat: { hour: 'numeric', minute: '2-digit', timeZoneName: 'short' },
+
+                dateClick: function (arg) {
+                    console.log('dateClick', calendar.formatIso(arg.date));
+                },
+                select: function (arg) {
+                    console.log('select', calendar.formatIso(arg.start), calendar.formatIso(arg.end));
+                }
+            });
+
+            calendar.render();
+
+            // load the list of available timezones, build the <select> options
+            // it's HIGHLY recommended to use a different library for network requests, not this internal util func
+            /*FullCalendar.requestJson('GET', '{{asset("horarios/examples/php/get-time-zones.php")}}', {}, function (timeZones) {
+
+                timeZones.forEach(function (timeZone) {
+                    var optionEl;
+
+                    if (timeZone !== 'UTC') { // UTC is already in the list
+                        optionEl = document.createElement('option');
+                        optionEl.value = timeZone;
+                        optionEl.innerText = timeZone;
+                        timeZoneSelectorEl.appendChild(optionEl);
+                    }
+                });
+            }, function () {
+                // TODO: handle error
+            });
+
+            // when the timezone selector changes, dynamically change the calendar option
+            timeZoneSelectorEl.addEventListener('change', function () {
+                calendar.setOption('timeZone', this.value);
+            });*/
+        });
+
+    }
+</script>

@@ -1,0 +1,1160 @@
+﻿@model UanlSISM.Models.NotadeEgreso
+@using Microsoft.AspNet.Identity;
+@{
+    var message = ViewBag.SuccessMsg;
+}
+
+<style>
+
+    textarea {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .dataTables_wrapper .dataTables_info {
+        width: 100% !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+        .dataTables_wrapper .dataTables_filter label {
+            width: 100% !important;
+            font-weight: bolder;
+            text-align: center;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            width: 50% !important;
+            text-align: center;
+        }
+
+    .dataTables_wrapper .dataTables_length {
+        display: none;
+    }
+
+    #msform {
+        text-align: center;
+        position: relative;
+        margin-top: 20px
+    }
+
+        #msform fieldset .form-card {
+            background: white;
+            border: 0 none;
+            border-radius: 0px;
+            box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+            padding: 20px 40px 30px 40px;
+            box-sizing: border-box;
+            width: 94%;
+            margin: 0 3% 20px 3%;
+            position: relative
+        }
+
+        #msform fieldset {
+            background: white;
+            border: 0 none;
+            border-radius: 0.5rem;
+            box-sizing: border-box;
+            width: 100%;
+            margin: 0;
+            position: relative;
+        }
+
+            #msform fieldset:not(:first-of-type) {
+                display: none
+            }
+
+            #msform fieldset .form-card {
+                text-align: left;
+                color: #9E9E9E
+            }
+
+        #msform input,
+        #msform textarea {
+            padding: 0px 8px 4px 8px;
+            border: none;
+            border-bottom: 1px solid lightgray;
+            border-radius: 0px;
+            margin-top: 2px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            color: #2C3E50;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+            #msform input:focus,
+            #msform textarea:focus {
+                -moz-box-shadow: none !important;
+                -webkit-box-shadow: none !important;
+                box-shadow: none !important;
+                border: none;
+                font-weight: bold;
+                border-bottom: 2px solid #FBC43D;
+                outline-width: 0
+            }
+
+        #msform .action-button {
+            width: 130px;
+            background: #FBC43D;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .action-button:hover,
+            #msform .action-button:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px #FBC43D
+            }
+
+        #msform .action-button-previous {
+            width: 130px;
+            background: lightgray;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .action-button-previous:hover,
+            #msform .action-button-previous:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px lightgray
+            }
+
+
+
+        #msform .success-button {
+            width: 130px;
+            background: rgba(0,74,143,0.8);
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .success-button:hover,
+            #msform .success-button:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px rgba(0,74,143,0.8)
+            }
+
+        #msform .success-button-previous {
+            width: 130px;
+            background: rgba(0,74,143,0.8);
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .success-button-previous:hover,
+            #msform .success-button-previous:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px rgba(0,74,143,0.8);
+            }
+
+
+
+    #home-seccion {
+        margin-top: 20px;
+    }
+
+    .icons {
+        width: 8vw;
+    }
+
+    .item {
+        padding: 10px;
+    }
+
+    .item-card {
+        transition: 0.5s;
+        cursor: pointer;
+        padding: 20px;
+    }
+
+    .card-link {
+        background-color: #FBC43D;
+        border-color: #FBC43D;
+        color: white;
+        padding: 5px 20px;
+    }
+
+        .card-link:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+    .item-card-title {
+        font-size: 15px;
+        transition: 1s;
+        cursor: pointer;
+    }
+
+        .item-card-title i {
+            font-size: 15px;
+            transition: 1s;
+            cursor: pointer;
+            color: #ffa710
+        }
+
+    .card-title i:hover {
+        transform: scale(1.25) rotate(20deg);
+        color: #18d4ca;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        /*box-shadow: 5px 5px 5px rgba(0,0,0,0.3);*/
+    }
+
+    .card::before, .card::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: scale3d(0, 0, 1);
+        transition: transform .3s ease-out 0s;
+        background: rgba(255, 255, 255, 0.1);
+        content: '';
+        pointer-events: none;
+    }
+
+    .card::before {
+        transform-origin: left top;
+    }
+
+    .card::after {
+        transform-origin: right bottom;
+    }
+
+    .card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
+        transform: scale3d(1, 1, 1);
+    }
+
+    .foto-paciente {
+        width: 6vw;
+        height: 6vw;
+        border-radius: 6vw;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: rgba(0,74,143,0.8);
+        background-image: url('http://148.234.143.205/SISM/Imagenes/uanl.png');
+    }
+
+    .cuadro {
+        background-color: #fff;
+        border-radius: 1vw;
+    }
+
+    .nav-tabs .nav-item {
+        width: 220px;
+        z-index: 99;
+    }
+
+    .dropdown-toggle {
+        width: 220px;
+        font-size: 0.8vw !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        text-align: left;
+        z-index: 0;
+        border-top-left-radius: 20px;
+        border: 3px solid rgba(0,74,143,1);
+    }
+
+        .dropdown-toggle:hover {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+        .dropdown-toggle:focus {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+    .dropdown-menu {
+        float: inherit !important;
+        width: 100% !important;
+    }
+
+    .dropdown-item {
+        font-size: 0.8vw !important;
+    }
+
+        .dropdown-item .material-icons {
+            font-size: 0.8vw !important;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+        .dropdown-item:focus {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 0.8vw !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        border-top-left-radius: 20px;
+        margin-left: -20px;
+        -webkit-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        -moz-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        border: 2.5px solid rgba(0,74,143,1);
+    }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link:hover {
+            font-size: 0.8vw !important;
+            background-color: rgba(0, 88, 171,1) !important;
+            color: white !important;
+            border: 2.5px solid rgba(0, 88, 171,1);
+        }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            background-color: #FBC43D;
+            color: white !important;
+            border: 2.5px solid #FBC43D;
+        }
+
+            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active:hover {
+                background-color: #FBC43D !important;
+            }
+
+
+    .doc-info {
+        text-align: right;
+    }
+
+    .fade {
+        opacity: 1;
+    }
+
+    label {
+        font-size: 0.8vw;
+    }
+
+    input {
+        border: none !important;
+        border-bottom: 2px solid lightgray !important;
+        padding: 1px 3px;
+        border-radius: 0px;
+    }
+
+    #grad1 {
+        background-color: #9C27B0;
+        background-image: linear-gradient(120deg, #FF4081, #81D4FA)
+    }
+
+    select.list-dt {
+        border: none;
+        outline: 0;
+        border-bottom: 1px solid lightgray;
+        padding: 2px 5px 3px 5px;
+        margin: 2px
+    }
+
+        select.list-dt:focus {
+            border-bottom: 2px solid #FBC43D
+        }
+
+    .card {
+        z-index: 0;
+        border: none;
+        border-radius: 0.5rem;
+        position: relative
+    }
+
+    .fs-title {
+        font-size: 25px;
+        color: #2C3E50;
+        margin-bottom: 10px;
+        font-weight: bold;
+        text-align: left
+    }
+
+    #progressbar {
+        margin-bottom: 30px;
+        overflow: hidden;
+        color: lightgrey
+    }
+
+        #progressbar .active {
+            color: #000000;
+            opacity: 1;
+        }
+
+        #progressbar li {
+            list-style-type: none;
+            font-size: 12px;
+            width: 25%;
+            opacity: 0.5;
+            float: left;
+            cursor: pointer;
+            position: relative
+        }
+
+        #progressbar #account:before {
+            content: "S"
+        }
+
+        #progressbar li#account.changed:before,
+        #progressbar li#account.changed:after {
+            background: green;
+        }
+
+        #progressbar #personal:before {
+            content: "O"
+        }
+
+        #progressbar li#personal.changed:before,
+        #progressbar li#personal.changed:after {
+            background: green;
+        }
+
+        #progressbar #payment:before {
+            content: "A"
+        }
+
+        #progressbar li#payment.changed:before,
+        #progressbar li#payment.changed:after {
+            background: green;
+        }
+
+        #progressbar #confirm:before {
+            content: "P"
+        }
+
+        #progressbar li#confirm.changed:before,
+        #progressbar li#confirm.changed:after {
+            background: green;
+        }
+
+        #progressbar li:before {
+            width: 50px;
+            height: 50px;
+            line-height: 45px;
+            display: block;
+            font-size: 18px;
+            color: #ffffff;
+            background: lightgray;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+            padding: 2px
+        }
+
+        #progressbar li:after {
+            content: '';
+            width: 100%;
+            height: 2px;
+            background: lightgray;
+            position: absolute;
+            left: 0;
+            top: 25px;
+            z-index: -1
+        }
+
+        #progressbar li.active:before,
+        #progressbar li.active:after {
+            background: #FBC43D
+        }
+
+    .radio-group {
+        position: relative;
+        margin-bottom: 25px
+    }
+
+    .radio {
+        display: inline-block;
+        width: 204px;
+        height: 104px;
+        border-radius: 0;
+        background: lightblue;
+        box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
+        cursor: pointer;
+        margin: 8px 2px
+    }
+
+        .radio:hover {
+            box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3)
+        }
+
+        .radio.selected {
+            box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.1)
+        }
+
+    .fit-image {
+        width: 100%;
+        object-fit: cover
+    }
+
+    .btn-diagnosticos {
+        background-color: rgba(0,74,143,0.8) !important;
+        color: white;
+        font-size: 1vw;
+        width: 100%;
+    }
+
+        .btn-diagnosticos:hover {
+            color: white;
+        }
+
+    #loadingDiv {
+        position: fixed;
+        z-index: 9999;
+        background-color: rgba(0,0,0,0.2);
+        width: 100%;
+        height: 100vw;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        color: white;
+        text-align: center;
+        padding-top: 20vh;
+    }
+
+        #loadingDiv .spinner-border {
+            width: 8vw;
+            height: 8vw;
+        }
+
+    .diag-box {
+        background-color: #FBC43D;
+        color: white;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+
+    /*.select2-selection__choice {
+        float: initial !important;
+        margin: 0 !important;
+        font-size:1.5vw !important;
+        padding:1vw !important;
+    }
+
+    .select2-selection__rendered{
+        padding:0.5vw !important;
+    }
+
+    .select2-selection--multiple{
+        height:6vw !important;
+    }*/
+
+    #locality-dropdown {
+        max-width: 100% !important;
+    }
+
+
+    .btn-danger {
+        width: 100%;
+    }
+
+
+        .btn-danger .material-icons {
+            font-size: 1.2vw !important;
+        }
+
+    table.dataTable tbody tr.selected {
+        background-color: #FBC43D !important;
+        color: white !important;
+    }
+
+    .checking {
+        cursor: pointer;
+        color: lightgray;
+    }
+
+    .tipoconsulta {
+        border-radius: 0px;
+    }
+
+    .resumenTop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 2.5vw;
+        height: 2.5vw;
+        border-radius: 2.5vw;
+        background-color: green;
+        color: white;
+        font-size: 1.2vw;
+        line-height: 2.5vw;
+        text-align: center;
+    }
+
+    .resumenText {
+        font-size: 1.2vw;
+        margin-top: 3vw;
+        color: black;
+        cursor: pointer;
+    }
+
+    .tipoconsulta {
+        border-radius: 0px;
+        border: 2px solid #FBC43D;
+    }
+
+
+    .disabledButton {
+        background-color: lightgray !important;
+        border: 3px solid lightgray !important;
+    }
+
+        .disabledButton:hover {
+            background-color: lightgray !important;
+            border: 3px solid lightgray !important;
+        }
+
+        .disabledButton:focus {
+            background-color: lightgray !important;
+            border: 3px solid lightgray !important;
+        }
+
+    .nav-tabs .disabledButton:hover {
+        background-color: lightgray !important;
+        border: 3px solid lightgray !important;
+    }
+
+    .nav-tabs .disabledButton:focus {
+        background-color: lightgray !important;
+        border: 3px solid lightgray !important;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 991px)">
+    .foto-paciente {
+        width: 10vw;
+        height: 10vw;
+        border-radius: 10vw;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 1.5vw !important;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 767px)">
+    .foto-paciente {
+        width: 18vw;
+        height: 18vw;
+        border-radius: 18vw;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 3vw !important;
+    }
+
+    .doc-info {
+        text-align: center;
+    }
+
+    .dropdown-toggle {
+        font-size: 3vw !important;
+    }
+
+    .dropdown-item {
+        font-size: 3vw !important;
+    }
+
+    .datos-paciente label {
+        font-size: 4vw;
+        text-align: center;
+    }
+
+    #progressbar {
+        padding: 0px !important;
+    }
+
+    #msform fieldset .form-card {
+        width: 100%;
+        margin: 0px !important;
+        padding: 0px !important;
+    }
+
+    .resumenText {
+        font-size: 3.5vw;
+        margin-top: 6vw;
+    }
+
+    .resumenTop {
+        margin-left: 2vw;
+        width: 6vw;
+        height: 6vw;
+        border-radius: 6vw;
+        font-size: 4vw;
+        line-height: 6vw;
+    }
+
+    .nav-tabs .nav-item {
+        z-index: 9;
+    }
+</style>
+
+
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+<link rel='stylesheet' href='https://select2.github.io/select2-bootstrap-theme/css/select2-bootstrap.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css'>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.full.min.js'></script>
+<link rel='stylesheet' href='https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.css'>
+
+<div id="loadingDiv">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Consultas", "Manage")"><b>Consultas</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("HU", "Manage")"><b>HU</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("ConsultaExpediente", "Manage", new { id = Model.DHabiente.NUMEMP })"><b>SOAP</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12 text-center">
+        <h2><strong>Módulo HU</strong></h2>
+    </div>
+</div>
+
+
+<div class="row cuadro animate__animated animate__fadeInLeft">
+    <div class="col-lg-12 p-2">
+        <div class="row m-0">
+            <div class="col-md-8 m-auto p-3">
+                <div class="row m-0">
+                    <div class="col-lg-2 col-4 p-2 text-center m-auto">
+                        <center><div class="foto-paciente"></div></center>
+                    </div>
+                    <div class="col-lg-10 col-8 p-2 m-auto">
+                        <h6>Expediente: <b>@Model.DHabiente.NUMEMP </b></h6>
+                        <h6>Nombre: <b>@Model.DHabiente.NOMBRES @Model.DHabiente.APATERNO @Model.DHabiente.AMATERNO</b> </h6>
+                        <h6>Registro Hospital Universitario: <b>@Model.DHabiente.REGHU</b> </h6>
+                        <div class="row m-0">
+                            <div class="col-md-3 p-0">
+                                <h6 class="mt-0">Edad: <input type="hidden" id="FNAC" name="FNAC" value="@Model.DHabiente.FNAC" /> <b id="edad"></b> años</h6>
+                            </div>
+                            <div class="col-md-3 p-0">
+                                <h6 class="mt-0">Sexo: <b>@Model.DHabiente.SEXO</b></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 p-3 doc-info">
+                <h6>Doctor: <b> <span class="putUserName"></span> </b></h6>
+                <h6>Especialidad: <b> <span class="putEspecialidad"></span> </b></h6>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="tabs" class="col-12">
+        <ul class="nav nav-tabs" id="custom-content-below-tab mt-4" role="tablist">
+            <li style="margin-left:10px" class="nav-item">
+                <a href="@Url.Action("ConsultaExpediente", "Manage", new { id = Model.DHabiente.NUMEMP })" class="nav-link" id="custom-content-below-3-tab"><b>SOAP</b></a>
+            </li>
+            <li style="margin-right:-20px" class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Recetas</a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="@Url.Action("Recetas", "Manage", new { id = Model.DHabiente.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span> Generar Receta</a>
+                    <a href="@Url.Action("ListaRecetas", "Manage", new { id = Model.DHabiente.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span> Ver Recetas</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="rayosx" href="@Url.Action("RayosX", "Manage", new { id = Model.DHabiente.NUMEMP ,medico = User.Identity.GetUserName() })"><b>Rayos X</b></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="lab-tab" href="@Url.Action("SolicitudLaboratorio", "Manage", new { expediente = Model.DHabiente.NUMEMP ,medico = User.Identity.GetUserName()})"><b>Laboratorio</b></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Proc. Ambulatorios</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="@Url.Action("Index", "NotaIngreso", new { expd = Model.DHabiente.NUMEMP ,med = User.Identity.GetUserName()})">Nota de Ingreso</a>
+                    <a class="dropdown-item" href="@Url.Action("Index", "NotaPreoperatoria", new { expd = Model.DHabiente.NUMEMP ,med = User.Identity.GetUserName()})">Nota Preoperatoria</a>
+                    <a class="dropdown-item" href="#NotaEgreso">Nota de Egreso</a>
+                </div>
+            </li>
+
+        </ul>
+        <div class="tab-content" id="custom-content-below-tabContent">
+            <div class="tab-pane fade" id="custom-content-below-1" role="tabpanel" aria-labelledby="custom-content-below-1-tab">
+                <div class="row">
+                    <div class="col-12 mt-5">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-content-below-2" role="tabpanel" aria-labelledby="custom-content-below-2-tab">
+                <div class="row">
+                    <div class="col-12 mt-5">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade show active" id="custom-content-below-3" role="tabpanel" aria-labelledby="custom-content-below-3-tab">
+                <div class="row">
+                    <div class="col-12 mt-5" id="msform">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            <h2><strong>Nota de Egreso</strong></h2>
+                            <p>Llena correctamente la información</p>
+                            <div class="col-md-12 text-right">
+                                <b>@System.DateTime.Now.ToLongDateString()</b>
+
+                            </div>
+
+                            @Html.EditorFor(model => model.NotaEgreso.EgresoId, new { htmlAttributes = new { @class = "form-control", @type = "hidden" } })
+
+                            @Html.EditorFor(model => model.NotaEgreso.OrdenFolio, new { htmlAttributes = new { @class = "form-control", @type = "hidden" } })
+
+                            @Html.EditorFor(model => model.NotaEgreso.OperatoriaId, new { htmlAttributes = new { @class = "form-control", @type = "hidden" } })
+
+                            @Html.EditorFor(model => model.NotaEgreso.Medico, new { htmlAttributes = new { @class = "form-control", @type = "hidden" } })
+
+                            @Html.EditorFor(model => model.NotaEgreso.NumEmp, new { htmlAttributes = new { @class = "form-control", @type = "hidden" } })
+
+                            @Html.EditorFor(model => model.NotaEgreso.UsuarioCreacion, new { htmlAttributes = new { @class = "form-control", @type = "hidden" } })
+
+                            @Html.EditorFor(model => model.NotaEgreso.FechaCreacion, new { htmlAttributes = new { @class = "form-control", @type = "hidden" } })
+
+                            <br /><br /><br /><br />
+                            <div style="margin-left:10%" class="form-group">
+
+                                <div class="col-md-10">
+                                    <label>Resumen Clinico</label>
+                                    @Html.TextAreaFor(model => model.NotaEgreso.ResumenClinico, new { htmlAttributes = new { @class = "form-control" }, @rows = "1", @id = "ResumenClinico" })
+                                    @Html.ValidationMessageFor(model => model.NotaEgreso.ResumenClinico, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <br />
+                            <div style="margin-left:10%" class="form-group">
+                                <div class="col-md-10">
+                                    <label>Procedimiento Realizado</label>
+                                    @Html.TextAreaFor(model => model.NotaEgreso.ProcedimientoRealizado, new { htmlAttributes = new { @class = "form-control" }, @rows = "1", @id = "ProcedimientoRealizado" })
+                                    @Html.ValidationMessageFor(model => model.NotaEgreso.ProcedimientoRealizado, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <br />
+                            <div style="margin-left:10%" class="form-group">
+                                <div class="col-md-10">
+                                    <label>Procedimiento o Problemas Pendientes</label>
+                                    @Html.TextAreaFor(model => model.NotaEgreso.ProcProblemasPendientes, new { htmlAttributes = new { @class = "form-control" }, @rows = "1", @id = "ProcProblemasPendientes" })
+                                    @Html.ValidationMessageFor(model => model.NotaEgreso.ProcProblemasPendientes, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <br />
+                            <div style="margin-left:10%" class="form-group">
+                                <div class="col-md-10">
+                                    <label>Medicacion </label>
+                                    @Html.TextAreaFor(model => model.NotaEgreso.Medicacion, new { htmlAttributes = new { @class = "form-control" }, @rows = "1", @id = "Medicacion" })
+                                    @Html.ValidationMessageFor(model => model.NotaEgreso.Medicacion, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <br />
+                            <div style="margin-left:10%" class="form-group">
+                                <div class="col-md-10">
+                                    <label>Recomendaciones Incapacidad </label>
+                                    @Html.TextAreaFor(model => model.NotaEgreso.RecomendacionesIncapacidad, new { htmlAttributes = new { @class = "form-control" }, @rows = "1", @id = "Recomendaciones" })
+                                    @Html.ValidationMessageFor(model => model.NotaEgreso.RecomendacionesIncapacidad, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <br />
+                            <div style="margin-left:10%" class="form-group">
+                                <div class="col-md-10">
+                                    <label>Pronostico </label>
+                                    @Html.TextAreaFor(model => model.NotaEgreso.Pronostico, new { htmlAttributes = new { @class = "form-control" }, @rows = "1", @id = "Pronostico" })
+                                    @Html.ValidationMessageFor(model => model.NotaEgreso.Pronostico, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <br />
+                            <br />
+                            <div style="margin-left:10%" class="form-group">
+                                <div class="col-md-10">
+                                    <table id="historialpaciente" class="table table-bordered table-striped" style="width:100%;">
+                                        <caption style="caption-side: top;text-align:center">Selecciona un diagnóstico dando clic en la opción</caption>
+                                        <thead>
+                                            <tr>
+                                                <th>Clave</th>
+                                                <th>DesCorta</th>
+                                                <th>DescCompleta</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="3">
+                                                    <div class="row m-0 p-2">
+                                                        <div class="col-1 p-1 m-auto text-center">
+                                                            <span class="material-icons checking" id="check1">check_circle</span>
+                                                        </div>
+                                                        <div class="col-11 p-1 m-auto">
+                                                            <div class="row m-0">
+                                                                <div class="col-10 p-0">
+                                                                    @Html.EditorFor(model => model.NotaEgreso.DiagnosticoDesc, new { htmlAttributes = new { @placeholder = "Diagnóstico 1", @id = "input1" } })
+                                                                    @Html.EditorFor(model => model.NotaEgreso.DiagnosticoFinal, new { htmlAttributes = new { name = "diagnostico", @id = "inputclave1", @type = "hidden" } })
+                                                                </div>
+                                                                <div class="col-2 p-1">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="col-md-12 text-center">
+                                <h6>Nombre y Cédula del Médico :</h6>
+                                <label style="text-decoration:underline" id="nycmedico"></label>
+                            </div>
+                            <br />
+                            <div class="row m-0">
+                                <div class="col-md-12 mx-0" id="msform">
+                                    <input type="button" onclick="Regresar()" style="background-color:lightgray" class="next action-button" value="Cancelar" />
+                                    <button type="button" onclick="GuardarNotaEgreso()" class="next success-button">Guardar</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-content-below-4" role="tabpanel" aria-labelledby="custom-content-below-4-tab">
+                <div class="row">
+                    <div class="col-12 mt-5">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-content-below-5" role="tabpanel" aria-labelledby="custom-content-below-5-tab">
+                <div class="row">
+                    <div class="col-12 mt-5">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-content-below-6" role="tabpanel" aria-labelledby="custom-content-below-6-tab">
+                <div class="row">
+                    <div class="col-12 mt-5">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-content-below-7" role="tabpanel" aria-labelledby="custom-content-below-7-tab">
+                <div class="row">
+                    <div class="col-12 mt-5">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-content-below-8" role="tabpanel" aria-labelledby="custom-content-below-8-tab">
+                <div class="row">
+                    <div class="col-12 mt-5">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-content-below-9" role="tabpanel" aria-labelledby="custom-content-below-9-tab">
+                <div class="row">
+                    <div class="col-12 mt-5">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-content-below-10" role="tabpanel" aria-labelledby="custom-content-below-10-tab">
+                <div class="row">
+                    <div class="col-12 mt-5">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="lab" role="tabpanel" aria-labelledby="lab-tab">
+            </div>
+            <div class="tab-pane fade" id="notaing" role="tabpanel" aria-labelledby="notaing-tab">
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" value="@Model.DHabiente.NUMEMP" id="numemp" name="numemp" />
+<input type="hidden" value="" id="putNumero" name="medico" />
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+<script>
+    $('#loadingDiv').hide();
+</script>
+
+<script>
+    var numemp = $('#numemp').val();
+    $('.foto-paciente').css("background-image", "url(http://148.234.143.204/smuanl_web/fotos_dhab/" + numemp + ".jpg)");
+
+</script>
+
+<script>
+    function imgError(image) {
+        image.onerror = "";
+        image.src = "http://148.234.143.205/SISM/Imagenes/uanl.png";
+        return true;
+    }
+</script>
+
+<script>
+    var split1 = $('#FNAC').val().split(" ");
+    console.log(split1);
+    var split2 = split1[0].split("/");
+    var hoy = new Date().getFullYear();
+    var edad = hoy - split2[2];
+    $('#edad').html(edad);
+</script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css" />
+<script src="~/Scripts/dataTables.select.min.js"></script>
+<script type="text/javascript">
+
+    $.ajax({
+        type: 'GET',
+        url: '@Url.Action("GetMedicoNombres", "Manage")',
+        dataType: 'json',
+        cache: false,
+        success: function (data) {
+            $('.putUserName').html(data.nombres + " " + data.apellido_paterno + " " + data.apellido_materno);
+            $('#putNumero').val(data.numero);
+            $('.putEspecialidad').html(data.especialidad);
+            $('#nycmedico').html(data.nombres + " " + data.apellido_paterno + " " + data.apellido_materno + " - " + data.cedula);
+        },
+        error: function (xhr, status, error) {
+            alert("Error");
+        }
+    });
+
+    var table = $('#historialpaciente').DataTable({
+        "ajax": {
+            "url": "../json/diagnosticos.json",
+            "dataSrc": "",
+        },
+        responsive: true,
+        searching: true,
+        info: false,
+        "language":
+        {
+            "search": "Buscar diagnóstico:",
+            "zeroRecords": "No se encontró ningun diagnóstico",
+            "paginate": {
+                "first": "Primero",
+                "last": "Último",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            },
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ diagnóticos",
+            "lengthMenu": "Mostrando _MENU_ diagnóticos",
+        },
+        "columns":
+            [
+               {
+                "data": "Clave",
+                    "render": function (data, type, row) {
+
+                        var id = "'" + row.Clave + "',";
+                        var desc = "'" + row.DesCorta + "'";
+                        return '<a class="btn btn-default" style="width:50px;" onclick="SetDiagnostico(' + id + desc + ')" > <span class="material-icons checking">check_circle</span> </a>';
+                    }
+                },
+                { "data": "DesCorta" },
+                { "data": "DescCompleta" }
+            ],
+            select: {
+                style: 'os',
+                selector: 'td:first-child',
+                'style': 'single'
+            },
+        pageLength: 5
+    });
+
+    function SetDiagnostico(clave, desc) {
+
+        $('#inputclave1').val(clave);
+        $('#input1').val(desc);
+    }
+
+</script>
+
+
+<script>
+
+     function Regresar() {
+
+       window.location.href ='@Url.Action("ProcAmbOrdenes", "ServiciosMedicos")?id=@Model.DHabiente.NUMEMP';
+
+    }
+
+    function GuardarNotaEgreso() {
+
+        if ($('#ResumenClinico').val() == '' || $('#ProcedimientoRealizado').val() == '' || $('#ProcProblemasPendientes').val() == '' || $('#Medicacion').val() == '' || $('#Recomendaciones').val() == '' ||
+            $('#Pronostico').val() == '' || $('#input1').val() == '' || $('#inputclave1').val() == '') {
+            alert('los campos deben ser obligatorios');
+            return;
+        }
+
+        else {
+
+            $('form').submit();
+            alert('Nota de Egreso actualizada correctamente!');
+        }
+    }
+
+</script>
+

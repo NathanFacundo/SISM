@@ -1,0 +1,2851 @@
+﻿@model UanlSISM.Models.DHABIENTES
+
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Prestaciones - Servicios Médicos";
+    var user = HttpContext.Current.User.Identity.GetUserId();
+}
+
+<style>
+    #home-seccion {
+        margin-top: 20px;
+    }
+
+    .icons {
+        width: 8vw;
+    }
+
+    .item {
+        padding: 10px;
+    }
+
+    }
+
+    .item-card {
+        transition: 0.5s;
+        cursor: pointer;
+        padding: 20px;
+    }
+
+    .card-link {
+        background-color: #FBC43D;
+        border-color: #FBC43D;
+        color: white;
+        padding: 5px 20px;
+    }
+
+        .card-link:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+    .item-card-title {
+        font-size: 15px;
+        transition: 1s;
+        cursor: pointer;
+    }
+
+        .item-card-title i {
+            font-size: 15px;
+            transition: 1s;
+            cursor: pointer;
+            color: #ffa710
+        }
+
+    .card-title i:hover {
+        transform: scale(1.25) rotate(20deg);
+        color: #18d4ca;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        /*box-shadow: 5px 5px 5px rgba(0,0,0,0.3);*/
+    }
+
+    .card::before, .card::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: scale3d(0, 0, 1);
+        transition: transform .3s ease-out 0s;
+        background: rgba(255, 255, 255, 0.1);
+        content: '';
+        pointer-events: none;
+    }
+
+    .card::before {
+        transform-origin: left top;
+    }
+
+    .card::after {
+        transform-origin: right bottom;
+    }
+
+    .card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
+        transform: scale3d(1, 1, 1);
+    }
+
+    .foto-paciente {
+        width: 6vw;
+        height: 6vw;
+        border-radius: 6vw;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: rgba(0,74,143,0.8);
+        background-image: url('http://148.234.143.205/SISM/Imagenes/uanl.png');
+    }
+
+    .cuadro {
+        background-color: #fff;
+        border-radius: 1vw;
+    }
+
+    .nav-tabs .nav-item {
+        width: 195px;
+        z-index: 99;
+    }
+
+    .dropdown-toggle {
+        width: 195px;
+        font-size: 15px !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        text-align: left;
+        z-index: 0;
+        border-top-left-radius: 20px;
+        border: 3px solid rgba(0,74,143,1);
+    }
+
+        .dropdown-toggle:hover {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+        .dropdown-toggle:focus {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+    .dropdown-menu {
+        float: inherit !important;
+        width: 100% !important;
+    }
+
+    .dropdown-item {
+        font-size: 15px !important;
+        padding: 3px 10px !important;
+        white-space: break-spaces !important;
+    }
+
+        .dropdown-item .material-icons {
+            font-size: 15px !important;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+        .dropdown-item:focus {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 15px !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        border-top-left-radius: 20px;
+        margin-left: -20px;
+        -webkit-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        -moz-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        border: 2.5px solid rgba(0,74,143,1);
+    }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link:hover {
+            font-size: 15px !important;
+            background-color: rgba(0, 88, 171,1) !important;
+            color: white !important;
+            border: 2.5px solid rgba(0, 88, 171,1);
+        }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            background-color: #FBC43D;
+            color: white !important;
+            border: 2.5px solid #FBC43D;
+        }
+
+            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active:hover {
+                background-color: #FBC43D !important;
+            }
+
+
+    .doc-info {
+        text-align: right;
+    }
+
+    .fade {
+        opacity: 1;
+    }
+
+    .datos-paciente label {
+        font-size: 0.8vw;
+    }
+
+    .datos-paciente input {
+        border: none !important;
+        border-bottom: 2px solid lightgray !important;
+        padding: 1px 3px;
+        border-radius: 0px;
+    }
+
+    #grad1 {
+        background-color: #9C27B0;
+        background-image: linear-gradient(120deg, #FF4081, #81D4FA)
+    }
+
+    #msform {
+        position: relative;
+        margin-top: 20px
+    }
+
+        #msform fieldset .form-card {
+            background: white;
+            border: 0 none;
+            border-radius: 0px;
+            box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+            padding: 20px 40px 30px 40px;
+            box-sizing: border-box;
+            width: 94%;
+            margin: 0 3% 20px 3%;
+            position: relative
+        }
+
+        #msform fieldset {
+            background: white;
+            border: 0 none;
+            border-radius: 0.5rem;
+            box-sizing: border-box;
+            width: 100%;
+            margin: 0;
+            position: relative;
+        }
+
+            #msform fieldset:not(:first-of-type) {
+                display: none
+            }
+
+            #msform fieldset .form-card {
+                text-align: left;
+                color: #9E9E9E
+            }
+
+        #msform input,
+        #msform textarea,
+        #msform select {
+            padding: 10px 8px 4px 8px;
+            border: none;
+            border-bottom: 1px solid lightgray;
+            border-radius: 0px;
+            margin-top: 2px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            color: #2C3E50;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+            #msform input:focus,
+            #msform textarea:focus,
+            #msform select:focus {
+                -moz-box-shadow: none !important;
+                -webkit-box-shadow: none !important;
+                box-shadow: none !important;
+                border: none;
+                font-weight: bold;
+                border-bottom: 2px solid #FBC43D;
+                outline-width: 0
+            }
+
+        #msform .action-button {
+            width: 130px;
+            background: #FBC43D;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .action-button:hover,
+            #msform .action-button:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px #FBC43D
+            }
+
+        #msform .action-button-previous {
+            width: 130px;
+            background: lightgray;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .action-button-previous:hover,
+            #msform .action-button-previous:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px lightgray
+            }
+
+
+
+        #msform .success-button {
+            width: 130px;
+            background: rgba(0,74,143,0.8);
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .success-button:hover,
+            #msform .success-button:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px rgba(0,74,143,0.8)
+            }
+
+        #msform .success-button-previous {
+            width: 130px;
+            background: rgba(0,74,143,0.8);
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .success-button-previous:hover,
+            #msform .success-button-previous:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px rgba(0,74,143,0.8);
+            }
+
+    select.list-dt {
+        border: none;
+        outline: 0;
+        border-bottom: 1px solid lightgray;
+        padding: 2px 5px 3px 5px;
+        margin: 2px
+    }
+
+        select.list-dt:focus {
+            border-bottom: 2px solid #FBC43D
+        }
+
+    .card {
+        z-index: 0;
+        border: none;
+        border-radius: 0.5rem;
+        position: relative
+    }
+
+    .fs-title {
+        font-size: 25px;
+        color: #2C3E50;
+        margin-bottom: 10px;
+        font-weight: bold;
+        text-align: left
+    }
+
+    #progressbar {
+        margin-bottom: 30px;
+        overflow: hidden;
+        color: lightgrey
+    }
+
+        #progressbar .active {
+            color: #000000;
+            opacity: 1;
+        }
+
+        #progressbar li {
+            list-style-type: none;
+            font-size: 12px;
+            width: 25%;
+            opacity: 0.5;
+            float: left;
+            cursor: pointer;
+            position: relative
+        }
+
+        #progressbar #account:before {
+            content: "S"
+        }
+
+        #progressbar li#account.changed:before,
+        #progressbar li#account.changed:after {
+            background: green;
+        }
+
+        #progressbar #personal:before {
+            content: "O"
+        }
+
+        #progressbar li#personal.changed:before,
+        #progressbar li#personal.changed:after {
+            background: green;
+        }
+
+        #progressbar #payment:before {
+            content: "A"
+        }
+
+        #progressbar li#payment.changed:before,
+        #progressbar li#payment.changed:after {
+            background: green;
+        }
+
+        #progressbar #confirm:before {
+            content: "P"
+        }
+
+        #progressbar li#confirm.changed:before,
+        #progressbar li#confirm.changed:after {
+            background: green;
+        }
+
+        #progressbar li:before {
+            width: 50px;
+            height: 50px;
+            line-height: 45px;
+            display: block;
+            font-size: 18px;
+            color: #ffffff;
+            background: lightgray;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+            padding: 2px
+        }
+
+        #progressbar li:after {
+            content: '';
+            width: 100%;
+            height: 2px;
+            background: lightgray;
+            position: absolute;
+            left: 0;
+            top: 25px;
+            z-index: -1
+        }
+
+        #progressbar li.active:before,
+        #progressbar li.active:after {
+            background: #FBC43D
+        }
+
+    .radio-group {
+        position: relative;
+        margin-bottom: 25px
+    }
+
+    .radio {
+        display: inline-block;
+        width: 204px;
+        height: 104px;
+        border-radius: 0;
+        background: lightblue;
+        box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
+        cursor: pointer;
+        margin: 8px 2px
+    }
+
+        .radio:hover {
+            box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3)
+        }
+
+        .radio.selected {
+            box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.1)
+        }
+
+    .fit-image {
+        width: 100%;
+        object-fit: cover
+    }
+
+    .btn-diagnosticos {
+        background-color: rgba(0,74,143,0.8) !important;
+        color: white;
+        font-size: 1vw;
+        width: 100%;
+    }
+
+        .btn-diagnosticos:hover {
+            color: white;
+        }
+
+    #loadingDiv {
+        position: fixed;
+        z-index: 9999;
+        background-color: rgba(0,0,0,0.2);
+        width: 100%;
+        height: 100vw;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        color: white;
+        text-align: center;
+        padding-top: 20vh;
+    }
+
+        #loadingDiv .spinner-border {
+            width: 8vw;
+            height: 8vw;
+        }
+
+    .diag-box {
+        background-color: #FBC43D;
+        color: white;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+
+    /*.select2-selection__choice {
+        float: initial !important;
+        margin: 0 !important;
+        font-size:1.5vw !important;
+        padding:1vw !important;
+    }
+
+    .select2-selection__rendered{
+        padding:0.5vw !important;
+    }
+
+    .select2-selection--multiple{
+        height:6vw !important;
+    }*/
+
+    #locality-dropdown {
+        max-width: 100% !important;
+    }
+
+    .dataTables_wrapper .dataTables_info {
+        width: 100% !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+        .dataTables_wrapper .dataTables_filter label {
+            width: 100% !important;
+            font-weight: bolder;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            width: 80% !important;
+        }
+
+    .dataTables_wrapper .dataTables_length {
+        display: none;
+    }
+
+    .btn-danger {
+        width: 100%;
+    }
+
+        .btn-danger .material-icons {
+            font-size: 1.2vw !important;
+        }
+
+    table.dataTable tbody tr.selected {
+        background-color: #FBC43D !important;
+        color: white !important;
+    }
+
+    #msform h3 {
+        color: #000;
+    }
+
+    .checking {
+        cursor: pointer;
+        color: lightgray;
+    }
+
+    table.dataTable tbody tr.selected .checking {
+        color: white !important;
+    }
+
+    .tipoconsulta {
+        border-radius: 0px;
+    }
+
+    .diaginfo {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 2px 15px;
+        background-color: #FBC43D;
+        color: white;
+        margin-left: -20px;
+        font-size: 15px;
+        font-weight: bolder;
+    }
+
+        .diaginfo:after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            width: 0;
+            height: 0;
+            border-top: solid 30px #FBC43D;
+            border-left: solid 50px transparent;
+            border-right: solid 50px transparent;
+        }
+
+
+    .diaginfo2 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 2px 15px;
+        background-color: #FBC43D;
+        color: white;
+        margin-left: -20px;
+        margin-top: -40px;
+        font-size: 12px;
+        font-weight: bolder;
+    }
+
+        .diaginfo2:after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            width: 0;
+            height: 0;
+            border-top: solid 20px #FBC43D;
+            border-left: solid 20px transparent;
+            border-right: solid 20px transparent;
+        }
+
+    .resumenTop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 2.5vw;
+        height: 2.5vw;
+        border-radius: 2.5vw;
+        background-color: #FBC43D;
+        color: white;
+        font-size: 1.2vw;
+        line-height: 2.5vw;
+        text-align: center;
+    }
+
+
+    .resumenTopCheck {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 1.5vw;
+        height: 1.5vw;
+        border-radius: 100%;
+        background-color: #FBC43D;
+        color: white;
+        font-size: 0.8vw;
+        line-height: 1.5vw;
+        text-align: center;
+    }
+
+    .resumenText {
+        font-size: 0.8vw;
+        margin-top: 3vw;
+        color: #9E9E9E;
+        cursor: pointer;
+        font-weight: bolder;
+    }
+
+    .tipoconsulta {
+        border-radius: 0px;
+        border: 2px solid #FBC43D;
+    }
+
+    .borrardiag {
+        width: 100%;
+        filter: grayscale(100%);
+    }
+
+    .borrarInt {
+        width: 50px;
+        filter: grayscale(100%);
+    }
+
+    .disabledButton {
+        background-color: lightgray !important;
+        border: 3px solid lightgray !important;
+    }
+
+        .disabledButton:hover {
+            background-color: lightgray !important;
+            border: 3px solid lightgray !important;
+        }
+
+        .disabledButton:focus {
+            background-color: lightgray !important;
+            border: 3px solid lightgray !important;
+        }
+
+    .nav-tabs .disabledButton:hover {
+        background-color: lightgray !important;
+        border: 3px solid lightgray !important;
+    }
+
+    .nav-tabs .disabledButton:focus {
+        background-color: lightgray !important;
+        border: 3px solid lightgray !important;
+    }
+
+    #interCheck {
+        width: 30px !important;
+        max-width: 30px !important;
+        margin-top: 5px !important;
+    }
+
+    .form-check-input {
+        width: 30px !important;
+        max-width: 30px !important;
+        margin-top: 5px !important;
+    }
+
+    #regresarAgenda {
+        position: fixed;
+        z-index: 999;
+        bottom: 0;
+        right: 0;
+        width: 5vw;
+        height: 5vw;
+        border-radius: 100%;
+        background-color: #FBC43D;
+        margin-bottom: 3vw;
+        margin-right: 1vw;
+        text-align: center;
+        cursor: pointer
+    }
+
+        #regresarAgenda img {
+            width: 2.3vw;
+            margin-top: 1.2vw;
+            filter: brightness(0) invert(1);
+        }
+
+    #regresarAgendaTxt {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #FBC43D;
+        padding: 5px 20px !important;
+        font-size: 1.1vw;
+        width: 15vw;
+        margin-top: 1.3vw;
+        margin-left: -13.5vw;
+        color: white;
+    }
+
+    #linea-doc-info {
+        width: 85%;
+        margin-left: 15%;
+        height: 2px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(100,100,100,1) 26%, rgba(50,50,50,1) 29%, rgba(20,20,20,1) 33%, rgba(0,0,0,1) 38%, rgba(0,0,0,1) 100%);
+    }
+
+    .flecha {
+        width: 10px;
+    }
+
+    .btn-buscar {
+        background-color: #FBC43D;
+        color: white !important;
+        width: 8%;
+    }
+
+        .btn-buscar:hover {
+            background-color: #FBC43D !important;
+            color: white !important;
+        }
+
+    .btnbuscapac {
+        width: 20px;
+        -webkit-filter: invert(100%);
+        filter: invert(100%);
+    }
+
+    .diagnostico-active {
+        background-color: #FBC43D;
+        color: white;
+    }
+
+    .diagnostico-select {
+        cursor: pointer;
+    }
+
+    #proxCitaModal .form-control {
+        border: none;
+        border-bottom: 2px solid #FBC43D;
+        border-radius: 0px;
+        color: black;
+    }
+
+    #proxCitaModal .modal-content {
+        margin-top: 15vw;
+        padding-bottom: 0vw;
+    }
+
+    #diferimiento {
+        background-color: #ffebb8;
+        margin: 0;
+    }
+
+        #diferimiento li {
+            text-transform: capitalize;
+        }
+
+    .detalles {
+        background-color: rgba(0,74,143,1) !important;
+        color: white !important;
+        padding: 3px 15px !important;
+    }
+
+        .detalles:hover {
+            background-color: rgba(0,74,143,1) !important;
+            color: white;
+        }
+
+    #adomi label {
+        margin-left: 30px;
+    }
+
+    #diag1 label {
+        margin-left: 30px;
+    }
+
+    #diag2 label {
+        margin-left: 30px;
+    }
+
+    #diag3 label {
+        margin-left: 30px;
+    }
+
+    .btn-add {
+        background-color: #FBC43D;
+        color: white;
+        border-radius: 100%;
+        width: 50px;
+        height: 50px;
+        line-height: 40px;
+        font-size: 30px;
+        border: 2px solid #FBC43D;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    #proveedor {
+        text-transform: uppercase;
+    }
+
+    #proveedor_nombre {
+        text-transform: uppercase;
+    }
+
+    #proveedor_direccion {
+        text-transform: uppercase;
+    }
+
+    #proveedor_telefono {
+        text-transform: uppercase;
+    }
+
+    #diagdental {
+        display: none;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 991px)">
+    .foto-paciente {
+        width: 10vw;
+        height: 10vw;
+        border-radius: 10vw;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 1.5vw !important;
+    }
+
+    .dropdown-toggle {
+        font-size: 1.5vw !important;
+        border-radius: 0px;
+    }
+
+    .btn-group {
+        margin-left: 0px !important;
+    }
+
+    #regresarAgenda {
+        width: 8vw;
+        height: 8vw;
+        margin-bottom: 7vw;
+    }
+
+        #regresarAgenda img {
+            width: 4vw;
+            margin-top: 2vw;
+        }
+
+    #regresarAgendaTxt {
+        font-size: 1.5vw;
+        width: 20vw;
+        margin-top: 2vw;
+        margin-left: -19vw;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 767px)">
+    .foto-paciente {
+        width: 18vw;
+        height: 18vw;
+        border-radius: 18vw;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 3vw !important;
+    }
+
+    .doc-info {
+        text-align: center;
+    }
+
+    .dropdown-toggle {
+        font-size: 3vw !important;
+    }
+
+    .dropdown-item {
+        font-size: 3vw !important;
+    }
+
+    .datos-paciente label {
+        font-size: 4vw;
+        text-align: center;
+    }
+
+    #progressbar {
+        padding: 0px !important;
+    }
+
+    #msform fieldset .form-card {
+        width: 100%;
+        margin: 0px !important;
+        padding: 10px !important;
+    }
+
+    .resumenText {
+        font-size: 3vw;
+        margin-top: 6vw;
+    }
+
+    .resumenTop {
+        margin-left: 2vw;
+        width: 6vw;
+        height: 6vw;
+        border-radius: 6vw;
+        font-size: 4vw;
+        line-height: 6vw;
+    }
+
+    .resumenTopCheck {
+        margin-right: 2vw;
+        width: 4vw;
+        height: 4vw;
+        font-size: 2vw;
+        line-height: 4vw;
+    }
+
+    .nav-tabs .nav-item {
+        z-index: 9;
+    }
+
+    #regresarAgendaTxt {
+        display: none;
+    }
+
+    #regresarAgenda {
+        width: 15vw;
+        height: 15vw;
+    }
+
+        #regresarAgenda img {
+            width: 8vw;
+            margin-top: 3vw;
+        }
+</style>
+
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+
+<link rel='stylesheet' href='https://select2.github.io/select2-bootstrap-theme/css/select2-bootstrap.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css'>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.full.min.js'></script>
+
+<link rel='stylesheet' href='https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.css'>
+<link rel='stylesheet' href="~/Content/codebar.css" />
+
+
+
+<div id="loadingDiv">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<a href="@Url.Action("Index", "ServiciosMedicos")">
+    <div id="regresarAgenda" class="animate__animated animate__fadeInRight">
+        <img src="~/Imagenes/iconfinder_Artboard_23_6015036.png" />
+        <div id="regresarAgendaTxt"> <b>Regresar a mi agenda</b> </div>
+    </div>
+</a>
+
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Consultas", "Manage")"><b>Consultas</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Index", "ServiciosMedicos")"><b>Servicios Médicos</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("SOAP", "ServiciosMedicos", new { id = Model.NUMEMP })"><b>Prestaciones</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12 text-center">
+        <h2><strong>Módulo Servicios Médicos</strong></h2>
+    </div>
+</div>
+
+
+<div class="row cuadro animate__animated animate__fadeInLeft">
+    <div class="col-lg-12 p-3">
+        <div class="row m-0">
+            <div class="col-md-7 m-auto p-3">
+                <div class="row m-0">
+                    <div class="col-lg-3 col-4 p-2 text-center m-auto">
+                        <center><div class="foto-paciente"></div></center>
+                    </div>
+                    <div class="col-lg-9 col-8 p-2 m-auto">
+                        <h6>Expediente: <b>@Model.NUMEMP </b> <input type="hidden" id="numemp" value="@Model.NUMEMP" /></h6>
+                        <h6>Nombre: <b>@Model.NOMBRES @Model.APATERNO @Model.AMATERNO</b> </h6>
+                        <h6>Registro Hospital Universitario: <b>@Model.REGHU</b> </h6>
+                        <div class="row m-0">
+                            <!--div class="col-md-3 p-0">
+                                <h6 class="mt-0">Edad: <input type="hidden" id="FNAC" name="FNAC" value="@Model.FNAC" /> <b id="edad"></b> años</h6>
+                            </div-->
+                            <div class="col-md-3 p-0">
+                                <h6 class="mt-0">Sexo: <b>@Model.SEXO</b></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 p-3 doc-info">
+                <h6>Doctor: <b> <span class="putUserName"></span> </b></h6>
+                @if (user == "56c2d316-65ec-464e-9201-250eecc8a015")
+                {
+                    <h6>Especialidad: <b> MEDICINA GENERAL </b></h6>
+                }
+                else
+                {
+                    <h6>Especialidad: <b> <span class="putEspecialidad"></span> </b></h6>
+                }
+                <div id="linea-doc-info"></div>
+                <p class="m-0">HU - Usuario: <b>webpacs</b> Contraseña: <b>webpacs</b></p>
+                <p class="m-0">GARCIA BARELLA - Usuario: <b>UANL</b> Contraseña: <b>UANL</b></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <ul class="nav nav-tabs" id="custom-content-below-tab mt-4" role="tablist">
+            <div class="btn-group" style="z-index: 99;">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Historia del paciente
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="@Url.Action("HojaFrontal", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Hoja Frontal</a>
+                    <a href="@Url.Action("HistorialPadecimientos", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Historial de consultas</a>
+                    <a href="@Url.Action("Kardex", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Kardex</a>
+                </div>
+            </div>
+            <div class="btn-group" id="recetasButton" style="margin-left: -20px; z-index: 99;">
+                <button type="button" style="background-color: rgba(0,74,143,1); border: 4.5px solid rgba(0,74,143,1); box-shadow: rgba(0,0,0,0.3) -5px 0px 5px -2px" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    SOAP
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="@Url.Action("SOAP", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span> Consulta</a>
+                </div>
+            </div>
+            <div class="btn-group" style="margin-left: -20px; z-index: 99;">
+                <button style="background-color:rgba(0,74,143,1) ; border:4.5px solid rgba(0,74,143,1);box-shadow:rgba(0,0,0,0.3) -5px 0px 5px -2px" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Recetas
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+
+                    @if (HttpContext.Current.User.IsInRole("UnidadERSEMAC"))
+                    {
+                        <a href="@Url.Action("RecetasUnidadERSEMAC", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span>Receta Unidad ER - SEMAC</a>
+                    }
+
+                    @if (HttpContext.Current.User.IsInRole("UnidadER"))
+                    {
+                        <a href="@Url.Action("RecetasUnidadER", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span>Receta Unidad ER</a>
+                    }
+
+                    @if (HttpContext.Current.User.IsInRole("Mederos"))
+                    {
+                        <a href="@Url.Action("RecetasMederos", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span>Receta Mederos</a>
+                    }
+
+                    @if (HttpContext.Current.User.IsInRole("Ciudad Universitaria"))
+                    {
+                        <a href="@Url.Action("RecetasCU", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span>Receta SEMAC</a>
+                    }
+
+                    <a href="@Url.Action("Recetas", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span> Receta Farmacia SM</a>
+
+                    <a href="@Url.Action("Insumos", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span>Solicitud de Insumos</a>
+
+                    @if (!HttpContext.Current.User.IsInRole("UnidadER"))
+                    {
+                        <a href="@Url.Action("RecetasCronicas", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span> Receta Resurtimiento</a>
+                    }
+
+                    <a href="@Url.Action("ListaRecetas", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Ver Recetas</a>
+                    <a href="@Url.Action("HistorialRecetas", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Historial Medicamentos</a>
+                </div>
+            </div>
+            <div class="btn-group" style="margin-left: -20px; z-index: 99;">
+                <button type="button" onclick="closetoogle()" style="background-color:rgba(0,74,143,1) ; border:4.5px solid rgba(0,74,143,1);box-shadow:rgba(0,0,0,0.3) -5px 0px 5px -2px" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Estudios
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+
+                    <a class="dropdown-item" id="rayosx" onmouseover="submenuRX()"><span class="material-icons">arrow_drop_down</span><b>Rayos X</b></a>
+                    <hr class="dropdown-divider">
+                    <a id="submenuRX_1" style="display:none" class="dropdown-item" href="@Url.Action("RayosX", "ServiciosMedicos", new { id = Model.NUMEMP ,medico = User.Identity.GetUserName()})"><span class="material-icons">add</span>Generar RX</a>
+                    <a id="submenuRX_2" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.200:3333/studyList?searchID=@Model.NUMEMP.Substring(0,5)-@Model.NUMEMP.Substring(@Model.NUMEMP.Length-3)">SMUANL</a>
+                    <a id="submenuRX_3" style="display:none" class="dropdown-item" target="_blank" href="http://cuid.dyndns.org/portal">HU</a>
+                    <a id="submenuRX_5" style="display:none" class="dropdown-item" target="_blank" href="http://radiodiagnostico.dynns.com/pacs/login.php?message=Bienvenido%20a%20iQ-WEB">Garcia Barella</a>
+                    <hr class="dropdown-divider">
+                    <a class="dropdown-item" id="lab-tab" onmouseover="submenuLab()"><span class="material-icons">arrow_drop_down</span><b>Laboratorio</b></a>
+                    <hr class="dropdown-divider">
+                    <a class="dropdown-item" href="@Url.Action("ResultadoAntigenos", "ServiciosMedicos", new { id = Model.NUMEMP })"><b>Prueba Antígenos</b></a>
+                    <hr class="dropdown-divider">
+                    <a id="submenuLab_1" style="display:none" class="dropdown-item" href="@Url.Action("Index", "Laboratorio", new { expediente = Model.NUMEMP ,medico = User.Identity.GetUserName()})"><span class="material-icons">add</span>Generar Solicitud</a>
+                    <a id="submenuLab_2" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.204/resultados3/listanombres.asp?numexp=@Model.NUMEMP">Ver Resultados Laboratorio</a>
+                    <hr class="dropdown-divider">
+                    <a class="dropdown-item" id="lab-tab" onmouseover="submenuArchivos()"><span class="material-icons">arrow_drop_down</span><b>Archivos</b></a>
+                    <a id="submenuArchivos_1" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=ekg">E K G</a>
+                    <a id="submenuArchivos_2" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=cito">Citologías</a>
+                    <a id="submenuArchivos_3" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=biopsia">Biopsia</a>
+                    <a id="submenuArchivos_4" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=ecc">E.C.C</a>
+                    <a id="submenuArchivos_5" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=presfuerzo">Prueba esfuerzo</a>
+                    <a id="submenuArchivos_6" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=holters">Holters</a>
+                    <a id="submenuArchivos_7" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=consinf">Cons. Informado</a>
+                    <a id="submenuArchivos_8" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=endo">Procedimientos Qx.</a>
+                    <a id="submenuArchivos_9" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=DENS">Densitometria</a>
+                    <a id="submenuArchivos_10" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=LAB">Laboratorio Externo</a>
+                    <a id="submenuArchivos_11" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=psico">Psicología</a>
+                    <a id="submenuArchivos_12" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=onco">Oncología</a>
+                    <a id="submenuArchivos_13" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=gastro">Gastro</a>
+                    <a id="submenuArchivos_14" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=OTR">Otros Estudios</a>
+                </div>
+            </div>
+            <div class="btn-group" style="margin-left: -20px; z-index: 99;">
+                <button type="button" style="background-color: #FBC43D !important; border: 3px solid #fbc43d !important;" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Órdenes
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    @if (User.IsInRole("PrestacionSolicitud") || User.Identity.Name.Substring(0, 2) == "05" || User.Identity.Name.Substring(0, 2) == "29" || User.Identity.Name.Substring(0, 2) == "14" || User.Identity.Name.Substring(0, 2) == "60" || User.Identity.Name.Substring(0, 2) == "23" || User.Identity.Name.Substring(0, 2) == "09" || User.Identity.Name.Substring(0, 2) == "63")
+                    {
+                        <a class="dropdown-item" href="@Url.Action("Prestaciones", "ServiciosMedicos", new { id = Model.NUMEMP })"><span class="material-icons">add</span><b>Solicitud de Servicio</b></a>
+                        <a class="dropdown-item" href="@Url.Action("VerPrestaciones", "ServiciosMedicos", new { id = Model.NUMEMP })">Ver solicitudes</a>
+                    }
+                    <a class="dropdown-item" href="@Url.Action("ValoracionPensionistas", "Manage", new { id = Model.NUMEMP })"><span class="material-icons">add</span>Valoración Urgencia HU</a>
+                    <a class="dropdown-item" href="@Url.Action("TodasValoracionesPensionistas", "Manage")">Ver mis valoraciones</a>
+                    <a class="dropdown-item" href="@Url.Action("OrdenInternamiento", "Manage", new { id = Model.NUMEMP })"><span class="material-icons">add</span>Internamiento</a>
+                    <a class="dropdown-item" href="@Url.Action("TodasOrdenesInternamiento", "Manage")">Ver mis órdenes</a>
+                    <hr class="dropdown-divider">
+                    <a class="dropdown-item" href="@Url.Action("Index", "EnfermeriaSolicitud",new { expediente = Model.NUMEMP })"><span class="material-icons">add</span><b>Solicitud EKG</b></a>
+                    <hr class="dropdown-divider">
+                    <a class="dropdown-item" data-toggle="modal" data-target="#ModalPaquete"><span class="material-icons">add</span><b>Paq.Preoperatorio</b></a>
+                </div>
+            </div>
+            <div class="btn-group" style="margin-left: -20px; z-index: 99;">
+                <button type="button" style="background-color: rgba(0,74,143,1); border: 4.5px solid rgba(0,74,143,1);box-shadow: rgba(0,0,0,0.3) -5px 0px 5px -2px" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Prestaciones
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="@Url.Action("ProcAmbOrdenes", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span>Generar Solicitud</a>
+                    <a href="@Url.Action("VerProcAmbOrdenes", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Ver Historial</a>
+                </div>
+            </div>
+        </ul>
+    </div>
+
+
+    <div class="col-12 p-2" id="msform">
+        @using (Html.BeginForm("GuardarPrestacion", "ServiciosMedicos", FormMethod.Post))
+        {
+            <div class="row m-0">
+                <div class="col-12 text-center mt-3">
+                    <h2><strong>Solicitud de Servicio</strong></h2>
+                    <!--div class="linea"></div-->
+                    <input type="hidden" name="num_exp" value="@Model.NUMEMP" />
+                </div>
+                <div class="col-12 p-3">
+                    <label><b>Servicio: </b></label>
+                    <select class="form-control" name="servicio" id="servicio" style="max-width:100%;" required>
+                        <option selected disabled value="">Seleccionar servicio</option>
+                        <!--option value="Estudios de imagen">1.- Estudios de imagen</option>
+                        <option value="Especialistas">2.- Especialistas</option>
+                        <option value="Estudios Área Cardiología">3.- Estudios Área Cardiología</option>
+                        <option value="Internamiento (HU)">4.- Internamiento (HU)</option>
+                        <option value="Hemodiálisis">5.- Hemodiálisis</option>
+                        <option value="Cirugía">6.- Cirugía</option>
+                        <option value="Estudios de Neurología">7.- Estudios de Neurología</option>
+                        <option value="Estudios de Neumología">8.- Estudios de Neumología</option>
+                        <option value="Estudios de Nefrología">9.- Estudios de Nefrología</option>
+                        <option value="Estudios de Urología">10.- Estudios de Urología</option>
+                        <option value="Ginecología">11.- Ginecología</option>
+                        <option value="Oncología">12.- Oncología</option>
+                        <option value="Oncología">12.- Oncología</option>
+                        <option value="Aplicación de Medicamentos Biológicos">13.- Aplicación de Medicamentos Biológicos</option-->
+                    </select>
+                </div>
+
+                <!--div class="col-6 p-3">
+                    <label><b>Proveedor: </b></label>
+                    <select class="form-control" name="proveedor" id="proveedor" style="max-width:100%;" required>
+                        <option selected disabled value="">Seleccionar proveedor</option>
+                        <option value=""></option>
+                    </select>
+                </div-->
+
+
+                <div class="col-11 p-3 m-auto">
+                    <label><b>Tipo: </b></label>
+                    <select class="form-control" name="subservicio" id="subservicio" style="max-width:100%;" required>
+                        <option selected disabled value="0">Seleccionar servicio</option>
+                    </select>
+
+                    <select class="form-control" name="lado" id="lado" style="max-width:100%;">
+                        <option selected disabled value="0">Seleccionar lado</option>
+                        <option value="Derecho">Derecho</option>
+                        <option value="Izquierdo">Izquierdo</option>
+                    </select>
+
+                    <select class="form-control" name="opcion" id="opciondedos" style="max-width:100%;">
+                        <option selected disabled value="0">Seleccionar opción</option>
+                        <option value="Mano">Mano</option>
+                        <option value="Pie">Pie</option>
+                    </select>
+
+                    <select class="form-control" name="lado" id="ladodedos" style="max-width:100%;">
+                        <option selected disabled value="0">Seleccionar lado</option>
+                        <option value="Derecho">Derecho</option>
+                        <option value="Izquierdo">Izquierdo</option>
+                    </select>
+
+                    <select class="form-control" name="dedo" id="dedo" style="max-width:100%;">
+                        <option selected disabled value="0">Seleccionar dedo</option>
+                        <option value="Meñique">Meñique</option>
+                        <option value="Anular">Anular</option>
+                        <option value="Dedo medio">Dedo medio</option>
+                        <option value="Índice">Índice</option>
+                        <option value="Pulgar">Pulgar</option>
+                    </select>
+
+                </div>
+
+                <div class="col-1 p-3 mt-auto">
+                    <div class="btn-add"> <b> + </b> </div>
+                </div>
+
+                <div class="col-12 p-3" id="tipo2">
+                    <label><b>Tipo: </b></label>
+                    <select class="form-control" name="subservicio2" id="subservicio2" style="max-width:100%;">
+                        <option selected value="0">Seleccionar servicio</option>
+                    </select>
+
+                    <select class="form-control" name="lado2" id="lado2" style="max-width:100%;">
+                        <option selected disabled value="">Seleccionar lado</option>
+                        <option value="Derecho">Derecho</option>
+                        <option value="Izquierdo">Izquierdo</option>
+                    </select>
+
+                    <select class="form-control" name="opcion2" id="opciondedos2" style="max-width:100%;">
+                        <option selected disabled value="">Seleccionar opción</option>
+                        <option value="Mano">Mano</option>
+                        <option value="Pie">Pie</option>
+                    </select>
+
+                    <select class="form-control" name="lado2" id="ladodedos2" style="max-width:100%;">
+                        <option selected disabled value="">Seleccionar lado</option>
+                        <option value="Derecho">Derecho</option>
+                        <option value="Izquierdo">Izquierdo</option>
+                    </select>
+
+                    <select class="form-control" name="dedo2" id="dedo2" style="max-width:100%;">
+                        <option selected disabled value="">Seleccionar dedo</option>
+                        <option value="Meñique">Meñique</option>
+                        <option value="Anular">Anular</option>
+                        <option value="Dedo medio">Dedo medio</option>
+                        <option value="Índice">Índice</option>
+                        <option value="Pulgar">Pulgar</option>
+                    </select>
+
+                </div>
+
+
+                <div class="col-12 p-3" id="tipo3">
+                    <label><b>Tipo: </b></label>
+                    <select class="form-control" name="subservicio3" id="subservicio3" style="max-width:100%;">
+                        <option selected value="0">Seleccionar servicio</option>
+                    </select>
+
+                    <select class="form-control" name="lado3" id="lado3" style="max-width:100%;">
+                        <option selected disabled value="">Seleccionar lado</option>
+                        <option value="Derecho">Derecho</option>
+                        <option value="Izquierdo">Izquierdo</option>
+                    </select>
+
+                    <select class="form-control" name="opcion3" id="opciondedos3" style="max-width:100%;">
+                        <option selected disabled value="">Seleccionar opción</option>
+                        <option value="Mano">Mano</option>
+                        <option value="Pie">Pie</option>
+                    </select>
+
+                    <select class="form-control" name="lado3" id="ladodedos3" style="max-width:100%;">
+                        <option selected disabled value="">Seleccionar lado</option>
+                        <option value="Derecho">Derecho</option>
+                        <option value="Izquierdo">Izquierdo</option>
+                    </select>
+
+                    <select class="form-control" name="dedo3" id="dedo3" style="max-width:100%;">
+                        <option selected disabled value="">Seleccionar dedo</option>
+                        <option value="Meñique">Meñique</option>
+                        <option value="Anular">Anular</option>
+                        <option value="Dedo medio">Dedo medio</option>
+                        <option value="Índice">Índice</option>
+                        <option value="Pulgar">Pulgar</option>
+                    </select>
+
+                </div>
+
+                <!--div class="col-12 p-3">
+                    <div class="checkbox-group required">
+                        <div id="adomi">
+                            @Html.CheckBox("adomicilio", false, htmlAttributes: new { id = "adomicilio", @class = "form-check-input ml-1" }) <label for="adomicilio">A domicilio</label><br />
+                        </div>
+                    </div>
+                </div-->
+
+                <div class="col-12 p-3" id="justifica">
+                    <label><b>Justificación: </b></label>
+                    <textarea class="form-control" name="justificacion" id="justificacion" required></textarea>
+                </div>
+
+
+                <div class="col-12 p-3">
+                    <label><b>Proveedor: </b></label>
+                    <!--input style="width:80%;color:black" placeholder="Buscar estudio..." class="myinput" id="proveedor" /-->
+                    <select class="form-control" name="proveedor" id="proveedor" style="max-width:100%;" required>
+                        <option selected disabled value="">Seleccionar proveedor</option>
+                    </select>
+                </div>
+
+                <div class="col-12 p-3" id="sesionesnormal">
+                    <label><b>Sesiones: </b></label>
+                    <select class="form-control" name="sesiones" id="sesiones" style="max-width:100%;" required>
+                        <option selected disabled value="">Seleccionar sesiones</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                    </select>
+                </div>
+
+                <div class="col-12 p-3" id="diagnormal">
+                    <label><b>Diagnósticos: </b></label> <br />
+                    <div class="checkbox-group required">
+                        <div id="diag1">
+                            @Html.CheckBox("dx1", false, htmlAttributes: new { id = "dx1", @class = "form-check-input ml-1" }) <label for="dx1"></label><br />
+                        </div>
+                        <div id="diag2">
+                            @Html.CheckBox("dx2", false, htmlAttributes: new { id = "dx2", @class = "form-check-input ml-1" }) <label for="dx2"></label><br />
+                        </div>
+                        <div id="diag3">
+                            @Html.CheckBox("dx3", false, htmlAttributes: new { id = "dx3", @class = "form-check-input ml-1" }) <label for="dx3"></label><br />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 p-3" id="diagdental">
+                    <label><b>Diagnósticos: </b></label> <br />
+                    <input type="hidden"  value="0" name="sesiones"/>
+                    <select class="form-control" id="diagnosticosden" name="diagnosticodental">
+                        <option disabled selected>Selecciona un diagnóstico</option>
+                    </select>
+                </div>
+
+                <div class="col-12 p-3">
+                    <label><b>Nota: </b></label>
+                    <textarea class="form-control" name="nota" id="nota" required></textarea>
+                </div>
+
+                <div class="col-md-4 m-auto p-3 text-center">
+                    <button type="submit" class="btn" id="btn-generar" style="width:100%; background-color:rgba(0,74,143,1); color:white;">Generar</button>
+                </div>
+                <div class="col-md-4 m-auto p-3 text-center" id="btn-imprimir" style="display:none;">
+                    <button type="button" class="btn" style="width:100%; background-color:rgba(0,74,143,1); color:white;">Imprimir</button>
+                </div>
+            </div>
+        }
+    </div>
+
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="imprimirModal" tabindex="-1" role="dialog" aria-labelledby="imprimirModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row m-0 imprimir-content" id="imprimir-content">
+                    <div class="col-12 text-center p-0" style="padding-bottom:8px !important;">
+                        <div class="row m-0">
+                            <div class="col-3 imprimirUanl text-left" style="padding:2px;">
+                                <img src="~/Imagenes/logo-uanl-impresion.png" />
+                            </div>
+                            <div class="col-6 imprimirTitulo" style="padding:2px;">
+                                <h2><strong>Solicitud de Servicio</strong></h2>
+                                <h6 style="font-size:16px; margin-top:8px;"><em>Folio: <span id="folio">@TempData["folio"]</span></em></h6>
+                                <svg id="barcode"></svg>
+                            </div>
+                            <div class="col-3 imprimirLogo" style="padding:2px;">
+                                <img src="~/Imagenes/Servicios Medicos_Mesa de trabajo 1.png" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 p-0">
+                        <div class="row m-0">
+                            <div class="col-6" style="padding:2px;">
+                                <p style="font-size:16px; margin-bottom:2px;"><b>Fecha: </b>@TempData["fecha"]</p>
+                            </div>
+                            <div class="col-6" style="padding:2px;">
+                                <p style="font-size:16px; margin-bottom:2px;"><b>Solicitud válida por 1 mes</b></p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 p-0">
+                        <div class="row m-0">
+                            <div class="col-12" style="padding:2px;">
+                                <h6 style="font-size:20px;" class="m-0"><strong>Datos Paciente</strong></h6>
+                                <hr class="linea" style="height:1px;width:100%;background-color:#000000; margin-top:2px; margin-bottom:2px;">
+                            </div>
+                            <div class="col-6" style="padding:2px;">
+                                <p style="font-size:16px;" class="m-0"><b>Número de Empleado: </b>@Model.NUMEMP</p>
+                                <p style="font-size:16px;" class="m-0"><b>Nombre: </b>@Model.NOMBRES @Model.APATERNO @Model.AMATERNO</p>
+                                <!--p style="font-size:16px; margin-bottom:2px;"><b>CURP: </b>@Model.CURP</p-->
+                            <p style="font-size:16px;" class="m-0"><b>Fecha de nacimiento: </b><span id="fnaci"></span></p>
+                            </div>
+                            <div class="col-6" style="padding:2px;">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <p style="font-size:16px;" class="m-0"><b>Edad: </b><input type="hidden" id="FNAC" name="FNAC" value="@Model.FNAC" /> <span class="edad"></span> años</p>
+                                        </td>
+                                        <td>
+                                            <p style="font-size:16px; margin-left:5px;" class="m-0"><b>Sexo: </b>@Model.SEXO</p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 p-0">
+                        <div class="row m-0">
+                            <div class="col-12" style="padding:2px;">
+                                <h6 style="font-size:20px;" class="m-0"><strong>Datos Proveedor</strong></h6>
+                                <hr class="linea" style="height:1px;width:100%;background-color:#000000; margin-top:2px; margin-bottom:2px;">
+                            </div>
+                            <div class="col-6" style="padding:2px;">
+                                <p style="font-size:16px;" class="m-0"><b>Proveedor: </b><span id="proveedor_nombre">@TempData["proveedor_nombre"]</span></p>
+                                <p style="font-size:16px;" class="m-0"><b>Dirección: </b><span id="proveedor_direccion">@TempData["proveedor_direccion"]</span></p>
+                                @if (TempData["adomicilio"] != null)
+                                {
+                                <p style="font-size:16px;" class="m-0"><b>A domicilio: </b><span>@TempData["adomicilio"]</span></p>
+                                <p style="font-size:16px;" class="m-0"><b>Justificación: </b><span>@TempData["justificacion"]</span></p>
+                                }
+                            </div>
+                            <div class="col-6" style="padding:2px;">
+                                <p style="font-size:16px;" class="m-0"><b>Teléfono: </b><span id="proveedor_telefono">@TempData["proveedor_telefono"]</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 p-0">
+                        <div class="row m-0">
+                            <div class="col-12" style="padding:2px;">
+                                <h6 style="font-size:20px;" class="m-0"><strong>Datos Generales de Servicio</strong></h6>
+                                <hr class="linea" style="height:1px;width:100%;background-color:#000000;" class="m-0">
+                            </div>
+                            <div class="col-6" style="padding:2px;">
+                                <p style="font-size:16px;" class="m-0">
+                                    <b>Servicio: </b>
+                                    <span id="servicio">@TempData["servicio"]</span>
+                                </p>
+                            </div>
+                            <div class="col-6" style="padding:2px;">
+                                <p style="font-size:16px;" class="m-0">
+                                    <b>Tipo(s): </b>
+                                    <span id="subservicio">@TempData["subservicio"]</span> <br />
+                                    @if (TempData["subservicio2"] != null)
+                                    {
+                                        <span id="subservicio2">@TempData["subservicio2"]</span> <br />
+                                    }
+                                    @if (TempData["subservicio3"] != null)
+                                    {
+                                        <span id="subservicio3">@TempData["subservicio3"]</span> <br />
+                                    }
+                                </p>
+                            </div>
+                            <div class="col-12" style="padding:2px;">
+                                @if (TempData["sesiones"] != null)
+                                {
+                                    <p style="font-size:16px;" class="m-0">
+                                        <b>Sesiones: </b>
+                                        <span id="sesiones">@TempData["sesiones"]</span>
+                                    </p>
+                                }
+                                <p style="font-size:16px;" class="m-0">
+                                    <b>Nota: </b>
+                                    <span id="nota">@TempData["nota"]</span>
+                                </p>
+                                @if (TempData["diagnostico1"] != null || TempData["diagnostico2"] != null || TempData["diagnostico3"] != null)
+                                {
+                                    <p style="font-size:16px;" class="m-0">
+                                        <b>Diagnósticos: </b> <br />
+                                        <span id="diagnostico1">@TempData["diagnostico1"]</span> <br />
+                                        <span id="diagnostico2">@TempData["diagnostico2"]</span> <br />
+                                        <span id="diagnostico3">@TempData["diagnostico3"]</span>
+                                    </p>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 p-0">
+                        <div class="row m-0">
+                            <div class="col-12" style="padding:2px;">
+                                <h6 style="font-size:20px;" class="m-0"><strong>Datos Médico</strong> </h6>
+                                <hr class="linea" style="height:1px;width:100%;background-color:#000000;" class="m-0">
+                            </div>
+                            <div class="col-6" style="padding:2px;">
+                                <p style="font-size:16px;" class="m-0"><b>Nombre: </b><span>@TempData["medico"]</span></p>
+                            </div>
+                            <div class="col-6" style="padding:2px;">
+                                <p style="font-size:16px;" class="m-0"><b>Cédula Profesional: </b> <span>@TempData["cedula"]</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 p-0 text-center m-0">
+                        <p><em>Servicios Médicos de la UANL.</em></p>
+                    </div>
+                    <!--div class="col-6 p-0 text-left mb-2">
+                        <img style="width:80%;" src="~/Imagenes/proveedores/@TempData["croquis"]" />
+                    </!--div>
+                    <div class="col-6 p-0 text-right mb-2">
+                        <img style="width:30%;" src="~/Imagenes/proveedores/@TempData["maps"]" />
+                    </div-->
+                    <div class="col-md-6 m-auto text-center p-2">
+                        <button style="width:100%;" class="btn detalles imprimir" onclick="PrintDiv();">Imprimir</button>
+                    </div>
+                    <!--div class="col-md-6 m-auto text-center p-2">
+        <button style="width:100%;" class="btn detalles paqpreoperatorio">Crear Paq. Preoperatorio</button>
+    </div-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@Html.Partial("PaquetePreoperatorio")
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+@*//Funciones toogle del menu*@
+<script type="text/javascript">
+
+    function submenuRX() {
+
+        $('#submenuRX_1').show();
+        $('#submenuRX_2').show();
+        $('#submenuRX_3').show();
+        $('#submenuRX_4').show();
+        $('#submenuRX_5').show();
+
+        $('#submenuLab_1').hide();
+        $('#submenuLab_2').hide();
+        $('#submenuArchivos_1').hide();
+        $('#submenuArchivos_2').hide();
+        $('#submenuArchivos_3').hide();
+        $('#submenuArchivos_4').hide();
+        $('#submenuArchivos_5').hide();
+        $('#submenuArchivos_6').hide();
+        $('#submenuArchivos_7').hide();
+        $('#submenuArchivos_8').hide();
+        $('#submenuArchivos_9').hide();
+        $('#submenuArchivos_10').hide();
+        $('#submenuArchivos_11').hide();
+        $('#submenuArchivos_12').hide();
+        $('#submenuArchivos_13').hide();
+        $('#submenuArchivos_14').hide();
+
+    }
+
+    function submenuLab() {
+
+        $('#submenuLab_1').show();
+        $('#submenuLab_2').show();
+
+        $('#submenuRX_1').hide();
+        $('#submenuRX_2').hide();
+        $('#submenuRX_3').hide();
+        $('#submenuRX_4').hide();
+        $('#submenuRX_5').hide();
+
+        $('#submenuArchivos_1').hide();
+        $('#submenuArchivos_2').hide();
+        $('#submenuArchivos_3').hide();
+        $('#submenuArchivos_4').hide();
+        $('#submenuArchivos_5').hide();
+        $('#submenuArchivos_6').hide();
+        $('#submenuArchivos_7').hide();
+        $('#submenuArchivos_8').hide();
+        $('#submenuArchivos_9').hide();
+        $('#submenuArchivos_10').hide();
+        $('#submenuArchivos_11').hide();
+        $('#submenuArchivos_12').hide();
+        $('#submenuArchivos_13').hide();
+        $('#submenuArchivos_14').hide();
+    }
+
+
+    function submenuArchivos() {
+        $('#submenuArchivos_1').show();
+        $('#submenuArchivos_2').show();
+        $('#submenuArchivos_3').show();
+        $('#submenuArchivos_4').show();
+        $('#submenuArchivos_5').show();
+        $('#submenuArchivos_6').show();
+        $('#submenuArchivos_7').show();
+        $('#submenuArchivos_8').show();
+        $('#submenuArchivos_9').show();
+        $('#submenuArchivos_10').show();
+        $('#submenuArchivos_11').show();
+        $('#submenuArchivos_12').show();
+        $('#submenuArchivos_13').show();
+        $('#submenuArchivos_14').show();
+
+        $('#submenuLab_1').hide();
+        $('#submenuLab_2').hide();
+        $('#submenuRX_1').hide();
+        $('#submenuRX_2').hide();
+        $('#submenuRX_3').hide();
+        $('#submenuRX_4').hide();
+        $('#submenuRX_5').hide();
+    }
+
+
+    function closetoogle() {
+        $('#submenuRX_1').hide();
+        $('#submenuRX_2').hide();
+        $('#submenuRX_3').hide();
+        $('#submenuRX_4').hide();
+        $('#submenuRX_5').hide();
+
+        $('#submenuLab_1').hide();
+        $('#submenuLab_2').hide();
+        $('#submenuArchivos_1').hide();
+        $('#submenuArchivos_2').hide();
+        $('#submenuArchivos_3').hide();
+        $('#submenuArchivos_4').hide();
+        $('#submenuArchivos_5').hide();
+        $('#submenuArchivos_6').hide();
+        $('#submenuArchivos_7').hide();
+        $('#submenuArchivos_8').hide();
+        $('#submenuArchivos_9').hide();
+        $('#submenuArchivos_10').hide();
+        $('#submenuArchivos_11').hide();
+        $('#submenuArchivos_12').hide();
+        $('#submenuArchivos_13').hide();
+        $('#submenuArchivos_14').hide();
+
+    }
+
+</script>
+
+
+<script>
+    $('#loadingDiv').hide();
+    var numemp = $('#numemp').val();
+    $('#expcita').val($('#numemp').val());
+    $('.foto-paciente').css("background-image", "url(http://148.234.143.204/smuanl_web/fotos_dhab/" + numemp + ".jpg)");
+</script>
+
+<script>
+    function imgError(image) {
+        image.onerror = "";
+        image.src = "http://148.234.143.205/SISM/Imagenes/uanl.png";
+        return true;
+    }
+</script>
+
+<script>
+    var split1 = $('#FNAC').val().split(" ");
+    //console.log(split1);
+    var split2 = split1[0].split("/");
+    var hoy = new Date().getFullYear();
+    var edad = hoy - split2[2];
+    $('#edad').html(edad);
+</script>
+
+
+<script type="text/javascript">
+    $.ajax({
+        type: 'GET',
+        url: '@Url.Action("GetMedicoNombres", "Manage")',
+        dataType: 'json',
+        cache: false,
+        success: function (data) {
+            $('.putUserName').html(data.nombres + " " + data.apellido_paterno + " " + data.apellido_materno);
+            $('#putNumero').val(data.numero);
+            $('.putEspecialidad').html(data.especialidad);
+            $('.putCedula').html(data.cedula);
+        },
+        error: function (xhr, status, error) {
+            alert("Error");
+        }
+    });
+</script>
+
+
+<script>
+
+    $.ajax({
+        url: '@Url.Action("DiagnosticosMedico", "ServiciosMedicos")',
+        dataType: "json",
+        //data: { diagnostico: $("#analisis").val() },
+        success: function (data) {
+            $.each(data, function (i, item) {
+                //console.log(item.DesCorta);
+                $('#diagnosticoMedico').append('<div class="col-md-2 p-2"><div class="shadow p-2 mb-2 rounded diagnostico-select" data-clave="' + item.Clave + '">' + item.DesCorta + '</div></div>');
+            });
+        },
+        error: function (xhr, status, error) {
+
+        }
+    });
+
+    $.ajax({
+        url: '@Url.Action("DiagnosticosPaciente", "ServiciosMedicos")',
+        dataType: "json",
+        data: { numemp: $("#numemp").val() },
+        success: function (data) {
+            $.each(data, function (i, item) {
+                //console.log(item.DesCorta);
+                $('#diagnosticoPaciente').append('<div class="col-md-2 p-2"><div class="shadow p-2 mb-2 rounded diagnostico-select" data-clave="' + item.Clave + '">' + item.DesCorta + '</div></div>');
+            });
+        },
+        error: function (xhr, status, error) {
+
+        }
+    });
+
+
+    $.ajax({
+        url: '@Url.Action("DiagnosticosEspecialidad", "ServiciosMedicos")',
+        dataType: "json",
+        //data: { numemp: $("#numemp").val() },
+        success: function (data) {
+            $.each(data, function (i, item) {
+                //console.log(item.DesCorta);
+                $('#diagnosticoEspecialidad').append('<div class="col-md-2 p-2"><div class="shadow p-2 mb-2 rounded diagnostico-select" data-clave="' + item.Clave + '">' + item.DesCorta + '</div></div>');
+            });
+        },
+        error: function (xhr, status, error) {
+
+        }
+    });
+
+
+    //Buscar un nuevo diagnostico
+    $('#diagnosticoBusqueda').on('click', '.btn-buscar', function () {
+
+        //var s_exp = $(this).val();
+
+        if ($("#diagnosticoTxt").val().length >= 3) {
+            $('#diagnosticoBusquedaLista').empty();
+            $('#diagnosticoBusquedaAlert').text('');
+            $.ajax({
+                url: '@Url.Action("BuscarDiagnosticos", "ServiciosMedicos")',
+                dataType: "json",
+                data: { diagnostico: $("#diagnosticoTxt").val() },
+                success: function (data) {
+                    //console.log(data);
+                    $.each(data, function (i, item) {
+                        //console.log(item.DesCorta);
+                        $('#diagnosticoBusquedaLista').append('<div class="col-md-2 p-2"><div class="shadow p-2 mb-2 rounded diagnostico-select" data-clave="' + item.Clave + '">' + item.DesCorta + '</div></div>');
+                    });
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        showConfirmButton: false,
+                        timer: 10000
+                    });
+                }
+            });
+        } else {
+            $('#diagnosticoBusquedaLista').empty();
+            $('#diagnosticoBusquedaAlert').text('¡Escribe más de dos caracteres!');
+        }
+
+    });
+
+
+    $("#tipoconsulta1").attr('disabled', 'disabled');
+    $("#tipoconsulta2").attr('disabled', 'disabled');
+    $("#tipoconsulta3").attr('disabled', 'disabled');
+    $('#diaginfo1').hide();
+    $('#diaginfo2').hide();
+    //Al dar click en los diagnoticos que se ponga en los cuadros de abajo
+    $(document).on('click', '.diagnostico-select', function (event) {
+
+
+        //console.log(event.data.nombre);
+        // imprime 'juan'
+        var clave = $(this).attr('data-clave');
+        var desCorta = $(this).text();
+        //alert(desCorta);
+        //$('#diagnostico1').val(desCorta);
+        //$('#clave1').val(clave);
+        //$('.diagnostico-select').css('background-color', 'white');
+        //$('.diagnostico-select').css('color', 'black');
+        if ($(this).hasClass("diagnostico-active")) {
+
+            $(this).removeClass('diagnostico-active');
+
+            if ($('#clave1').val() == clave) {
+                $('#diagnostico1').val('');
+                $('#clave1').val('');
+                $("#tipoconsulta1").attr('disabled', 'disabled');
+                $('#borrardiag1').css('filter', 'grayscale(100%)');
+
+
+                //$("#tipoconsulta1").val($("#tipoconsulta1 option:first").val());
+                //$('#finalizar').attr('disabled', 'disabled');
+                //$('#finalizar').css('background-color', 'lightgray');
+
+
+                //Si hay un valor en el diagnostico2
+                if ($('#clave2').val()) {
+                    $('#diagnostico1').val($('#diagnostico2').val());
+                    $('#clave1').val($('#clave2').val());
+                    $("#tipoconsulta1").removeAttr('disabled');
+                    $('#borrardiag1').css('filter', 'none');
+                    $("#tipoconsulta2").attr('disabled', 'disabled');
+                    $('#borrardiag2').css('filter', 'grayscale(100%)');
+                    $('#diagnostico2').val('');
+                    $('#clave2').val('');
+
+                    $("#tipoconsulta1 option").each(function () {
+                        var val = $(this).val();
+                        if (val == $('#tipoconsulta2').val()) {
+                            $(this).prop('selected', true);
+                        }
+                    });
+
+                    $("#tipoconsulta2").val($("#tipoconsulta2 option:first").val());
+
+
+                }
+
+                //Si hay un valor en el diagnostico3
+                if ($('#clave3').val()) {
+                    $('#diagnostico2').val($('#diagnostico3').val());
+                    $('#clave2').val($('#clave3').val());
+                    $("#tipoconsulta2").removeAttr('disabled');
+                    $('#borrardiag2').css('filter', 'none');
+                    $("#tipoconsulta3").attr('disabled', 'disabled');
+                    $('#borrardiag3').css('filter', 'grayscale(100%)');
+                    $('#diagnostico3').val('');
+                    $('#clave3').val('');
+
+                    $("#tipoconsulta2 option").each(function () {
+                        var val = $(this).val();
+                        if (val == $('#tipoconsulta3').val()) {
+                            $(this).prop('selected', true);
+                        }
+                    });
+
+                    $("#tipoconsulta3").val($("#tipoconsulta3 option:first").val());
+                }
+
+                //No hay ni diagnostico 1 ni 2
+                if (!$('#clave1').val()) {
+                    $("#tipoconsulta1").val($("#tipoconsulta1 option:first").val());
+                    //$('#finalizar').attr('disabled', 'disabled');
+                    //$('#finalizar').css('background-color', 'lightgray');
+                }
+
+
+
+            } else {
+                if ($('#clave2').val() == clave) {
+                    $('#diagnostico2').val('');
+                    $('#clave2').val('');
+                    $("#tipoconsulta2").attr('disabled', 'disabled');
+                    $('#borrardiag2').css('filter', 'grayscale(100%)');
+                    //Si hay un valor en el diagnostico3
+                    if ($('#clave3').val()) {
+                        $('#diagnostico2').val($('#diagnostico3').val());
+                        $('#clave2').val($('#clave3').val());
+                        $("#tipoconsulta2").removeAttr('disabled');
+                        $('#borrardiag2').css('filter', 'none');
+                        $("#tipoconsulta3").attr('disabled', 'disabled');
+                        $('#borrardiag3').css('filter', 'grayscale(100%)');
+                        $('#diagnostico3').val('');
+                        $('#clave3').val('');
+
+                        $("#tipoconsulta2 option").each(function () {
+                            var val = $(this).val();
+                            if (val == $('#tipoconsulta3').val()) {
+                                $(this).prop('selected', true);
+                            }
+                        });
+                    }
+
+                    if (!$('#clave2').val()) {
+                        $("#tipoconsulta2").val($("#tipoconsulta2 option:first").val());
+                    }
+
+                    $("#tipoconsulta3").val($("#tipoconsulta3 option:first").val());
+
+
+                } else {
+                    if ($('#clave3').val() == clave) {
+                        $('#diagnostico3').val('');
+                        $('#clave3').val('');
+                        $("#tipoconsulta3").attr('disabled', 'disabled');
+                        $('#borrardiag3').css('filter', 'grayscale(100%)');
+                        $("#tipoconsulta3").val($("#tipoconsulta3 option:first").val());
+                    }
+                }
+            }
+
+
+            /*$.ajax({
+                //url: '@Url.Action("GuardaDiagSOAP", "ServiciosMedicos")',
+                /*dataType: "json",
+                data: { numemp: $("#numemp").val(), tipoconsulta1: $("#tipoconsulta1").val(), tipoconsulta2: $("#tipoconsulta2").val(), tipoconsulta3: $("#tipoconsulta3").val(), diagnostico1: $("#clave1").val(), diagnostico2: $("#clave2").val(), diagnostico3: $("#clave3").val() },
+                success: function (data) {
+                    infoSOAP();
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        //stitle: 'Expediente no encontrado',
+                        showConfirmButton: false,
+                        timer: 10000
+                    });
+                }
+            });*/
+
+
+
+
+        } else {
+
+
+            /*var clave = $(this).attr('data-clave');
+            var desCorta = $(this).text();
+            $('#diagnosticoBusquedaListaHistorial').append('<div class="col-md-2 p-2"><div class="shadow p-2 mb-2 rounded diagnostico-select diagnostico-active" data-clave="' + clave + '">' + desCorta + '</div></div>');
+            $(this).remove();*/
+
+            $('#finalizar').attr('disabled', 'disabled');
+            $('#finalizar').css('background-color', 'lightgray');
+
+            var numItems = $('.diagnostico-active').length;
+            if (numItems < 3) {
+                if (numItems == 0) {
+                    $('#diagnostico1').val(desCorta);
+                    $('#clave1').val(clave);
+                    $("#tipoconsulta1").removeAttr('disabled');
+                    $('#borrardiag1').css('filter', 'none');
+                    $(this).addClass('diagnostico-active');
+
+                } else {
+                    if (numItems == 1) {
+                        //alert($("#tipoconsulta1").val());
+                        if ($("#tipoconsulta1").val() == null) {
+                            //alert('llena el tipo de diagnostico 1');
+                            $('#diaginfo1').show();
+                        } else {
+                            $('#diaginfo1').hide();
+                            $('#diagnostico2').val(desCorta);
+                            $('#clave2').val(clave);
+                            $("#tipoconsulta2").removeAttr('disabled');
+                            $('#borrardiag2').css('filter', 'none');
+                            $(this).addClass('diagnostico-active');
+                            //$('#finalizar').attr('disabled', 'disabled');
+                            //$('#finalizar').css('background-color', 'lightgray');
+                        }
+
+                    } else {
+                        if ($("#tipoconsulta2").val() == null) {
+                            //alert('llena el tipo de diagnostico 1');
+                            $('#diaginfo2').show();
+                        } else {
+                            $('#diaginfo1').hide();
+                            $('#diagnostico3').val(desCorta);
+                            $('#clave3').val(clave);
+                            $("#tipoconsulta3").removeAttr('disabled');
+                            $('#borrardiag3').css('filter', 'none');
+                            $(this).addClass('diagnostico-active');
+                            //$('#finalizar').attr('disabled', 'disabled');
+                            //$('#finalizar').css('background-color', 'lightgray');
+                        }
+
+                    }
+                }
+
+            }
+        }
+
+        //alert($("#clave1").val());
+
+
+        var hash = "#diagnosticoBusquedaListaHistorial";
+        $('html, body').animate({
+            scrollTop: $(hash).offset().top
+        }, 800, function () {
+            window.location.href = "#diagnosticoBusquedaListaHistorial"
+        });
+
+
+
+        //$('#diagnosticoBusquedaLista').append('<div class="col-md-2 p-2"><div class="shadow p-2 mb-2 rounded diagnostico-select diagnostico-active" data-clave="' + clave + '">' + desCorta + '</div></div>');
+
+
+    });
+
+
+    $(".tipoconsulta").change(function () {
+        $('#diaginfo1').hide();
+        $('#diaginfo2').hide();
+        /*$.ajax({
+            //url: '@Url.Action("GuardaDiagSOAP", "ServiciosMedicos")',
+            /*dataType: "json",
+            data: { numemp: $("#numemp").val(), tipoconsulta1: $("#tipoconsulta1").val(), tipoconsulta2: $("#tipoconsulta2").val(), tipoconsulta3: $("#tipoconsulta3").val(), diagnostico1: $("#clave1").val(), diagnostico2: $("#clave2").val(), diagnostico3: $("#clave3").val() },
+            success: function (data) {
+                infoSOAP();
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    //stitle: 'Expediente no encontrado',
+                    showConfirmButton: false,
+                    timer: 10000
+                });
+            }
+        });*/
+    });
+
+    //
+    $('#finalizar').attr('disabled', 'disabled');
+    $('#finalizar').css('background-color', 'lightgray');
+
+
+
+
+    /*$(document).on('click', '.diagnostico-select', function (event) {
+        //alert('hola');
+        var clave = $(this).attr('data-clave');
+        var desCorta = $(this).text();
+        $('#diagnosticoBusquedaListaHistorial').append('<div class="col-md-2 p-2"><div class="shadow p-2 mb-2 rounded diagnostico-select diagnostico-active" data-clave="' + clave + '">' + desCorta + '</div></div>');
+        $(this).remove();
+
+    });*/
+
+
+    $("#borrardiag1").click(function () {
+        $(".diagnostico-active").each(function (index) {
+            if ($(this).attr('data-clave') == $('#clave1').val()) {
+                $(this).removeClass('diagnostico-active');
+                $('#diagnostico1').val('');
+                $('#clave1').val('');
+                $('#borrardiag1').css('filter', 'grayscale(100%)');
+                $("#tipoconsulta1").attr('disabled', 'disabled');
+            }
+        });
+
+
+        if ($('#clave2').val()) {
+            $('#diagnostico1').val($('#diagnostico2').val());
+            $('#clave1').val($('#clave2').val());
+            $('#borrardiag1').css('filter', 'none');
+            $("#tipoconsulta1").removeAttr('disabled');
+            //alert($('#diagnostico2').val());
+            $('#diagnostico2').val('');
+            $('#clave2').val('');
+        }
+
+        $("#tipoconsulta1").val($("#tipoconsulta1 option:first").val());
+
+
+        /*if (!$("#tipoconsulta1").val()) {
+            $('#finalizar').attr('disabled', 'disabled');
+            $('#finalizar').css('background-color', 'lightgray');
+        }*/
+
+    });
+
+
+    $("#borrardiag2").click(function () {
+        $(".diagnostico-active").each(function (index) {
+            if ($(this).attr('data-clave') == $('#clave2').val()) {
+                $(this).removeClass('diagnostico-active');
+                $('#diagnostico2').val('');
+                $('#clave2').val('');
+                $('#borrardiag2').css('filter', 'grayscale(100%)');
+                $("#tipoconsulta2").attr('disabled', 'disabled');
+            }
+        });
+
+
+        if ($('#clave3').val()) {
+            $('#diagnostico2').val($('#diagnostico3').val());
+            $('#clave2').val($('#clave3').val());
+            $('#borrardiag2').css('filter', 'none');
+            $("#tipoconsulta2").removeAttr('disabled');
+            //alert($('#diagnostico2').val());
+            $('#diagnostico3').val('');
+            $('#clave3').val('');
+        }
+
+        $("#tipoconsulta2").val($("#tipoconsulta2 option:first").val());
+
+    });
+
+
+    $("#borrardiag3").click(function () {
+        $(".diagnostico-active").each(function (index) {
+            if ($(this).attr('data-clave') == $('#clave3').val()) {
+                $(this).removeClass('diagnostico-active');
+                $('#diagnostico3').val('');
+                $('#clave3').val('');
+                $('#borrardiag3').css('filter', 'grayscale(100%)');
+                $("#tipoconsulta3").attr('disabled', 'disabled');
+            }
+        });
+
+        $("#tipoconsulta3").val($("#tipoconsulta3 option:first").val());
+
+    });
+
+
+    $(".borrardiag").click(function () {
+        /*$.ajax({
+            //url: '@Url.Action("GuardaDiagSOAP", "ServiciosMedicos")',
+            /*dataType: "json",
+            data: { numemp: $("#numemp").val(), tipoconsulta1: $("#tipoconsulta1").val(), tipoconsulta2: $("#tipoconsulta2").val(), tipoconsulta3: $("#tipoconsulta3").val(), diagnostico1: $("#clave1").val(), diagnostico2: $("#clave2").val(), diagnostico3: $("#clave3").val() },
+            success: function (data) {
+                infoSOAP();
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    //stitle: 'Expediente no encontrado',
+                    showConfirmButton: false,
+                    timer: 10000
+                });
+            }
+        });*/
+    });
+
+
+</script>
+
+
+<script>
+    $.ajax({
+        url: '@Url.Action("TomarUltimoSOAP", "ServiciosMedicos")',
+        dataType: "json",
+        data: { numemp: $('#numemp').val() },
+        success: function (data) {
+            //console.log(data.diagnosticoNombre);
+            if (data.diagnostico) {
+                $('#diag1 label').text(data.diagnosticoNombre);
+                $("#dx1").prop('checked', true);
+            } else {
+                $("#dx1").hide();
+            }
+
+            if (data.diagnostico2) {
+                $('#diag2 label').text(data.diagnostico2Nombre);
+                $("#dx2").prop('checked', true);
+            } else {
+                $("#dx2").hide();
+            }
+
+            if (data.diagnostico3) {
+                $('#diag3 label').text(data.diagnostico3Nombre);
+                $("#dx3").prop('checked', true);
+            } else {
+                $("#dx3").hide();
+            }
+
+        },
+        error: function (xhr, status, error) {
+
+        }
+    });
+</script>
+
+
+<!--script>
+
+    $(function() {
+
+        $("#proveedor").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "@Url.Action("Proveedores", "ServiciosMedicos")",
+                    dataType: "json",
+                    data: {
+                            search: request.term
+                    },
+                    success: function (data) {
+                                response(data);
+                            }
+                        });
+                    },
+            minLength: 2,
+            focus: function (event, ui) {
+                // prevent autocomplete from updating the textbox
+                event.preventDefault();
+                // manually update the textbox
+                $(this).val(ui.item.label);
+            },
+            select: function (event, ui) {
+                // prevent autocomplete from updating the textbox
+                event.preventDefault();
+                // manually update the textbox and hidden field
+
+
+                //$("#proveedor_id").val(ui.item.value);
+                $(this).val(ui.item.label);
+
+                //alert(ui.item.label);
+
+                //$('#tblEstudios > tbody:last').append('<tr class="added"> <td style="width:1px;max-width:1px;display:none;">' + ui.item.idserv + '</td>   <td style="width:1px;max-width:1px;display:none;">' + ui.item.idlab + '</td>  <td style="width:1px;max-width:1px;display:none;">' + ui.item.instructions + '</td>  <td> <button style="width:30px;margin-top:-10px;" onclick="DeleteEstudioMedico(this);" class="btn btn-default"><img style="width:20px;height:20px;" src="../Imagenes/iconos/trashcan.png" /></button>  </td>   <td>' + ui.item.value + '</td>    <td>' + ui.item.label + '</td> </tr>');
+
+            }
+        });
+    });
+
+</script-->
+
+
+
+
+<script src='https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.js'></script>
+<script src="~/Scripts/dataTables.select.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll@15.0/dist/smooth-scroll.polyfills.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script>
+    $('#subservicio').attr('disabled', 'disabled');
+    $('#proveedor').attr('disabled', 'disabled');
+    $('#sesiones').attr('disabled', 'disabled');
+    $('#nota').attr('disabled', 'disabled');
+    //Lista de servicios
+    $.ajax({
+        url: '@Url.Action("PrestacionesServicios", "ServiciosMedicos")',
+        dataType: "json",
+        //data: { diagnostico: $("#analisis").val() },
+        success: function (data) {
+            $.each(data, function (i, item) {
+                //console.log(item.DesCorta);
+                $('#servicio').append('<option value="'+item.id+'">'+item.servicio+'</option>');
+            });
+        },
+        error: function (xhr, status, error) {
+
+        }
+    });
+
+
+    $("#servicio").change(function () {
+
+        $('#subservicio').removeAttr('disabled');
+        var servicio = $(this).val();
+
+        $('#subservicio').empty();
+        $('#subservicio').append('<option selected disabled value="0">Seleccionar servicio</option>');
+        
+        //Lista de subservicios
+        $.ajax({
+            url: '@Url.Action("PrestacionesSubservicios", "ServiciosMedicos")',
+            dataType: "json",
+            data: { servicio: servicio },
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    //console.log(item.DesCorta);
+                    $('#subservicio').append('<option value="' + item.id + '">' + item.subservicio+'</option>');
+                });
+            },
+            error: function (xhr, status, error) {
+
+            }
+        });
+
+        //si es dental cambiar diagdental
+        //alert(servicio);
+        if (servicio == "2") {
+            $('#diagnormal').hide();
+            $('#diagdental').show();
+            $('#sesiones').removeAttr('required');
+            $('#sesionesnormal').hide();
+        } else {
+            $('#diagnormal').show();
+            $('#diagdental').hide();
+            $('#sesiones').attr('required', 'required');
+            $('#sesionesnormal').show();
+        }
+    });
+
+
+
+    $("#subservicio").change(function () {
+        $("#proveedor option").remove();
+        $('#proveedor').append('<option selected disabled value="">Seleccionar proveedor</option>');
+        $('#proveedor').removeAttr('disabled');
+        var subservicio = $(this).val();
+
+        var adomicilio = 0;
+
+        /*if ($('#adomicilio').is(':checked')) {
+            adomicilio = 1;
+        } else {
+            adomicilio = 0;
+        }*/
+
+
+        //Lista de proveedores
+        $.ajax({
+            url: '@Url.Action("PrestacionesProveedores", "ServiciosMedicos")',
+            dataType: "json",
+            data: { subservicio: subservicio, adomicilio: adomicilio },
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    //console.log(item.DesCorta);
+                    $('#proveedor').append('<option value="' + item.clave + '">' + item.proveedor + ' (' + item.direccion +')</option>');
+                });
+            },
+            error: function (xhr, status, error) {
+
+            }
+        });
+
+    });
+
+
+    $("#proveedor").change(function () {
+        $('#sesiones').removeAttr('disabled');
+        $('#nota').removeAttr('disabled');
+        //Aqui vamos a llenar el campo de descripcion con la info de los select en el subservicio
+        var descripcion = "";
+
+    });
+
+
+
+</script>
+
+<script>
+    $('#subservicio2').attr('disabled', 'disabled');
+    //$('#proveedor2').attr('disabled', 'disabled');
+    //$('#sesiones').attr('disabled', 'disabled');
+    //$('#nota').attr('disabled', 'disabled');
+    //Lista de servicios
+
+    $("#servicio").change(function () {
+
+        $('#subservicio2').removeAttr('disabled');
+        var servicio = $(this).val();
+
+        //Lista de subservicios
+        $.ajax({
+            url: '@Url.Action("PrestacionesSubservicios", "ServiciosMedicos")',
+            dataType: "json",
+            data: { servicio: servicio },
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    //console.log(item.DesCorta);
+                    $('#subservicio2').append('<option value="' + item.id + '">' + item.subservicio+'</option>');
+                });
+            },
+            error: function (xhr, status, error) {
+
+            }
+        });
+    });
+
+
+</script>
+
+<script>
+    $('#subservicio3').attr('disabled', 'disabled');
+    //$('#proveedor2').attr('disabled', 'disabled');
+    //$('#sesiones').attr('disabled', 'disabled');
+    //$('#nota').attr('disabled', 'disabled');
+    //Lista de servicios
+
+    $("#servicio").change(function () {
+
+        $('#subservicio3').removeAttr('disabled');
+        var servicio = $(this).val();
+
+        //Lista de subservicios
+        $.ajax({
+            url: '@Url.Action("PrestacionesSubservicios", "ServiciosMedicos")',
+            dataType: "json",
+            data: { servicio: servicio },
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    //console.log(item.DesCorta);
+                    $('#subservicio3').append('<option value="' + item.id + '">' + item.subservicio+'</option>');
+                });
+            },
+            error: function (xhr, status, error) {
+
+            }
+        });
+    });
+
+
+</script>
+
+<script>
+    $('#justifica').hide();
+    $('#justificacion').removeAttr('required');
+    $("#adomicilio").change(function () {
+        if (this.checked) {
+            $("#proveedor option").remove();
+            $('#proveedor').append('<option selected disabled value="">Seleccionar proveedor</option>');
+            $('#justifica').show();
+            $('#justificacion').attr('required', 'required');
+
+            var subservicio = $('#subservicio').val();
+            var adomicilio = 1;
+
+            $.ajax({
+                url: '@Url.Action("PrestacionesProveedores", "ServiciosMedicos")',
+                dataType: "json",
+                data: { subservicio: subservicio, adomicilio: adomicilio },
+                success: function (data) {
+                    $.each(data, function (i, item) {
+                        //console.log(item.DesCorta);
+                        $('#proveedor').append('<option value="' + item.clave + '">' + item.proveedor + ' (' + item.direccion +')</option>');
+                    });
+                },
+                error: function (xhr, status, error) {
+
+                }
+            });
+
+
+        } else {
+            $("#proveedor option").remove();
+            $('#proveedor').append('<option selected disabled value="">Seleccionar proveedor</option>');
+            $('#justifica').hide();
+            $('#justificacion').removeAttr('required');
+
+            var subservicio = $('#subservicio').val();
+            var adomicilio = 0;
+
+            $.ajax({
+                url: '@Url.Action("PrestacionesProveedores", "ServiciosMedicos")',
+                dataType: "json",
+                data: { subservicio: subservicio, adomicilio: adomicilio },
+                success: function (data) {
+                    $.each(data, function (i, item) {
+                        //console.log(item.DesCorta);
+                        $('#proveedor').append('<option value="' + item.clave + '">' + item.proveedor + ' (' + item.direccion +')</option>');
+                    });
+                },
+                error: function (xhr, status, error) {
+
+                }
+            });
+
+        }
+    });
+</script>
+
+<script src="~/Scripts/JsBarcode.code39.min.js"></script>
+
+<script>
+    var split1 = $('#FNAC').val().split(" ");
+    $('#fnaci').text(split1[0]);
+
+    var split2 = split1[0].split("/");
+    var hoy = new Date().getFullYear();
+    var edad = hoy - split2[2];
+    $('.edad').html(edad);
+
+
+    $('#lado').hide();
+    $('#opciondedos').hide();
+    $('#ladodedos').hide();
+    $('#dedo').hide();
+    $("#subservicio").change(function () {
+
+        $("#lado").val($("#lado option:first").val());
+        $("#opciondedos").val($("#opciondedos option:first").val());
+        $("#ladodedos").val($("#ladodedos option:first").val());
+        $("#dedo").val($("#dedo option:first").val());
+
+        var optionSelected = $(this).find("option:selected");
+        var val = optionSelected.val();
+        //alert(clase);
+        if (val == 2 || val == 4 || val == 5 || val == 6 || val == 7 || val == 8 || val == 9 || val == 10 || val == 11) {
+            if (val == 7) {
+                $('#opciondedos').show();
+                $('#lado').hide();
+            } else {
+                $('#lado').show();
+                $('#opciondedos').hide();
+                $('#ladodedos').hide();
+                $('#dedo').hide();
+            }
+        } else {
+            $('#ladodedos').hide();
+            $('#lado').hide();
+            $('#opciondedos').hide();
+            $('#dedo').hide();
+        }
+    });
+
+
+    $("#opciondedos").change(function () {
+
+        $('#ladodedos').show();
+
+    });
+
+
+    $("#ladodedos").change(function () {
+
+        $('#dedo').show();
+
+    });
+
+
+</script>
+
+
+<script>
+    $('#lado2').hide();
+    $('#opciondedos2').hide();
+    $('#ladodedos2').hide();
+    $('#dedo2').hide();
+    $("#subservicio2").change(function () {
+
+        $("#lado2").val($("#lado2 option:first").val());
+        $("#opciondedos2").val($("#opciondedos2 option:first").val());
+        $("#ladodedos2").val($("#ladodedos2 option:first").val());
+        $("#dedo2").val($("#dedo2 option:first").val());
+
+        var optionSelected = $(this).find("option:selected");
+        var val = optionSelected.val();
+        //alert(clase);
+        if (val == 2 || val == 4 || val == 5 || val == 6 || val == 7 || val == 8 || val == 9 || val == 10 || val == 11) {
+            if (val == 7) {
+                $('#opciondedos2').show();
+                $('#lado2').hide();
+            } else {
+                $('#lado2').show();
+                $('#opciondedos2').hide();
+                $('#ladodedos2').hide();
+                $('#dedo2').hide();
+            }
+        } else {
+            $('#ladodedos2').hide();
+            $('#lado2').hide();
+            $('#opciondedos2').hide();
+            $('#dedo2').hide();
+        }
+    });
+
+
+    $("#opciondedos2").change(function () {
+
+        $('#ladodedos2').show();
+
+    });
+
+
+    $("#ladodedos2").change(function () {
+
+        $('#dedo2').show();
+
+    });
+</script>
+
+
+<script>
+    $('#lado3').hide();
+    $('#opciondedos3').hide();
+    $('#ladodedos3').hide();
+    $('#dedo3').hide();
+    $("#subservicio3").change(function () {
+
+        $("#lado3").val($("#lado3 option:first").val());
+        $("#opciondedos3").val($("#opciondedos3 option:first").val());
+        $("#ladodedos3").val($("#ladodedos3 option:first").val());
+        $("#dedo3").val($("#dedo3 option:first").val());
+
+        var optionSelected = $(this).find("option:selected");
+        var val = optionSelected.val();
+        //alert(clase);
+        if (val == 2 || val == 4 || val == 5 || val == 6 || val == 7 || val == 8 || val == 9 || val == 10 || val == 11) {
+            if (val == 7) {
+                $('#opciondedos3').show();
+                $('#lado3').hide();
+            } else {
+                $('#lado3').show();
+                $('#opciondedos3').hide();
+                $('#ladodedos3').hide();
+                $('#dedo3').hide();
+            }
+        } else {
+            $('#ladodedos3').hide();
+            $('#lado3').hide();
+            $('#opciondedos3').hide();
+            $('#dedo3').hide();
+        }
+    });
+
+
+    $("#opciondedos3").change(function () {
+
+        $('#ladodedos3').show();
+
+    });
+
+
+    $("#ladodedos3").change(function () {
+
+        $('#dedo3').show();
+
+    });
+</script>
+
+
+<script>
+    $('#tipo2').hide();
+    $('#tipo3').hide();
+
+    $(".btn-add").click(function () {
+
+        if ($(this).hasClass("active")) {
+            $('#tipo2').hide();
+            $('#tipo3').hide();
+            $(".btn-add b").text('+');
+            $(this).removeClass('active');
+            //$('#tipo3 select').removeAttr('');
+            $("#tipo2 option:first").removeAttr('disabled');
+            $("#tipo3 option:first").removeAttr('disabled');
+        } else {
+            $('#tipo2').show();
+            $('#tipo3').show();
+            $(".btn-add b").text('-');
+            $(this).addClass('active');
+            //$("#tipo2 option:first").attr('disabled','disabled');
+            //$("#tipo3 option:first").attr('disabled','disabled');
+        }
+
+
+
+    });
+
+</script>
+
+
+@if (TempData["numemp"] != null)
+{
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+
+        Swal.fire({
+            icon: 'warning',
+            title: 'No haz terminado esta consulta',
+            text: 'Debes terminar la consulta antes de generar una receta o generar una nueva consulta',
+        })
+    </script>
+}
+
+
+@if (TempData["message_success"] != null)
+{
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        $('#imprimirModal').modal('show');
+
+        JsBarcode("#barcode", '@TempData["folio"]', {
+            height: 70,
+            displayValue: false
+        });
+
+
+        Swal.fire({
+            icon: 'success',
+            title: '@TempData["message_success"]',
+        });
+    </script>
+}
+
+@if (TempData["message_warning"] != null)
+{
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        Swal.fire({
+            icon: 'warning',
+            title: '@TempData["message_warning"]',
+        });
+    </script>
+}
+
+@if (TempData["message_error"] != null)
+{
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: '@TempData["message_error"]',
+        });
+    </script>
+}
+
+
+@if (TempData["message_recetas_warning"] != null)
+{
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        Swal.fire({
+            icon: 'warning',
+            title: '@TempData["message_recetas_warning"]',
+        });
+    </script>
+}
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jQuery.print/1.3.3/jQuery.print.min.js'></script>
+<script>
+    $('.imprimir').on('click', function () {
+        $.print(".imprimir-content");
+    });
+</script>
+
+
+<script>
+    $.ajax({
+        url: '@Url.Action("DiagnosticosDental", "ServiciosMedicos")',
+        dataType: "json",
+        //data: { numemp: $("#numemp").val() },
+        success: function (data) {
+            $.each(data, function (i, item) {
+                console.log(item);
+                $('#diagnosticosden').append('<option value="' + item.clave + '">' + item.DesCorta + '</option>');
+            });
+        },
+        error: function (xhr, status, error) {
+
+        }
+    });
+</script>

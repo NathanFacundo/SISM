@@ -1,0 +1,73 @@
+﻿@model IEnumerable<UanlSISM.Models.EnfermeriaInventario>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<br />
+<h2>Inventario Enfermería</h2>
+<br />
+<br />
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CodProducto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tipo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Entradas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Salidas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stock)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.CodProducto)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Descripcion)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Status)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Tipo)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Entradas)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Salidas)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Stock)
+    </td>
+    @*<td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.CodProducto }) |
+        @Html.ActionLink("Details", "Details", new { id = item.CodProducto }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.CodProducto })
+    </td>*@
+</tr>
+}
+
+</table>
+
+<script>
+
+</script>

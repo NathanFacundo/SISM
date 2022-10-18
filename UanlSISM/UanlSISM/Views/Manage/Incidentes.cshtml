@@ -1,0 +1,826 @@
+﻿@model UanlSISM.Models.SOL_SERVICIO
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Incidentes";
+}
+
+<style>
+    #home-seccion {
+        margin-top: 20px;
+    }
+
+    .icons {
+        width: 8vw;
+    }
+
+    .item {
+        padding: 10px;
+    }
+
+    .item-card {
+        transition: 0.5s;
+        cursor: pointer;
+        padding: 20px;
+    }
+
+    .card-link {
+        background-color: #FBC43D;
+        border-color: #FBC43D;
+        color: white;
+        padding: 5px 20px;
+    }
+
+        .card-link:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+    .item-card-title {
+        font-size: 15px;
+        transition: 1s;
+        cursor: pointer;
+    }
+
+        .item-card-title i {
+            font-size: 15px;
+            transition: 1s;
+            cursor: pointer;
+            color: #ffa710
+        }
+
+    .card-title i:hover {
+        transform: scale(1.25) rotate(20deg);
+        color: #18d4ca;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        /*box-shadow: 5px 5px 5px rgba(0,0,0,0.3);*/
+    }
+
+    .card::before, .card::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: scale3d(0, 0, 1);
+        transition: transform .3s ease-out 0s;
+        background: rgba(255, 255, 255, 0.1);
+        content: '';
+        pointer-events: none;
+    }
+
+    .card::before {
+        transform-origin: left top;
+    }
+
+    .card::after {
+        transform-origin: right bottom;
+    }
+
+    .card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
+        transform: scale3d(1, 1, 1);
+    }
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .fecha {
+        background-color: #FBC43D;
+        color: #fff;
+    }
+
+        .fecha h4 {
+            margin-bottom: 0 !important;
+            line-height: 1.5 !important;
+        }
+
+    .informacion {
+        background-color: #fff7e3;
+    }
+
+    .btn-seguimiento {
+        background-color: #FBC43D !important;
+        color: #fff;
+    }
+
+        .btn-seguimiento:hover {
+            background-color: #FBC43D !important;
+            color: #fff;
+        }
+
+    .modal-dialog {
+        max-width: 800px;
+        /*margin-top: 7vw;*/
+    }
+
+    .paginationjs .paginationjs-pages li.active a {
+        background: #FBC43D !important;
+        color: #fff !important;
+    }
+
+    .btnCheck {
+        background-color: green !important;
+    }
+
+        .btnCheck:hover {
+            background-color: green !important;
+        }
+
+    .info-color {
+        width: 1vw;
+        height: 1vw;
+        margin-bottom:-0.1vw;
+        margin-left:1vw;
+    }
+
+</style>
+
+<style type="text/css" media="screen and (max-width: 767px)">
+    .icons {
+        width: 20vw;
+    }
+</style>
+
+<!--link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'-->
+<link rel='stylesheet' href='~/Content/materialicons.css'>
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Incidentes", "Manage")"><b>Incidentes</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<div class="row m-0">
+    <div class="col-12 p-0 mt-3" id="info"></div>
+    <div class="col-12 m-auto p-0 wrapper">
+        <div class="row m-0" id="listIncidentes"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="incidenteModal" tabindex="-1" role="dialog" aria-labelledby="incidenteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-titler" id="incidenteModalLabel"><b>Incidente</b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row m-0">
+                    <div class="col-12 p-0">
+                        @using (Html.BeginForm("SeguimientoIncidentes", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+
+                            <div class="form-group row m-0 pt-4">
+                                <div class="col-lg-4">
+                                    <label for="fecha_evento">Fecha evento</label>
+                                    <input type="text" disabled class="form-control" id="fecha_evento" placeholder="Fecha evento">
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="registro">Registró</label>
+                                    <input type="text" disabled class="form-control" id="persona_reporta" placeholder="Registró">
+                                </div>
+                                <div class="col-lg-2">
+                                    <label for="folio">Folio</label>
+                                    <input type="text" disabled class="form-control" id="folio" placeholder="Folio">
+                                </div>
+                                <div class="col-lg-12 pt-3">
+                                    <label for="queja">Queja / Sugerencia / Felicitación</label>
+                                    <textarea style="height: 150px;" class="form-control" disabled id="desc_sol" placeholder="Queja / Sugerencia / Felicitación"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row m-0 pt-4">
+                                <div class="col-12 text-center">
+                                    <h5><b>Paciente involucrado</b></h5>
+                                </div>
+                                <div class="col-lg-12">
+                                    <label for="nombre">Nombre</label>
+                                    <input type="text" disabled class="form-control" id="nombre" placeholder="Nombre">
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="sexo">Sexo</label>
+                                    <input type="text" disabled class="form-control" id="sexo" placeholder="Sexo">
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="edad">Edad</label>
+                                    <input type="text" disabled class="form-control" id="edad" placeholder="Edad">
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="telefono">Teléfono</label>
+                                    <a id="telcall"><input type="text" disabled class="form-control" id="telefono" placeholder="Teléfono"></a>
+                                </div>
+                            </div>
+
+                            <input type="hidden" id="foliohidden" name="folio" value="" />
+                            <input type="hidden" id="area_incidente" name="area_incidente" value="" />
+
+                            <div class="form-group row m-0 pt-4" id="nota">
+                                <div class="col-12 text-center">
+                                    <h5><b>Nota Coordinador</b></h5>
+                                    <p><b>Coordinador: <span id="coordinador"></span> </b></p>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <textarea type="text" class="form-control" id="seguimiento" name="seguimiento" placeholder="Nota" disabled></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group row m-0 pt-4" id="segui">
+                                <div class="col-12 text-center">
+                                    <h5><b>Seguimiento</b></h5>
+                                    <p><b>Jefe de área: <span id="jefe"></span> </b></p>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <textarea type="text" class="form-control" id="seguimiento_jefe" name="seguimiento_jefe" placeholder="Seguimiento" disabled></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group row m-0 pt-4" id="asignar">
+                                <div class="col-12 text-center">
+                                    <h5><b>Reasignar área</b></h5>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <select id="areasList" class="form-control" name="area_reasignada">
+                                        <option disabled selected>Seleccionar área</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row m-0 pt-4" id="boton-actualizar">
+                                <div class="col-lg-12 text-center">
+                                    <button type="submit" id="estatus-incidente" style="width:100%;" class="btn btn-success">Asignar incidente</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://pagination.js.org/dist/2.1.4/pagination.min.js"></script>
+<link rel="stylesheet" href="https://pagination.js.org/dist/2.1.4/pagination.css" />
+
+<script>
+
+    //Toma el numero de medico del Coordinador
+    var coord = '@User.Identity.GetUserName()';
+
+    var fecha_hoy = new Date();
+
+    //console.log(fecha_hoy);
+
+    $.getJSON('/SISM-Medico/json/incidentes/incidentes_coord_' + coord + '.json', function (json) {
+
+        $('.wrapper').pagination({
+            dataSource: json,
+            pageSize: 4,
+            callback: function (data, pagination) {
+                var wrapper = $('#listIncidentes').empty();
+                $.each(data, function (i, f) {
+
+                        console.log(f.folio);
+                        //console.log(f.fecha_incidente);
+
+                        var fecha = new Date(f.fecha_incidente);
+                        var fecha_incidente = new Date(f.fecha_incidente);
+
+                        var fechafecha = fecha.setDate(fecha.getDate() + 3);
+                        var fechafecha_hoy = fecha_hoy.setDate(fecha_hoy.getDate() + 0);
+
+
+                        //console.log(f.tipo);
+                        //console.log(fecha);
+
+                        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+                        //var fnac = data.fnac;
+
+                        //var split1 = fnac.split(" ");
+                        //console.log(split1);
+                        //var split2 = split1[0].split("/");
+                        //var hoy = new Date().getFullYear();
+                        //var edad = hoy - split2[2];
+
+                        var areaInci = '';
+                        var coord = '';
+                        var jefe = '';
+
+                        if (f.area_incidente != null) {
+                            areaInci = f.area_incidente;
+                        } else {
+                            areaInci = 'No definido';
+                        }
+
+                        if (f.coordinador != null) {
+                            coord = f.coordinador;
+                        } else {
+                            coord = 'No definido';
+                        }
+
+                        if (f.jefe != null) {
+                            jefe = f.jefe;
+                        } else {
+                            jefe = 'No definido';
+                        }
+
+
+                        $.ajax({
+                            url: '@Url.Action("GetNombreExpediente", "Manage")',
+                            dataType: "json",
+                            data: { search: f.expediente },
+                            success: function (data) {
+                                nombreExp = data.nombres + ' ' + data.apaterno + ' ' + data.amaterno;
+                                sexoExp = data.sexo;
+                                fnac = data.fnac;
+                                split1 = fnac.split(" ");
+                                //console.log(split1);
+                                split2 = split1[0].split("/");
+                                hoy = new Date().getFullYear();
+                                edadExp = hoy - split2[2];
+                                telefonoExp = data.telefono;
+                            },
+                            async: false,
+                            error: function (xhr, status, error) {
+                                alert("Error");
+                            }
+                        });
+
+                        //console.log(it_works);
+
+                        //Si es un coordinador
+                        if (f.emailusuario == f.emailcoordmed && f.emailusuario != f.emailjefe) {
+                            //alert('hola');
+                            $('#info').html('<table><tr><td><div class="info-color" style="background-color:#b0b0b0; margin-left:0vw;"></div></td> <td><b> Nuevo</b></td><td><div class="info-color" style="background-color:#004a8f"></div></td> <td><b> Asignado</b></td><td><div class="info-color" style="background-color:#FBC43D"></div></td> <td><b> Respondido</b></td><td><div class="info-color" style="background-color:#dc3545"></div></td> <td><b> Tiempo agotado</b></td><td><div class="info-color" style="background-color:green"></div></td> <td><b> Cerrado</b></td></tr></table>');
+                            //Fecha de notificacion de coordinacion
+                            var fecha_coord_notifica = new Date(f.fecha_coord_notifica);
+                            var fecha_coord_notifica_tresdias = fecha_coord_notifica.setDate(fecha_coord_notifica.getDate() + 3);
+                            if (fecha_coord_notifica_tresdias > fechafecha_hoy) {
+                                if (f.tipo_area == "ADM") {
+                                    //Ver Solamente
+                                    //Si no lo ha contestado
+                                    if (f.seguimiento_jefe == null) {
+                                        //Blanco
+                                        $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#fff;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Esta es una area de apoyo"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:#b0b0b0;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="tipo" value="' + f.tipo + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#b0b0b0 !important;" class="btn btnCheck btn-seguimiento">Ver</button></div></div></div>');
+                                    } else {
+                                        if (f.fecha_cierre == null) {
+                                            //Amarillo
+                                            $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Esta es una area de apoyo"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#FBC43D !important;" class="btn btnCheck btn-seguimiento">Ver seguimiento</button></div></div></div>');
+                                        } else {
+                                            //Verde
+                                            $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#d9ffdd;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Cerrado"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:green;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:green; !important" class="btn btnCheck btn-seguimiento">Cerrado</button></div></div></div>');
+                                        }
+
+                                    }
+                                } else {
+                                    if (f.seguimiento == null) {
+                                        // Si no ha dado seguimiento el coordinador y no se ha pasado el limite de tres días será Blanco
+                                        $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#fff;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Asignar"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:#b0b0b0;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#b0b0b0 !important;" class="btn btnCheck btn-seguimiento">Asignar</button></div></div></div>');
+                                    } else {
+                                        if (f.seguimiento_jefe == null) {
+                                            //alert('ffff');
+                                            //Si ya le dio seguimiento, no se ha pasado el limite de tres días pero el jefe no ha respondido entonces es Azul
+                                            $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#e6ebf0;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Dar seguimiento"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:#004a8f;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#004a8f !important;" class="btn btnCheck btn-seguimiento">Sin seguimiento</button></div></div></div>');
+
+                                        } else {
+                                            if (f.fecha_cierre == null) {
+                                                //Si tanto coordinador como jefe ya respondieron y no se ha pasado el limite de tres días será Amarillo
+                                                $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Actualizar seguimiento"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#FBC43D !important;" class="btn btnCheck btn-seguimiento">Ver seguimiento</button></div></div></div>');
+  
+                                            } else {
+                                                //Si tanto coordinador como jefe ya respondieron, no se ha pasado el limite de tres días y ya se cerro por RP será Verde
+                                                $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#d9ffdd;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Cerrado"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:green;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4<input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:green; !important" class="btn btnCheck btn-seguimiento">Cerrado</button></div></div></div>');
+                                            }
+
+                                        }
+                                    }
+                                }
+
+
+                            } else {
+                                if (f.tipo_area == "ADM") {
+                                    //alert('hola');
+                                    //Ver Solamente
+                                    //Si no lo ha contestado
+                                    if (f.seguimiento_jefe == null) {
+                                        //Rojo
+                                        $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#ffdee1;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Esta es una area de apoyo"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:#dc3545;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="tipo" value="' + f.tipo + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#dc3545 !important;" class="btn btnCheck btn-seguimiento">Ver</button></div></div></div>');
+                                    } else {
+                                        if (f.fecha_cierre == null) {
+                                            //Amarillo
+                                            $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Esta es una area de apoyo"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#FBC43D !important;" class="btn btnCheck btn-seguimiento">Ver seguimiento</button></div></div></div>');
+                                        } else {
+                                            //Verde
+                                            $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#d9ffdd;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Cerrado"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:green;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:green; !important" class="btn btnCheck btn-seguimiento">Cerrado</button></div></div></div>');       
+                                        }
+
+                                    }
+                                } else {
+                                    if (f.seguimiento == null) {
+                                        //Si no ha dado seguimiento el coordinador y ya se ha pasado el limite de tres días será Rojo
+                                        $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#ffdee1;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Asignar"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:#dc3545;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#dc3545 !important;" class="btn btnCheck btn-seguimiento">Asignar</button></div></div></div>');
+
+                                    } else {
+                                        if (f.seguimiento_jefe == null) {
+                                            //alert(f.seguimiento);
+                                            //Si ya le dio seguimiento, ya se ha pasado el limite de tres días pero el jefe no ha respondido entonces es Rojo
+                                            //alert('ddd');
+                                            $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#ffdee1;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Dar seguimiento"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:#dc3545;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#dc3545 !important;" class="btn btnCheck btn-seguimiento">Sin seguimiento</button></div></div></div>');
+                                        } else {
+                                            if (f.fecha_cierre == null) {
+                                                //Si tanto coordinador como jefe ya respondieron y ya se ha pasado el limite de tres días será Amarillo
+                                                $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Actualizar seguimiento"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#FBC43D !important;" class="btn btnCheck btn-seguimiento">Ver seguimiento</button></div></div></div>');
+                                            } else {
+                                                //Si tanto coordinador como jefe ya respondieron, no se ha pasado el limite de tres días y ya se cerro por RP será Verde
+                                                $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#d9ffdd;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Cerrado"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:green;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:green; !important" class="btn btnCheck btn-seguimiento">Cerrado</button></div></div></div>');
+
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+
+                        if (f.emailusuario == f.emailjefe) {
+                            //alert('hola');
+                            //$('#info').html('<table><tr><td><div class="info-color" style="background-color:#b0b0b0; margin-left:0vw;"></div></td> <td><b> Nuevo</b></td><td><div class="info-color" style="background-color:#004a8f"></div></td> <td><b> Sin seguimiento</b></td><td><div class="info-color" style="background-color:#FBC43D"></div></td> <td><b> Respondido</b></td><td><div class="info-color" style="background-color:#dc3545"></div></td> <td><b> Tiempo agotado</b></td><td><div class="info-color" style="background-color:green"></div></td> <td><b> Cerrado</b></td></tr></table>');
+
+                            //
+                            if (f.emailusuario == f.emailcoordmed) {
+                                //alert('hola');
+                                //Fecha cuando notifican en RP
+                                var fecha_coord_notifica = new Date(f.fecha_coord_notifica);
+                                var fecha_coord_notifica_tresdias = fecha_coord_notifica.setDate(fecha_coord_notifica.getDate() + 3);
+
+                                if (fecha_coord_notifica_tresdias > fechafecha_hoy) {
+                                    //alert('hola');
+                                    //Si no ha dado seguimiento el jefe y la fecha no se ha pasado
+                                    if (f.seguimiento_jefe == null) {
+                                        //Blanco
+                                        $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#fff;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Dar seguimiento"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:#b0b0b0;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="tipo" value="' + f.tipo + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#b0b0b0 !important;" class="btn btnCheck btn-seguimiento">Dar seguimiento</button></div></div></div>');
+
+                                    } else {
+                                        if (f.fecha_cierre == null) {
+                                            //Amarrillo
+                                            $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#fff7e3;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Actualizar seguimiento"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:#FBC43D;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="tipo" value="' + f.tipo + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#FBC43D !important;" class="btn btnCheck btn-seguimiento">Ver seguimiento</button></div></div></div>');
+                                        } else {
+                                            //Verde
+                                            $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#d9ffdd;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Cerrado"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:green;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="tipo" value="' + f.tipo + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:green !important;" class="btn btnCheck btn-seguimiento">Cerrado</button></div></div></div>');
+                                        }
+                                    }
+                                } else {
+                                    if (f.seguimiento_jefe == null) {
+                                        //Rojo
+                                        $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#ffdee1;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Dar seguimiento"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:#dc3545;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="tipo" value="' + f.tipo + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#dc3545 !important;" class="btn btnCheck btn-seguimiento">Dar seguimiento</button></div></div></div>');
+
+                                    } else {
+                                        if (f.fecha_cierre == null) {
+                                            //Amarilo
+                                            $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#fff7e3;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Actualizar seguimiento"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:#FBC43D;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="tipo" value="' + f.tipo + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#FBC43D !important;" class="btn btnCheck btn-seguimiento">Ver seguimiento</button></div></div></div>');
+                                        } else {
+                                            //Verde
+                                            $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#e6ebf0;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Cerrado"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:green;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="tipo" value="' + f.tipo + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:green !important;" class="btn btnCheck btn-seguimiento">Cerrado</button></div></div></div>');
+                                        }
+
+                                    }
+                                }
+
+                            } else {
+
+                                if (f.tipo_area == 'ADM') {
+                                    var fecha_coord_notifica = new Date(f.fecha_coord_notifica);
+                                    var fecha_coord_notifica_tresdias = fecha_coord_notifica.setDate(fecha_coord_notifica.getDate() + 3);
+
+                                    if (fecha_coord_notifica_tresdias > fechafecha_hoy) {
+                                        //Si aún no se ha pasado la fecha entonces será Blanco
+                                        //alert('hola');
+                                        if (f.seguimiento_jefe == null) {
+                                            //Si aún no se ha pasado la fecha entonces será Blanco
+                                            $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#fff;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Dar seguimiento"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:#b0b0b0;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#b0b0b0 !important;" class="btn btnCheck btn-seguimiento">Dar seguimiento</button></div></div></div>');
+                                        } else {
+                                            if (f.fecha_cierre == null) {
+                                                //Si ya lo contesto entonces será amarillo
+                                                $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Actualizar seguimiento"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#FBC43D !important;" class="btn btnCheck btn-seguimiento">Ver seguimiento</button></div></div></div>');
+                                            } else {
+                                                //Verde
+                                                $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#e6ebf0;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Cerrado"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:green;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="tipo" value="' + f.tipo + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:green !important;" class="btn btnCheck btn-seguimiento">Cerrado</button></div></div></div>');
+
+                                            }
+
+                                        }
+
+                                    } else {
+                                        if (f.seguimiento_jefe == null) {
+                                            //Si ya se paso la fecha y no lo ha contestado entonces será Rojo
+                                            $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#ffdee1;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Dar seguimiento"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:#dc3545;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#dc3545 !important;" class="btn btnCheck btn-seguimiento">Dar seguimiento</button></div></div></div>');
+
+                                        } else {
+                                            if (f.fecha_cierre == null) {
+                                                //Si ya lo contesto entonces será amarillo
+                                                $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Actualizar seguimiento"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#FBC43D !important;" class="btn btnCheck btn-seguimiento">Ver seguimiento</button></div></div></div>');
+
+                                            } else {
+                                                //Verde
+                                                $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#e6ebf0;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Cerrado"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:green;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="tipo" value="' + f.tipo + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:green !important;" class="btn btnCheck btn-seguimiento">Cerrado</button></div></div></div>');
+                                            }
+
+                                        }
+                                    }
+                                } else {
+                                    //Si no es administrativo se toma la fecha de seguimiento del coordinador
+                                    var fecha_seguimiento = new Date(f.fecha_seguimiento);
+                                    var fecha_seguimiento_tresdias = fecha_seguimiento.setDate(fecha_seguimiento.getDate() + 3);
+
+                                    if (fecha_seguimiento_tresdias > fechafecha_hoy) {
+                                        //alert('hola');
+                                        if (f.seguimiento_jefe == null) {
+                                            //Si aún no se ha pasado la fecha y no lo ha contestado es Blanco
+                                            $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#fff;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Asignar"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:#b0b0b0;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#b0b0b0 !important;" class="btn btnCheck btn-seguimiento">Dar seguimiento</button></div></div></div>');
+                                        } else {
+                                            if (f.fecha_cierre == null) {
+                                                //Si ya lo contesto entonces será amarillo
+                                                $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Actualizar seguimiento"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#FBC43D !important;" class="btn btnCheck btn-seguimiento">Actualizar seguimiento</button></div></div></div>');
+                                            } else {
+                                                //Verde
+                                                $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#e6ebf0;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Cerrado"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:green;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="tipo" value="' + f.tipo + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:green !important;" class="btn btnCheck btn-seguimiento">Cerrado</button></div></div></div>');
+                                            }
+
+                                        }
+
+                                    } else {
+                                        if (f.seguimiento_jefe == null) {
+                                            //Si ya se paso la fecha y no lo ha contestado entonces será Rojo
+                                            $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#fff;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Asignar"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:#b0b0b0;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#b0b0b0 !important;" class="btn btnCheck btn-seguimiento">Dar seguimiento</button></div></div></div>');
+
+                                        } else {
+                                            if (f.fecha_cierre == null) {
+                                                //Si ya lo contesto entonces será amarillo
+                                                $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Actualizar seguimiento"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#FBC43D !important;" class="btn btnCheck btn-seguimiento">Actualizar seguimiento</button></div></div></div>');
+                                            } else {
+                                                //Verde
+                                                $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#e6ebf0;"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Cerrado"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:green;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="tipo" value="' + f.tipo + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:green !important;" class="btn btnCheck btn-seguimiento">Cerrado</button></div></div></div>');
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+
+                            //Si la fecha del seguimiento del coordinador (Mas tres dias) es mayor a la de hoy
+
+                        }
+
+
+                    if (f.nombreusuario == 'jorge.gutierrez' || f.nombreusuario == 'direccion' || f.nombreusuario == 'arturo.martinez' || f.nombreusuario == 'coordinacion') {
+
+                            $('#info').html('<table><tr><td><div class="info-color" style="background-color:#b0b0b0; margin-left:0vw;"></div></td> <td><b> Nuevo</b></td><td><div class="info-color" style="background-color:#004a8f"></div></td> <td><b> Asignado</b></td><td><div class="info-color" style="background-color:#FBC43D"></div></td> <td><b> Respondido</b></td><td><div class="info-color" style="background-color:#dc3545"></div></td> <td><b> Tiempo agotado</b></td><td><div class="info-color" style="background-color:green"></div></td> <td><b> Cerrado</b></td></tr></table>');
+                            //Fecha de notificacion de coordinacion
+                            var fecha_coord_notifica = new Date(f.fecha_coord_notifica);
+                            var fecha_coord_notifica_tresdias = fecha_coord_notifica.setDate(fecha_coord_notifica.getDate() + 3);
+                            if (fecha_coord_notifica_tresdias > fechafecha_hoy) {
+                                //
+                                if (f.seguimiento == null) {
+                                    // Si no ha dado seguimiento el coordinador y no se ha pasado el limite de tres días será Blanco
+                                    $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#fff;"><input type="hidden" class="expediente" value="' + f.expediente + '"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Asignar"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:#b0b0b0;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="nombreusuario" value="' + f.nombreusuario + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#b0b0b0 !important;" class="btn btnCheck btn-seguimiento">Ver incidente</button></div></div></div>');
+                                } else {
+                                    if (f.seguimiento_jefe == null) {
+                                        //Si ya le dio seguimiento, no se ha pasado el limite de tres días pero el jefe no ha respondido entonces es Azul
+                                        $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#e6ebf0;"><input type="hidden" class="expediente" value="' + f.expediente + '"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Dar seguimiento"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:#004a8f;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="nombreusuario" value="' + f.nombreusuario + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#004a8f !important;" class="btn btnCheck btn-seguimiento">Ver incidente</button></div></div></div>');
+                                    } else {
+                                        if (f.fecha_cierre == null) {
+                                            //Si tanto coordinador como jefe ya respondieron y no se ha pasado el limite de tres días será Amarillo
+                                            $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion"><input type="hidden" class="expediente" value="' + f.expediente + '"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Actualizar seguimiento"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="nombreusuario" value="' + f.nombreusuario + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#FBC43D !important;" class="btn btnCheck btn-seguimiento">Ver incidente</button></div></div></div>');
+                                        } else {
+                                            //Si tanto coordinador como jefe ya respondieron, no se ha pasado el limite de tres días y ya se cerro por RP será Verde
+                                            $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#d9ffdd;"><input type="hidden" class="expediente" value="' + f.expediente + '"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Cerrado"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:green;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4<input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="nombreusuario" value="' + f.nombreusuario + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:green; !important" class="btn btnCheck btn-seguimiento">Ver incidente</button></div></div></div>');
+                                        }
+
+                                    }
+                                }
+
+                            } else {
+                                if (f.tipo_area == "ADM") {
+                                    //alert('hola');
+                                    //Ver Solamente
+                                    //Si no lo ha contestado
+                                    if (f.seguimiento_jefe == null) {
+                                        //Rojo
+                                        $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#ffdee1;"><input type="hidden" class="expediente" value="' + f.expediente + '"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Esta es una area de apoyo"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:#dc3545;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="nombreusuario" value="' + f.nombreusuario + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="tipo" value="' + f.tipo + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#dc3545 !important;" class="btn btnCheck btn-seguimiento">Ver incidente</button></div></div></div>');
+
+                                    } else {
+                                        if (f.fecha_cierre == null) {
+                                            //Amarillo
+                                            $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion"><input type="hidden" class="expediente" value="' + f.expediente + '"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Esta es una area de apoyo"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="nombreusuario" value="' + f.nombreusuario + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#FBC43D !important;" class="btn btnCheck btn-seguimiento">Ver incidente</button></div></div></div>');
+                                        } else {
+                                            //Verde
+                                            $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#d9ffdd;"><input type="hidden" class="expediente" value="' + f.expediente + '"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Cerrado"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:green;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="nombreusuario" value="' + f.nombreusuario + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:green; !important" class="btn btnCheck btn-seguimiento">Ver incidente</button></div></div></div>');
+                                        }
+
+                                    }
+                                } else {
+                                    if (f.seguimiento == null) {
+                                        // Si no ha dado seguimiento el coordinador y ya se ha pasado el limite de tres días será Rojo
+                                        $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#ffdee1;"><input type="hidden" class="expediente" value="' + f.expediente + '"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Asignar"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:#dc3545;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="nombreusuario" value="' + f.nombreusuario + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#dc3545 !important;" class="btn btnCheck btn-seguimiento">Ver incidente</button></div></div></div>');
+                                    } else {
+                                        if (f.seguimiento_jefe == null) {
+                                            //Si ya le dio seguimiento, ya se ha pasado el limite de tres días pero el jefe no ha respondido entonces es Rojo
+                                            $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#ffdee1;"><<input type="hidden" class="expediente" value="' + f.expediente + '"> type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Dar seguimiento"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:#dc3545;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="nombreusuario" value="' + f.nombreusuario + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#dc3545 !important;" class="btn btnCheck btn-seguimiento">Ver incidente</button></div></div></div>');
+                                        } else {
+                                            if (f.fecha_cierre == null) {
+                                                //Si tanto coordinador como jefe ya respondieron y ya se ha pasado el limite de tres días será Amarillo
+                                                $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion"><input type="hidden" class="expediente" value="' + f.expediente + '"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Actualizar seguimiento"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="nombreusuario" value="' + f.nombreusuario + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:#FBC43D !important;" class="btn btnCheck btn-seguimiento">Ver incidente</button></div></div></div>');
+                                            } else {
+                                                //Si tanto coordinador como jefe ya respondieron, no se ha pasado el limite de tres días y ya se cerro por RP será Verde
+                                                $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#d9ffdd;"><input type="hidden" class="expediente" value="' + f.expediente + '"><input type="hidden" class="coordinador" value="' + coord + '"><input type="hidden" class="jefe" value="' + jefe + '"><input type="hidden" class="estatus" value="Cerrado"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:green;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha_incidente.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="tipo_area" value="' + f.tipo_area + '"><input type="hidden" class="nombreusuario" value="' + f.nombreusuario + '"><input type="hidden" class="emailcoordmed" value="' + f.emailcoordmed + '"><input type="hidden" class="emailjefe" value="' + f.emailjefe + '"><input type="hidden" class="emailusuario" value="' + f.emailusuario + '"><input type="hidden" class="area" value="' + f.area + '"><input type="hidden" class="seguimiento_jefe" value="' + f.seguimiento_jefe + '"><input type="hidden" class="jefe_asignado" value="' + f.jefe_asignado + '"><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + sexoExp + '"><input type="hidden" class="edad" value="' + edadExp + '"><input type="hidden" class="telefono" value="' + telefonoExp + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + nombreExp + '</b></h6><h6>Sexo: <b>' + sexoExp + '</b> | Edad: <b>' + edadExp + '</b> | Teléfono: <b><a href="tel:' + telefonoExp + '">' + telefonoExp + '</a></b></h6><h6>Área: <b>' + areaInci + '</b></h6><h6>Coordinador: <b>' + coord + '</b></h6><h6>Jefe de área: <b>' + jefe + '</b></h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></h6></div><div class="col-md-3 p-3 m-auto text-center"><button style="background-color:green; !important" class="btn btnCheck btn-seguimiento">Ver incidente</button></div></div></div>');
+
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    
+
+                });
+
+            }
+        });
+
+        $('.paginationjs').addClass('d-flex justify-content-center');
+
+    });
+
+
+    $("#listIncidentes .informacion").each(function () {
+        var exp = $(this).val();
+        $.ajax({
+            url: '@Url.Action("GetNombreExpediente", "Manage")',
+            dataType: "json",
+            data: { search: exp },
+            success: function (data) {
+                console.log(data.nombres);
+            },
+            error: function (xhr, status, error) {
+                alert("Error");
+            }
+        });
+    });
+
+
+
+    $(document).ready(function () {
+
+        $(document).on('click', '.btn-seguimiento', function () {
+
+            //var tipo = $(this).closest(".informacion").find(".tipo").val();
+            var nombreusuario = $(this).closest(".informacion").find(".nombreusuario").val();
+            var emailcoordmed = $(this).closest(".informacion").find(".emailcoordmed").val();
+            var emailjefe = $(this).closest(".informacion").find(".emailjefe").val();
+            var emailusuario = $(this).closest(".informacion").find(".emailusuario").val();
+            var fecha_incidente = $(this).closest(".informacion").find(".fecha_incidente").val();
+            var persona_reporta = $(this).closest(".informacion").find(".persona_reporta").val();
+            var folio = $(this).closest(".informacion").find(".folio").val();
+            var desc_sol = $(this).closest(".informacion").find(".desc_sol").val();
+            var nombre = $(this).closest(".informacion").find(".nombres").text();
+            var sexo = $(this).closest(".informacion").find(".sexo").val();
+            var edad = $(this).closest(".informacion").find(".edad").val();
+            var seguimiento = $(this).closest(".informacion").find(".seguimiento").val();
+            var seguimiento_jefe = $(this).closest(".informacion").find(".seguimiento_jefe").val();
+            var jefe_asignado = $(this).closest(".informacion").find(".jefe_asignado").val();
+            var area = $(this).closest(".informacion").find(".area").val();
+            var telefono = $(this).closest(".informacion").find(".telefono").val();
+            var estatus = $(this).closest(".informacion").find(".estatus").val();
+            var tipo_area = $(this).closest(".informacion").find(".tipo_area").val();
+            var coordinador = $(this).closest(".informacion").find(".coordinador").val();
+            var jefe = $(this).closest(".informacion").find(".jefe").val();
+
+            //alert(seguimiento);
+            $('#estatus-incidente').text(estatus);
+
+
+            if (nombreusuario == 'jorge.gutierrez' || nombreusuario == 'direccion' || nombreusuario == 'arturo.martinez' || nombreusuario == 'coordinacion') {
+                $('#asignar').hide();
+                $('#seguimiento_jefe').prop("disabled", true);
+                $('#seguimiento').prop("disabled", true);
+                $('#estatus-incidente').hide();
+            } else {
+                //Si el coordinador no es el mismo usuario
+                if (emailusuario == emailcoordmed && emailusuario != emailjefe) {
+                    //alert('hola');
+                    if (tipo_area == "ADM") {
+
+                        $('#seguimiento_jefe').prop("disabled", true);
+                        $('#seguimiento').prop("disabled", true);
+                        $('#areasList').prop("disabled", true);
+                        $('#asignar').hide();
+                        $('#estatus-incidente').prop("disabled", true);
+                    } else {
+                        $('#seguimiento_jefe').prop("disabled", true);
+                        $('#seguimiento').prop("disabled", false);
+                        $('#areasList').prop("disabled", false);
+                        $('#asignar').show();
+                        if (estatus == "Cerrado") {
+                            $('#estatus-incidente').prop("disabled", true);
+                        } else {
+                            $('#estatus-incidente').prop("disabled", false);
+                        }
+                    }
+                } else {
+                    //alert('hola');
+                    if (emailusuario == emailjefe) {
+                        $('#seguimiento_jefe').prop("disabled", false);
+                        $('#seguimiento').prop("disabled", true);
+                        $('#asignar').hide();
+                        if (estatus == "Cerrado") {
+                            $('#estatus-incidente').prop("disabled", true);
+                        } else {
+                            $('#estatus-incidente').prop("disabled", false);
+                        }
+                    }
+                }
+            }
+
+
+            $('#area_incidente').val(area);
+            $('#fecha_evento').val(fecha_incidente);
+            $('#persona_reporta').val(persona_reporta);
+            $('#folio').val(folio);
+            $('#foliohidden').val(folio);
+            $('#desc_sol').val(desc_sol);
+            $('#nombre').val(nombre);
+            $('#sexo').val(sexo);
+            $('#edad').val(edad);
+            $('#telefono').val(telefono);
+            $("#telcall").attr("href", "tel:" + telefono);
+            $('#coordinador').text(coordinador);
+            $('#jefe').text(jefe);
+
+            if (seguimiento != "null") {
+                $('#seguimiento').val(seguimiento);
+            } else {
+                $('#seguimiento').val('');
+            }
+
+            if (seguimiento_jefe != "null") {
+                $('#seguimiento_jefe').val(seguimiento_jefe);
+            } else {
+                $('#seguimiento_jefe').val('');
+            }
+
+
+
+            $('#incidenteModal').modal("show");
+        });
+    });
+
+
+    $.ajax({
+        url: '/SISM-Medico/json/incidentes/sis_areas.json',
+        dataType: "json",
+        //data: { search: $("#numemp").val() },
+        success: function (data) {
+            $.each(data, function (i, item) {
+                //console.log(item.descripcion);
+                $('#areasList').append($('<option value="' + item.id_area + '">' + item.descripcion + '</option>'));
+            });
+        },
+        error: function (xhr, status, error) {
+            alert("Error");
+        }
+    });
+
+
+
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+@if (TempData["message_success"] != null)
+{
+    <script>
+    Swal.fire({
+        icon: 'success',
+        title: '@TempData["message_success"]',
+        //text: 'Something went wrong!',
+    })
+    </script>
+}
+

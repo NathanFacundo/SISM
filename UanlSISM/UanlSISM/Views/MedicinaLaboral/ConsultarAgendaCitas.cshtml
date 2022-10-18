@@ -1,0 +1,584 @@
+﻿<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+<link rel='stylesheet' href='https://select2.github.io/select2-bootstrap-theme/css/select2-bootstrap.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css'>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.full.min.js'></script>
+
+<link rel='stylesheet' href='https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.css'>
+
+<style>
+
+
+    .valid {
+        background-color: #ddffdd;
+        border: Gold 2px solid;
+    }
+
+    input, select, textarea {
+        max-width: none;
+    }
+</style>
+
+
+
+@*<div id="loadingDiv">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+    </div>*@
+
+
+
+
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Consultas", "Manage")"><b>Consultas</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Index", "MedicinaLaboral")"><b>Coordinación Médica</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="#"><b>Agenda de Médicos</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
+    <img src="~/Imagenes/iconos/consulta_agenda.png" class="uanl-logo" style=" width: 154px;" />
+    <h3 style="        font-family: 'Roboto', sans-serif; font-family: 'Roboto', sans-serif; position: absolute; left: 40%; top: 55%;">
+        <span class="putUserName"></span>
+    </h3>
+</div>
+
+
+<hr />
+
+@{
+
+    string num_med = "";
+    string strfecini = "";
+    string strfecfin = "";
+    try
+    {
+        num_med = Request.QueryString["NUM"].ToString();
+        strfecini = Request.QueryString["strfecini"].ToString();
+        strfecfin = Request.QueryString["strfecfin"].ToString();
+
+
+        if (num_med == "")
+        {
+            Response.Redirect("http://148.234.143.203/SISM-Medico/MedicinaLaboral/ConsultarAgenda");
+            return;
+        }
+
+    }
+    catch (Exception)
+    {
+
+        Response.Redirect("http://148.234.143.203/SISM-Medico/MedicinaLaboral/ConsultarAgenda");
+        return;
+    }
+
+    var context = new UanlSISM.Models.SMDEVEntities16();
+    var connection = context.Database.Connection;
+    string conStr2 = connection.ConnectionString;
+
+    System.Data.SqlClient.SqlConnection cnn = new System.Data.SqlClient.SqlConnection(conStr2);
+
+    cnn.Open();
+
+    string cmdTxt = " SELECT MEDICOS.NUMERO,concat (ESPECIALIDADES.DESCRIPCION ,' - ',MEDICOS.APATERNO,',',MEDICOS.AMATERNO,',',MEDICOS.NOMBRE)  descripcion,convert(char,fcancelini, 103) fcancelini,convert(char,fcancelfin, 103) fcancelfin ,convert(char,f2cancelini, 103) f2cancelini,  convert(char,f2cancelfin, 103) f2cancelfin ,tipo ";
+    cmdTxt += "  FROM   MEDICOS, ESPECIALIDADES WHERE 		MEDICOS.CLAVE = ESPECIALIDADES.CLAVE AND  ";
+    cmdTxt += "  MEDICOS.APATERNO <> '' and MEDICOS.estatus <> '1'  and  MEDICOS.NUMERO = " + Request.QueryString["NUM"].ToString();
+    System.Data.SqlClient.SqlCommand cmm = new System.Data.SqlClient.SqlCommand(cmdTxt, cnn);
+
+    System.Data.SqlClient.SqlDataReader lector = cmm.ExecuteReader();
+
+
+
+    UanlSISM.Models.Medicos_agenda entidad = new UanlSISM.Models.Medicos_agenda();
+
+    while (lector.Read())
+    {
+
+        entidad = new UanlSISM.Models.Medicos_agenda();
+        entidad.NUMERO = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "NUMERO");
+        entidad.NOMBRES = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "descripcion");
+
+        entidad.fcancelini = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "fcancelini");
+        entidad.fcancelfin = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "fcancelfin");
+        entidad.f2cancelini = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "f2cancelini");
+        entidad.f2cancelfin = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "f2cancelfin");
+        entidad.tipo = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "tipo");
+
+
+
+    }
+
+    lector.Close();
+
+
+
+    // citas
+
+
+    cmdTxt = " SELECT  distinct convert(char,fecha, 103)  fecha FROM citas WHERE MEDICO='" + num_med + "' AND (FECHA>= CONVERT(DATETIME, '" + strfecini + "', 102)  AND FECHA<= CONVERT(DATETIME, '" + strfecfin + "', 102) )  ";
+
+    cmm = null;
+    cmm = new System.Data.SqlClient.SqlCommand(cmdTxt, cnn);
+
+    lector = cmm.ExecuteReader();
+
+
+
+    UanlSISM.Models.Citas_aux entidadC11 = new UanlSISM.Models.Citas_aux();
+
+    List<UanlSISM.Models.Citas_aux> Listaaux = new List<UanlSISM.Models.Citas_aux>();
+    while (lector.Read())
+    {
+
+        entidadC11 = new UanlSISM.Models.Citas_aux();
+        entidadC11.fecha = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "fecha");
+
+        Listaaux.Add(entidadC11);
+    }
+
+    lector.Close();
+
+
+
+    List<UanlSISM.Models.Citas_aux> Listaauxok = new List<UanlSISM.Models.Citas_aux>();
+
+    foreach (var item in Listaaux)
+    {
+        entidadC11 = new UanlSISM.Models.Citas_aux();
+
+        cmdTxt = " SELECT  NumEmp,convert(char,fecha, 103)  fecha ,concat (SUBSTRING(turno, 1, 2) ,':',SUBSTRING(turno, 3, 2)) turno,turno turno2 , cambiorealiza,hora_recepcion,cita_confirm, SUBSTRING(medico, 1, 2) MEDICO,medico medico2 , emprealizo, canalmed, FORMAT(frealizo,'dd/MM/yyyy HH:mm:ss')  frealizo,tipo  FROM citas WHERE MEDICO='" + num_med + "' AND (FECHA = CONVERT(DATETIME, '" + item.fecha + "', 103)  )  ORDER BY fecha,regxdia ";
+
+        cmm = null;
+        cmm = new System.Data.SqlClient.SqlCommand(cmdTxt, cnn);
+
+        lector = cmm.ExecuteReader();
+
+
+
+        UanlSISM.Models.Citas entidadC1 = new UanlSISM.Models.Citas();
+
+        List<UanlSISM.Models.Citas> ListaCItas = new List<UanlSISM.Models.Citas>();
+        while (lector.Read())
+        {
+
+            entidadC1 = new UanlSISM.Models.Citas();
+            entidadC1.Fecha = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "fecha");
+            entidadC1.turno = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "turno");
+            entidadC1.turno2 = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "turno2");
+            entidadC1.cambiorealiza = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "cambiorealiza");
+            entidadC1.hora_recepcion = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "hora_recepcion");
+            entidadC1.cita_confirm = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "cita_confirm");
+
+            entidadC1.Medico = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "MEDICO");
+            entidadC1.Medico2 = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "medico2");
+            entidadC1.emprealizo = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "emprealizo");
+
+            entidadC1.canalmed = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "canalmed");
+            entidadC1.tipo = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "tipo");
+            entidadC1.frealizoStr = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "frealizo");
+            entidadC1.NumEmp = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "NumEmp");
+            ListaCItas.Add(entidadC1);
+        }
+        entidadC11.fecha = item.fecha;
+        entidadC11.Lista = ListaCItas;
+
+        Listaauxok.Add(entidadC11);
+        lector.Close();
+
+
+    }
+
+    var fec_aux = "";
+
+
+
+}
+
+
+
+@foreach (var item in Listaauxok)
+{
+
+
+    <TABLE WIDTH=100% BORDER=1 CELLSPACING=1 CELLPADDING=1 class="table ">
+        <TR>
+
+            <TD style="" bgcolor=AliceBlue align=center>
+                <STRONG>
+                    Agenda del Dr. @entidad.NUMERO : @entidad.NOMBRES - Fecha:  @item.fecha
+
+                </STRONG>
+            </TD>
+        </TR>
+    </TABLE>
+
+    <div class="container-fluid" style="margin-top: 2px; padding: 10px; margin-left: 1px; border-radius: 2em; border: 1px solid; margin-top: 10px; box-shadow: 0 4px 5px #306695; border-color: #306695; width:100% !important;" >
+
+        <table class="table table-striped table-hover table-responsive">
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Turno</th>
+                    <th>Recepción</th>
+                    <th>Expediente</th>
+
+                    @*<TD  bgcolor=Silver><STRONG>G.M.</STRONG></TD>*@
+
+                    @*<TD><STRONG>Parentesco</STRONG></TD>*@
+
+                    <th>Nombre</th>
+                    <th>Fnac</th>
+                    <th>Direccion</th>
+                    <th>Telefono</th>
+                    @*<TD><STRONG>Registro</STRONG></TD>*@
+                    @*<TD><STRONG>Fec. Registro</STRONG></TD>*@
+                    @*<TD>Paciente eliminado</TD>*@
+                    <td>Cancelado*</td>
+                </tr>
+            </thead>
+
+
+            <tbody>
+
+                @foreach (var entidadC in item.Lista)
+                {
+
+
+                <tr>
+
+
+                    @{
+                        string NOMBRE = "";
+                        string direccion = "";
+                        string telefono = "";
+                        string fnac = "";
+                        string strnumafil = "";
+                        string strpariente = "";
+                        string strgpomed = "";
+
+                        if (@entidadC.Fecha == "")
+                        {
+
+                        }
+                        else
+                        {
+
+
+                            cmdTxt = " select APATERNO,AMATERNO,nombres,convert(char,fnac, 103)  fnac,numafil,pariente from dhabientes where numemp='" + entidadC.NumEmp + "' ";
+
+                            cmm = null;
+                            cmm = new System.Data.SqlClient.SqlCommand(cmdTxt, cnn);
+
+                            lector = cmm.ExecuteReader();
+
+
+                            while (lector.Read())
+                            {
+
+                                NOMBRE = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "APATERNO") + " " + UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "AMATERNO") + " " + UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "nombres");
+
+                                fnac = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "fnac");
+
+                                strnumafil = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "numafil");
+
+                                strpariente = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "pariente");
+                            }
+
+                            lector.Close();
+
+
+
+                            cmdTxt = " select domicilio,telefonos,grupo_medico  from afiliados where num_contrato='" + strnumafil + "' ";
+
+                            cmm = null;
+                            cmm = new System.Data.SqlClient.SqlCommand(cmdTxt, cnn);
+
+                            lector = cmm.ExecuteReader();
+
+
+                            while (lector.Read())
+                            {
+
+                                direccion = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "domicilio");
+
+                                telefono = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "telefonos");
+
+                                strgpomed = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "grupo_medico");
+                            }
+
+                            lector.Close();
+
+
+
+
+                            if (entidadC.tipo == "00")
+                            {
+                                <TD align=center bgcolor=White>@entidad.tipo</TD>
+
+                            }
+                            else
+                            {
+                                cmdTxt = " select descripcion from tiposconsulta where clave='" + entidadC.tipo + "' ";
+
+                                cmm = null;
+                                cmm = new System.Data.SqlClient.SqlCommand(cmdTxt, cnn);
+
+                                lector = cmm.ExecuteReader();
+
+                                int ll = 0;
+
+                                while (lector.Read())
+                                {
+
+                                    ll++;
+                                    // presencial
+                                    if (entidadC.tipo == "11")
+                                    {
+                                        @*<td align="center" bgcolor="#ffd700"> @UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "descripcion")</td>*@
+                                        <td align="center">
+                                            <img src="http://148.234.143.203/SISM-Medico/Imagenes/llego.png" width="25" />
+                                        </td>
+                                    }
+
+                                    //urgencias
+                                    else if (entidadC.tipo == "06")
+                                    {
+                                     <td align="center">
+                                     <img src="http://148.234.143.203/SISM-Medico/Imagenes/iconos/Urgencias.png" width="25" />
+                                     </td>
+                                     }                  
+                                    //cancelado
+                                    else if (entidadC.tipo == "00")
+                                    {
+                                     <td align="center">
+                                      <img src="http://148.234.143.203/SISM-Medico/Imagenes/Cancelado.png" width="25" />
+                                        </td>
+                                    }
+                                //subs
+                                else if (entidadC.tipo == "01")
+                                {
+                                        <td align="center">
+                                            <img src="http://148.234.143.203/SISM-Medico/Imagenes/phone-call.png" width="25" />
+                                        </td>
+                                    }
+                                // urgencias //sgregado
+                                else if (entidadC.tipo == "25")
+                                {
+                                        <td align="center">
+                                            <img src="http://148.234.143.203/SISM-Medico/Imagenes/iconos/Urgencias.png" width="25" />
+                                        </td>
+                                    }
+                                // no contesto
+                                else if (entidadC.NoContesto.ToString() == "True")
+                                {
+                                        <td align="center">
+                                            <img src="http://148.234.143.203/SISM-Medico/Imagenes/no_contesto.png" width="25" />
+                                        </td>
+                                    }
+                                else
+                                {
+                                        <TD align=center>@UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "descripcion") </TD>
+                                    }
+
+                            }
+
+                            if (ll == 0)
+                            {
+                                    <TD align=center>@entidadC.tipo</TD>
+                                }
+
+
+                                lector.Close();
+
+
+
+
+
+                            }
+
+
+                        }
+
+                    } @*// fin a*@
+
+
+                    <TD align=center>@entidadC.turno</TD>
+
+
+
+                    @*//aca va el if con ips*@
+                    @*<TD align=center bgcolor=Silver>@entidadC.cambiorealiza</TD>*@
+
+                    <TD align=center>@entidadC.hora_recepcion</TD>
+
+                    @*//aca va el icono de la impresora*@
+                    <TD align=center>@entidadC.NumEmp</TD>
+
+                    @*<TD align=center align=center>   // GM
+            @strnumafil <br>
+            @entidadC.NumEmp
+        </TD>*@
+
+                    @*<TD align=center>@strgpomed </TD>*@
+
+                    @*<td nowrap>
+
+            @{
+
+                if (entidadC.cita_confirm != null && entidadC.cita_confirm == "1")
+                {
+                    <p>   [Confirmada]</p>
+                }
+
+                cmdTxt = " SELECT descr FROM parentesco WHERE pariente = '" + strpariente + "'   ";
+
+                cmm = null;
+                cmm = new System.Data.SqlClient.SqlCommand(cmdTxt, cnn);
+
+                lector = cmm.ExecuteReader();
+
+
+                while (lector.Read())
+                {
+                    <p>
+                        @UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "descr")
+                    </p>
+                }
+
+
+                lector.Close();
+
+
+
+                if (entidadC.Medico == "41")
+                {
+
+                    var strfec = DateTime.Now.AddDays(-90);
+
+                    cmdTxt = " select nota, convert(char,fecha_sol, 103)  fecha_sol , realiza, serv_rx_n2.DESCRIPCION from servicio_rayosx   left join serv_rx_n2 on  serv_rx_n2.codigo = servicio_rayosx.codigo  where numemp='" + entidadC.NumEmp + "' and fecha_sol> CONVERT(DATETIME, '" + strfec.ToString("dd/MM/yyyy") + "', 102)   order by fecha_sol desc  ";
+
+                    cmm = null;
+                    cmm = new System.Data.SqlClient.SqlCommand(cmdTxt, cnn);
+
+                    lector = cmm.ExecuteReader();
+
+                    var contrayos = 0;
+                    var strrea = "";
+
+                    while (lector.Read())
+                    {
+                        var strnota = UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "nota");
+
+                        if (contrayos == 0)
+                        {
+                            <table cellSpacing="1" cellPadding="1" width="100%" border="2">
+                                }
+                                <tr>
+                                    <td width="50" style="font-family:TAHOMA;font-size:10pt;color:darkblue;underline:no;"> @UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "fecha_sol");</td>
+
+
+
+                                    <td width="50" style="        font-family: TAHOMA;font-size: 10pt; color:darkblue;underline: no;">@UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "realiza") </td>
+
+                                    <td width="200" style="        font-family: TAHOMA;font-size: 10pt;color: darkblue;underline: no;">@UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "DESCRIPCION ") </td>
+
+                                    <td width="350" style="        font-family: TAHOMA;font-size: 10pt;color: Bdarkblue;underline: no;">&nbsp; Nota.- @strnota></td>
+                                </tr>
+
+
+                                }
+
+                                if (contrayos> 0)
+                                {
+                            </table>
+                        }
+
+                        lector.Close();
+
+
+
+                    }
+
+                }
+
+
+
+
+            }
+
+        </td>*@
+
+                    <TD>@NOMBRE</TD>
+                    <TD>@fnac</TD>
+                    <TD>@direccion </TD>
+                    <TD align=center>@telefono</TD>
+
+                    @*<TD align=center> @entidadC.emprealizo </TD>*@
+                    @*<TD align=center> @entidadC.frealizoStr </TD>*@
+                    <TD align=center> @entidadC.canalmed</TD>
+
+
+                    @*@{
+            cmdTxt = "select * from citas_deleted where medico='" + entidadC.Medico2 + "' and turno='" + entidadC.turno2 + "' and fecha=CONVERT(DATETIME, '" + entidadC.Fecha.Trim() + "', 103)     ";
+
+            cmm = null;
+            cmm = new System.Data.SqlClient.SqlCommand(cmdTxt, cnn);
+
+            lector = cmm.ExecuteReader();
+
+
+            while (lector.Read())
+            {
+
+
+                <TD align=center>
+                    @UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "numemp")
+                    <br>@UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "realizo") <br> @UanlSISM.Models.DalMisMedicos.VerifStringSql2(lector, "frealizo")
+                </TD>
+
+            }
+
+
+            lector.Close();
+
+        }*@
+
+                </tr>
+
+
+
+                }
+            </tbody>
+
+
+        </table>
+    </div>
+
+}
+@{
+    cnn.Close();
+}
+
+
+
+<div class=" col-5" style="text-align:center; margin:auto">
+    <button id="btnVolver1" type="button" class="btn btn-warning" onclick="window.history.back();">
+        Regresar
+    </button>
+</div>
+
+<script>
+
+    $(".body-content").removeClass("container");
+</script>

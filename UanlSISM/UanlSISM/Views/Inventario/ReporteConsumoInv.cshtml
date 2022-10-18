@@ -1,0 +1,156 @@
+﻿@model List<UanlSISM.Models.ReporteAbastecimeinto>
+@{
+    ViewBag.Title = "ReporteConsumoInv";
+    DateTime dt = DateTime.Now;
+}
+<style>
+    th {
+        color: white;
+        background-color: #FBC43D;
+        font-size: large;
+    }
+
+    #exampleModal table th {
+        color: white;
+        background-color: #004a8f;
+        font-size: large;
+    }
+
+    .dataTables_wrapper .dataTables_info {
+        width: 100% !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+        .dataTables_wrapper .dataTables_filter label {
+            width: 100% !important;
+            font-weight: bolder;
+            text-align: center;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            border: none;
+            border-bottom: 1px solid lightgray;
+            margin-bottom: 25px;
+            margin-top: 30px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            color: #2C3E50;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+    .btn-group {
+        text-align: left;
+        margin-bottom: -30px;
+    }
+
+    .dataTables_wrapper .dataTables_filter input:focus {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        border: none;
+        font-weight: bold;
+        border-bottom: 2px solid #FBC43D;
+        outline-width: 0
+    }
+
+    #msform input,
+    #msform textarea {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        border: none;
+        width: 50% !important;
+        text-align: center;
+        margin-bottom: 25px;
+        margin-top: 30px;
+        font-weight: bold;
+        border-bottom: 2px solid #FBC43D;
+        outline-width: 0
+    }
+
+    td.details-control {
+        background: url('../Imagenes/iconos/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        background: url('../Imagenes/iconos/details_close.png') no-repeat center center;
+    }
+
+    .btn {
+        color: #fff;
+        background-color: #306695;
+        border-color: #306695;
+    }
+</style>
+<div id="msform">
+    <div>
+    </div>
+    <h1 style="text-align:center;">Consumo Almacén</h1>
+    <table id="table" style="" class="table table-bordered table-responsive-md">
+        <thead>
+            <tr>
+                <th class="details-control"></th>
+                <th style="display:none">SustanciaId</th>
+                <th>Codigo</th>
+                <th>Descripción_21</th>
+                <th>Inventario Actual</th>
+                <th>@dt.AddMonths(-1).ToString("MMMM")</th>
+                <th>@dt.AddMonths(0).ToString("MMMM")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                int Total = 0;
+                Decimal DiasConsumo = 0;
+                <tr>
+                    <td class="details-control"></td>
+                    <td style="display:none">@item.SustanciaId</td>
+                    <td>@item.Clave</td>
+                    <td>@item.Descripcion_21</td>
+                    <td>
+                        @if (item.InvDisp == 0)
+                        {
+                            <p>Sin Inventario</p>
+                        }
+                        else
+                        {
+                            @item.InvDisp
+                        }
+                    </td>
+                    @for (int i = 1; i < 3; i++)
+                    {
+                        if (@dt.AddMonths(-i).ToString("MMMM") == "abril")
+                        {
+                            <td>@item.abril</td>
+                            if (item.abril.HasValue)
+                            {
+                                Total = Total + item.abril.Value;
+                            }
+                        }
+                        if (@dt.AddMonths(-i).ToString("MMMM") == "mayo")
+                        {
+                            <td>@item.mayo</td>
+                            if (item.mayo.HasValue)
+                            {
+                                Total = Total + item.mayo.Value;
+                            }
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

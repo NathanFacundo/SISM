@@ -1,0 +1,2390 @@
+﻿@{
+    ViewBag.Title = "Indicadores";
+}
+
+<head>
+    <meta http-equiv="refresh" content="1800">
+</head>
+
+<style>
+    .fade {
+        opacity: 1;
+    }
+
+    .nav-tabs {
+        margin-top: 2vw !important;
+    }
+
+    .highcharts-credits {
+        display: none;
+    }
+
+    .totalcount {
+        position: absolute;
+        z-index: 999;
+        top: 0;
+        left: 0;
+        margin-left: 3vw;
+        margin-top: 1vw;
+    }
+
+    .highcharts-range-input {
+        margin-left: -20px;
+    }
+
+    .nav-tabs .nav-item {
+        width: 220px;
+        z-index: 99;
+    }
+
+    .dropdown-toggle {
+        width: 550px;
+        font-size: 0.8vw !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        text-align: left;
+        z-index: 0;
+        border-top-left-radius: 20px;
+        border: 3px solid rgba(0,74,143,1);
+    }
+
+        .dropdown-toggle:hover {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+        .dropdown-toggle:focus {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+    .dropdown-menu {
+        float: inherit !important;
+        width: 100% !important;
+    }
+
+    .dropdown-item {
+        font-size: 0.8vw !important;
+    }
+
+    .dropdown-item.active, .dropdown-item:active {
+        background-color: rgba(0,74,143,1);
+        color:#fff !important;
+    }
+
+        .dropdown-item .material-icons {
+            font-size: 0.8vw !important;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+        .dropdown-item:focus {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 0.8vw !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        border-top-left-radius: 20px;
+        margin-left: -20px;
+        -webkit-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        -moz-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+    }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link:hover {
+            font-size: 0.8vw !important;
+            background-color: rgba(0, 88, 171,1) !important;
+            color: white !important;
+        }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            background-color: #FBC43D;
+            color: white !important;
+            border: 1px solid #FBC43D;
+        }
+
+            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active:hover {
+                background-color: #FBC43D !important;
+            }
+</style>
+
+<style type="text/css" media="screen and (max-width: 991px)">
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 1.5vw !important;
+    }
+
+    .dropdown-toggle {
+        width: 350px;
+    }
+
+    .totalcount {
+        margin-top: -4.5vw;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 767px)">
+    .totalcount {
+        margin-top: -10vw;
+        font-size: 15px;
+    }
+
+    .highcharts-series-group {
+        display: none !important;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 3vw !important;
+    }
+
+    .nav-tabs .nav-item {
+        z-index: 9;
+    }
+
+    .dropdown-menu {
+        z-index: 99999 !important;
+    }
+
+    #recetas {
+        top: 30px !important;
+    }
+
+    .dropdown-toggle {
+        font-size: 3vw !important;
+    }
+
+    .dropdown-item {
+        font-size: 3vw !important;
+    }
+
+    .nav-tabs .nav-item {
+        z-index: 9;
+    }
+
+    .highcharts-axis-grid{
+        display:none;
+    }
+
+    .highcharts-plot-border{
+        display:none;
+    }
+
+    .highcharts-axis{
+        display:none;
+    }
+
+    .highcharts-axis-labels{
+        display:none;
+    }
+
+    .highcharts-navigator{
+        display:none;
+    }
+
+    .highcharts-navigator-xaxis {
+        display: none;
+    }
+
+    .highcharts-root{
+        margin-left:-15vw!important;
+    }
+
+    .highcharts-yaxis-grid{
+        display:none;
+    }
+</style>
+
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+<script src="https://code.highcharts.com/stock/modules/data.js"></script>
+<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Direccion", "Manage")"><b>Dirección Médica</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Indicadores", "Manage")"><b>Historial Consultas y Farmacia</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<ul class="nav nav-tabs" id="custom-content-below-tab mt-4" role="tablist">
+    <div class="btn-group" style="margin-left: -20px; z-index: 9999; width: 370px;">
+        <button type="button" style="background-color:#FBC43D !important; border:3px solid #fbc43d !important;" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Farmacia
+        </button>
+        <div class="dropdown-menu dropdown-menu-right" id="recetas">
+            <a class="dropdown-item" type="button" id="custom-content-below-home-tab" data-toggle="pill" href="#custom-content-below-home" role="tab" aria-controls="custom-content-below-home" aria-selected="true"> Recetas de Hoy</a>
+            <a class="dropdown-item" type="button" id="custom-content-below-profile-tab" data-toggle="pill" href="#custom-content-below-profile" role="tab" aria-controls="custom-content-below-profile" aria-selected="false"> Historial de Recetas</a>
+        </div>
+    </div>
+
+    @if (HttpContext.Current.User.IsInRole("Consultas") || HttpContext.Current.User.IsInRole("Reportes"))
+    {
+    <div class="btn-group" style="margin-left: -20px; z-index: 9999; width: 370px;">
+        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Consultas
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" type="button" id="custom-content-below-messages-tab" data-toggle="pill" href="#custom-content-below-messages" role="tab" aria-controls="custom-content-below-messages" aria-selected="false"><span class="material-icons">add</span> Hoy (Familiar - Pediatria - Especialistas)</a>
+            <a class="dropdown-item" type="button" id="custom-content-below-campaign-tab" data-toggle="pill" href="#custom-content-below-campaign" role="tab" aria-controls="custom-content-below-campaign" aria-selected="false"><span class="material-icons">add</span> Historial</a>
+            <a class="dropdown-item" type="button" id="custom-content-below-expediente-sm-tab" data-toggle="pill" href="#custom-content-below-expediente-sm" role="tab" aria-controls="custom-content-below-expediente-sm" aria-selected="false"><span class="material-icons">add</span> Servicios Médicos (Presencial  Telefónicas)</a>
+            <!--a class="dropdown-item" type="button" id="custom-content-below-expedientehu-tab" data-toggle="pill" href="#custom-content-below-expedientehu" role="tab" aria-controls="custom-content-below-expedientehu" aria-selected="false"><span class="material-icons">add</span> HU</a-->            <a class="dropdown-item" type="button" id="custom-content-below-expediente-mederos-tab" data-toggle="pill" href="#custom-content-below-expediente-mederos" role="tab" aria-controls="custom-content-below-expediente-mederos" aria-selected="false"><span class="material-icons">add</span> Mederos (Presencial  Telefónicas)</a>
+            <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresLinares", "Indicadores")"><span class="material-icons">add</span> Linares</a>
+            <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresHomeOffice", "Indicadores")"><span class="material-icons">add</span> Doctor En Línea</a>
+            <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresUrgenciasA", "Indicadores")"><span class="material-icons">add</span> Urgencias Área A</a>
+            @if (HttpContext.Current.User.IsInRole("Especialistas"))
+            {<a class="dropdown-item" type="button" href="@Url.Action("IndicadoresEspecialidades", "Manage")"><span class="material-icons">add</span> Productividad</a>}
+        </div>
+    </div>
+        if (HttpContext.Current.User.IsInRole("Especialistas"))
+        {
+        <div class="btn-group" style="margin-left: -20px; z-index: 9999; width: 370px;">
+            <button type="button" style="background-color:#FBC43D !important; border:3px solid #fbc43d !important;" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              HU
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" id="recetas">
+                <a class="dropdown-item" type="button" id="custom-content-below-internacion-tab" data-toggle="pill" href="#custom-content-below-internacion" role="tab" aria-controls="custom-content-below-internacion" aria-selected="true"><span class="material-icons">add</span> Consulta Internados</a>
+                <a class="dropdown-item " type="button" id="custom-detalle" data-toggle="pill"><span class="material-icons">add</span>Detalle Internados al Dia</a>
+                <script>
+
+                    $("#custom-detalle").click(function () {
+                        window.location.href = 'http://148.234.143.203/SISM-Medico/Manage/IndicadoresInternacionDetalles';
+                    });
+
+                </script>
+            </div>
+
+            <div class="dropdown-menu dropdown-menu-right"  id="recetas" >
+                <a class="dropdown-item " type="button" id="custom-detalle" data-toggle="pill"><span class="material-icons">add</span>Detalle</a>
+                <script>
+
+                    $("#custom-detalle").click(function () {
+                        window.location.href = 'http://148.234.143.203/SISM-Medico/Manage/IndicadoresInternacionDetalles';
+                    });
+
+                </script>
+            </div>
+        </div>
+        }
+    }
+</ul>
+<div class="tab-content" id="custom-content-below-tabContent">
+    <div class="tab-pane fade" id="custom-content-below-home" role="tabpanel" aria-labelledby="custom-content-below-home-tab">
+        <div class="row">
+            <div class="col-12 mt-5">
+                <div id="container2" style="height: 500px; min-width: 100%"></div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade show active" id="custom-content-below-profile" role="tabpanel" aria-labelledby="custom-content-below-profile-tab">
+        <div class="row">
+            <div class="col-12 mt-5">
+                <div id="container" style="height: 500px; min-width: 100%"></div>
+                <!--button id="button" class="autocompare">Set extremes</!--button>Total of series 0: <span id="total" style="font-size:20px;font-weight:bold;color:blue;"></span-->
+            </div>
+        </div>
+    </div>
+
+    @if (HttpContext.Current.User.IsInRole("Consultas") || HttpContext.Current.User.IsInRole("Reportes"))
+    {
+    <div class="tab-pane fade" id="custom-content-below-messages" role="tabpanel" aria-labelledby="custom-content-below-messages-tab">
+        <div class="row">
+            <div class="col-12 mt-5">
+                <div id="container4" style="height: 500px; min-width: 100%"></div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="custom-content-below-campaign" role="tabpanel" aria-labelledby="custom-content-below-campaign-tab">
+        <div class="row">
+            <div class="col-12 mt-5">
+                <div id="container3" style="height: 500px; min-width: 100%"></div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="custom-content-below-expedientehu" role="tabpanel" aria-labelledby="custom-content-below-expedientehu-tab">
+        <div class="row">
+            <div class="col-12 mt-5">
+                <div id="container5" style="height: 500px; min-width: 100%"></div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="custom-content-below-expediente-mederos" role="tabpanel" aria-labelledby="custom-content-below-expediente-mederos-tab">
+        <div class="row">
+            <div class="col-12 mt-5">
+                <div id="container6" style="height: 500px; min-width: 100%"></div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="custom-content-below-expediente-sm" role="tabpanel" aria-labelledby="custom-content-below-expediente-sm-tab">
+        <div class="row">
+            <div class="col-12 mt-5">
+                <div id="container7" style="height: 500px; min-width: 100%"></div>
+            </div>
+        </div>
+    </div>
+  
+    
+    <div class="tab-pane fade" id="custom-content-below-internacion" role="tabpanel" aria-labelledby="custom-content-below-internacion-tab">
+        <div class="row">
+            <div class="col-12 mt-5">
+                <div id="container8" style="height: 500px; min-width: 100%"></div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+
+<script>
+    $(".dropdown-item").click(function () {
+        $(".dropdown-item").removeClass('active');
+        //$(this).addClass('active');
+    });
+</script>
+
+
+<script>
+    //Recetas todas
+    $.getJSON('http://148.234.143.203/SISM-Medico/json/manuales.json', function (data1) {
+        $.getJSON('http://148.234.143.203/SISM-Medico/json/receta_normal.json', function (data2) {
+            $.getJSON('http://148.234.143.203/SISM-Medico/json/tarjeton.json', function (data3) {
+                $('#container').highcharts({
+                    chart: {
+                        type: 'line',
+                        zoomType: 'x',
+                        resetZoomButton: {
+                            position: {
+                                // align: 'right', // by default
+                                // verticalAlign: 'top', // by default
+                                x: 0,
+                                y: 0
+                            }
+                        },
+                        /*events: {
+                            load: function () {
+                                $('#total').text(arraySum(this.series[0].points));
+                            }
+                        }*/
+                    },
+                    navigator: {
+                        enabled: true,
+                    },
+                    rangeSelector: {
+                        //allButtonsEnabled: true,
+                        //selected: 0,
+                        enabled: true,
+                        inputEnabled: true,
+                        buttonPosition: {
+                            align: 'left'
+                        },
+                        labelStyle: {
+                            display: 'block'
+                        },
+                        buttons: [{
+                            type: 'day',
+                            count: 1,
+                            text: '1d'
+                        },
+                        {
+                            type: 'month',
+                            count: 1,
+                            text: '1m'
+                        },
+                        {
+                            type: 'month',
+                            count: 3,
+                            text: '3m'
+                        },
+                        {
+                            type: 'month',
+                            count: 6,
+                            text: '6m'
+                        },
+                        {
+                            type: 'year',
+                            count: 1,
+                            text: '1y'
+                        },
+                        {
+                            type: 'year',
+                            count: 2,
+                            text: '2y'
+                        },
+                        {
+                            type: 'year',
+                            count: 5,
+                            text: '5y'
+                        },
+                        {
+                            type: 'all',
+                            text: 'All'
+                        },
+                            /*{
+                                type: 'second',
+                                count: 1,
+                                text: 'Latest',
+                                events: {
+                                    click: () => {
+
+                                        alert('in real app I scroll to latest results');
+
+                                        return false;
+
+                                    }
+                                }
+                            }*/
+                        ]
+                    },
+                    title: {
+                        text: 'Recetas',
+                    },
+                    subtitle: {
+                        text: document.ontouchstart === undefined ?
+                            'Servicios Médicos - UANL' :
+                            'Servicios Médicos - UANL'
+                    },
+                    xAxis: {
+                        max: new Date().getTime(),
+                        //min: dateMonth,
+                        type: 'datetime',
+                        labels: {
+                            format: '{value:%Y-%m-%d}'
+                        },
+                        events: {
+                            afterSetExtremes: function (min, max) {
+                                var serie_manuales = this.chart.series[0],
+                                    serie_recetas = this.chart.series[2],
+                                    serie_tarjeton = this.chart.series[1],
+                                    min = this.getExtremes().min,
+                                    max = this.getExtremes().max,
+                                    sum_manuales = 0;
+                                sum_recetas = 0;
+                                sum_tarjeton = 0;
+
+                                $.each(serie_manuales.data, function (i, m) {
+                                    if (m.x >= min && m.x <= max) {
+                                        sum_manuales += m.y;
+                                    }
+                                });
+
+                                $.each(serie_recetas.data, function (i, r) {
+                                    if (r.x >= min && r.x <= max) {
+                                        sum_recetas += r.y;
+                                    }
+                                });
+
+                                $.each(serie_tarjeton.data, function (i, t) {
+                                    if (t.x >= min && t.x <= max) {
+                                        sum_tarjeton += t.y;
+                                    }
+                                });
+
+                                var sum_total = sum_manuales + sum_recetas + sum_tarjeton;
+
+                                /*$('#sum_manuales').text(sum_manuales);
+                                $('#sum_recetas').text(sum_recetas);
+                                $('#sum_tarjeton').text(sum_tarjeton);
+                                $('#sum_total').text(sum_total);*/
+
+                                //$("#container5 .highcharts-series-0 tspan").remove();
+                                $("#container .highcharts-series-0 text").html("Manuales: " + sum_manuales);
+                                //alert(sum_manuales);
+                                $("#container .highcharts-series-1 text").html("Tarjeton: " + sum_tarjeton);
+                                $("#container .highcharts-series-2 text").html("Recetas Normales : " + sum_recetas);
+                                $("#container h4").remove();
+                                $("#container").append("<h4 class='totalcount'>Recetas Totales: <b>" + sum_total + "</b></h4>");
+                            }
+                        }
+                    },
+                    tooltip: {
+                        /*positioner: function () {
+                            return {
+                                x: 80,
+                                y: 100
+                            };
+                        },*/
+                        formatter: function () {
+                            var individualfoodbanks = '<b> Día:' + Highcharts.dateFormat('%m \'%d', this.x) + '</b><br>',
+                                sumofallfoodbanks = 0;
+                            totaltotal = 0;
+
+                            $.each(this.points, function (i, point) {
+                                individualfoodbanks += '<span style="color:' + point.series.color + '">\u25CF</span> ' + point.series.name + ': <b>' + point.y + '</b> <br/>';
+                                totaltotal += point.y;
+                            });
+
+                            individualfoodbanks += '<br/>Total de recetas: ' + totaltotal //"echo" title for the sum of all foodbanks series, and the total sum for all current y points
+
+                            console.log(this);
+                            return individualfoodbanks;
+                        }, //"echo" the value for each series current y-value, but the data appendix for the all foodbank sum only...?
+                        crosshairs: false,
+                        shared: true,
+                        shadow: false,
+                        borderWidth: 1,
+                    },
+                    legend: {
+                        enabled: true,
+                        labelFormatter: function () {
+                            var total = 0;
+                            var totaltotalhoy = 0;
+                            for (var i = this.yData.length; i--;) {
+                                total += this.yData[i];
+                            };
+
+                            return this.name + ': ' + total;
+                            //return this.name + ' - Total: ';
+                        },
+                    },
+                    plotOptions: {
+                        lineWidth: '40',
+                        series: {
+                            marker: {
+                                states: {
+                                    hover: {
+                                        enabled: true
+                                    }
+                                }
+                            }
+                        },
+                        /*line: {
+                            stacking: 'overlap',
+                            //lineColor: '#666666',
+                            lineWidth: 2,
+                            marker: {
+                                lineWidth: 2,
+                                //lineColor: '#666666'
+                            }
+                        }*/
+                    },
+                    series: [
+                        {
+                            name: 'Manuales',
+                            data: data1,
+                            marker: {
+                                enabled: true
+                            },
+                            color: '#004a8f'
+                        }, {
+                            name: 'Tarjeton',
+                            data: data3,
+                            marker: {
+                                enabled: true
+                            },
+                            color: '#009e0d'
+                        }, {
+                            name: 'Recetas Normales',
+                            data: data2,
+                            marker: {
+                                enabled: true
+                            },
+                            color: '#FBC43D'
+                        }
+                    ]
+                }, function (chart) {
+
+                    var date = new Date();
+                    var newDate = new Date().getTime();
+                    chart.xAxis[0].dataMax = newDate;
+                    chart.xAxis[0].setExtremes(date.setDate(date.getDate() - 1), newDate, true);
+                    // apply the date pickers
+                    setTimeout(function () {
+                        $('input.highcharts-range-selector', $(chart.container).parent())
+                            .datepicker();
+                    }, 0);
+
+                    if ($(window).width() < 767) {
+                        //alert('hola');
+                        width = $(window).width()
+                        height = $(window).height() / 3
+                        $("#container").highcharts().setSize(width, height, doAnimation = false);
+                        var date = new Date();
+                        var newDate = new Date().getTime();
+                        chart.xAxis[0].dataMax = newDate;
+                        chart.xAxis[0].setExtremes(date.setDate(date.getDate() - 1), newDate, true);
+                    }
+                });
+
+                //chart.setSize(10, 10, doAnimation = true);
+
+            });
+        });
+    });
+
+
+    //Recetas hoy
+    $.getJSON('http://148.234.143.203/SISM-Medico/json/manuales_hoy.json', function (data1_hoy) {
+        $.getJSON('http://148.234.143.203/SISM-Medico/json/receta_normal_hoy.json', function (data2_hoy) {
+            $.getJSON('http://148.234.143.203/SISM-Medico/json/tarjeton_hoy.json', function (data3_hoy) {
+                $('#container2').highcharts({
+                    chart: {
+                        type: 'line',
+                        zoomType: 'x',
+                        resetZoomButton: {
+                            position: {
+                                // align: 'right', // by default
+                                // verticalAlign: 'top', // by default
+                                x: 0,
+                                y: 0
+                            }
+                        },
+                        /*events: {
+                            load: function () {
+                                $('#total').text(arraySum(this.series[0].points));
+                            }
+                        }*/
+                    },
+                    navigator: {
+                        enabled: true,
+                    },
+                    rangeSelector: {
+                        //allButtonsEnabled: true,
+                        //selected: 0,
+                        enabled: true,
+                        inputEnabled: false,
+                        buttonPosition: {
+                            align: 'left'
+                        },
+                        labelStyle: {
+                            display: 'block'
+                        },
+                        buttons: [{
+                            type: 'month',
+                            count: 1,
+                            text: '1m'
+                        },
+                        /*{
+                            type: 'month',
+                            count: 3,
+                            text: '3m'
+                        },
+                        {
+                            type: 'month',
+                            count: 6,
+                            text: '6m'
+                        },
+                        {
+                            type: 'year',
+                            count: 1,
+                            text: '1y'
+                        },
+                        {
+                            type: 'year',
+                            count: 2,
+                            text: '2y'
+                        },
+                        {
+                            type: 'year',
+                            count: 5,
+                            text: '5y'
+                        },*/
+                        {
+                            type: 'all',
+                            text: 'All'
+                        },
+                            /*{
+                                type: 'second',
+                                count: 1,
+                                text: 'Latest',
+                                events: {
+                                    click: () => {
+
+                                        alert('in real app I scroll to latest results');
+
+                                        return false;
+
+                                    }
+                                }
+                            }*/
+                        ]
+                    },
+                    title: {
+                        text: 'Recetas',
+                    },
+                    subtitle: {
+                        text: document.ontouchstart === undefined ?
+                            'Servicios Médicos - UANL' :
+                            'Servicios Médicos - UANL'
+                    },
+                    xAxis: {
+                        type: 'datetime',
+                        labels: {
+                            format: '{value:%H::%m}'
+                        },
+                        events: {
+                            afterSetExtremes: function (min, max) {
+                                var serie_manuales = this.chart.series[0],
+                                    serie_recetas = this.chart.series[2],
+                                    serie_tarjeton = this.chart.series[1],
+                                    min = this.getExtremes().min,
+                                    max = this.getExtremes().max,
+                                    sum_manuales = 0;
+                                sum_recetas = 0;
+                                sum_tarjeton = 0;
+
+                                $.each(serie_manuales.data, function (i, m) {
+                                    if (m.x >= min && m.x <= max) {
+                                        sum_manuales += m.y;
+                                    }
+                                });
+
+                                $.each(serie_recetas.data, function (i, r) {
+                                    if (r.x >= min && r.x <= max) {
+                                        sum_recetas += r.y;
+                                    }
+                                });
+
+                                $.each(serie_tarjeton.data, function (i, t) {
+                                    if (t.x >= min && t.x <= max) {
+                                        sum_tarjeton += t.y;
+                                    }
+                                });
+
+                                var sum_total = sum_manuales + sum_recetas + sum_tarjeton;
+
+                                /*$('#sum_manuales').text(sum_manuales);
+                                $('#sum_recetas').text(sum_recetas);
+                                $('#sum_tarjeton').text(sum_tarjeton);
+                                $('#sum_total').text(sum_total);*/
+
+                                //$("#container5 .highcharts-series-0 tspan").remove();
+                                $("#container2 .highcharts-series-0 text").html("Manuales: " + sum_manuales);
+                                $("#container2 .highcharts-series-1 text").html("Tarjeton: " + sum_tarjeton);
+                                $("#container2 .highcharts-series-2 text").html("Recetas Normales: " + sum_recetas);
+                                $("#container2 h4").remove();
+                                $("#container2").append("<h4 class='totalcount'>Recetas Totales: <b>" + sum_total + "</b></h4>");
+                            }
+                        }
+                    },
+                    tooltip: {
+                        /*positioner: function () {
+                            return {
+                                x: 80,
+                                y: 100
+                            };
+                        },*/
+                        formatter: function () {
+                            var individualfoodbanks = '<b> Hora:' + Highcharts.dateFormat('%H', this.x) + ':00:00</b><br>',
+                                sumofallfoodbanks = 0;
+                            totaltotal = 0;
+
+                            $.each(this.points, function (i, point) {
+                                individualfoodbanks += '<span style="color:' + point.series.color + '">\u25CF</span> ' + point.series.name + ': <b>' + point.y + '</b> <br/>';
+                                totaltotal += point.y;
+                            });
+
+                            individualfoodbanks += '<br/>Total de recetas: ' + totaltotal //"echo" title for the sum of all foodbanks series, and the total sum for all current y points
+
+                            console.log(this);
+                            return individualfoodbanks;
+                        }, //"echo" the value for each series current y-value, but the data appendix for the all foodbank sum only...?
+                        crosshairs: false,
+                        shared: true,
+                        shadow: false,
+                        borderWidth: 1,
+                    },
+                    legend: {
+                        enabled: true,
+                        labelFormatter: function () {
+                            var total = 0;
+                            var totaltotalhoy = 0;
+                            for (var i = this.yData.length; i--;) {
+                                total += this.yData[i];
+                            };
+
+                            return this.name + ': ' + total;
+                            //return this.name + ' - Total: ';
+                        },
+                    },
+                    plotOptions: {
+                        lineWidth: '40',
+                        series: {
+                            marker: {
+                                states: {
+                                    hover: {
+                                        enabled: true
+                                    }
+                                }
+                            }
+                        },
+                        /*line: {
+                            stacking: 'overlap',
+                            //lineColor: '#666666',
+                            lineWidth: 2,
+                            marker: {
+                                lineWidth: 2,
+                                //lineColor: '#666666'
+                            }
+                        }*/
+                    },
+                    series: [
+                        {
+                            name: 'Manuales',
+                            data: data1_hoy,
+                            marker: {
+                                enabled: true
+                            },
+                            color: '#004a8f'
+                        }, {
+                            name: 'Tarjeton',
+                            data: data3_hoy,
+                            marker: {
+                                enabled: true
+                            },
+                            color: '#009e0d'
+                        }, {
+                            name: 'Recetas Normales',
+                            data: data2_hoy,
+                            marker: {
+                                enabled: true
+                            },
+                            color: '#FBC43D'
+                        }
+                    ]
+                });
+
+                if ($(window).width() < 767) {
+                    //alert('hola');
+                    width = $(window).width()
+                    height = $(window).height() / 3
+                    $("#container2").highcharts().setSize(width, height, doAnimation = false);
+                }
+            });
+        });
+    });
+
+
+    //Consultas todas
+    $.getJSON('http://148.234.143.203/SISM-Medico/json/expediente_medicina_familiar.json', function (data1_mefa) {
+        $.getJSON('http://148.234.143.203/SISM-Medico/json/expediente_pediatria.json', function (data2_pe) {
+            $.getJSON('http://148.234.143.203/SISM-Medico/json/expediente_especialistas.json', function (data3_es) {
+                //alert(date);
+                $('#container3').highcharts({
+                    chart: {
+                        type: 'line',
+                        zoomType: 'x',
+                        resetZoomButton: {
+                            position: {
+                                // align: 'right', // by default
+                                // verticalAlign: 'top', // by default
+                                x: 0,
+                                y: 0
+                            }
+                        },
+                        /*events: {
+                            load: function () {
+                                $('#total').text(arraySum(this.series[0].points));
+                            }
+                        }*/
+                    },
+                    navigator: {
+                        enabled: true,
+                    },
+                    rangeSelector: {
+                        //allButtonsEnabled: true,
+                        //selected: 0,
+                        enabled: true,
+                        inputEnabled: true,
+                        buttonPosition: {
+                            align: 'left'
+                        },
+                        labelStyle: {
+                            display: 'block'
+                        },
+                        buttons: [{
+                            type: 'day',
+                            count: 1,
+                            text: '1d'
+                        },
+                        {
+                            type: 'month',
+                            count: 1,
+                            text: '1m'
+                        },
+                        {
+                            type: 'month',
+                            count: 3,
+                            text: '3m'
+                        },
+                        {
+                            type: 'month',
+                            count: 6,
+                            text: '6m'
+                        },
+                        {
+                            type: 'year',
+                            count: 1,
+                            text: '1y'
+                        },
+                        {
+                            type: 'year',
+                            count: 2,
+                            text: '2y'
+                        },
+                        {
+                            type: 'year',
+                            count: 5,
+                            text: '5y'
+                        },
+                        {
+                            type: 'all',
+                            text: 'All'
+                        },
+                            /*{
+                                type: 'second',
+                                count: 1,
+                                text: 'Latest',
+                                events: {
+                                    click: () => {
+
+                                        alert('in real app I scroll to latest results');
+
+                                        return false;
+
+                                    }
+                                }
+                            }*/
+                        ]
+                    },
+                    title: {
+                        text: 'Consultas',
+                    },
+                    subtitle: {
+                        text: document.ontouchstart === undefined ?
+                            'Servicios Médicos - UANL' :
+                            'Servicios Médicos - UANL'
+                    },
+                    xAxis: {
+                        //ordinal: false,
+                        //min: 1559088000000,
+                        max: new Date().getTime(),
+                        //max: new Date().getTime(),
+                        //min: 1606332387670,
+                        //min: date.setDate(date.getDate() - 1),
+                        //min: new Date().getTime(),
+                        //tickInterval: 24 * 3600 * 1000,
+                        type: 'datetime',
+                        labels: {
+                            format: '{value:%Y-%m-%d}'
+                        },
+                        events: {
+                            afterSetExtremes: function (min, max) {
+                                var serie_mf = this.chart.series[0],
+                                    serie_pediatria = this.chart.series[2],
+                                    serie_especialistas = this.chart.series[1],
+                                    min = this.getExtremes().min,
+                                    max = this.getExtremes().max,
+                                    sum_mf = 0;
+                                sum_pediatria = 0;
+                                sum_especialistas = 0;
+
+                                //alert(serie_mf.data);
+
+                                $.each(serie_mf.data, function (i, m) {
+                                    if (m.x >= min && m.x <= max) {
+                                        sum_mf += m.y;
+                                    }
+                                });
+
+                                $.each(serie_pediatria.data, function (i, r) {
+                                    if (r.x >= min && r.x <= max) {
+                                        sum_pediatria += r.y;
+                                    }
+                                });
+
+                                $.each(serie_especialistas.data, function (i, t) {
+                                    if (t.x >= min && t.x <= max) {
+                                        sum_especialistas += t.y;
+                                    }
+                                });
+
+                                var sum_total = sum_mf + sum_pediatria + sum_especialistas;
+
+                                /*$('#sum_mf').text(sum_mf);
+                                $('#sum_pediatria').text(sum_pediatria);
+                                $('#sum_especialistas').text(sum_especialistas);
+                                $('#sum_total').text(sum_total);*/
+
+                                //$("#container5 .highcharts-series-0 tspan").remove();
+
+                                $("#container3 .highcharts-series-0 text").html("Consultas - Medicina Familiar: " + sum_mf);
+                                $("#container3 .highcharts-series-1 text").html("Consultas - Pediatria: " + sum_especialistas);
+                                $("#container3 .highcharts-series-2 text").html("Consultas - Especialistas: " + sum_pediatria);
+                                $("#container3 h4").remove();
+                                $("#container3").append("<h4 class='totalcount'>Consultas Totales: <b>" + sum_total + "</b></h4>");
+                            }
+                        }
+                    },
+                    tooltip: {
+                        /*positioner: function () {
+                            return {
+                                x: 80,
+                                y: 100
+                            };
+                        },*/
+                        formatter: function () {
+                            var individualfoodbanks = '<b> Día:' + Highcharts.dateFormat('%m \'%d', this.x) + '</b><br>',
+                                sumofallfoodbanks = 0;
+                            totaltotal = 0;
+
+                            $.each(this.points, function (i, point) {
+                                individualfoodbanks += '<span style="color:' + point.series.color + '">\u25CF</span> ' + point.series.name + ': <b>' + point.y + '</b> <br/>';
+                                totaltotal += point.y;
+                            });
+
+                            individualfoodbanks += '<br/>Total de consultas: ' + totaltotal //"echo" title for the sum of all foodbanks series, and the total sum for all current y points
+
+                            console.log(this);
+                            return individualfoodbanks;
+                        }, //"echo" the value for each series current y-value, but the data appendix for the all foodbank sum only...?
+                        crosshairs: false,
+                        shared: true,
+                        shadow: false,
+                        borderWidth: 1,
+                    },
+                    legend: {
+                        enabled: true,
+                        labelFormatter: function () {
+                            var total = 0;
+                            var totaltotalhoy = 0;
+                            for (var i = this.yData.length; i--;) {
+                                total += this.yData[i];
+                            };
+
+                            return this.name + ': ' + total;
+                            //return this.name + ' - Total: ';
+                        },
+                    },
+                    plotOptions: {
+                        lineWidth: '40',
+                        series: {
+                            pointStart: Date.UTC(2020, 0, 1),
+                            pointInterval: 24 * 3600 * 1000,
+                            marker: {
+                                states: {
+                                    hover: {
+                                        enabled: true
+                                    }
+                                }
+                            }
+                        },
+                        /*line: {
+                            stacking: 'overlap',
+                            //lineColor: '#666666',
+                            lineWidth: 2,
+                            marker: {
+                                lineWidth: 2,
+                                //lineColor: '#666666'
+                            }
+                        }*/
+                    },
+                    series: [
+                        {
+                            name: 'Consultas - Medicina Familiar',
+                            data: data1_mefa,
+                            marker: {
+                                enabled: true
+                            },
+                            color: '#004a8f'
+                        }, {
+                            name: 'Consultas - Pediatria',
+                            data: data2_pe,
+                            marker: {
+                                enabled: true
+                            },
+                            color: '#009e0d'
+                        }, {
+                            name: 'Consultas - Especialistas',
+                            data: data3_es,
+                            marker: {
+                                enabled: true
+                            },
+                            color: '#FBC43D'
+                        },
+                    ]
+                }, function (chart) {
+
+                    var date = new Date();
+                    var newDate = new Date().getTime();
+                    chart.xAxis[0].dataMax = newDate;
+                    chart.xAxis[0].setExtremes(date.setDate(date.getDate() - 1), newDate, true);
+
+                    // apply the date pickers
+                    setTimeout(function () {
+                        $('input.highcharts-range-selector', $(chart.container).parent())
+                            .datepicker();
+                    }, 0);
+
+                    if ($(window).width() < 767) {
+                        //alert('hola');
+                        width = $(window).width()
+                        height = $(window).height() / 3
+                        $("#container3").highcharts().setSize(width, height, doAnimation = false);
+                        var date = new Date();
+                        var newDate = new Date().getTime();
+                        chart.xAxis[0].dataMax = newDate;
+                        chart.xAxis[0].setExtremes(date.setDate(date.getDate() - 1), newDate, true);
+                    }
+                });
+            });
+        });
+    });
+
+
+    //Consultas hoy
+    $.getJSON('http://148.234.143.203/SISM-Medico/json/expediente_medicina_familiar_hoy.json', function (data1_mefa_hoy) {
+        $.getJSON('http://148.234.143.203/SISM-Medico/json/expediente_pediatria_hoy.json', function (data2_pe_hoy) {
+            $.getJSON('http://148.234.143.203/SISM-Medico/json/expediente_especialistas_hoy.json', function (data3_es_hoy) {
+                $('#container4').highcharts({
+                    chart: {
+                        type: 'line',
+                        zoomType: 'x',
+                        resetZoomButton: {
+                            position: {
+                                // align: 'right', // by default
+                                // verticalAlign: 'top', // by default
+                                x: 0,
+                                y: 0
+                            }
+                        },
+                        /*events: {
+                            load: function () {
+                                $('#total').text(arraySum(this.series[0].points));
+                            }
+                        }*/
+                    },
+                    navigator: {
+                        enabled: true,
+                    },
+                    rangeSelector: {
+                        //allButtonsEnabled: true,
+                        //selected: 0,
+                        enabled: true,
+                        inputEnabled: false,
+                        buttonPosition: {
+                            align: 'left'
+                        },
+                        labelStyle: {
+                            display: 'block'
+                        },
+                        buttons: [{
+                            type: 'month',
+                            count: 1,
+                            text: '1m'
+                        },
+                        /*{
+                            type: 'month',
+                            count: 3,
+                            text: '3m'
+                        },
+                        {
+                            type: 'month',
+                            count: 6,
+                            text: '6m'
+                        },
+                        {
+                            type: 'year',
+                            count: 1,
+                            text: '1y'
+                        },
+                        {
+                            type: 'year',
+                            count: 2,
+                            text: '2y'
+                        },
+                        {
+                            type: 'year',
+                            count: 5,
+                            text: '5y'
+                        },*/
+                        {
+                            type: 'all',
+                            text: 'All'
+                        },
+                            /*{
+                                type: 'second',
+                                count: 1,
+                                text: 'Latest',
+                                events: {
+                                    click: () => {
+
+                                        alert('in real app I scroll to latest results');
+
+                                        return false;
+
+                                    }
+                                }
+                            }*/
+                        ]
+                    },
+                    title: {
+                        text: 'Consultas',
+                    },
+                    subtitle: {
+                        text: document.ontouchstart === undefined ?
+                            'Servicios Médicos - UANL' :
+                            'Servicios Médicos - UANL'
+                    },
+                    xAxis: {
+                        type: 'datetime',
+                        labels: {
+                            format: '{value:%H::%m}'
+                        },
+                        events: {
+                            afterSetExtremes: function (min, max) {
+                                var serie_mf = this.chart.series[0],
+                                    serie_pediatria = this.chart.series[1],
+                                    serie_especialistas = this.chart.series[2],
+                                    min = this.getExtremes().min,
+                                    max = this.getExtremes().max,
+                                    sum_mf = 0;
+                                sum_pediatria = 0;
+                                sum_especialistas = 0;
+
+                                $.each(serie_mf.data, function (i, m) {
+                                    if (m.x >= min && m.x <= max) {
+                                        sum_mf += m.y;
+                                    }
+                                });
+
+                                $.each(serie_pediatria.data, function (i, r) {
+                                    if (r.x >= min && r.x <= max) {
+                                        sum_pediatria += r.y;
+                                    }
+                                });
+
+                                $.each(serie_especialistas.data, function (i, t) {
+                                    if (t.x >= min && t.x <= max) {
+                                        sum_especialistas += t.y;
+                                    }
+                                });
+
+                                var sum_total = sum_mf + sum_pediatria + sum_especialistas;
+
+                                /*$('#sum_manuales').text(sum_manuales);
+                                $('#sum_recetas').text(sum_recetas);
+                                $('#sum_tarjeton').text(sum_tarjeton);
+                                $('#sum_total').text(sum_total);*/
+
+                                //$("#container5 .highcharts-series-0 tspan").remove();
+                                $("#container4 .highcharts-series-0 text").html("Consultas - Medicina Familiar: " + sum_mf);
+                                $("#container4 .highcharts-series-1 text").html("Consultas - Pediatria: " + sum_pediatria);
+                                $("#container4 .highcharts-series-2 text").html("Consultas - Especialistas: " + sum_especialistas);
+                                $("#container4 h4").remove();
+                                $("#container4").append("<h4 class='totalcount'>Consultas Totales Hoy: <b>" + sum_total + "</b></h4>");
+                            }
+                        }
+                    },
+                    tooltip: {
+                        /*positioner: function () {
+                            return {
+                                x: 80,
+                                y: 100
+                            };
+                        },*/
+                        formatter: function () {
+                            var individualfoodbanks = '<b> Hora:' + Highcharts.dateFormat('%H', this.x) + ':00:00</b><br>',
+                                sumofallfoodbanks = 0;
+                            totaltotal = 0;
+
+                            $.each(this.points, function (i, point) {
+                                individualfoodbanks += '<span style="color:' + point.series.color + '">\u25CF</span> ' + point.series.name + ': <b>' + point.y + '</b> <br/>';
+                                totaltotal += point.y;
+                            });
+
+                            individualfoodbanks += '<br/>Total de consultas: ' + totaltotal //"echo" title for the sum of all foodbanks series, and the total sum for all current y points
+
+                            console.log(this);
+                            return individualfoodbanks;
+                        }, //"echo" the value for each series current y-value, but the data appendix for the all foodbank sum only...?
+                        crosshairs: false,
+                        shared: true,
+                        shadow: false,
+                        borderWidth: 1,
+                    },
+                    legend: {
+                        enabled: true,
+                        labelFormatter: function () {
+                            var total = 0;
+                            var totaltotalhoy = 0;
+                            for (var i = this.yData.length; i--;) {
+                                total += this.yData[i];
+                            };
+
+                            return this.name + ': ' + total;
+                            //return this.name + ' - Total: ';
+                        },
+                    },
+                    plotOptions: {
+                        lineWidth: '40',
+                        series: {
+                            marker: {
+                                states: {
+                                    hover: {
+                                        enabled: true
+                                    }
+                                }
+                            }
+                        },
+                        /*line: {
+                            stacking: 'overlap',
+                            //lineColor: '#666666',
+                            lineWidth: 2,
+                            marker: {
+                                lineWidth: 2,
+                                //lineColor: '#666666'
+                            }
+                        }*/
+                    },
+                    series: [
+                        {
+                            name: 'Consultas - Medicina Familiar',
+                            data: data1_mefa_hoy,
+                            marker: {
+                                enabled: true
+                            },
+                            color: '#004a8f'
+                        }, {
+                            name: 'Consultas - Pediatria',
+                            data: data2_pe_hoy,
+                            marker: {
+                                enabled: true
+                            },
+                            color: '#009e0d'
+                        }, {
+                            name: 'Consultas - Especialistas',
+                            data: data3_es_hoy,
+                            marker: {
+                                enabled: true
+                            },
+                            color: '#FBC43D'
+                        }
+                    ]
+                });
+
+                if ($(window).width() < 767) {
+                    //alert('hola');
+                    width = $(window).width()
+                    height = $(window).height() / 3
+                    $("#container4").highcharts().setSize(width, height, doAnimation = false);
+                }
+            });
+        });
+    });
+
+
+    //Consultas HU
+    $.getJSON('http://148.234.143.203/SISM-Medico/json/expediente_hu.json', function (data1) {
+        $('#container5').highcharts({
+            chart: {
+                type: 'line',
+                zoomType: 'x',
+                resetZoomButton: {
+                    position: {
+                        // align: 'right', // by default
+                        // verticalAlign: 'top', // by default
+                        x: 0,
+                        y: 0
+                    }
+                },
+                /*events: {
+                    load: function () {
+                        $('#total').text(arraySum(this.series[0].points));
+                    }
+                }*/
+            },
+            navigator: {
+                enabled: true,
+            },
+            rangeSelector: {
+                //allButtonsEnabled: true,
+                //selected: 0,
+                enabled: true,
+                inputEnabled: true,
+                buttonPosition: {
+                    align: 'left'
+                },
+                labelStyle: {
+                    display: 'block'
+                },
+                buttons: [{
+                    type: 'day',
+                    count: 1,
+                    text: '1d'
+                },
+                {
+                    type: 'month',
+                    count: 1,
+                    text: '1m'
+                },
+                {
+                    type: 'month',
+                    count: 3,
+                    text: '3m'
+                },
+                {
+                    type: 'month',
+                    count: 6,
+                    text: '6m'
+                },
+                {
+                    type: 'year',
+                    count: 1,
+                    text: '1y'
+                },
+                {
+                    type: 'year',
+                    count: 2,
+                    text: '2y'
+                },
+                {
+                    type: 'year',
+                    count: 5,
+                    text: '5y'
+                },
+                {
+                    type: 'all',
+                    text: 'All'
+                },
+                    /*{
+                        type: 'second',
+                        count: 1,
+                        text: 'Latest',
+                        events: {
+                            click: () => {
+
+                                alert('in real app I scroll to latest results');
+
+                                return false;
+
+                            }
+                        }
+                    }*/
+                ]
+            },
+            title: {
+                text: 'Consultas HU',
+            },
+            subtitle: {
+                text: document.ontouchstart === undefined ?
+                    'Servicios Médicos - UANL' :
+                    'Servicios Médicos - UANL'
+            },
+            xAxis: {
+                max: new Date().getTime(),
+                type: 'datetime',
+                labels: {
+                    format: '{value:%Y-%m-%d}'
+                },
+                events: {
+                    afterSetExtremes: function (min, max) {
+                        var serie_hu = this.chart.series[0],
+                            //serie_recetas = this.chart.series[2],
+                            //serie_tarjeton = this.chart.series[1],
+                            min = this.getExtremes().min,
+                            max = this.getExtremes().max,
+                            sum_hu = 0;
+                        //sum_recetas = 0;
+                        //sum_tarjeton = 0;
+
+                        $.each(serie_hu.data, function (i, m) {
+                            if (m.x >= min && m.x <= max) {
+                                sum_hu += m.y;
+                            }
+                        });
+
+                        var sum_total = sum_hu;
+
+                        /*$('#sum_manuales').text(sum_manuales);
+                        $('#sum_recetas').text(sum_recetas);
+                        $('#sum_tarjeton').text(sum_tarjeton);
+                        $('#sum_total').text(sum_total);*/
+
+                        //$("#container5 .highcharts-series-0 tspan").remove();
+                        $("#container5 .highcharts-series-0 text").html("Consultas HU: " + sum_hu);
+                        $("#container5 h4").remove();
+                        $("#container5").append("<h4 class='totalcount'>Consultas Totales HU: <b>" + sum_total + "</b></h4>");
+                    }
+                }
+            },
+            tooltip: {
+                /*positioner: function () {
+                    return {
+                        x: 80,
+                        y: 100
+                    };
+                },*/
+                formatter: function () {
+                    var individualfoodbanks = '<b> Día:' + Highcharts.dateFormat('%m \'%d', this.x) + '</b><br>',
+                        sumofallfoodbanks = 0;
+                    totaltotal = 0;
+
+                    $.each(this.points, function (i, point) {
+                        individualfoodbanks += '<span style="color:' + point.series.color + '">\u25CF</span> ' + point.series.name + ': <b>' + point.y + '</b> <br/>';
+                        totaltotal += point.y;
+                    });
+
+                    individualfoodbanks += '<br/>Total de Consultas HU: ' + totaltotal //"echo" title for the sum of all foodbanks series, and the total sum for all current y points
+
+                    console.log(this);
+                    return individualfoodbanks;
+                }, //"echo" the value for each series current y-value, but the data appendix for the all foodbank sum only...?
+                crosshairs: false,
+                shared: true,
+                shadow: false,
+                borderWidth: 1,
+            },
+            legend: {
+                enabled: true,
+                labelFormatter: function () {
+                    var total = 0;
+                    var totaltotalhoy = 0;
+                    for (var i = this.yData.length; i--;) {
+                        total += this.yData[i];
+                    };
+
+                    return this.name + ': ' + total;
+                    //return this.name + ' - Total: ';
+                },
+            },
+            plotOptions: {
+                lineWidth: '40',
+                series: {
+                    marker: {
+                        states: {
+                            hover: {
+                                enabled: true
+                            }
+                        }
+                    }
+                },
+                /*line: {
+                    stacking: 'overlap',
+                    //lineColor: '#666666',
+                    lineWidth: 2,
+                    marker: {
+                        lineWidth: 2,
+                        //lineColor: '#666666'
+                    }
+                }*/
+            },
+            series: [
+                {
+                    name: 'Consultas HU',
+                    data: data1,
+                    marker: {
+                        enabled: true
+                    },
+                    color: '#004a8f'
+                }
+            ]
+        }, function (chart) {
+
+            var date = new Date();
+            var newDate = new Date().getTime();
+            chart.xAxis[0].dataMax = newDate;
+            chart.xAxis[0].setExtremes(date.setDate(date.getDate() - 1), newDate, true);
+            // apply the date pickers
+            setTimeout(function () {
+                $('input.highcharts-range-selector', $(chart.container).parent())
+                    .datepicker();
+            }, 0);
+
+            if ($(window).width() < 767) {
+                //alert('hola');
+                width = $(window).width()
+                height = $(window).height() / 3
+                $("#container5").highcharts().setSize(width, height, doAnimation = false);
+                var date = new Date();
+                var newDate = new Date().getTime();
+                chart.xAxis[0].dataMax = newDate;
+                chart.xAxis[0].setExtremes(date.setDate(date.getDate() - 1), newDate, true);
+            }
+        });
+
+    });
+
+
+    //Consultas Mederos
+    $.getJSON('http://148.234.143.203/SISM-Medico/json/expediente_mederos_telefonica.json', function (data1_met) {
+        $.getJSON('http://148.234.143.203/SISM-Medico/json/expediente_mederos_presencial.json', function (data2_mep) {
+            $('#container6').highcharts({
+                chart: {
+                    type: 'line',
+                    zoomType: 'x',
+                    resetZoomButton: {
+                        position: {
+                            // align: 'right', // by default
+                            // verticalAlign: 'top', // by default
+                            x: 0,
+                            y: 0
+                        }
+                    },
+                    /*events: {
+                        load: function () {
+                            $('#total').text(arraySum(this.series[0].points));
+                        }
+                    }*/
+                },
+                navigator: {
+                    enabled: true,
+                },
+                rangeSelector: {
+                    //allButtonsEnabled: true,
+                    //selected: 0,
+                    enabled: true,
+                    inputEnabled: true,
+                    buttonPosition: {
+                        align: 'left'
+                    },
+                    labelStyle: {
+                        display: 'block'
+                    },
+                    buttons: [{
+                        type: 'day',
+                        count: 1,
+                        text: '1d'
+                    },
+                    {
+                        type: 'month',
+                        count: 1,
+                        text: '1m'
+                    },
+                    {
+                        type: 'month',
+                        count: 3,
+                        text: '3m'
+                    },
+                    {
+                        type: 'month',
+                        count: 6,
+                        text: '6m'
+                    },
+                    {
+                        type: 'year',
+                        count: 1,
+                        text: '1y'
+                    },
+                    {
+                        type: 'year',
+                        count: 2,
+                        text: '2y'
+                    },
+                    {
+                        type: 'year',
+                        count: 5,
+                        text: '5y'
+                    },
+                    {
+                        type: 'all',
+                        text: 'All'
+                    },
+                        /*{
+                            type: 'second',
+                            count: 1,
+                            text: 'Latest',
+                            events: {
+                                click: () => {
+
+                                    alert('in real app I scroll to latest results');
+
+                                    return false;
+
+                                }
+                            }
+                        }*/
+                    ]
+                },
+                title: {
+                    text: 'Consultas',
+                },
+                subtitle: {
+                    text: document.ontouchstart === undefined ?
+                        'Servicios Médicos - UANL' :
+                        'Servicios Médicos - UANL'
+                },
+                xAxis: {
+                    max: new Date().getTime(),
+                    type: 'datetime',
+                    labels: {
+                        format: '{value:%Y-%m-%d}'
+                    },
+                    events: {
+                        afterSetExtremes: function (min, max) {
+                            var serie_met = this.chart.series[0],
+                                serie_mep = this.chart.series[1],
+                                min = this.getExtremes().min,
+                                max = this.getExtremes().max,
+                                sum_met = 0;
+                            sum_mep = 0;
+
+                            $.each(serie_met.data, function (i, m) {
+                                if (m.x >= min && m.x <= max) {
+                                    sum_met += m.y;
+                                }
+                            });
+
+                            $.each(serie_mep.data, function (i, r) {
+                                if (r.x >= min && r.x <= max) {
+                                    sum_mep += r.y;
+                                }
+                            });
+
+                            var sum_total = sum_met + sum_mep;
+
+                            $("#container6 .highcharts-series-0 text").html("Consultas - Mederos - Telefónicas: " + sum_met);
+                            $("#container6 .highcharts-series-1 text").html("Consultas - Mederos - Presenciales: " + sum_mep);
+                            $("#container6 h4").remove();
+                            $("#container6").append("<h4 class='totalcount'>Consultas Mederos Totales: <b>" + sum_total + "</b></h4>");
+                        }
+                    }
+                },
+                tooltip: {
+                    /*positioner: function () {
+                        return {
+                            x: 80,
+                            y: 100
+                        };
+                    },*/
+                    formatter: function () {
+                        var individualfoodbanks = '<b> Día:' + Highcharts.dateFormat('%m \'%d', this.x) + '</b><br>',
+                            sumofallfoodbanks = 0;
+                        totaltotal = 0;
+
+                        $.each(this.points, function (i, point) {
+                            individualfoodbanks += '<span style="color:' + point.series.color + '">\u25CF</span> ' + point.series.name + ': <b>' + point.y + '</b> <br/>';
+                            totaltotal += point.y;
+                        });
+
+                        individualfoodbanks += '<br/>Total de consultas Mederos: ' + totaltotal //"echo" title for the sum of all foodbanks series, and the total sum for all current y points
+
+                        console.log(this);
+                        return individualfoodbanks;
+                    }, //"echo" the value for each series current y-value, but the data appendix for the all foodbank sum only...?
+                    crosshairs: false,
+                    shared: true,
+                    shadow: false,
+                    borderWidth: 1,
+                },
+                legend: {
+                    enabled: true,
+                    labelFormatter: function () {
+                        var total = 0;
+                        var totaltotalhoy = 0;
+                        for (var i = this.yData.length; i--;) {
+                            total += this.yData[i];
+                        };
+
+                        return this.name + ': ' + total;
+                        //return this.name + ' - Total: ';
+                    },
+                },
+                plotOptions: {
+                    lineWidth: '40',
+                    series: {
+                        marker: {
+                            states: {
+                                hover: {
+                                    enabled: true
+                                }
+                            }
+                        }
+                    },
+                    /*line: {
+                        stacking: 'overlap',
+                        //lineColor: '#666666',
+                        lineWidth: 2,
+                        marker: {
+                            lineWidth: 2,
+                            //lineColor: '#666666'
+                        }
+                    }*/
+                },
+                series: [
+                    {
+                        name: 'Consultas - Mederos - Telefónicas',
+                        data: data1_met,
+                        marker: {
+                            enabled: true
+                        },
+                        color: '#004a8f'
+                    }, {
+                        name: 'Consultas - Mederos - Presenciales',
+                        data: data2_mep,
+                        marker: {
+                            enabled: true
+                        },
+                        color: '#009e0d'
+                    }
+                ]
+            }, function (chart) {
+                var date = new Date();
+                var newDate = new Date().getTime();
+                chart.xAxis[0].dataMax = newDate;
+                chart.xAxis[0].setExtremes(date.setDate(date.getDate() - 1), newDate, true);
+                // apply the date pickers
+                setTimeout(function () {
+                    $('input.highcharts-range-selector', $(chart.container).parent())
+                        .datepicker();
+                }, 0);
+
+                if ($(window).width() < 767) {
+                    //alert('hola');
+                    width = $(window).width()
+                    height = $(window).height() / 3
+                    $("#container6").highcharts().setSize(width, height, doAnimation = false);
+                    var date = new Date();
+                    var newDate = new Date().getTime();
+                    chart.xAxis[0].dataMax = newDate;
+                    chart.xAxis[0].setExtremes(date.setDate(date.getDate() - 1), newDate, true);
+                }
+            });
+
+        });
+    });
+
+
+    //Consultas Servicios Médicos
+    $.getJSON('http://148.234.143.203/SISM-Medico/json/expediente_sm_telefonica.json', function (data1_smt) {
+        $.getJSON('http://148.234.143.203/SISM-Medico/json/expediente_sm_presencial.json', function (data2_smp) {
+            $('#container7').highcharts({
+                chart: {
+                    type: 'line',
+                    zoomType: 'x',
+                    resetZoomButton: {
+                        position: {
+                            // align: 'right', // by default
+                            // verticalAlign: 'top', // by default
+                            x: 0,
+                            y: 0
+                        }
+                    },
+                    /*events: {
+                        load: function () {
+                            $('#total').text(arraySum(this.series[0].points));
+                        }
+                    }*/
+                },
+                navigator: {
+                    enabled: true,
+                },
+                rangeSelector: {
+                    //allButtonsEnabled: true,
+                    //selected: 0,
+                    enabled: true,
+                    inputEnabled: true,
+                    buttonPosition: {
+                        align: 'left'
+                    },
+                    labelStyle: {
+                        display: 'block'
+                    },
+                    buttons: [{
+                        type: 'day',
+                        count: 1,
+                        text: '1d'
+                    },
+                    {
+                        type: 'month',
+                        count: 1,
+                        text: '1m'
+                    },
+                    {
+                        type: 'month',
+                        count: 3,
+                        text: '3m'
+                    },
+                    {
+                        type: 'month',
+                        count: 6,
+                        text: '6m'
+                    },
+                    {
+                        type: 'year',
+                        count: 1,
+                        text: '1y'
+                    },
+                    {
+                        type: 'year',
+                        count: 2,
+                        text: '2y'
+                    },
+                    {
+                        type: 'year',
+                        count: 5,
+                        text: '5y'
+                    },
+                    {
+                        type: 'all',
+                        text: 'All'
+                    },
+                        /*{
+                            type: 'second',
+                            count: 1,
+                            text: 'Latest',
+                            events: {
+                                click: () => {
+
+                                    alert('in real app I scroll to latest results');
+
+                                    return false;
+
+                                }
+                            }
+                        }*/
+                    ]
+                },
+                title: {
+                    text: 'Consultas',
+                },
+                subtitle: {
+                    text: document.ontouchstart === undefined ?
+                        'Servicios Médicos - UANL' :
+                        'Servicios Médicos - UANL'
+                },
+                xAxis: {
+                    max: new Date().getTime(),
+                    type: 'datetime',
+                    labels: {
+                        format: '{value:%Y-%m-%d}'
+                    },
+                    events: {
+                        afterSetExtremes: function (min, max) {
+                            var serie_smt = this.chart.series[0],
+                                serie_smp = this.chart.series[1],
+                                min = this.getExtremes().min,
+                                max = this.getExtremes().max,
+                                sum_smt = 0;
+                            sum_smp = 0;
+
+                            $.each(serie_smt.data, function (i, m) {
+                                if (m.x >= min && m.x <= max) {
+                                    sum_smt += m.y;
+                                }
+                            });
+
+                            $.each(serie_smp.data, function (i, r) {
+                                if (r.x >= min && r.x <= max) {
+                                    sum_smp += r.y;
+                                }
+                            });
+
+                            var sum_total = sum_smt + sum_smp;
+
+                            $("#container7 .highcharts-series-0 text").html("Consultas - Servicios Médicos - Telefónicas: " + sum_smt);
+                            $("#container7 .highcharts-series-1 text").html("Consultas - Servicios Médicos - Presenciales: " + sum_smp);
+                            $("#container7 h4").remove();
+                            $("#container7").append("<h4 class='totalcount'>Consultas Servicios Médicos Totales: <b>" + sum_total + "</b></h4>");
+                        }
+                    }
+                },
+                tooltip: {
+                    /*positioner: function () {
+                        return {
+                            x: 80,
+                            y: 100
+                        };
+                    },*/
+                    formatter: function () {
+                        var individualfoodbanks = '<b> Día:' + Highcharts.dateFormat('%m \'%d', this.x) + '</b><br>',
+                            sumofallfoodbanks = 0;
+                        totaltotal = 0;
+
+                        $.each(this.points, function (i, point) {
+                            individualfoodbanks += '<span style="color:' + point.series.color + '">\u25CF</span> ' + point.series.name + ': <b>' + point.y + '</b> <br/>';
+                            totaltotal += point.y;
+                        });
+
+                        individualfoodbanks += '<br/>Total de consultas Servicios Médicos: ' + totaltotal //"echo" title for the sum of all foodbanks series, and the total sum for all current y points
+
+                        console.log(this);
+                        return individualfoodbanks;
+                    }, //"echo" the value for each series current y-value, but the data appendix for the all foodbank sum only...?
+                    crosshairs: false,
+                    shared: true,
+                    shadow: false,
+                    borderWidth: 1,
+                },
+                legend: {
+                    enabled: true,
+                    labelFormatter: function () {
+                        var total = 0;
+                        var totaltotalhoy = 0;
+                        for (var i = this.yData.length; i--;) {
+                            total += this.yData[i];
+                        };
+
+                        return this.name + ': ' + total;
+                        //return this.name + ' - Total: ';
+                    },
+                },
+                plotOptions: {
+                    lineWidth: '40',
+                    series: {
+                        marker: {
+                            states: {
+                                hover: {
+                                    enabled: true
+                                }
+                            }
+                        }
+                    },
+                    /*line: {
+                        stacking: 'overlap',
+                        //lineColor: '#666666',
+                        lineWidth: 2,
+                        marker: {
+                            lineWidth: 2,
+                            //lineColor: '#666666'
+                        }
+                    }*/
+                },
+                series: [
+                    {
+                        name: 'Consultas - Servicios Médicos - Telefónicas',
+                        data: data1_smt,
+                        marker: {
+                            enabled: true
+                        },
+                        color: '#004a8f'
+                    }, {
+                        name: 'Consultas - Servicios Médicos - Presenciales',
+                        data: data2_smp,
+                        marker: {
+                            enabled: true
+                        },
+                        color: '#009e0d'
+                    }
+                ]
+            }, function (chart) {
+                var date = new Date();
+                var newDate = new Date().getTime();
+                chart.xAxis[0].dataMax = newDate;
+                chart.xAxis[0].setExtremes(date.setDate(date.getDate() - 1), newDate, true);
+                // apply the date pickers
+                setTimeout(function () {
+                    $('input.highcharts-range-selector', $(chart.container).parent())
+                        .datepicker();
+                }, 0);
+
+                if ($(window).width() < 767) {
+                    //alert('hola');
+                    width = $(window).width()
+                    height = $(window).height() / 3
+                    $("#container7").highcharts().setSize(width, height, doAnimation = false);
+                    var date = new Date();
+                    var newDate = new Date().getTime();
+                    chart.xAxis[0].dataMax = newDate;
+                    chart.xAxis[0].setExtremes(date.setDate(date.getDate() - 1), newDate, true);
+                }
+            });
+        });
+    });
+
+    // historal internados
+    var sum_total = 0;
+        $.getJSON('http://148.234.143.203/SISM-Medico/json/expedientes_internados.json', function (data2_smp) {
+            $('#container8').highcharts({
+                chart: {
+                    type: 'line',
+                    zoomType: 'x',
+                    resetZoomButton: {
+                        position: {
+                            // align: 'right', // by default
+                            // verticalAlign: 'top', // by default
+                            x: 0,
+                            y: 0
+                        }
+                    },
+                    /*events: {
+                        load: function () {
+                            $('#total').text(arraySum(this.series[0].points));
+                        }
+                    }*/
+                },
+                navigator: {
+                    enabled: true,
+                },
+                rangeSelector: {
+                    //allButtonsEnabled: true,
+                    //selected: 0,
+                    enabled: true,
+                    inputEnabled: true,
+                    buttonPosition: {
+                        align: 'left'
+                    },
+                    labelStyle: {
+                        display: 'block'
+                    },
+                    buttons: [{
+                        type: 'day',
+                        count: 1,
+                        text: '1d'
+                    },
+                    {
+                        type: 'month',
+                        count: 1,
+                        text: '1m'
+                    },
+                    {
+                        type: 'month',
+                        count: 3,
+                        text: '3m'
+                    },
+                    {
+                        type: 'month',
+                        count: 6,
+                        text: '6m'
+                    },
+                    {
+                        type: 'year',
+                        count: 1,
+                        text: '1y'
+                    },
+                    {
+                        type: 'year',
+                        count: 2,
+                        text: '2y'
+                    },
+                    {
+                        type: 'year',
+                        count: 5,
+                        text: '5y'
+                    },
+                    {
+                        type: 'all',
+                        text: 'All'
+                    },
+                   
+                        /*{
+                            type: 'second',
+                            count: 1,
+                            text: 'Latest',
+                            events: {
+                                click: () => {
+
+                                    alert('in real app I scroll to latest results');
+
+                                    return false;
+
+                                }
+                            }
+                        }*/
+                    ]
+                },
+                title: {
+                    text: 'Pacientes',
+                },
+                subtitle: {
+                    text: document.ontouchstart === undefined ?
+                        '   Internados' :
+                        '  Internados'
+                },
+                xAxis: {
+                    max: new Date().getTime(),
+                    type: 'datetime',
+                    labels: {
+                        format: '{value:%Y-%m-%d}'
+                    },
+                    events: {
+                        afterSetExtremes: function (min, max) {
+                            var //serie_egresos = this.chart.series[0],
+                                //serie_ingresos = this.chart.series[1],
+                                serie_internados = this.chart.series[0],
+                                min = this.getExtremes().min,
+                                max = this.getExtremes().max,
+                                sum_internados = 0;
+                                //sum_ingresos = 0;
+
+                        /* $.each(serie_egresos.data, function (i, m) {
+                             if (m.x >= min && m.x <= max) {
+                                 sum_egresos += m.y;
+                             }
+                         });*/
+                           
+                            $.each(serie_internados.data, function (i, r) {
+                                if (r.x >= min && r.x <= max) {
+                                    sum_internados += r.y;
+                                }
+                            });
+                            //$.each(serie_ingresos.data, function (i, t) {
+                            //    if (t.x >= min && t.x <= max) {
+                            //        sum_ingresos += t.y;
+                            //    }
+                            //});
+
+                            var sum_total = /*sum_egresos +*/ sum_internados;
+
+                          
+ 
+                            $("#container8 .highcharts-series-0 tspan").html("Internados: " + sum_internados);
+                            $("#container8 h4").remove();
+                            $("#container8").append("<h4 class='totalcount'>Total : <b>" + sum_total + "</b></h4>");
+
+                            console.log(sum_total);
+                        }
+                    }
+                },
+                tooltip: {
+                    /*positioner: function () {
+                        return {
+                            x: 80,
+                            y: 100
+                        };
+                    },*/
+                    formatter: function () {
+                        var individualfoodbanks = '<b> Día:' + Highcharts.dateFormat('%m \'%d', this.x) + '</b><br>',
+                            sumofallfoodbanks = 0;
+                        totaltotal = 0;
+
+                        $.each(this.points, function (i, point) {
+                            individualfoodbanks += '<span style="color:' + point.series.color + '">\u25CF</span> ' + point.series.name + ': <b>' + point.y + '</b> <br/>';
+                            totaltotal = point.y;
+                        });
+
+                        individualfoodbanks += '<br/>Total: ' + totaltotal //"echo" title for the sum of all foodbanks series, and the total sum for all current y points
+
+                        console.log(this);
+                        return individualfoodbanks;
+                    }, //"echo" the value for each series current y-value, but the data appendix for the all foodbank sum only...?
+                    crosshairs: false,
+                    shared: true,
+                    shadow: false,
+                    borderWidth: 1,
+                },
+                legend: {
+                    enabled: true,
+                    labelFormatter: function () {
+                        var total = 0;
+                        var totaltotalhoy = 0;
+                        for (var i = this.yData.length; i--;) {
+                            total = this.yData[i];
+                        };
+
+                        return this.name + '';
+                        //return this.name + ' - Total: ';
+                    },
+                },
+                plotOptions: {
+                    lineWidth: '40',
+                    series: {
+                        marker: {
+                            states: {
+                                hover: {
+                                    enabled: true
+                                }
+                            }
+                        }
+                    },
+                    /*line: {
+                        stacking: 'overlap',
+                        //lineColor: '#666666',
+                        lineWidth: 2,
+                        marker: {
+                            lineWidth: 2,
+                            //lineColor: '#666666'
+                        }
+                    }*/
+                },
+                series: [
+                    {
+                        name: 'Internados',
+                        data: data2_smp,
+                        marker: {
+                            enabled: true
+                        },
+                        color: '#009e0d'
+                    }
+                     
+                ]
+            }, function (chart) {
+                var date = new Date();
+                var newDate = new Date().getTime();
+                chart.xAxis[0].dataMax = newDate;
+                chart.xAxis[0].setExtremes(date.setDate(date.getDate() - 1), newDate, true);
+                // apply the date pickers
+                setTimeout(function () {
+                    $('input.highcharts-range-selector', $(chart.container).parent())
+                        .datepicker();
+                }, 0);
+
+                if ($(window).width() < 767) {
+                    //alert('hola');
+                    width = $(window).width()
+                    height = $(window).height() / 3
+                    $("#container8").highcharts().setSize(width, height, doAnimation = false);
+                    var date = new Date();
+                    var newDate = new Date().getTime();
+                    chart.xAxis[0].dataMax = newDate;
+                    chart.xAxis[0].setExtremes(date.setDate(date.getDate() - 1), newDate, true);
+                }
+            });
+        });
+    
+
+    // Set the datepicker's date format
+    $.datepicker.setDefaults({
+        dateFormat: 'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true,
+        onSelect: function () {
+            this.onchange();
+            this.onblur();
+        }
+    });
+
+    /*$(window).resize(function () {
+        height = $(window).height() / 3
+        width = $(window).width()
+        $("#container").highcharts().setSize(width, height, doAnimation = false);
+    });*/
+</script>
+
+<script type="text/javascript">
+    $.ajax({
+        type: 'GET',
+        url: '@Url.Action("IndicadoresCount", "Manage")',
+        dataType: 'json',
+        cache: false,
+        success: function (data) {
+            //$("#container").append("<h4 class='totalcount'>Recetas Totales: <b>" + data.total_recetas + "</b></h4>");
+
+            $("#container2").append("<h4 class='totalcount'>Recetas Totales: <b>" + data.total_recetas_hoy + "</b></h4>");
+
+            //$("#container3").append("<h4 class='totalcount'>Consultas Totales: <b>" + data.total_consultas + "</b></h4>");
+
+            $("#container4").append("<h4 class='totalcount'>Consultas Totales Hoy: <b>" + data.total_consultas_hoy + "</b></h4>");
+
+            //$("#container5").append("<h4 class='totalcount'>Consultas Totales HU: <b>" + data.total_expediente_hu + "</b></h4>");
+
+            //$("#container6").append("<h4 class='totalcount'>Consultas Totales Mederos: <b>" + data.total_expediente_mederos + "</b></h4>");
+
+            //$("#container7").append("<h4 class='totalcount'>Consultas Totales Servicios Médicos: <b>" + data.total_expediente_sm + "</b></h4>");
+
+        }
+    });
+
+</script>

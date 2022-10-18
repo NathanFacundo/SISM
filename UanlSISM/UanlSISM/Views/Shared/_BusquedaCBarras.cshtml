@@ -1,0 +1,173 @@
+﻿@model List<UanlSISM.Models.Sp_GetListaMed_Result>
+<style>
+
+    th {
+        color: black;
+        background-color: #FBC43D;
+        font-size: large;
+    }
+
+    #exampleModal table th {
+        color: black;
+        background-color: #004a8f;
+        font-size: large;
+    }
+
+    .dataTables_wrapper .dataTables_info {
+        width: 100% !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+        .dataTables_wrapper .dataTables_filter label {
+            width: 100% !important;
+            font-weight: bolder;
+            text-align: center;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            border: none;
+            border-bottom: 1px solid lightgray;
+            margin-bottom: 25px;
+            margin-top: 30px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            color: #2C3E50;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+    .btn-group {
+        text-align: left;
+        margin-bottom: -30px;
+    }
+
+    .dataTables_wrapper .dataTables_filter input:focus {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        border: none;
+        font-weight: bold;
+        border-bottom: 2px solid #FBC43D;
+        outline-width: 0
+    }
+
+    #msform {
+        margin-left: 0%;
+    }
+
+        #msform input,
+        #msform textarea {
+            -moz-box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+            border: none;
+            width: 50% !important;
+            text-align: center;
+            margin-bottom: 25px;
+            margin-top: 30px;
+            font-weight: bold;
+            border-bottom: 2px solid #FBC43D;
+            outline-width: 0
+        }
+
+
+    td.details-control {
+        background: url('../Imagenes/iconos/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        background: url('../Imagenes/iconos/details_close.png') no-repeat center center;
+    }
+
+    .btn {
+        color: #fff;
+        background-color: #306695;
+        border-color: #306695;
+    }
+</style>
+<div id="msform">
+    <div>
+        <table id="ListaDetalle" class="table table-striped" width="90%">
+            <thead>
+                <tr>
+                    <th>Codigo de barras</th>
+                    <th>Descripción_21</th>
+                    <th>Cuadro</th>
+                    <th>Grupo</th>
+                    <th>Nivel</th>
+                    <th>Inv. Almacen</th>
+                    <th>Inv. Gonzalitos</th>
+                    <th>Inv. Mederos</th>
+                    <th>Inv. SEMAC</th>
+                    <th>Licitación</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Codigo_de_barras</td>
+                        <td>@item.Descripcion</td>
+                        <td>@item.Cuadro</td>
+                        <td>@item.Grupo</td>
+                        <td>@item.Nivel</td>
+                        <td>@item.Inv_Almacen</td>
+                        <td>@item.Inv_Gonzalitos</td>
+                        <td>@item.Inv_Mederos</td>
+                        <td>@item.Inv_CU</td>
+                        <td>@item.Licitacion</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src='https://code.jquery.com/jquery-3.5.1.js'></script>
+<script src='https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js'></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var table = $('#ListaDetalle').DataTable({
+            "language": {
+                "search": "Filtrar:",
+                "zeroRecords": "No se encontró ningun registro",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior",
+                    "print": "Imprimir",
+                },
+                "select": {
+                    "rows": " %d filas seleccionadas"
+                },
+                "loadingRecords": "Un momento, cargando...",
+                "processing": "Procesando  ...",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                lengthMenu: "Mostrar _MENU_ registros"
+            },
+            lengthChange: true,
+            paging: true,
+            paginate: true,
+            lengthMenu: [10, 25, 50, 100, 1500],
+            pageLength: 50
+        });
+    });
+</script>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c62f59f072954cb18bad1ec298086097" Name="Diagram1">
+        <EntityTypeShape EntityType="SISM.captured_columns" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.change_tables" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.ddl_history" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.index_columns" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.lsn_time_mapping" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.MSreplication_queue" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.sysdiagrams" Width="1.5" PointX="2.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.Tbl_CategoriaSM" Width="1.5" PointX="6.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.Tbl_PuestosSM" Width="1.5" PointX="4.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.Tbl_UnidadMedica" Width="1.5" PointX="6.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.TblAcceso" Width="1.5" PointX="12" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.TblCarreras" Width="1.5" PointX="12.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.TblCatalogoContratos" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.TblColonia" Width="1.5" PointX="7.5" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.TblDepartamento" Width="1.5" PointX="7.5" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.TblDocumentos" Width="1.5" PointX="12" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.TblEmpleado" Width="1.5" PointX="9.75" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.TblEscuela" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.TblEstado" Width="1.5" PointX="3" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.TblEstudiosEmpleado" Width="1.5" PointX="15" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.TblHijos" Width="1.5" PointX="12" PointY="26.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.TblKardex" Width="1.5" PointX="18" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.TblKardexRHyNom" Width="1.5" PointX="12.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.TblMovimientos" Width="1.5" PointX="15" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.TblMunicipio" Width="1.5" PointX="5.25" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.TblNivelAcademico" Width="1.5" PointX="10.5" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.TblPais" Width="1.5" PointX="0.75" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.TblPuesto" Width="1.5" PointX="7.5" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.TblRegimen" Width="1.5" PointX="7.5" PointY="22" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.TblSubCategoriaSM" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.TblTallasUniformes" Width="1.5" PointX="9.75" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.TblUniforme" Width="1.5" PointX="7.5" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.MSrepl_queuedtraninfo" Width="1.5" PointX="2.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.MSreplication_objects" Width="1.5" PointX="4.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.MSreplication_subscriptions" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.MSsubscription_agents" Width="1.5" PointX="14.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.MSsubscription_articlecolumns" Width="1.5" PointX="16.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.MSsubscription_articles" Width="1.5" PointX="16.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.MSsubscription_properties" Width="1.5" PointX="18.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM.systranschemas" Width="1.5" PointX="17.75" PointY="9.75" IsExpanded="true" />
+        <AssociationConnector Association="SISM.FK__TblAcceso__Emp_N__7C4F7684" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblAcceso__IdDep__7D439ABD" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblCarrer__IdNiv__4CA06362" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblEstudi__IdCar__52593CB8" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblColoni__IdMun__2B3F6F97" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblEmplea__IdCol__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblEmplea__IdCol__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblEmplea__IdDep__37A5467C" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblDocume__Emp_N__5812160E" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblEmplea__IdEst__3A81B327" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblEmplea__IdEst__3E52440B" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblEmplea__IdMun__3B75D760" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblEmplea__IdMun__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblEmplea__IdPai__398D8EEE" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblEmplea__IdPai__3D5E1FD2" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblEmplea__IdPue__36B12243" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblEmplea__IdReg__35BCFE0A" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblEmplea__IdUni__38996AB5" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblEstudi__Emp_N__5070F446" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblHijos__Emp_Nu__5535A963" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblKardex__Emp_N__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblMovimi__Emp_N__72C60C4A" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblEstado__IdPai__25869641" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblMunici__IdEst__286302EC" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblEstudi__IdNiv__5165187F" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblKardex__Clave__44FF419A" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblMovimi__Clave__73BA3083" ManuallyRouted="false" />
+        <AssociationConnector Association="SISM.FK__TblTallas__IdUni__5AEE82B9" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

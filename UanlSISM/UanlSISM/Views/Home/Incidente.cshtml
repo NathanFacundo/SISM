@@ -1,0 +1,339 @@
+﻿@{
+    ViewBag.Title = "Incidente";
+}
+
+<style>
+    #home-seccion {
+        margin-top: 20px;
+    }
+
+    .icons {
+        width: 8vw;
+    }
+
+    .item {
+        padding: 10px;
+    }
+
+    .item-card {
+        transition: 0.5s;
+        cursor: pointer;
+        padding: 20px;
+    }
+
+    .card-link {
+        background-color: #FBC43D;
+        border-color: #FBC43D;
+        color: white;
+        padding: 5px 20px;
+    }
+
+        .card-link:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+    .item-card-title {
+        font-size: 15px;
+        transition: 1s;
+        cursor: pointer;
+    }
+
+        .item-card-title i {
+            font-size: 15px;
+            transition: 1s;
+            cursor: pointer;
+            color: #ffa710
+        }
+
+    .card-title i:hover {
+        transform: scale(1.25) rotate(20deg);
+        color: #18d4ca;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        /*box-shadow: 5px 5px 5px rgba(0,0,0,0.3);*/
+    }
+
+    .card::before, .card::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: scale3d(0, 0, 1);
+        transition: transform .3s ease-out 0s;
+        background: rgba(255, 255, 255, 0.1);
+        content: '';
+        pointer-events: none;
+    }
+
+    .card::before {
+        transform-origin: left top;
+    }
+
+    .card::after {
+        transform-origin: right bottom;
+    }
+
+    .card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
+        transform: scale3d(1, 1, 1);
+    }
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .fecha {
+        background-color: #FBC43D;
+        color: #fff;
+    }
+
+        .fecha h4 {
+            margin-bottom: 0 !important;
+            line-height: 1.5 !important;
+        }
+
+    .informacion {
+        background-color: #fff7e3;
+    }
+
+    .btn-seguimiento {
+        background-color: #FBC43D !important;
+        color: #fff;
+    }
+
+        .btn-seguimiento:hover {
+            background-color: #FBC43D !important;
+            color: #fff;
+        }
+
+    .modal-dialog {
+        max-width: 800px;
+        /*margin-top: 7vw;*/
+    }
+
+    .paginationjs .paginationjs-pages li.active a {
+        background: #FBC43D !important;
+        color: #fff !important;
+    }
+
+    .btnCheck {
+        background-color: green !important;
+    }
+
+        .btnCheck:hover {
+            background-color: green !important;
+        }
+
+    .paginationjs-pages{
+        display:none !important;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 767px)">
+    .icons {
+        width: 20vw;
+    }
+</style>
+
+<!--link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'-->
+<link rel='stylesheet' href='~/Content/materialicons.css'>
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+
+<div class="row m-0">
+    <div class="col-12 m-auto p-0 wrapper">
+        <div class="row m-0" id="listIncidentes"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="incidenteModal" tabindex="-1" role="dialog" aria-labelledby="incidenteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-titler" id="incidenteModalLabel"><b>Incidente</b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row m-0">
+                    <div class="col-12 p-0">
+                        @using (Html.BeginForm("AsignarIncidente", "Home", FormMethod.Post))
+                        {
+
+                            <div class="form-group row m-0 pt-4">
+                                <div class="col-lg-4">
+                                    <label for="fecha_evento">Fecha evento</label>
+                                    <input type="text" disabled class="form-control" id="fecha_evento" placeholder="Fecha evento">
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="registro">Registró</label>
+                                    <input type="text" disabled class="form-control" id="persona_reporta" placeholder="Registró">
+                                </div>
+                                <div class="col-lg-2">
+                                    <label for="folio">Folio</label>
+                                    <input type="text" disabled class="form-control" id="folio" placeholder="Folio">
+                                </div>
+                                <div class="col-lg-12 pt-3">
+                                    <label for="queja">Queja / Sugerencia / Felicitación</label>
+                                    <textarea class="form-control" disabled id="desc_sol" placeholder="Queja / Sugerencia / Felicitación"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row m-0 pt-4">
+                                <div class="col-12 text-center">
+                                    <h5><b>Paciente involucrado</b></h5>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="nombre">Nombre</label>
+                                    <input type="text" disabled class="form-control" id="nombre" placeholder="Nombre">
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="sexo">Sexo</label>
+                                    <input type="text" disabled class="form-control" id="sexo" placeholder="Sexo">
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="edad">Edad</label>
+                                    <input type="text" disabled class="form-control" id="edad" placeholder="Edad">
+                                </div>
+                            </div>
+
+                            <input type="hidden" id="foliohidden" name="folio" value="" />
+
+                            <!--div class="form-group row m-0 pt-4">
+                                <div class="col-12 text-center">
+                                    <h5><b>Seguimiento</b></h5>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <textarea type="text" class="form-control" id="seguimiento" name="seguimiento" placeholder="Seguimiento"></textarea>
+                                </div>
+                            </div-->
+
+                            <div class="form-group row m-0 pt-4">
+                                <div class="col-12 text-center">
+                                    <h5><b>Asignar a</b></h5>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <select id="areasList" class="form-control" name="area_incidente">
+                                        <option disabled selected>Seleccionar área</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row m-0 pt-4">
+                                <div class="col-lg-12 text-center">
+                                    <button type="submit" style="width:100%;" class="btn btn-success">Enviar información</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://pagination.js.org/dist/2.1.4/pagination.min.js"></script>
+<link rel="stylesheet" href="https://pagination.js.org/dist/2.1.4/pagination.css" />
+
+<script>
+    $.getJSON('/json/incidentes/incidentes_folio.json', function (json) {
+        $('.wrapper').pagination({
+            dataSource: json,
+            pageSize: 4,
+            callback: function (data, pagination) {
+                var wrapper = $('#listIncidentes').empty();
+                $.each(data, function (i, f) {
+                    $.ajax({
+                        url: '@Url.Action("GetNombreExpediente", "Home")',
+                        dataType: "json",
+                        data: { search: f.expediente },
+                        success: function (data) {
+                            if (f.expediente == data.numemp) {
+
+                                var fecha = new Date(f.fecha_incidente);
+
+                                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+                                var fnac = data.fnac;
+
+                                var split1 = fnac.split(" ");
+                                console.log(split1);
+                                var split2 = split1[0].split("/");
+                                var hoy = new Date().getFullYear();
+                                var edad = hoy - split2[2];
+
+                                if(f.seguimiento != null) {
+                                    $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion" style="background-color:#d9ffdd;"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha" style="background-color:green;"><h1><i class="far fa-calendar-check"></i></h1><h4>' + fecha.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + data.sexo + '"><input type="hidden" class="edad" value="' + edad + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + data.nombres + ' ' + data.apaterno + ' ' + data.amaterno + '</b></</h6><h6>Sexo: <b>' + data.sexo + '</b> | Edad: <b>' + edad + '</b></h6><h6>Área: <b>' + f.area_incidente + '</b></</h6><h6>Coordinador: <b>' + f.coordinador + '</b></</h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></</h6></div><div class="col-md-3 p-3 m-auto text-center"><button class="btn btnCheck btn-seguimiento">Asignar</button></div></div></div>');
+                                } else {
+                                    $('#listIncidentes').append('<div class="col-12 p-0 mt-3 mb-3 informacion"><div class="row m-0"><div class="col-md-3 p-3 text-center fecha"><h1><i class="far fa-calendar"></i></h1><h4>' + fecha.toLocaleDateString('es-ES', options) + '</h4><input type="hidden" class="fecha_incidente" value="' + f.fecha_incidente + '"><input type="hidden" class="persona_reporta" value="' + f.persona_reporta + '"><input type="hidden" class="seguimiento" value="' + f.seguimiento + '"><input type="hidden" class="fecha_seguimiento" value="' + f.fecha_seguimiento + '"><input type="hidden" class="folio" value="' + f.folio + '"><input type="hidden" class="sexo" value="' + data.sexo + '"><input type="hidden" class="edad" value="' + edad + '"><input type="hidden" class="desc_sol" value="' + f.desc_sol + '"></div><div class="col-md-6 p-3 m-auto"><h6>Nombre: <b class="nombres">' + data.nombres + ' ' + data.apaterno + ' ' + data.amaterno + '</b></</h6><h6>Sexo: <b>' + data.sexo + '</b> | Edad: <b>' + edad + '</b></h6><h6>Área: <b>' + f.area_incidente + '</b></</h6><h6>Coordinador: <b>' + f.coordinador + '</b></</h6><h6>Tipo incidente: <b>' + f.tipo_incidente + '</b></</h6></div><div class="col-md-3 p-3 m-auto text-center"><button class="btn btn-seguimiento">Asignar</button></div></div></div>');
+                                }
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert("Error");
+                        }
+                    });
+
+                });
+
+            }
+        });
+
+        $('.paginationjs').addClass('d-flex justify-content-center');
+
+    });
+
+    $(document).ready(function () {
+
+        $(document).on('click', '.btn-seguimiento', function () {
+            var fecha_incidente = $(this).closest(".informacion").find(".fecha_incidente").val();
+            var persona_reporta = $(this).closest(".informacion").find(".persona_reporta").val();
+            var folio = $(this).closest(".informacion").find(".folio").val();
+            var desc_sol = $(this).closest(".informacion").find(".desc_sol").val();
+            var nombre = $(this).closest(".informacion").find(".nombres").text();
+            var sexo = $(this).closest(".informacion").find(".sexo").val();
+            var edad = $(this).closest(".informacion").find(".edad").val();
+            var seguimiento = $(this).closest(".informacion").find(".seguimiento").val();
+
+
+            $('#fecha_evento').val(fecha_incidente);
+            $('#persona_reporta').val(persona_reporta);
+            $('#folio').val(folio);
+            $('#foliohidden').val(folio);
+            $('#desc_sol').val(desc_sol);
+            $('#nombre').val(nombre);
+            $('#sexo').val(sexo);
+            $('#edad').val(edad);
+
+            if (seguimiento != "null") {
+                $('#seguimiento').val(seguimiento);
+            }
+
+            $('#incidenteModal').modal("show");
+        });
+    });
+
+
+
+    $.ajax({
+        url: '/json/incidentes/sis_areas.json',
+        dataType: "json",
+        //data: { search: $("#numemp").val() },
+        success: function (data) {
+            $.each(data, function (i, item) {
+                //console.log(item.descripcion);
+                $('#areasList').append($('<option value="' + item.id_area + '">' + item.descripcion + '</option>'));
+            });
+        },
+        error: function (xhr, status, error) {
+            alert("Error");
+        }
+    });
+
+
+</script>
+
+

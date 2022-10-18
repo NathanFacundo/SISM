@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SIHUModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="sp_CensoPensionistax" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="SIHUModelStoreContainer" />
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SIHUModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SIHUEntities" annotation:LazyLoadingEnabled="true" >
+          <FunctionImport Name="sp_CensoPensionistax" ReturnType="Collection(SIHUModel.sp_CensoPensionistax_Result)" />
+        </EntityContainer>
+        <ComplexType Name="sp_CensoPensionistax_Result">
+          <Property Type="String" Name="Reg" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Paciente" Nullable="true" MaxLength="255" />
+          <Property Type="DateTime" Name="Fecha_Nac" Nullable="true" />
+          <Property Type="String" Name="Edad" Nullable="true" MaxLength="26" />
+          <Property Type="String" Name="ExpedienteUANL" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Sexo" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Dep" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Departamento" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Tipo" Nullable="true" MaxLength="8000" />
+          <Property Type="String" Name="Edificio" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Cuarto" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Cama" Nullable="true" MaxLength="10" />
+          <Property Type="DateTime" Name="Fecha_Ingreso" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Especialidad" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Medico" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Diagnostico" Nullable="true" MaxLength="255" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SIHUModelStoreContainer" CdmEntityContainer="SIHUEntities" >
+          <FunctionImportMapping FunctionImportName="sp_CensoPensionistax" FunctionName="SIHUModel.Store.sp_CensoPensionistax">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SIHUModel.sp_CensoPensionistax_Result">
+                <ScalarProperty Name="Reg" ColumnName="Reg" />
+                <ScalarProperty Name="Paciente" ColumnName="Paciente" />
+                <ScalarProperty Name="Fecha_Nac" ColumnName="Fecha_Nac" />
+                <ScalarProperty Name="Edad" ColumnName="Edad" />
+                <ScalarProperty Name="ExpedienteUANL" ColumnName="ExpedienteUANL" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Dep" ColumnName="Dep" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="Edificio" ColumnName="Edificio" />
+                <ScalarProperty Name="Cuarto" ColumnName="Cuarto" />
+                <ScalarProperty Name="Cama" ColumnName="Cama" />
+                <ScalarProperty Name="Fecha_Ingreso" ColumnName="Fecha_Ingreso" />
+                <ScalarProperty Name="Especialidad" ColumnName="Especialidad" />
+                <ScalarProperty Name="Medico" ColumnName="Medico" />
+                <ScalarProperty Name="Diagnostico" ColumnName="Diagnostico" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

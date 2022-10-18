@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SMDEVModel2.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DHABIENTES">
+          <Key>
+            <PropertyRef Name="NUMEMP" />
+          </Key>
+          <Property Name="NUMEMP" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="CURP" Type="nvarchar" MaxLength="18" />
+          <Property Name="PARIENTE" Type="nvarchar" MaxLength="1" />
+          <Property Name="NOMBRES" Type="nvarchar" MaxLength="45" />
+          <Property Name="APATERNO" Type="nvarchar" MaxLength="45" />
+          <Property Name="AMATERNO" Type="nvarchar" MaxLength="45" />
+          <Property Name="FNAC" Type="smalldatetime" />
+          <Property Name="SEXO" Type="nvarchar" MaxLength="1" />
+          <Property Name="FECALTA" Type="smalldatetime" />
+          <Property Name="FVIGENCIA" Type="smalldatetime" />
+          <Property Name="CVEMED" Type="nvarchar" MaxLength="5" />
+          <Property Name="EMAIL" Type="nvarchar" MaxLength="40" />
+          <Property Name="NUMAFIL" Type="nvarchar" MaxLength="6" />
+          <Property Name="OCUPACION" Type="char" MaxLength="2" />
+          <Property Name="BAJA" Type="char" MaxLength="2" />
+          <Property Name="FBAJA" Type="smalldatetime" />
+          <Property Name="DESC_BAJA" Type="text" />
+          <Property Name="ARCHIVO" Type="char" MaxLength="1" />
+          <Property Name="EMP_REALIZO" Type="char" MaxLength="10" />
+          <Property Name="fec_foto" Type="smalldatetime" />
+          <Property Name="fec_cred" Type="smalldatetime" />
+          <Property Name="status_rep" Type="char" MaxLength="1" />
+          <Property Name="protocolo_vac" Type="char" MaxLength="1" />
+          <Property Name="fec_alta_cei" Type="smalldatetime" />
+          <Property Name="fec_ing_cei" Type="smalldatetime" />
+          <Property Name="salon" Type="char" MaxLength="2" />
+          <Property Name="num_cei" Type="char" MaxLength="1" />
+          <Property Name="tel_oficina" Type="char" MaxLength="15" />
+          <Property Name="tel_casa" Type="char" MaxLength="15" />
+          <Property Name="tel_celular" Type="char" MaxLength="15" />
+          <Property Name="fv_registro" Type="char" MaxLength="10" />
+          <Property Name="fv_fecha" Type="datetime" />
+          <Property Name="fv_nota" Type="ntext" />
+          <Property Name="fv_ip" Type="char" MaxLength="15" />
+          <Property Name="FV_NOTA2" Type="ntext" />
+          <Property Name="medico" Type="char" MaxLength="5" />
+          <Property Name="medico_grupo" Type="char" MaxLength="2" />
+          <Property Name="REGHU" Type="nchar" MaxLength="9" />
+          <Property Name="medico_dmhta" Type="nchar" MaxLength="5" />
+          <Property Name="mat_uanl" Type="nchar" MaxLength="8" />
+          <Property Name="esc_uanl" Type="nchar" MaxLength="4" />
+          <Property Name="tipo_asign_med" Type="nchar" MaxLength="1" />
+        </EntityType>
+        <EntityContainer Name="SMDEVModel2StoreContainer">
+          <EntitySet Name="DHABIENTES" EntityType="Self.DHABIENTES" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SMDEVModel2" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DHABIENTES">
+          <Key>
+            <PropertyRef Name="NUMEMP" />
+          </Key>
+          <Property Name="NUMEMP" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CURP" Type="String" MaxLength="18" FixedLength="false" Unicode="true" />
+          <Property Name="PARIENTE" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="NOMBRES" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="APATERNO" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="AMATERNO" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="FNAC" Type="DateTime" Precision="0" />
+          <Property Name="SEXO" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="FECALTA" Type="DateTime" Precision="0" />
+          <Property Name="FVIGENCIA" Type="DateTime" Precision="0" />
+          <Property Name="CVEMED" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="EMAIL" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="NUMAFIL" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Name="OCUPACION" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="BAJA" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="FBAJA" Type="DateTime" Precision="0" />
+          <Property Name="DESC_BAJA" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ARCHIVO" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="EMP_REALIZO" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="fec_foto" Type="DateTime" Precision="0" />
+          <Property Name="fec_cred" Type="DateTime" Precision="0" />
+          <Property Name="status_rep" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="protocolo_vac" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="fec_alta_cei" Type="DateTime" Precision="0" />
+          <Property Name="fec_ing_cei" Type="DateTime" Precision="0" />
+          <Property Name="salon" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="num_cei" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="tel_oficina" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="tel_casa" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="tel_celular" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="fv_registro" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="fv_fecha" Type="DateTime" Precision="3" />
+          <Property Name="fv_nota" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fv_ip" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="FV_NOTA2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="medico" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="medico_grupo" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="REGHU" Type="String" MaxLength="9" FixedLength="true" Unicode="true" />
+          <Property Name="medico_dmhta" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
+          <Property Name="mat_uanl" Type="String" MaxLength="8" FixedLength="true" Unicode="true" />
+          <Property Name="esc_uanl" Type="String" MaxLength="4" FixedLength="true" Unicode="true" />
+          <Property Name="tipo_asign_med" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="SMDEVEntities9" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DHABIENTES" EntityType="Self.DHABIENTES" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SMDEVModel2StoreContainer" CdmEntityContainer="SMDEVEntities9">
+          <EntitySetMapping Name="DHABIENTES">
+            <EntityTypeMapping TypeName="SMDEVModel2.DHABIENTES">
+              <MappingFragment StoreEntitySet="DHABIENTES">
+                <ScalarProperty Name="NUMEMP" ColumnName="NUMEMP" />
+                <ScalarProperty Name="CURP" ColumnName="CURP" />
+                <ScalarProperty Name="PARIENTE" ColumnName="PARIENTE" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="APATERNO" ColumnName="APATERNO" />
+                <ScalarProperty Name="AMATERNO" ColumnName="AMATERNO" />
+                <ScalarProperty Name="FNAC" ColumnName="FNAC" />
+                <ScalarProperty Name="SEXO" ColumnName="SEXO" />
+                <ScalarProperty Name="FECALTA" ColumnName="FECALTA" />
+                <ScalarProperty Name="FVIGENCIA" ColumnName="FVIGENCIA" />
+                <ScalarProperty Name="CVEMED" ColumnName="CVEMED" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="NUMAFIL" ColumnName="NUMAFIL" />
+                <ScalarProperty Name="OCUPACION" ColumnName="OCUPACION" />
+                <ScalarProperty Name="BAJA" ColumnName="BAJA" />
+                <ScalarProperty Name="FBAJA" ColumnName="FBAJA" />
+                <ScalarProperty Name="DESC_BAJA" ColumnName="DESC_BAJA" />
+                <ScalarProperty Name="ARCHIVO" ColumnName="ARCHIVO" />
+                <ScalarProperty Name="EMP_REALIZO" ColumnName="EMP_REALIZO" />
+                <ScalarProperty Name="fec_foto" ColumnName="fec_foto" />
+                <ScalarProperty Name="fec_cred" ColumnName="fec_cred" />
+                <ScalarProperty Name="status_rep" ColumnName="status_rep" />
+                <ScalarProperty Name="protocolo_vac" ColumnName="protocolo_vac" />
+                <ScalarProperty Name="fec_alta_cei" ColumnName="fec_alta_cei" />
+                <ScalarProperty Name="fec_ing_cei" ColumnName="fec_ing_cei" />
+                <ScalarProperty Name="salon" ColumnName="salon" />
+                <ScalarProperty Name="num_cei" ColumnName="num_cei" />
+                <ScalarProperty Name="tel_oficina" ColumnName="tel_oficina" />
+                <ScalarProperty Name="tel_casa" ColumnName="tel_casa" />
+                <ScalarProperty Name="tel_celular" ColumnName="tel_celular" />
+                <ScalarProperty Name="fv_registro" ColumnName="fv_registro" />
+                <ScalarProperty Name="fv_fecha" ColumnName="fv_fecha" />
+                <ScalarProperty Name="fv_nota" ColumnName="fv_nota" />
+                <ScalarProperty Name="fv_ip" ColumnName="fv_ip" />
+                <ScalarProperty Name="FV_NOTA2" ColumnName="FV_NOTA2" />
+                <ScalarProperty Name="medico" ColumnName="medico" />
+                <ScalarProperty Name="medico_grupo" ColumnName="medico_grupo" />
+                <ScalarProperty Name="REGHU" ColumnName="REGHU" />
+                <ScalarProperty Name="medico_dmhta" ColumnName="medico_dmhta" />
+                <ScalarProperty Name="mat_uanl" ColumnName="mat_uanl" />
+                <ScalarProperty Name="esc_uanl" ColumnName="esc_uanl" />
+                <ScalarProperty Name="tipo_asign_med" ColumnName="tipo_asign_med" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

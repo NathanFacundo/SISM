@@ -1,0 +1,220 @@
+﻿
+@{
+    ViewBag.Title = "Search";
+}
+
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+
+<link rel='stylesheet' href='https://select2.github.io/select2-bootstrap-theme/css/select2-bootstrap.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css'>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.full.min.js'></script>
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+<link rel='stylesheet' href='https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.css'>
+
+<style>
+
+    .uanl-logo {
+        width: 10vw;
+        margin-top: 0vw;
+        margin-bottom: 1vw;
+    }
+    .somos-uni {
+        width: 5vw;
+        margin-top: 1vw;
+        margin-bottom: 3vw;
+    }
+
+    #msform input,
+    #msform textarea {
+        padding: 0px 8px 4px 8px;
+        border: none;
+        border-bottom: 1px solid lightgray;
+        border-radius: 0px;
+        margin-top: 2px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        color: #2C3E50;
+        font-size: 16px;
+        letter-spacing: 1px;
+    }
+
+    #msform input:focus,
+    #msform textarea:focus {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        border: none;
+        font-weight: bold;
+        border-bottom: 2px solid #FBC43D;
+        outline-width: 0
+    }
+
+    .btn-ver {
+        background-color: #FBC43D !important;
+        color: white !important;
+    }
+
+
+</style>
+
+<div id="loadingDiv">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("MenuEnfermeria", "EnfermeriaSolicitud")"><b>Menu Enfermería</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Search", "EnfermeriaSolicitud")"><b>Solicitudes Enfermería</b></a></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="col-md-10 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
+        <img src="~/Imagenes/uanl-logo.png" class="uanl-logo" />
+        <br /> <br />
+        <!--h3 style="font-family: 'Roboto', sans-serif;">Buscar paciente</h3>
+        <center><input class="form-control" id="searchInput" /></center>
+        <center><button class="btn btn-buscar">Buscar</button></center-->
+        <div class="row" style=" margin-bottom: 10px;">
+
+            <div class="col-2 p-1">
+                <input type="text" value="" class="form-control" autocomplete="off" id="TxtBuscarPac" placeholder="NumEmp" />
+            </div>
+            <div class="col-3 p-1">
+                <input type="text" value="" class="form-control" autocomplete="off" id="TxtBuscarNombrePac" placeholder="Nombres" />
+            </div>
+            <div class="col-3 p-1">
+                <input type="text" value="" class="form-control" autocomplete="off" id="TxtBuscarApellidoPac" placeholder="Apellido Paterno" />
+            </div>
+            <div class="col-3 p-1">
+                <input type="text" value="" class="form-control" autocomplete="off" id="TxtBuscarApellidoMPac" placeholder="Apellido Materno" />
+            </div>
+            <div class="col-1 p-1">
+                <a onclick="BsqPaciente()">
+                    <img src="~/Imagenes/btn1.png" class="btnbuscapac" style="width: 45px; cursor: pointer;   position: absolute; top: -2px; left: 13px;" />
+                </a>
+
+                @*<button class="btn btn-info" id="btnbuscapac" onclick="BsqPaciente()">Buscar</button>*@
+            </div>
+        </div>
+
+        <table id="example" class="table table-bordered table-striped" width="100%">
+            <!--caption style="caption-side: top">Selecciona un derechohabiente</caption-->
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>NUMEMP</th>
+                    <th>NOMBRES</th>
+                    <th>APATERNO</th>
+                    <th>AMATERNO</th>
+                    <th>SEXO</th>
+                    <th style="width:150px !important">EDAD <br /> MESES</th>
+                    <th style="display:none">FECHA DE ALTA</th>
+                    <th style="width:150px !important"> BAJA</th>
+                </tr>
+            </thead>
+        </table>
+
+        <div class="col-md-10 text-center m-auto p-3">
+            <img src="~/Imagenes/somos-uni.png" class="somos-uni" />
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#loadingDiv').hide();
+    });
+</script>
+<script>
+
+    function BsqPaciente() {
+        var table = $('#example').DataTable({
+            destroy: true,
+            searching: false,
+            responsive: true,
+            "ajax": {
+                "url": "../Manage/BsqHU?v_NUMEMP=" + $("#TxtBuscarPac").val() + "&v_nombres=" + $("#TxtBuscarNombrePac").val() + "&v_apellido=" + $("#TxtBuscarApellidoPac").val() + "&v_apellidoM=" + $("#TxtBuscarApellidoMPac").val(),
+                "dataSrc": "",
+            },
+            "initComplete": function (settings, json) {
+                $('#loadingDiv').hide();
+            },
+
+            "language": {
+                "search": "Buscar derechohabiente:",
+                "zeroRecords": "No se encontró ningun derechohabiente",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+
+                "loadingRecords": "Un momento, cargando derechohabientes...",
+                "processing": "Procesando derechohabientes...",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ derechohabientes",
+                "lengthMenu": "Mostrando _MENU_ derechohabientes",
+                "lengthMenu": "Mostrando _MENU_ derechohabientes",
+            },
+            "columns": [
+                { "data": "NUMEMP" },
+                { "data": "NUMEMP" },
+                { "data": "NOMBRES" },
+                { "data": "APATERNO" },
+                { "data": "AMATERNO" },
+                { "data": "SEXO" },
+                { "data": "EDAD" },
+                { "data": "FECALTA" },
+                { "data": "FBAJA" },
+            ],
+            columnDefs: [
+                {
+                    className: 'select-checkbox',
+                    targets: 0,
+                    orderDataType: 'dom-checkbox',
+                    'checkboxes': {
+                        'selectRow': true
+                    },
+                    'render': function (data, type, full, meta) {
+                        return '<input type="button" onclick="test()" class="btn-ver" value="Ver">';
+
+                        //return '<span class= "material-icons checking"> check_circle</span>';
+                    }
+                },
+                {
+                    className: 'nomostrar',
+                    targets: 7
+                }
+            ],
+            select: {
+                style: 'os',
+                selector: 'td:first-child',
+                //'style': 'multi'
+            },//,
+            //'order': [1, 'asc'],
+            //"createdRow": function (row, data, dataIndex) {
+            // $(row).attr("id", "tblRow_" + data[0]);
+            //}
+        });
+    }
+
+    function test() {
+        var table = $('#example').DataTable();
+        var numemp = table.cell().data();
+
+        location.href = '@Url.Action("IndexAgenda", "EnfermeriaSolicitud")' + '?expediente=' + numemp;
+    }
+
+</script>

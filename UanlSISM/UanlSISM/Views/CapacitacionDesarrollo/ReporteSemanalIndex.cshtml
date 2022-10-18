@@ -1,0 +1,252 @@
+﻿@model List<UanlSISM.Models.ReportedeActividades>
+
+@{
+
+    IEnumerable<UanlSISM.Controllers.SemanasList> semanas = ViewBag.Semanas;
+    int WeekNum = ViewBag.WeekNumber;
+    var Departamentos = (dynamic)ViewBag.Departamentos;
+}
+
+<style>
+    .bg-active {
+        background-color: rgba(0, 74, 143, 1);
+    }
+</style>
+
+<style>
+
+    .success-button {
+        width: 130px;
+        background-color: rgba(0, 74, 143, 1) !important;
+        font-weight: bold;
+        color: white !important;
+        border: 0 none;
+        border-radius: 0px;
+        cursor: pointer;
+        padding: 10px 5px;
+        margin: 10px 5px
+    }
+
+        .success-button:hover {
+            width: 130px;
+            background-color: rgba(0, 74, 143, 1) !important;
+            font-weight: bold;
+            color: white !important;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+</style>
+
+<br />
+<h2 style="text-align:center">Reporte Semanal</h2>
+<h4 style="text-align:center">Capacitación y Desarrollo</h4>
+<br />
+
+<div class="row">
+    <div class="col-md-5">
+        <p>Fecha Inicio</p>
+        <select id="fechaInicioddl" style="max-width:100%;" class="form-control">
+
+            @foreach (var item in semanas)
+            {
+
+                if (item.SemanaId == WeekNum - 2)
+                {
+                    <option selected value="@item.SemanaId">@item.Semana.ToString().Replace("{", "").Replace("}", "")</option>
+                }
+                else
+                {
+                    <option value="@item.SemanaId">@item.Semana.ToString().Replace("{", "").Replace("}", "")</option>
+                }
+
+            }
+
+        </select>
+    </div>
+    <div class="col-md-5">
+        <p>Fecha Fin</p>
+        <select id="fechaFinddl" style="max-width:100%;" class="form-control">
+
+            @foreach (var item in semanas)
+            {
+
+                if (item.SemanaId == WeekNum - 1)
+                {
+                    <option selected value="@item.SemanaId">@item.Semana.ToString().Replace("{", "").Replace("}", "")</option>
+                }
+                else
+                {
+                    <option value="@item.SemanaId">@item.Semana.ToString().Replace("{", "").Replace("}", "")</option>
+                }
+
+            }
+
+        </select>
+    </div>
+    <div class="col-md-2">
+        <br /><br />
+        <button onclick="test()" style="background-color: rgba(0, 74, 143, 1);" class="btn btn-primary"><i class="fa fa-search"></i></button>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-2">
+        <button onclick="grafica()" style="background-color: rgba(0, 74, 143, 1);" class="btn btn-primary">
+            <i class="fa fa-bar-chart"></i>
+            Ver Graficas
+        </button>
+    </div>
+    <div class="col-md-2">
+        @*<button onclick="capturarreporte()" style="background-color: rgba(0, 74, 143, 1);" class="btn btn-primary">
+                Capturar Reporte
+            </button>*@
+
+    </div>
+</div>
+
+<br />
+<br />
+
+<table id="todos" class="table table-hover table-bordered">
+    <caption style="caption-side:bottom;text-align:center"><b id="captionempty" style="font-size:large"></b></caption>
+    <thead>
+        <tr style="color:white" class="bg-active">
+            <th>
+                Actividad
+            </th>
+            <th>
+                Cantidad
+            </th>
+            <th>
+                Semana
+            </th>
+            <th>
+                Semana Pasada
+            </th>
+            <th>
+                UsuarioRealiza
+            </th>
+            <th>
+                FechaRealiza
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @item.ActividadesDepartamento.Descripcion
+            </td>
+            <td>
+                @item.ReporteActividadesSemanal.Cantidad
+            </td>
+            <td>
+                @item.ReporteActividadesSemanal.Semana
+            </td>
+            <td>
+                @item.ReporteActividadesSemanal.CantidadSemanaPasada
+            </td>
+            <td>
+                @item.ReporteActividadesSemanal.UsuarioRealiza
+            </td>
+            <td>
+                @item.ReporteActividadesSemanal.FechaRealiza
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<table id="total" style="width:30%;" class="table table-bordered">
+    <tr class="bg-active">
+        <td style="color:white">Total: </td>
+        <td style="color:white"></td>
+    </tr>
+</table>
+
+<a href="@Url.Action("Menu","CapacitacionDesarrollo")" class="btn success-button">Regresar</a>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://momentjs.com/downloads/moment.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script>
+
+    $(document).ready(function () {
+        calculatetotal();
+    });
+
+    function test() {
+        var fechaInicio = $('#fechaInicioddl').val();
+        var fechaFin = $('#fechaFinddl').val();
+        var unidad = $('#unidadddl').val();
+
+        if (fechaInicio == '' || fechaFin == '' || unidad == '')
+            {
+                swal.fire("Favor de indicar rango de fechas");
+                return;
+        }
+
+        if (unidad == '') {
+            swal.fire("Favor de seleccionar una unidad");
+            return;
+        }
+
+
+            $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetReporte", "CapacitacionDesarrollo")',
+                data: { FechaInicio: fechaInicio, FechaFin: fechaFin, Unidad:unidad },
+            dataType: 'json',
+            cache: false,
+                success: function (data) {
+                    $('#todos tbody tr').remove();
+                    data.forEach(function (item) {
+
+                        var tableBody = $("#todos tbody");
+                        var newitem = '<tr><td>' + item.ActividadesDepartamento.Descripcion + '</td><td>' + item.ReporteActividadesSemanal.Cantidad + '</td><td>' + item.ReporteActividadesSemanal.Semana + '</td><td>' + item.ReporteActividadesSemanal.CantidadSemanaPasada + '</td><td>' + item.ReporteActividadesSemanal.UsuarioRealiza + '</td><td>' + moment(item.ReporteActividadesSemanal.FechaRealiza).format('DD/MM/YYYY hh:mm:ss a').toString()  +'</td></tr>';
+                        tableBody.append(newitem);
+
+                    });
+                    calculatetotal();
+            },
+            error: function (xhr, status, error) {
+                alert("Error");
+            }
+        });
+    }
+
+    function calculatetotal()
+    {
+        var total = 0;
+
+        $('#todos tbody tr').each(function () {
+            var item = $(this)[0].cells[1].innerText;
+            total = total + parseInt(item);
+        });
+
+        if (total == 0) {
+
+            $('#captionempty').text('No se encontraron registros');
+        }
+        else {
+            $('#captionempty').text('');
+        }
+
+        elemento = document.getElementById('total').rows[0].cells[1];
+        elemento.innerText = total;
+    }
+
+
+    function grafica()
+    {
+        window.location.href = '../CapacitacionDesarrollo/ReporteSemanalGrafica';
+    }
+
+</script>

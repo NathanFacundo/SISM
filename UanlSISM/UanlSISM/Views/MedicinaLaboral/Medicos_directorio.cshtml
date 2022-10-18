@@ -1,0 +1,166 @@
+﻿
+@{
+    ViewBag.Title = "Medicos_directorio";
+}
+
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+
+<link rel='stylesheet' href='https://select2.github.io/select2-bootstrap-theme/css/select2-bootstrap.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css'>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.full.min.js'></script>
+
+<link rel='stylesheet' href='https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.css'>
+
+<style>
+
+
+    .valid {
+        background-color: #ddffdd;
+        border: red 2px solid;
+    }
+</style>
+
+
+
+
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Consultas", "Manage")"><b>Consultas</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Index", "MedicinaLaboral")"><b>Medicina Laboral</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td>
+                    <a href="#">
+                        <b>
+                            Directorio de Médicos
+
+                        </b>
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<br />
+
+<div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
+    <img src="~/Imagenes/Horarioesp0.png" class="uanl-logo" style="width:250px;"/>
+    <h3 style="font-family: 'Roboto', sans-serif;">
+        Horarios por Especialidad
+
+        <span class="putUserName"></span>
+    </h3>
+</div>
+
+
+<hr />
+
+<div class="row" style="margin-left:0px; margin-right:0px;  background-color:white; padding:10px;border-radius: 10px 10px 10px 10px;border: 1px solid;box-shadow: 0 4px 5px #555; text-align:center;">
+    <div class="col-sm-12" style="margin-top:5px; margin-right: 0px;">
+        <div id='Resultado' style="overflow : auto;  min-height: 220px; width: 100%; ">
+            <div>
+            </div>
+            <table id='grilla'></table>
+        </div>
+    </div>
+    <div class="col-2" style="text-align:right">
+        <button id="btnVolver1" type="button" class="btn btn-warning" onclick="window.history.back();">
+            Regresar
+        </button>
+    </div>
+    <script>
+        $(function () {
+            Buscar();
+        });
+        function Buscar() {
+            try {
+                var TipoBaja = getUrlParameter('vBaja');
+                if (TipoBaja == null) {
+
+                    window.location.href = 'http://148.234.143.203/SISM-Medico/MedicinaLaboral/Especialidades_directorio';
+                }
+                var TipoEsp = getUrlParameter('vEsp');
+                if (TipoEsp == null) {
+
+                    window.location.href = 'http://148.234.143.203/SISM-Medico/MedicinaLaboral/Especialidades_directorio';
+                }
+                var json = JSON.stringify
+                    ({
+                        "TipoBaja": TipoBaja,
+                        "TipoEsp": TipoEsp
+
+                    });
+                $.ajax({
+                    type: "POST",
+                    url: "http://148.234.143.203/SISM-Medico/MedicinaLaboral/BsqEspMedico",
+                    data: json,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: resultado3,
+                    error: errores
+                });
+
+            } catch (e) {
+                alert(e.message);
+            }
+        }
+        function errores(msg) {
+            var jsonObj = JSON.parse(msg.responseText);
+            alert('Error: ' + jsonObj.Message);
+        }
+        function resultado3(Re) {
+            var Tabla_Datos = "";
+            //1
+            var Pacientes = Re;
+            var Tabla_Titulo = "";
+            var Tabla_Fin = "";
+
+            $("#Resultado").show();
+            $("#Resultado").empty();
+
+            Tabla_Titulo = "<table   id='grilla' class='table   table-hover table-striped' style='width: 100%;'><thead><tr> <th>Numero</th><th>Nombre</th><th>Lunes</th> <th>Martes</th><th>Miercoles</th><th>Jueves</th><th>Viernes</th> </tr></thead><tbody>";
+            $.each(Pacientes, function (index, pacientes) {
+
+                Tabla_Datos = Tabla_Datos + "<tr     > <td onclick='VerAlta(" + pacientes.NUMERO + ");'  style='  cursor: pointer;  '>" + pacientes.NUMERO + "</td><td style='text-align: left;'>" + pacientes.NOMBRES + "</td><td>" + pacientes.LUNES + "</td><td>" + pacientes.MARTES + "</td><td>" + pacientes.MIERCOLES + "</td><td>" + pacientes.JUEVES + "</td><td>" + pacientes.VIERNES + "</td></tr>";
+            });
+
+            Tabla_Fin = "</tbody></table>";
+            $("#Resultado").html(Tabla_Titulo + Tabla_Datos + Tabla_Fin);
+
+        }
+
+
+        function VerAlta(ids) {
+
+            window.location.href = 'http://148.234.143.203/SISM-Medico/MedicinaLaboral/AltaAgendaMedicos';
+        }
+        var getUrlParameter = function getUrlParameter(sParam) {
+            //obtiene parametros desde la url ?ss=ds
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        };
+            // utilizacion
+
+
+
+
+    </script>
+
+

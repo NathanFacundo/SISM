@@ -1,0 +1,569 @@
+﻿<style>
+    #imprimirModal {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .linea {
+        height: 2px;
+        width: 100%;
+        background-color: #000000;
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+
+    .marcadeagua {
+        background-size: 30%;
+        background-repeat: no-repeat;
+        background-position-x: center;
+        background-position-y: center;
+        background-image: url('../../Imagenes/marcaagua.png');
+    }
+
+
+    #imprimirModal .modal-dialog {
+        max-width: 1150px;
+        margin-bottom: 5vw;
+    }
+
+
+    #imprimirModal2 {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+        #imprimirModal2 .modal-dialog {
+            max-width: 1150px;
+            margin-bottom: 5vw;
+        }
+
+    #imprimirModal3 {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+        #imprimirModal3 .modal-dialog {
+            max-width: 1150px;
+            margin-bottom: 5vw;
+        }
+
+    #imprimirModal4 {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+        #imprimirModal4 .modal-dialog {
+            max-width: 1150px;
+            margin-bottom: 5vw;
+        }
+
+    .imprimirUanl img {
+        width: 100%;
+    }
+
+    .imprimirLogo img {
+        width: 100%;
+    }
+</style>
+
+
+<!-- The Modal -->
+<div class="modal fade" tabindex="-1" id="ModalPaquete">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 text-center">Paquete Pre-Operatorio + 40</h4>
+                <span>
+                    <img style="width:50px;" src="~/Imagenes/mesa-cirugia.png" />
+                </span>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <h5>Laboratorio:</h5>
+                    <p>Biometría Hemática</p>
+                    <p>Química Sanguínea</p>
+                    <p>Tiempos de Protombina</p>
+                    <p>Tiempos de Tromboplastina parcial</p>
+                    @*<p>Pruebas de Función Hepática</p>
+                    <p>Electrolitos Séricos</p>*@
+                    <br />
+
+                    <h5>Rayos X:</h5>
+                    <p>Tele de Tórax</p>
+                    <br />
+
+                    <h5>Electrocardiograma</h5>
+                    <br />
+
+                    <h5>Interconsulta Medicina Interna al tener todos los estudios listos</h5>
+                    <br />
+
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" id="PrintInstBtn" style="padding-top:0px;padding-bottom:20px; height: 40px;" class="btn btn-success mr-auto " onclick="ImprimirInstruccionesPaquete('@Model.NUMEMP')" data-dismiss="modal"><span style="height:60%;padding-top:0px;" class="material-icons">print</span> Imprimir instrucciones</button>
+                <button type="button" id="CrearPaqueteBtn" class="btn btn-primary" onclick="GenerarPaquete('@Model.NUMEMP')" data-dismiss="modal">Crear</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="imprimirModal" tabindex="-1" role="dialog" aria-labelledby="imprimirModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="imprimirpaquete">
+                    <div class="row m-0 marcadeagua">
+                        <div class="col-12 text-center p-0" style="padding-bottom:8px !important;">
+                            <div class="row m-0">
+                                <div class="col-3 imprimirUanl text-left" style="padding:4px;">
+                                    <img style="width:90%" src="~/Imagenes/logo-uanl-impresion.png" />
+                                </div>
+                                <div class="col-6 imprimirTitulo" style="padding:4px;">
+                                    <h4>Indicaciones Pre-Ingreso</h4>
+                                </div>
+                                <div class="col-3 imprimirLogo" style="padding:4px;">
+                                    <img style="width:100%" src="~/Imagenes/logo-sm.png" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 p-0">
+                            <br />
+
+                            <div class="row m-0">
+                                <p><b>Nombre del Paciente: </b><p />&nbsp;<p id="NombrePaciente"></p>
+                            </div>
+
+                            <div class="row m-0">
+                                <div class="col-6" style="padding:4px;">
+                                    <p id="FechaCirugia"><b>Fecha de cirugía: </b></p>
+
+                                </div>
+                                <div class="col-6" style="padding:4px;">
+                                    <p id="LugarCirugia"><b></b></p>
+
+                                </div>
+                            </div>
+                            <br />
+
+                            <div class="row m-0">
+                                <p>1-Llevar impreso: valoración preoperatoria, laboratorios, electrocardiograma y disco de radiografía de tórax.</p>
+                            </div>
+
+                            <div class="row m-0">
+                                <p>2-Ayuno 8 Horas.</p>
+                            </div>
+
+                            <div class="row m-0">
+                                <p>3-Llevar identificación oficial.</p>
+                            </div>
+
+                            <div class="row m-0">
+                                <p>4-Llevar carta de indicaciones de internamiento (médico).</p>
+                            </div>
+
+                            <div class="row m-0">
+                                <p>5-Acudir con familiar.</p>
+                            </div>
+
+
+                            <div class="row m-0">
+                                <p>6-10 días sin Aspirina (avisar en caso de haberla consumido).</p>
+                            </div>
+
+                            <div class="row m-0">
+                                <p id="Presentarseen"></p>
+                            </div>
+
+                            <div class="row m-0">
+                                <p id="Cosasdevalor"></p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div style="page-break-after: always"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="imprimirModal2" tabindex="-1" role="dialog" aria-labelledby="imprimirModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="imprimirpaquete2">
+                    <div class="row m-0 marcadeagua">
+                        <div class="col-12 text-center p-0" style="padding-bottom:8px !important;">
+                            <div class="row m-0">
+                                <div class="col-3 imprimirUanl text-left" style="padding:4px;">
+                                    <img style="width:90%" src="~/Imagenes/logo-uanl-impresion.png" />
+                                </div>
+                                <div class="col-6 imprimirTitulo" style="padding:4px;">
+                                    <h4>Indicaciones Pre-Operatorias</h4>
+                                </div>
+                                <div class="col-3 imprimirLogo" style="padding:4px;">
+                                    <img style="width:100%" src="~/Imagenes/logo-sm.png" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 p-0">
+                            <br />
+                            <div class="row m-0">
+                                <p>1-Cita con Medicina Interna para valoración pre operatoria(al tener todos los estudios listos).</p>
+                            </div>
+                            <div class="row m-0">
+                                <p>2-Cita Laboratorio.</p>
+                            </div>
+                            <div class="row m-0">
+                                <p>3-Cita Rayos X.</p>
+                            </div>
+                            <div class="row m-0">
+                                <p>4-Cita Electrocardiograma en enfermería</p>
+                            </div>
+                            <div class="row m-0">
+                                <p>5-Acudir a cordinación por autorización de prueba Covid-19.</p>
+                            </div>
+                            <div class="row m-0">
+                                <p id="LugarCirugia2"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="page-break-after: always"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="imprimirModal3" tabindex="-1" role="dialog" aria-labelledby="imprimirModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="imprimirpaquete3">
+                    <div class="row m-0 marcadeagua">
+                        <div class="col-12 text-center p-0" style="padding-bottom:8px !important;">
+                            <div class="row m-0">
+                                <div class="col-3 imprimirUanl text-left" style="padding:4px;">
+                                    <img style="width:90%" src="~/Imagenes/logo-uanl-impresion.png" />
+                                </div>
+                                <div class="col-6 imprimirTitulo" style="padding:4px;">
+                                    <h4>Solicitud para un Electrocardiograma</h4>
+                                </div>
+                                <div class="col-3 imprimirLogo" style="padding:4px;">
+                                    <img style="width:100%" src="~/Imagenes/logo-sm.png" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 p-0">
+                            <br />
+
+                            <div class="row m-0">
+                                <div class="col-8" style="padding:4px;">
+                                </div>
+                                <div class="col-4" style="padding:4px;">
+                                    <p><b>Fecha: </b>@DateTime.Now.ToShortDateString()<p />
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-8" style="padding:4px;">
+                                    <p id="Nombre"></p>
+
+                                </div>
+                                <div class="col-4" style="padding:4px;">
+                                    <p id="Expediente"></p>
+
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <p id="Medico"></p>
+                            </div>
+                            <div class="row m-0">
+                                <p><b>Pre-procedimiento: </b><b style="font-size:x-large">Electrocardiograma pre quirúrgico</b></p>
+                            </div>
+                            <div class="row m-0">
+                                <p id="FechaCirugia2"></p>
+                            </div>
+
+                            <div class="row m-0">
+                                <div class="col-3" style="padding:4px;">
+                                    <p><b>Nota: </b>Acudir a enfermería a programar cita</p>
+                                </div>
+                                <div class="col-3" style="padding:4px;">
+                                </div>
+                                <div class="col-6 text-center" style="padding:4px;">
+                                    <p>____________________________________</p>
+                                    <p><b>Firma</b></p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div style="page-break-after: always"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="imprimirModal4" tabindex="-1" role="dialog" aria-labelledby="imprimirModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="imprimirpaquete4">
+                    <div class="row m-0 marcadeagua">
+                        <div class="col-12 text-center p-0" style="padding-bottom:8px !important;">
+                            <div class="row m-0">
+                                <div class="col-3 imprimirUanl text-left" style="padding:4px;">
+                                    <img style="width:90%" src="~/Imagenes/logo-uanl-impresion.png" />
+                                </div>
+                                <div class="col-6 imprimirTitulo" style="padding:4px;">
+                                    <h4>Solicitud Prueba Covid-19</h4>
+                                </div>
+                                <div class="col-3 imprimirLogo" style="padding:4px;">
+                                    <img style="width:100%" src="~/Imagenes/logo-sm.png" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 p-0">
+                            <br />
+
+                            <div class="row m-0">
+                                <div class="col-8" style="padding:4px;">
+                                </div>
+                                <div class="col-4" style="padding:4px;">
+                                    <p><b>Fecha: </b>@DateTime.Now.ToShortDateString()<p />
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-8" style="padding:4px;">
+                                    <p id="Nombre2"></p>
+
+                                </div>
+                                <div class="col-4" style="padding:4px;">
+                                    <p id="Expediente2"></p>
+
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <p id="Medico2"></p>
+                            </div>
+                            <div class="row m-0">
+                                <p><b>Solicitud: </b><b style="font-size:x-large">PCR para Covid-19 SARS COV2</b></p>
+                            </div>
+                            <div class="row m-0">
+                                <p><b>Procedimiento: </b>_________________________________________________________________________________________________________________________________</p>
+                                <p>__________________________________________________________________________________________________________________________________________</p>
+                            </div>
+
+                            <div class="row m-0">
+                                <p id="FechaCirugia3"></p>
+                            </div>
+
+                            <div class="row m-0">
+                                <div class="col-3" style="padding:4px;">
+                                    <p><b>Nota: </b>Acudir a coordinación por sello.Y posteriormente programar cita en AEMA Tel. 8183891111 ext. 2727 o 2726</p>
+                                </div>
+                                <div class="col-3" style="padding:4px;">
+                                </div>
+                                <div class="col-6 text-center" style="padding:4px;">
+                                    <p>____________________________________</p>
+                                    <p><b>Firma</b></p>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div style="page-break-after: always"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" value="" id="nointernamiento" />
+<input type="hidden" value="@Model.NUMEMP" id="modaldhab" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+
+    var dhabiente = $("#modaldhab").val();
+
+    $.ajax({
+        type: 'GET',
+        url: '@Url.Action("GetInternamientoInfo", "ServiciosMedicos")' + '?DHabiente=' + dhabiente,
+        dataType: 'json',
+        cache: false,
+        success: function (data) {
+
+            if (data.InternamientoFecha == 'NA') {
+
+                $("#NombrePaciente").html(data.PacienteNombre);
+                $("#FechaCirugia").html('');
+                $("#LugarCirugia").html('');
+                $("#Presentarseen").html('');
+                $("#Cosasdevalor").html('7-No llevar cosas de valor');
+                $("#LugarCirugia2").html('');
+                $("#Nombre").html('<b>Nombre: </b>' + data.PacienteNombre);
+                $("#Expediente").html('<b>#Expediente: </b>' + data.PacienteExpediente);
+                $("#Medico").html('<b>Médico: </b>' + data.MedicoNombre);
+                $("#FechaCirugia2").html('');
+                $("#Nombre2").html('<b>Nombre: </b>' + data.PacienteNombre);
+                $("#Expediente2").html('<b>#Expediente: </b>' + data.PacienteExpediente);
+                $("#Medico2").html('<b>Médico: </b>' + data.MedicoNombre);
+                $("#FechaCirugia3").html('');
+                $("#nointernamiento").val(data.InternamientoFecha);
+            }
+
+            else {
+
+                $("#NombrePaciente").html(data.PacienteNombre);
+                $("#FechaCirugia").html('<b>Fecha de Cirugía: </b>' + moment(data.InternamientoFecha).format('DD/MM/YYYY'));
+                $("#LugarCirugia").html('<b>Lugar de la cirugía: </b>' + data.InternamientoProveedor);
+                $("#Presentarseen").html('7-Presentarse a Admisión de ' + data.InternamientoProveedor + ', 2 horas antes de su cirugía.');
+                $("#Cosasdevalor").html('8-No llevar cosas de valor');
+                $("#LugarCirugia2").html('6 - Presentarse en ' + data.InternamientoProveedor + ' con todo lo anterior.');
+                $("#Nombre").html('<b>Nombre: </b>' + data.PacienteNombre);
+                $("#Expediente").html('<b>#Expediente: </b>' + data.PacienteExpediente);
+                $("#Medico").html('<b>Médico: </b>' + data.MedicoNombre);
+                $("#FechaCirugia2").html('<b>Fecha de Cirugía: </b>' + moment(data.InternamientoFecha).format('DD/MM/YYYY'));
+                $("#Nombre2").html('<b>Nombre: </b>' + data.PacienteNombre);
+                $("#Expediente2").html('<b>#Expediente: </b>' + data.PacienteExpediente);
+                $("#Medico2").html('<b>Médico: </b>' + data.MedicoNombre);
+                $("#FechaCirugia3").html('<b>Fecha de Cirugía: </b>' + moment(data.InternamientoFecha).format('DD/MM/YYYY'));
+                $("#nointernamiento").val(data.InternamientoFecha);
+            }
+
+            //if (data.estudios == 'no cuenta con estudios') {
+            //    $("#PrintInstBtn").css("display", "none");
+
+            //}
+
+        },
+        error: function (xhr, status, error) {
+            alert("Error");
+        }
+    });
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+
+    function GenerarPaquete(dhab,med) {
+
+          $.ajax({
+                url: '@Url.Action("GuardarPaquetePreoperatorio", "ServiciosMedicos")',
+              data: { DHabiente: dhab /* , Medico : med*/ },
+                  success: function (data) {
+
+                      if (data == '1') {
+                          Swal.fire({
+                              icon: 'success',
+                              title: 'Se generó paquete con éxito',
+                              showDenyButton: false,
+                              showCancelButton: false,
+                              confirmButtonText: `Ok`,
+                              denyButtonText: `Cancelar`,
+                          }).then((result) => {
+                              print();
+                          })
+                      }
+
+                      else {
+                          Swal.fire({
+                              icon: 'error',
+                              title: data,
+                              showDenyButton: false,
+                              showCancelButton: false,
+                              confirmButtonText: `Ok`,
+                              denyButtonText: `Cancelar`,
+                          }).then((result) => {
+
+                          })
+                      }
+                   },
+                error: function (reponse) {
+                    swal.fire("error" + response);
+                    console.log(reponse);
+                }
+            });
+    }
+
+
+    function ImprimirInstruccionesPaquete() {
+
+        var intern = $("#nointernamiento").val();
+
+        Swal.fire({
+            title: 'Desea imprimir instrucciones de internamiento para este paciente ?',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: `Ok`,
+            denyButtonText: `Cancelar`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                    print();
+            }
+            else {
+                return;
+            }
+        })
+    }
+
+    function print() {
+
+        var modal = document.getElementById("imprimirpaquete").innerHTML;
+        var modal2 = document.getElementById("imprimirpaquete2").innerHTML;
+        var modal3 = document.getElementById("imprimirpaquete3").innerHTML;
+        var modal4 = document.getElementById("imprimirpaquete4").innerHTML;
+
+        var script = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">';
+        var style = '<style>.marcadeagua{background-size:30%;background-repeat:no-repeat;background-position-x:center;background-position-y:center;background-image:url(../../Imagenes/marcaagua.png);}</style>';
+        var htmlprint = "<!DOCTYPE html><html><head>" + script + style + "</head><body>" + modal + modal2 + modal3 + modal4 +"</body></html>";
+
+        var mywindow = window.open('', 'Print  Report', 'height=800,width=1600');
+        mywindow.document.write(htmlprint);
+        mywindow.document.close()
+
+        setTimeout(function () {
+            mywindow.focus();
+            mywindow.print();
+            mywindow.close();
+        }, 500);
+    }
+
+    function sininternamiento() {
+        Swal.fire({
+            icon: 'error',
+            title: 'No cuenta con una orden de internamiento',
+            showDenyButton: false,
+            showCancelButton: false,
+            confirmButtonText: `Ok`,
+        }).then((result) => {
+            return;
+        })
+
+    }
+
+</script>
+
+
+
+

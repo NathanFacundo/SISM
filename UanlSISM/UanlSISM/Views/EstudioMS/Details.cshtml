@@ -1,0 +1,522 @@
+﻿@model UanlSISM.Models.EstudioMedicoSocial
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EstudioMedicoSocial</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Empleado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Empleado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CveFam)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CveFam)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Depcia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Depcia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaIngreso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaIngreso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Edad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Edad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sexo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sexo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EdoCivil)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EdoCivil)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Domicilio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Domicilio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Col)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Col)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Municipio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Municipio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Escolaridad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Escolaridad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ocupacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ocupacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Religion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Religion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ViveCon)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ViveCon)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CuidadorPrincipal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CuidadorPrincipal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoFamilia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoFamilia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FaseFamilia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FaseFamilia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Eutimia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Eutimia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Hipertimia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hipertimia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Distimia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Distimia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DiagnosticoMedicoIngreso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DiagnosticoMedicoIngreso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MedicoAtiende)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MedicoAtiende)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FrecuenciaAcude)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FrecuenciaAcude)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MedicoEspecialidadAcude)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MedicoEspecialidadAcude)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quemaduras)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quemaduras)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Infarto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Infarto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Accidentes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Accidentes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Derrames)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Derrames)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cancer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cancer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Traumatismo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Traumatismo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Embolia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Embolia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ninguna)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ninguna)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InsuficienciaRenal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InsuficienciaRenal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Diabetes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Diabetes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Hipertension)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hipertension)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EnfermedadesCardiacas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EnfermedadesCardiacas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FiebreRemautica)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FiebreRemautica)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtritisDegenerativa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArtritisDegenerativa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TumoresCerebrales)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TumoresCerebrales)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MalformacionesCongenitas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MalformacionesCongenitas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PxTransplantado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PxTransplantado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FibrosisQuistica)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FibrosisQuistica)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LupusEritematoso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LupusEritematoso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EsclerosisLateral)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EsclerosisLateral)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EsclerosisMultiple)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EsclerosisMultiple)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Hidrocefalia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hidrocefalia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EspinaBifida)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EspinaBifida)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IntervencionCrisisPaciente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IntervencionCrisisPaciente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CasoSocial)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CasoSocial)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ConsultaAsesoria)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ConsultaAsesoria)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VisitaDomiciliaria)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VisitaDomiciliaria)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IntervencionFamiliar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IntervencionFamiliar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CanalizacionPsicologica)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CanalizacionPsicologica)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrientacionTramitesAdmin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrientacionTramitesAdmin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CanalizacionOtraInstitucion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CanalizacionOtraInstitucion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OtraIntervencionTipo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OtraIntervencionTipo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValoracionPsicoSocial)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValoracionPsicoSocial)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Diagnostico)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Diagnostico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstrategiaTrabajo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstrategiaTrabajo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResumenCaso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResumenCaso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Observaciones)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Observaciones)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

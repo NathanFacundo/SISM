@@ -1,0 +1,3783 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{020B5D85-2931-45FE-A859-BF53C3A1042D}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UanlSISM</RootNamespace>
+    <AssemblyName>UanlSISM</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>3.9</TypeScriptToolsVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Features, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Features.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Routing.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Routing.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Routing.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.Primitives, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=6.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.JsonWebTokens.6.10.0\lib\net461\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=6.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.6.10.0\lib\net461\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.6.10.0\lib\net461\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Net.Http.Headers, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.Headers.2.2.0\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.0.0\lib\net451\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.4.0.0\lib\net451\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook.resources">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.4.0.0\lib\net45\es\Microsoft.Owin.Security.Facebook.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Postal, Version=1.0.0.0, Culture=neutral, PublicKeyToken=45719375b8b4d528, processorArchitecture=MSIL">
+      <HintPath>..\packages\Postal.Mvc5.1.2.0\lib\net45\Postal.dll</HintPath>
+    </Reference>
+    <Reference Include="RazorEngine, Version=3.4.1.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <HintPath>..\packages\RazorEngine.3.4.1\lib\net45\RazorEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.6.10.0\lib\net461\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.1\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.1\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Text.Encodings.Web, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.4.5.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.4\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.4\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.Data, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.3.2.7\lib\net45\WebMatrix.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.WebData, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.3.2.7\lib\net45\WebMatrix.WebData.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.2\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.2\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.0.0\lib\net451\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.0.0\lib\net451\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.4.0.0\lib\net451\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.4.0.0\lib\net451\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.4.0.0\lib\net451\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.4.0.0\lib\net451\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.4.0.0\lib\net451\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.4.0.0\lib\net451\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="API\AccountController.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdministradorMedController.cs" />
+    <Compile Include="Controllers\AfiliacionController.cs" />
+    <Compile Include="Controllers\AlmacenController.cs" />
+    <Compile Include="Controllers\AvisosController.cs" />
+    <Compile Include="Controllers\CapacitacionDesarrolloController.cs" />
+    <Compile Include="Controllers\CatalogoMedicamentoController.cs" />
+    <Compile Include="Controllers\CitasController.cs" />
+    <Compile Include="Controllers\conexionHUController.cs" />
+    <Compile Include="Controllers\CovidSolicitudController.cs" />
+    <Compile Include="Controllers\CuadroBasicoController.cs" />
+    <Compile Include="Controllers\DepartamentoController.cs" />
+    <Compile Include="Controllers\DirectorioController.cs" />
+    <Compile Include="Controllers\DownloadController.cs" />
+    <Compile Include="Controllers\EmpleadosController.cs" />
+    <Compile Include="Controllers\EnfermeriaInventarioController.cs" />
+    <Compile Include="Controllers\EnfermeriaSolicitudController.cs" />
+    <Compile Include="Controllers\EstudioMSController.cs" />
+    <Compile Include="Controllers\FarmaciaController.cs" />
+    <Compile Include="Controllers\FarmacoVigilanciaController.cs" />
+    <Compile Include="Controllers\ForaneosController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HospitalController.cs" />
+    <Compile Include="Controllers\IndicadoresController.cs" />
+    <Compile Include="Controllers\InternamientosController.cs" />
+    <Compile Include="Controllers\InventarioController.cs" />
+    <Compile Include="Controllers\KioscosController.cs" />
+    <Compile Include="Controllers\LaboratorioController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MedNivel2Controller.cs" />
+    <Compile Include="Controllers\MenuAdministrativoController.cs" />
+    <Compile Include="Controllers\MenuRHController.cs" />
+    <Compile Include="Controllers\NotaEgresoController.cs" />
+    <Compile Include="Controllers\NotaIngresoController.cs" />
+    <Compile Include="Controllers\MedicinaLaboralController.cs" />
+    <Compile Include="Controllers\NotaOperatoriaController.cs" />
+    <Compile Include="Controllers\NotaPreoperatoriaController.cs" />
+    <Compile Include="Controllers\RecepcionTriageController.cs" />
+    <Compile Include="Controllers\RegistroCodBarController.cs" />
+    <Compile Include="Controllers\ReporteActividadesSemanalController.cs" />
+    <Compile Include="Controllers\ReporteRHController.cs" />
+    <Compile Include="Controllers\RequisicionController.cs" />
+    <Compile Include="Controllers\RetardosController.cs" />
+    <Compile Include="Controllers\ServiciosMedicosController.cs" />
+    <Compile Include="Controllers\SolicitudLaboratorioController.cs" />
+    <Compile Include="Controllers\TicketsController.cs" />
+    <Compile Include="Controllers\TrabajoSocialController.cs" />
+    <Compile Include="Controllers\VisorMedicamentosController.cs" />
+    <Compile Include="Controllers\VisorRequisicionController.cs" />
+    <Compile Include="Controllers\_BusquedaCBarrasController.cs" />
+    <Compile Include="Controllers\_ConsumoMederosController.cs" />
+    <Compile Include="Controllers\_ConsumoSEMACController.cs" />
+    <Compile Include="Controllers\_ConsumoTotalController.cs" />
+    <Compile Include="Controllers\_ReporteAlmacenController.cs" />
+    <Compile Include="Controllers\_ReporteFarmaciaController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Accesos.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Account\ChangePasswordModel.cs" />
+    <Compile Include="Models\ActividadesDepartamento.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ActividadesDepartamento.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ActividadesDepartamento.cs">
+      <DependentUpon>ActividadesDepartamento.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ActividadesDepartamento.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ActividadesDepartamento.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ActividadesDepartamento1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ActividadesDepartamento.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Administrativo.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Administrativo.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Administrativo.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Administrativo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Administrativo.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Administrativo.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Afiliados.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Afiliados.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AFILIADOS.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Afiliados.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Afiliados.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Afiliados1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Afiliados.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AfiliadosPrueba.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AfiliadosPrueba.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AfiliadosPrueba.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AfiliadosPrueba.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AfiliadosPrueba.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AfiliadosPrueba.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Alergias_Exp.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AltaUrgencias.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetRoles.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUsers.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BorradorRequisicion.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BorradorRequisicion.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BorradorRequisicion.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BorradorRequisicion.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BorradorRequisicion.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\cantidadenvases_21.cs">
+      <DependentUpon>SISM-Farmacia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\captured_columns.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\change_tables.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Citas.cs" />
+    <Compile Include="Models\CitasViewModel.cs" />
+    <Compile Include="Models\Citas_Medicos_Externos.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CodigoBarras.cs">
+      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ColoniaPrueba.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ColoniaPrueba.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ColoniaPrueba.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ColoniaPrueba.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ColoniaPrueba.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ColoniaPrueba.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Comunicados.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ComunicadoUsuario.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\concentracion_21.cs">
+      <DependentUpon>SISM-Farmacia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ConexionHU.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ConexionHU.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ConexionHU.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ConexionHU.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ConexionHU.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ConexionHU.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Cotizaciones.cs">
+      <DependentUpon>Req.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CovidSolicitud.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CovidSolicitud.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CovidSolicitud.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CovidSolicitud.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CovidSolicitud.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CovidSolicitud1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CovidSolicitud.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CredencialDigital.cs" />
+    <Compile Include="Models\DalIncapacidades.cs" />
+    <Compile Include="Models\Dalexcel.cs" />
+    <Compile Include="Models\DateCount.cs" />
+    <Compile Include="Models\ddl_history.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Dental.cs" />
+    <Compile Include="Models\DEPENDENCIAS.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Derechohabientes.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Derechohabientes.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Derechohabientes.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Derechohabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Derechohabientes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Derechohabientes.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DetalleOC.cs">
+      <DependentUpon>Inventario.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DetalleReq.cs">
+      <DependentUpon>Inventario.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Detalle_VE.cs">
+      <DependentUpon>Inventario.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Dhabientes.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Dhabientes.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DHABIENTES.cs">
+      <DependentUpon>SolicitudLaboratorioExp.tt</DependentUpon>
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Dhabientes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Dhabientes.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Dhabientes1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DHABIENTES2.cs" />
+    <Compile Include="Models\Diagnosticos.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Diagnosticos.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DIAGNOSTICOS.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Diagnosticos.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Diagnosticos.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Diagnosticos1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Diagnosticos.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Directorio.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Directorio.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Directorio.cs">
+      <DependentUpon>Directorio.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Directorio.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Directorio.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Directorio1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Directorio.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\dtproperties.cs">
+      <DependentUpon>Incidente.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EncuestaCovid.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EncuestaCovid.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EncuestaCovid.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EncuestaCovid.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EncuestaCovid.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EncuestaCovid.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EncuestaCovidSegunda.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EncuestaCovidSegunda.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EncuestaCovidSegunda.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EncuestaCovidSegunda.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EncuestaCovidSegunda.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EncuestaCovidSegunda.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\encuesta_covid.cs">
+      <DependentUpon>EncuestaCovid.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\encuesta_covid_segunda.cs">
+      <DependentUpon>EncuestaCovidSegunda.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EnfermeriaAgendar.cs" />
+    <Compile Include="Models\EnfermeriaInventario.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnfermeriaInventario.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EnfermeriaInventario.cs">
+      <DependentUpon>EnfermeriaInventario.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EnfermeriaInventario.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnfermeriaInventario.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EnfermeriaInventario1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnfermeriaInventario.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EnfermeriaSignosVitales.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnfermeriaSignosVitales.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EnfermeriaSignosVitales.cs">
+      <DependentUpon>EnfermeriaSignosVitales.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EnfermeriaSignosVitales.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnfermeriaSignosVitales.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EnfermeriaSignosVitales1.cs" />
+    <Compile Include="Models\EnfermeriaSolicitud.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnfermeriaSolicitud.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EnfermeriaSolicitud.cs">
+      <DependentUpon>EnfermeriaSolicitud.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EnfermeriaSolicitud.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnfermeriaSolicitud.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EnfermeriaSolicitud1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnfermeriaSolicitud.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EnfermeriaSolicitudDetalle.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnfermeriaSolicitudDetalle.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EnfermeriaSolicitudDetalle.cs">
+      <DependentUpon>EnfermeriaSolicitudDetalle.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EnfermeriaSolicitudDetalle.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnfermeriaSolicitudDetalle.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EnfermeriaSolicitudDetalle1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnfermeriaSolicitudDetalle.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Especialidades.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Especialidades.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ESPECIALIDADES.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Especialidades.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Especialidades.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Especialidades1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Especialidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EstudioMedicoSocial.cs">
+      <DependentUpon>EstudioMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EstudioMS.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EstudioMS.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EstudioMS.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EstudioMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EstudioMS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EstudioMS.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Expediente.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Expediente.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\expediente.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Expediente.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Expediente.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Expediente1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Expediente.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ExpedienteDiagnosticos.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExpedienteDiagnosticos.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ExpedienteDiagnosticos.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExpedienteDiagnosticos.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ExpedienteDiagnosticos.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExpedienteDiagnosticos.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FarmaciaProductividad.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FarmaciaProductividad.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FarmaciaProductividad.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FarmaciaProductividad.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FarmaciaProductividad.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\formafarm_21.cs">
+      <DependentUpon>SISM-Farmacia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Grupo.cs">
+      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\grupo_21.cs">
+      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HistorialPadecimientos.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HistorialPadecimientos.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HistorialPadecimientos.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HistorialPadecimientos.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HistorialPadecimientos.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HistorialPadecimientos.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HistorialRecetas.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HistorialRecetas.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HistorialRecetas.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HistorialRecetas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HistorialRecetas.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HistorialRecetas.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HojaFrontal.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Incidente.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Incidente.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Incidente.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Incidente.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Incidente.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Incidente.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Incidentes.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Incidentes.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Incidentes.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Incidentes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Incidentes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Incidentes.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\index_columns.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Indicadores.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Indicadores.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Indicadores.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Indicadores.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Indicadores.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Indicadores.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InhabilitarMedicamentos.cs">
+      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Insumos.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InterconsultaMedico.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InterconsultasSub.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Inventario.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Inventario.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\INVENTARIO.cs">
+      <DependentUpon>Incidente.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Inventario.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Inventario.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Inventario1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Inventario.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InventarioConteo.cs">
+      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InventarioFarmacia.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InventarioFarmacia.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InventarioFarmacia.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InventarioFarmacia.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InventarioFarmacia.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InventarioFarmacia1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InventarioFarmacia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\inventario_ip.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>inventario_ip.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\inventario_ip.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>inventario_ip.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\inventario_ip.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>inventario_ip.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvFarm.cs">
+      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\INV_GRAL.cs">
+      <DependentUpon>Incidente.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\labinstrucciones.cs">
+      <DependentUpon>SolicitudLaboratorioExp.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\lab_catalogo.cs">
+      <DependentUpon>SolicitudLaboratorioExp.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Lab_detalle.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Lab_exp.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\lsn_time_mapping.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MedicamentosControlados.cs">
+      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MedicoMedicamento.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Medicos.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Medicos.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MEDICOS.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Medicos.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Medicos.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Medicos1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Medicos.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DalMisMedicos.cs" />
+    <Compile Include="Models\MSreplication_objects.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MSreplication_queue.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MSreplication_subscriptions.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MSrepl_queuedtraninfo.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MSsubscription_agents.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MSsubscription_articlecolumns.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MSsubscription_articles.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MSsubscription_properties.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mygmail.cs" />
+    <Compile Include="Models\nivel_21.cs">
+      <DependentUpon>SISM-Farmacia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotadeEgreso.cs" />
+    <Compile Include="Models\NotadeIngreso.cs" />
+    <Compile Include="Models\NotadePreop.cs" />
+    <Compile Include="Models\NotaEgreso.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotaEgreso.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotaEgreso.cs">
+      <DependentUpon>NotaEgreso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotaEgreso.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NotaEgreso.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotaEgreso1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotaEgreso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotaFarmaco.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotaFarmaco.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotaFarmaco.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotaFarmaco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotaFarmaco.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotaFarmaco.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotaFar_Usuario.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotaIngreso.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotaIngreso.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotaIngreso.cs">
+      <DependentUpon>NotaIngreso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotaIngreso.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotaIngreso.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotaIngreso1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotaIngreso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotaOperatoria.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotaOperatoria.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotaOperatoria.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotaOperatoria.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotaOperatoria.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotaOperatoria1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotaOperatoria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotaPreoperatoria.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotaPreoperatoria.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotaPreoperatoria.cs">
+      <DependentUpon>NotaPreoperatoria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotaPreoperatoria.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NotaPreoperatoria.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotaPreoperatoria1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotaPreoperatoria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotaQuirurgica.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotasMedicoViewModel.cs" />
+    <Compile Include="Models\NotasOperatorias.cs" />
+    <Compile Include="Models\NotaTS_Usuario.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NUEVOLEON.cs">
+      <DependentUpon>Afiliados.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrdenCompra.cs">
+      <DependentUpon>Inventario.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrdenesInternamientos.cs" />
+    <Compile Include="Models\OrdenInternamiento.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OrdenInternamiento.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrdenInternamiento.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OrdenInternamiento.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrdenInternamiento.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OrdenInternamiento.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Orden_Int.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Orden_Int_Enviar.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Pacientes.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Pacientes.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Pacientes.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Pacientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Pacientes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Pacientes.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PacientesHosp.cs" />
+    <Compile Include="Models\prestaciones_servicios.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\prestaciones_subservicios.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\principioactivo_21.cs">
+      <DependentUpon>SISM-Farmacia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProcAmbulatorios.cs" />
+    <Compile Include="Models\Proveedor.cs">
+      <DependentUpon>Inventario.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\proveedor_subservicio.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\prov_subrrogados.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PruebaAntigenos.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\P_BorradorRequisicion.cs" />
+    <Compile Include="Models\P_Sustancia.cs" />
+    <Compile Include="Models\RayosX.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RayosX.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RayosX.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RayosX.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RayosX.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RayosX.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Recetas.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Recetas.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Recetas.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Recetas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Recetas.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Recetas.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Recetas2.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Recetas2.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Recetas2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Recetas2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Recetas2.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Recetas2.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Recetas3.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Recetas3.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Recetas3.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Recetas3.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Recetas3.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Recetas3.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RecetasCU.cs" />
+    <Compile Include="Models\RecetasHU.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RecetasHU.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RecetasHU.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RecetasHU.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RecetasHU.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RecetasHU.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RecetasMederos.cs" />
+    <Compile Include="Models\RecetasUnidadER.cs" />
+    <Compile Include="Models\Receta_Detalle.cs">
+      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Receta_Detalle_2.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\receta_detalle_crn.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\receta_detalle_crn_edit.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Receta_Exp.cs">
+      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RECETA_EXP_2.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\receta_exp_crn.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReporteActividadesSemanal.cs">
+      <DependentUpon>SMDEVReporteSemanalActividades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReporteConsumo.cs" />
+    <Compile Include="Models\ReportedeActividades.cs" />
+    <Compile Include="Models\ReporteInventarios.cs">
+      <DependentUpon>SERVMEDMedNivel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Req.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Req.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Req.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Req.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Req.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Req.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Requisicion.cs">
+      <DependentUpon>Inventario.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Requisicion_1.cs">
+      <DependentUpon>Req.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sal.cs">
+      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sal_CU.cs" />
+    <Compile Include="Models\ServicioEnfermeria.cs">
+      <DependentUpon>EnfermeriaSolicitudDetalle.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ServicioPrestaciones.cs" />
+    <Compile Include="Models\SERVMEDMedNivel2.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SERVMEDMedNivel2.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SERVMEDMedNivel2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SERVMEDMedNivel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SERVMEDMedNivel2.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SERVMEDMedNivel2.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SERVMEDNivel2.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SERVMEDNivel2.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SERVMEDNivel2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SERVMEDNivel2.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SERVMEDNivel2.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\serv_rx_n1.cs">
+      <DependentUpon>RayosX.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\serv_rx_n2.cs">
+      <DependentUpon>RayosX.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SISM-Compras.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SISM-Compras.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SISM-Compras.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SISM-Compras.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SISM-Compras.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SISM-Compras.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SISM-Farmacia.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SISM-Farmacia.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SISM-Farmacia.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SISM-Farmacia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SISM-Farmacia.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SISM-Farmacia.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SISM-RH.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SISM-RH.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SISM-RH.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SISM-RH.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SISM-RH.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SISM_BORRADOR_REQUI.cs">
+      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SISM_CODIGOBARRAS.cs">
+      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SISM_DETALLE_BORRADOR_REQUI.cs">
+      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SISM_DET_REQUISICION.cs">
+      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SISM_DET_VALE_ENTRADA.cs">
+      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SISM_INV_MED.cs">
+      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SISM_MOV_INV.cs">
+      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SISM_REQUISICION.cs">
+      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SISM_VALE_ENTRADA.cs">
+      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sis_areas.cs">
+      <DependentUpon>Incidente.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sis_estado.cs">
+      <DependentUpon>Incidente.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sis_marcas.cs">
+      <DependentUpon>Incidente.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sis_modcpu.cs">
+      <DependentUpon>Incidente.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SMDEVReporteSemanalActividades.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SMDEVReporteSemanalActividades.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SMDEVReporteSemanalActividades.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SMDEVReporteSemanalActividades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SMDEVReporteSemanalActividades.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SMDEVReporteSemanalActividades.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SolicitudLab.cs">
+      <DependentUpon>SolLab.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SolicitudLabEstudio.cs">
+      <DependentUpon>SolLab.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SolicitudLaboratio.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SolicitudLaboratio.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SolicitudLaboratio.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SolicitudLaboratio.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SolicitudLaboratio.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SolicitudLaboratio.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SolicitudLaboratorioExp.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SolicitudLaboratorioExp.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SolicitudLaboratorioExp.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SolicitudLaboratorioExp.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SolicitudLaboratorioExp.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SolicitudLaboratorioExp.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SolicitudPrestaciones.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SolLab.Context.cs">
+      <DependentUpon>SolLab.Context.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Models\SolLab.cs">
+      <DependentUpon>SolLab.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Models\SolLab.Designer.cs">
+      <DependentUpon>SolLab.edmx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Models\SOL_SERVICIO.cs">
+      <DependentUpon>Incidente.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SPDatosEmp_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SpJefesInmediatos_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SPListaEmpleado_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SpReporteCaratula_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SpReporteRetardos_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_ASI_Contrato_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_CensoPensionistax_Result.cs" />
+    <Compile Include="Models\Sp_ContadorEmpleado_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_DatosKardex_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_DetalleRequisiciones_Result.cs">
+      <DependentUpon>SISM-Compras.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_GetDatosQuinquenios_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_GetDatosVacaciones_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_GetInfInv1_Result.cs">
+      <DependentUpon>SISM-Farmacia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_GetInfInv_Result.cs">
+      <DependentUpon>SISM-Farmacia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_GetListaMed_Result.cs">
+      <DependentUpon>SISM-Farmacia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_InfAcademica_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_JefesInmediatos_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_ListaEmpleadosActivos_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_ListaPorAprobar_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_ListaQuinquenios_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_ListaVacacionesCoordinadores_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_ListaVacacionesEmp_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_ListaVacaciones_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_LlenaDatosEmpleado_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_LlenaGridCoordinadoresQ_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_LLENAGRIDKARDEX_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_LlenarTablaCoordinadores_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_MedicamentosTemporales_Result.cs">
+      <DependentUpon>SERVMEDMedNivel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_MedNuevos_Result.cs">
+      <DependentUpon>SISM-Farmacia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_MonitorQuinquenios_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_MonitorVacaciones_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_NotasFarmaco_Result.cs">
+      <DependentUpon>NotaFarmaco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_ObtenerSustancias_Milton_Result.cs">
+      <DependentUpon>SERVMEDMedNivel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_ReporteAutInt_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_ReporteRH_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Reporte_ASI_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_Requisiciones_Result.cs">
+      <DependentUpon>SISM-Compras.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_TblKardex_Result.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Temporales_Result.cs">
+      <DependentUpon>SERVMEDMedNivel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_ViewCodBar2022_Result.cs">
+      <DependentUpon>SISM-Farmacia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sustancia.cs">
+      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\systranschemas.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblAcceso.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblCarreras.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblCatalogoContratos.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblColonia.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblDepartamento.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblDetalleOrdenCompra.cs">
+      <DependentUpon>SISM-Compras.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblDetalleRequisicion.cs">
+      <DependentUpon>SISM-Compras.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblDocumentos.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblEmpleado.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblEscuela.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblEstado.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblEstudiosEmpleado.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblHijos.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblKardex.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblKardexRHyNom.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblMovimientos.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblMunicipio.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblNivelAcademico.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblNotaFarmaco.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblOrdenCompra.cs">
+      <DependentUpon>SISM-Compras.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblPais.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblPuesto.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblRegimen.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblRequisicion.cs">
+      <DependentUpon>SISM-Compras.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblSubCategoriaSM.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblTallasUniformes.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblTriage.cs">
+      <DependentUpon>Triage.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblUniforme.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_CategoriaSM.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_PuestosSM.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_UnidadMedica.cs">
+      <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TicketAreas.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tickets.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TicketTipo.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tipodeenvase_21.cs">
+      <DependentUpon>SISM-Farmacia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TicketSeguimiento.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TIPOSCONSULTA.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tipo_incidente.cs">
+      <DependentUpon>Incidentes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrabajoSocialNota.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Triage.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Triage.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Triage.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Triage.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Triage.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Triage.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UanlEncuesta.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UanlEncuesta.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UanlEncuesta.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UanlEncuesta.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UanlEncuesta.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UanlEncuesta.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\unidadeslicitacion_21.cs">
+      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\unidadesmedida_21.cs">
+      <DependentUpon>SISM-Farmacia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UnidadMedica.cs">
+      <DependentUpon>Dhabientes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usuario.cs">
+      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ValeEntrada.cs">
+      <DependentUpon>Inventario.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\_ConsumoAlm.cs" />
+    <Compile Include="Models\_ConsumoFar.cs" />
+    <Compile Include="Models\_ConsumoMederos.cs" />
+    <Compile Include="Models\_ConsumoSEMAC.cs" />
+    <Compile Include="Models\_TotalConsumo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\CensoPensionistasViewModel.cs" />
+    <Compile Include="ViewModels\DTOs\CensoPensionistaDto.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\animate.min.css" />
+    <Content Include="Content\bootstrap-2.min.css" />
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\buttons.bootstrap.min.css" />
+    <Content Include="Content\codebar.css" />
+    <Content Include="Content\dataTable.bootstrap.min.css" />
+    <Content Include="Content\dataTables.responsive.css" />
+    <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\materialicons.css" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fullcalendar\R_Digital\index.html" />
+    <Content Include="fullcalendar\R_Digital\main.css" />
+    <Content Include="fullcalendar\R_Digital\style.css" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Imagenes\actcita.png" />
+    <Content Include="Imagenes\act_cita.png" />
+    <Content Include="Imagenes\agendauno.png" />
+    <Content Include="Imagenes\agregar.png" />
+    <Content Include="Imagenes\amarillo.png" />
+    <Content Include="Imagenes\amarillo1.png" />
+    <Content Include="Imagenes\avisos\aviso1.png" />
+    <Content Include="Imagenes\avisos\aviso10.png" />
+    <Content Include="Imagenes\avisos\aviso11.png" />
+    <Content Include="Imagenes\avisos\aviso2.png" />
+    <Content Include="Imagenes\avisos\aviso3.png" />
+    <Content Include="Imagenes\avisos\aviso4.png" />
+    <Content Include="Imagenes\avisos\aviso5.png" />
+    <Content Include="Imagenes\avisos\aviso6.png" />
+    <Content Include="Imagenes\avisos\aviso7.png" />
+    <Content Include="Imagenes\avisos\aviso8.png" />
+    <Content Include="Imagenes\avisos\aviso9.png" />
+    <Content Include="Imagenes\btn1.png" />
+    <Content Include="Imagenes\Calendarioicon.png" />
+    <Content Include="Imagenes\cancel.png" />
+    <Content Include="Imagenes\Cancelado.png" />
+    <Content Include="Imagenes\cancelar-orden.png" />
+    <Content Include="Imagenes\cansultar_retardo.png" />
+    <Content Include="Imagenes\capacitaciondesarrollo.png" />
+    <Content Include="Imagenes\Capture.png" />
+    <Content Include="Imagenes\COMUNICADO2-01.jpg" />
+    <Content Include="Imagenes\ConsultaNotasPorMedico.png" />
+    <Content Include="Imagenes\ConsultarAgenda.png" />
+    <Content Include="Imagenes\credencial-digital-2.jpg" />
+    <Content Include="Imagenes\credencial-digital.jpg" />
+    <Content Include="Imagenes\DatosGenerales.png" />
+    <Content Include="Imagenes\dhabientes\formato-credencial.jpg" />
+    <Content Include="Imagenes\edit_user.png" />
+    <Content Include="Imagenes\employee.png" />
+    <Content Include="Imagenes\EncabezadoIncapcidad.jpg" />
+    <Content Include="Imagenes\Farmaco.png" />
+    <Content Include="Imagenes\firma-antigenos.PNG" />
+    <Content Include="Imagenes\firmas\22017.png" />
+    <Content Include="Imagenes\H.png" />
+    <Content Include="Imagenes\Horario.PNG" />
+    <Content Include="Imagenes\horarioesp.PNG" />
+    <Content Include="Imagenes\Horarioesp0.png" />
+    <Content Include="Imagenes\iconfinder_Aproved_Outline_User_Approved_3545094.png" />
+    <Content Include="Imagenes\iconfinder_Artboard_23_6015036.png" />
+    <Content Include="Imagenes\iconfinder_Artboard_25_6015050.png" />
+    <Content Include="Imagenes\iconfinder_Doctor_3436593.png" />
+    <Content Include="Imagenes\iconfinder_file_3708111.png" />
+    <Content Include="Imagenes\iconfinder_Health_Check_3436590.png" />
+    <Content Include="Imagenes\iconfinder_seo-monitoring_2944877.png" />
+    <Content Include="Imagenes\iconfinder_stetoskop_3708104.png" />
+    <Content Include="Imagenes\iconos\ACTUALIZACION-DE-INFORMACION-3x.png" />
+    <Content Include="Imagenes\iconos\add.png" />
+    <Content Include="Imagenes\iconos\AGENDA-CITAS.png" />
+    <Content Include="Imagenes\iconos\alergias.png" />
+    <Content Include="Imagenes\iconos\Buscar Historia Clinica.png" />
+    <Content Include="Imagenes\iconos\BusquedaMedico.png" />
+    <Content Include="Imagenes\iconos\CALL CENTER.png" />
+    <Content Include="Imagenes\iconos\camara.png" />
+    <Content Include="Imagenes\iconos\cancel.png" />
+    <Content Include="Imagenes\iconos\Capacitacionlogo.png" />
+    <Content Include="Imagenes\iconos\capturareporteenfermeria.png" />
+    <Content Include="Imagenes\iconos\cerrar.png" />
+    <Content Include="Imagenes\iconos\CITAS-3x.png" />
+    <Content Include="Imagenes\iconos\COMUNICATE-4x.png" />
+    <Content Include="Imagenes\iconos\CONSULTA-MEDICA-3x.png" />
+    <Content Include="Imagenes\iconos\consultaretardo.png" />
+    <Content Include="Imagenes\iconos\consulta_agenda.png" />
+    <Content Include="Imagenes\iconos\coordinacion.png" />
+    <Content Include="Imagenes\iconos\details_close.png" />
+    <Content Include="Imagenes\iconos\details_open.png" />
+    <Content Include="Imagenes\iconos\DIRECCION-MEDICA-3x.png" />
+    <Content Include="Imagenes\iconos\DIRECTORIO.png" />
+    <Content Include="Imagenes\iconos\Directory.png" />
+    <Content Include="Imagenes\iconos\edit.png" />
+    <Content Include="Imagenes\enfermeriaicon.png" />
+    <Content Include="Imagenes\iconos\excel.png" />
+    <Content Include="Imagenes\iconos\exclamation-mark.png" />
+    <Content Include="Imagenes\iconos\EXPEDIENTE-FORANEOS-3x.png" />
+    <Content Include="Imagenes\iconos\EXPEDIENTE-HU-3x.png" />
+    <Content Include="Imagenes\iconos\EXPEDIENTE-SM-3x.png" />
+    <Content Include="Imagenes\iconos\EXPEDIENTE-SUBROGADO-3x.png" />
+    <Content Include="Imagenes\iconos\FARMACIA-3x.png" />
+    <Content Include="Imagenes\iconos\farmaco.png" />
+    <Content Include="Imagenes\iconos\flecha-abajo.png" />
+    <Content Include="Imagenes\iconos\foraneos.png" />
+    <Content Include="Imagenes\iconos\iconoretraso.png" />
+    <Content Include="Imagenes\iconos\KIOSKO-3x.png" />
+    <Content Include="Imagenes\iconos\microscopio.png" />
+    <Content Include="Imagenes\iconos\MONITOR-CLINICA-3x.png" />
+    <Content Include="Imagenes\iconos\MONITOR-RECETAS-3x.png" />
+    <Content Include="Imagenes\iconos\PASE-DE-INTERNAMIENTO-3.png" />
+    <Content Include="Imagenes\iconos\pencil.png" />
+    <Content Include="Imagenes\iconos\phone-call.png" />
+    <Content Include="Imagenes\iconos\presencial.png" />
+    <Content Include="Imagenes\iconos\print.png" />
+    <Content Include="Imagenes\iconos\Recursos-Humanos-2-3x.png" />
+    <Content Include="Imagenes\iconos\RECURSOS-HUMANOS-3x.png" />
+    <Content Include="Imagenes\iconos\REGRESAR.png" />
+    <Content Include="Imagenes\iconos\REPORTE-COVID-3x.png" />
+    <Content Include="Imagenes\iconos\reporteenfermeria.png" />
+    <Content Include="Imagenes\iconos\REPORTES-MEDICOS-3x.png" />
+    <Content Include="Imagenes\iconos\sala-espera.png" />
+    <Content Include="Imagenes\iconos\salaespera.png" />
+    <Content Include="Imagenes\iconos\ServiciosMedicos.png" />
+    <Content Include="Imagenes\iconos\SISTEMA-ADMINISTRATIVO-3x.png" />
+    <Content Include="Imagenes\iconos\SISTEMA-MEDICO-3x.png" />
+    <Content Include="Imagenes\iconos\soporte-tecnico.png" />
+    <Content Include="Imagenes\iconos\statistics.png" />
+    <Content Include="Imagenes\iconos\Stethoscope.png" />
+    <Content Include="Imagenes\iconos\support.png" />
+    <Content Include="Imagenes\iconos\TABLET-3x.png" />
+    <Content Include="Imagenes\iconos\telefono.png" />
+    <Content Include="Imagenes\iconos\trashcan.png" />
+    <Content Include="Imagenes\iconos\trashcan2.png" />
+    <Content Include="Imagenes\iconos\Urgencias.png" />
+    <Content Include="Imagenes\iconos\view.png" />
+    <Content Include="Imagenes\iconos\virus.png" />
+    <Content Include="Imagenes\iconos\xray.png" />
+    <Content Include="Imagenes\icon_sistema_administrativo.png" />
+    <Content Include="Imagenes\icon_sistema_medico.png" />
+    <Content Include="Imagenes\imgCapture.png" />
+    <Content Include="Imagenes\jade-firma.jpg" />
+    <Content Include="Imagenes\jade-icono.jpg" />
+    <Content Include="Imagenes\lineas-uanl-derecha.png" />
+    <Content Include="Imagenes\lineas-uanl-izquierda.png" />
+    <Content Include="Imagenes\ListaEspera_Triage.png" />
+    <Content Include="Imagenes\llego.png" />
+    <Content Include="Imagenes\logo-sm.png" />
+    <Content Include="Imagenes\logo-UANL-2.jpeg" />
+    <Content Include="Imagenes\logo-uanl-impresion.jpg" />
+    <Content Include="Imagenes\logo-uanl-impresion.png" />
+    <Content Include="Imagenes\logo_SISM1.jpeg" />
+    <Content Include="Imagenes\logo_SISM2.png" />
+    <Content Include="Imagenes\man-user.png" />
+    <Content Include="Imagenes\man-user32.png" />
+    <Content Include="Imagenes\marcaagua.png" />
+    <Content Include="Imagenes\Med2.jpeg" />
+    <Content Include="Imagenes\Medical123.png" />
+    <Content Include="Imagenes\medicamento.png" />
+    <Content Include="Imagenes\medicamento2.png" />
+    <Content Include="Imagenes\mesa-cirugia.png" />
+    <Content Include="Imagenes\notamedica.png" />
+    <Content Include="Imagenes\no_contesto.png" />
+    <Content Include="Imagenes\PANTALLA SISM2.png" />
+    <Content Include="Imagenes\PASE DE INTERNAMIENTO 3.png" />
+    <Content Include="Imagenes\pasta.png" />
+    <Content Include="Imagenes\phone-call-llamo.png" />
+    <Content Include="Imagenes\phone-call.png" />
+    <Content Include="Imagenes\phone-call1.png" />
+    <Content Include="Imagenes\print.png" />
+    <Content Include="Imagenes\Reactivar_cita.png" />
+    <Content Include="Imagenes\recepcion_triage.png" />
+    <Content Include="Imagenes\registrar-orden.png" />
+    <Content Include="Imagenes\reportes-iconos.png" />
+    <Content Include="Imagenes\requi.png" />
+    <Content Include="Imagenes\resumen-recetas-2.png" />
+    <Content Include="Imagenes\resumen-recetas-3.png" />
+    <Content Include="Imagenes\resumen-recetas.png" />
+    <Content Include="Imagenes\sala-espera.png" />
+    <Content Include="Imagenes\salaespera.png" />
+    <Content Include="Imagenes\scanning.png" />
+    <Content Include="Imagenes\search1.png" />
+    <Content Include="Imagenes\Servicios Medicos_Mesa de trabajo 1.png" />
+    <Content Include="Imagenes\ServiciosMédicos.png" />
+    <Content Include="Imagenes\slider1.jpg" />
+    <Content Include="Imagenes\slider2.jpg" />
+    <Content Include="Imagenes\SOISM13x.png" />
+    <Content Include="Imagenes\somos-uni.png" />
+    <Content Include="Imagenes\termino_consulta.png" />
+    <Content Include="Imagenes\termino_consulta1.png" />
+    <Content Include="Imagenes\uanl-left-side.jpg" />
+    <Content Include="Imagenes\uanl-logo.png" />
+    <Content Include="Imagenes\uanl.png" />
+    <Content Include="Imagenes\urgencias_triage.png" />
+    <Content Include="Imagenes\user.png" />
+    <Content Include="Imagenes\VerEspecialidades.png" />
+    <Content Include="JavaScript\jquery.quicksearch.js" />
+    <Content Include="JavaScript\jquery.tablesorter.js" />
+    <Content Include="Models\ActividadesDepartamento.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ActividadesDepartamento.edmx</DependentUpon>
+      <LastGenOutput>ActividadesDepartamento.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ActividadesDepartamento.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ActividadesDepartamento.edmx</DependentUpon>
+      <LastGenOutput>ActividadesDepartamento1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Administrativo.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Administrativo.edmx</DependentUpon>
+      <LastGenOutput>Administrativo.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Administrativo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Administrativo.edmx</DependentUpon>
+      <LastGenOutput>Administrativo.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Afiliados.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Afiliados.edmx</DependentUpon>
+      <LastGenOutput>Afiliados.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Afiliados.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Afiliados.edmx</DependentUpon>
+      <LastGenOutput>Afiliados1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\AfiliadosPrueba.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AfiliadosPrueba.edmx</DependentUpon>
+      <LastGenOutput>AfiliadosPrueba.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\AfiliadosPrueba.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AfiliadosPrueba.edmx</DependentUpon>
+      <LastGenOutput>AfiliadosPrueba.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\BorradorRequisicion.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BorradorRequisicion.edmx</DependentUpon>
+      <LastGenOutput>BorradorRequisicion.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\BorradorRequisicion.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BorradorRequisicion.edmx</DependentUpon>
+      <LastGenOutput>BorradorRequisicion.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ColoniaPrueba.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ColoniaPrueba.edmx</DependentUpon>
+      <LastGenOutput>ColoniaPrueba.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ColoniaPrueba.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ColoniaPrueba.edmx</DependentUpon>
+      <LastGenOutput>ColoniaPrueba.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ConexionHU.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ConexionHU.edmx</DependentUpon>
+      <LastGenOutput>ConexionHU.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ConexionHU.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ConexionHU.edmx</DependentUpon>
+      <LastGenOutput>ConexionHU.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\CovidSolicitud.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CovidSolicitud.edmx</DependentUpon>
+      <LastGenOutput>CovidSolicitud.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\CovidSolicitud.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CovidSolicitud.edmx</DependentUpon>
+      <LastGenOutput>CovidSolicitud1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Derechohabientes.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Derechohabientes.edmx</DependentUpon>
+      <LastGenOutput>Derechohabientes.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Derechohabientes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Derechohabientes.edmx</DependentUpon>
+      <LastGenOutput>Derechohabientes.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Dhabientes.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Dhabientes.edmx</DependentUpon>
+      <LastGenOutput>Dhabientes.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Dhabientes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Dhabientes.edmx</DependentUpon>
+      <LastGenOutput>Dhabientes1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Diagnosticos.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Diagnosticos.edmx</DependentUpon>
+      <LastGenOutput>Diagnosticos.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Diagnosticos.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Diagnosticos.edmx</DependentUpon>
+      <LastGenOutput>Diagnosticos1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Directorio.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Directorio.edmx</DependentUpon>
+      <LastGenOutput>Directorio.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Directorio.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Directorio.edmx</DependentUpon>
+      <LastGenOutput>Directorio1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\EncuestaCovid.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EncuestaCovid.edmx</DependentUpon>
+      <LastGenOutput>EncuestaCovid.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\EncuestaCovid.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EncuestaCovid.edmx</DependentUpon>
+      <LastGenOutput>EncuestaCovid.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\EncuestaCovidSegunda.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EncuestaCovidSegunda.edmx</DependentUpon>
+      <LastGenOutput>EncuestaCovidSegunda.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\EncuestaCovidSegunda.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EncuestaCovidSegunda.edmx</DependentUpon>
+      <LastGenOutput>EncuestaCovidSegunda.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\EnfermeriaInventario.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EnfermeriaInventario.edmx</DependentUpon>
+      <LastGenOutput>EnfermeriaInventario.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\EnfermeriaInventario.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EnfermeriaInventario.edmx</DependentUpon>
+      <LastGenOutput>EnfermeriaInventario1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\EnfermeriaSignosVitales.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EnfermeriaSignosVitales.edmx</DependentUpon>
+      <LastGenOutput>EnfermeriaSignosVitales.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\EnfermeriaSignosVitales.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EnfermeriaSignosVitales.edmx</DependentUpon>
+      <LastGenOutput>EnfermeriaSignosVitales1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\EnfermeriaSolicitud.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EnfermeriaSolicitud.edmx</DependentUpon>
+      <LastGenOutput>EnfermeriaSolicitud.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\EnfermeriaSolicitud.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EnfermeriaSolicitud.edmx</DependentUpon>
+      <LastGenOutput>EnfermeriaSolicitud1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\EnfermeriaSolicitudDetalle.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EnfermeriaSolicitudDetalle.edmx</DependentUpon>
+      <LastGenOutput>EnfermeriaSolicitudDetalle.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\EnfermeriaSolicitudDetalle.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EnfermeriaSolicitudDetalle.edmx</DependentUpon>
+      <LastGenOutput>EnfermeriaSolicitudDetalle1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Especialidades.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Especialidades.edmx</DependentUpon>
+      <LastGenOutput>Especialidades.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Especialidades.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Especialidades.edmx</DependentUpon>
+      <LastGenOutput>Especialidades1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\EstudioMS.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EstudioMS.edmx</DependentUpon>
+      <LastGenOutput>EstudioMS.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\EstudioMS.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EstudioMS.edmx</DependentUpon>
+      <LastGenOutput>EstudioMS.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Expediente.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Expediente.edmx</DependentUpon>
+      <LastGenOutput>Expediente.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Expediente.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Expediente.edmx</DependentUpon>
+      <LastGenOutput>Expediente1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ExpedienteDiagnosticos.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ExpedienteDiagnosticos.edmx</DependentUpon>
+      <LastGenOutput>ExpedienteDiagnosticos.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ExpedienteDiagnosticos.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ExpedienteDiagnosticos.edmx</DependentUpon>
+      <LastGenOutput>ExpedienteDiagnosticos.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\FarmaciaProductividad.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FarmaciaProductividad.edmx</DependentUpon>
+      <LastGenOutput>FarmaciaProductividad.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\FarmaciaProductividad.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FarmaciaProductividad.edmx</DependentUpon>
+      <LastGenOutput>FarmaciaProductividad.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\HistorialPadecimientos.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HistorialPadecimientos.edmx</DependentUpon>
+      <LastGenOutput>HistorialPadecimientos.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\HistorialPadecimientos.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HistorialPadecimientos.edmx</DependentUpon>
+      <LastGenOutput>HistorialPadecimientos.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\HistorialRecetas.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HistorialRecetas.edmx</DependentUpon>
+      <LastGenOutput>HistorialRecetas.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\HistorialRecetas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HistorialRecetas.edmx</DependentUpon>
+      <LastGenOutput>HistorialRecetas.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Incidente.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Incidente.edmx</DependentUpon>
+      <LastGenOutput>Incidente.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Incidente.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Incidente.edmx</DependentUpon>
+      <LastGenOutput>Incidente.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Incidentes.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Incidentes.edmx</DependentUpon>
+      <LastGenOutput>Incidentes.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Incidentes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Incidentes.edmx</DependentUpon>
+      <LastGenOutput>Incidentes.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Indicadores.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Indicadores.edmx</DependentUpon>
+      <LastGenOutput>Indicadores.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Indicadores.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Indicadores.edmx</DependentUpon>
+      <LastGenOutput>Indicadores.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Inventario.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Inventario.edmx</DependentUpon>
+      <LastGenOutput>Inventario.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Inventario.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Inventario.edmx</DependentUpon>
+      <LastGenOutput>Inventario1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\InventarioFarmacia.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>InventarioFarmacia.edmx</DependentUpon>
+      <LastGenOutput>InventarioFarmacia.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\InventarioFarmacia.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>InventarioFarmacia.edmx</DependentUpon>
+      <LastGenOutput>InventarioFarmacia1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\inventario_ip.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>inventario_ip.edmx</DependentUpon>
+      <LastGenOutput>inventario_ip.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\inventario_ip.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>inventario_ip.edmx</DependentUpon>
+      <LastGenOutput>inventario_ip.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Medicos.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Medicos.edmx</DependentUpon>
+      <LastGenOutput>Medicos.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Medicos.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Medicos.edmx</DependentUpon>
+      <LastGenOutput>Medicos1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\NotaEgreso.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>NotaEgreso.edmx</DependentUpon>
+      <LastGenOutput>NotaEgreso.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\NotaEgreso.edmx.diagram">
+      <DependentUpon>NotaEgreso.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\NotaEgreso.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>NotaEgreso1.cs</LastGenOutput>
+      <DependentUpon>NotaEgreso.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\NotaFarmaco.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>NotaFarmaco.edmx</DependentUpon>
+      <LastGenOutput>NotaFarmaco.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\NotaFarmaco.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>NotaFarmaco.edmx</DependentUpon>
+      <LastGenOutput>NotaFarmaco.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\NotaIngreso.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>NotaIngreso.edmx</DependentUpon>
+      <LastGenOutput>NotaIngreso.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\NotaIngreso.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>NotaIngreso.edmx</DependentUpon>
+      <LastGenOutput>NotaIngreso1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\NotaOperatoria.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>NotaOperatoria.edmx</DependentUpon>
+      <LastGenOutput>NotaOperatoria.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\NotaOperatoria.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>NotaOperatoria.edmx</DependentUpon>
+      <LastGenOutput>NotaOperatoria1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\NotaPreoperatoria.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>NotaPreoperatoria.edmx</DependentUpon>
+      <LastGenOutput>NotaPreoperatoria.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\NotaPreoperatoria.edmx.diagram">
+      <DependentUpon>NotaPreoperatoria.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\NotaPreoperatoria.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>NotaPreoperatoria1.cs</LastGenOutput>
+      <DependentUpon>NotaPreoperatoria.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\OrdenInternamiento.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>OrdenInternamiento.edmx</DependentUpon>
+      <LastGenOutput>OrdenInternamiento.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\OrdenInternamiento.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>OrdenInternamiento.edmx</DependentUpon>
+      <LastGenOutput>OrdenInternamiento.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Pacientes.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Pacientes.edmx</DependentUpon>
+      <LastGenOutput>Pacientes.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Pacientes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Pacientes.edmx</DependentUpon>
+      <LastGenOutput>Pacientes.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\RayosX.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>RayosX.edmx</DependentUpon>
+      <LastGenOutput>RayosX.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\RayosX.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>RayosX.edmx</DependentUpon>
+      <LastGenOutput>RayosX.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Recetas.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Recetas.edmx</DependentUpon>
+      <LastGenOutput>Recetas.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Recetas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Recetas.edmx</DependentUpon>
+      <LastGenOutput>Recetas.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Recetas2.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Recetas2.edmx</DependentUpon>
+      <LastGenOutput>Recetas2.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Recetas2.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Recetas2.edmx</DependentUpon>
+      <LastGenOutput>Recetas2.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Recetas3.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Recetas3.edmx</DependentUpon>
+      <LastGenOutput>Recetas3.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Recetas3.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Recetas3.edmx</DependentUpon>
+      <LastGenOutput>Recetas3.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\RecetasHU.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>RecetasHU.edmx</DependentUpon>
+      <LastGenOutput>RecetasHU.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\RecetasHU.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>RecetasHU.edmx</DependentUpon>
+      <LastGenOutput>RecetasHU.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Req.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Req.edmx</DependentUpon>
+      <LastGenOutput>Req.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Req.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Req.edmx</DependentUpon>
+      <LastGenOutput>Req.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SERVMEDMedNivel2.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SERVMEDMedNivel2.edmx</DependentUpon>
+      <LastGenOutput>SERVMEDMedNivel2.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SERVMEDMedNivel2.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SERVMEDMedNivel2.edmx</DependentUpon>
+      <LastGenOutput>SERVMEDMedNivel2.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SERVMEDNivel2.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SERVMEDNivel2.edmx</DependentUpon>
+      <LastGenOutput>SERVMEDNivel2.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SERVMEDNivel2.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SERVMEDNivel2.edmx</DependentUpon>
+      <LastGenOutput>SERVMEDNivel2.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SISM-Compras.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SISM-Compras.edmx</DependentUpon>
+      <LastGenOutput>SISM-Compras.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SISM-Compras.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SISM-Compras.edmx</DependentUpon>
+      <LastGenOutput>SISM-Compras.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SISM-Farmacia.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SISM-Farmacia.edmx</DependentUpon>
+      <LastGenOutput>SISM-Farmacia.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SISM-Farmacia.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SISM-Farmacia.edmx</DependentUpon>
+      <LastGenOutput>SISM-Farmacia.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SISM-RH.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SISM-RH.edmx</DependentUpon>
+      <LastGenOutput>SISM-RH.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SISM-RH.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SISM-RH.edmx</DependentUpon>
+      <LastGenOutput>SISM-RH.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SMDEVReporteSemanalActividades.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SMDEVReporteSemanalActividades.edmx</DependentUpon>
+      <LastGenOutput>SMDEVReporteSemanalActividades.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SMDEVReporteSemanalActividades.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SMDEVReporteSemanalActividades.edmx</DependentUpon>
+      <LastGenOutput>SMDEVReporteSemanalActividades.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SolicitudLab.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SolicitudLab.edmx</DependentUpon>
+      <LastGenOutput>SolicitudLab1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SolicitudLaboratio.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SolicitudLaboratio.edmx</DependentUpon>
+      <LastGenOutput>SolicitudLaboratio.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SolicitudLaboratio.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SolicitudLaboratio.edmx</DependentUpon>
+      <LastGenOutput>SolicitudLaboratio.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SolicitudLaboratorioExp.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SolicitudLaboratorioExp.edmx</DependentUpon>
+      <LastGenOutput>SolicitudLaboratorioExp.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SolicitudLaboratorioExp.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SolicitudLaboratorioExp.edmx</DependentUpon>
+      <LastGenOutput>SolicitudLaboratorioExp.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SolLab.Context.tt">
+      <DependentUpon>SolLab.edmx</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SolLab.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SolLab.edmx.diagram">
+      <DependentUpon>SolLab.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\SolLab.tt">
+      <DependentUpon>SolLab.edmx</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SolLab.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Triage.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Triage.edmx</DependentUpon>
+      <LastGenOutput>Triage.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Triage.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Triage.edmx</DependentUpon>
+      <LastGenOutput>Triage.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\UanlEncuesta.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>UanlEncuesta.edmx</DependentUpon>
+      <LastGenOutput>UanlEncuesta.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\UanlEncuesta.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>UanlEncuesta.edmx</DependentUpon>
+      <LastGenOutput>UanlEncuesta.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scripts\allure.js" />
+    <Content Include="Scripts\bootstrap-2.min.js" />
+    <Content Include="Scripts\bootstrap-3.3.7.min.js" />
+    <EntityDeploy Include="Models\SolLab.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SolLab.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <EntityDeploy Include="Models\UanlEncuesta.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>UanlEncuesta.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\UanlEncuesta.edmx.diagram">
+      <DependentUpon>UanlEncuesta.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\EncuestaCovid.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EncuestaCovid.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\EncuestaCovid.edmx.diagram">
+      <DependentUpon>EncuestaCovid.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Pacientes.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Pacientes.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Pacientes.edmx.diagram">
+      <DependentUpon>Pacientes.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\EncuestaCovidSegunda.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EncuestaCovidSegunda.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\EncuestaCovidSegunda.edmx.diagram">
+      <DependentUpon>EncuestaCovidSegunda.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\AfiliadosPrueba.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AfiliadosPrueba.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\AfiliadosPrueba.edmx.diagram">
+      <DependentUpon>AfiliadosPrueba.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\ColoniaPrueba.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ColoniaPrueba.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ColoniaPrueba.edmx.diagram">
+      <DependentUpon>ColoniaPrueba.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Afiliados.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Afiliados.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Afiliados.edmx.diagram">
+      <DependentUpon>Afiliados.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Recetas.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Recetas.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Recetas.edmx.diagram">
+      <DependentUpon>Recetas.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Recetas2.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Recetas2.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Recetas2.edmx.diagram">
+      <DependentUpon>Recetas2.edmx</DependentUpon>
+    </Content>
+    <Content Include="fonts\flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2" />
+    <EntityDeploy Include="Models\Indicadores.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Indicadores.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Indicadores.edmx.diagram">
+      <DependentUpon>Indicadores.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Medicos.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Medicos.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Medicos.edmx.diagram">
+      <DependentUpon>Medicos.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Derechohabientes.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Derechohabientes.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Derechohabientes.edmx.diagram">
+      <DependentUpon>Derechohabientes.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Especialidades.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Especialidades.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Especialidades.edmx.diagram">
+      <DependentUpon>Especialidades.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Diagnosticos.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Diagnosticos.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Diagnosticos.edmx.diagram">
+      <DependentUpon>Diagnosticos.edmx</DependentUpon>
+    </Content>
+    <Content Include="App_Data\.editorconfig" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <EntityDeploy Include="Models\Expediente.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Expediente.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Expediente.edmx.diagram">
+      <DependentUpon>Expediente.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\InventarioFarmacia.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>InventarioFarmacia.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\InventarioFarmacia.edmx.diagram">
+      <DependentUpon>InventarioFarmacia.edmx</DependentUpon>
+    </Content>
+    <Content Include="fonts\Code39.ttf" />
+    <EntityDeploy Include="Models\HistorialPadecimientos.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>HistorialPadecimientos.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\HistorialPadecimientos.edmx.diagram">
+      <DependentUpon>HistorialPadecimientos.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\HistorialRecetas.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>HistorialRecetas.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\HistorialRecetas.edmx.diagram">
+      <DependentUpon>HistorialRecetas.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\ExpedienteDiagnosticos.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ExpedienteDiagnosticos.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ExpedienteDiagnosticos.edmx.diagram">
+      <DependentUpon>ExpedienteDiagnosticos.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Administrativo.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Administrativo.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Administrativo.edmx.diagram">
+      <DependentUpon>Administrativo.edmx</DependentUpon>
+    </Content>
+    <Content Include="fonts\BarcodeFont.ttf" />
+    <Content Include="fonts\code128.ttf" />
+    <Content Include="fonts\Code-39-Logitogo.ttf" />
+    <Content Include="fonts\Code39-hoch-Logitogo.ttf" />
+    <EntityDeploy Include="Models\Incidente.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Incidente.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Incidente.edmx.diagram">
+      <DependentUpon>Incidente.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Incidentes.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Incidentes.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Incidentes.edmx.diagram">
+      <DependentUpon>Incidentes.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\OrdenInternamiento.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>OrdenInternamiento.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\OrdenInternamiento.edmx.diagram">
+      <DependentUpon>OrdenInternamiento.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Recetas3.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Recetas3.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Recetas3.edmx.diagram">
+      <DependentUpon>Recetas3.edmx</DependentUpon>
+    </Content>
+    <Content Include="Manuales\Manual_UanlSIS1_1M_Web_2021.pdf" />
+    <EntityDeploy Include="Models\Dhabientes.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Dhabientes.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Dhabientes.edmx.diagram">
+      <DependentUpon>Dhabientes.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\FarmaciaProductividad.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>FarmaciaProductividad.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\FarmaciaProductividad.edmx.diagram">
+      <DependentUpon>FarmaciaProductividad.edmx</DependentUpon>
+    </Content>
+    <Content Include="Imagenes\afiliados.json" />
+    <Content Include="Imagenes\receta_normal.json" />
+    <EntityDeploy Include="Models\RayosX.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>RayosX.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\RayosX.edmx.diagram">
+      <DependentUpon>RayosX.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\SolicitudLaboratorioExp.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SolicitudLaboratorioExp.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\SolicitudLaboratorioExp.edmx.diagram">
+      <DependentUpon>SolicitudLaboratorioExp.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\NotaIngreso.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>NotaIngreso.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\NotaIngreso.edmx.diagram">
+      <DependentUpon>NotaIngreso.edmx</DependentUpon>
+    </Content>
+    <Content Include="json\citas\citas.json" />
+    <Content Include="json\historial_orden_int\historial_orden_int.json" />
+    <Content Include="json\historial_orden_int\historial_orden_int_62759100.json" />
+    <Content Include="json\historial_orden_int\historial_orden_int_62759103.json" />
+    <Content Include="json\historial_orden_int\historial_orden_int_registro.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_00018104.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_00160102.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_04934103.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_10658101.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_10658102.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_11227100.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_11227101.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_11227102.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_11227103.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_11227104.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_11227105.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_11695101.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_12672105.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_17110102.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_17283101.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_18554100.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_20081100.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_21004733.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_21006046.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_21009691.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_21032375.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_21038757.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_62759100.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_62759102.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_62759103.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_67540100.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_83634100.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_83634101.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_83634102.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_84563100.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_84563102.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_84563103.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_84563104.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_91734100.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_91734101.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_91734102.json" />
+    <Content Include="json\historial_padecimientos\historial_expediente_92041100.json" />
+    <Content Include="json\historial_recetas\historial_recetas_17283101.json" />
+    <Content Include="json\historial_recetas\historial_recetas_21009691.json" />
+    <Content Include="json\historial_recetas\historial_recetas_62759100.json" />
+    <Content Include="json\historial_valoracion_pen\historial_valoracion_pen.json" />
+    <Content Include="json\incidentes\incidentes.json" />
+    <Content Include="json\incidentes\incidentes_area.json" />
+    <Content Include="json\incidentes\incidentes_area_17.json" />
+    <Content Include="json\incidentes\incidentes_coord_02101.json" />
+    <Content Include="json\incidentes\incidentes_coord_05035.json" />
+    <Content Include="json\incidentes\incidentes_coord_06007.json" />
+    <Content Include="json\incidentes\incidentes_coord_08044.json" />
+    <Content Include="json\incidentes\incidentes_coord_10031.json" />
+    <Content Include="json\incidentes\incidentes_coord_13030.json" />
+    <Content Include="json\incidentes\incidentes_coord_18012.json" />
+    <Content Include="json\incidentes\incidentes_coord_22011.json" />
+    <Content Include="json\incidentes\incidentes_coord_22013.json" />
+    <Content Include="json\incidentes\incidentes_coord_22016.json" />
+    <Content Include="json\incidentes\incidentes_coord_22017.json" />
+    <Content Include="json\incidentes\incidentes_coord_22019.json" />
+    <Content Include="json\incidentes\incidentes_coord_50002.json" />
+    <Content Include="json\incidentes\incidentes_coord_ANGELES.json" />
+    <Content Include="json\incidentes\incidentes_coord_araceli.json" />
+    <Content Include="json\incidentes\incidentes_coord_CLAUDIAC.json" />
+    <Content Include="json\incidentes\incidentes_coord_direccion.json" />
+    <Content Include="json\incidentes\incidentes_coord_erickm.json" />
+    <Content Include="json\incidentes\incidentes_coord_JEHERNA.json" />
+    <Content Include="json\incidentes\incidentes_coord_jorge.gutierrez.json" />
+    <Content Include="json\incidentes\incidentes_coord_msantillana.json" />
+    <Content Include="json\incidentes\incidentes_coord_normae.json" />
+    <Content Include="json\incidentes\incidentes_coord_silviaa.json" />
+    <Content Include="json\incidentes\incidentes_folio.json" />
+    <Content Include="json\incidentes\incidentes_folio_41.json" />
+    <Content Include="json\incidentes\sis_areas.json" />
+    <Content Include="json\indicadores\especialidades\expediente_AGENDA ESPECIAL.json" />
+    <Content Include="json\indicadores\especialidades\expediente_ALERGIAS PEDIATRIA .json" />
+    <Content Include="json\indicadores\especialidades\expediente_ALERGIAS.json" />
+    <Content Include="json\indicadores\especialidades\expediente_ALGOLOGIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_ANESTESIOLOGIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_C. C. Y D. NIÑO SANO.json" />
+    <Content Include="json\indicadores\especialidades\expediente_CARDIOLOGIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_CIRUGIA GENERAL.json" />
+    <Content Include="json\indicadores\especialidades\expediente_CIRUGIA PLASTICA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_CLINICA DE DIABETES.json" />
+    <Content Include="json\indicadores\especialidades\expediente_CLINICA DE HIPERTENSION.json" />
+    <Content Include="json\indicadores\especialidades\expediente_CLINICA DE MAMA .json" />
+    <Content Include="json\indicadores\especialidades\expediente_CLINICA O P .json" />
+    <Content Include="json\indicadores\especialidades\expediente_CONSULTA EXCEDENTE.json" />
+    <Content Include="json\indicadores\especialidades\expediente_COORDINACION MEDICA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_DENSITOMETRIA .json" />
+    <Content Include="json\indicadores\especialidades\expediente_DENTAL CIRUGIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_DENTAL ENDODONCIAS.json" />
+    <Content Include="json\indicadores\especialidades\expediente_DENTAL PASANTES.json" />
+    <Content Include="json\indicadores\especialidades\expediente_DENTAL REHABILITACION.json" />
+    <Content Include="json\indicadores\especialidades\expediente_DENTISTAS.json" />
+    <Content Include="json\indicadores\especialidades\expediente_DERMATOLOGIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_ENDOCRINOLOGIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_especialidades.json" />
+    <Content Include="json\indicadores\especialidades\expediente_especialidades_busqueda.json" />
+    <Content Include="json\indicadores\especialidades\expediente_especialidades_mederos.json" />
+    <Content Include="json\indicadores\especialidades\expediente_especialidades_mederos_busqueda.json" />
+    <Content Include="json\indicadores\especialidades\expediente_FARMACO VIGILANCIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_FONIATRIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_GASTROENTEROLOGIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_GERIATRIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_GINECOLOGIA Y OBSTETRICIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_HEMATOLOGIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_HOMEOPATIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_INFECTOLOGIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_MED. DEL DEPORTE.json" />
+    <Content Include="json\indicadores\especialidades\expediente_MEDICINA FAMILIAR.json" />
+    <Content Include="json\indicadores\especialidades\expediente_MEDICINA INTEGRADA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_MEDICINA INTERNA .json" />
+    <Content Include="json\indicadores\especialidades\expediente_MEDICINA LABORAL.json" />
+    <Content Include="json\indicadores\especialidades\expediente_MEDICINA PREVENTIVA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_MEDICOS DE SUSTITUCION.json" />
+    <Content Include="json\indicadores\especialidades\expediente_MEDICOS EVENTUALES %28SUSTITUCIONES%29..json" />
+    <Content Include="json\indicadores\especialidades\expediente_MEDICOS EXTERNOS .json" />
+    <Content Include="json\indicadores\especialidades\expediente_NEFROLOGIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_NEUMOLOGIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_NEUROCIRUGIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_NEUROLOGIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_NUTRICION.json" />
+    <Content Include="json\indicadores\especialidades\expediente_OFTALMOLOGIA  2.json" />
+    <Content Include="json\indicadores\especialidades\expediente_OFTALMOLOGIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_ONCOLOGIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_OTONEUROLOGIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_OTORRINOLARINGOLOGIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_PEDIATRIA SUSTITUCION .json" />
+    <Content Include="json\indicadores\especialidades\expediente_PEDIATRIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_PENSIONISTAS HOSPITAL UNIVERSITARIO.json" />
+    <Content Include="json\indicadores\especialidades\expediente_PLANIFICACION FAMILIAR.json" />
+    <Content Include="json\indicadores\especialidades\expediente_PODIATRIA .json" />
+    <Content Include="json\indicadores\especialidades\expediente_PODOLOGIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_PSICOLOGIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_PSICOTERAPIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_PSIQUIATRIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_RADIOLOGIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_RADIOTERAPIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_RESIDENTES HOSPITAL UNIVERSITARIO.json" />
+    <Content Include="json\indicadores\especialidades\expediente_REUMATOLOGIA .json" />
+    <Content Include="json\indicadores\especialidades\expediente_SUBROGADOS.json" />
+    <Content Include="json\indicadores\especialidades\expediente_TRAUMATOLOGIA.json" />
+    <Content Include="json\indicadores\especialidades\expediente_URGENCIAS .json" />
+    <Content Include="json\indicadores\especialidades\expediente_UROLOGIA.json" />
+    <Content Include="json\indicadores\farmacia\productividad.json" />
+    <Content Include="json\inventario_farmacia\inventario_farmacia.json" />
+    <Content Include="json\inventario_farmacia\inventario_farmacia_hu.json" />
+    <Content Include="json\inventario_farmacia\inventario_farmacia_sm.json" />
+    <Content Include="json\dhabientes.json" />
+    <Content Include="json\diagnosticos.json" />
+    <Content Include="json\especialidades.json" />
+    <Content Include="json\expedientes_egresos.json" />
+    <Content Include="json\expedientes_ingresos.json" />
+    <Content Include="json\expedientes_internados.json" />
+    <Content Include="json\expediente_especialistas.json" />
+    <Content Include="json\expediente_especialistas_hoy.json" />
+    <Content Include="json\expediente_hu.json" />
+    <Content Include="json\expediente_mederos_presencial.json" />
+    <Content Include="json\expediente_mederos_telefonica.json" />
+    <Content Include="json\expediente_medicina_familiar.json" />
+    <Content Include="json\expediente_medicina_familiar_hoy.json" />
+    <Content Include="json\expediente_pediatria.json" />
+    <Content Include="json\expediente_pediatria_hoy.json" />
+    <Content Include="json\expediente_sm_presencial.json" />
+    <Content Include="json\expediente_sm_telefonica.json" />
+    <Content Include="json\hisotrial_expediente_10658101.json" />
+    <Content Include="json\historial_expediente_10658101.json" />
+    <Content Include="json\historial_expediente_10658102.json" />
+    <Content Include="json\historial_expediente_10658103.json" />
+    <Content Include="json\historial_expediente_12672105.json" />
+    <Content Include="json\historial_expediente_21004733.json" />
+    <Content Include="json\manuales.json" />
+    <Content Include="json\manuales_hoy.json" />
+    <Content Include="json\pro_man.json" />
+    <Content Include="json\pro_no.json" />
+    <Content Include="json\pro_tar.json" />
+    <Content Include="json\receta_normal.json" />
+    <Content Include="json\receta_normal_hoy.json" />
+    <Content Include="json\tarjeton.json" />
+    <Content Include="json\tarjeton_hoy.json" />
+    <Content Include="json\todo_hoy.json" />
+    <EntityDeploy Include="Models\NotaPreoperatoria.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>NotaPreoperatoria.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <EntityDeploy Include="Models\NotaEgreso.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>NotaEgreso.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <EntityDeploy Include="Models\NotaOperatoria.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>NotaOperatoria.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\NotaOperatoria.edmx.diagram">
+      <DependentUpon>NotaOperatoria.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Directorio.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Directorio.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Directorio.edmx.diagram">
+      <DependentUpon>Directorio.edmx</DependentUpon>
+    </Content>
+    <Content Include="Manuales\manual-de-usuario-orden-de-internamiento-1-2.pdf" />
+    <Content Include="Manuales\Manual-SISM-2021.pdf" />
+    <EntityDeploy Include="Models\EstudioMS.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EstudioMS.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\EstudioMS.edmx.diagram">
+      <DependentUpon>EstudioMS.edmx</DependentUpon>
+    </Content>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <EntityDeploy Include="Models\RecetasHU.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>RecetasHU.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\RecetasHU.edmx.diagram">
+      <DependentUpon>RecetasHU.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\EnfermeriaInventario.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EnfermeriaInventario.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\EnfermeriaInventario.edmx.diagram">
+      <DependentUpon>EnfermeriaInventario.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\EnfermeriaSolicitud.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EnfermeriaSolicitud.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\EnfermeriaSolicitud.edmx.diagram">
+      <DependentUpon>EnfermeriaSolicitud.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\EnfermeriaSolicitudDetalle.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EnfermeriaSolicitudDetalle.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\EnfermeriaSolicitudDetalle.edmx.diagram">
+      <DependentUpon>EnfermeriaSolicitudDetalle.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\ActividadesDepartamento.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ActividadesDepartamento.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ActividadesDepartamento.edmx.diagram">
+      <DependentUpon>ActividadesDepartamento.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\SMDEVReporteSemanalActividades.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SMDEVReporteSemanalActividades.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\SMDEVReporteSemanalActividades.edmx.diagram">
+      <DependentUpon>SMDEVReporteSemanalActividades.edmx</DependentUpon>
+    </Content>
+    <Content Include="libmongocrypt.so" />
+    <Content Include="libmongocrypt.dylib" />
+    <EntityDeploy Include="Models\NotaFarmaco.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>NotaFarmaco.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\NotaFarmaco.edmx.diagram">
+      <DependentUpon>NotaFarmaco.edmx</DependentUpon>
+    </Content>
+    <Content Include="Imagenes\iconos\cerrar.webp" />
+    <EntityDeploy Include="Models\SolicitudLaboratio.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SolicitudLaboratio.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\SolicitudLaboratio.edmx.diagram">
+      <DependentUpon>SolicitudLaboratio.edmx</DependentUpon>
+    </Content>
+    <Content Include="Imagenes\smuanl.apk" />
+    <EntityDeploy Include="Models\CovidSolicitud.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CovidSolicitud.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\CovidSolicitud.edmx.diagram">
+      <DependentUpon>CovidSolicitud.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\EnfermeriaSignosVitales.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EnfermeriaSignosVitales.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\EnfermeriaSignosVitales.edmx.diagram">
+      <DependentUpon>EnfermeriaSignosVitales.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Inventario.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Inventario.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Inventario.edmx.diagram">
+      <DependentUpon>Inventario.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\ConexionHU.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ConexionHU.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ConexionHU.edmx.diagram">
+      <DependentUpon>ConexionHU.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\SolicitudLab.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SolicitudLab.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\SolicitudLab.edmx.diagram">
+      <DependentUpon>SolicitudLab.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\SISM-Farmacia.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SISM-Farmacia.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\SISM-Farmacia.edmx.diagram">
+      <DependentUpon>SISM-Farmacia.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\SISM-RH.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SISM-RH.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\SISM-RH.edmx.diagram">
+      <DependentUpon>SISM-RH.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\SISM-Compras.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SISM-Compras.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\SISM-Compras.edmx.diagram">
+      <DependentUpon>SISM-Compras.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\SERVMEDNivel2.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SERVMEDNivel2.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\SERVMEDNivel2.edmx.diagram">
+      <DependentUpon>SERVMEDNivel2.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Triage.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Triage.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Triage.edmx.diagram">
+      <DependentUpon>Triage.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\inventario_ip.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>inventario_ip.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\inventario_ip.edmx.diagram">
+      <DependentUpon>inventario_ip.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Req.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Req.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Req.edmx.diagram">
+      <DependentUpon>Req.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\BorradorRequisicion.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BorradorRequisicion.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\BorradorRequisicion.edmx.diagram">
+      <DependentUpon>BorradorRequisicion.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\SERVMEDMedNivel2.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SERVMEDMedNivel2.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\SERVMEDMedNivel2.edmx.diagram">
+      <DependentUpon>SERVMEDMedNivel2.edmx</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\esm\popper-utils.js" />
+    <Content Include="Scripts\esm\popper-utils.min.js" />
+    <Content Include="Scripts\esm\popper.js" />
+    <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\index.js.flow" />
+    <Content Include="Scripts\esm\popper.min.js.map" />
+    <Content Include="Scripts\esm\popper.js.map" />
+    <Content Include="Scripts\esm\popper-utils.min.js.map" />
+    <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\buttons.bootstrap.min.js" />
+    <Content Include="Scripts\buttons.colVis.min.js" />
+    <Content Include="Scripts\buttons.html5.min.js" />
+    <Content Include="Scripts\buttons.print.min.js" />
+    <Content Include="Scripts\dataTables.bootstrap.min.js" />
+    <Content Include="Scripts\dataTables.buttons.min.js" />
+    <Content Include="Scripts\dataTables.responsive.js" />
+    <Content Include="Scripts\dataTables.select.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-3.5.1.js" />
+    <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery.dataTables.min.js" />
+    <Content Include="Scripts\jquery.dropdown.js" />
+    <Content Include="Scripts\jQuery.print.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\JsBarcode.code39.min.js" />
+    <Content Include="Scripts\jszip.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\pdfmake.min.js" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\css\dataTables.bootstrap.css" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\css\dataTables.bootstrap.min.css" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\css\dataTables.bootstrap4.css" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\css\dataTables.foundation.css" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\css\dataTables.foundation.min.css" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\css\dataTables.jqueryui.css" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\css\dataTables.jqueryui.min.css" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\css\dataTables.material.css" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\css\dataTables.material.min.css" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\css\dataTables.semanticui.css" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\css\dataTables.semanticui.min.css" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\css\dataTables.uikit.css" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\css\dataTables.uikit.min.css" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\css\jquery.dataTables.css" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\css\jquery.dataTables.min.css" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\css\jquery.dataTables_themeroller.css" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\images\favicon.ico" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\images\sort_asc.png" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\images\sort_asc_disabled.png" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\images\sort_both.png" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\images\sort_desc.png" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\images\sort_desc_disabled.png" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\js\dataTables.bootstrap.js" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\js\dataTables.bootstrap.min.js" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\js\dataTables.bootstrap4.js" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\js\dataTables.bootstrap4.min.js" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\js\dataTables.foundation.js" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\js\dataTables.foundation.min.js" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\js\dataTables.jqueryui.js" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\js\dataTables.jqueryui.min.js" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\js\dataTables.material.js" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\js\dataTables.material.min.js" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\js\dataTables.semanticui.js" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\js\dataTables.semanticui.min.js" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\js\dataTables.uikit.js" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\js\dataTables.uikit.min.js" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\js\jquery.dataTables.js" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\js\jquery.dataTables.min.js" />
+    <Content Include="Scripts\plugins\DataTables-1.10.15\media\js\jquery.js" />
+    <Content Include="Scripts\popper-utils.js" />
+    <Content Include="Scripts\popper-utils.min.js" />
+    <Content Include="Scripts\popper.js" />
+    <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\select2\select2-bootstrap.css" />
+    <Content Include="Scripts\select2\select2.css" />
+    <Content Include="Scripts\select2\select2.js" />
+    <Content Include="Scripts\select2\select2.min.css" />
+    <Content Include="Scripts\select2\select2.min.js" />
+    <Content Include="Scripts\slick\ajax-loader.gif" />
+    <Content Include="Scripts\slick\slick-theme.css" />
+    <Content Include="Scripts\slick\slick.css" />
+    <Content Include="Scripts\slick\slick.js" />
+    <Content Include="Scripts\slick\slick.min.js" />
+    <Content Include="Scripts\src\index.js" />
+    <Content Include="Scripts\src\methods\defaults.js" />
+    <Content Include="Scripts\src\methods\destroy.js" />
+    <Content Include="Scripts\src\methods\disableEventListeners.js" />
+    <Content Include="Scripts\src\methods\enableEventListeners.js" />
+    <Content Include="Scripts\src\methods\placements.js" />
+    <Content Include="Scripts\src\methods\update.js" />
+    <Content Include="Scripts\src\modifiers\applyStyle.js" />
+    <Content Include="Scripts\src\modifiers\arrow.js" />
+    <Content Include="Scripts\src\modifiers\computeStyle.js" />
+    <Content Include="Scripts\src\modifiers\flip.js" />
+    <Content Include="Scripts\src\modifiers\hide.js" />
+    <Content Include="Scripts\src\modifiers\index.js" />
+    <Content Include="Scripts\src\modifiers\inner.js" />
+    <Content Include="Scripts\src\modifiers\keepTogether.js" />
+    <Content Include="Scripts\src\modifiers\offset.js" />
+    <Content Include="Scripts\src\modifiers\preventOverflow.js" />
+    <Content Include="Scripts\src\modifiers\shift.js" />
+    <Content Include="Scripts\src\utils\clockwise.js" />
+    <Content Include="Scripts\src\utils\computeAutoPlacement.js" />
+    <Content Include="Scripts\src\utils\debounce.js" />
+    <Content Include="Scripts\src\utils\find.js" />
+    <Content Include="Scripts\src\utils\findCommonOffsetParent.js" />
+    <Content Include="Scripts\src\utils\findIndex.js" />
+    <Content Include="Scripts\src\utils\getBordersSize.js" />
+    <Content Include="Scripts\src\utils\getBoundaries.js" />
+    <Content Include="Scripts\src\utils\getBoundingClientRect.js" />
+    <Content Include="Scripts\src\utils\getClientRect.js" />
+    <Content Include="Scripts\src\utils\getFixedPositionOffsetParent.js" />
+    <Content Include="Scripts\src\utils\getOffsetParent.js" />
+    <Content Include="Scripts\src\utils\getOffsetRect.js" />
+    <Content Include="Scripts\src\utils\getOffsetRectRelativeToArbitraryNode.js" />
+    <Content Include="Scripts\src\utils\getOppositePlacement.js" />
+    <Content Include="Scripts\src\utils\getOppositeVariation.js" />
+    <Content Include="Scripts\src\utils\getOuterSizes.js" />
+    <Content Include="Scripts\src\utils\getParentNode.js" />
+    <Content Include="Scripts\src\utils\getPopperOffsets.js" />
+    <Content Include="Scripts\src\utils\getReferenceNode.js" />
+    <Content Include="Scripts\src\utils\getReferenceOffsets.js" />
+    <Content Include="Scripts\src\utils\getRoot.js" />
+    <Content Include="Scripts\src\utils\getRoundedOffsets.js" />
+    <Content Include="Scripts\src\utils\getScroll.js" />
+    <Content Include="Scripts\src\utils\getScrollParent.js" />
+    <Content Include="Scripts\src\utils\getStyleComputedProperty.js" />
+    <Content Include="Scripts\src\utils\getSupportedPropertyName.js" />
+    <Content Include="Scripts\src\utils\getViewportOffsetRectRelativeToArtbitraryNode.js" />
+    <Content Include="Scripts\src\utils\getWindow.js" />
+    <Content Include="Scripts\src\utils\getWindowSizes.js" />
+    <Content Include="Scripts\src\utils\includeScroll.js" />
+    <Content Include="Scripts\src\utils\index.js" />
+    <Content Include="Scripts\src\utils\isBrowser.js" />
+    <Content Include="Scripts\src\utils\isFixed.js" />
+    <Content Include="Scripts\src\utils\isFunction.js" />
+    <Content Include="Scripts\src\utils\isIE.js" />
+    <Content Include="Scripts\src\utils\isModifierEnabled.js" />
+    <Content Include="Scripts\src\utils\isModifierRequired.js" />
+    <Content Include="Scripts\src\utils\isNumeric.js" />
+    <Content Include="Scripts\src\utils\isOffsetContainer.js" />
+    <Content Include="Scripts\src\utils\removeEventListeners.js" />
+    <Content Include="Scripts\src\utils\runModifiers.js" />
+    <Content Include="Scripts\src\utils\setAttributes.js" />
+    <Content Include="Scripts\src\utils\setStyles.js" />
+    <Content Include="Scripts\src\utils\setupEventListeners.js" />
+    <Content Include="Scripts\umd\popper-utils.js" />
+    <Content Include="Scripts\umd\popper-utils.min.js" />
+    <Content Include="Scripts\umd\popper.js" />
+    <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Scripts\vfs_fonts.js" />
+    <Content Include="Videos\PCI Tema 11.- Relacion - medico paciente y la practica de la medicina en la actualidad.mp4" />
+    <Content Include="Videos\Tema 6 - Clasificacion y manejo de RPBI.mp4" />
+    <Content Include="Videos\TUTORIAL_SISM_1.mp4" />
+    <Content Include="Views\Laboratorio\Create.cshtml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Manage\EncuestaCovid.cshtml" />
+    <Content Include="Views\Manage\PrimerPregunta.cshtml" />
+    <Content Include="Views\Manage\SegundaPregunta.cshtml" />
+    <Content Include="Views\Manage\TerceraPregunta.cshtml" />
+    <Content Include="Views\Manage\CuartaPregunta.cshtml" />
+    <Content Include="Views\Manage\QuintaPregunta.cshtml" />
+    <Content Include="Views\Manage\SextaPregunta.cshtml" />
+    <Content Include="Views\Manage\SeptimaPregunta.cshtml" />
+    <Content Include="Views\Manage\OctavaPregunta.cshtml" />
+    <Content Include="Views\Manage\NovenaPregunta.cshtml" />
+    <Content Include="Views\Manage\OnceavaPregunta.cshtml" />
+    <Content Include="Views\Manage\Comentarios.cshtml" />
+    <Content Include="Views\Manage\SegundaEncuesta.cshtml" />
+    <Content Include="Views\Manage\Reportes.cshtml" />
+    <Content Include="Scripts\slick\config.rb" />
+    <Content Include="Scripts\slick\slick-theme.less" />
+    <Content Include="Scripts\slick\slick-theme.scss" />
+    <Content Include="Scripts\slick\slick.less" />
+    <Content Include="Scripts\slick\slick.scss" />
+    <Content Include="Views\Manage\SegundaEncuestaImprimir.cshtml" />
+    <Content Include="Views\Manage\SaveSegundaEncuesta.cshtml" />
+    <Content Include="Views\Manage\verDhabientes.cshtml" />
+    <Content Include="Views\Manage\EncuestaCovidSegunda.cshtml" />
+    <Content Include="Views\Manage\ResumenGeneralDos.cshtml" />
+    <Content Include="Views\Manage\Medico.cshtml" />
+    <Content Include="Views\Home\KioscoIpad.cshtml" />
+    <Content Include="Views\Manage\Indicadores.cshtml" />
+    <Content Include="Views\Manage\Monitores.cshtml" />
+    <Content Include="Views\Manage\Consultas.cshtml" />
+    <Content Include="Views\Manage\Direccion.cshtml" />
+    <Content Include="Views\Manage\Citas.cshtml" />
+    <Content Include="Views\Manage\Farmacia.cshtml" />
+    <Content Include="Views\Manage\Administrativo.cshtml" />
+    <Content Include="Views\Manage\HU.cshtml" />
+    <Content Include="Views\Manage\ConsultaExpediente.cshtml" />
+    <Content Include="Views\Manage\HistorialPadecimientos.cshtml" />
+    <Content Include="Scripts\umd\popper.min.js.map" />
+    <Content Include="Scripts\umd\popper.js.map" />
+    <Content Include="Scripts\umd\popper.js.flow" />
+    <Content Include="Scripts\umd\popper-utils.min.js.map" />
+    <Content Include="Scripts\umd\popper-utils.js.map" />
+    <Content Include="Scripts\README.md" />
+    <Content Include="Scripts\popper.min.js.map" />
+    <Content Include="Scripts\popper.js.map" />
+    <Content Include="Scripts\popper-utils.min.js.map" />
+    <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Manage\Recetas.cshtml" />
+    <Content Include="Views\Manage\HistorialRecetas.cshtml" />
+    <Content Include="Views\Manage\HojaFrontal.cshtml" />
+    <Content Include="Views\Manage\ConsultaHU.cshtml" />
+    <Content Include="Views\Manage\ListaRecetas.cshtml" />
+    <Content Include="Views\Manage\Incidentes.cshtml" />
+    <Content Include="Views\Manage\Incidente.cshtml" />
+    <Content Include="Views\Manage\OrdenInternamiento.cshtml" />
+    <Content Include="Views\Manage\SolicitarOrdenInternamiento.cshtml" />
+    <Content Include="Views\Manage\VerOrdenesInternamiento.cshtml" />
+    <Content Include="Views\Manage\EditarOrdenInternamiento.cshtml" />
+    <Content Include="Views\Manage\TodasOrdenesInternamiento.cshtml" />
+    <Content Include="Views\Manage\OrdenesInternamiento.cshtml" />
+    <Content Include="Views\Home\Incidente.cshtml" />
+    <Content Include="Views\Emails\_ViewStart.cshtml" />
+    <Content Include="Views\Emails\Web.config" />
+    <Content Include="Views\Emails\Example.cshtml" />
+    <Content Include="Views\Manage\Manuales.cshtml" />
+    <Content Include="Views\Manage\ValoracionPensionistas.cshtml" />
+    <Content Include="Views\Manage\EditarValoracionPensionistas.cshtml" />
+    <Content Include="Views\Manage\ValoracionesPensionistas.cshtml" />
+    <Content Include="Views\Manage\SolicitarValoracionPensionistas.cshtml" />
+    <Content Include="Views\Manage\TodasValoracionesPensionistas.cshtml" />
+    <Content Include="Views\Manage\IndicadoresProductividadFar.cshtml" />
+    <Content Include="Views\Manage\IndicadoresEspecialidades.cshtml" />
+    <Content Include="Views\Manage\ServiciosMedicos.cshtml" />
+    <Content Include="Views\Manage\SolicitudLaboratorioExp.cshtml" />
+    <Content Include="Views\Manage\ExpSolicitudLaboratorio.cshtml" />
+    <Content Include="Views\Manage\ConsultaSolicitudesLaboratorio.cshtml" />
+    <Content Include="Views\Manage\RayosX.cshtml" />
+    <Content Include="Views\ServiciosMedicos\SOAP.cshtml" />
+    <Content Include="Views\ServiciosMedicos\Recetas.cshtml" />
+    <Content Include="Views\Foraneos\Index.cshtml" />
+    <Content Include="Views\Foraneos\HojaFrontal.cshtml" />
+    <Content Include="Views\Foraneos\HistorialPadecimientos.cshtml" />
+    <Content Include="Views\Foraneos\SOAP.cshtml" />
+    <Content Include="Views\ServiciosMedicos\ListaRecetas.cshtml" />
+    <Content Include="Views\ServiciosMedicos\HojaFrontal.cshtml" />
+    <Content Include="Views\ServiciosMedicos\HistorialPadecimientos.cshtml" />
+    <Content Include="Views\Manage\SolicitudLaboratorio.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\IndicadoresInternacion.cshtml" />
+    <Content Include="Views\Manage\IndicadoresInternacionDetalles.cshtml" />
+    <Content Include="Views\Manage\RegistrarOrdenInternamiento.cshtml" />
+    <Content Include="Views\NotaIngreso\NotaIngreso.cshtml" />
+    <Content Include="Views\NotaIngreso\ConsultaNotasIngreso.cshtml" />
+    <Content Include="Views\Indicadores\ProductividadFarmacia.cshtml" />
+    <Content Include="Views\ServiciosMedicos\Calendario.cshtml" />
+    <Content Include="Views\ServiciosMedicos\agenda1.cshtml" />
+    <Content Include="Views\ServiciosMedicos\citas.cshtml" />
+    <Content Include="Views\ServiciosMedicos\RayosX.cshtml" />
+    <Content Include="Views\ServiciosMedicos\SolicitudLaboratorio.cshtml" />
+    <Content Include="Views\ServiciosMedicos\RecetasCronicas.cshtml" />
+    <Content Include="Views\NotaPreoperatoria\Create.cshtml" />
+    <Content Include="Views\NotaPreoperatoria\Delete.cshtml" />
+    <Content Include="Views\NotaPreoperatoria\Details.cshtml" />
+    <Content Include="Views\NotaPreoperatoria\Edit.cshtml" />
+    <Content Include="Views\NotaPreoperatoria\Index.cshtml" />
+    <Content Include="Views\NotaIngreso\Index.cshtml" />
+    <Content Include="Views\NotaEgreso\Index.cshtml" />
+    <Content Include="Views\NotaEgreso\Edit.cshtml" />
+    <Content Include="Views\NotaEgreso\Create.cshtml" />
+    <Content Include="Views\ServiciosMedicos\Estudios.cshtml" />
+    <Content Include="Views\MedicinaLaboral\Index.cshtml" />
+    <Content Include="Views\MedicinaLaboral\HojaFrontal.cshtml" />
+    <Content Include="Views\MedicinaLaboral\HistorialPadecimientos.cshtml" />
+    <Content Include="Views\MedicinaLaboral\SOAP.cshtml" />
+    <Content Include="Views\ServiciosMedicos\ProcAmbOrdenes.cshtml" />
+    <Content Include="Views\NotaOperatoria\Create.cshtml" />
+    <Content Include="Views\NotaOperatoria\Delete.cshtml" />
+    <Content Include="Views\NotaOperatoria\Details.cshtml" />
+    <Content Include="Views\NotaOperatoria\Edit.cshtml" />
+    <Content Include="Views\NotaOperatoria\Index.cshtml" />
+    <Content Include="Views\ServiciosMedicos\Index.cshtml" />
+    <Content Include="Views\ServiciosMedicos\SOAPInternamiento.cshtml" />
+    <Content Include="Views\ServiciosMedicos\HistorialRecetas.cshtml" />
+    <Content Include="Views\ServiciosMedicos\VerProcAmbOrdenes.cshtml" />
+    <Content Include="Views\ServiciosMedicos\ProcAmbulOrdenes.cshtml" />
+    <Content Include="Views\Citas\Index.cshtml" />
+    <Content Include="Views\Indicadores\ProductividadConsulta.cshtml" />
+    <Content Include="Views\Directorio\List.cshtml" />
+    <Content Include="Views\ServiciosMedicos\MisMedicos.cshtml" />
+    <Content Include="Views\MedicinaLaboral\MisMedicos.cshtml" />
+    <Content Include="Views\MedicinaLaboral\Especialidades_directorio.cshtml" />
+    <Content Include="Views\MedicinaLaboral\Medicos_directorio.cshtml" />
+    <Content Include="Views\MedicinaLaboral\AltaAgendaMedicos.cshtml" />
+    <Content Include="Views\MedicinaLaboral\Consulta_Historial.cshtml" />
+    <Content Include="Views\MedicinaLaboral\Consulta_HistorialHojaFrontal.cshtml" />
+    <Content Include="Views\MedicinaLaboral\Consulta_HistorialRecetasCronicas.cshtml" />
+    <Content Include="Views\MedicinaLaboral\Consulta_HistorialListaRecetas.cshtml" />
+    <Content Include="Views\MedicinaLaboral\Consulta_HistorialHistorialRecetas.cshtml" />
+    <Content Include="Views\MedicinaLaboral\Consulta_HistorialVerProcAmbOrdenes.cshtml" />
+    <Content Include="Views\MedicinaLaboral\Consulta_HistorialPadecimientos.cshtml" />
+    <Content Include="Views\ServiciosMedicos\Consultahistorial_incapacidades.cshtml" />
+    <Content Include="Views\Laboratorio\Index.cshtml" />
+    <Content Include="Views\Shared\MenuSM.cshtml" />
+    <Content Include="Views\Shared\MSM.cshtml" />
+    <Content Include="Views\Laboratorio\Edit.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresLinares.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresHomeOffice.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresUrgenciasA.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresRecetasHoy.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresHistorialRecetas.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresConsultasHoy.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresHistorialConsultas.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresServiciosMedicos.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresMederos.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresConsultaInternados.cshtml" />
+    <Content Include="Views\EstudioMS\Create.cshtml" />
+    <Content Include="Views\EstudioMS\Delete.cshtml" />
+    <Content Include="Views\EstudioMS\Details.cshtml" />
+    <Content Include="Views\EstudioMS\Edit.cshtml" />
+    <Content Include="Views\EstudioMS\Index.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresUrgenciasSM.cshtml" />
+    <Content Include="Views\MedicinaLaboral\ConsultarAgenda.cshtml" />
+    <Content Include="Views\MedicinaLaboral\ConsultarAgendaCitas.cshtml" />
+    <Content Include="Views\Shared\PaquetePreoperatorio.cshtml" />
+    <Content Include="Views\Kioscos\KioscoCitas.cshtml" />
+    <Content Include="Views\ServiciosMedicos\SOAP2.cshtml" />
+    <Content Include="Views\Laboratorio\Citas.cshtml" />
+    <Content Include="Views\Citas\Laboratorio.cshtml" />
+    <Content Include="Views\Manage\Tutoriales.cshtml" />
+    <Content Include="Views\ServiciosMedicos\ListaRecetas2.cshtml" />
+    <Content Include="Views\Kioscos\KioscoRecetas.cshtml" />
+    <Content Include="Views\ServiciosMedicos\SanJeronimo.cshtml" />
+    <Content Include="Views\EnfermeriaSolicitud\Create.cshtml" />
+    <Content Include="Views\EnfermeriaSolicitud\Edit.cshtml" />
+    <Content Include="Views\EnfermeriaSolicitud\Index.cshtml" />
+    <Content Include="Views\EnfermeriaSolicitud\IndexAgenda.cshtml" />
+    <Content Include="Views\EnfermeriaSolicitud\Search.cshtml" />
+    <Content Include="Views\EnfermeriaSolicitud\VerSolicitudEnf.cshtml" />
+    <Content Include="Views\EnfermeriaSolicitud\MenuEnfermeria.cshtml" />
+    <Content Include="Views\EnfermeriaInventario\Create.cshtml" />
+    <Content Include="Views\EnfermeriaInventario\Delete.cshtml" />
+    <Content Include="Views\EnfermeriaInventario\Details.cshtml" />
+    <Content Include="Views\EnfermeriaInventario\Edit.cshtml" />
+    <Content Include="Views\EnfermeriaInventario\Index.cshtml" />
+    <Content Include="Views\Manage\CapacitacionInterna.cshtml" />
+    <Content Include="Views\MedicinaLaboral\ConsultaNotasPorMedico.cshtml" />
+    <Content Include="Views\MedicinaLaboral\InformeNotasPorMedico.cshtml" />
+    <Content Include="Views\Farmacia\Pantalla.cshtml" />
+    <Content Include="Views\EnfermeriaSolicitud\ReporteSemanal.cshtml" />
+    <Content Include="Views\ReporteActividadesSemanal\Create.cshtml" />
+    <Content Include="Views\ReporteActividadesSemanal\Delete.cshtml" />
+    <Content Include="Views\ReporteActividadesSemanal\Details.cshtml" />
+    <Content Include="Views\ReporteActividadesSemanal\Edit.cshtml" />
+    <Content Include="Views\ReporteActividadesSemanal\Index.cshtml" />
+    <Content Include="Views\FarmacoVigilancia\Index.cshtml" />
+    <Content Include="Views\ServiciosMedicos\Index2.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresResutimiento.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresRecetasHU.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresOrdenesInt.cshtml" />
+    <Content Include="Views\MedicinaLaboral\Index2.cshtml" />
+    <Content Include="Views\ReporteActividadesSemanal\ReporteSemanalGrafica.cshtml" />
+    <Content Include="Views\ServiciosMedicos\Prestaciones.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresValoracion.cshtml" />
+    <Content Include="Views\SolicitudLaboratorio\Create.cshtml" />
+    <Content Include="Views\SolicitudLaboratorio\Delete.cshtml" />
+    <Content Include="Views\SolicitudLaboratorio\Details.cshtml" />
+    <Content Include="Views\SolicitudLaboratorio\Edit.cshtml" />
+    <Content Include="Views\SolicitudLaboratorio\Index.cshtml" />
+    <Content Include="Views\EnfermeriaSolicitud\ReporteSemanalIndex.cshtml" />
+    <Content Include="Views\EnfermeriaSolicitud\ReporteSemanalGrafica.cshtml" />
+    <Content Include="Views\CapacitacionDesarrollo\Create.cshtml" />
+    <Content Include="Views\CapacitacionDesarrollo\Delete.cshtml" />
+    <Content Include="Views\CapacitacionDesarrollo\Details.cshtml" />
+    <Content Include="Views\CapacitacionDesarrollo\Edit.cshtml" />
+    <Content Include="Views\CapacitacionDesarrollo\Index.cshtml" />
+    <Content Include="Views\CapacitacionDesarrollo\Menu.cshtml" />
+    <Content Include="Views\CapacitacionDesarrollo\ReporteSemanal.cshtml" />
+    <Content Include="Views\CapacitacionDesarrollo\ReporteSemanalIndex.cshtml" />
+    <Content Include="Views\CapacitacionDesarrollo\ReporteSemanalGrafica.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresCitas.cshtml" />
+    <Content Include="Views\Home\CredencialDigital.cshtml" />
+    <Content Include="Views\ServiciosMedicos\RecetasUnidadER.cshtml" />
+    <Content Include="Views\TrabajoSocial\Index.cshtml" />
+    <Content Include="Views\TrabajoSocial\ReporteSemanal.cshtml" />
+    <Content Include="Views\MedicinaLaboral\Activar_citacancelada.cshtml" />
+    <Content Include="Views\Home\FormatoCD.cshtml" />
+    <Content Include="Views\TrabajoSocial\ReporteSemanalGrafica.cshtml" />
+    <Content Include="Views\CovidSolicitud\Index.cshtml" />
+    <Content Include="Views\CovidSolicitud\Create.cshtml" />
+    <Content Include="Views\ServiciosMedicos\PruebaAntigenos.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresConsultasUER.cshtml" />
+    <Content Include="Views\ServiciosMedicos\Subrogados.cshtml" />
+    <Content Include="Views\ServiciosMedicos\ResultadoAntigenos.cshtml" />
+    <Content Include="Views\Manage\Incapacidades.cshtml" />
+    <Content Include="Views\ServiciosMedicos\RecetasMederos.cshtml" />
+    <Content Include="Views\Retardos\Index.cshtml" />
+    <Content Include="Views\CovidSolicitud\Details.cshtml" />
+    <Content Include="Views\MenuRH\Index.cshtml" />
+    <Content Include="Views\MenuRH\MenuReportes.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresPruebaAntigenos.cshtml" />
+    <Content Include="Views\CovidSolicitud\Busqueda.cshtml" />
+    <Content Include="Views\Tickets\Index.cshtml" />
+    <Content Include="Views\Manage\Incidentes2.cshtml" />
+    <Content Include="Views\Home\FormatoCD2.cshtml" />
+    <Content Include="Views\CovidSolicitud\IndexAEMA.cshtml" />
+    <Content Include="Views\CovidSolicitud\CreateAEMA.cshtml" />
+    <Content Include="Views\CovidSolicitud\DetailsAEMA.cshtml" />
+    <Content Include="Views\EnfermeriaSolicitud\CapturaSVitales.cshtml" />
+    <Content Include="Views\EnfermeriaSolicitud\SearchSignos.cshtml" />
+    <Content Include="Views\CovidSolicitud\BusquedaAEMA.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresPruebaAntigenosDts.cshtml" />
+    <Content Include="Views\Indicadores\Productividad10.cshtml" />
+    <Content Include="Views\Indicadores\IncidentesArea.cshtml" />
+    <Content Include="Views\Indicadores\IncidentesTipo.cshtml" />
+    <Content Include="Views\conexionHU\CensoPensionistas.cshtml" />
+    <Content Include="Views\conexionHU\GetDatos.cshtml" />
+    <Content Include="Views\ServiciosMedicos\Kardex.cshtml" />
+    <Content Include="Views\ServiciosMedicos\HojaFrontal2.cshtml" />
+    <Content Include="Views\ServiciosMedicos\Subrogados2.cshtml" />
+    <Content Include="Views\Afiliacion\Index.cshtml" />
+    <Content Include="Views\Afiliacion\CredencialDigital.cshtml" />
+    <Content Include="Views\Manage\Incidentes3.cshtml" />
+    <Content Include="Views\Home\PantallaCitasCU.cshtml" />
+    <Content Include="Views\ServiciosMedicos\RecetasCU.cshtml" />
+    <Content Include="Views\Farmacia\PantallaSEMAC.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresCU.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresRecetasCU.cshtml" />
+    <Content Include="Views\Indicadores\ProductividadCU.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresRecetasPacientes.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresRecetasMedicos.cshtml" />
+    <Content Include="Views\TrabajoSocial\CapturarNota.cshtml" />
+    <Content Include="Views\CatalogoMedicamento\CatalogoMedicamento.cshtml" />
+    <Content Include="Views\Departamento\Index.cshtml" />
+    <Content Include="Views\Empleados\GetListaEmpleados.cshtml" />
+    <Content Include="Views\Empleados\RegistroEmpleado.cshtml" />
+    <Content Include="Views\MenuAdministrativo\Index.cshtml" />
+    <Content Include="Views\VisorRequisicion\VisorRequisicion.cshtml" />
+    <Content Include="Views\ReporteRH\Index.cshtml" />
+    <Content Include="Views\Inventario\ReporteConsumoFarmacia.cshtml" />
+    <Content Include="Views\Inventario\ReporteConsumoInv.cshtml" />
+    <Content Include="Views\Inventario\InvRel.cshtml" />
+    <Content Include="Views\Indicadores\IndicadoresGonzalitos.cshtml" />
+    <Content Include="Views\ServiciosMedicos\EditarPrestaciones.cshtml" />
+    <Content Include="Views\ServiciosMedicos\FiltroPrestaciones.cshtml" />
+    <Content Include="Views\ServiciosMedicos\RecetasUnidadERSEMAC.cshtml" />
+    <Content Include="Views\ServiciosMedicos\VerPrestaciones.cshtml" />
+    <Content Include="Views\ServiciosMedicos\Recetas2.cshtml" />
+    <Content Include="Views\Emails\Tickets.cshtml" />
+    <Content Include="Views\ServiciosMedicos\RecetasUnidadERMederos.cshtml" />
+    <Content Include="Views\Farmacia\InhabilitarMedicamentos.cshtml" />
+    <Content Include="Views\ServiciosMedicos\SOAP3.cshtml" />
+    <Content Include="Views\Internamientos\Index.cshtml" />
+    <Content Include="Views\Internamientos\Captura.cshtml" />
+    <Content Include="Views\Internamientos\Recetas.cshtml" />
+    <Content Include="Views\Internamientos\Alta.cshtml" />
+    <Content Include="Views\Internamientos\ListaRecetas.cshtml" />
+    <Content Include="Views\Afiliacion\Kardex.cshtml" />
+    <Content Include="Views\Home\FormatoCD3.cshtml" />
+    <Content Include="Views\ServiciosMedicos\RecetasCronicas2.cshtml" />
+    <Content Include="Views\Almacen\InventarioLista.cshtml" />
+    <Content Include="Views\Farmacia\InventarioLista.cshtml" />
+    <Content Include="Views\ServiciosMedicos\RecetasFarmaco.cshtml" />
+    <Content Include="Views\Farmacia\InventarioListaUER.cshtml" />
+    <Content Include="Views\MedNivel2\MNivel2.cshtml" />
+    <Content Include="Views\Farmacia\SalidaRecetasCU.cshtml" />
+    <Content Include="Views\RecepcionTriage\ListaEsperaT.cshtml" />
+    <Content Include="Views\RecepcionTriage\MedicoUrgenciasT.cshtml" />
+    <Content Include="Views\RecepcionTriage\RecTriage.cshtml" />
+    <Content Include="Views\Farmacia\SalidaRecetasLinares.cshtml" />
+    <Content Include="Views\AdministradorMed\AdministradorMed.cshtml" />
+    <Content Include="Views\Shared\_ConsumoMederos.cshtml" />
+    <Content Include="Views\Shared\_ConsumoSEMAC.cshtml" />
+    <Content Include="Views\Shared\_ConsumoTotal.cshtml" />
+    <Content Include="Views\Shared\_ReporteAlmacen.cshtml" />
+    <Content Include="Views\Shared\_ReporteFarmacia.cshtml" />
+    <Content Include="Views\VisorMedicamentos\VisorMed.cshtml" />
+    <Content Include="Views\TrabajoSocial\HUPacientes.cshtml" />
+    <Content Include="Views\Shared\_BusquedaCBarras.cshtml" />
+    <Content Include="Views\RecepcionTriage\MedicoUrgenciasT2.cshtml" />
+    <Content Include="Views\Hospital\PacientesHospital.cshtml" />
+    <Content Include="Views\Hospital\Captura.cshtml" />
+    <Content Include="Views\Hospital\Recetas.cshtml" />
+    <Content Include="Views\Hospital\ListaRecetas.cshtml" />
+    <Content Include="Views\Hospital\Alta.cshtml" />
+    <Content Include="Views\RecepcionTriage\SOAP.cshtml" />
+    <Content Include="Views\Farmacia\SalidaRecetas.cshtml" />
+    <Content Include="Views\ServiciosMedicos\Insumos.cshtml" />
+    <Content Include="Views\CuadroBasico\CuadroBasico.cshtml" />
+    <Content Include="Views\ServiciosMedicos\RecetasPruebas.cshtml" />
+    <Content Include="Views\Requisicion\BorradorRequisicion.cshtml" />
+    <Content Include="Views\Requisicion\Requisicion.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Imagenes\proveedores\" />
+    <Folder Include="Imagenes\tickets\" />
+    <Folder Include="json\indicadores\consultas\" />
+    <Folder Include="json\indicadores\ordenes\" />
+    <Folder Include="json\indicadores\recetas\" />
+    <Folder Include="json\recetas\" />
+    <Folder Include="Views\Avisos\" />
+    <Folder Include="Views\Incapacidades\" />
+    <Folder Include="Views\RegistroCodBar\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>50558</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:50558/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

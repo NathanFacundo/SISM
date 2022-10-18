@@ -1,0 +1,611 @@
+﻿@{
+    ViewBag.Title = "Indicadores - Historial Consulta";
+}
+
+<head>
+    <meta http-equiv="refresh" content="1800">
+</head>
+
+<style>
+    .fade {
+        opacity: 1;
+    }
+
+    .nav-tabs {
+        margin-top: 2vw !important;
+    }
+
+    .highcharts-credits {
+        display: none;
+    }
+
+    .totalcount {
+        position: absolute;
+        z-index: 999;
+        top: 0;
+        left: 0;
+        margin-left: 3vw;
+        margin-top: 1vw;
+    }
+
+    .highcharts-range-input {
+        margin-left: -20px;
+    }
+
+    .nav-tabs .nav-item {
+        width: 220px;
+        z-index: 99;
+    }
+
+    .dropdown-toggle {
+        width: 550px;
+        font-size: 0.8vw !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        text-align: left;
+        z-index: 0;
+        border-top-left-radius: 20px;
+        border: 3px solid rgba(0,74,143,1);
+    }
+
+        .dropdown-toggle:hover {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+        .dropdown-toggle:focus {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+    .dropdown-menu {
+        float: inherit !important;
+        width: 100% !important;
+    }
+
+    .dropdown-item {
+        font-size: 0.8vw !important;
+        white-space: break-spaces;
+    }
+
+        .dropdown-item.active, .dropdown-item:active {
+            background-color: rgba(0,74,143,1);
+            color: #fff !important;
+        }
+
+        .dropdown-item .material-icons {
+            font-size: 0.8vw !important;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+        .dropdown-item:focus {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 0.8vw !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        border-top-left-radius: 20px;
+        margin-left: -20px;
+        -webkit-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        -moz-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+    }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link:hover {
+            font-size: 0.8vw !important;
+            background-color: rgba(0, 88, 171,1) !important;
+            color: white !important;
+        }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            background-color: #FBC43D;
+            color: white !important;
+            border: 1px solid #FBC43D;
+        }
+
+            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active:hover {
+                background-color: #FBC43D !important;
+            }
+</style>
+
+<style type="text/css" media="screen and (max-width: 991px)">
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 1.5vw !important;
+    }
+
+    .dropdown-toggle {
+        width: 350px;
+    }
+
+    .totalcount {
+        margin-top: -4.5vw;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 767px)">
+    .totalcount {
+        margin-top: -10vw;
+        font-size: 15px;
+    }
+
+    .highcharts-series-group {
+        display: none !important;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 3vw !important;
+    }
+
+    .nav-tabs .nav-item {
+        z-index: 9;
+    }
+
+    .dropdown-menu {
+        z-index: 99999 !important;
+    }
+
+    #recetas {
+        top: 30px !important;
+    }
+
+    .dropdown-toggle {
+        font-size: 3vw !important;
+    }
+
+    .dropdown-item {
+        font-size: 3vw !important;
+    }
+
+    .nav-tabs .nav-item {
+        z-index: 9;
+    }
+
+    .highcharts-axis-grid {
+        display: none;
+    }
+
+    .highcharts-plot-border {
+        display: none;
+    }
+
+    .highcharts-axis {
+        display: none;
+    }
+
+    .highcharts-axis-labels {
+        display: none;
+    }
+
+    .highcharts-navigator {
+        display: none;
+    }
+
+    .highcharts-navigator-xaxis {
+        display: none;
+    }
+
+    .highcharts-root {
+        margin-left: -15vw !important;
+    }
+
+    .highcharts-yaxis-grid {
+        display: none;
+    }
+</style>
+
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+<script src="https://code.highcharts.com/stock/modules/data.js"></script>
+<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Direccion", "Manage")"><b>Dirección Médica</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("IndicadoresHistorialConsultas", "Indicadores")"><b> Historial de Consulta</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<ul class="nav nav-tabs" id="custom-content-below-tab mt-4" role="tablist">
+    @if (HttpContext.Current.User.IsInRole("IndicadoresRecetas"))
+    {
+        <div class="btn-group" style="margin-left: -20px; z-index: 9999; width: 280px;">
+            <button type="button" style="background-color:#FBC43D !important; border:3px solid #fbc43d !important;" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Farmacia
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" id="recetas">
+                <!--a class="dropdown-item" type="button" id="custom-content-below-home-tab" data-toggle="pill" href="#custom-content-below-home" role="tab" aria-controls="custom-content-below-home" aria-selected="true"> Recetas de Hoy</a-->
+                <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresRecetasHoy", "Indicadores")"><span class="material-icons">add</span> Recetas de Hoy</a>
+                <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresHistorialRecetas", "Indicadores")"><span class="material-icons">add</span> Historial de Recetas</a>
+                <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresRecetasHU", "Indicadores")"><span class="material-icons">add</span> Recetas HU</a>
+                <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresRecetasCU", "Indicadores")"><span class="material-icons">add</span> Recetas CU</a>
+            </div>
+        </div>
+    }
+
+    @if (HttpContext.Current.User.IsInRole("Consultas"))
+    {
+        <div class="btn-group" style="margin-left: -20px; z-index: 9999; width: 280px;">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Consultas
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresHistorialConsultas", "Indicadores")"><span class="material-icons">add</span> Servicios Médicos (Medicina General - Especialistas)</a>
+                <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresGonzalitos", "Indicadores")"><span class="material-icons">add</span> Gonzalitos (Medicina General - Especialistas)</a>
+                <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresMederos2", "Indicadores")"><span class="material-icons">add</span> Mederos (Medicina General - Especialistas)</a>
+                <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresLinares", "Indicadores")"><span class="material-icons">add</span> Linares</a>
+                <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresHomeOffice", "Indicadores")"><span class="material-icons">add</span> Doctor En Línea</a>
+                <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresUrgenciasA", "Indicadores")"><span class="material-icons">add</span> Urgencias Área A</a>
+                <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresUrgenciasSM", "Indicadores")"><span class="material-icons">add</span> Urgencias Servicios Médicos</a>
+                @if (HttpContext.Current.User.IsInRole("Especialistas"))
+                {<a class="dropdown-item" type="button" href="@Url.Action("IndicadoresEspecialidades", "Manage")"><span class="material-icons">add</span> Productividad</a>}
+                <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresOrdenesInt", "Indicadores")"><span class="material-icons">add</span> Ordenes de Internamiento</a>
+                <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresValoracion", "Indicadores")"><span class="material-icons">add</span> Valoración Urgencias</a>
+                <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresConsultasUER", "Indicadores")"><span class="material-icons">add</span> Unidad ER</a>
+                <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresPruebaAntigenos", "Indicadores")"><span class="material-icons">add</span> Prueba Antígenos</a>
+                <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresPruebaAntigenosDts", "Indicadores")"><span class="material-icons">add</span> Detalles Prueba Antígenos</a>
+                <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresCU", "Indicadores")"><span class="material-icons">add</span> Ciudad Universitaria</a>
+                <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresServiciosMedicos", "Indicadores")"><span class="material-icons">add</span> Servicios Médicos (Presencial  Telefónicas)</a>
+                <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresMederos", "Indicadores")"><span class="material-icons">add</span> Mederos (Presencial  Telefónicas)</a>
+            </div>
+        </div>
+        if (HttpContext.Current.User.IsInRole("Especialistas"))
+        {
+            <div class="btn-group" style="margin-left: -20px; z-index: 9999; width: 280px;">
+                <button type="button" style="background-color:#FBC43D !important; border:3px solid #fbc43d !important;" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    HU
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" id="recetas">
+                    <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresConsultaInternados", "Indicadores")"><span class="material-icons">add</span> Consulta Internados</a>
+                    <a class="dropdown-item" type="button" href="@Url.Action("IndicadoresInternacionDetalles", "Manage")"><span class="material-icons">add</span> Detalle Internados al Dia</a>
+                </div>
+            </div>
+        }
+    }
+
+    @if (HttpContext.Current.User.IsInRole("IncidentesTipo") && HttpContext.Current.User.IsInRole("IncidentesArea"))
+    {
+        <div class="btn-group" style="margin-left: -20px; z-index: 9999; width: 280px;">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Comunícate
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" id="recetas">
+                @if (HttpContext.Current.User.IsInRole("IncidentesTipo"))
+                {
+                    <a class="dropdown-item" type="button" href="@Url.Action("IncidentesTipo", "Indicadores")"><span class="material-icons">add</span> Reporte por tipo</a>
+                }
+                @if (HttpContext.Current.User.IsInRole("IncidentesArea"))
+                {
+                    <a class="dropdown-item" type="button" href="@Url.Action("IncidentesArea", "Indicadores")"><span class="material-icons">add</span> Reporte por área</a>
+                }
+            </div>
+        </div>
+    }
+
+
+</ul>
+<div class="tab-content" id="custom-content-below-tabContent">
+    <div class="tab-pane fade show active" id="custom-content-below-campaign" role="tabpanel" aria-labelledby="custom-content-below-campaign-tab">
+        <div class="row">
+            <div class="col-12 mt-5">
+                <div id="container3" style="height: 500px; min-width: 100%"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".dropdown-item").click(function () {
+        $(".dropdown-item").removeClass('active');
+        //$(this).addClass('active');
+    });
+</script>
+
+
+<script>
+    //Consultas todas
+    $.getJSON('/SISM-Medico/json/expediente_medicina_familiar.json', function (data1) {
+        $.getJSON('/SISM-Medico/json/expediente_especialistas.json', function (data2) {
+                //alert(date);
+                $('#container3').highcharts({
+                    chart: {
+                        type: 'line',
+                        zoomType: 'x',
+                        resetZoomButton: {
+                            position: {
+                                x: 0,
+                                y: 0
+                            }
+                        },
+                    },
+                    navigator: {
+                        enabled: true,
+                    },
+                    rangeSelector: {
+                        enabled: true,
+                        inputEnabled: true,
+                        buttonPosition: {
+                            align: 'left'
+                        },
+                        labelStyle: {
+                            display: 'block'
+                        },
+                        buttons: [{
+                            type: 'day',
+                            count: 1,
+                            text: '1d'
+                        },
+                        {
+                            type: 'month',
+                            count: 1,
+                            text: '1m'
+                        },
+                        {
+                            type: 'month',
+                            count: 3,
+                            text: '3m'
+                        },
+                        {
+                            type: 'month',
+                            count: 6,
+                            text: '6m'
+                        },
+                        {
+                            type: 'year',
+                            count: 1,
+                            text: '1y'
+                        },
+                        {
+                            type: 'year',
+                            count: 2,
+                            text: '2y'
+                        },
+                        {
+                            type: 'year',
+                            count: 5,
+                            text: '5y'
+                        },
+                        {
+                            type: 'all',
+                            text: 'All'
+                        },
+                        ]
+                    },
+                    title: {
+                        text: 'Consultas',
+                    },
+                    subtitle: {
+                        text: document.ontouchstart === undefined ?
+                            'Servicios Médicos - UANL' :
+                            'Servicios Médicos - UANL'
+                    },
+                    xAxis: {
+                        //ordinal: false,
+                        //min: 1559088000000,
+                        max: new Date().getTime(),
+                        //max: new Date().getTime(),
+                        //min: 1606332387670,
+                        //min: date.setDate(date.getDate() - 1),
+                        //min: new Date().getTime(),
+                        //tickInterval: 24 * 3600 * 1000,
+                        type: 'datetime',
+                        labels: {
+                            format: '{value:%Y-%m-%d}'
+                        },
+                        events: {
+                            afterSetExtremes: function (min, max) {
+                                var serie1 = this.chart.series[0],
+                                    serie2 = this.chart.series[1],
+                                    min = this.getExtremes().min,
+                                    max = this.getExtremes().max,
+                                    sum1 = 0;
+                                    sum2 = 0;
+
+                                //alert(serie_mf.data);
+
+                                $.each(serie1.data, function (i, m) {
+                                    if (m.x >= min && m.x <= max) {
+                                        sum1 += m.y;
+                                    }
+                                });
+
+                                $.each(serie2.data, function (i, t) {
+                                    if (t.x >= min && t.x <= max) {
+                                        sum2 += t.y;
+                                    }
+                                });
+
+                                var sum_total = sum1 + sum2;
+
+                                this.chart.series[0].legendItem.attr("text", "Consultas - Medicina General: " + sum1);
+                                this.chart.series[1].legendItem.attr("text", "Consultas - Especialistas: " + sum2);
+
+                                this.chart.series[0].name = 'Consultas - Medicina General: ' + sum1;
+                                this.chart.series[1].name = 'Consultas - Especialistas: ' + sum2;
+
+                                $("#container3 h4").remove();
+                                $("#container3").append("<h4 class='totalcount'>Consultas Totales Hoy: <b>" + sum_total + "</b></h4>");
+
+                            }
+                        }
+                    },
+                    tooltip: {
+                        /*positioner: function () {
+                            return {
+                                x: 80,
+                                y: 100
+                            };
+                        },*/
+                        formatter: function () {
+                            var individualfoodbanks = '<b> Día:' + Highcharts.dateFormat('%m \'%d', this.x) + '</b><br>',
+                                sumofallfoodbanks = 0;
+                            totaltotal = 0;
+
+                            $.each(this.points, function (i, point) {
+                                var nameSplit = point.series.name;
+                                var newName = nameSplit.split(':');
+
+                                individualfoodbanks += '<span style="color:' + point.series.color + '">\u25CF</span> ' + newName[0] + ': <b>' + point.y + '</b> <br/>';
+                                totaltotal += point.y;
+                            });
+
+                            individualfoodbanks += '<br/>Total de consultas: ' + totaltotal //"echo" title for the sum of all foodbanks series, and the total sum for all current y points
+
+                            console.log(this);
+                            return individualfoodbanks;
+                        }, //"echo" the value for each series current y-value, but the data appendix for the all foodbank sum only...?
+                        crosshairs: false,
+                        shared: true,
+                        shadow: false,
+                        borderWidth: 1,
+                    },
+                    legend: {
+                        /*enabled: true,
+                        labelFormatter: function () {
+                            var total = 0;
+                            var totaltotalhoy = 0;
+                            for (var i = this.yData.length; i--;) {
+                                total += this.yData[i];
+                            };
+
+                            return this.name + ': ' + total;
+                            //return this.name + ' - Total: ';
+                        },*/
+                    },
+                    plotOptions: {
+                        lineWidth: '40',
+                        series: {
+                            pointStart: Date.UTC(2020, 0, 1),
+                            pointInterval: 24 * 3600 * 1000,
+                            marker: {
+                                states: {
+                                    hover: {
+                                        enabled: true
+                                    }
+                                }
+                            }
+                        },
+                        /*line: {
+                            stacking: 'overlap',
+                            //lineColor: '#666666',
+                            lineWidth: 2,
+                            marker: {
+                                lineWidth: 2,
+                                //lineColor: '#666666'
+                            }
+                        }*/
+                    },
+                    series: [
+                        {
+                            name: 'Consultas - Medicina General',
+                            data: data1,
+                            marker: {
+                                enabled: true
+                            },
+                            color: '#004a8f'
+                        }, {
+                            name: 'Consultas - Especialistas',
+                            data: data2,
+                            marker: {
+                                enabled: true
+                            },
+                            color: '#FBC43D'
+                        }
+                    ]
+                }, function (chart) {
+
+                    var date = new Date();
+                    var newDate = new Date().getTime();
+                    chart.xAxis[0].dataMax = newDate;
+                    chart.xAxis[0].setExtremes(date.setDate(date.getDate() - 1), newDate, true);
+
+                    // apply the date pickers
+                        setTimeout(function () {
+                            $('input.highcharts-range-selector', $(chart.container).parent())
+                                .datepicker();
+                        }, 0);
+
+                    if ($(window).width() < 767) {
+                        //alert('hola');
+                        width = $(window).width()
+                        height = $(window).height() / 3
+                        $("#container3").highcharts().setSize(width, height, doAnimation = false);
+                        var date = new Date();
+                        var newDate = new Date().getTime();
+                        chart.xAxis[0].dataMax = newDate;
+                        chart.xAxis[0].setExtremes(date.setDate(date.getDate() - 1), newDate, true);
+                    }
+                });
+        });
+    });
+
+
+    // Set the datepicker's date format
+    $.datepicker.setDefaults({
+        dateFormat: 'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true,
+        onSelect: function () {
+            this.onchange();
+            this.onblur();
+        }
+    });
+
+    /*$(window).resize(function () {
+        height = $(window).height() / 3
+        width = $(window).width()
+        $("#container").highcharts().setSize(width, height, doAnimation = false);
+    });*/
+</script>
+
+<script type="text/javascript">
+    $.ajax({
+        type: 'GET',
+        url: '@Url.Action("IndicadoresCount", "Manage")',
+        dataType: 'json',
+        cache: false,
+        success: function (data) {
+            //$("#container").append("<h4 class='totalcount'>Recetas Totales: <b>" + data.total_recetas + "</b></h4>");
+
+            //$("#container2").append("<h4 class='totalcount'>Recetas Totales: <b>" + data.total_recetas_hoy + "</b></h4>");
+
+            //$("#container3").append("<h4 class='totalcount'>Consultas Totales: <b>" + data.total_consultas + "</b></h4>");
+
+            //$("#container4").append("<h4 class='totalcount'>Consultas Totales Hoy: <b>" + data.total_consultas_hoy + "</b></h4>");
+
+            //$("#container5").append("<h4 class='totalcount'>Consultas Totales HU: <b>" + data.total_expediente_hu + "</b></h4>");
+
+            //$("#container6").append("<h4 class='totalcount'>Consultas Totales Mederos: <b>" + data.total_expediente_mederos + "</b></h4>");
+
+            //$("#container7").append("<h4 class='totalcount'>Consultas Totales Servicios Médicos: <b>" + data.total_expediente_sm + "</b></h4>");
+
+        }
+    });
+
+</script>

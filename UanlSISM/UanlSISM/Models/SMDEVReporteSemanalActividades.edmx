@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SMDEVModel29.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ActividadesDepartamento">
+          <Key>
+            <PropertyRef Name="ActividadId" />
+          </Key>
+          <Property Name="ActividadId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Departamento" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Ubicacion" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="ReporteActividadesSemanal">
+          <Key>
+            <PropertyRef Name="ReporteSemanalActividadId" />
+          </Key>
+          <Property Name="ReporteSemanalActividadId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ActividadId" Type="int" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="Semana" Type="int" Nullable="false" />
+          <Property Name="FechaInicio" Type="datetime" Nullable="false" />
+          <Property Name="FechaFin" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioRealiza" Type="varchar" MaxLength="200" />
+          <Property Name="FechaRealiza" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="SMDEVModel29StoreContainer">
+          <EntitySet Name="ActividadesDepartamento" EntityType="Self.ActividadesDepartamento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReporteActividadesSemanal" EntityType="Self.ReporteActividadesSemanal" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SMDEVModel29" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ReporteActividadesSemanal">
+          <Key>
+            <PropertyRef Name="ReporteSemanalActividadId" />
+          </Key>
+          <Property Name="ReporteSemanalActividadId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ActividadId" Type="Int32" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="Semana" Type="Int32" Nullable="false" />
+          <Property Name="FechaInicio" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaFin" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioRealiza" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FechaRealiza" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="SMDEVReporteSemanalActividades" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ReporteActividadesSemanal" EntityType="Self.ReporteActividadesSemanal" />
+          <EntitySet Name="ActividadesDepartamento" EntityType="SMDEVModel29.ActividadesDepartamento" />
+        </EntityContainer>
+        <EntityType Name="ActividadesDepartamento">
+          <Key>
+            <PropertyRef Name="ActividadId" />
+          </Key>
+          <Property Name="ActividadId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Departamento" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Ubicacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SMDEVModel29StoreContainer" CdmEntityContainer="SMDEVReporteSemanalActividades">
+          <EntitySetMapping Name="ReporteActividadesSemanal">
+            <EntityTypeMapping TypeName="SMDEVModel29.ReporteActividadesSemanal">
+              <MappingFragment StoreEntitySet="ReporteActividadesSemanal">
+                <ScalarProperty Name="ReporteSemanalActividadId" ColumnName="ReporteSemanalActividadId" />
+                <ScalarProperty Name="ActividadId" ColumnName="ActividadId" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Semana" ColumnName="Semana" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+                <ScalarProperty Name="UsuarioRealiza" ColumnName="UsuarioRealiza" />
+                <ScalarProperty Name="FechaRealiza" ColumnName="FechaRealiza" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ActividadesDepartamento">
+            <EntityTypeMapping TypeName="SMDEVModel29.ActividadesDepartamento">
+              <MappingFragment StoreEntitySet="ActividadesDepartamento">
+                <ScalarProperty Name="Ubicacion" ColumnName="Ubicacion" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="ActividadId" ColumnName="ActividadId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

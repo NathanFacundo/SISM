@@ -1,0 +1,1108 @@
+﻿@model List<UanlSISM.ViewModels.CitasViewModel>
+@{
+    ViewBag.Title = "Activar citas";
+    var todayDate = DateTime.Now;
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+
+<style>
+    .uanl-logo {
+        width: 20vw;
+        margin-top: 0vw;
+        margin-bottom: 1vw;
+    }
+
+    @@font-face {
+        font-family: 'Effra-Regular';
+        src: url('~/fonts/Effra-Regular.eot');
+        src: url('~/fonts/Effra-Regular.eot?#iefix') format('embedded-opentype'), url('~/fonts/Effra-Regular.ttf') format('truetype');
+    }
+
+    @@font-face {
+        font-family: 'Effra-Bold';
+        src: url('~/fonts/Effra-Bold.eot');
+        src: url('~/fonts/Effra-Bold.eot?#iefix') format('embedded-opentype'), url('~/fonts/Effra-Bold.ttf') format('truetype');
+    }
+
+
+    .somos-uni {
+        width: 5vw;
+        margin-top: 1vw;
+        margin-bottom: 3vw;
+    }
+
+    .linea-arriba {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: -1;
+        width: 2.5vw;
+        margin-top: 5.8vw;
+    }
+
+    .linea-abajo {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 2.5vw;
+        margin-bottom: 0.7vw;
+    }
+
+    body {
+        height: 100vh;
+        padding: 0 !important;
+    }
+
+    .inputBarcode {
+        padding-top: 1vw !important;
+        margin-left: 8.333%;
+    }
+
+    #home-seccion {
+        margin-top: 20px;
+    }
+
+    .icons {
+        width: 8vw;
+    }
+
+    .item {
+        padding: 10px;
+    }
+
+    .item-card {
+        transition: 0.5s;
+        cursor: pointer;
+        padding: 20px;
+    }
+
+    .card-link {
+        background-color: #FBC43D;
+        border-color: #FBC43D;
+        color: white;
+        padding: 5px 20px;
+    }
+
+        .card-link:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+    .item-card-title {
+        font-size: 15px;
+        transition: 1s;
+        cursor: pointer;
+    }
+
+        .item-card-title i {
+            font-size: 15px;
+            transition: 1s;
+            cursor: pointer;
+            color: #ffa710
+        }
+
+    .card-title i:hover {
+        transform: scale(1.25) rotate(20deg);
+        color: #18d4ca;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        /*box-shadow: 5px 5px 5px rgba(0,0,0,0.3);*/
+    }
+
+    .card::before, .card::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: scale3d(0, 0, 1);
+        transition: transform .3s ease-out 0s;
+        background: rgba(255, 255, 255, 0.1);
+        content: '';
+        pointer-events: none;
+    }
+
+    .card::before {
+        transform-origin: left top;
+    }
+
+    .card::after {
+        transform-origin: right bottom;
+    }
+
+    .card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
+        transform: scale3d(1, 1, 1);
+    }
+
+    .foto-paciente {
+        width: 6vw;
+        height: 6vw;
+        border-radius: 6vw;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: rgba(0,74,143,0.8);
+        /*background-image: url('http://148.234.143.204/smuanl_web/fotos_dhab/04586101.jpg');*/
+    }
+
+    .cuadro {
+        background-color: #fff;
+        border-radius: 1vw;
+    }
+
+    .nav-tabs .nav-item {
+        width: 180px;
+    }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+            font-size: 0.8vw !important;
+            background-color: rgba(0,74,143,0.8);
+            color: white !important;
+        }
+
+            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link:hover {
+                font-size: 0.8vw !important;
+                background-color: rgba(0,74,143,0.6) !important;
+                color: white !important;
+            }
+
+            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+                background-color: #FBC43D;
+                color: white !important;
+            }
+
+                .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active:hover {
+                    background-color: #FBC43D !important;
+                }
+
+    .doc-info {
+        text-align: right;
+    }
+
+    .fade {
+        opacity: 1 !important;
+    }
+
+    .modal-backdrop {
+        background-color: rgba(0,0,0,0.4) !important;
+    }
+
+    .modal-content {
+        margin-top: 6vw;
+    }
+
+    .datos-paciente label {
+        font-size: 0.8vw;
+    }
+
+    .datos-paciente input {
+        border: none !important;
+        border-bottom: 2px solid lightgray !important;
+        padding: 1px 3px;
+        border-radius: 0px;
+    }
+
+    #grad1 {
+        background-color: : #9C27B0;
+        background-image: linear-gradient(120deg, #FF4081, #81D4FA)
+    }
+
+    #msform {
+        text-align: center;
+        position: relative;
+        margin-top: 20px
+    }
+
+        #msform fieldset .form-card {
+            background: white;
+            border: 0 none;
+            border-radius: 0px;
+            box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+            padding: 20px 40px 30px 40px;
+            box-sizing: border-box;
+            width: 94%;
+            margin: 0 3% 20px 3%;
+            position: relative
+        }
+
+        #msform fieldset {
+            background: white;
+            border: 0 none;
+            border-radius: 0.5rem;
+            box-sizing: border-box;
+            width: 100%;
+            margin: 0;
+            position: relative
+        }
+
+            #msform fieldset:not(:first-of-type) {
+                display: none
+            }
+
+            #msform fieldset .form-card {
+                text-align: left;
+                color: #9E9E9E
+            }
+
+        #msform input,
+        #msform textarea {
+            padding: 0px 8px 4px 8px;
+            border: none;
+            border-bottom: 1px solid lightgray;
+            border-radius: 0px;
+            margin-top: 2px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            color: #2C3E50;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+            #msform input:focus,
+            #msform textarea:focus {
+                -moz-box-shadow: none !important;
+                -webkit-box-shadow: none !important;
+                box-shadow: none !important;
+                border: none;
+                font-weight: bold;
+                border-bottom: 2px solid #FBC43D;
+                outline-width: 0
+            }
+
+        #msform .action-button {
+            width: 130px;
+            background: #FBC43D;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .action-button:hover,
+            #msform .action-button:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px #FBC43D
+            }
+
+        #msform .action-button-previous {
+            width: 130px;
+            background: lightgray;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .action-button-previous:hover,
+            #msform .action-button-previous:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px lightgray
+            }
+
+
+
+        #msform .success-button {
+            width: 130px;
+            background: rgba(0,74,143,0.8);
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .success-button:hover,
+            #msform .success-button:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px rgba(0,74,143,0.8)
+            }
+
+        #msform .success-button-previous {
+            width: 130px;
+            background: rgba(0,74,143,0.8);
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .success-button-previous:hover,
+            #msform .success-button-previous:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px rgba(0,74,143,0.8);
+            }
+
+    select.list-dt {
+        border: none;
+        outline: 0;
+        border-bottom: 1px solid lightgray;
+        padding: 2px 5px 3px 5px;
+        margin: 2px
+    }
+
+        select.list-dt:focus {
+            border-bottom: 2px solid #FBC43D
+        }
+
+    .card {
+        z-index: 0;
+        border: none;
+        border-radius: 0.5rem;
+        position: relative
+    }
+
+    .fs-title {
+        font-size: 25px;
+        color: #2C3E50;
+        margin-bottom: 10px;
+        font-weight: bold;
+        text-align: left
+    }
+
+    .radio-group {
+        position: relative;
+        margin-bottom: 25px
+    }
+
+    .radio {
+        display: inline-block;
+        width: 204;
+        height: 104;
+        border-radius: 0;
+        background: lightblue;
+        box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
+        cursor: pointer;
+        margin: 8px 2px
+    }
+
+        .radio:hover {
+            box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3)
+        }
+
+        .radio.selected {
+            box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.1)
+        }
+
+    .fit-image {
+        width: 100%;
+        object-fit: cover
+    }
+
+    .btn-diagnosticos {
+        background-color: rgba(0,74,143,0.8) !important;
+        color: white;
+        font-size: 1vw;
+        width: 100%;
+    }
+
+        .btn-diagnosticos:hover {
+            color: white;
+        }
+
+    #loadingDiv {
+        position: fixed;
+        z-index: 9999;
+        background-color: rgba(0,0,0,0.2);
+        width: 100%;
+        height: 100vw;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        color: white;
+        text-align: center;
+        padding-top: 20vh;
+    }
+
+        #loadingDiv .spinner-border {
+            width: 8vw;
+            height: 8vw;
+        }
+
+    .diag-box {
+        background-color: #FBC43D;
+        color: white;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+
+    /*.select2-selection__choice {
+        float: initial !important;
+        margin: 0 !important;
+        font-size:1.5vw !important;
+        padding:1vw !important;
+    }
+
+    .select2-selection__rendered{
+        padding:0.5vw !important;
+    }
+
+    .select2-selection--multiple{
+        height:6vw !important;
+    }*/
+
+    #locality-dropdown {
+        max-width: 100% !important;
+    }
+
+    .dataTables_wrapper .dataTables_info {
+        width: 100% !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+        .dataTables_wrapper .dataTables_filter label {
+            width: 100% !important;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            width: 80% !important;
+        }
+
+    .dataTables_wrapper .dataTables_length {
+        display: none;
+    }
+
+    .btn-danger {
+        width: 100%;
+    }
+
+        .btn-danger .material-icons {
+            font-size: 1.2vw !important;
+        }
+
+    table.dataTable tbody tr.selected {
+        background-color: #FBC43D !important;
+        color: white !important;
+    }
+
+    #msform h3 {
+        color: #000;
+    }
+
+    .checking {
+        cursor: pointer;
+        color: lightgray;
+    }
+
+    table.dataTable tbody tr.selected .checking {
+        color: white !important;
+    }
+
+    tipoconsulta {
+        border-radius: 0px;
+    }
+
+    .resumenTop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 2.5vw;
+        height: 2.5vw;
+        border-radius: 2.5vw;
+        background-color: green;
+        color: white;
+        font-size: 1.2vw;
+        line-height: 2.5vw;
+        text-align: center;
+    }
+
+    .resumenText {
+        font-size: 1.2vw;
+        margin-top: 3vw;
+        color: black;
+        cursor: pointer;
+    }
+
+    .btn-asignar {
+        background-color: #FBC43D !important;
+        color: white !important;
+    }
+
+    .btn-asignar-modal {
+        background-color: #FBC43D !important;
+        border: 2px solid #FBC43D !important;
+        color: white !important;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .modal-body .select-checkbox {
+        display: none;
+    }
+
+    .modal-header {
+        text-align: center;
+    }
+
+        .modal-header .close {
+            margin: 0 !important;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+    .bsqpaciente {
+        width: 45px;
+        cursor: pointer;
+        position: absolute;
+        top: -2px;
+        left: 13px;
+    }
+
+    .medicoNombre {
+        font-family: 'Roboto', sans-serif;
+    }
+
+    #derechohabientesModal .form-control {
+        border: none;
+        border-radius: 0px;
+        border-bottom: 2px solid #FBC43D;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    ._jw-tpk-container {
+        height: 190px !important;
+    }
+
+    #example2_filter {
+        width: 100% !important;
+        margin-bottom: 1vw;
+        text-align: left !important;
+    }
+
+        #example2_filter label {
+            width: 100% !important;
+        }
+
+        #example2_filter input {
+            max-width: 90% !important;
+            width: 90% !important;
+            border: none;
+            background: transparent;
+            border-bottom: 2px solid #FBC43D;
+            border-radius: 0px;
+        }
+
+    .btn-buscar {
+        background-color: #FBC43D;
+        color: white !important;
+    }
+
+        .btn-buscar:hover {
+            background-color: #FBC43D !important;
+            color: white;
+        }
+
+    .btnbuscapac {
+        width: 1.5vw;
+        -webkit-filter: invert(100%); /* Safari/Chrome */
+        filter: invert(100%);
+    }
+
+    .imgcitas {
+        width: 20px;
+        margin-right: 5px;
+    }
+
+    #resumenRecetaModal .modal-dialog {
+        max-width: 900px;
+    }
+
+    #resumenRecetaModal p {
+        font-size: 0.8vw;
+    }
+
+    .imprimirUanl img {
+        width: 65%;
+    }
+
+    .imprimirLogo img {
+        width: 100%;
+    }
+
+    .modal-content {
+        margin-top: 6vw;
+        padding-bottom: 2vw;
+    }
+
+    #progressbar {
+        margin-bottom: 30px;
+        overflow: hidden;
+        color: lightgrey
+    }
+
+        #progressbar .active {
+            color: #000000;
+            opacity: 1;
+        }
+
+        #progressbar li {
+            list-style-type: none;
+            font-size: 12px;
+            width: 25%;
+            opacity: 0.7;
+            float: left;
+            cursor: pointer;
+            position: relative
+        }
+
+        #progressbar #account:before {
+            content: "S"
+        }
+
+        #progressbar li#account.changed:before,
+        #progressbar li#account.changed:after {
+            background: green;
+        }
+
+        #progressbar #personal:before {
+            content: "O"
+        }
+
+        #progressbar li#personal.changed:before,
+        #progressbar li#personal.changed:after {
+            background: green;
+        }
+
+        #progressbar #payment:before {
+            content: "A"
+        }
+
+        #progressbar li#payment.changed:before,
+        #progressbar li#payment.changed:after {
+            background: green;
+        }
+
+        #progressbar #confirm:before {
+            content: "P"
+        }
+
+        #progressbar li#confirm.changed:before,
+        #progressbar li#confirm.changed:after {
+            background: green;
+        }
+
+        #progressbar li:before {
+            width: 50px;
+            height: 50px;
+            line-height: 45px;
+            display: block;
+            font-size: 18px;
+            color: #ffffff;
+            background: lightgray;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+            padding: 2px
+        }
+
+        #progressbar li:after {
+            content: '';
+            width: 100%;
+            height: 2px;
+            background: lightgray;
+            position: absolute;
+            left: 0;
+            top: 25px;
+            z-index: -1
+        }
+
+        #progressbar li.active:before,
+        #progressbar li.active:after {
+            background: #FBC43D
+        }
+
+    .animated-progress {
+        width: 100%;
+        height: 30px;
+        border-radius: 5px;
+        overflow: hidden;
+        position: relative;
+        border: 2px solid #FBC43D;
+        cursor: pointer;
+    }
+
+        .animated-progress span {
+            height: 100%;
+            display: block;
+            width: 0;
+            color: rgb(255, 255, 255);
+            line-height: 30px;
+            position: absolute;
+            text-align: center;
+        }
+
+    .progress-green span {
+        background-color: #FBC43D;
+    }
+
+    .img-progress {
+        width: 4vw;
+        margin-top: -1vw;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 999;
+        transform: rotate(20deg);
+        cursor: pointer;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 991px)">
+    .foto-paciente {
+        width: 10vw;
+        height: 10vw;
+        border-radius: 10vw;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 1.5vw !important;
+    }
+
+    #progressbar {
+        padding: 0px !important;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 767px)">
+    .foto-paciente {
+        width: 18vw;
+        height: 18vw;
+        border-radius: 18vw;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 3vw !important;
+    }
+
+    .doc-info {
+        text-align: center;
+    }
+
+    #msform input, #msform textarea {
+        font-size: 10px;
+    }
+
+    .bsqpaciente {
+        width: 100%;
+        top: 0px;
+        left: 0px;
+        margin-top: 5px;
+    }
+
+    .medicoNombre {
+        font-size: 13px;
+    }
+
+    .uanl-logo {
+        width: 20vw;
+        margin-bottom: 0vw;
+        margin-bottom: 1vw;
+    }
+
+    .somos-uni {
+        width: 13vw;
+        margin-top: 8vw;
+    }
+
+    .modal-content {
+        margin-top: 30vw;
+    }
+
+    .btnbuscapac {
+        width: 7vw !important;
+        left: 0 !important;
+        top: 1vw !important;
+    }
+
+    #msform h3 {
+        font-size: 5vw;
+    }
+
+    #example_filter input {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+
+    .imprimirUanl {
+        padding: 0px !important;
+    }
+
+    .imprimirLogo {
+        padding: 0px !important;
+    }
+
+    .animated-progress {
+        height: 40px;
+        line-height: 40px;
+    }
+
+        .animated-progress h6 {
+            font-size: 13px;
+        }
+
+    .img-progress {
+        width: 17vw;
+        margin-top: -3vw;
+        margin-right: 2vw;
+    }
+</style>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" />
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+<script src='https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js'></script>
+<script src='https://cdn.datatables.net/responsive/2.2.6/js/responsive.bootstrap.min.js'></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src='https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.js'></script>
+<script src="~/Scripts/dataTables.select.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.js"></script>
+<link href="https://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.css" rel="stylesheet" />
+<script src="~/Scripts/JsBarcode.code39.min.js"></script>
+
+
+<img class="linea-abajo" src="~/Imagenes/lineas-uanl-izquierda.png">
+<img class="linea-arriba" src="~/Imagenes/lineas-uanl-derecha.png">
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Médico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Consultas", "Manage")"><b>Consultas</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Consulta_Historial", "MedicinaLaboral")"><b>Coordinación Médica</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="#"><b>Informe de notas por m&eacute;dico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="#"><b>Activar_citas&acute;canceladas</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
+    <img src="~/Imagenes/act_cita.png" class="uanl-logo" />
+</div>
+
+<div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
+    <h4><b>Activar Citas Canceladas Hoy</b></h4>
+    <table id="example2" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Paciente</th>
+                <th>Médico</th>
+                <th>Tipo Consulta</th>
+                <th style="display: none">Estado</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                //var fecha = Convert.ToDateTime(item.start).ToString("yyyy-MM-dd");
+                var edad = 0;
+
+                if (item.fechanacimiento != null)
+                {
+                    edad = todayDate.Year - item.fechanacimiento.Year;
+                    if (todayDate.Month < item.fechanacimiento.Month || (todayDate.Month == item.fechanacimiento.Month && todayDate.Day < item.fechanacimiento.Day))
+                    {
+                        edad--;
+
+                    }
+                }
+
+                <tr>
+                    <td>
+                        <div data-toggle="modal" data-target="#derechohabientesModal" style="cursor:pointer" onclick="cargarDatos(this)">
+                            <img src="~/Imagenes/edit_user.png" style="width:45px; margin-right:15px;">
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            @item.Nombres
+                            @item.Apaterno
+                            @item.Amaterno
+                        </div>
+
+                        <span><br> <b> @item.telefono</b></span>
+                    </td>
+                    <td>@item.Medico</td>
+                    <td>@item.tipo</td>
+                    <td style="display: none">@item.estatus</td>
+                    <td>@item.start.ToString("yyyy-MM-dd")</td>
+
+                    <td style="display: none;">@item.Sexo</td>
+                    <td style="display: none">@edad</td>
+                    <td style="display: none">@item.turno</td>
+                    <td style="display: none">@item.telefono</td>
+                    <td style="display: none">@item.NumEmp</td>
+                    <td style="display: none">@item.Id</td>
+
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    <div class="col-2" style="text-align:right">
+        <button id="btnVolver1" type="button" class="btn btn-warning" onclick="window.history.back();">
+            Regresar
+        </button>
+    </div>
+</div>
+
+<div class="col-md-10 text-center m-auto p-3">
+    <img src="~/Imagenes/somos-uni.png" class="somos-uni" />
+</div>
+
+
+<div class="modal fade" id="derechohabientesModal" tabindex="-1" role="dialog" aria-labelledby="derechohabientesModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+
+                <div class="row m-0">
+                    <div class="col-12 p-2 m-auto text-center">
+
+                        <input type="hidden" value="null" id="idpacientemodal" />
+
+                        <center><div class="foto-paciente" id="fotpaciente"></div></center>
+
+                        <h6 class="m-0 pt-3">Nombre: <b id="nombresModal"></b></h6>
+                        <h6 class="m-0">Sexo: <b id="sexoModal"></b> Edad: <b id="edadModal"></b></h6>
+                        <input type="hidden" id="numempModal" name="NumEmp" />
+                        <input type="hidden" id="regxdiaModal" name="regxdia" />
+                        <input type="hidden" id="modificarModal" name="modificar" />
+                    </div>
+                    <div class="col-md-12 p-2 m-auto">
+                        <label for="datepicker"><b>Fecha:</b></label>
+                        <input type="text" readonly id="datepicker" class="form-control" name="Fecha" placeholder="Fecha" autocomplete="off">
+                    </div>
+                    <div class="col-md-6 p-2 m-auto">
+                        <label for="turno"><b>Turno:</b></label>
+                        <input type="text" id="turno" readonly name="turno" class="form-control" placeholder="Turno" autocomplete="off">
+                    </div>
+                    <div class="col-md-6 p-2 m-auto">
+                        <label for="tipo"><b>Tipo:</b></label>
+                        <select id="tipo" name="tipo" class="form-control">
+                            <option selected disabled>Con Retardo</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12 p-2 m-auto">
+                        <label for="medico"><b>Medico:</b></label>
+                        <select id="medico" name="Medico" class="form-control">
+                            @*<option selected disabled>Médico</option>*@
+                        </select>
+                    </div>
+                    <div class="col-md-12 p-2 m-auto">
+                        <label for="telefono"><b>Teléfono:</b></label>
+                        <input type="tel" id="telefono" name="telefono" class="form-control" placeholder="Teléfono" autocomplete="off">
+                    </div>
+                    <div class="col-12 p-2 text-center" id="botonModal">
+                        <button class="btn-asignar-modal" onclick="Reactivar()">
+                            Reactivar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    function cargarDatos(datos) {
+        var datos = (datos.parentNode.parentNode.querySelectorAll("td"));
+        var nombres = datos[1].querySelectorAll("div")[0].innerText;
+        var sexo = datos[6].innerText;
+        var fecha = datos[5].innerText;
+        var hora = datos[8].innerText.substring(0, 2);
+        var minutos = datos[8].innerText.substring(2, 4);
+        var turno = hora + ":" + minutos;
+        var medico = datos[2].innerText;
+        var telefono = datos[9].innerText;
+        var numemp = datos[10].innerText;
+        var id = datos[11].innerText;
+
+        var url = "http://148.234.143.204/smuanl_web/fotos_dhab/" + numemp + ".jpg";
+        //var foto = "url('http://148.234.143.204/smuanl_web/fotos_dhab/04586101.jpg')";
+        //NumEmp
+        //var tipo =
+        //var medico =
+        //var telefono =
+        console.log(url);
+        $("#nombresModal").text(nombres);
+        $("#sexoModal").text(sexo);
+        $("#edadModal").text(datos[7].innerText);
+        $("#datepicker").val(fecha);
+        $("#turno").val(turno);
+        $("#medico").append(" <option selected disabled>" + medico + "</option>");
+        $("#telefono").val(telefono);
+        $("#fotpaciente").css("background-image", "url('" + url + "')");
+        $("#idpacientemodal").val(id);
+    }
+
+
+    function Reactivar() {
+        var cod = $("#idpacientemodal").val();
+
+        var datos = { "IdCita": cod };
+
+        if (cod != null || cod != "null") {
+           $.ajax({
+                url: "@Url.Action("CambiarEstadoConsultaConRetardo", "MedicinaLaboral")",
+                type: 'POST',
+                dataType: 'json',
+                data: datos,
+              success: function (result) {
+                  window.location.reload();
+                },
+               fail: (function () {
+                   alert("Ha ocurrido un error en el servidor.");
+                })
+           });
+        }
+    }
+
+</script>

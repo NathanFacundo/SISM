@@ -1,0 +1,210 @@
+﻿@model UanlSISM.Models.SolicitudLab
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SolicitudLab</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Paciente_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paciente_Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Paciente_Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paciente_Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Paciente_Apellido_Paterno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paciente_Apellido_Paterno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Paciente_Apellido_Materno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paciente_Apellido_Materno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Paciente_Sexo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paciente_Sexo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Paciente_Fecha_Nacimiento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paciente_Fecha_Nacimiento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Paciente_Telefono)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paciente_Telefono)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Paciente_Correo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paciente_Correo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Paciente_Dependencia_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paciente_Dependencia_Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Paciente_Dependencia_Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paciente_Dependencia_Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Solicitud_Expediente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Solicitud_Expediente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Solicitud_Medico_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Solicitud_Medico_Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Solicitud_Medico_Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Solicitud_Medico_Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Solicitud_Diagnostico1_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Solicitud_Diagnostico1_Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Solicitud_Diagnostico1_Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Solicitud_Diagnostico1_Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Solicitud_Diagnostico2_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Solicitud_Diagnostico2_Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Solicitud_Diagnostico2_Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Solicitud_Diagnostico2_Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Solicitud_Diagnostico3_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Solicitud_Diagnostico3_Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Solicitud_Diagnostico3_Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Solicitud_Diagnostico3_Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Solicitud_Urgente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Solicitud_Urgente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Solicitud_Consultorio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Solicitud_Consultorio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Solicitud_AreaMedica_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Solicitud_AreaMedica_Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Solicitud_AreaMedica_Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Solicitud_AreaMedica_Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Enterprise_Folio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Enterprise_Folio)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Solicitud_Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

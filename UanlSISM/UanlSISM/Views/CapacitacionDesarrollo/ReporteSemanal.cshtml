@@ -1,0 +1,178 @@
+﻿@model IEnumerable<UanlSISM.Controllers.SemanasList>
+@{
+    ViewBag.Title = "Reporte Semanal";
+    List<UanlSISM.Models.ActividadesDepartamento> Actividades = ViewBag.Actividades;
+
+}
+
+<style>
+
+    .success-button {
+        width: 130px;
+        background: rgba(0,74,143,0.8);
+        font-weight: bold;
+        color: white;
+        border: 0 none;
+        border-radius: 0px;
+        cursor: pointer;
+        padding: 10px 5px;
+        margin: 10px 5px
+    }
+
+    input {
+        padding: 0px 8px 4px 8px;
+        border: none;
+        border-bottom: 2px solid lightgray;
+        border-radius: 0px;
+        margin-top: 2px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        color: black;
+        background-color: transparent;
+        font-size: 16px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+        input:focus {
+            -moz-box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+            border: none;
+            font-weight: bold;
+            border-bottom: 2px solid #FBC43D;
+            outline-width: 0
+        }
+</style>
+
+
+<br />
+<br />
+
+<h2 style="text-align:center">Reporte Semanal Servicios Médicos UANL</h2>
+<br />
+
+<table class="table table-bordered">
+
+    <tr style="background-color: #FBC43D !important">
+        <td>Fecha</td>
+        <td>
+            <select id="semanaddl" style="max-width:80%;" class="form-control">
+
+                @foreach (var item in Model)
+                {
+                    <option value="@item.SemanaId">@item.Semana.ToString().Replace("{", "").Replace("}", "")</option>
+                }
+
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>Lugar</td>
+        <td>Subdirección de Servicios Médicos UANL</td>
+    </tr>
+    <tr>
+        <td>Convoca:</td>
+        <td>Dr. Med. Jorge Gutiérrez de la O</td>
+    </tr>
+    <tr>
+        <td>Responsable:</td>
+        <td>Dra. María Dolores Ruiz Casas</td>
+    </tr>
+    <tr>
+        <td>Servicio</td>
+        <td>Capacitación y Desarrollo</td>
+    </tr>
+
+</table>
+<br />
+<br />
+
+
+
+        <table id="tblSM" class="table table-bordered">
+            <tr style="background-color: #FBC43D !important">
+                <td>Actividad</td>
+                <td>Cantidad</td>
+            </tr>
+
+            @foreach (var item in Actividades)
+            {
+                <tr class="SM">
+                    <td id="@item.ActividadId">@item.Descripcion</td>
+                    <td><input type="text" id="@String.Concat("txtsm_",item.ActividadId)" /></td>
+                </tr>
+            }
+
+        </table>
+        <br />
+
+        <button class="success-button" onclick="Guardar()">Guardar</button>
+        <a href="@Url.Action("Menu","CapacitacionDesarrollo")" style="background-color:lightgray" class="btn success-button">Regresar</a>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    function Guardar() {
+        var Detalle = [];
+        var success = "";
+
+        $('#tblSM tr').each(function (i) {
+            if ($(this).hasClass('SM')) {
+
+                var currentdate = new Date();
+                var actividad = document.getElementById('tblSM').rows[i].cells[0].id;
+                var cantidad = $('#txtsm_' + actividad).val();
+                var semana = $('#semanaddl').val();
+
+                if (cantidad != '') {
+                    var actividades = {};
+                    actividades.ActividadId = actividad;
+                    actividades.Cantidad = cantidad;
+                    actividades.Semana = semana;
+
+                    Detalle.push(actividades);
+                }
+                else {
+                    alert('Favor capturar cantidad de todas las actividades');
+                    success = "0";
+                    return false;
+
+                }
+            }
+        });
+
+        if (success != "0") {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GuardarReporteSemanal", "CapacitacionDesarrollo")',
+                data: { Detalle: JSON.stringify(Detalle) },
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+
+                    if (data == "1") {
+                        Swal.fire({
+                            icon: 'success',
+                            text: 'Se guardo el reporte correctamente',
+                        });
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            text: 'Error: ' + data,
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire("Error");
+                }
+            });
+        }
+    }
+
+</script>
+
+
+

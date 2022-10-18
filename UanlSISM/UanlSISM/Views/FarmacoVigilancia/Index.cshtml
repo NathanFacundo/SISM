@@ -1,0 +1,234 @@
+﻿<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                @*<td><a href="@Url.Action("Direccion", "Manage")"><b>Dirección Médica</b></a></td>*@
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="col-md-10 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
+    <img src="~/Imagenes/uanl-logo.png" class="uanl-logo" />
+    <h3 style="font-family: 'Roboto', sans-serif;">Médico: <span class="putUserName"></span></h3>
+</div>
+<br />
+<div class="card text-center">
+    <div class="card-header">
+        NOTA FARMACOVIGILANCIA
+    </div>
+    <div class="card-body">
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <label for="exampleFormControlInput1" class="form-label">Expediente:</label>
+                <input type="text" class="form-control" ID="txtExpediente" placeholder="Expediente">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="exampleFormControlInput1" class="form-label">Nombre(s):</label>
+                <input type="text" class="form-control" ID="txtNombre" disabled>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="exampleFormControlInput1" class="form-label">Apellido Paterno:</label>
+                <input type="text" class="form-control" ID="txtAP" disabled>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="exampleFormControlInput1" class="form-label">Apellido Materno:</label>
+                <input type="text" class="form-control" ID="txtAM" disabled>
+            </div>
+            <div class="form-group col-md-1">
+                <br />
+                <button type="button" class="btn btn-success" id="btnBuscar">
+                    Buscar
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <br />
+        <div>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Nueva Nota Farmacovigilancia
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header navbar">
+                            @*<h5 class="modal-title" id="exampleModalLabel">Nueva Nota Farmacovigilancia</h5>*@
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-xl">
+                                <label for="exampleFormControlTextarea1" class="form-label">Nota de Farmacovigilancia:</label>
+                                <br />
+                                <div class="text-left"><label for="lblRiesgo" class="form-label">Riesgo de intervención:</label></div>
+                                <select class="form-select" aria-label="Default select example" id="cmbRiesgo">
+                                    <option selected>--Seleccionar--</option>
+                                    <option value="1">Baja</option>
+                                    <option value="2">Media</option>
+                                    <option value="3">Alta</option>
+                                </select>
+                                <br />
+                                <textarea class="form-control container" id="txtNota" rows="7" cols="40" style="resize: both;"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" id="btnGuardar">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <strong><h3>Historial de Notas Farmacovigilancia</h3></strong>
+        <br />
+        <div>
+            <table class="table table-bordered" id="tblNotas">
+                <thead>
+                    <tr>
+                        <th>Nota FarmacoVigilancia</th>
+                        <th>Fecha Nota</th>
+                        <th>Medico</th>
+                        @*<th>Riesgo</th>*@
+                    </tr>
+                </thead>
+                <tbody id="contenido"></tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer text-muted">
+        SISM-MEDICO
+    </div>
+</div>
+@*busca informacion del paciente*@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script type="text/javascript">
+    var Expediente = '';
+
+    $(function () {
+        $("#btnBuscar").click(function () {
+            Expediente = $("#txtExpediente").val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetDatos", "FarmacoVigilancia")?NumEmp=' + Expediente,
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+
+                    $("#txtNombre").val(data[0].NOMBRES);
+                    $("#txtAP").val(data[0].APATERNO);
+                    $("#txtAM").val(data[0].AMATERNO);
+
+                    console.log(data);
+                    console.log(Expediente);
+
+                    ActualizarTabla(Expediente);
+
+                    console.log('Ya entro Actualizar');
+                },
+                error: function (xhr, status, error) {
+                    alert("Error");
+                }
+            });
+        });
+    });
+</script>
+
+<script type="text/javascript">
+      function ActualizarTabla(NumExp) {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetNotasFarmaco", "FarmacoVigilancia")?NumEmp=' + NumExp,
+            dataType: 'json',
+            cache: false,
+            success: function (data) {
+
+                console.log('Entra a llenar la tabla');
+
+                console.log(data);
+
+                $("#tblNotas > tbody").empty();
+
+                $.each(data, function (index, value) {
+                    $("#contenido")
+                        .append("<tr><td>" + value.Nota_FarmacoVigilancia + "</td><td>" + value.Fecha + "</td><td>" + value.Medico + "</td></tr>");
+                });
+            },
+            error: function (xhr, status, error) {
+                alert("Error");
+            }
+        });
+    }
+</script>
+@* Busca el empleado que esta en sesion del sistema *@
+<script type="text/javascript">
+    var Nombre = '';
+    var AP = '';
+    var AM = '';
+    var Medico = '';
+    var IP = '';
+
+    function getIP(json) {
+         IP = json.ip;
+    }
+
+    $.ajax({
+        type: 'GET',
+        url: '@Url.Action("GetMedicoNombres", "Manage")',
+        dataType: 'json',
+        cache: false,
+        success: function (data) {
+            $('.putUserName').html(data.nombres + " " + data.apellido_paterno + " " + data.apellido_materno);
+            var str = data.nombres.split(' ');
+            Nombre = str[0];
+            AP = str[1];
+            AM = str[2];
+        },
+        error: function (xhr, status, error) {
+            Swal.fire('Error', 'No cuenta con número de Médico', 'No cuenta con número de Médico');
+        }
+    });
+</script>
+<script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
+
+@*Guardar Info en la tabla de farmaco*@
+<script type="text/javascript">
+    $(function () {
+        $("#btnGuardar").click(function () {
+
+            var url = "@Url.Action("InsertNota", "FarmacoVigilancia")";
+            var NotaFV = $("#txtNota").val();
+            var NumEmp = $("#txtExpediente").val();
+            var Nivel = $("#cmbRiesgo").val();
+
+            if (NotaFV === '' || NumEmp === '' || Nombre === '' || AP === '' || AM === '' || Nivel === '') {
+                Swal.fire('Error', 'Todos los campos son obligatorios', 'Todos los campos son obligatorios');
+            }
+            else {
+                var array = { NumEmp: NumEmp, NotaFV: NotaFV, Nombre: Nombre, AP: AP, AM: AM, Nivel: Nivel, IP: IP };
+
+                $("#tblNotas > tbody").empty();
+                @*Swal.fire({
+                    icon: 'success',
+                    title: '@TempData["message_success"]',
+                    text: 'Nota Guardada',
+                });*@
+                $.post(url, array).done();
+                $("#txtNota").val('');
+                alert('Nota Guardada');
+                ActualizarTabla(Expediente);
+            }
+        });
+    });
+</script>

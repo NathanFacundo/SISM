@@ -1,0 +1,461 @@
+﻿@model IEnumerable<UanlSISM.Models.DHABIENTES>
+
+@{
+    ViewBag.Title = "Mi Credencial Digital";
+    Layout = null;
+
+}
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+        padding: 0;
+        margin: 0;
+    }
+
+    .imagen {
+        width: 15vw;
+        height: 15vw;
+        border-radius: 100%;
+        margin-top: 3.6vw;
+        right: 0;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin-left: 17vw;
+    }
+
+    .tarjeta {
+        height: 50vw;
+        margin: auto;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    .nombre {
+        padding: 0.5vw 3vw !important;
+        margin-top: 3vw !important;
+        height: 14vh;
+        font-size: 1.5vw;
+        font-weight: bolder;
+        width: 100%;
+        color: rgba(0,74,143,1);
+    }
+
+    .numafil {
+        padding: 0.5vw 3vw !important;
+        margin-top: 2vw !important;
+        height: 10vh;
+        font-size: 1.4vw;
+        font-weight: bolder;
+        width: 100%;
+        color: rgba(0,74,143,1);
+    }
+
+    .fechanac {
+        padding: 0.5vw !important;
+        padding-left: 0.2vw !important;
+        padding-right: 3vw !important;
+        margin-top: 2vw !important;
+        height: 10vh;
+        font-size: 1.4vw;
+        font-weight: bolder;
+        width: 100%;
+        color: rgba(0,74,143,1);
+    }
+
+    .codigo {
+        margin-top: 2.5vw !important;
+        height: 14vh;
+        font-size: 1.5vw;
+        font-weight: bolder;
+        width: 52%;
+        margin-left: 26%;
+        color: rgba(0,74,143,1);
+    }
+
+
+    #loadingDiv {
+        position: fixed;
+        z-index: 9999;
+        background-color: rgba(0,0,0,0.2);
+        width: 100%;
+        height: 100vw;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        color: white;
+        text-align: center;
+        padding-top: 20vh;
+    }
+
+        #loadingDiv .spinner-border {
+            width: 8vw;
+            height: 8vw;
+        }
+</style>
+
+<style type="text/css" media="screen and (max-width: 991px)">
+    .tarjeta {
+        height: 68vw;
+        background-size: 100%;
+    }
+
+    .imagen {
+        width: 20vw;
+        height: 20vw;
+        margin-top: 5.1vw;
+        margin-left: 23.5vw;
+    }
+
+    .nombre {
+        padding: 1vw 5vw !important;
+        margin-top: 4.5vw !important;
+        height: 7vh;
+        font-size: 2.2vw;
+    }
+
+    .numafil {
+        padding: 1vw 4vw !important;
+        margin-top: 3vw !important;
+        height: 5vh;
+        font-size: 2.2vw;
+    }
+
+    .fechanac {
+        padding: 1vw !important;
+        padding-left: 0.6vw !important;
+        padding-right: 4vw !important;
+        margin-top: 3vw !important;
+        height: 5vh;
+        font-size: 2.2vw;
+    }
+
+    .codigo {
+        margin-top: 3.5vw !important;
+        height: 6.5vh;
+        width: 100%;
+        margin-left: 0%;
+    }
+
+    .barcode {
+        height: 8vw !important;
+        width: 100% !important;
+    }
+</style>
+
+
+<style type="text/css" media="screen and (max-width: 767px)">
+
+    .tarjeta {
+        height: 145vw;
+        background-size: 100%;
+    }
+
+    .imagen {
+        width: 43vw;
+        height: 43vw;
+        margin-top: 10.5vw;
+        margin-left: 49.6vw;
+    }
+
+    .nombre {
+        padding: 2vw 10vw !important;
+        margin-top: 10vw !important;
+        height: 8vh;
+        font-size: 4.2vw;
+    }
+
+    .numafil {
+        padding: 2vw 10vw !important;
+        margin-top: 12vw !important;
+        height: 8vh;
+        font-size: 4.2vw;
+    }
+
+    .fechanac {
+        padding: 2vw !important;
+        padding-left: 1vw !important;
+        padding-right: 8vw !important;
+        margin-top: 12vw !important;
+        height: 8vh;
+        font-size: 4.2vw;
+    }
+
+    .codigo {
+        margin: 0 !important;
+        margin-top: 4vw !important;
+        height: 10vh;
+        width: 100%;
+    }
+
+    .barcode {
+        width: 100% !important;
+        height: 17vw !important;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 645px)">
+    .codigo {
+        margin: 0 !important;
+        margin-top: 6vw !important;
+        height: 10vh;
+        width: 100%;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 480px)">
+    .codigo {
+        margin: 0 !important;
+        margin-top: 2vw !important;
+        height: 10vh;
+        width: 100%;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 420px)">
+    .codigo {
+        margin: 0 !important;
+        margin-top: 7vw !important;
+        height: 10vh;
+        width: 100%;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 415px)">
+    .codigo {
+        margin: 0 !important;
+        margin-top: 4vw !important;
+        height: 10vh;
+        width: 100%;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 365px)">
+    .codigo {
+        margin: 0 !important;
+        margin-top: 6vw !important;
+        height: 10vh;
+        width: 100%;
+    }
+</style>
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/g/filesaver.js"></script>
+
+
+<div class="container p-0" id="test">
+    @foreach (var dhab in Model)
+    {
+        if (dhab.foto != "sin foto")
+        {
+            <div class="row m-0" id="exp-@dhab.NUMEMP">
+                <div class="col-md-6 p-0 tarjeta" style="background-image: url('/SISM-Medico/Imagenes/dhabientes/formato-credencial.jpeg')">
+
+                    <!--img src="~/Imagenes/dhabientes/formato-credencial.jpeg" style="width:100%;" /-->
+                    <div class="row m-0">
+                        <div class="col-6 ml-auto p-0">
+                            <div class="imagen" style="background-image:url('@dhab.foto')"></div>
+                        </div>
+                        <div class="col-12 p-0">
+                            <div class="nombre">
+                                @dhab.NOMBRES @dhab.APATERNO @dhab.AMATERNO
+                            </div>
+                        </div>
+                        <div class="col-6 p-0">
+                            <div class="numafil">
+                                @dhab.NUMAFIL
+                            </div>
+                        </div>
+                        <div class="col-6 p-0">
+                            <div class="fechanac">
+                                @(string.Format("{0:dd/MMMM/yyyy}", dhab.FNAC))
+                            </div>
+                        </div>
+                        <div class="col-12 p-0">
+                            <div class="codigo">
+                                <svg class="barcode" name="barcode" jsbarcode-value="@dhab.NUMEMP" />
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6 m-auto p-0">
+                    <button class="btn btn-primary mt-3 mb-3 button" data-exp="@dhab.NUMEMP" onclick="goDoSomething(this);" style="width:100%;">Descargar</button>
+                </div>
+
+            </div>
+        }
+        else
+        {
+            <div class="row mt-3">
+                <div class="col-md-6 m-auto p-0 text-center">
+                    <h3 class="mb-5 mt-5"><b>@dhab.NOMBRES @dhab.APATERNO @dhab.AMATERNO </b> no cuenta con foto vigente, favor de pasar a <b> Afiliación </b> para descarga su credencial</h3>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script src="~/Scripts/JsBarcode.code39.min.js"></script>
+
+<script>
+
+    var elements = document.getElementsByName("barcode");
+    for (var i = 0; i < elements.length; i++) {
+        var id = "barcode" + i;
+        elements[i].id = id;
+        var value = elements[i].getAttribute("jsbarcode-value");
+
+        JsBarcode("#" + id, value, {
+            //format: "code39",
+            //lineColor: "#0aa",
+            //width: 4,
+            height: 70,
+            displayValue: true
+        });
+    }
+
+
+</script>
+
+<script type="text/javascript">
+    /*$(document).ready(() => {
+        $(".button").click(() => {
+            //const footer = $('<div></div>').attr('id', 'footer').attr('class', 'footer').text('custom footer');
+            //$('#test').append(footer);
+            //$('#barcode').css('margin-bottom', '25%');
+
+            var expediente = $(this).attr('data-exp');
+
+            alert(expediente);
+
+            domtoimage.toBlob(document.getElementById('test'))
+                .then((blob) => {
+                    window.saveAs(blob, '');
+                    footer.remove();
+                });
+        });
+    });*/
+
+    /*$(".button").click(function () {
+        var expediente = $(this).attr('data-exp');
+
+        domtoimage.toBlob(document.getElementById(expediente))
+            .then((blob) => {
+                window.saveAs(blob, expediente);
+                footer.remove();
+            });
+
+        //alert(expediente);
+    });*/
+
+
+    /*$(document).ready(() => {
+        $(".button").click(() => {
+
+            //alert('sdgsgs');
+
+            //var expediente = $(this).attr('data-exp');
+
+            var expediente = element.getAttribute('data-exp');
+
+
+            domtoimage.toBlob(document.getElementById(expediente))
+                .then((blob) => {
+                    window.saveAs(blob, expediente);
+                    footer.remove();
+                });
+        });
+    });*/
+
+
+    function goDoSomething(d) {
+
+        $('.button').css('margin-bottom', '-2vw');
+
+        var expediente = d.getAttribute("data-exp");
+
+        //alert(expediente);
+        /*domtoimage.toBlob(document.getElementById(expediente))
+            .then((blob) => {
+                window.saveAs(blob, expediente);
+                footer.remove();
+            });*/
+
+        html2canvas(document.querySelector('#exp-' + expediente)).then(function (canvas) {
+
+            saveAs(canvas.toDataURL(), expediente+'.png');
+        });
+
+
+        function saveAs(uri, filename) {
+
+            var link = document.createElement('a');
+
+            if (typeof link.download === 'string') {
+
+                link.href = uri;
+                link.download = filename;
+
+                //Firefox requires the link to be in the body
+                document.body.appendChild(link);
+
+                //simulate click
+                link.click();
+
+                //remove the link when done
+                document.body.removeChild(link);
+
+            } else {
+
+                window.open(uri);
+
+            }
+        }
+
+
+        $.ajax({
+            url: '@Url.Action("DescargaCD", "Home")',
+            dataType: "json",
+            data: { expediente: expediente, },
+            success: function (data) {
+
+                //console.log(data.dhabiente);
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Credencial de ' + data.dhabiente + ' descargada con éxito',
+                });
+
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al descargar, vuelve a intentar',
+                });
+            }
+        });
+
+
+
+    }
+</script>

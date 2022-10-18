@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c0c16a0341224894ba4d1901b6a4524d" Name="Diagram1" ZoomLevel="58">
+        <EntityTypeShape EntityType="SMDEVModel17.AFILIADOS" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SMDEVModel17.DHABIENTES" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SMDEVModel17.DEPENDENCIAS" Width="1.5" PointX="0.75" PointY="12.5" />
+        <AssociationConnector Association="SMDEVModel17.FK_AFILIADOS_DEPENDENCIAS" />
+        <EntityTypeShape EntityType="SMDEVModel17.MEDICOS" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.receta_detalle_crn" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.receta_exp_crn" Width="1.5" PointX="7.375" PointY="3.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.InventarioFarmacia" Width="1.5" PointX="7.375" PointY="8.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.TIPOSCONSULTA" Width="1.5" PointX="9.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.Citas_Medicos_Externos" Width="1.5" PointX="9.375" PointY="3.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.expediente" Width="1.5" PointX="9.375" PointY="6.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.Receta_Detalle_2" Width="1.5" PointX="11.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.RECETA_EXP_2" Width="1.5" PointX="11.375" PointY="4.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.ESPECIALIDADES" Width="1.5" PointX="11.375" PointY="10.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.Sustancia" Width="1.5" PointX="13.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.Orden_Int" Width="1.5" PointX="13.375" PointY="4.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.Orden_Int_Enviar" Width="1.5" PointX="13.375" PointY="10.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.prov_subrrogados" Width="1.5" PointX="13.375" PointY="13.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.DIAGNOSTICOS" Width="1.5" PointX="15.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.Lab_detalle" Width="1.5" PointX="3.375" PointY="15.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.Lab_exp" Width="1.5" PointX="15.375" PointY="4.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.NotaOperatoria" Width="1.5" PointX="5.375" PointY="15.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.Usuario" Width="1.5" PointX="15.375" PointY="8.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.Comunicados" Width="1.5" PointX="15.375" PointY="12.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.ComunicadoUsuario" Width="1.5" PointX="15.375" PointY="15.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.NotaFar_Usuario" Width="1.5" PointX="0.75" PointY="16.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.Alergias_Exp" Width="1.5" PointX="17.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.TblNotaFarmaco" Width="1.5" PointX="17.375" PointY="3.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.PruebaAntigenos" Width="1.5" PointX="11.375" PointY="17.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.Tickets" Width="1.5" PointX="17.375" PointY="16.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.AspNetRoles" Width="1.5" PointX="19.375" PointY="2" />
+        <EntityTypeShape EntityType="SMDEVModel17.AspNetUsers" Width="1.5" PointX="21.625" PointY="1" />
+        <AssociationConnector Association="SMDEVModel17.AspNetUserRoles" />
+        <EntityTypeShape EntityType="SMDEVModel17.CovidSolicitud" Width="1.5" PointX="13.375" PointY="18.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.TrabajoSocialNota" Width="1.5" PointX="17.375" PointY="7.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.NotaTS_Usuario" Width="1.5" PointX="17.375" PointY="10.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.prestaciones_servicios" Width="1.5" PointX="17.375" PointY="13.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.prestaciones_subservicios" Width="1.5" PointX="0.75" PointY="19.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.proveedor_subservicio" Width="1.5" PointX="19.375" PointY="5.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.SolicitudPrestaciones" Width="1.5" PointX="7.375" PointY="19.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.TicketAreas" Width="1.5" PointX="19.375" PointY="8.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.TicketSeguimiento" Width="1.5" PointX="19.375" PointY="11.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.TicketTipo" Width="1.5" PointX="19.375" PointY="15.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.InterconsultasSub" Width="1.5" PointX="19.375" PointY="18.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.InterconsultaMedico" Width="1.5" PointX="9.375" PointY="20.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.UnidadMedica" Width="1.5" PointX="15.375" PointY="20.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.NotaQuirurgica" Width="1.5" PointX="21.375" PointY="6.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.AltaUrgencias" Width="1.5" PointX="21.375" PointY="12.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.MedicoMedicamento" Width="1.5" PointX="21.375" PointY="17.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.receta_detalle_crn_edit" Width="1.5" PointX="17.375" PointY="21.75" />
+        <EntityTypeShape EntityType="SMDEVModel17.Insumos" Width="1.5" PointX="19.375" PointY="21.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

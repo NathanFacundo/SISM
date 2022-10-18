@@ -1,0 +1,1201 @@
+﻿@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Centro Médico San Jerónimo- Servicios Médicos";
+}
+
+<head>
+    <meta http-equiv="refresh" content="10">
+</head>
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+
+<style media="screen and (max-height:100vh)">
+    .uanl-logo {
+        width: 15vw;
+        margin-top: 0vw;
+        margin-bottom: 1vw;
+    }
+
+    @@font-face {
+        font-family: 'Effra-Regular';
+        src: url('~/fonts/Effra-Regular.eot');
+        src: url('~/fonts/Effra-Regular.eot?#iefix') format('embedded-opentype'), url('~/fonts/Effra-Regular.ttf') format('truetype');
+    }
+
+    @@font-face {
+        font-family: 'Effra-Bold';
+        src: url('~/fonts/Effra-Bold.eot');
+        src: url('~/fonts/Effra-Bold.eot?#iefix') format('embedded-opentype'), url('~/fonts/Effra-Bold.ttf') format('truetype');
+    }
+
+
+    .somos-uni {
+        width: 5vw;
+        margin-top: 1vw;
+        margin-bottom: 3vw;
+    }
+
+    .linea-arriba {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: -1;
+        width: 2.5vw;
+        margin-top: 5.8vw;
+    }
+
+    .linea-abajo {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 2.5vw;
+        margin-bottom: 0.7vw;
+    }
+
+    body {
+        height: 100vh;
+        padding: 0 !important;
+    }
+
+    .inputBarcode {
+        padding-top: 1vw !important;
+        margin-left: 8.333%;
+    }
+
+    #home-seccion {
+        margin-top: 20px;
+    }
+
+    .icons {
+        width: 8vw;
+    }
+
+    .item {
+        padding: 10px;
+    }
+
+    .item-card {
+        transition: 0.5s;
+        cursor: pointer;
+        padding: 20px;
+    }
+
+    .card-link {
+        background-color: #FBC43D;
+        border-color: #FBC43D;
+        color: white;
+        padding: 5px 20px;
+    }
+
+        .card-link:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+    .item-card-title {
+        font-size: 15px;
+        transition: 1s;
+        cursor: pointer;
+    }
+
+        .item-card-title i {
+            font-size: 15px;
+            transition: 1s;
+            cursor: pointer;
+            color: #ffa710
+        }
+
+    .card-title i:hover {
+        transform: scale(1.25) rotate(20deg);
+        color: #18d4ca;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        /*box-shadow: 5px 5px 5px rgba(0,0,0,0.3);*/
+    }
+
+    .card::before, .card::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: scale3d(0, 0, 1);
+        transition: transform .3s ease-out 0s;
+        background: rgba(255, 255, 255, 0.1);
+        content: '';
+        pointer-events: none;
+    }
+
+    .card::before {
+        transform-origin: left top;
+    }
+
+    .card::after {
+        transform-origin: right bottom;
+    }
+
+    .card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
+        transform: scale3d(1, 1, 1);
+    }
+
+    .foto-paciente {
+        width: 6vw;
+        height: 6vw;
+        border-radius: 6vw;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: rgba(0,74,143,0.8);
+        background-image: url('http://148.234.143.204/smuanl_web/fotos_dhab/04586101.jpg');
+    }
+
+    .cuadro {
+        background-color: #fff;
+        border-radius: 1vw;
+    }
+
+    .nav-tabs .nav-item {
+        width: 180px;
+    }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+            font-size: 0.8vw !important;
+            background-color: rgba(0,74,143,0.8);
+            color: white !important;
+        }
+
+            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link:hover {
+                font-size: 0.8vw !important;
+                background-color: rgba(0,74,143,0.6) !important;
+                color: white !important;
+            }
+
+            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+                background-color: #FBC43D;
+                color: white !important;
+            }
+
+                .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active:hover {
+                    background-color: #FBC43D !important;
+                }
+
+    .doc-info {
+        text-align: right;
+    }
+
+    .fade {
+        opacity: 1 !important;
+    }
+
+    .modal-backdrop {
+        background-color: rgba(0,0,0,0.4) !important;
+    }
+
+    .modal-content {
+        margin-top: 6vw;
+    }
+
+    .datos-paciente label {
+        font-size: 0.8vw;
+    }
+
+    .datos-paciente input {
+        border: none !important;
+        border-bottom: 2px solid lightgray !important;
+        padding: 1px 3px;
+        border-radius: 0px;
+    }
+
+    #grad1 {
+        background-color: : #9C27B0;
+        background-image: linear-gradient(120deg, #FF4081, #81D4FA)
+    }
+
+    #msform {
+        text-align: center;
+        position: relative;
+        margin-top: 20px
+    }
+
+        #msform fieldset .form-card {
+            background: white;
+            border: 0 none;
+            border-radius: 0px;
+            box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+            padding: 20px 40px 30px 40px;
+            box-sizing: border-box;
+            width: 94%;
+            margin: 0 3% 20px 3%;
+            position: relative
+        }
+
+        #msform fieldset {
+            background: white;
+            border: 0 none;
+            border-radius: 0.5rem;
+            box-sizing: border-box;
+            width: 100%;
+            margin: 0;
+            position: relative
+        }
+
+            #msform fieldset:not(:first-of-type) {
+                display: none
+            }
+
+            #msform fieldset .form-card {
+                text-align: left;
+                color: #9E9E9E
+            }
+
+        #msform input,
+        #msform textarea {
+            padding: 0px 8px 4px 8px;
+            border: none;
+            border-bottom: 1px solid lightgray;
+            border-radius: 0px;
+            margin-top: 2px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            color: #2C3E50;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+            #msform input:focus,
+            #msform textarea:focus {
+                -moz-box-shadow: none !important;
+                -webkit-box-shadow: none !important;
+                box-shadow: none !important;
+                border: none;
+                font-weight: bold;
+                border-bottom: 2px solid #FBC43D;
+                outline-width: 0
+            }
+
+        #msform .action-button {
+            width: 130px;
+            background: #FBC43D;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .action-button:hover,
+            #msform .action-button:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px #FBC43D
+            }
+
+        #msform .action-button-previous {
+            width: 130px;
+            background: lightgray;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .action-button-previous:hover,
+            #msform .action-button-previous:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px lightgray
+            }
+
+
+
+        #msform .success-button {
+            width: 130px;
+            background: rgba(0,74,143,0.8);
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .success-button:hover,
+            #msform .success-button:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px rgba(0,74,143,0.8)
+            }
+
+        #msform .success-button-previous {
+            width: 130px;
+            background: rgba(0,74,143,0.8);
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .success-button-previous:hover,
+            #msform .success-button-previous:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px rgba(0,74,143,0.8);
+            }
+
+    select.list-dt {
+        border: none;
+        outline: 0;
+        border-bottom: 1px solid lightgray;
+        padding: 2px 5px 3px 5px;
+        margin: 2px
+    }
+
+        select.list-dt:focus {
+            border-bottom: 2px solid #FBC43D
+        }
+
+    .card {
+        z-index: 0;
+        border: none;
+        border-radius: 0.5rem;
+        position: relative
+    }
+
+    .fs-title {
+        font-size: 25px;
+        color: #2C3E50;
+        margin-bottom: 10px;
+        font-weight: bold;
+        text-align: left
+    }
+
+    .radio-group {
+        position: relative;
+        margin-bottom: 25px
+    }
+
+    .radio {
+        display: inline-block;
+        width: 204;
+        height: 104;
+        border-radius: 0;
+        background: lightblue;
+        box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
+        cursor: pointer;
+        margin: 8px 2px
+    }
+
+        .radio:hover {
+            box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3)
+        }
+
+        .radio.selected {
+            box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.1)
+        }
+
+    .fit-image {
+        width: 100%;
+        object-fit: cover
+    }
+
+    .btn-diagnosticos {
+        background-color: rgba(0,74,143,0.8) !important;
+        color: white;
+        font-size: 1vw;
+        width: 100%;
+    }
+
+        .btn-diagnosticos:hover {
+            color: white;
+        }
+
+    #loadingDiv {
+        position: fixed;
+        z-index: 9999;
+        background-color: rgba(0,0,0,0.2);
+        width: 100%;
+        height: 100vw;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        color: white;
+        text-align: center;
+        padding-top: 20vh;
+    }
+
+        #loadingDiv .spinner-border {
+            width: 8vw;
+            height: 8vw;
+        }
+
+    .diag-box {
+        background-color: #FBC43D;
+        color: white;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+
+    /*.select2-selection__choice {
+        float: initial !important;
+        margin: 0 !important;
+        font-size:1.5vw !important;
+        padding:1vw !important;
+    }
+
+    .select2-selection__rendered{
+        padding:0.5vw !important;
+    }
+
+    .select2-selection--multiple{
+        height:6vw !important;
+    }*/
+
+    #locality-dropdown {
+        max-width: 100% !important;
+    }
+
+    .dataTables_wrapper .dataTables_info {
+        width: 100% !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+        .dataTables_wrapper .dataTables_filter label {
+            width: 100% !important;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            width: 80% !important;
+        }
+
+    .dataTables_wrapper .dataTables_length {
+        display: none;
+    }
+
+    .btn-danger {
+        width: 100%;
+    }
+
+        .btn-danger .material-icons {
+            font-size: 1.2vw !important;
+        }
+
+    table.dataTable tbody tr.selected {
+        background-color: #FBC43D !important;
+        color: white !important;
+    }
+
+    #msform h3 {
+        color: #000;
+    }
+
+    .checking {
+        cursor: pointer;
+        color: lightgray;
+    }
+
+    table.dataTable tbody tr.selected .checking {
+        color: white !important;
+    }
+
+    tipoconsulta {
+        border-radius: 0px;
+    }
+
+    .resumenTop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 2.5vw;
+        height: 2.5vw;
+        border-radius: 2.5vw;
+        background-color: green;
+        color: white;
+        font-size: 1.2vw;
+        line-height: 2.5vw;
+        text-align: center;
+    }
+
+    .resumenText {
+        font-size: 1.2vw;
+        margin-top: 3vw;
+        color: black;
+        cursor: pointer;
+    }
+
+    .btn-asignar {
+        background-color: #FBC43D !important;
+        color: white !important;
+    }
+
+        .btn-asignar:hover {
+            background-color: #FBC43D !important;
+            color: white !important;
+        }
+
+    .btn-asignar-modal {
+        background-color: #FBC43D !important;
+        border: 2px solid #FBC43D !important;
+        color: white !important;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .modal-body .select-checkbox {
+        display: none;
+    }
+
+    .modal-header {
+        text-align: center;
+    }
+
+        .modal-header .close {
+            margin: 0 !important;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+    .bsqpaciente {
+        width: 45px;
+        cursor: pointer;
+        position: absolute;
+        top: -2px;
+        left: 13px;
+    }
+
+    .medicoNombre {
+        font-family: 'Roboto', sans-serif;
+    }
+
+    #derechohabientesModal .form-control {
+        border: none;
+        border-radius: 0px;
+        border-bottom: 2px solid #FBC43D;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    ._jw-tpk-container {
+        height: 190px !important;
+    }
+
+    #example2_filter {
+        width: 100% !important;
+        margin-bottom: 1vw;
+        text-align: left !important;
+    }
+
+        #example2_filter label {
+            width: 100% !important;
+        }
+
+        #example2_filter input {
+            max-width: 87% !important;
+            width: 87% !important;
+            border: none;
+            background: transparent;
+            border-bottom: 2px solid #FBC43D;
+            border-radius: 0px;
+        }
+
+    .btn-buscar {
+        background-color: #FBC43D;
+        color: white !important;
+    }
+
+        .btn-buscar:hover {
+            background-color: #FBC43D !important;
+            color: white;
+        }
+
+    .btnbuscapac {
+        width: 1.5vw;
+        -webkit-filter: invert(100%); /* Safari/Chrome */
+        filter: invert(100%);
+    }
+
+    .imgcitas {
+        width: 20px;
+        margin-right: 5px;
+    }
+
+    #resumenRecetaModal .modal-dialog {
+        max-width: 900px;
+    }
+
+    #resumenRecetaModal p {
+        font-size: 0.8vw;
+    }
+
+    .imprimirUanl img {
+        width: 65%;
+    }
+
+    .imprimirLogo img {
+        width: 100%;
+    }
+
+    .modal-content {
+        margin-top: 6vw;
+        padding-bottom: 2vw;
+    }
+
+    #progressbar {
+        margin-bottom: 30px;
+        overflow: hidden;
+        color: lightgrey
+    }
+
+        #progressbar .active {
+            color: #000000;
+            opacity: 1;
+        }
+
+        #progressbar li {
+            list-style-type: none;
+            font-size: 12px;
+            width: 25%;
+            opacity: 0.7;
+            float: left;
+            cursor: pointer;
+            position: relative
+        }
+
+        #progressbar #account:before {
+            content: "S"
+        }
+
+        #progressbar li#account.changed:before,
+        #progressbar li#account.changed:after {
+            background: green;
+        }
+
+        #progressbar #personal:before {
+            content: "O"
+        }
+
+        #progressbar li#personal.changed:before,
+        #progressbar li#personal.changed:after {
+            background: green;
+        }
+
+        #progressbar #payment:before {
+            content: "A"
+        }
+
+        #progressbar li#payment.changed:before,
+        #progressbar li#payment.changed:after {
+            background: green;
+        }
+
+        #progressbar #confirm:before {
+            content: "P"
+        }
+
+        #progressbar li#confirm.changed:before,
+        #progressbar li#confirm.changed:after {
+            background: green;
+        }
+
+        #progressbar li:before {
+            width: 50px;
+            height: 50px;
+            line-height: 45px;
+            display: block;
+            font-size: 18px;
+            color: #ffffff;
+            background: lightgray;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+            padding: 2px
+        }
+
+        #progressbar li:after {
+            content: '';
+            width: 100%;
+            height: 2px;
+            background: lightgray;
+            position: absolute;
+            left: 0;
+            top: 25px;
+            z-index: -1
+        }
+
+        #progressbar li.active:before,
+        #progressbar li.active:after {
+            background: #FBC43D
+        }
+
+    .animated-progress {
+        width: 100%;
+        height: 30px;
+        border-radius: 5px;
+        overflow: hidden;
+        position: relative;
+        border: 2px solid #FBC43D;
+        cursor: pointer;
+    }
+
+        .animated-progress span {
+            height: 100%;
+            display: block;
+            width: 0;
+            color: rgb(255, 255, 255);
+            line-height: 30px;
+            position: absolute;
+            text-align: center;
+        }
+
+    .progress-green span {
+        background-color: #FBC43D;
+    }
+
+    .img-progress {
+        width: 4vw;
+        margin-top: -1vw;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 999;
+        transform: rotate(20deg);
+        cursor: pointer;
+    }
+
+    #example2 td {
+        font-size: 1.2vw;
+        font-weight: bolder;
+    }
+
+    #example2 th {
+        font-size: 1.2vw;
+        font-weight: bolder;
+    }
+
+    .circulos-color {
+        width: 1vw;
+        height: 1vw;
+        border-radius: 1vw;
+        float: right;
+        margin-top: 0.2vw;
+        margin-left: 1vw;
+    }
+
+    .surtiendo {
+        background-color: #159617;
+    }
+
+    .pendiente {
+        background-color: #fc6b03;
+    }
+
+    .demora {
+        background-color: #d40b0b;
+    }
+
+    .dataTables_info {
+        display: none;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 991px)">
+    .foto-paciente {
+        width: 10vw;
+        height: 10vw;
+        border-radius: 10vw;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 1.5vw !important;
+    }
+
+    #progressbar {
+        padding: 0px !important;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 767px)">
+    .foto-paciente {
+        width: 18vw;
+        height: 18vw;
+        border-radius: 18vw;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 3vw !important;
+    }
+
+    .doc-info {
+        text-align: center;
+    }
+
+    #msform input, #msform textarea {
+        font-size: 10px;
+    }
+
+    .bsqpaciente {
+        width: 100%;
+        top: 0px;
+        left: 0px;
+        margin-top: 5px;
+    }
+
+    .medicoNombre {
+        font-size: 13px;
+    }
+
+    .uanl-logo {
+        width: 30vw;
+        margin-bottom: 8vw;
+        margin-bottom: 4vw;
+    }
+
+    .somos-uni {
+        width: 13vw;
+        margin-top: 8vw;
+    }
+
+    .modal-content {
+        margin-top: 30vw;
+    }
+
+    .btnbuscapac {
+        width: 7vw !important;
+        left: 0 !important;
+        top: 1vw !important;
+    }
+
+    #msform h3 {
+        font-size: 5vw;
+    }
+
+    #example_filter input {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+
+    .imprimirUanl {
+        padding: 0px !important;
+    }
+
+    .imprimirLogo {
+        padding: 0px !important;
+    }
+
+    .animated-progress {
+        height: 40px;
+        line-height: 40px;
+    }
+
+        .animated-progress h6 {
+            font-size: 13px;
+        }
+
+    .img-progress {
+        width: 17vw;
+        margin-top: -3vw;
+        margin-right: 2vw;
+    }
+</style>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" />
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+<script src='https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js'></script>
+<script src='https://cdn.datatables.net/responsive/2.2.6/js/responsive.bootstrap.min.js'></script>
+
+
+<img class="linea-abajo" src="~/Imagenes/lineas-uanl-izquierda.png">
+<img class="linea-arriba" src="~/Imagenes/lineas-uanl-derecha.png">
+
+<div id="loadingDiv">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+
+<div class="row p-5">
+
+    <div class="col-md-6 m-auto p-2">
+        <img src="~/Imagenes/logo-sm.png" class="uanl-logo" /> <br />
+    </div>
+
+    <div class="col-md-6 m-auto text-right p-2">
+        <h5>Surtiendo <span id="surtiendoNum"></span><div class="circulos-color surtiendo"></div> </h5>
+        <h5>Pendiente <span id="pendienteNum"></span><div class="circulos-color pendiente"></div></h5>
+        <h5>Demora <span id="demoraNum"></span><div class="circulos-color demora"></div></h5>
+    </div>
+
+    <div class="col-md-12 m-auto p-2">
+        <table id="example2" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Paciente</th>
+                    <th>Folio</th>
+                    <th>Estado</th>
+                    <th>Usuario</th>
+                    <th>Tipo</th>
+                    <th>Turno</th>
+                    <th>Fecha</th>
+                    <th>Demora</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
+        </table>
+
+    </div>
+
+</div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+<script>
+    function imgError(image) {
+        image.onerror = "";
+        image.src = "http://148.234.143.205/SISM/Imagenes/uanl.png";
+        return true;
+    }
+</script>
+
+
+<script src='https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.js'></script>
+<script src="~/Scripts/dataTables.select.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js"></script>
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
+<script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.js"></script>
+<script src="~/Scripts/JsBarcode.code39.min.js"></script>
+
+<!--script>
+    $.ajax({
+        url: '@Url.Action("TipoConsultas", "Laboratorio")',
+        dataType: "json",
+        //data: { search: $("#numemp").val() },
+        success: function (data) {
+            $.each(data, function (i, item) {
+                //console.log(data[i].Descripcion);
+                $('#tipo').append('<option value="' + data[i].Clave + '">' + data[i].Descripcion + '</option>');
+            });
+        },
+        error: function (xhr, status, error) {
+            alert("Error");
+        }
+    });
+
+
+</script-->
+
+
+<script>
+
+    $('#loadingDiv').hide();
+
+
+    $(document).ready(function () {
+
+        var groupColumn = 5;
+        var table = $('#example2').DataTable({
+            "ajax": {
+                "url": "@Url.Action("RecetasPantalla", "Farmacia")",
+                "dataSrc": "",
+            },
+            fixedHeader: {
+                header: true,
+            },
+            "language": {
+                "search": "Buscar orden:",
+                "zeroRecords": "No hay ninguna receta pendiente",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+                "select": {
+                    "rows": " %d filas seleccionadas"
+                },
+                "loadingRecords": "Un momento, cargando recetas...",
+                "processing": "Procesando recetas...",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ recetas",
+                "lengthMenu": "Mostrando _MENU_ recetas",
+            },
+            "searching": false,
+            "paging": false,
+            responsive: true,
+            "order": [
+                [2, "desc"]
+            ],
+            dom: 'fBrtip',
+            "buttons": [
+                {
+                    extend: 'collection',
+                    text: '<span class="material-icons">menu</span >',
+                    buttons: [
+                        { extend: 'csvHtml5', text: 'CSV' },
+                        { extend: 'excelHtml5', text: 'Excel' },
+                        {
+                            extend: 'pdfHtml5',
+                            text: 'PDF',
+                            //orientation: 'landscape',
+                            //pageSize: 'A4',
+                        },
+                        {
+                            extend: 'print',
+                            text: 'Imprimir',
+                            customize: function (win) {
+                                $(win.document.body)
+                                    .css('font-size', '5pt');
+
+                                $(win.document.body).find('table')
+                                    .addClass('compact')
+                                    .css('font-size', 'inherit');
+                            },
+                            exportOptions: {
+                                modifier: {
+                                    selected: null
+                                }
+                            }
+                        },
+                    ]
+                }
+            ],
+            "columns": [
+                { "data": "Paciente" },
+                { "data": "Folio_Rcta" },
+                { "data": "Estado" },
+                { "data": "Usuario" },
+                { "data": "Tipo" },
+                { "data": "TurnoFar" },
+                { "data": "Fecha" },
+                { "data": "Demora" },
+
+            ],
+            columnDefs: [
+                { "visible": false, "targets": groupColumn },
+                /*{ responsivePriority: 10001, targets: 0 },
+                { responsivePriority: 10001, targets: 1},
+                { responsivePriority: 10001, targets: 2 },*/
+
+                {
+                    targets: 1,
+                    width: 300,
+                },
+
+                /*{
+                    targets: 4,
+                    width: 200,
+                },*/
+            ],
+            "rowCallback": function (row, data) {
+                if (data["Estado"] == "Surtiendo") {
+                    $(row).css('background-color', '#159617');
+                    $(row).css('color', 'white');
+                    //$(row).addClass('animate__bounceInDown');
+                } else
+                    if (data["Estado"] == "Pendiente") {
+                        $(row).css('background-color', '#fc6b03');
+                        $(row).css('color', 'white');
+                        //$(row).addClass('animate__bounceInDown');
+                    } else {
+                        if (data["Estado"] == "Demora") {
+                            $(row).css('background-color', '#d40b0b');
+                            $(row).css('color', 'white');
+                            //$(row).addClass('animate__bounceInDown');
+                        }
+                    }
+
+                if (data["Tipo"] == "Presencial") {
+                    $('td:eq(3)', row).html('<img style="width:40px" src="http://148.234.143.203/SISM-Medico/Imagenes/iconos/presencial.png">');
+                } else {
+                    $('td:eq(3)', row).html('<img style="width:40px" src="http://148.234.143.203/SISM-Medico/Imagenes/iconos/telefono.png">');
+                }
+            },
+            "order": [[7, 'asc']],
+            "displayLength": 25,
+            "drawCallback": function (settings) {
+                var api = this.api();
+                var rows = api.rows({ page: 'current' }).nodes();
+                var last = null;
+
+                api.column(groupColumn, { page: 'current' }).data().each(function (group, i) {
+                    if (last !== group) {
+                        $(rows).eq(i).before(
+                            '<tr style="background-color:#ababab; color:white;" class="group"><td colspan="8">Turno: ' + group + '</td></tr>'
+                        );
+
+                        last = group;
+                    }
+                });
+            }
+
+        });
+
+
+    });
+
+</script>
+
+<script>
+    $.ajax({
+        url: '@Url.Action("RecetasPantallaCount", "Farmacia")',
+        dataType: "json",
+        //data: { diagnostico: $("#analisis").val() },
+        success: function (data) {
+            $('#surtiendoNum').text(data.surtiendo);
+            $('#pendienteNum').text(data.pendiente);
+            $('#demoraNum').text(data.demora);
+        },
+        error: function (xhr, status, error) {
+
+        }
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script>
+    $('.body-content').removeClass('container');
+    $('.body-content').addClass('container-fluid');
+</script>

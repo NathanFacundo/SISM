@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TblDetalleOrdenCompra">
+          <Key>
+            <PropertyRef Name="IdDetalleOrdenCompra" />
+          </Key>
+          <Property Name="IdDetalleOrdenCompra" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdOrdenCompra" Type="int" />
+          <Property Name="IdArticulo" Type="int" />
+          <Property Name="Cantidad" Type="int" />
+          <Property Name="CostoUnitario" Type="money" />
+          <Property Name="CostoTotal" Type="money" />
+        </EntityType>
+        <EntityType Name="TblDetalleRequisicion">
+          <Key>
+            <PropertyRef Name="IdDetalleRequisicion" />
+          </Key>
+          <Property Name="IdDetalleRequisicion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdRequisicion" Type="int" Nullable="false" />
+          <Property Name="IdArticulo" Type="int" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TblOrdenCompra">
+          <Key>
+            <PropertyRef Name="IdOrdenCompra" />
+          </Key>
+          <Property Name="IdOrdenCompra" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" />
+          <Property Name="IdProveedor" Type="int" />
+          <Property Name="IdUsuario" Type="int" />
+          <Property Name="Estatus" Type="char" MaxLength="10" />
+          <Property Name="Total" Type="money" />
+          <Property Name="SubTotal" Type="money" />
+          <Property Name="Impuestos" Type="money" />
+          <Property Name="Impuestos1" Type="money" />
+          <Property Name="Impuestos2" Type="money" />
+          <Property Name="IdRequisicion" Type="int" />
+        </EntityType>
+        <EntityType Name="TblRequisicion">
+          <Key>
+            <PropertyRef Name="IdRequisicion" />
+          </Key>
+          <Property Name="IdRequisicion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="IdUsuario" Type="int" Nullable="false" />
+          <Property Name="IPUsuario" Type="varchar" MaxLength="20" />
+          <Property Name="Estatus" Type="char" MaxLength="10" />
+          <Property Name="DiasTranscurrido" Type="int" />
+          <Property Name="Baja" Type="bit" />
+          <Property Name="TipoAlmacen" Type="char" MaxLength="10" />
+        </EntityType>
+        <Function Name="Sp_DetalleRequisiciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Sp_Requisiciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="TblDetalleOrdenCompra" EntityType="Self.TblDetalleOrdenCompra" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblDetalleRequisicion" EntityType="Self.TblDetalleRequisicion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblOrdenCompra" EntityType="Self.TblOrdenCompra" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblRequisicion" EntityType="Self.TblRequisicion" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TblDetalleOrdenCompra">
+          <Key>
+            <PropertyRef Name="IdDetalleOrdenCompra" />
+          </Key>
+          <Property Name="IdDetalleOrdenCompra" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdOrdenCompra" Type="Int32" />
+          <Property Name="IdArticulo" Type="Int32" />
+          <Property Name="Cantidad" Type="Int32" />
+          <Property Name="CostoUnitario" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="CostoTotal" Type="Decimal" Precision="19" Scale="4" />
+        </EntityType>
+        <EntityType Name="TblDetalleRequisicion">
+          <Key>
+            <PropertyRef Name="IdDetalleRequisicion" />
+          </Key>
+          <Property Name="IdDetalleRequisicion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdRequisicion" Type="Int32" Nullable="false" />
+          <Property Name="IdArticulo" Type="Int32" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TblOrdenCompra">
+          <Key>
+            <PropertyRef Name="IdOrdenCompra" />
+          </Key>
+          <Property Name="IdOrdenCompra" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="IdProveedor" Type="Int32" />
+          <Property Name="IdUsuario" Type="Int32" />
+          <Property Name="Estatus" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="Total" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="SubTotal" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Impuestos" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Impuestos1" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Impuestos2" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="IdRequisicion" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TblRequisicion">
+          <Key>
+            <PropertyRef Name="IdRequisicion" />
+          </Key>
+          <Property Name="IdRequisicion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <Property Name="IPUsuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Estatus" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="DiasTranscurrido" Type="Int32" />
+          <Property Name="Baja" Type="Boolean" />
+          <Property Name="TipoAlmacen" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TblDetalleOrdenCompra" EntityType="Self.TblDetalleOrdenCompra" />
+          <EntitySet Name="TblDetalleRequisicion" EntityType="Self.TblDetalleRequisicion" />
+          <EntitySet Name="TblOrdenCompra" EntityType="Self.TblOrdenCompra" />
+          <EntitySet Name="TblRequisicion" EntityType="Self.TblRequisicion" />
+          <FunctionImport Name="Sp_DetalleRequisiciones" ReturnType="Collection(Model.Sp_DetalleRequisiciones_Result)" />
+          <FunctionImport Name="Sp_Requisiciones" ReturnType="Collection(Model.Sp_Requisiciones_Result)" />
+        </EntityContainer>
+        <ComplexType Name="Sp_DetalleRequisiciones_Result">
+          <Property Type="Int32" Name="FOLIO" Nullable="false" />
+          <Property Type="String" Name="ARTICULO" Nullable="true" MaxLength="256" />
+          <Property Type="Int32" Name="CANTIDAD" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Sp_Requisiciones_Result">
+          <Property Type="Int32" Name="FOLIO" Nullable="false" />
+          <Property Type="String" Name="USUARIO" Nullable="true" MaxLength="64" />
+          <Property Type="String" Name="FECHA" Nullable="true" MaxLength="4000" />
+          <Property Type="Int32" Name="DIAS" Nullable="true" />
+          <Property Type="String" Name="ALMACEN" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="SEMAFORO" Nullable="true" MaxLength="8" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="TblDetalleOrdenCompra">
+            <EntityTypeMapping TypeName="Model.TblDetalleOrdenCompra">
+              <MappingFragment StoreEntitySet="TblDetalleOrdenCompra">
+                <ScalarProperty Name="IdDetalleOrdenCompra" ColumnName="IdDetalleOrdenCompra" />
+                <ScalarProperty Name="IdOrdenCompra" ColumnName="IdOrdenCompra" />
+                <ScalarProperty Name="IdArticulo" ColumnName="IdArticulo" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="CostoUnitario" ColumnName="CostoUnitario" />
+                <ScalarProperty Name="CostoTotal" ColumnName="CostoTotal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblDetalleRequisicion">
+            <EntityTypeMapping TypeName="Model.TblDetalleRequisicion">
+              <MappingFragment StoreEntitySet="TblDetalleRequisicion">
+                <ScalarProperty Name="IdDetalleRequisicion" ColumnName="IdDetalleRequisicion" />
+                <ScalarProperty Name="IdRequisicion" ColumnName="IdRequisicion" />
+                <ScalarProperty Name="IdArticulo" ColumnName="IdArticulo" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblOrdenCompra">
+            <EntityTypeMapping TypeName="Model.TblOrdenCompra">
+              <MappingFragment StoreEntitySet="TblOrdenCompra">
+                <ScalarProperty Name="IdOrdenCompra" ColumnName="IdOrdenCompra" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+                <ScalarProperty Name="Impuestos" ColumnName="Impuestos" />
+                <ScalarProperty Name="Impuestos1" ColumnName="Impuestos1" />
+                <ScalarProperty Name="Impuestos2" ColumnName="Impuestos2" />
+                <ScalarProperty Name="IdRequisicion" ColumnName="IdRequisicion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblRequisicion">
+            <EntityTypeMapping TypeName="Model.TblRequisicion">
+              <MappingFragment StoreEntitySet="TblRequisicion">
+                <ScalarProperty Name="IdRequisicion" ColumnName="IdRequisicion" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IPUsuario" ColumnName="IPUsuario" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+                <ScalarProperty Name="DiasTranscurrido" ColumnName="DiasTranscurrido" />
+                <ScalarProperty Name="Baja" ColumnName="Baja" />
+                <ScalarProperty Name="TipoAlmacen" ColumnName="TipoAlmacen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_DetalleRequisiciones" FunctionName="Model.Store.Sp_DetalleRequisiciones">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.Sp_DetalleRequisiciones_Result">
+                <ScalarProperty Name="FOLIO" ColumnName="FOLIO" />
+                <ScalarProperty Name="ARTICULO" ColumnName="ARTICULO" />
+                <ScalarProperty Name="CANTIDAD" ColumnName="CANTIDAD" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Requisiciones" FunctionName="Model.Store.Sp_Requisiciones">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.Sp_Requisiciones_Result">
+                <ScalarProperty Name="FOLIO" ColumnName="FOLIO" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="DIAS" ColumnName="DIAS" />
+                <ScalarProperty Name="ALMACEN" ColumnName="ALMACEN" />
+                <ScalarProperty Name="SEMAFORO" ColumnName="SEMAFORO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

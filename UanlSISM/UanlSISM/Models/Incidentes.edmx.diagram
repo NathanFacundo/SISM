@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8b8db79ac0094ed3bcf6053b82c663be" Name="Diagram1">
+        <EntityTypeShape EntityType="incidentesModel1.dtproperties" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="incidentesModel1.INVENTARIO" Width="1.5" PointX="3" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="incidentesModel1.sis_areas" Width="1.5" PointX="3" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="incidentesModel1.sis_estado" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="incidentesModel1.sis_marcas" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="incidentesModel1.sis_modcpu" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="incidentesModel1.tipo_incidente" Width="1.5" PointX="7.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="incidentesModel1.INV_GRAL" Width="1.5" PointX="7.75" PointY="7.75" IsExpanded="true" />
+        <AssociationConnector Association="incidentesModel1.FK_INVENTARIO_sis_estado" ManuallyRouted="false" />
+        <AssociationConnector Association="incidentesModel1.FK_INVENTARIO_sis_marcas" ManuallyRouted="false" />
+        <AssociationConnector Association="incidentesModel1.FK_INVENTARIO_sis_marcas1" ManuallyRouted="false" />
+        <AssociationConnector Association="incidentesModel1.FK_INVENTARIO_sis_marcas2" ManuallyRouted="false" />
+        <AssociationConnector Association="incidentesModel1.FK_INVENTARIO_sis_marcas3" ManuallyRouted="false" />
+        <AssociationConnector Association="incidentesModel1.FK_INVENTARIO_sis_modcpu" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="incidentesModel1.SOL_SERVICIO" Width="1.5" PointX="5.25" PointY="3.25" />
+        <AssociationConnector Association="incidentesModel1.FK_SOL_SERVICIO_INVENTARIO" />
+        <AssociationConnector Association="incidentesModel1.FK_SOL_SERVICIO_sis_areas" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

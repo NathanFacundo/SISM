@@ -1,0 +1,353 @@
+﻿@{
+
+}
+
+<style>
+    #home-seccion {
+        margin-top: 20px;
+    }
+
+    .icons {
+        height: 8vw;
+    }
+
+    .item {
+        padding: 10px;
+    }
+
+    .item-card {
+        transition: 0.5s;
+        cursor: pointer;
+        padding: 20px;
+    }
+
+    .card-link {
+        background-color: #FBC43D;
+        border-color: #FBC43D;
+        color: white;
+        padding: 6px 20px;
+    }
+
+        .card-link:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+    .item-card-title {
+        font-size: 15px;
+        transition: 1s;
+        cursor: pointer;
+    }
+
+        .item-card-title i {
+            font-size: 15px;
+            transition: 1s;
+            cursor: pointer;
+            color: #ffa710
+        }
+
+    .card-title i:hover {
+        transform: scale(1.25) rotate(20deg);
+        color: #18d4ca;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        /*box-shadow: 5px 5px 5px rgba(0,0,0,0.3);*/
+    }
+
+    .card::before, .card::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: scale3d(0, 0, 1);
+        transition: transform .3s ease-out 0s;
+        background: rgba(255, 255, 255, 0.1);
+        content: '';
+        pointer-events: none;
+    }
+
+    .card::before {
+        transform-origin: left top;
+    }
+
+    .card::after {
+        transform-origin: right bottom;
+    }
+
+    .card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
+        transform: scale3d(1, 1, 1);
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 767px)">
+    .icons {
+        height: 20vw;
+    }
+</style>
+<!--link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'-->
+<link rel='stylesheet' href='~/Content/materialicons.css'>
+<div class="row">
+
+    <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+    <link rel='stylesheet' href='https://select2.github.io/select2-bootstrap-theme/css/select2-bootstrap.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css'>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.full.min.js'></script>
+
+    <link rel='stylesheet' href='https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.css'>
+
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Consultas", "Manage")"><b>Consultas</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="#"><b>Mis Médicos</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<br />
+
+<div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
+    <img src="~/Imagenes/Horario.png" class="uanl-logo" />
+    <h3 style="font-family: 'Roboto', sans-serif;">Médico <span class="putUserName"></span></h3>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col">
+        <div class="card item-card card-block">
+            <center><img class="icons" src="~/Imagenes/DatosGenerales.png" /></center>
+            <br />
+            <input type="number" placeholder="Número" value="" class="form-control" id="numemp" />
+            <br />
+            <input type="button" value="Datos Generales" class="btn btn-warning" onclick="Consultar()" />
+        </div>
+    </div>
+    <div class="col item text-center">
+        <div class="card item-card card-block">
+            <center><img class="icons" src="~/Imagenes/ConsultarAgenda.png" /></center>
+            <br />
+            <input id="btnAgregar1a" type="button" class="btn  btn-warning" onclick="location.href='ConsultarAgenda';" value="Consulta Agenda" />
+        </div>
+    </div>
+    <div class="col item text-center">
+        <div class="card item-card card-block">
+            <center><img class="icons" src="~/Imagenes/VerEspecialidades.png" /></center>
+            <br />
+            <input id="btnAgregar1a" type="button" class="btn  btn-warning" onclick="location.href='Especialidades_directorio';" value="Horarios por Especialidad" />
+        </div>
+    </div>
+    <div class="col item text-center">
+        <div class="card item-card card-block">
+            <center><img class="icons" src="~/Imagenes/ConsultaNotasPorMedico.png" /></center>
+            <br />
+            <input id="btnAgregar1a" type="button" class="btn  btn-warning" onclick="location.href='ConsultaNotasPorMedico';" value="Notas por Médico" />
+        </div>
+    </div>
+    <div class="col item text-center">
+        <div class="card item-card card-block">
+            <center><img class="icons" src="~/Imagenes/cansultar_retardo.png" /></center>
+            <br />
+            <input id="btnAgregar1a" type="button" class="btn  btn-warning" onclick="location.href='Activar_citacancelada';" value="Reactiva Cita" />
+        </div>
+    </div>
+</div>
+
+<div class='modal fade' id='Modalkx_consulta' role='dialog' style='display:none'>
+    <div class='modal-dialog modal-lg'>
+        <!-- Modal content-->
+        <div class='modal-content'>
+            <div class='modal-header'>
+
+                <button type='button' class='close' data-dismiss='modal'>&times;</button>
+
+            </div>
+
+            <style>
+                #popdatos .form-group {
+                    margin-bottom: -0.4rem;
+                }
+
+                .hs_div {
+                    margin-top: 2px;
+                    background-color: #faf7f7;
+                    padding: 10px;
+                    border-radius: 10px 10px 10px 10px;
+                    border: 1px solid;
+                    box-shadow: 0 4px 5px #0c4274;
+                    border-color: #0c4274;
+                }
+            </style>
+
+            <div class='modal-body' style="padding:10px">
+                <!-- Modal cuerpo-->
+                <div style="padding:10px" id="popdatos" class="hs_div">
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-1 col-form-label"></label>
+                        <label class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-7">
+                            <img src="http://148.234.143.204/smuanl_web/fotos_dhab/" class="img-fluid rounded-circle " id="foto" style="height: 135px; margin-bottom: 20px;" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-1 col-form-label"></label>
+                        <label class="col-sm-4 col-form-label font-weight-bold">Numero</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="TxtPopNumero" value="" style="width:100%" disabled="disabled">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-1 col-form-label"></label>
+                        <label class="col-sm-4 col-form-label font-weight-bold">Apellido Paterno</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="TxtPopPaterno" value="" style="width:100%" disabled="disabled">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-1 col-form-label"></label>
+                        <label class="col-sm-4 col-form-label font-weight-bold">Apellido Materno</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="TxtPopMaternos" value="" style="width:100%" disabled="disabled">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-1 col-form-label"></label>
+                        <label class="col-sm-4 col-form-label font-weight-bold">Nombres</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="TxtPopNombre" style="width:100%" disabled="disabled">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-1 col-form-label"></label>
+                        <label class="col-sm-4 col-form-label font-weight-bold">Curp</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="TxtPopMedicocobertura" value="" style=" width: 100%;" disabled="disabled">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-1 col-form-label"></label>
+                        <label class="col-sm-4 col-form-label font-weight-bold">Especialidad</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="TxtPopEspecialidad" style="width:100%" disabled="disabled">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-1 col-form-label"></label>
+                        <label class="col-sm-4 col-form-label font-weight-bold">Cedula</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="TxtPopCedula" value="" style="width:100%" disabled="disabled">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-1 col-form-label"></label>
+                        <label class="col-sm-4 col-form-label font-weight-bold">Tipo de Empleado </label>
+                        <div class="col-sm-7">
+                            <input type="text" id="TxtPopAsociado2" value="" style="font:oblique bold100% serif;" disabled="disabled">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-1 col-form-label"></label>
+                        <label class="col-sm-4 col-form-label font-weight-bold">Quinquenio Disponible</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="TxtPopRecepcion" value="" style="width:100%" disabled="disabled">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-1 col-form-label"></label>
+                        <label class="col-sm-4 col-form-label font-weight-bold">Total de Vacaciones Disponibles</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="TxtPopAsociado1" value="" style="width:100%" disabled="disabled">
+                        </div>
+                    </div>
+
+                    @*<div class="form-group row">
+            <label class="col-sm-1 col-form-label"></label>
+            <label class="col-sm-4 col-form-label font-weight-bold">Dias Disponibles  </label>
+            <div class="col-sm-7">
+                <input type="text" id="TxtPopDisponibles" value="" style="width:100%" disabled="disabled">
+            </div>
+        </div>*@
+                </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script type="text/javascript">
+            function Consultar() {
+                $("#numemp").removeClass("valid");
+
+                if ($("#numemp").val()=="") {
+                    $("#numemp").addClass("valid");
+                    return;
+                }
+                  $.ajax({
+                type: 'GET',
+                url: '@Url.Action("BsqMedico", "MedicinaLaboral")',
+                dataType: 'json',
+                      data: { v_NUMEM: $("#numemp").val() },
+                cache: false,
+                      success: function (data) {
+                          console.log(data);
+                          if (data.NUMERO) {
+                              $("#Modalkx_consulta").modal();
+
+                              $('#TxtPopNumero').val(data.NUMERO);
+                              $('#TxtPopPaterno').val(data.APATERNO);
+                              $('#TxtPopMaternos').val(data.AMATERNO);
+                              $('#TxtPopNombre').val(data.NOMBRE);
+                              $('#TxtPopTitulo').val(data.TITULO);
+                              $('#TxtPopEspecialidad').val(data.ESPECIALIDAD);
+
+
+                              $('#TxtPopConsultorio').val(data.CONSULTORIO);
+                              $('#TxtPopIniCancelacion').val(data.FCANCELINI);
+                              $('#TxtPopFinCancelacion').val(data.FCANCELFIN);
+                              $('#TxtPopObservaciones').val(data.OBSCANCEL);
+
+
+
+
+                              $('#TxtPopCedula').val(data.CEDULA);
+
+                              $('#TxtPopInicobertura').val(data.FCUBREINI);
+                              $('#TxtPopFincobertura').val(data.FCUBREFIN);
+
+
+
+                              $('#TxtPopRecepcion').val(data.Quinquenio); // Quinquenio Disponible
+                              $('#TxtPopAsociado1').val(data.DIAS_RESTANTES_2);
+                              $('#TxtPopAsociado2').val(data.Tipo_Empleado); //
+                              $('#TxtPopDisponibles').val(data.Dias_Disponibles); // Dias Disponibles
+                              $('#TxtPopMedicocobertura').val(data.CURP);
+
+
+
+                              $("#foto").attr("src", "http://148.234.143.204/smuanl_web/images/" + $("#numemp").val()+'.jpg');
+
+                    }
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire('Error', '', 'error');
+                }
+            });
+            }
+
+            function verdir() {
+                window.location.href = 'http://148.234.143.203/SISM-Medico/MedicinaLaboral/Especialidades_directorio';
+            }
+
+        </script>

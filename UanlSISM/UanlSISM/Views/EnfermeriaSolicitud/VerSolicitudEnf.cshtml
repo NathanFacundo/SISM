@@ -1,0 +1,817 @@
+﻿@model UanlSISM.Models.EnfermeriaAgendar
+@using Microsoft.AspNet.Identity;
+@{
+
+}
+
+<style>
+    #home-seccion {
+        margin-top: 20px;
+    }
+
+    .icons {
+        width: 8vw;
+    }
+
+    .item {
+        padding: 10px;
+    }
+
+    .item-card {
+        transition: 0.5s;
+        cursor: pointer;
+        padding: 20px;
+    }
+
+    .card-link {
+        background-color: #FBC43D;
+        border-color: #FBC43D;
+        color: white;
+        padding: 5px 20px;
+    }
+
+    .card-link:hover {
+        text-decoration: none;
+        color: white;
+    }
+
+    .item-card-title {
+        font-size: 15px;
+        transition: 1s;
+        cursor: pointer;
+    }
+
+    .item-card-title i {
+        font-size: 15px;
+        transition: 1s;
+        cursor: pointer;
+        color: #ffa710
+    }
+
+    .card-title i:hover {
+        transform: scale(1.25) rotate(20deg);
+        color: #18d4ca;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        /*box-shadow: 5px 5px 5px rgba(0,0,0,0.3);*/
+    }
+
+    .card::before, .card::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: scale3d(0, 0, 1);
+        transition: transform .3s ease-out 0s;
+        background: rgba(255, 255, 255, 0.1);
+        content: '';
+        pointer-events: none;
+    }
+
+    .card::before {
+        transform-origin: left top;
+    }
+
+    .card::after {
+        transform-origin: right bottom;
+    }
+
+    .card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
+        transform: scale3d(1, 1, 1);
+    }
+
+    .foto-paciente {
+        width: 6vw;
+        height: 6vw;
+        border-radius: 6vw;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: rgba(0,74,143,0.8);
+        background-image: url('http://148.234.143.205/SISM/Imagenes/uanl.png');
+    }
+
+    .cuadro {
+        background-color: #fff;
+        border-radius: 1vw;
+    }
+
+    .action-button {
+        width: 130px;
+        background: #FBC43D;
+        font-weight: bold;
+        color: white;
+        border: 0 none;
+        border-radius: 0px;
+        cursor: pointer;
+        padding: 10px 5px;
+        margin: 10px 5px;
+    }
+
+    .success-button {
+        width: 130px;
+        background: rgba(0,74,143,0.8);
+        font-weight: bold;
+        color: white;
+        border: 0 none;
+        border-radius: 0px;
+        cursor: pointer;
+        padding: 10px 5px;
+        margin: 10px 5px
+    }
+</style>
+<style>
+    .myinput {
+        padding: 0px 8px 4px 8px;
+        border: none;
+        border-bottom: 2px solid lightgray;
+        border-radius: 0px;
+        margin-top: 2px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        color: black;
+        font-size: 16px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    .myinput:focus {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        border: none;
+        font-weight: bold;
+        border-bottom: 2px solid #FBC43D;
+        outline-width: 0
+    }
+</style>
+<style>
+
+    .dropdown-toggle {
+        width: 195px;
+        font-size: 15px !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        text-align: left;
+        z-index: 0;
+        border-top-left-radius: 20px;
+        border: 3px solid rgba(0,74,143,1);
+    }
+
+    .dropdown-toggle:hover {
+        background-color: rgba(0, 88, 171,1) !important;
+        border: 3px solid rgba(0, 88, 171,1) !important;
+        z-index: 0;
+    }
+
+    .dropdown-toggle:focus {
+        background-color: rgba(0, 88, 171,1) !important;
+        border: 3px solid rgba(0, 88, 171,1) !important;
+        z-index: 0;
+    }
+
+    .dropdown-menu {
+        float: inherit !important;
+        width: 100% !important;
+    }
+
+    .dropdown-item {
+        font-size: 15px !important;
+        padding: 3px 10px !important;
+        white-space: break-spaces !important;
+    }
+
+    .dropdown-item .material-icons {
+        font-size: 15px !important;
+    }
+
+    .dropdown-item:hover {
+        background-color: rgba(0,74,143,1) !important;
+        color: white !important;
+    }
+
+    .dropdown-item:focus {
+        background-color: rgba(0,74,143,1) !important;
+        color: white !important;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 15px !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        border-top-left-radius: 20px;
+        margin-left: -20px;
+        -webkit-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        -moz-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        border: 2.5px solid rgba(0,74,143,1);
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link:hover {
+        font-size: 15px !important;
+        background-color: rgba(0, 88, 171,1) !important;
+        color: white !important;
+        border: 2.5px solid rgba(0, 88, 171,1);
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        background-color: #FBC43D;
+        color: white !important;
+        border: 2.5px solid #FBC43D;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active:hover {
+        background-color: #FBC43D !important;
+    }
+
+</style>
+
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Search", "EnfermeriaSolicitud")"><b>Solicitudes Enfermería</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12 text-center">
+    </div>
+</div>
+
+
+<div class="row cuadro animate__animated animate__fadeInLeft">
+    <div class="col-lg-12 p-3">
+        <div class="row m-0">
+            <div class="col-md-8 m-auto p-3">
+                <div class="row m-0">
+                    <div class="col-lg-2 col-4 p-2 text-center m-auto">
+                        <center><div class="foto-paciente"></div></center>
+                    </div>
+                    <div class="col-lg-10 col-8 p-2 m-auto">
+                        <h6>Expediente: <b>@Model.DHABIENTES.NUMEMP </b></h6>
+                        <h6>Nombre: <b>@Model.DHABIENTES.NOMBRES @Model.DHABIENTES.APATERNO @Model.DHABIENTES.AMATERNO</b> </h6>
+                        <h6>Registro Hospital Universitario: <b>@Model.DHABIENTES.REGHU</b> </h6>
+                        <div class="row m-0">
+                            <div class="col-md-3 p-0">
+                                <h6 class="mt-0">Edad: <input type="hidden" id="FNAC" name="FNAC" value="@Model.DHABIENTES.FNAC" /> <b id="edad"></b> años</h6>
+                            </div>
+                            <div class="col-md-3 p-0">
+                                <h6 class="mt-0">Sexo: <b>@Model.DHABIENTES.SEXO</b></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 p-3 doc-info">
+            </div>
+        </div>
+    </div>
+
+    <div id="tabs" class="col-12">
+        <div class="tab-content" id="custom-content-below-tabContent">
+
+            <div class="tab-pane fade show active" id="lab" role="tabpanel" aria-labelledby="lab-tab">
+                <br />
+                <br />
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-1 "></div>
+                        <div class="col-md-9  ">
+                            <h2 style="text-align:center">Solicitud a Enfermería</h2>
+                            <h3 style="text-align:center">Fecha: @DateTime.Now.ToString("dd/MM/yyyy")</h3>
+
+                        </div>
+                        <div class="col-md-1 text-center ">
+                            <img style="border-radius:70%;height:100px;" src="~/Imagenes/enfermeriaicon.png" />
+                        </div>
+                        <div class="col-md-1 "></div>
+                    </div>
+                    <br />
+
+                    <div class="row">
+
+                        <div class="col-md-3 mb-1">
+                            <h6>Folio:</h6>
+                            <b>@Model.EnfermeriaSolicitud.SolicitudId</b>
+                        </div>
+                        <div class="col-md-3 mb-1">
+                            <h6>Expediente:</h6>
+                            <b>@Model.DHABIENTES.NUMEMP</b>
+
+                        </div>
+                        <div class="col-md-6  mb-1">
+                            <h6>Tipo:</h6>
+                            <select id="urgenteSolLab" disabled class="form form-control">
+                                @if (Model.EnfermeriaSolicitud.Urgente == "1")
+                                {
+                                    <option selected="selected" value="1">Urgente</option>
+                                    <option value="2">Ordinario</option>
+                                }
+                                else
+                                {
+                                    <option value="1">Urgente</option>
+                                    <option selected="selected" value="2">Ordinario</option>
+                                }
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <br />
+                    <h6>Estudios:</h6>
+
+                    <table style="width:100%" id="tblEstudios" class="table table-bordered">
+                        <thead style="background-color: rgba(0,74,143,1) !important;">
+                            @*<tr>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> Grupo</td>
+                            <td> Nombre</td>
+                            </tr>*@
+
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model.EnfermeriaSolicitudDetalle)
+                            {
+                                <tr>
+                                    <td style="width:1px;max-width:1px;display:none"> </td>
+                                    <td style="width:5px;"></td>
+                                    <td>@item.Descripcion </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+
+
+                    <div class="col-md-12 p-1">
+                        <h6>Observaciones Médicas:</h6>
+                        <textarea disabled style="max-width:100%;" id="observacionesSolLab" name="observaciones" rows="3" class="form form-control">@Model.EnfermeriaSolicitud.Nota</textarea>
+                        <br />
+
+                        <h6>Fecha Agenda</h6>
+                        @if (@Model.EnfermeriaSolicitud.FechaAgenda.ToString() == "01/01/1900 12:00:00 a. m.")
+                        {
+                            <input id="fechaagenda" type="datetime-local" value="" class="form-control">
+                        }
+                        else
+                        {
+                            <input id="fechaagenda" type="datetime-local" value="@Model.EnfermeriaSolicitud.FechaAgenda.ToString("yyyy-MM-ddTHH:mm")" class="form-control">
+                        }
+
+                        <br />
+                        <br />
+
+                        <h6>Nota Enfermería</h6>
+                        <textarea id="notaenfermeria" style="max-width:100%" rows="3" class="form form-control">@Model.EnfermeriaSolicitud.NotaRealiza</textarea>
+                        <br />
+                        <div class="checkbox form-check-inline">
+                            <input class="form-check-input" type="checkbox" checked="@Model.EnfermeriaSolicitud.Finalizado" id="Realizado">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Realizado
+                            </label>
+
+                        </div>
+                        <div class="checkbox form-check-inline">
+                            <input class="form-check-input" type="checkbox" checked="@Model.EnfermeriaSolicitud.Cancelado" id="Cancelado">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Cancelado
+                            </label>
+
+                        </div>
+                        <div class="checkbox form-check-inline">
+                            <input class="form-check-input" type="checkbox" checked="@Model.EnfermeriaSolicitud.NoPresento" id="NoPresento">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                NoPresento
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                        <div>
+
+                        </div>
+
+                        <br />
+                        <br />
+
+
+                        <div class="row m-0">
+                            <div class="col-md-12 mx-0" style="text-align:center">
+
+
+                                @if (Model.EnfermeriaSolicitud.Finalizado || Model.EnfermeriaSolicitud.Cancelado || Model.EnfermeriaSolicitud.NoPresento == true)
+                                {
+
+                                }
+                                else
+                                {
+
+                                    <input type="button" onclick="Guardar()" style="" class="action-button" value="Guardar" />
+                                }
+
+                                <input type="button" onclick="Regresar()" style="background-color:lightgray" class="action-button" value="Regresar" />
+                            </div>
+                        </div>
+
+                        <input type="hidden" value="@User.Identity.GetUserName()" id="putNumero" name="medico" />
+                        <input type="hidden" value="@Model.DHABIENTES.NUMEMP" id="expediente" name="medico" />
+                        <input type="hidden" value="@User.Identity.GetUserName()" id="numemp" name="numemp" />
+                        <input type="hidden" value="@Model.EnfermeriaSolicitud.SolicitudId" id="folioid" name="folioid" />
+
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jque ry-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script type="text/javascript">
+
+    function submenuRX() {
+
+        $('#submenuRX_1').show();
+        $('#submenuRX_2').show();
+        $('#submenuRX_3').show();
+        $('#submenuRX_4').show();
+        $('#submenuRX_5').show();
+
+        $('#submenuLab_1').hide();
+        $('#submenuLab_2').hide();
+        $('#submenuArchivos_1').hide();
+        $('#submenuArchivos_2').hide();
+        $('#submenuArchivos_3').hide();
+        $('#submenuArchivos_4').hide();
+        $('#submenuArchivos_5').hide();
+        $('#submenuArchivos_6').hide();
+        $('#submenuArchivos_7').hide();
+        $('#submenuArchivos_8').hide();
+        $('#submenuArchivos_9').hide();
+        $('#submenuArchivos_10').hide();
+        $('#submenuArchivos_11').hide();
+        $('#submenuArchivos_12').hide();
+        $('#submenuArchivos_13').hide();
+        $('#submenuArchivos_14').hide();
+
+    }
+
+    function submenuLab() {
+
+        $('#submenuLab_1').show();
+        $('#submenuLab_2').show();
+
+        $('#submenuRX_1').hide();
+        $('#submenuRX_2').hide();
+        $('#submenuRX_3').hide();
+        $('#submenuRX_4').hide();
+        $('#submenuRX_5').hide();
+
+        $('#submenuArchivos_1').hide();
+        $('#submenuArchivos_2').hide();
+        $('#submenuArchivos_3').hide();
+        $('#submenuArchivos_4').hide();
+        $('#submenuArchivos_5').hide();
+        $('#submenuArchivos_6').hide();
+        $('#submenuArchivos_7').hide();
+        $('#submenuArchivos_8').hide();
+        $('#submenuArchivos_9').hide();
+        $('#submenuArchivos_10').hide();
+        $('#submenuArchivos_11').hide();
+        $('#submenuArchivos_12').hide();
+        $('#submenuArchivos_13').hide();
+        $('#submenuArchivos_14').hide();
+    }
+
+
+    function submenuArchivos() {
+        $('#submenuArchivos_1').show();
+        $('#submenuArchivos_2').show();
+        $('#submenuArchivos_3').show();
+        $('#submenuArchivos_4').show();
+        $('#submenuArchivos_5').show();
+        $('#submenuArchivos_6').show();
+        $('#submenuArchivos_7').show();
+        $('#submenuArchivos_8').show();
+        $('#submenuArchivos_9').show();
+        $('#submenuArchivos_10').show();
+        $('#submenuArchivos_11').show();
+        $('#submenuArchivos_12').show();
+        $('#submenuArchivos_13').show();
+        $('#submenuArchivos_14').show();
+
+        $('#submenuLab_1').hide();
+        $('#submenuLab_2').hide();
+        $('#submenuRX_1').hide();
+        $('#submenuRX_2').hide();
+        $('#submenuRX_3').hide();
+        $('#submenuRX_4').hide();
+        $('#submenuRX_5').hide();
+    }
+
+
+    function closetoogle() {
+        $('#submenuRX_1').hide();
+        $('#submenuRX_2').hide();
+        $('#submenuRX_3').hide();
+        $('#submenuRX_4').hide();
+        $('#submenuRX_5').hide();
+
+        $('#submenuLab_1').hide();
+        $('#submenuLab_2').hide();
+        $('#submenuArchivos_1').hide();
+        $('#submenuArchivos_2').hide();
+        $('#submenuArchivos_3').hide();
+        $('#submenuArchivos_4').hide();
+        $('#submenuArchivos_5').hide();
+        $('#submenuArchivos_6').hide();
+        $('#submenuArchivos_7').hide();
+        $('#submenuArchivos_8').hide();
+        $('#submenuArchivos_9').hide();
+        $('#submenuArchivos_10').hide();
+        $('#submenuArchivos_11').hide();
+        $('#submenuArchivos_12').hide();
+        $('#submenuArchivos_13').hide();
+        $('#submenuArchivos_14').hide();
+
+    }
+
+</script>
+
+<script>
+    $('#loadingDiv').hide();
+    var numemp = @Model.DHABIENTES.NUMEMP;
+    $('.foto-paciente').css("background-image", "url(http://148.234.143.204/smuanl_web/fotos_dhab/" + numemp + ".jpg)");
+</script>
+
+<script>
+    var split1 = $('#FNAC').val().split(" ");
+    //console.log(split1);
+    var split2 = split1[0].split("/");
+    var hoy = new Date().getFullYear();
+    var edad = hoy - split2[2];
+    $('#edad').html(edad);
+</script>
+
+<script>
+
+      $(function() {
+
+        $("#estudioslabtxt").autocomplete({
+                source: function (request, response) {
+                $.ajax({
+                        url: "@Url.Action("GetEnfermeriaCatalogo", "EnfermeriaSolicitud")",
+                    dataType: "json",
+                    data: {
+                            search: request.term
+                    },
+                    success: function (data) {
+                                response(data);
+                            }
+                        });
+                    },
+            minLength: 2,
+            focus: function (event, ui) {
+                // prevent autocomplete from updating the textbox
+                event.preventDefault();
+                // manually update the textbox
+                $(this).val(ui.item.label);
+            },
+            select: function (event, ui) {
+                // prevent autocomplete from updating the textbox
+                event.preventDefault();
+                // manually update the textbox and hidden field
+
+
+                $("#lab_id").val(ui.item.value);
+                $(this).val('');
+
+                $('#tblEstudios > tbody:last').append('<tr class="added"> <td style="width:1px;max-width:1px;display:none;">' + ui.item.value + '<td> <button style="width:30px;margin-top:-10px;" onclick="DeleteEstudioMedico(this);" class="btn btn-default"><img style="width:20px;height:20px;" src="./Imagenes/iconos/trashcan.png" /></button>  </td><td>' + ui.item.label + '</td> </tr>');
+
+            }
+        });
+    });
+
+</script>
+
+<script>
+
+   function DeleteEstudioMedico(row) {
+       Swal.fire({
+           title: 'Desea eliminar el estudio de la lista?',
+           showDenyButton: true,
+           showCancelButton: false,
+           confirmButtonText: `Ok`,
+           denyButtonText: `Cancelar`,
+       }).then((result) => {
+
+           if (result.isConfirmed) {
+               $(row).closest('tr').remove();
+           }
+           else {
+               return;
+           }
+       })
+
+    }
+
+
+    function GuardarEnfDetalle() {
+
+        var folioid = $("#folioid").val();
+
+
+
+        var Detalle = [];
+        $('#tblEstudios tr').each(function (i) {
+            if ($(this).hasClass('added')) {
+
+
+                var lab_id = document.getElementById('tblEstudios').rows[i].cells[0].innerText;
+                var lab_lab = document.getElementById('tblEstudios').rows[i].cells[2].innerText;
+
+                var newEnfDetalle = {};
+                newEnfDetalle.IdServicio = lab_id;
+                newEnfDetalle.Descripcion = lab_lab;
+
+                Detalle.push(newEnfDetalle);
+
+                }
+            });
+
+        if (Detalle.length == 0) {
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Solicitud actualizada con éxito ',
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+
+            });
+
+            return;
+        }
+
+        $.ajax({
+            url: '@Url.Action("ActualizarSolicitudEnfermeria", "EnfermeriaSolicitud")',
+            data: { Folio: folioid , Detalle: JSON.stringify(Detalle) },
+            success: function (data) {
+                if (data == '1') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Solicitud actualizada con éxito !',
+                        showDenyButton: false,
+                        showCancelButton: false,
+                        confirmButtonText: `Ok`,
+                        denyButtonText: `Close`,
+                    }).then((result) => {
+
+                        Regresar();
+                    })
+
+                }
+                else {
+                    Swal.fire({
+                        title: 'Error:' + data,
+                        showDenyButton: false,
+                        showCancelButton: false,
+                        confirmButtonText: `Ok`,
+                        denyButtonText: `Close`,
+                    }).then((result) => {
+
+                    })
+                }
+            },
+            error: function (reponse) {
+                Swal.fire('error');
+                console.log(reponse);
+            }
+        });
+    }
+
+    function Regresar() {
+
+          location.href = '@Url.Action("IndexAgenda", "EnfermeriaSolicitud", new { expediente = Model.DHABIENTES.NUMEMP })';
+    }
+
+    $('#Realizado').click(function () {
+        if ($(this).is(':checked')) {
+
+            $('#Cancelado').prop("checked", false);
+            $('#NoPresento').prop("checked", false);
+        }
+    });
+
+    $('#Cancelado').click(function () {
+        if ($(this).is(':checked')) {
+
+            $('#Realizado').prop("checked", false);
+            $('#NoPresento').prop("checked", false);
+        }
+    });
+
+    $('#NoPresento').click(function () {
+        if ($(this).is(':checked')) {
+
+            $('#Realizado').prop("checked", false);
+            $('#Cancelado').prop("checked", false);
+        }
+    });
+
+
+    function Guardar() {
+
+        if ($('#fechaagenda').val() != '') {
+
+            var folioid = $("#folioid").val();
+            var fechaagenda = $('#fechaagenda').val();
+            var nota = $('#notaenfermeria').val();
+            var realizado = '0';
+            if ($('#Realizado').is(":checked") == true) {
+                realizado = '1';
+            }
+            var cancelado = '0';
+            if ($('#Cancelado').is(":checked") == true) {
+                cancelado = '1';
+            }
+            var nopresento = '0';
+            if ($('#NoPresento').is(":checked") == true) {
+                nopresento = '1';
+            }
+
+            $.ajax({
+                url: '@Url.Action("AgendarSolicitudEKG", "EnfermeriaSolicitud")',
+                data: { Folio: folioid, FechaAgenda: fechaagenda, Nota: nota, Realizado: realizado, Cancelado: cancelado, NoPresento: nopresento }, 
+                success: function (data) {
+                    if (data == '1') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Solicitud agendada con éxito !',
+                            showDenyButton: false,
+                            showCancelButton: false,
+                            confirmButtonText: `Ok`,
+                            denyButtonText: `Close`,
+                        }).then((result) => {
+
+                            Regresar();
+                        })
+
+                    }
+                    else {
+                        Swal.fire({
+                            title: 'Error:' + data,
+                            showDenyButton: false,
+                            showCancelButton: false,
+                            confirmButtonText: `Ok`,
+                            denyButtonText: `Close`,
+                        }).then((result) => {
+
+                        })
+                    }
+                },
+                error: function (reponse) {
+                    Swal.fire('error');
+                    console.log(reponse);
+                }
+            });
+
+        }
+
+        else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Favor de elegir una fecha para agendar la solicitud ',
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+
+            });
+        }
+
+    }
+
+</script>
+

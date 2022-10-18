@@ -1,0 +1,242 @@
+﻿@model IEnumerable<UanlSISM.Controllers.SemanasList>
+@{
+    ViewBag.Title = "ReporteSemanalGrafica";
+    int WeekNum = ViewBag.WeekNumber;
+}
+<style>
+
+    .success-button {
+        width: 130px;
+        background: rgba(0,74,143,0.8) !important;
+        font-weight: bold;
+        color: white !important;
+        border: 0 none;
+        border-radius: 0px;
+        cursor: pointer;
+        padding: 10px 5px;
+        margin: 10px 5px
+    }
+
+        .success-button:hover {
+            width: 130px;
+            background: rgba(0,74,143,0.8) !important;
+            font-weight: bold;
+            color: white !important;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+</style>
+
+<br />
+<h2 style="text-align:center">Reporte Semanal</h2>
+<h4 style="text-align:center">Capacitación y Desarrollo</h4>
+<br />
+
+<div class="col-lg-12">
+    <div class="row">
+        <div class="col-md-5">
+            <p>Fecha Inicio</p>
+            <select id="fechaInicioddl" style="max-width:100%;" class="form-control">
+
+                @foreach (var item in Model)
+                {
+
+                    if (item.SemanaId == WeekNum - 4)
+                    {
+                        <option selected value="@item.SemanaId">@item.Semana.ToString().Replace("{", "").Replace("}", "")</option>
+                    }
+                    else
+                    {
+                        <option value="@item.SemanaId">@item.Semana.ToString().Replace("{", "").Replace("}", "")</option>
+                    }
+
+                }
+
+            </select>
+        </div>
+        <div class="col-md-5">
+            <p>Fecha Fin</p>
+            <select id="fechaFinddl" style="max-width:100%;" class="form-control">
+
+                @foreach (var item in Model)
+                {
+
+                    if (item.SemanaId == WeekNum - 1)
+                    {
+                        <option selected value="@item.SemanaId">@item.Semana.ToString().Replace("{", "").Replace("}", "")</option>
+                    }
+                    else
+                    {
+                        <option value="@item.SemanaId">@item.Semana.ToString().Replace("{", "").Replace("}", "")</option>
+                    }
+
+                }
+
+            </select>
+        </div>
+        <div class="col-md-2">
+            <br /><br />
+            <button onclick="search()" style="background-color: rgba(0, 74, 143, 1);" class="btn btn-primary"><i class="fa fa-search"></i></button>
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+
+    <figure class="highcharts-figure">
+        <div id="container"></div>
+        <br />
+        <p class="highcharts-description">
+        </p>
+    </figure>
+    <br />
+
+    <a href="@Url.Action("ReporteSemanalIndex","CapacitacionDesarrollo")" class="btn success-button">Regresar</a>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+    <script>
+    var categories = [];
+    var series = [];
+
+
+        function load(fechainicio, fechafin) {
+
+
+
+            $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetReporteGrafica", "CapacitacionDesarrollo")',
+                data: { FechaInicio: fechainicio, FechaFin: fechafin},
+            dataType: 'json',
+            cache: false,
+                success: function (data) {
+                    $('#todos tbody tr').remove();
+                    data.forEach(function (item) {
+                        var newitem = {};
+                        newitem.name = item.name;
+                        newitem.data = item.data;
+
+                        series.push(newitem);
+                        categories = item.categories;
+                        console.log(series);
+                    });
+                    Charts();
+            },
+            error: function (xhr, status, error) {
+                alert("Error");
+            }
+        });
+
+
+    }
+
+    function Charts() {
+
+        Highcharts.chart('container', {
+
+            title: {
+                text: '<h4>Reporte de Actividades Enfermería</h4>'
+            },
+
+            subtitle: {
+                text: ''
+            },
+
+            yAxis: {
+                title: {
+                    text: 'Numero de Actividades'
+                }
+            },
+
+            xAxis: {
+                categories: categories
+            },
+
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+
+            plotOptions: {
+            },
+
+            series: series,
+
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 700
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+
+        });
+
+    }
+
+    $(document).ready(function () {
+        var fi = @WeekNum - 2;
+        var ff = @WeekNum - 1;
+        load(fi, ff);
+
+    });
+
+    function search() {
+
+
+        var fechainicio = $('#fechaInicioddl').val();
+        var fechafin = $('#fechaFinddl').val();
+
+        if (fechainicio == '' || fechafin == '') {
+            alert('favor ingresar fechas');
+            return;
+        }
+
+        categories = [];
+        series = [];
+
+            $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetReporteGrafica", "CapacitacionDesarrollo")',
+                data: { FechaInicio: fechainicio, FechaFin: fechafin },
+            dataType: 'json',
+            cache: false,
+                success: function (data) {
+                    $('#todos tbody tr').remove();
+                    data.forEach(function (item) {
+
+                        var newitem = {};
+                        newitem.name = item.name;
+                        newitem.data = item.data;
+
+                        series.push(newitem);
+                        categories = item.categories;
+
+                    });
+                    Charts();
+            },
+            error: function (xhr, status, error) {
+                alert("Error");
+            }
+        });
+
+    }
+
+    </script>
+

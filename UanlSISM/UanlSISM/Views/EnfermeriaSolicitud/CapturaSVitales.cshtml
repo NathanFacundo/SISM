@@ -1,0 +1,503 @@
+﻿@model UanlSISM.Models.DHABIENTES
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "CapturaSVitales";
+}
+
+<style>
+    #home-seccion {
+        margin-top: 20px;
+    }
+
+    .icons {
+        width: 8vw;
+    }
+
+    .item {
+        padding: 10px;
+    }
+
+    .item-card {
+        transition: 0.5s;
+        cursor: pointer;
+        padding: 20px;
+    }
+
+    .card-link {
+        background-color: #FBC43D;
+        border-color: #FBC43D;
+        color: white;
+        padding: 5px 20px;
+    }
+
+        .card-link:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+    .item-card-title {
+        font-size: 15px;
+        transition: 1s;
+        cursor: pointer;
+    }
+
+        .item-card-title i {
+            font-size: 15px;
+            transition: 1s;
+            cursor: pointer;
+            color: #ffa710
+        }
+
+    .card-title i:hover {
+        transform: scale(1.25) rotate(20deg);
+        color: #18d4ca;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        /*box-shadow: 5px 5px 5px rgba(0,0,0,0.3);*/
+    }
+
+    .card::before, .card::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: scale3d(0, 0, 1);
+        transition: transform .3s ease-out 0s;
+        background: rgba(255, 255, 255, 0.1);
+        content: '';
+        pointer-events: none;
+    }
+
+    .card::before {
+        transform-origin: left top;
+    }
+
+    .card::after {
+        transform-origin: right bottom;
+    }
+
+    .card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
+        transform: scale3d(1, 1, 1);
+    }
+
+    .foto-paciente {
+        width: 6vw;
+        height: 6vw;
+        border-radius: 6vw;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: rgba(0,74,143,0.8);
+        background-image: url('http://148.234.143.205/SISM/Imagenes/uanl.png');
+    }
+
+    .cuadro {
+        background-color: #fff;
+        border-radius: 1vw;
+    }
+
+    .action-button {
+        width: 130px;
+        background: #FBC43D;
+        font-weight: bold;
+        color: white;
+        border: 0 none;
+        border-radius: 0px;
+        cursor: pointer;
+        padding: 10px 5px;
+        margin: 10px 5px;
+    }
+
+    .success-button {
+        width: 130px;
+        background: rgba(0,74,143,0.8);
+        font-weight: bold;
+        color: white;
+        border: 0 none;
+        border-radius: 0px;
+        cursor: pointer;
+        padding: 10px 5px;
+        margin: 10px 5px
+    }
+</style>
+<style>
+    .myinput {
+        padding: 0px 8px 4px 8px;
+        border: none;
+        border-bottom: 2px solid lightgray;
+        border-radius: 0px;
+        margin-top: 2px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        color: black;
+        font-size: 16px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+        .myinput:focus {
+            -moz-box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+            border: none;
+            font-weight: bold;
+            border-bottom: 2px solid #FBC43D;
+            outline-width: 0
+        }
+</style>
+<style>
+
+    .dropdown-toggle {
+        width: 195px;
+        font-size: 15px !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        text-align: left;
+        z-index: 0;
+        border-top-left-radius: 20px;
+        border: 3px solid rgba(0,74,143,1);
+    }
+
+        .dropdown-toggle:hover {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+        .dropdown-toggle:focus {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+    .dropdown-menu {
+        float: inherit !important;
+        width: 100% !important;
+    }
+
+    .dropdown-item {
+        font-size: 15px !important;
+        padding: 3px 10px !important;
+        white-space: break-spaces !important;
+    }
+
+        .dropdown-item .material-icons {
+            font-size: 15px !important;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+        .dropdown-item:focus {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 15px !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        border-top-left-radius: 20px;
+        margin-left: -20px;
+        -webkit-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        -moz-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        border: 2.5px solid rgba(0,74,143,1);
+    }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link:hover {
+            font-size: 15px !important;
+            background-color: rgba(0, 88, 171,1) !important;
+            color: white !important;
+            border: 2.5px solid rgba(0, 88, 171,1);
+        }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            background-color: #FBC43D;
+            color: white !important;
+            border: 2.5px solid #FBC43D;
+        }
+
+            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active:hover {
+                background-color: #FBC43D !important;
+            }
+</style>
+
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("MenuEnfermeria", "EnfermeriaSolicitud")"><b>Menu Enfermería</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("SearchSignos", "EnfermeriaSolicitud")"><b>Signos Vitales</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("CapturaSVitales", "EnfermeriaSolicitud",new { expediente= Model.NUMEMP })"><b>Captura Signos Vitales</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12 text-center">
+    </div>
+</div>
+
+<div class="row cuadro animate__animated animate__fadeInLeft">
+    <div class="col-lg-12 p-3">
+        <div class="row m-0">
+            <div class="col-md-8 m-auto p-3">
+                <div class="row m-0">
+                    <div class="col-lg-2 col-4 p-2 text-center m-auto">
+                        <center><div class="foto-paciente"></div></center>
+                    </div>
+                    <div class="col-lg-10 col-8 p-2 m-auto">
+                        <h6>Expediente: <b>@Model.NUMEMP </b></h6>
+                        <h6>Nombre: <b>@Model.NOMBRES @Model.APATERNO @Model.AMATERNO</b> </h6>
+                        <h6>Registro Hospital Universitario: <b>@Model.REGHU</b> </h6>
+                        <div class="row m-0">
+                            <div class="col-md-3 p-0">
+                                <h6 class="mt-0">Edad: <input type="hidden" id="FNAC" name="FNAC" value="@Model.FNAC" /> <b id="edad"></b> años</h6>
+                            </div>
+                            <div class="col-md-3 p-0">
+                                <h6 class="mt-0">Sexo: <b>@Model.SEXO</b></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 p-3 doc-info">
+            </div>
+        </div>
+    </div>
+
+    <div id="tabs" class="col-12">
+        <div class="tab-content" id="custom-content-below-tabContent">
+
+            <div class="tab-pane fade show active" id="lab" role="tabpanel" aria-labelledby="lab-tab">
+                <hr style="width:80%"  />
+                <br />
+                <div class="col-md-12">
+
+                    <h1 style="text-align:center">Captura Signos Vitales</h1>
+                    <br />
+                    <br />
+
+                    <div class="row">
+                        <div class="col-md-3 p-1">
+                            <div class="form-group row m-0">
+                                <label for="peso" class="col-3 p-1 m-auto col-form-label"><b>Peso:</b></label>
+                                <div class="col-5 p-1 m-auto">
+                                    <input type="text" class="form-control" id="peso" maxlength="6" placeholder="">
+                                </div>
+                                <label for="peso" class="col-4 p-1 m-auto col-form-label">Kg</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3 p-1">
+                            <div class="form-group row m-0">
+                                <label for="talla" class="col-4 p-1 m-auto col-form-label"><b>Talla:</b></label>
+                                <div class="col-8 p-1 m-auto">
+                                    <input type="text" class="form-control" id="talla" maxlength="4" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 p-1">
+                            <div class="form-group row m-0">
+                                <label for="temp" class="col-4 p-1 m-auto col-form-label"><b>Temp:</b></label>
+                                <div class="col-5 p-1 m-auto">
+                                    <input type="text" class="form-control" id="temp" maxlength="5" placeholder="">
+                                </div>
+                                <label for="temp" class="col-3 p-1 m-auto col-form-label">°C</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3 p-1">
+                            <div class="form-group row m-0">
+                                <label for="fresp1" class="col-4 p-1 m-auto col-form-label"><b>F.Resp:</b></label>
+                                <div class="col-5 p-1 m-auto">
+                                    <input type="text" class="form-control" id="fresp1" maxlength="3" placeholder="">
+                                </div>
+                                <label for="fresp1" class="col-3 p-1 m-auto col-form-label">rpm</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 p-2">
+                            <div class="form-group row m-0">
+                                <label for="fcard1" class="col-4 p-1 m-auto col-form-label"><b>F.Card:</b></label>
+                                <div class="col-5 p-1 m-auto">
+                                    <input type="text" class="form-control" id="fcard1" maxlength="3" placeholder="">
+                                </div>
+                                <label for="fcard1" class="col-3 p-1 m-auto col-form-label">ppm</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 p-2">
+                            <div class="form-group row m-0">
+                                <label for="ta" class="col-1 p-0 m-auto col-form-label"><b>T.A:</b></label>
+                                <div class="col-3 p-0 m-auto">
+                                    <input type="text" class="form-control" id="t" maxlength="5" placeholder="">
+                                </div>
+                                <div class="col-0 p-0 m-auto">/</div>
+                                <div class="col-3 p-0 m-auto">
+                                    <input type="text" class="form-control" id="a" maxlength="5" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 p-2">
+                            <div class="form-group row m-0">
+                                <label for="destrostrix" class="col-1 p-0 m-auto col-form-label"><b>Destrostrix:</b></label>
+                                <div class="col-5 p-1 m-auto">
+                                    <input type="text" class="form-control" id="destrostrix" maxlength="3" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @*<div class="col-md-4 p-2">
+                            <div class="form-group row m-0">
+                                <label for="sp2" class="col-1 p-0 m-auto col-form-label"><b>Sp2:</b></label>
+                                <div class="col-5 p-1 m-auto">
+                                    <input type="text" class="form-control" id="sp2" maxlength="3" placeholder="">
+                                </div>
+                            </div>
+                        </div>*@
+
+                        <div class="col-md-3 p-2">
+                            <div class="form-group row m-0">
+                                <label for="sp2" class="col-1 p-0 mt-4 mr-2 col-form-label"><b>Sp2:</b></label>
+                                <div class="col-5 p-1 m-3">
+                                    <input type="text" class="form-control" id="sp2" maxlength="" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                        <br />
+                        <br />
+                        <br />
+                        <div class="row m-0">
+                            <div class="col-md-12 mx-0" style="text-align:center">
+                                <input type="button" onclick="Guardar()" style="" class="action-button" value="Guardar" />
+                                <input type="button" onclick="Regresar()" style="background-color:lightgray" class="action-button" value="Regresar" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" value="@Model.NUMEMP" id="numemp" name="numemp" />
+
+<script src="https://code.jquery.com/jque ry-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script>
+    $('#loadingDiv').hide();
+    var numemp = @Model.NUMEMP;
+    $('.foto-paciente').css("background-image", "url(http://148.234.143.204/smuanl_web/fotos_dhab/" + numemp + ".jpg)");
+</script>
+
+<script>
+    var split1 = $('#FNAC').val().split(" ");
+    //console.log(split1);
+    var split2 = split1[0].split("/");
+    var hoy = new Date().getFullYear();
+    var edad = hoy - split2[2];
+    $('#edad').html(edad);
+</script>
+
+<script>
+
+    function Guardar() {
+
+        if ($("#peso").val() == '' || $("#talla").val() == '' || $("#temp").val() == '' || $("#fresp1").val() == '' || $("#fcard1").val() == '' || $("#t") == '' || $("#a").val() == '' || $("#destrostrix").val() == '' || $("#sp2").val() == '') {
+
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Falta capturar signos vitales!',
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+
+            });
+
+            return;
+        }
+
+            $.ajax({
+            url: '@Url.Action("GuardarSV", "EnfermeriaSolicitud")',
+            dataType: "json",
+                data: { numemp: $("#numemp").val(), peso_r: $("#peso").val(), talla_r: $("#talla").val(), temp_r: $("#temp").val(), fresp: $("#fresp1").val(), fcard: $("#fcard1").val(), ta1: $("#t").val(), ta2: $("#a").val(), dstx: $("#destrostrix").val(), sp2: $("#sp2").val()},
+            success: function (data) {
+
+                if (data == '1') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Signos vitales capturados éxitosamente !',
+                        showDenyButton: false,
+                        showCancelButton: false,
+                        confirmButtonText: `Ok`,
+                        denyButtonText: `Close`,
+                    }).then((result) => {
+
+                        Regresar();
+                    })
+
+                }
+                else {
+                    Swal.fire({
+                        title: 'Error:' + data,
+                        showDenyButton: false,
+                        showCancelButton: false,
+                        confirmButtonText: `Ok`,
+                        denyButtonText: `Close`,
+                    }).then((result) => {
+
+                    })
+                }
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    title: 'Error:' + error,
+                    showDenyButton: false,
+                    showCancelButton: false,
+                    confirmButtonText: `Ok`,
+                    denyButtonText: `Close`,
+                }).then((result) => {
+
+                })
+            }
+        });
+
+    }
+
+
+</script>
+
+<script>
+
+    function Regresar() {
+
+            location.href = '@Url.Action("MenuEnfermeria", "EnfermeriaSolicitud", new { expediente = Model.NUMEMP })';
+    }
+
+</script>

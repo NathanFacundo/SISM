@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SMDEVModel26.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="EnfermeriaSolicitudDetalle">
+          <Key>
+            <PropertyRef Name="IdDetalle" />
+          </Key>
+          <Property Name="IdDetalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SolicitudId" Type="int" Nullable="false" />
+          <Property Name="IdServicio" Type="int" Nullable="false" />
+          <Property Name="FechaSol" Type="datetime" Nullable="false" />
+          <Property Name="FechaRealiza" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioRealiza" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SMDEV.dbo.ServicioEnfermeria' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="ServicioEnfermeria">
+          <Key>
+            <PropertyRef Name="IdServicio" />
+          </Key>
+          <Property Name="IdServicio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Clave" Type="nvarchar" MaxLength="20" />
+          <Property Name="Nombre" Type="nvarchar(max)" />
+          <Property Name="Instruccciones" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityContainer Name="SMDEVModel26StoreContainer">
+          <EntitySet Name="EnfermeriaSolicitudDetalle" EntityType="Self.EnfermeriaSolicitudDetalle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServicioEnfermeria" EntityType="Self.ServicioEnfermeria" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ServicioEnfermeria].[IdServicio] AS [IdServicio], 
+    [ServicioEnfermeria].[Clave] AS [Clave], 
+    [ServicioEnfermeria].[Nombre] AS [Nombre], 
+    [ServicioEnfermeria].[Instruccciones] AS [Instruccciones]
+    FROM [dbo].[ServicioEnfermeria] AS [ServicioEnfermeria]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SMDEVModel26" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="EnfermeriaSolicitudDetalle">
+          <Key>
+            <PropertyRef Name="IdDetalle" />
+          </Key>
+          <Property Name="IdDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SolicitudId" Type="Int32" Nullable="false" />
+          <Property Name="IdServicio" Type="Int32" Nullable="false" />
+          <Property Name="FechaSol" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaRealiza" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioRealiza" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ServicioEnfermeria">
+          <Key>
+            <PropertyRef Name="IdServicio" />
+          </Key>
+          <Property Name="IdServicio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Clave" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Instruccciones" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="SMDEVEnfermeriaSolicitudDetalle" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EnfermeriaSolicitudDetalle" EntityType="Self.EnfermeriaSolicitudDetalle" />
+          <EntitySet Name="ServicioEnfermeria" EntityType="Self.ServicioEnfermeria" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SMDEVModel26StoreContainer" CdmEntityContainer="SMDEVEnfermeriaSolicitudDetalle">
+          <EntitySetMapping Name="EnfermeriaSolicitudDetalle">
+            <EntityTypeMapping TypeName="SMDEVModel26.EnfermeriaSolicitudDetalle">
+              <MappingFragment StoreEntitySet="EnfermeriaSolicitudDetalle">
+                <ScalarProperty Name="IdDetalle" ColumnName="IdDetalle" />
+                <ScalarProperty Name="SolicitudId" ColumnName="SolicitudId" />
+                <ScalarProperty Name="IdServicio" ColumnName="IdServicio" />
+                <ScalarProperty Name="FechaSol" ColumnName="FechaSol" />
+                <ScalarProperty Name="FechaRealiza" ColumnName="FechaRealiza" />
+                <ScalarProperty Name="UsuarioRealiza" ColumnName="UsuarioRealiza" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServicioEnfermeria">
+            <EntityTypeMapping TypeName="SMDEVModel26.ServicioEnfermeria">
+              <MappingFragment StoreEntitySet="ServicioEnfermeria">
+                <ScalarProperty Name="IdServicio" ColumnName="IdServicio" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Instruccciones" ColumnName="Instruccciones" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

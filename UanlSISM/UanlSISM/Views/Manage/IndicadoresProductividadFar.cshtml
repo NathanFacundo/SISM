@@ -1,0 +1,999 @@
+﻿@{
+    ViewBag.Title = "Indicadores Productividad Farmacia";
+}
+
+<head>
+    <meta http-equiv="refresh" content="1800">
+</head>
+
+<style>
+    .fade {
+        opacity: 1;
+    }
+
+    .nav-tabs {
+        margin-top: 2vw !important;
+    }
+
+    .highcharts-credits {
+        display: none;
+    }
+
+    .totalcount {
+        position: absolute;
+        z-index: 999;
+        top: 0;
+        left: 0;
+        margin-left: 3vw;
+        margin-top: 1vw;
+    }
+
+    .highcharts-range-input {
+        margin-left: -20px;
+    }
+
+    .nav-tabs .nav-item {
+        width: 220px;
+        z-index: 99;
+    }
+
+    .dropdown-toggle {
+        width: 550px;
+        font-size: 0.8vw !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        text-align: left;
+        z-index: 0;
+        border-top-left-radius: 20px;
+        border: 3px solid rgba(0,74,143,1);
+    }
+
+        .dropdown-toggle:hover {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+        .dropdown-toggle:focus {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+    .dropdown-menu {
+        float: inherit !important;
+        width: 100% !important;
+    }
+
+    .dropdown-item {
+        font-size: 0.8vw !important;
+    }
+
+        .dropdown-item.active, .dropdown-item:active {
+            background-color: rgba(0,74,143,1);
+            color: #fff !important;
+        }
+
+        .dropdown-item .material-icons {
+            font-size: 0.8vw !important;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+        .dropdown-item:focus {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 0.8vw !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        border-top-left-radius: 20px;
+        margin-left: -20px;
+        -webkit-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        -moz-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+    }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link:hover {
+            font-size: 0.8vw !important;
+            background-color: rgba(0, 88, 171,1) !important;
+            color: white !important;
+        }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            background-color: #FBC43D;
+            color: white !important;
+            border: 1px solid #FBC43D;
+        }
+
+            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active:hover {
+                background-color: #FBC43D !important;
+            }
+</style>
+
+<style type="text/css" media="screen and (max-width: 991px)">
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 1.5vw !important;
+    }
+
+    .dropdown-toggle {
+        width: 350px;
+    }
+
+    .totalcount {
+        margin-top: -4.5vw;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 767px)">
+    .totalcount {
+        margin-top: -10vw;
+        font-size: 15px;
+    }
+
+    .highcharts-series-group {
+        display: none !important;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 3vw !important;
+    }
+
+    .nav-tabs .nav-item {
+        z-index: 9;
+    }
+
+    .dropdown-menu {
+        z-index: 99999 !important;
+    }
+
+    #recetas {
+        top: 30px !important;
+    }
+
+    .dropdown-toggle {
+        font-size: 3vw !important;
+    }
+
+    .dropdown-item {
+        font-size: 3vw !important;
+    }
+
+    .nav-tabs .nav-item {
+        z-index: 9;
+    }
+
+    .highcharts-axis-grid {
+        display: none;
+    }
+
+    .highcharts-plot-border {
+        display: none;
+    }
+
+    .highcharts-axis {
+        display: none;
+    }
+
+    .highcharts-axis-labels {
+        display: none;
+    }
+
+    .highcharts-navigator {
+        display: none;
+    }
+
+    .highcharts-navigator-xaxis {
+        display: none;
+    }
+
+    .highcharts-root {
+        margin-left: -15vw !important;
+    }
+
+    .highcharts-yaxis-grid {
+        display: none;
+    }
+</style>
+
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+<script src="https://code.highcharts.com/stock/modules/data.js"></script>
+<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/xrange.js"></script>
+
+
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Medico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Monitores", "Manage")"><b>Monitores</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Indicadores", "Manage")"><b>Historial Consultas y Farmacia</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<ul class="nav nav-tabs" id="custom-content-below-tab mt-4" role="tablist">
+    <div class="btn-group" style="margin-left: -20px; z-index: 9999;">
+        <button type="button" style="background-color:#FBC43D !important; border:3px solid #fbc43d !important;" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Farmacia
+        </button>
+        <div class="dropdown-menu dropdown-menu-right" id="recetas">
+            <a class="dropdown-item" type="button" id="custom-content-below-home-tab" data-toggle="pill" href="#custom-content-below-home" role="tab" aria-controls="custom-content-below-home" aria-selected="true"> Recetas de Hoy</a>
+            <a class="dropdown-item" type="button" id="custom-content-below-profile-tab" data-toggle="pill" href="#custom-content-below-profile" role="tab" aria-controls="custom-content-below-profile" aria-selected="false"> Historial de Recetas</a>
+            <a class="dropdown-item" type="button" id="custom-content-below-profile-tab" data-toggle="pill" href="#custom-content-below-profile" role="tab" aria-controls="custom-content-below-profile" aria-selected="false"> Productividad Farmacia</a>
+        </div>
+    </div>
+    @if (HttpContext.Current.User.IsInRole("Consultas"))
+    {
+        <div class="btn-group" style="margin-left: -20px; z-index: 9999;">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Consultas
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" type="button" id="custom-content-below-messages-tab" data-toggle="pill" href="#custom-content-below-messages" role="tab" aria-controls="custom-content-below-messages" aria-selected="false"><span class="material-icons">add</span> Hoy (Familiar - Pediatria - Especialistas)</a>
+                <a class="dropdown-item" type="button" id="custom-content-below-campaign-tab" data-toggle="pill" href="#custom-content-below-campaign" role="tab" aria-controls="custom-content-below-campaign" aria-selected="false"><span class="material-icons">add</span> Historial</a>
+                <a class="dropdown-item" type="button" id="custom-content-below-expediente-sm-tab" data-toggle="pill" href="#custom-content-below-expediente-sm" role="tab" aria-controls="custom-content-below-expediente-sm" aria-selected="false"><span class="material-icons">add</span> Servicios Médicos (Presencial  Telefónicas)</a>
+                <a class="dropdown-item" type="button" id="custom-content-below-expedientehu-tab" data-toggle="pill" href="#custom-content-below-expedientehu" role="tab" aria-controls="custom-content-below-expedientehu" aria-selected="false"><span class="material-icons">add</span> HU</a>
+                <a class="dropdown-item" type="button" id="custom-content-below-expediente-mederos-tab" data-toggle="pill" href="#custom-content-below-expediente-mederos" role="tab" aria-controls="custom-content-below-expediente-mederos" aria-selected="false"><span class="material-icons">add</span> Mederos (Presencial  Telefónicas)</a>
+            </div>
+        </div>
+    }
+</ul>
+<div class="tab-content" id="custom-content-below-tabContent">
+    <div class="tab-pane fade show active" id="custom-content-below-profile" role="tabpanel" aria-labelledby="custom-content-below-profile-tab">
+        <div class="row">
+            <div class="col-12 mt-5">
+                <div id="container" style="height: 500px; min-width: 100%"></div>
+                <!--button id="button" class="autocompare">Set extremes</!--button>Total of series 0: <span id="total" style="font-size:20px;font-weight:bold;color:blue;"></span-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".dropdown-item").click(function () {
+        $(".dropdown-item").removeClass('active');
+        //$(this).addClass('active');
+    });
+</script>
+
+
+<script>
+
+    $.getJSON('/json/pro_man.json', function (data1_hoy) {
+        $.getJSON('/json/pro_no.json', function (data2_hoy) {
+            $.getJSON('/json/pro_tar.json', function (data3_hoy) {
+                Highcharts.chart('container4', {
+                    chart: {
+                        renderTo: 'container',
+                        zoomType: 'xy'
+                    },
+                    title: {
+                        text: 'Average Monthly Weather Data for Tokyo'
+                    },
+                    subtitle: {
+                        text: 'Source: WorldClimate.com'
+                    },
+                    xAxis: [{
+                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    }],
+                    yAxis: [{ // Primary yAxis
+                        labels: {
+                            formatter: function () {
+                                return this.value + '°C';
+                            },
+                            style: {
+                                color: '#89A54E'
+                            }
+                        },
+                        title: {
+                            text: 'Temperature',
+                            style: {
+                                color: '#89A54E'
+                            }
+                        },
+                        opposite: true,
+                        showEmpty: false
+
+                    }, { // Secondary yAxis
+                        gridLineWidth: 0,
+                        title: {
+                            text: 'Rainfall',
+                            style: {
+                                color: '#4572A7'
+                            }
+                        },
+                        labels: {
+                            formatter: function () {
+                                return this.value + ' mm';
+                            },
+                            style: {
+                                color: '#4572A7'
+                            }
+                        },
+                        showEmpty: false
+
+                    }, { // Tertiary yAxis
+                        gridLineWidth: 0,
+                        title: {
+                            text: 'Sea-Level Pressure',
+                            style: {
+                                color: '#AA4643'
+                            }
+                        },
+                        labels: {
+                            formatter: function () {
+                                return this.value + ' mb';
+                            },
+                            style: {
+                                color: '#AA4643'
+                            }
+                        },
+                        opposite: true,
+                        showEmpty: false
+                    }],
+                    tooltip: {
+                        formatter: function () {
+                            var unit = {
+                                'Rainfall': 'mm',
+                                'Temperature': '°C',
+                                'Sea-Level Pressure': 'mb'
+                            }[this.series.name];
+
+                            return '' +
+                                this.x + ': ' + this.y + ' ' + unit;
+                        }
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'left',
+                        x: 120,
+                        verticalAlign: 'top',
+                        y: 80,
+                        floating: true,
+                        backgroundColor: '#FFFFFF'
+                    },
+                    series: [{
+                        name: 'Rainfall',
+                        color: '#4572A7',
+                        type: 'column',
+                        yAxis: 1,
+                        data: data1_hoy
+
+                    }, {
+                        name: 'Sea-Level Pressure',
+                        type: 'column',
+                        color: '#AA4643',
+                        yAxis: 2,
+                        data: data3_hoy,
+                        marker: {
+                            enabled: false
+                        },
+                        dashStyle: 'shortdot'
+
+                    }, {
+                        name: 'Temperature',
+                        color: '#89A54E',
+                        type: 'column',
+                        data: data2_hoy,
+                    }]
+                });
+
+            });
+        });
+    });
+
+
+    /*var change = {
+        0: 'Very Low',
+        5: 'Low',
+        10: 'Medium',
+        15: 'High',
+        20: 'Very High',
+        126: 'Damian'
+    };*/
+
+    $.getJSON('/json/pro_man.json', function (data1_hoy) {
+        $.getJSON('/json/pro_no.json', function (data2_hoy) {
+            $.getJSON('/json/pro_tar.json', function (data3_hoy) {
+                $('#container').highcharts({
+                    chart: {
+                        type: 'xrange'
+                    },
+                    rangeSelector: {
+                        enabled: true,
+                        inputEnabled: true,
+                        buttonPosition: {
+                            align: 'left'
+                        },
+                        labelStyle: {
+                            display: 'block'
+                        },
+                        buttons: [{
+                            type: 'day',
+                            count: 1,
+                            text: '1d'
+                        },
+                        {
+                            type: 'month',
+                            count: 1,
+                            text: '1m'
+                        },
+                        {
+                            type: 'month',
+                            count: 3,
+                            text: '3m'
+                        },
+                        {
+                            type: 'month',
+                            count: 6,
+                            text: '6m'
+                        },
+                        {
+                            type: 'year',
+                            count: 1,
+                            text: '1y'
+                        },
+                        {
+                            type: 'year',
+                            count: 2,
+                            text: '2y'
+                        },
+                        {
+                            type: 'year',
+                            count: 5,
+                            text: '5y'
+                        },
+                        {
+                            type: 'all',
+                            text: 'All'
+                        },
+                        ]
+                    },
+                    title: {
+                        text: 'Productividad Farmacia'
+                    },
+                    plotOptions: {
+                        series: {
+                            pointWidth: 20,
+                            groupPadding: 0,
+                            borderRadius: 0,
+                            events: {
+                                mouseOver: function () {
+                                    var cur = this;
+                                    Highcharts.each(this.chart.series, function (series) {
+                                        if (series !== cur) {
+                                            series.group.animate({
+                                                opacity: 0.2
+                                            }, {
+                                                    duration: 150
+                                                });
+                                        } else {
+                                            series.group.animate({
+                                                opacity: 1
+                                            }, {
+                                                    duration: 150
+                                                });
+                                        }
+                                    });
+                                },
+                                mouseOut: function () {
+                                    this.group.animate({
+                                        opacity: 1
+                                    }, {
+                                            duration: 150
+                                        });
+                                }
+                            }
+                        }
+                    },
+                    tooltip: {
+                        formatter: function () {
+                            return '<b>' + this.series.name + '</b><br/><b>Usuario: ' + this.point.userName + '</b><br/><b>Cantidad: ' + this.point.count + '</b><br/>' + Highcharts.dateFormat('%B %e %H:%M', this.point.x) +
+                                ' - ' + Highcharts.dateFormat('%B %e %H:%M', this.point.x2) + '<br/>';
+                        },
+
+                        /*formatter: function () {
+                            var individualfoodbanks = '<b> Día:' + Highcharts.dateFormat('%m \'%d', this.x) + '</b><br>',
+                                sumofallfoodbanks = 0;
+                            totaltotal = 0;
+
+                            $.each(this.points, function (i, point) {
+                                individualfoodbanks += '<span style="color:' + point.series.color + '">\u25CF</span> ' + point.series.name + ': <b>' + point.y + '</b> <br/>';
+                                totaltotal += point.y;
+                            });
+
+                            individualfoodbanks += '<br/>Total de recetas: ' + totaltotal //"echo" title for the sum of all foodbanks series, and the total sum for all current y points
+
+                            console.log(this);
+                            return individualfoodbanks;
+                        },*/
+                        /*crosshairs: false,
+                        shared: true,
+                        shadow: false,
+                        borderWidth: 1,*/
+                    },
+                    legend: {
+                        enabled: true,
+                        labelFormatter: function () {
+                            var total = 0;
+                            var totaltotalhoy = 0;
+                            for (var i = this.yData.length; i--;) {
+                                total += this.yData[i];
+                            };
+
+                            return this.name + ': ' + total;
+                            //return this.name + ' - Total: ';
+                        },
+                    },
+                    xAxis: {
+                        max: new Date().getTime(),
+                        //min: dateMonth,
+                        type: 'datetime',
+                        labels: {
+                            format: '{value:%Y-%m-%d}'
+                        },
+                        
+                    },
+                    yAxis: {
+                        title: '',
+                        categories: [],
+                        showEmpty: false,
+                        tickInterval: 1,
+                        /*labels: {
+                            formatter: function () {
+                                var value = change[this.value];
+                                return value !== 'undefined' ? value : this.value;
+                            }
+                        }*/
+                    },
+                    navigator: {
+                        enabled: true
+                    },
+                    scrollbar: {
+                        enabled: true
+                    },
+
+                    series: [{
+                        name: 'Recetas Normales',
+                        data: data1_hoy,
+                        color: '#004a8f',
+                        marker: {
+                            enabled: true
+                        },
+                    }, {
+                        name: 'Manuales',
+                        data: data3_hoy,
+                        color: '#009e0d',
+                        marker: {
+                                enabled: true
+                        },
+                    }, {
+                        name: "Tarjeton",
+                        data: data2_hoy,
+                        color: '#FBC43D',
+                        marker: {
+                            enabled: true
+                        },
+                    }
+
+                    ]
+                }, function (chart) {
+
+                    var date = new Date();
+                    var newDate = new Date().getTime();
+                    chart.xAxis[0].dataMax = newDate;
+                    chart.xAxis[0].setExtremes(date.setDate(date.getDate() - 1), newDate, true);
+                    // apply the date pickers
+                    setTimeout(function () {
+                        $('input.highcharts-range-selector', $(chart.container).parent())
+                            .datepicker();
+                    }, 0);
+
+                    if ($(window).width() < 767) {
+                        //alert('hola');
+                        width = $(window).width()
+                        height = $(window).height() / 3
+                        $("#container").highcharts().setSize(width, height, doAnimation = false);
+                        var date = new Date();
+                        var newDate = new Date().getTime();
+                        chart.xAxis[0].dataMax = newDate;
+                        chart.xAxis[0].setExtremes(date.setDate(date.getDate() - 1), newDate, true);
+                    }
+                });
+            });
+        });
+    });
+
+
+    $.getJSON('/json/pro_man.json', function (data1_hoy) {
+        $.getJSON('/json/pro_no.json', function (data2_hoy) {
+            $.getJSON('/json/pro_tar.json', function (data3_hoy) {
+                Highcharts.chart('container2', {
+                    title: {
+                        text: 'Productividad en Farmacia'
+                    },
+                    subtitle: {
+                        text: 'Servicios Médicos - UANL'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.y}</b>'
+                    },
+                    xAxis: {
+                        categories: true
+                    },
+                    yAxis: {
+                        //max: 100,
+                        labels: {
+                            format: '{value}'
+                        }
+                    },
+                    series: [
+                        {
+                            type: 'column',
+                            name: 'Manuales',
+                            keys: ['name', 'y', 'dataLabels.style.visibility'],
+                            // Hide data labels by default, show them per point
+                            dataLabels: {
+                                enabled: true,
+                                //color: '#004a8f',
+                                style: {
+                                    visibility: 'hidden',
+                                    fontSize: '10px'
+                                }
+                            },
+                            data: data1_hoy,
+                            marker: {
+                                enabled: true
+                            },
+                            color: '#004a8f'
+                        },
+                        {
+                            type: 'column',
+                            name: 'Tarjeton',
+                            keys: ['name', 'y', 'dataLabels.style.visibility'],
+                            // Hide data labels by default, show them per point
+                            dataLabels: {
+                                enabled: true,
+                                //color: '#009e0d',
+                                style: {
+                                    visibility: 'hidden',
+                                    fontSize: '10px'
+                                }
+                            },
+                            data: data3_hoy,
+                            marker: {
+                                enabled: true
+                            },
+                            color: '#009e0d'
+                        },
+                        {
+                            type: 'column',
+                            name: 'Recetas Normales',
+                            keys: ['name', 'y', 'dataLabels.style.visibility'],
+                            // Hide data labels by default, show them per point
+                            dataLabels: {
+                                enabled: true,
+                                //color: '#FBC43D',
+                                style: {
+                                    visibility: 'hidden',
+                                    fontSize: '14px'
+                                }
+                            },
+                            data: data2_hoy,
+                            marker: {
+                                enabled: true
+                            },
+                            color: '#FBC43D'
+                        }
+                    ]
+                });
+            });
+        });
+    });
+
+
+    $.getJSON('/json/pro_man.json', function (data1_hoy) {
+        $.getJSON('/json/pro_no.json', function (data2_hoy) {
+            $.getJSON('/json/pro_tar.json', function (data3_hoy) {
+                $('#container5').highcharts({
+                    chart: {
+                        type: 'line',
+                        zoomType: 'x',
+                        resetZoomButton: {
+                            position: {
+                                // align: 'right', // by default
+                                // verticalAlign: 'top', // by default
+                                x: 0,
+                                y: 0
+                            }
+                        },
+                        /*events: {
+                            load: function () {
+                                $('#total').text(arraySum(this.series[0].points));
+                            }
+                        }*/
+                    },
+                    navigator: {
+                        enabled: true,
+                    },
+                    rangeSelector: {
+                        //allButtonsEnabled: true,
+                        //selected: 0,
+                        enabled: true,
+                        inputEnabled: false,
+                        buttonPosition: {
+                            align: 'left'
+                        },
+                        labelStyle: {
+                            display: 'block'
+                        },
+                        buttons: [{
+                            type: 'month',
+                            count: 1,
+                            text: '1m'
+                        },
+                        /*{
+                            type: 'month',
+                            count: 3,
+                            text: '3m'
+                        },
+                        {
+                            type: 'month',
+                            count: 6,
+                            text: '6m'
+                        },
+                        {
+                            type: 'year',
+                            count: 1,
+                            text: '1y'
+                        },
+                        {
+                            type: 'year',
+                            count: 2,
+                            text: '2y'
+                        },
+                        {
+                            type: 'year',
+                            count: 5,
+                            text: '5y'
+                        },*/
+                        {
+                            type: 'all',
+                            text: 'All'
+                        },
+                            /*{
+                                type: 'second',
+                                count: 1,
+                                text: 'Latest',
+                                events: {
+                                    click: () => {
+
+                                        alert('in real app I scroll to latest results');
+
+                                        return false;
+
+                                    }
+                                }
+                            }*/
+                        ]
+                    },
+                    title: {
+                        text: 'Recetas',
+                    },
+                    subtitle: {
+                        text: document.ontouchstart === undefined ?
+                            'Servicios Médicos - UANL' :
+                            'Servicios Médicos - UANL'
+                    },
+                    xAxis: {
+                        /*type: 'datetime',
+                        labels: {
+                            format: '{value:%H::%m}'
+                        },
+                        events: {
+                            afterSetExtremes: function (min, max) {
+                                var serie_manuales = this.chart.series[0],
+                                    serie_recetas = this.chart.series[2],
+                                    serie_tarjeton = this.chart.series[1],
+                                    min = this.getExtremes().min,
+                                    max = this.getExtremes().max,
+                                    sum_manuales = 0;
+                                sum_recetas = 0;
+                                sum_tarjeton = 0;
+
+                                $.each(serie_manuales.data, function (i, m) {
+                                    if (m.x >= min && m.x <= max) {
+                                        sum_manuales += m.y;
+                                    }
+                                });
+
+                                $.each(serie_recetas.data, function (i, r) {
+                                    if (r.x >= min && r.x <= max) {
+                                        sum_recetas += r.y;
+                                    }
+                                });
+
+                                $.each(serie_tarjeton.data, function (i, t) {
+                                    if (t.x >= min && t.x <= max) {
+                                        sum_tarjeton += t.y;
+                                    }
+                                });
+
+                                var sum_total = sum_manuales + sum_recetas + sum_tarjeton;
+
+                                $("#container5 .highcharts-series-0 tspan").html("Manuales: " + sum_manuales);
+                                $("#container5 .highcharts-series-1 tspan").html("Tarjeton: " + sum_tarjeton);
+                                $("#container5 .highcharts-series-2 tspan").html("Recetas Normales: " + sum_recetas);
+                                $("#container5 h4").remove();
+                                $("#container5").append("<h4 class='totalcount'>Recetas Totales: <b>" + sum_total + "</b></h4>");
+                            }
+                        }
+                        */
+                    },
+                    tooltip: {
+                        /*positioner: function () {
+                            return {
+                                x: 80,
+                                y: 100
+                            };
+                        },*/
+                        formatter: function () {
+                            var individualfoodbanks = '<b> Hora:' + Highcharts.dateFormat('%H', this.x) + ':00:00</b><br>',
+                                sumofallfoodbanks = 0;
+                            totaltotal = 0;
+
+                            $.each(this.points, function (i, point) {
+                                individualfoodbanks += '<span style="color:' + point.series.color + '">\u25CF</span> ' + point.series.name + ': <b>' + point.y + '</b> <br/>';
+                                totaltotal += point.y;
+                            });
+
+                            individualfoodbanks += '<br/>Total de recetas: ' + totaltotal //"echo" title for the sum of all foodbanks series, and the total sum for all current y points
+
+                            console.log(this);
+                            return individualfoodbanks;
+                        }, //"echo" the value for each series current y-value, but the data appendix for the all foodbank sum only...?
+                        crosshairs: false,
+                        shared: true,
+                        shadow: false,
+                        borderWidth: 1,
+                    },
+                    legend: {
+                        enabled: true,
+                        labelFormatter: function () {
+                            var total = 0;
+                            var totaltotalhoy = 0;
+                            for (var i = this.yData.length; i--;) {
+                                total += this.yData[i];
+                            };
+
+                            return this.name + ': ' + total;
+                            //return this.name + ' - Total: ';
+                        },
+                    },
+                    plotOptions: {
+                        lineWidth: '40',
+                        series: {
+                            marker: {
+                                states: {
+                                    hover: {
+                                        enabled: true
+                                    }
+                                }
+                            }
+                        },
+                        /*line: {
+                            stacking: 'overlap',
+                            //lineColor: '#666666',
+                            lineWidth: 2,
+                            marker: {
+                                lineWidth: 2,
+                                //lineColor: '#666666'
+                            }
+                        }*/
+                    },
+                    series: [
+                        {
+                            type: 'column',
+                            name: 'Manuales',
+                            data: data1_hoy,
+                            marker: {
+                                enabled: true
+                            },
+                            color: '#004a8f'
+                        }, {
+                            type: 'column',
+                            name: 'Tarjeton',
+                            data: data3_hoy,
+                            marker: {
+                                enabled: true
+                            },
+                            color: '#009e0d'
+                        }, {
+                            type: 'column',
+                            name: 'Recetas Normales',
+                            data: data2_hoy,
+                            marker: {
+                                enabled: true
+                            },
+                            color: '#FBC43D'
+                        }
+                    ]
+                });
+
+                if ($(window).width() < 767) {
+                    //alert('hola');
+                    width = $(window).width()
+                    height = $(window).height() / 3
+                    $("#container5").highcharts().setSize(width, height, doAnimation = false);
+                }
+            });
+        });
+    });
+
+
+    // Set the datepicker's date format
+    $.datepicker.setDefaults({
+        dateFormat: 'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true,
+        onSelect: function () {
+            this.onchange();
+            this.onblur();
+        }
+    });
+
+    /*$(window).resize(function () {
+        height = $(window).height() / 3
+        width = $(window).width()
+        $("#container").highcharts().setSize(width, height, doAnimation = false);
+    });*/
+</script>
+
+<script type="text/javascript">
+    $.ajax({
+        type: 'GET',
+        url: '@Url.Action("IndicadoresCount", "Manage")',
+        dataType: 'json',
+        cache: false,
+        success: function (data) {
+            //$("#container").append("<h4 class='totalcount'>Recetas Totales: <b>" + data.total_recetas + "</b></h4>");
+
+            $("#container2").append("<h4 class='totalcount'>Recetas Totales: <b>" + data.total_recetas_hoy + "</b></h4>");
+
+            //$("#container3").append("<h4 class='totalcount'>Consultas Totales: <b>" + data.total_consultas + "</b></h4>");
+
+            $("#container4").append("<h4 class='totalcount'>Consultas Totales Hoy: <b>" + data.total_consultas_hoy + "</b></h4>");
+
+            //$("#container5").append("<h4 class='totalcount'>Consultas Totales HU: <b>" + data.total_expediente_hu + "</b></h4>");
+
+            //$("#container6").append("<h4 class='totalcount'>Consultas Totales Mederos: <b>" + data.total_expediente_mederos + "</b></h4>");
+
+            //$("#container7").append("<h4 class='totalcount'>Consultas Totales Servicios Médicos: <b>" + data.total_expediente_sm + "</b></h4>");
+
+        }
+    });
+
+</script>

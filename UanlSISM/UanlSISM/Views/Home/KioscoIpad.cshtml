@@ -1,0 +1,313 @@
+﻿@{
+    ViewBag.Title = "Derecho Habientes";
+}
+
+<!--h2>verDhabiente</h2-->
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+
+<style>
+    .uanl-logo {
+        width: 10vw;
+        margin-top: 0vw;
+        margin-bottom: 1vw;
+    }
+
+    @@font-face {
+        font-family: 'Effra-Regular';
+        src: url('~/fonts/Effra-Regular.eot');
+        src: url('~/fonts/Effra-Regular.eot?#iefix') format('embedded-opentype'), url('~/fonts/Effra-Regular.ttf') format('truetype');
+    }
+
+    @@font-face {
+        font-family: 'Effra-Bold';
+        src: url('~/fonts/Effra-Bold.eot');
+        src: url('~/fonts/Effra-Bold.eot?#iefix') format('embedded-opentype'), url('~/fonts/Effra-Bold.ttf') format('truetype');
+    }
+
+
+    .somos-uni {
+        width: 5vw;
+        margin-top: 1vw;
+        margin-bottom: 3vw;
+    }
+
+    .linea-arriba {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 2.5vw;
+        margin-top: 0.7vw;
+        margin-right: 1.5vw;
+    }
+
+    .linea-abajo {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 2.5vw;
+        margin-bottom: 0.7vw;
+        margin-left: 1.5vw;
+    }
+
+    body {
+        border: 0.7vw solid #0c5072;
+        height: 100vh;
+        padding: 0 !important;
+    }
+
+    .inputBarcode {
+        padding-top: 1vw !important;
+        margin-left: 8.333%;
+    }
+
+        .inputBarcode input {
+            width: 100%;
+            max-width: 45vw;
+            border-radius: 3vw !important;
+            border: 0.15vw solid #808080;
+            font-size: 1.7vw;
+            padding: 10px 20px;
+            height: 3.5vw;
+            text-align: center;
+        }
+
+        .inputBarcode h1 {
+            font-size: 2.5vw;
+            font-family: 'Effra-Bold';
+            font-weight: bolder;
+            margin-bottom: 4vw;
+        }
+
+        .inputBarcode h3 {
+            font-size: 1.8vw;
+            font-family: 'Effra-Bold';
+        }
+
+    #exampleModal h2 {
+        font-size: 2.6vw !important;
+        font-family: 'Effra-Bold';
+        color: #fec300;
+        font-weight: bolder;
+    }
+
+    #exampleModal h4 {
+        font-size: 2vw !important;
+        font-family: 'Effra-Bold';
+        font-weight: bolder;
+        color: #383838;
+        margin-top: 2vw;
+    }
+
+    #mostarPaciente {
+        font-size: 1.6vw !important;
+        font-family: 'Roboto', sans-serif;
+    }
+
+        #mostarPaciente label {
+            font-size: 0.9vw;
+        }
+
+        #mostarPaciente .actualizar {
+            width: 100%;
+            background-color: #FBC43D;
+            border-color: #FBC43D;
+            color: white;
+            padding: 5px 20px;
+        }
+
+    #exampleModal .search {
+        font-size: 1.1vw;
+        font-family: 'Effra-Regular';
+        color: #383838;
+        border: 0.2vw solid #383838;
+        padding: 10px 30px;
+        text-align: center;
+        border-radius: 3vw !important;
+    }
+
+    #exampleModal .modal-content {
+        height: 100% !important;
+        margin-top: 7vw !important;
+        overflow: hidden;
+    }
+
+    #exampleModal .modal-dialog {
+        width: 50vw !important;
+        max-width: 50vw !important;
+        height: auto !important;
+    }
+
+    .btn-buscar {
+        font-size: 1.2vw;
+        border-radius: 4vw;
+        padding: 5px 30px;
+        background-color: #0c5072;
+        color: white;
+        margin-top: 1vw;
+        font-family: 'Roboto', sans-serif;
+    }
+
+        .btn-buscar:hover {
+            color: white;
+        }
+
+    .form-control {
+        max-width: 100%;
+    }
+</style>
+
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+
+
+<img class="linea-abajo" src="~/Imagenes/lineas-uanl-izquierda.png">
+<img class="linea-arriba" src="~/Imagenes/lineas-uanl-derecha.png">
+
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Medico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("verDhabientes", "Manage")"><b>Actualizar Información</b></a></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="col-md-10 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode">
+        <img src="~/Imagenes/uanl-logo.png" class="uanl-logo" />
+        <h1 style="font-family: 'Roboto', sans-serif;"></h1>
+        <h3 style="font-family: 'Roboto', sans-serif;">Buscar por expediente</h3>
+        <center><input class="form-control" id="searchInput" /></center>
+        <center><button class="btn btn-buscar">Buscar</button></center>
+
+    </div>
+
+    <div class="col-md-10 text-center m-auto p-3">
+        <img src="~/Imagenes/somos-uni.png" class="somos-uni" />
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <h4 style="font-family: 'Roboto', sans-serif;">Editar Información</h4>
+                <span id="mostarPaciente" class="text-left">
+                    @using (Html.BeginForm("editDhabientes", "Manage", FormMethod.Post))
+                    {
+                        <div class="form-group row m-0">
+                            <div class="col-md-4 p-2">
+                                <label>Nombre:</label>
+                                <input class="form-control" type="hidden" id="mostarNumEmp" value="" name="NUMEMP" />
+                                <input class="form-control" id="mostarNombre" value="" name="NOMBRES" />
+                            </div>
+                            <div class="col-md-4 p-2">
+                                <label>A. Paterno:</label>
+                                <input class="form-control" id="mostarAparterno" value="" name="APATERNO" />
+                            </div>
+                            <div class="col-md-4 p-2">
+                                <label>A. Materno:</label>
+                                <input class="form-control" id="mostarAmaterno" value="" name="AMATERNO" />
+                            </div>
+                        </div>
+                        <div class="form-group row m-0">
+                            <div class="col-md-6 p-2">
+                                <label>Teléfono:</label>
+                                <input class="form-control" id="mostarTel" value="" name="TELEFONOS" />
+                            </div>
+                            <div class="col-md-6 p-2">
+                                <label>Teléfono Celular:</label>
+                                <input class="form-control" id="mostarTelCel" value="" name="tel_celular" />
+                            </div>
+                        </div>
+                        <div class="form-group row m-0">
+                            <div class="col-md-12 p-2">
+                                <label>Email:</label>
+                                <input class="form-control" id="mostarEmail" value="" name="email" />
+                            </div>
+                        </div>
+                        <div class="form-group row m-0">
+                            <div class="col-md-12 p-2">
+                                <label>Domicilio:</label>
+                                <input class="form-control" id="mostarDomicilio" value="" name="DOMICILIO" />
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <button type="submit" class="btn btn-primary actualizar">Actualizar</button>
+                        </div>
+                    }
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--script>
+    $(".btn-buscar").click(function () {
+            $('#exampleModal').modal('show');
+            var std = {};
+            std.studentName = $("#StudentName").val();
+            std.studentAddress = $("#StudentAddress").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("verDhabientesInfo", "Manage")',
+                data: '{std: ' + JSON.stringify(std) + '}',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function () {
+                   // alert("Data has been added successfully.");
+                    LoadData();
+                },
+                error: function () {
+                    alert("Error al actualizar información");
+                }
+            });
+            return false;
+    });
+
+
+</script-->
+
+<script>
+    $(".btn-buscar").click(function (request, response) {
+            $('#exampleModal').modal('show');
+            $.ajax({
+                url: '@Url.Action("getDataReceta", "Manage")',
+                dataType: "json",
+                data: { search: $("#searchInput").val() },
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        //return { label: item.Expediente, value: item.Expediente };
+                        //$('#mostarPaciente').fadeIn();
+                        //console.log(data.fecha_nacimiento);
+                        $('#mostarNumEmp').val(data.numemp);
+                        $('#mostarNombre').val(data.nombres);
+                        $('#mostarAparterno').val(data.apaterno);
+                        $('#mostarAmaterno').val(data.amaterno);
+                        //$('#mostarEmail').val(data.email);
+                        /*var split1 = data.fecha_nacimiento.split(" ");
+                        var split2 = split1[0].split("/");
+                        var hoy = new Date().getFullYear();
+                        var edad = hoy - split2[2];
+                        $('#mostarFecha').val(edad);*/
+                        //$('#exampleModal').modal('show');
+                        /*setTimeout(function () {
+                            window.location.href = "/";
+                        }, 6000);*/
+                    }));
+                },
+                error: function (xhr, status, error) {
+                    alert("Error");
+                }
+            });
+    });
+</script>
+
+

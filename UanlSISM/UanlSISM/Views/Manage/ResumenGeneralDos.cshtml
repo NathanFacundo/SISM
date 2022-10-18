@@ -1,0 +1,671 @@
+﻿
+@model IEnumerable<UanlSISM.Models.encuesta_covid_segunda>
+@{
+    ViewBag.Title = "Impresión Filtro | Información General";
+}
+
+
+<style>
+    .res-preguntas {
+        display: none;
+    }
+
+    #example {
+        width: 100% !important;
+    }
+
+    #example_filter {
+        margin-top: 10px;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter input {
+        width: 100% !important;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter {
+        text-align: left !important;
+    }
+
+    .dataTables_length {
+        margin-top: -40px;
+        margin-left: auto;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+
+        .dataTables_length select {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+    .dataTables_info {
+        margin-top: 20px;
+        margin-left: auto;
+        flex: 0 0 50%;
+        max-width: 50%;
+        padding: 0px !important;
+    }
+
+    td:last-child {
+        text-align: center;
+    }
+
+    table.dataTable tr.child ul li {
+        white-space: normal !important;
+    }
+
+    .dt-buttons {
+        width: 70%;
+    }
+
+        .dt-buttons .btn {
+            background-color: rgba(0,74,143,0.8);
+            color: white !important;
+        }
+
+    .btn-group {
+        width: 100%;
+    }
+
+    .btn-mas {
+        background-color: rgba(0,74,143,0.8);
+        color: white;
+        margin-bottom: 5px;
+    }
+
+    .imprimir {
+        background-color: #FBC43D;
+        color: white;
+    }
+
+        .imprimir:hover {
+            color: white;
+        }
+
+    .btn-preguntas {
+        background-color: #FBC43D;
+        color: white;
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin-left: 20px;
+        z-index: 9999;
+    }
+
+    .dropdown-menu {
+        background-color: rgb(124, 181, 236);
+        color: white;
+    }
+
+        .dropdown-menu a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+    .highcharts-credits {
+        display: none;
+    }
+
+    .form-inline label {
+        justify-content: left !important;
+    }
+
+    .pagination .active a {
+        color: white !important;
+    }
+
+    #example table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    #example td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    #example tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+
+    .dataTables_info {
+        margin-left: 0px;
+    }
+
+    .selected {
+        background-color: #f3bd27 !important;
+        color: white !important;
+    }
+
+    a {
+        text-transform: initial !important;
+    }
+
+    .modal-dialog {
+        width: 90%;
+        max-width: 90%;
+        margin-left: 5%;
+    }
+
+    .printing {
+        width: 100%;
+        color: white;
+        background-color: #FBC43D;
+    }
+
+    a {
+        display: inherit !important;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 991px)">
+    .dataTables_length {
+        margin-top: 20px;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    #example_filter {
+        text-align: center;
+    }
+
+    .btn-preguntas {
+        display: none;
+    }
+
+    .res-preguntas {
+        display: block;
+    }
+
+        .res-preguntas .btn-preguntas {
+            display: block;
+            position: relative;
+            margin: 0;
+            margin-bottom: 20px;
+        }
+
+    .btn-mas {
+        padding: 5px;
+    }
+</style>
+
+<!--link rel='stylesheet' href='https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css'-->
+<link rel='stylesheet' href='~/Content/dataTable.bootstrap.min.css'>
+<!--link rel='stylesheet' href='https://cdn.datatables.net/buttons/1.2.2/css/buttons.bootstrap.min.css'-->
+<link rel='stylesheet' href='~/Content/buttons.bootstrap.min.css'>
+<!--link rel='stylesheet' href='https://cdn.datatables.net/responsive/1.0.4/css/dataTables.responsive.css'-->
+<link rel='stylesheet' href='~/Content/dataTables.responsive.css'>
+
+<!--link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'-->
+<link rel='stylesheet' href='~/Content/materialicons.css'>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12" id="menu">
+            <table>
+                <tr>
+                    <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                    <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                    <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                    <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                    <td><a href="@Url.Action("Reportes", "Manage")"><b>Reportes</b></a></td>
+                    <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                    <td><a href="@Url.Action("EncuestaCovidSegunda", "Manage")"><b>Impresión Filtro</b></a></td>
+                    <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                    <td><a href="@Url.Action("ResumenGeneralDos", "Manage")"><b>Información General</b></a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 p-3 mb-5 pb-5">
+            <table id="example">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Edad</th>
+                        <th>Expediente</th>
+                        <th>Imprimir</th>
+                        <th>¿El paciente tiene fiebre?</th>
+                        <th>Tos seca o con expectoración</th>
+                        <th>Anosmia</th>
+                        <th>Diarrea</th>
+                        <th>Mialgias y Atralgias</th>
+                        <th>HTA / Enfermedad Cardivascular</th>
+                        <th>Diabetes Mellitus 1/2</th>
+                        <th>Tabaquismo igual o mayor a 10 paquetes al año</th>
+                        <th>Enfermedad Inmunológica</th>
+                        <th>Enfermedad Reumatológica</th>
+                        <th>Enfermedad Neoplasica Organo Solido o Hermatológico</th>
+                        <th>I.R.C.</th>
+                        <th>Edad mayor a 70 años</th>
+                        <th>FR igual o mayor a 25 rpm</th>
+                        <th>Disnea de reposo</th>
+                        <th>Saturacion de oxigeno igual o menor a 90%</th>
+                        <th>Hipotensión</th>
+                        <th>Alteración del estado de conciencia (estuporoso, en coma)</th>
+                        <th>Alteraciones pulmonares a la ascultación (crepitantes, SD de consoliación, SD de derrame, sibilantes, roncantes)</th>
+                        <th>Antecedentes Médicos</th>
+                        <th>Notas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="content-print">
+                            <td>@item.nombre</td>
+                            <td>@item.edad</td>
+                            <td>@item.expediente</td>
+                            <td><button class="btn imprimir btn-imprimir-@item.id" data-toggle="modal" data-target="exampleModal-@item.id">Imprimir</button></td>
+                            @if (item.fiebre == 1)
+                            {
+                                <td>Si</td>}
+                            else
+                            {
+                                <td>No</td>}
+                            @if (item.tos == 1)
+                            {
+                                <td>Si</td>}
+                            else
+                            {
+                                <td>No</td>}
+                            @if (item.anosmia == 1)
+                            {
+                                <td>Si</td>}
+                            else
+                            {
+                                <td>No</td>}
+                            @if (item.diarrea == 1)
+                            {
+                                <td>Si</td>}
+                            else
+                            {
+                                <td>No</td>}
+                            @if (item.mialgias_atralgias == 1)
+                            {
+                                <td>Si</td>}
+                            else
+                            {
+                                <td>No</td>}
+                            @if (item.hta_cardivascular == 1)
+                            {
+                                <td>Si</td>}
+                            else
+                            {
+                                <td>No</td>}
+
+                            @if (item.diabetes_mellitus == 1)
+                            {
+                                <td>Si</td>}
+                            else
+                            {
+                                <td>No</td>}
+                            @if (item.tabaquismo == 1)
+                            {
+                                <td>Si</td>}
+                            else
+                            {
+                                <td>No</td>}
+                            @if (item.enf_inmunologica == 1)
+                            {
+                                <td>Si</td>}
+                            else
+                            {
+                                <td>No</td>}
+                            @if (item.enf_reumatologia == 1)
+                            {
+                                <td>Si</td>}
+                            else
+                            {
+                                <td>No</td>}
+                            @if (item.enf_neoplasica == 1)
+                            {
+                                <td>Si</td>}
+                            else
+                            {
+                                <td>No</td>}
+                            @if (item.irc == 1)
+                            {
+                                <td>Si</td>}
+                            else
+                            {
+                                <td>No</td>}
+                            @if (item.edad_mayo == 1)
+                            {
+                                <td>Si</td>}
+                            else
+                            {
+                                <td>No</td>}
+                            @if (item.fr == 1)
+                            {
+                                <td>Si</td>}
+                            else
+                            {
+                                <td>No</td>}
+                            @if (item.disnea == 1)
+                            {
+                                <td>Si</td>}
+                            else
+                            {
+                                <td>No</td>}
+                            @if (item.saturacion_oxigeno == 1)
+                            {
+                                <td>Si</td>}
+                            else
+                            {
+                                <td>No</td>}
+                            @if (item.hipotension == 1)
+                            {
+                                <td>Si</td>}
+                            else
+                            {
+                                <td>No</td>}
+                            @if (item.alteracion_estado == 1)
+                            {
+                                <td>Si</td>}
+                            else
+                            {
+                                <td>No</td>}
+                            @if (item.alteracion_pulmonares == 1)
+                            {
+                                <td>Si</td>}
+                            else
+                            {
+                                <td>No</td>}
+                            <td>@item.antecedentes_medicos</td>
+                            <td>@item.notas</td>
+                        </tr>
+
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--script src="https://code.jquery.com/jquery-3.5.1.js"></script-->
+<script src="~/Scripts/jquery-3.5.1.js"></script>
+<!--script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script-->
+<script src="~/Scripts/jquery.dataTables.min.js"></script>
+<!--script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script-->
+<script src="~/Scripts/dataTables.buttons.min.js"></script>
+<!--script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script-->
+<script src="~/Scripts/buttons.print.min.js"></script>
+<!--script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script-->
+<script src="~/Scripts/dataTables.select.min.js"></script>
+
+<!--script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js'></script-->
+<script src='~/Scripts/buttons.colVis.min.js'></script>
+
+<!--script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js'></script-->
+<script src='~/Scripts/buttons.html5.min.js'></script>
+
+<!--script src='https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js'></script-->
+<script src='~/Scripts/dataTables.bootstrap.min.js'></script>
+
+<!---script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js'></script-->
+<script src='~/Scripts/buttons.bootstrap.min.js'></script>
+
+<!--script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js'></script-->
+<script src='~/Scripts/jszip.min.js'></script>
+
+<!--script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.18/pdfmake.min.js'></script-->
+<script src='~/Scripts/pdfmake.min.js'></script>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.18/vfs_fonts.js'></script>
+<script src='~/Scripts/vfs_fonts.js'></script>
+
+<!--script src='https://cdn.datatables.net/responsive/1.0.4/js/dataTables.responsive.js'></script-->
+<script src='~/Scripts/dataTables.responsive.js'></script>
+
+<script>
+
+    $(document).ready(function () {
+        //Only needed for the filename of export files.
+        //Normally set in the title tag of your page.
+        document.title = 'Impresión Filtro | Información General';
+        // DataTable initialisation
+        $('#example').DataTable(
+            {
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "",
+                    "sInfoEmpty": "",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "select": {
+                        "rows": "%d filas seleccionadas"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                },
+                "dom": '<"dt-buttons"Bf><"clear">lirtp',
+                "paging": true,
+                "autoWidth": true,
+                "responsive": true,
+                "select": true,
+                "buttons": [
+                    { extend: 'colvis', text: 'Columnas visibles' },
+                    { extend: 'copyHtml5', text: 'Copiar al portapapeles' },
+                    { extend: 'csvHtml5', text: 'CSV' },
+                    { extend: 'excelHtml5', text: 'Excel' },
+                    { extend: 'pdfHtml5', text: 'PDF' },
+                    {
+                        extend: 'print',
+                        text: 'Imprimir',
+                        customize: function (win) {
+                            $(win.document.body)
+                                .css('font-size', '5pt')
+                                .prepend(
+                                    '<img src="https://lh3.googleusercontent.com/proxy/JpcQbQlfOqzv022QAX57YjyJxsErKjDuyUQ7WFJqVlIPs7gZ0U-LzWRNGvyGZMSyA811bcrT3s_IWLQy5SlyjBfVjdSSbB1d7JYdIDb6aORFYg" style="position:absolute; top:0; left:0; bottom:0; left:0; opacity:0.1; width:50%; margin-left:25%; margin-top:20%;" />'
+                                );
+
+                            $(win.document.body).find('table')
+                                .addClass('compact')
+                                .css('font-size', 'inherit');
+                        },
+                        exportOptions: {
+                            modifier: {
+                                selected: null
+                            }
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: 'Imprimir seleccionados',
+                        customize: function (win) {
+                            $(win.document.body)
+                                .css('font-size', '5pt')
+                                .prepend(
+                                    '<img src="https://lh3.googleusercontent.com/proxy/JpcQbQlfOqzv022QAX57YjyJxsErKjDuyUQ7WFJqVlIPs7gZ0U-LzWRNGvyGZMSyA811bcrT3s_IWLQy5SlyjBfVjdSSbB1d7JYdIDb6aORFYg" style="position:absolute; top:0; left:0; bottom:0; left:0; opacity:0.1; width:50%; margin-left:25%; margin-top:20%;" />'
+                                );
+
+                            $(win.document.body).find('table')
+                                .addClass('compact')
+                                .css('font-size', 'inherit');
+                        }
+                    }
+                ]
+            }
+        );
+    });
+
+
+</script>
+
+
+<!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script-->
+<script src="~/Scripts/bootstrap-3.3.7.min.js"></script>
+
+<!--script src='https://cdnjs.cloudflare.com/ajax/libs/jQuery.print/1.3.3/jQuery.print.min.js'></script-->
+<script src='~/Scripts/jQuery.print.min.js'></script>
+
+<!--script src='https://allurewebsolutions.com/allure.js'></script-->
+<script src='~/Scripts/allure.js'></script>
+
+@foreach (var item in Model)
+{
+    <div class="modal fade" id="exampleModal-@item.id" tabindex="-1" role="dialog" aria-labelledby="modalImprimirTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content p-4">
+                <div class="content-@item.id">
+                    <table style="width:100%; margin-bottom:4vw; margin-top:2vw;">
+                        <tr>
+                            <td><img style="width:30vw;" src="~/Imagenes/logo-sm.png" /></td>
+                            <td style="text-align:right;"><img style="width:25vw;" src="~/Imagenes/uanl-logo.png" /></td>
+                        </tr>
+                    </table>
+                    @if (@item.nombre != null)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>Nombre:</b> @item.nombre</h3>
+                    }
+                    @if (@item.edad != null)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>Edad:</b> @item.edad</h3>
+                    }
+                    @if (@item.expediente != null)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>Expediente:</b> @item.expediente</h3>
+                    }
+                    @if (@item.antecedentes_medicos != null)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>Antecedentes Médicos:</b> @item.antecedentes_medicos</h3>
+                    }
+
+
+                    <hr>
+                    <h3 style="font-family: Arial, Helvetica, sans-serif;">CRITERIO 1</h3>
+                    @if (@item.fiebre == 1)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>Fiebre:</b> Si</h3>
+                    }
+
+
+                    <hr>
+                    <h3 style="font-family: Arial, Helvetica, sans-serif;">CRITERIO 2</h3>
+                    @if (@item.tos == 1)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>Tos seca o con expectoración:</b> Si</h3>
+                    }
+                    @if (@item.anosmia == 1)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>Anosmia:</b> Si</h3>
+                    }
+                    @if (@item.diarrea == 1)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>Diarrea:</b> Si</h3>
+                    }
+                    @if (@item.mialgias_atralgias == 1)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>Mialgias y Atralgias:</b> Si</h3>
+                    }
+
+
+                    <hr />
+                    <h3 style="font-family: Arial, Helvetica, sans-serif;">CRITERIO 3</h3>
+                    @if (@item.hta_cardivascular == 1)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>HTA / Enfermedad Cardivascular:</b> Si</h3>
+                    }
+                    @if (@item.diabetes_mellitus == 1)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>Diabetes Mellitus 1/2:</b> Si</h3>
+                    }
+                    @if (@item.tabaquismo == 1)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>Tabaquismo igual o mayor a 10 paquetes al año:</b> Si</h3>
+                    }
+                    @if (@item.enf_inmunologica == 1)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>Enfermedad Inmunológica:</b> Si</h3>
+                    }
+                    @if (@item.enf_reumatologia == 1)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>Enfermedad Reumatológia:</b> Si</h3>
+                    }
+                    @if (@item.enf_neoplasica == 1)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>Enfermedad Neoplasica Organo Solido o Hermatológica:</b> Si</h3>
+                    }
+                    @if (@item.irc == 1)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>I.R.C:</b> Si</h3>
+                    }
+                    @if (@item.edad_mayo == 1)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>Edad mayor a 70 años:</b> Si</h3>
+                    }
+
+
+                    <hr />
+                    <h3 style="font-family: Arial, Helvetica, sans-serif;">CRITERIO 4</h3>
+                    @if (@item.fr == 1)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>FR igual o mayor a 25 rpm:</b> Si</h3>
+                    }
+                    @if (@item.disnea == 1)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>Disnea de reposo:</b> Si</h3>
+                    }
+                    @if (@item.saturacion_oxigeno == 1)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>Saturacion de oxigeno igual o menor a 90%:</b> Si</h3>
+                    }
+                    @if (@item.hipotension == 1)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>Hipotensión:</b> Si</h3>
+                    }
+                    @if (@item.alteracion_estado == 1)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>Alteración del estado de conciencia (estuporoso, en coma):</b> Si</h3>
+                    }
+                    @if (@item.alteracion_pulmonares == 1)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>Alteraciones pulmonares a la ascultación (crepitantes, SD de consoliación, SD de derrame, sibilantes, roncantes):</b> Si</h3>
+                    }
+
+                    <hr />
+
+                    @if (@item.notas != null)
+                    {
+                        <h3 style="font-family: Arial, Helvetica, sans-serif;"><b>Notas:</b> @item.notas</h3>
+                    }
+
+
+                    <hr />
+
+                    <div style="font-family: Arial, Helvetica, sans-serif; padding-top:10px; border-top: 2px solid black; width:40%; margin-left:30%; text-align:center; margin-top:15vw; margin-bottom:5vw;"><b>Firma</b></div>
+                    <button class="btn printing print-@item.id">Imprimir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(".btn-imprimir-@item.id").click(function () {
+            $('#exampleModal-@item.id').modal('show');
+        });
+
+        $('.print-@item.id').on('click', function () {
+            $.print(".content-@item.id");
+        });
+    </script>
+}

@@ -1,0 +1,331 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SMDEVModel24.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SMDEV.dbo.EstudioMedicoSocial' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="EstudioMedicoSocial">
+          <Key>
+            <PropertyRef Name="EstudioId" />
+            <PropertyRef Name="Fecha" />
+          </Key>
+          <Property Name="EstudioId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Empleado" Type="nvarchar" MaxLength="20" />
+          <Property Name="CveFam" Type="nvarchar" MaxLength="10" />
+          <Property Name="Depcia" Type="nvarchar" MaxLength="10" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="FechaIngreso" Type="datetime" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="100" />
+          <Property Name="Edad" Type="nvarchar" MaxLength="50" />
+          <Property Name="Sexo" Type="nvarchar" MaxLength="50" />
+          <Property Name="EdoCivil" Type="nvarchar" MaxLength="50" />
+          <Property Name="Domicilio" Type="nvarchar" MaxLength="50" />
+          <Property Name="Col" Type="nvarchar" MaxLength="200" />
+          <Property Name="Municipio" Type="nvarchar" MaxLength="100" />
+          <Property Name="Tel" Type="nvarchar" MaxLength="20" />
+          <Property Name="Escolaridad" Type="nvarchar" MaxLength="50" />
+          <Property Name="Ocupacion" Type="nvarchar" MaxLength="50" />
+          <Property Name="Religion" Type="nvarchar" MaxLength="50" />
+          <Property Name="ViveCon" Type="nvarchar" MaxLength="50" />
+          <Property Name="CuidadorPrincipal" Type="nvarchar" MaxLength="50" />
+          <Property Name="TipoFamilia" Type="nvarchar" MaxLength="50" />
+          <Property Name="FaseFamilia" Type="nvarchar" MaxLength="50" />
+          <Property Name="Eutimia" Type="bit" />
+          <Property Name="Hipertimia" Type="bit" />
+          <Property Name="Distimia" Type="bit" />
+          <Property Name="DiagnosticoMedicoIngreso" Type="nvarchar(max)" />
+          <Property Name="MedicoAtiende" Type="nvarchar" MaxLength="100" />
+          <Property Name="FrecuenciaAcude" Type="int" />
+          <Property Name="MedicoEspecialidadAcude" Type="nvarchar" MaxLength="100" />
+          <Property Name="Quemaduras" Type="bit" />
+          <Property Name="Infarto" Type="bit" />
+          <Property Name="Accidentes" Type="bit" />
+          <Property Name="Derrames" Type="bit" />
+          <Property Name="Cancer" Type="bit" />
+          <Property Name="Traumatismo" Type="bit" />
+          <Property Name="Embolia" Type="bit" />
+          <Property Name="Ninguna" Type="bit" />
+          <Property Name="InsuficienciaRenal" Type="bit" />
+          <Property Name="Diabetes" Type="bit" />
+          <Property Name="Hipertension" Type="bit" />
+          <Property Name="EnfermedadesCardiacas" Type="bit" />
+          <Property Name="FiebreRemautica" Type="bit" />
+          <Property Name="ArtritisDegenerativa" Type="bit" />
+          <Property Name="TumoresCerebrales" Type="bit" />
+          <Property Name="MalformacionesCongenitas" Type="bit" />
+          <Property Name="PxTransplantado" Type="bit" />
+          <Property Name="FibrosisQuistica" Type="bit" />
+          <Property Name="LupusEritematoso" Type="bit" />
+          <Property Name="EsclerosisLateral" Type="bit" />
+          <Property Name="EsclerosisMultiple" Type="bit" />
+          <Property Name="Hidrocefalia" Type="bit" />
+          <Property Name="EspinaBifida" Type="bit" />
+          <Property Name="IntervencionCrisisPaciente" Type="bit" />
+          <Property Name="CasoSocial" Type="bit" />
+          <Property Name="ConsultaAsesoria" Type="bit" />
+          <Property Name="VisitaDomiciliaria" Type="bit" />
+          <Property Name="IntervencionFamiliar" Type="bit" />
+          <Property Name="CanalizacionPsicologica" Type="bit" />
+          <Property Name="OrientacionTramitesAdmin" Type="bit" />
+          <Property Name="CanalizacionOtraInstitucion" Type="bit" />
+          <Property Name="OtraIntervencionTipo" Type="nvarchar" MaxLength="300" />
+          <Property Name="ValoracionPsicoSocial" Type="nvarchar" MaxLength="500" />
+          <Property Name="Diagnostico" Type="nvarchar" MaxLength="500" />
+          <Property Name="EstrategiaTrabajo" Type="nvarchar" MaxLength="500" />
+          <Property Name="ResumenCaso" Type="nvarchar" MaxLength="500" />
+          <Property Name="Observaciones" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityContainer Name="SMDEVModel24StoreContainer">
+          <EntitySet Name="EstudioMedicoSocial" EntityType="Self.EstudioMedicoSocial" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [EstudioMedicoSocial].[EstudioId] AS [EstudioId], 
+    [EstudioMedicoSocial].[Empleado] AS [Empleado], 
+    [EstudioMedicoSocial].[CveFam] AS [CveFam], 
+    [EstudioMedicoSocial].[Depcia] AS [Depcia], 
+    [EstudioMedicoSocial].[Fecha] AS [Fecha], 
+    [EstudioMedicoSocial].[FechaIngreso] AS [FechaIngreso], 
+    [EstudioMedicoSocial].[Nombre] AS [Nombre], 
+    [EstudioMedicoSocial].[Edad] AS [Edad], 
+    [EstudioMedicoSocial].[Sexo] AS [Sexo], 
+    [EstudioMedicoSocial].[EdoCivil] AS [EdoCivil], 
+    [EstudioMedicoSocial].[Domicilio] AS [Domicilio], 
+    [EstudioMedicoSocial].[Col] AS [Col], 
+    [EstudioMedicoSocial].[Municipio] AS [Municipio], 
+    [EstudioMedicoSocial].[Tel] AS [Tel], 
+    [EstudioMedicoSocial].[Escolaridad] AS [Escolaridad], 
+    [EstudioMedicoSocial].[Ocupacion] AS [Ocupacion], 
+    [EstudioMedicoSocial].[Religion] AS [Religion], 
+    [EstudioMedicoSocial].[ViveCon] AS [ViveCon], 
+    [EstudioMedicoSocial].[CuidadorPrincipal] AS [CuidadorPrincipal], 
+    [EstudioMedicoSocial].[TipoFamilia] AS [TipoFamilia], 
+    [EstudioMedicoSocial].[FaseFamilia] AS [FaseFamilia], 
+    [EstudioMedicoSocial].[Eutimia] AS [Eutimia], 
+    [EstudioMedicoSocial].[Hipertimia] AS [Hipertimia], 
+    [EstudioMedicoSocial].[Distimia] AS [Distimia], 
+    [EstudioMedicoSocial].[DiagnosticoMedicoIngreso] AS [DiagnosticoMedicoIngreso], 
+    [EstudioMedicoSocial].[MedicoAtiende] AS [MedicoAtiende], 
+    [EstudioMedicoSocial].[FrecuenciaAcude] AS [FrecuenciaAcude], 
+    [EstudioMedicoSocial].[MedicoEspecialidadAcude] AS [MedicoEspecialidadAcude], 
+    [EstudioMedicoSocial].[Quemaduras] AS [Quemaduras], 
+    [EstudioMedicoSocial].[Infarto] AS [Infarto], 
+    [EstudioMedicoSocial].[Accidentes] AS [Accidentes], 
+    [EstudioMedicoSocial].[Derrames] AS [Derrames], 
+    [EstudioMedicoSocial].[Cancer] AS [Cancer], 
+    [EstudioMedicoSocial].[Traumatismo] AS [Traumatismo], 
+    [EstudioMedicoSocial].[Embolia] AS [Embolia], 
+    [EstudioMedicoSocial].[Ninguna] AS [Ninguna], 
+    [EstudioMedicoSocial].[InsuficienciaRenal] AS [InsuficienciaRenal], 
+    [EstudioMedicoSocial].[Diabetes] AS [Diabetes], 
+    [EstudioMedicoSocial].[Hipertension] AS [Hipertension], 
+    [EstudioMedicoSocial].[EnfermedadesCardiacas] AS [EnfermedadesCardiacas], 
+    [EstudioMedicoSocial].[FiebreRemautica] AS [FiebreRemautica], 
+    [EstudioMedicoSocial].[ArtritisDegenerativa] AS [ArtritisDegenerativa], 
+    [EstudioMedicoSocial].[TumoresCerebrales] AS [TumoresCerebrales], 
+    [EstudioMedicoSocial].[MalformacionesCongenitas] AS [MalformacionesCongenitas], 
+    [EstudioMedicoSocial].[PxTransplantado] AS [PxTransplantado], 
+    [EstudioMedicoSocial].[FibrosisQuistica] AS [FibrosisQuistica], 
+    [EstudioMedicoSocial].[LupusEritematoso] AS [LupusEritematoso], 
+    [EstudioMedicoSocial].[EsclerosisLateral] AS [EsclerosisLateral], 
+    [EstudioMedicoSocial].[EsclerosisMultiple] AS [EsclerosisMultiple], 
+    [EstudioMedicoSocial].[Hidrocefalia] AS [Hidrocefalia], 
+    [EstudioMedicoSocial].[EspinaBifida] AS [EspinaBifida], 
+    [EstudioMedicoSocial].[IntervencionCrisisPaciente] AS [IntervencionCrisisPaciente], 
+    [EstudioMedicoSocial].[CasoSocial] AS [CasoSocial], 
+    [EstudioMedicoSocial].[ConsultaAsesoria] AS [ConsultaAsesoria], 
+    [EstudioMedicoSocial].[VisitaDomiciliaria] AS [VisitaDomiciliaria], 
+    [EstudioMedicoSocial].[IntervencionFamiliar] AS [IntervencionFamiliar], 
+    [EstudioMedicoSocial].[CanalizacionPsicologica] AS [CanalizacionPsicologica], 
+    [EstudioMedicoSocial].[OrientacionTramitesAdmin] AS [OrientacionTramitesAdmin], 
+    [EstudioMedicoSocial].[CanalizacionOtraInstitucion] AS [CanalizacionOtraInstitucion], 
+    [EstudioMedicoSocial].[OtraIntervencionTipo] AS [OtraIntervencionTipo], 
+    [EstudioMedicoSocial].[ValoracionPsicoSocial] AS [ValoracionPsicoSocial], 
+    [EstudioMedicoSocial].[Diagnostico] AS [Diagnostico], 
+    [EstudioMedicoSocial].[EstrategiaTrabajo] AS [EstrategiaTrabajo], 
+    [EstudioMedicoSocial].[ResumenCaso] AS [ResumenCaso], 
+    [EstudioMedicoSocial].[Observaciones] AS [Observaciones]
+    FROM [dbo].[EstudioMedicoSocial] AS [EstudioMedicoSocial]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SMDEVModel24" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="EstudioMedicoSocial">
+          <Key>
+            <PropertyRef Name="EstudioId" />
+            <PropertyRef Name="Fecha" />
+          </Key>
+          <Property Name="EstudioId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Empleado" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CveFam" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Depcia" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaIngreso" Type="DateTime" Precision="3" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Edad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sexo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EdoCivil" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Domicilio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Col" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Municipio" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Tel" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Escolaridad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Ocupacion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Religion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ViveCon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CuidadorPrincipal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TipoFamilia" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FaseFamilia" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Eutimia" Type="Boolean" />
+          <Property Name="Hipertimia" Type="Boolean" />
+          <Property Name="Distimia" Type="Boolean" />
+          <Property Name="DiagnosticoMedicoIngreso" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MedicoAtiende" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FrecuenciaAcude" Type="Int32" />
+          <Property Name="MedicoEspecialidadAcude" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Quemaduras" Type="Boolean" />
+          <Property Name="Infarto" Type="Boolean" />
+          <Property Name="Accidentes" Type="Boolean" />
+          <Property Name="Derrames" Type="Boolean" />
+          <Property Name="Cancer" Type="Boolean" />
+          <Property Name="Traumatismo" Type="Boolean" />
+          <Property Name="Embolia" Type="Boolean" />
+          <Property Name="Ninguna" Type="Boolean" />
+          <Property Name="InsuficienciaRenal" Type="Boolean" />
+          <Property Name="Diabetes" Type="Boolean" />
+          <Property Name="Hipertension" Type="Boolean" />
+          <Property Name="EnfermedadesCardiacas" Type="Boolean" />
+          <Property Name="FiebreRemautica" Type="Boolean" />
+          <Property Name="ArtritisDegenerativa" Type="Boolean" />
+          <Property Name="TumoresCerebrales" Type="Boolean" />
+          <Property Name="MalformacionesCongenitas" Type="Boolean" />
+          <Property Name="PxTransplantado" Type="Boolean" />
+          <Property Name="FibrosisQuistica" Type="Boolean" />
+          <Property Name="LupusEritematoso" Type="Boolean" />
+          <Property Name="EsclerosisLateral" Type="Boolean" />
+          <Property Name="EsclerosisMultiple" Type="Boolean" />
+          <Property Name="Hidrocefalia" Type="Boolean" />
+          <Property Name="EspinaBifida" Type="Boolean" />
+          <Property Name="IntervencionCrisisPaciente" Type="Boolean" />
+          <Property Name="CasoSocial" Type="Boolean" />
+          <Property Name="ConsultaAsesoria" Type="Boolean" />
+          <Property Name="VisitaDomiciliaria" Type="Boolean" />
+          <Property Name="IntervencionFamiliar" Type="Boolean" />
+          <Property Name="CanalizacionPsicologica" Type="Boolean" />
+          <Property Name="OrientacionTramitesAdmin" Type="Boolean" />
+          <Property Name="CanalizacionOtraInstitucion" Type="Boolean" />
+          <Property Name="OtraIntervencionTipo" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="ValoracionPsicoSocial" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Diagnostico" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="EstrategiaTrabajo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ResumenCaso" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Observaciones" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="SMDEVEstudioMS" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EstudioMedicoSocial" EntityType="Self.EstudioMedicoSocial" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SMDEVModel24StoreContainer" CdmEntityContainer="SMDEVEstudioMS">
+          <EntitySetMapping Name="EstudioMedicoSocial">
+            <EntityTypeMapping TypeName="SMDEVModel24.EstudioMedicoSocial">
+              <MappingFragment StoreEntitySet="EstudioMedicoSocial">
+                <ScalarProperty Name="EstudioId" ColumnName="EstudioId" />
+                <ScalarProperty Name="Empleado" ColumnName="Empleado" />
+                <ScalarProperty Name="CveFam" ColumnName="CveFam" />
+                <ScalarProperty Name="Depcia" ColumnName="Depcia" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Edad" ColumnName="Edad" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="EdoCivil" ColumnName="EdoCivil" />
+                <ScalarProperty Name="Domicilio" ColumnName="Domicilio" />
+                <ScalarProperty Name="Col" ColumnName="Col" />
+                <ScalarProperty Name="Municipio" ColumnName="Municipio" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+                <ScalarProperty Name="Escolaridad" ColumnName="Escolaridad" />
+                <ScalarProperty Name="Ocupacion" ColumnName="Ocupacion" />
+                <ScalarProperty Name="Religion" ColumnName="Religion" />
+                <ScalarProperty Name="ViveCon" ColumnName="ViveCon" />
+                <ScalarProperty Name="CuidadorPrincipal" ColumnName="CuidadorPrincipal" />
+                <ScalarProperty Name="TipoFamilia" ColumnName="TipoFamilia" />
+                <ScalarProperty Name="FaseFamilia" ColumnName="FaseFamilia" />
+                <ScalarProperty Name="Eutimia" ColumnName="Eutimia" />
+                <ScalarProperty Name="Hipertimia" ColumnName="Hipertimia" />
+                <ScalarProperty Name="Distimia" ColumnName="Distimia" />
+                <ScalarProperty Name="DiagnosticoMedicoIngreso" ColumnName="DiagnosticoMedicoIngreso" />
+                <ScalarProperty Name="MedicoAtiende" ColumnName="MedicoAtiende" />
+                <ScalarProperty Name="FrecuenciaAcude" ColumnName="FrecuenciaAcude" />
+                <ScalarProperty Name="MedicoEspecialidadAcude" ColumnName="MedicoEspecialidadAcude" />
+                <ScalarProperty Name="Quemaduras" ColumnName="Quemaduras" />
+                <ScalarProperty Name="Infarto" ColumnName="Infarto" />
+                <ScalarProperty Name="Accidentes" ColumnName="Accidentes" />
+                <ScalarProperty Name="Derrames" ColumnName="Derrames" />
+                <ScalarProperty Name="Cancer" ColumnName="Cancer" />
+                <ScalarProperty Name="Traumatismo" ColumnName="Traumatismo" />
+                <ScalarProperty Name="Embolia" ColumnName="Embolia" />
+                <ScalarProperty Name="Ninguna" ColumnName="Ninguna" />
+                <ScalarProperty Name="InsuficienciaRenal" ColumnName="InsuficienciaRenal" />
+                <ScalarProperty Name="Diabetes" ColumnName="Diabetes" />
+                <ScalarProperty Name="Hipertension" ColumnName="Hipertension" />
+                <ScalarProperty Name="EnfermedadesCardiacas" ColumnName="EnfermedadesCardiacas" />
+                <ScalarProperty Name="FiebreRemautica" ColumnName="FiebreRemautica" />
+                <ScalarProperty Name="ArtritisDegenerativa" ColumnName="ArtritisDegenerativa" />
+                <ScalarProperty Name="TumoresCerebrales" ColumnName="TumoresCerebrales" />
+                <ScalarProperty Name="MalformacionesCongenitas" ColumnName="MalformacionesCongenitas" />
+                <ScalarProperty Name="PxTransplantado" ColumnName="PxTransplantado" />
+                <ScalarProperty Name="FibrosisQuistica" ColumnName="FibrosisQuistica" />
+                <ScalarProperty Name="LupusEritematoso" ColumnName="LupusEritematoso" />
+                <ScalarProperty Name="EsclerosisLateral" ColumnName="EsclerosisLateral" />
+                <ScalarProperty Name="EsclerosisMultiple" ColumnName="EsclerosisMultiple" />
+                <ScalarProperty Name="Hidrocefalia" ColumnName="Hidrocefalia" />
+                <ScalarProperty Name="EspinaBifida" ColumnName="EspinaBifida" />
+                <ScalarProperty Name="IntervencionCrisisPaciente" ColumnName="IntervencionCrisisPaciente" />
+                <ScalarProperty Name="CasoSocial" ColumnName="CasoSocial" />
+                <ScalarProperty Name="ConsultaAsesoria" ColumnName="ConsultaAsesoria" />
+                <ScalarProperty Name="VisitaDomiciliaria" ColumnName="VisitaDomiciliaria" />
+                <ScalarProperty Name="IntervencionFamiliar" ColumnName="IntervencionFamiliar" />
+                <ScalarProperty Name="CanalizacionPsicologica" ColumnName="CanalizacionPsicologica" />
+                <ScalarProperty Name="OrientacionTramitesAdmin" ColumnName="OrientacionTramitesAdmin" />
+                <ScalarProperty Name="CanalizacionOtraInstitucion" ColumnName="CanalizacionOtraInstitucion" />
+                <ScalarProperty Name="OtraIntervencionTipo" ColumnName="OtraIntervencionTipo" />
+                <ScalarProperty Name="ValoracionPsicoSocial" ColumnName="ValoracionPsicoSocial" />
+                <ScalarProperty Name="Diagnostico" ColumnName="Diagnostico" />
+                <ScalarProperty Name="EstrategiaTrabajo" ColumnName="EstrategiaTrabajo" />
+                <ScalarProperty Name="ResumenCaso" ColumnName="ResumenCaso" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

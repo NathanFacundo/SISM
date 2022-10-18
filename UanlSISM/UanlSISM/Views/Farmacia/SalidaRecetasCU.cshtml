@@ -1,0 +1,871 @@
+﻿@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Salida de Medicamentos - Servicios Médicos";
+    var user = HttpContext.Current.User.Identity.GetUserId();
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+
+<style>
+    .uanl-logo {
+        width: 10vw;
+        margin-top: 0vw;
+        margin-bottom: 1vw;
+    }
+
+    @@font-face {
+        font-family: 'Effra-Regular';
+        src: url('~/fonts/Effra-Regular.eot');
+        src: url('~/fonts/Effra-Regular.eot?#iefix') format('embedded-opentype'), url('~/fonts/Effra-Regular.ttf') format('truetype');
+    }
+
+    @@font-face {
+        font-family: 'Effra-Bold';
+        src: url('~/fonts/Effra-Bold.eot');
+        src: url('~/fonts/Effra-Bold.eot?#iefix') format('embedded-opentype'), url('~/fonts/Effra-Bold.ttf') format('truetype');
+    }
+
+
+    .somos-uni {
+        width: 5vw;
+        margin-top: 1vw;
+        margin-bottom: 3vw;
+    }
+
+    .linea-arriba {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: -1;
+        width: 2.5vw;
+        margin-top: 5.8vw;
+    }
+
+    .linea-abajo {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 2.5vw;
+        margin-bottom: 0.7vw;
+    }
+
+    .fc-title {
+        color: white;
+    }
+
+    .fc-time {
+        color: white;
+    }
+
+    .fc-day-grid-event:hover .fc-title {
+        color: black !important;
+    }
+
+    .fc-day-grid-event:hover .fc-time {
+        color: black !important;
+    }
+
+    #busqueda input {
+        padding: 0px 8px 4px 8px;
+        border: none;
+        border-bottom: 1px solid lightgray;
+        border-radius: 0px;
+        margin-top: 2px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        color: #2C3E50;
+        font-size: 16px;
+        letter-spacing: 1px;
+    }
+
+        #busqueda input:focus {
+            -moz-box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+            border: none;
+            font-weight: bold;
+            border-bottom: 2px solid #FBC43D;
+            outline-width: 0
+        }
+
+    .btn-buscar {
+        background-color: #FBC43D !important;
+        color: white !important;
+    }
+
+        .btn-buscar:hover {
+            background-color: #FBC43D !important;
+            color: white !important;
+        }
+
+    .btn-guardar {
+        background-color: #FBC43D !important;
+        color: white !important;
+    }
+
+        .btn-guardar:hover {
+            background-color: #FBC43D !important;
+            color: white !important;
+        }
+
+    .btnbuscapac {
+        width: 1.5vw;
+        -webkit-filter: invert(100%);
+        filter: invert(100%);
+    }
+
+    .dataTables_length {
+        display: none;
+    }
+
+    .btn-boton {
+        background-color: #FBC43D !important;
+        color: white !important;
+        border: 2px solid #FBC43D;
+        width: 100px;
+    }
+
+        .btn-boton:hover {
+            background-color: #FBC43D !important;
+        }
+
+    .btn-imprimir {
+        background-color: rgba(0,74,143,1) !important;
+        color: white !important;
+        border: 2px solid rgba(0,74,143,1);
+        width: 100px;
+    }
+
+        .btn-imprimir:hover {
+            background-color: rgba(0,74,143,1) !important;
+        }
+
+    .foto-paciente {
+        width: 6vw;
+        height: 6vw;
+        border-radius: 6vw;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: rgba(0,74,143,0.8);
+    }
+
+    .form-control {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .codigobarras {
+        width: 70%;
+        max-width: 70%;
+    }
+
+    .btn-boton-modal {
+        background-color: #FBC43D !important;
+        border: 2px solid #FBC43D !important;
+        color: white !important;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .modal-content {
+        margin-top: 10vw;
+    }
+
+    .paginate_button {
+        padding: 2px 10px;
+        cursor: pointer;
+    }
+
+    .paging_simple_numbers .current {
+        background-color: #FBC43D !important;
+        color: white !important;
+        cursor: pointer;
+    }
+
+    .previous {
+        padding-left: 0px !important;
+    }
+
+    .dataTables_paginate {
+        margin-top: 10px;
+    }
+
+    #example2_filter label {
+        width: 100%;
+    }
+
+    #example2_filter input {
+        width: 85%;
+        max-width: 85%;
+        margin-left: 10px;
+        background-color: transparent;
+    }
+
+    #imprimirModal .modal-dialog {
+        max-width: 900px;
+    }
+
+    #imprimirModal table {
+        width: 100%;
+    }
+
+    #imprimirModal th {
+        border: 1px solid black;
+        padding: 3px 5px;
+    }
+
+    #imprimirModal td {
+        border: 1px solid black;
+        padding: 3px 5px;
+    }
+
+    .modal-dialog {
+        max-width: 900px;
+    }
+
+    .inputGroup {
+        /*background-color: #fff;*/
+        display: block;
+        margin: 0;
+        position: relative;
+    }
+
+        .inputGroup label {
+            padding: 12px 30px;
+            width: 100%;
+            display: block;
+            text-align: left;
+            color: #3C454C;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+            transition: color 200ms ease-in;
+            overflow: hidden;
+            margin: 0;
+        }
+
+            /*
+            .inputGroup label:before {
+                width: 100%;
+                height: 10px;
+                border-radius: 50%;
+                content: "";
+                background-color: #5562eb;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%) scale3d(1, 1, 1);
+                transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+                opacity: 0;
+                z-index: -1;
+            }
+            */
+
+            .inputGroup label:after {
+                width: 32px;
+                height: 32px;
+                content: "";
+                border: 2px solid #D1D7DC;
+                background-color: #fff;
+                background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.414 11L4 12.414l5.414 5.414L20.828 6.414 19.414 5l-10 10z' fill='%23fff' fill-rule='nonzero'/%3E%3C/svg%3E ");
+                background-repeat: no-repeat;
+                background-position: 2px 3px;
+                border-radius: 50%;
+                z-index: 2;
+                position: absolute;
+                right: 30px;
+                top: 50%;
+                transform: translateY(-50%);
+                cursor: pointer;
+                transition: all 200ms ease-in;
+            }
+
+        /*
+        .inputGroup input[type=radio]:checked ~ label {
+            color: #fff;
+        }
+        */
+
+        /*
+            .inputGroup input[type=radio]:checked ~ label:before {
+                transform: translate(-50%, -50%) scale3d(56, 56, 1);
+                opacity: 1;
+            }
+            */
+
+        .inputGroup input[type=radio]:checked ~ label:after {
+            background-color: #54E0C7;
+            border-color: #54E0C7;
+        }
+
+        .inputGroup input[type=radio] {
+            width: 32px;
+            height: 32px;
+            order: 1;
+            z-index: 2;
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            visibility: hidden;
+        }
+
+    /*
+    .ready {
+        background-color: green !important;
+    }
+
+        .ready label {
+            color: white !important;
+        }
+
+    */
+
+
+    .btn-surtir {
+        background-color: #FBC43D !important;
+        color: white !important;
+        border: 2px solid #FBC43D;
+        width: 100%;
+    }
+
+    .btn-liberar {
+        color: #282828 !important;
+        width: 100%;
+        background-color: #e9ecef;
+    }
+
+    .listed{
+        background-color: green;
+        color: white;
+    }
+
+    .listed label {
+        color: white !important;
+    }
+
+    .cancelar {
+        width: 15px;
+        position: absolute;
+        right: 75px;
+        top: 11px;
+        z-index: 99999;
+    }
+</style>
+
+<img class="linea-abajo" src="~/Imagenes/lineas-uanl-izquierda.png">
+<img class="linea-arriba" src="~/Imagenes/lineas-uanl-derecha.png">
+
+<div id="loadingDiv" style="display:none;">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("SalidaRecetasCU", "Farmacia")"><b>Salida de Recetas SEMAC</b></a></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
+        <img src="~/Imagenes/uanl-logo.png" class="uanl-logo" />
+        <h4 class="mt-3 mb-3"><b>Salida de Recetas</b></h4>
+    </div>
+
+    <div class="col-md-10 m-auto p-0" id="busqueda">
+
+        <h5 class="mt-5"><b>Medicamentos</b></h5>
+        <table id="example2" class="table table-bordered table-striped" width="100%">
+            <thead>
+                <tr>
+                    <th>Paciente</th>
+                    <th>Folio</th>
+                    <th>Fecha</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+
+
+
+    </div>
+
+    <div class="col-md-10 text-center m-auto p-3">
+        <img src="~/Imagenes/somos-uni.png" class="somos-uni" />
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="recetaModal" tabindex="-1" role="dialog" aria-labelledby="asignarModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                @using (Html.BeginForm("SurtirReceta", "Farmacia", FormMethod.Post))
+                {
+                    <input type="hidden" name="folioRcta" id="folioRcta" />
+                    <div class="row m-0 recetaDetalles">
+
+                    </div>
+
+                    <div class="row m-0">
+                        <div class="col-md-5 ml-auto p-0">
+                            <div class="row m-0">
+                                <div class="col-md-6 p-2">
+                                    <button type="submit" class="btn btn-surtir">Surtir</button>
+                                </div>
+                                <div class="col-md-6 p-2">
+                                    <button type="button" class="btn btn-liberar">Liberar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+<script>
+    function imgError(image) {
+        image.onerror = "";
+        image.src = "http://148.234.143.205/SISM/Imagenes/uanl.png";
+        return true;
+    }
+</script>
+
+
+<script src='https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.js'></script>
+<script src="~/Scripts/dataTables.select.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+
+        var table2 = $('#example2').DataTable({
+            destroy: true,
+            searching: true,
+            responsive: true,
+            "ajax": {
+                "url": "@Url.Action("ListaSalidaRecetasCU", "Farmacia")",
+                "dataSrc": "",
+            },
+            "language": {
+                "search": "Buscar registro:",
+                "zeroRecords": "No se encontró ningun registro",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+                "select": {
+                    "rows": " %d filas seleccionadas"
+                },
+                "loadingRecords": "Un momento, cargando registros...",
+                "processing": "Procesando registros...",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                "lengthMenu": "Mostrando _MENU_ registros",
+            },
+            "columns": [
+                { "data": "Paciente" },
+                { "data": "Folio_Rcta" },
+                { "data": "Fecha" },
+                { "data": "Boton" },
+            ],
+            "order": [[0, 'desc']],
+            "columnDefs": [
+                {
+                    targets: 2,
+                    'checkboxes': {
+                        'selectRow': true
+                    },
+                },
+            ],
+        });
+
+
+        table2.on('click', '.btn-boton', function () {
+
+            var folioRcta = $(this).attr('data-clave');
+            //alert(folioRcta);
+            $('.recetaDetalles').empty();
+            $.ajax({
+                url: '@Url.Action("DetalleReceta", "Farmacia")',
+                dataType: "json",
+                data: {
+                    folioRcta: folioRcta,
+                },
+                success: function (data) {
+                    var count = 1;
+                    var checked = "";
+                    $.each(data, function (i, item) {
+                        //console.log(item);
+
+                        $('.recetaDetalles').append('' +
+                            '<div class="col-md-12 p-0 lstmed" data-count="' + count +'" tabindex="1">' +
+                                '<div class= "inputGroup" data-clave="' + item.clave +'">' +
+                                    '<input class="radio" data-med="' + item.medicamento +'" id = "radio' + count + '" name = "radio" type="radio" />'+
+                                    '<label for= "radio' + count + '" >'+
+                                        '<h6> <b>' + item.medicamento + '</b></h6 >'+
+                                        '<h6> ' + item.dosis + '</h6 >' +
+                                        '<h6>Cantidad Solicitada: ' + item.cantidad + '</h6 >' +
+                                        '<div class="row m-0">' +
+                                            '<div class="col-md-3 p-0 pr-2">' +
+                                                '<div class="input-group mb-3"><span class="input-group-text" id="basic-addon1">Cantidad: </span><input disabled value="' + item.cantidad + '" type="number" class="form-control cantidad" name="cantidad" aria-label="Cantidad" aria-describedby="basic-addon1"></div>' +
+                                            '</div>' +
+                                            '<div class="col-md-5 p-0">' +
+                                                '<div class="input-group mb-3"><span class="input-group-text" id="basic-addon2">Código de Barras: </span>' +
+                                                '<input value="" type="text" class="form-control codigoBarras" data-clave="' + item.clave + '" disabled name="codigo_barras" aria-label="Código de Barras" aria-describedby="basic-addon2">' +
+
+                                                        //'<div class="fieldset">'+
+                                                        //'<input type="text" name="codigo_barras" class="form-text codigoBarras" data-clave="' + item.clave + '" required disabled />'+
+                                                        //    '<a href="#" class="clear-text material-icons">cancel</a>'+
+                                                        //'</div >'+
+                                                '</div>'+
+                                            '</div>' +
+                                            '<div class="col-md-1 p-1">' +
+                                                '<img class="cancelar" data-clave="' + item.clave + '" src="/Imagenes/iconos/cerrar.png">' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</label>' +
+                                '</div>' +
+                            '</div> ');
+                        count++;
+                    });
+                },
+                error: function (xhr, status, error) {
+
+                }
+            });
+
+            $('#folioRcta').val(folioRcta);
+
+            $('#recetaModal').modal("show");
+
+        });
+
+
+
+        $(document).on('click', '.inputGroup', function () {
+
+
+
+            //$(".inputGroup").css('background-color', 'white');
+            //$(".inputGroup").css('color', '#5562eb;');
+            //$(this).css('background-color', '#5562eb');
+            //$(this).css('color', 'white;');
+
+            if ($(this).find(".radio").is(':checked')) {
+
+                $(".codigoBarras").removeClass('active');
+                $(this).find(".codigoBarras").addClass('active');
+
+                $(".codigoBarras").attr('disabled', 'disabled');
+                $(".cantidad").attr('disabled', 'disabled');
+                $(this).find(".codigoBarras").removeAttr('disabled');
+                $(this).find(".cantidad").removeAttr('disabled');
+                $(this).find(".codigoBarras").focus();
+
+            }
+
+            /*
+            $(".codigoBarras").attr('disabled', 'disabled');
+            $(".cantidad").attr('disabled', 'disabled');
+            $(this).find(".codigoBarras").removeAttr('disabled');
+            $(this).find(".cantidad").removeAttr('disabled');
+            */
+            //$(this).find(".codigoBarras").focus();
+
+            //alert("Handler for .click() called.");
+        });
+
+        $('.btn-surtir').attr('disabled', 'disabled');
+
+
+        $(document).on('keyup', '.codigoBarras', function () {
+            var codigoBarras = $(this).val();
+            var dataInput = $(this).attr('data-clave');
+            //alert(dataClave);
+            //alert("Handler for .keyup() called.");
+            //Buscar codigo
+
+
+            $.ajax({
+                url: '@Url.Action("BuscarCodigoBarras", "Farmacia")',
+                dataType: "json",
+                data: {
+                    codigoBarras: codigoBarras,
+                },
+                async: false,
+                success: function (data) {
+                    //console.log(data);
+                    //alert(dataClave);
+                    $(".inputGroup").each(function () {
+
+                        var dataClave = $(this).attr('data-clave');
+
+                        if (dataClave == dataInput) {
+                            //if ($(this).hasClass('listed')) {
+
+                            //$(this).css('background-color', 'red');
+                            //$(".inputGroup").css('background-color', 'white');
+                            //alert(dataClave);
+
+                            if (dataClave == data.clave) {
+                                //alert(dataClave);
+                                //$(this).css('background-color', 'green');
+                                //$(this).css('color', 'white');
+                                //$(this).addClass('ready');
+                                $(this).addClass('listed');
+                                //numItems2++;
+                                //alert('asfa');
+                                //$(this).find('.nombreComercial').text(data.nombre);
+                            } else {
+                                //$(this).css('background-color', 'white');
+                                //$(this).css('color', '#282828');
+                                $(this).removeClass('listed');
+                               // numItems2--;
+                            }
+                        }
+
+                        /*
+                        if (dataClave == dataInput) {
+                            $(this).addClass('ready');
+                        } else {
+                            $(this).removeClass('ready');
+                        }
+                        */
+
+                        //}
+
+                        /*
+                        if ($(this).hasClass('ready')) {
+                            if (dataClave != data.clave) {
+                                alert('asdas');
+                                //$(this).css('background-color', 'white');
+                                //$(this).css('color', '#282828');
+                                $(this).removeClass('listed');
+                            }
+                        }
+                        */
+
+
+
+                        //alert(dataClave);
+                        //$(this).addClass("foo");
+                    });
+
+                },
+                error: function (xhr, status, error) {
+
+                }
+            });
+
+            //console.log(numItems2);
+
+            //contar cuantos medicamentos son
+            /*
+            var numItems = 0;
+
+
+            $(".inputGroup").each(function () {
+                numItems++;
+            });
+            */
+
+            /*
+            $(".listed").each(function () {
+                numItems2++;
+            });
+            */
+
+            var numItems = $('.inputGroup').length;
+            //alert(numItems);
+            var numItems2 = $('.listed').length;
+
+            //console.log(numItems);
+            //console.log(numItems2);
+
+            if(numItems2 == numItems){
+                $('.btn-surtir').removeAttr('disabled');
+            } else {
+                $('.btn-surtir').attr('disabled','disabled');
+            }
+            //alert(numItems2);
+
+        });
+
+
+        $(document).on('keypress', '.codigoBarras', function (e) {
+            var dataInput = $(this).attr('data-clave');
+        //$("#dato").keypress(function (e) {
+            //no recuerdo la fuente pero lo recomiendan para
+            //mayor compatibilidad entre navegadores.
+            /*
+            var code = (e.keyCode ? e.keyCode : e.which);
+            if (code == 13) {
+
+                $(this).closest('.recetaDetalles').find('.inputGroup').css('background-color', 'red');
+                //$(".codigoBarras").nextAll().css('background-color', 'red');
+                //$('.codigoBarras').focus();
+                $(".codigoBarras").each(function (index) {
+                    //alert('sdfs');
+                    $(".codigoBarras").attr('disabled', 'disabled');
+                    $(".cantidad").attr('disabled', 'disabled');
+
+
+                    //$(this).closest('.inputGroup').css('background-color', 'red');
+                    $('#radio2').prop('checked', true);
+                    $('#radio2').parent('.inputGroup').find(".codigoBarras").removeAttr('disabled');
+                    $('#radio2').parent('.inputGroup').find(".codigoBarras").focus();
+                    $('#radio2').parent('.inputGroup').find(".cantidad").removeAttr('disabled');
+                    /*$(".codigoBarras").attr('disabled', 'disabled');
+                    $(".cantidad").attr('disabled', 'disabled');
+                    $(this).find(".codigoBarras").removeAttr('disabled');
+                    $(this).find(".cantidad").removeAttr('disabled');
+                    */
+                    /*if (!$(this).hasClass('active')) {
+                        $(this).focus();
+                    }*/
+                //});
+
+                //$(this).parent(".recetaDetalles").css('background-color', 'red');
+                //alert('sadsa');
+                //$(this).parent(".recetaDetalles").css('background-color', 'red');
+                //$(this).closest('.col-md-12').next().find('.codigoBarras').focus();
+                //$(obj).closest('tr').next().find('.class');
+            //}
+        });
+
+        $(document).on('keypress', '.lstmed', function (e) {
+            var code = (e.keyCode ? e.keyCode : e.which);
+            if (code == 13) {
+                //alert('ffsa');
+                //$(this).next('.lstmed').css("background-color", "red");
+                $(".codigoBarras").attr('disabled', 'disabled');
+                $(".cantidad").attr('disabled', 'disabled');
+                $(this).next('.lstmed').find('.radio').prop('checked', true);
+                $(this).next('.lstmed').find(".codigoBarras").removeAttr('disabled');
+                $(this).next('.lstmed').find(".codigoBarras").focus();
+                $(this).next('.lstmed').find(".cantidad").removeAttr('disabled');
+                //$(this).siblings('.inputGroup').css("background-color", "red");
+            }
+        });
+
+        $(document).on('click', '.cancelar', function (e) {
+            var dataClave = $(this).attr('data-clave');
+            //alert(dataClave);
+            $(".codigoBarras").each(function () {
+                var dataInput = $(this).attr('data-clave');
+                if (dataClave == dataInput) {
+                    $(this).val('');
+                }
+            });
+
+            $(".inputGroup").each(function () {
+
+                var dataClave2 = $(this).attr('data-clave');
+
+                if (dataClave == dataClave2) {
+                    $(this).removeClass('listed');
+                }
+
+            });
+
+            var numItems = $('.inputGroup').length;
+            var numItems2 = $('.listed').length;
+
+            if (numItems2 == numItems) {
+                $('.btn-surtir').removeAttr('disabled');
+            } else {
+                $('.btn-surtir').attr('disabled', 'disabled');
+            }
+
+
+        });
+
+        $(document).on('click', '.btn-liberar', function (e) {
+
+            var folioRcta = $('#folioRcta').val();
+
+            $.ajax({
+                url: '@Url.Action("LiberarReceta", "Farmacia")',
+                dataType: "json",
+                data: {
+                    folioRcta: folioRcta,
+                },
+                async: false,
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (xhr, status, error) {
+
+                }
+            });
+
+
+
+            $('#recetaModal').modal("hide");
+        });
+        /*
+        $(".codigoBarras").autocomplete({
+            minLength: 8,
+            source: function (request, response) {
+                alert('sdas');
+            }
+        });
+        */
+
+
+    });
+</script>
+
+<!---script>
+    $('.lstmed').on('click', '.form-text + .clear-text', function (e) {
+        e.preventDefault();
+        console.log('clear text.');
+        $(this).prev('input').val('');
+        return false;
+    });
+</script-->
+
+
+<link rel='stylesheet' href="~/Content/codebar.css" />
+
+
+
+
+@if (TempData["message_success"] != null)
+{
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '@TempData["message_success"]',
+        });
+    </script>
+}
+

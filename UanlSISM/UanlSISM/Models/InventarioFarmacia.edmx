@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SMDEVModel13.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SMDEV.dbo.InventarioFarmacia' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="InventarioFarmacia">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Inv_Sal" />
+            <PropertyRef Name="Inv_Act" />
+            <PropertyRef Name="Clave" />
+            <PropertyRef Name="Descripcion_Grupo" />
+            <PropertyRef Name="Descripcion_Sal" />
+            <PropertyRef Name="Presentacion" />
+            <PropertyRef Name="Clave_Nivel" />
+            <PropertyRef Name="Descripcion_Nivel" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Inv_Sal" Type="int" Nullable="false" />
+          <Property Name="Inv_Act" Type="int" Nullable="false" />
+          <Property Name="ManejoDisponible" Type="int" />
+          <Property Name="Clave" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="Descripcion_Grupo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Descripcion_Sal" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Presentacion" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Clave_Nivel" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Descripcion_Nivel" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="SMDEVModel13StoreContainer">
+          <EntitySet Name="InventarioFarmacia" EntityType="Self.InventarioFarmacia" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [InventarioFarmacia].[Id] AS [Id], 
+    [InventarioFarmacia].[Inv_Sal] AS [Inv_Sal], 
+    [InventarioFarmacia].[Inv_Act] AS [Inv_Act], 
+    [InventarioFarmacia].[ManejoDisponible] AS [ManejoDisponible], 
+    [InventarioFarmacia].[Clave] AS [Clave], 
+    [InventarioFarmacia].[Descripcion_Grupo] AS [Descripcion_Grupo], 
+    [InventarioFarmacia].[Descripcion_Sal] AS [Descripcion_Sal], 
+    [InventarioFarmacia].[Presentacion] AS [Presentacion], 
+    [InventarioFarmacia].[Clave_Nivel] AS [Clave_Nivel], 
+    [InventarioFarmacia].[Descripcion_Nivel] AS [Descripcion_Nivel]
+    FROM [dbo].[InventarioFarmacia] AS [InventarioFarmacia]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SMDEVModel13" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="InventarioFarmacia">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Inv_Sal" />
+            <PropertyRef Name="Inv_Act" />
+            <PropertyRef Name="Clave" />
+            <PropertyRef Name="Descripcion_Grupo" />
+            <PropertyRef Name="Descripcion_Sal" />
+            <PropertyRef Name="Presentacion" />
+            <PropertyRef Name="Clave_Nivel" />
+            <PropertyRef Name="Descripcion_Nivel" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Inv_Sal" Type="Int32" Nullable="false" />
+          <Property Name="Inv_Act" Type="Int32" Nullable="false" />
+          <Property Name="ManejoDisponible" Type="Int32" />
+          <Property Name="Clave" Type="String" MaxLength="6" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion_Grupo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Descripcion_Sal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Presentacion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Clave_Nivel" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion_Nivel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="SMDEVEntities25" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="InventarioFarmacia" EntityType="Self.InventarioFarmacia" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SMDEVModel13StoreContainer" CdmEntityContainer="SMDEVEntities25">
+          <EntitySetMapping Name="InventarioFarmacia">
+            <EntityTypeMapping TypeName="SMDEVModel13.InventarioFarmacia">
+              <MappingFragment StoreEntitySet="InventarioFarmacia">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Inv_Sal" ColumnName="Inv_Sal" />
+                <ScalarProperty Name="Inv_Act" ColumnName="Inv_Act" />
+                <ScalarProperty Name="ManejoDisponible" ColumnName="ManejoDisponible" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Descripcion_Grupo" ColumnName="Descripcion_Grupo" />
+                <ScalarProperty Name="Descripcion_Sal" ColumnName="Descripcion_Sal" />
+                <ScalarProperty Name="Presentacion" ColumnName="Presentacion" />
+                <ScalarProperty Name="Clave_Nivel" ColumnName="Clave_Nivel" />
+                <ScalarProperty Name="Descripcion_Nivel" ColumnName="Descripcion_Nivel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

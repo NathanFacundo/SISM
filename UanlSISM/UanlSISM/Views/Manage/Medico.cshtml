@@ -1,0 +1,997 @@
+﻿@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Sistema Médico";
+    var user = HttpContext.Current.User.Identity.GetUserId();
+}
+
+<style>
+
+    #home-seccion {
+        margin-top: 20px;
+    }
+
+    .icons {
+        height: 8vw;
+    }
+
+    .item {
+        padding: 10px;
+    }
+
+    .item-card {
+        transition: 0.5s;
+        cursor: pointer;
+        padding: 20px;
+    }
+
+    .card-link {
+        background-color: #FBC43D;
+        border-color: #FBC43D;
+        color: white;
+        padding: 5px 20px;
+    }
+
+        .card-link:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+    .item-card-title {
+        font-size: 15px;
+        transition: 1s;
+        cursor: pointer;
+    }
+
+        .item-card-title i {
+            font-size: 15px;
+            transition: 1s;
+            cursor: pointer;
+            color: #ffa710
+        }
+
+    .card-title i:hover {
+        transform: scale(1.25) rotate(20deg);
+        color: #18d4ca;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        /*box-shadow: 5px 5px 5px rgba(0,0,0,0.3);*/
+    }
+
+    .card::before, .card::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: scale3d(0, 0, 1);
+        transition: transform .3s ease-out 0s;
+        background: rgba(255, 255, 255, 0.1);
+        content: '';
+        pointer-events: none;
+    }
+
+    .card::before {
+        transform-origin: left top;
+    }
+
+    .card::after {
+        transform-origin: right bottom;
+    }
+
+    .card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
+        transform: scale3d(1, 1, 1);
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 767px)">
+
+    .icons {
+        height: 20vw;
+    }
+</style>
+<!--link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'-->
+<link rel='stylesheet' href='~/Content/materialicons.css'>
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    @if (HttpContext.Current.User.IsInRole("Reportes"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("Direccion", "Manage")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/DIRECCION-MEDICA-3x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Dirección Médica</h5>
+                    <p class="card-text">
+                        Reportes y Monitoreo Clínica
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+    <!--div class="col-lg-3 col-md-6 item text-center">
+        <a href="@Url.Action("Consultas", "Manage")">
+            <div class="card item-card card-block">
+                <center><img class="icons" src="~/Imagenes/iconos/CALL_CENTER.png" /></center>
+                <h5 class="item-card-title mt-3 mb-3">Citas</h5>
+                <p class="card-text">
+
+                </p>
+                <button class="card-link">Ver más</button>
+            </div>
+        </a>
+    </div-->
+
+
+    @if (HttpContext.Current.User.IsInRole("Reportes") && HttpContext.Current.User.IsInRole("Consultas"))
+    {
+        if (user != "77ff1eab-710b-488e-b5c9-19bb105645b4")
+        {
+            <div class="col-lg-3 col-md-6 item text-center">
+                <a href="@Url.Action("Farmacia", "Manage")">
+                    <div class="card item-card card-block">
+                        <center><img class="icons" src="~/Imagenes/iconos/FARMACIA-3x.png" /></center>
+                        <h5 class="item-card-title mt-3 mb-3">Farmacia</h5>
+                        <p class="card-text">
+                            En construcción.
+                        </p>
+                        <button class="card-link">Ver más</button>
+                    </div>
+                </a>
+            </div>
+        }
+    }
+    @if (HttpContext.Current.User.IsInRole("Consultas") || HttpContext.Current.User.IsInRole("HU") || HttpContext.Current.User.IsInRole("Foraneos"))
+    {
+        if (user != "77ff1eab-710b-488e-b5c9-19bb105645b4")
+        {
+            <div class="col-lg-3 col-md-6 item text-center">
+                <a href="@Url.Action("Consultas", "Manage")">
+                    <div class="card item-card card-block">
+                        <center><img class="icons" src="~/Imagenes/iconos/CONSULTA-MEDICA-3x.png" /></center>
+                        <h5 class="item-card-title mt-3 mb-3">Consultas</h5>
+                        <p class="card-text">
+                            Consulta médica entre paciente y profesional de salud.
+                        </p>
+                        <button class="card-link">Ver más</button>
+                    </div>
+                </a>
+            </div>
+        }
+    }
+    @if (HttpContext.Current.User.IsInRole("CitasExternas"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("Index", "Citas")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/CITAS-3x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Consultas Externas</h5>
+                    <p class="card-text">
+                        Agenda de consultas externas.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+    @if (HttpContext.Current.User.IsInRole("Afiliacion"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("Index", "Afiliacion")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/RECURSOS-HUMANOS-3x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Afiliación</h5>
+                    <p class="card-text">
+                        En construcción.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+    @if (HttpContext.Current.User.IsInRole("Admin"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("Monitores", "Manage")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/MONITOR-CLINICA-3x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Sistemas</h5>
+                    <p class="card-text">
+                        Administración de servicios de software del SISM
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+    @if (HttpContext.Current.User.IsInRole("Incidentes"))
+    {
+        if (User.Identity.Name == "22017" || User.Identity.Name == "silviaa")
+        {
+            <div class="col-lg-3 col-md-6 item text-center">
+                <a href="@Url.Action("Incidentes3", "Manage")">
+                    <div class="card item-card card-block">
+                        <center><img class="icons" src="~/Imagenes/iconos/COMUNICATE-4x.png" /></center>
+                        <h5 class="item-card-title mt-3 mb-3">Comunícate</h5>
+                        <p class="card-text">
+                            Apartado para el seguimiento de incidentes dentro de Servicios Médicos
+                        </p>
+                        <button class="card-link">Ver más</button>
+                    </div>
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="col-lg-3 col-md-6 item text-center">
+                <a href="@Url.Action("Incidentes3", "Manage")">
+                    <div class="card item-card card-block">
+                        <center><img class="icons" src="~/Imagenes/iconos/COMUNICATE-4x.png" /></center>
+                        <h5 class="item-card-title mt-3 mb-3">Comunícate</h5>
+                        <p class="card-text">
+                            Apartado para el seguimiento de incidentes dentro de Servicios Médicos
+                        </p>
+                        <button class="card-link">Ver más</button>
+                    </div>
+                </a>
+            </div>
+        }
+    }
+
+    @if (HttpContext.Current.User.IsInRole("Incapacidades"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("Incapacidades", "Manage")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/REPORTES-MEDICOS-3x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Medicina Laboral</h5>
+                    <p class="card-text">
+                        Incapacidades
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+
+    @if (HttpContext.Current.User.IsInRole("Productividad1") || HttpContext.Current.User.IsInRole("Productividad2") || HttpContext.Current.User.IsInRole("Productividad3") || HttpContext.Current.User.IsInRole("Productividad4") || HttpContext.Current.User.IsInRole("Productividad5") || HttpContext.Current.User.IsInRole("Productividad6") || HttpContext.Current.User.IsInRole("Productividad7") || HttpContext.Current.User.IsInRole("Productividad8") || HttpContext.Current.User.IsInRole("Productividad9") || HttpContext.Current.User.IsInRole("Productividad10"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("ProductividadConsulta", "Indicadores")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/REPORTE-COVID-3x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Productividad</h5>
+                    <p class="card-text">
+                        Indicadores de productividad por especialidad
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+
+    @if (HttpContext.Current.User.IsInRole("CoordinadorCU"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("ProductividadCU", "Indicadores")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/REPORTE-COVID-3x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Productividad</h5>
+                    <p class="card-text">
+                        Indicadores de productividad por especialidad
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+
+    @if (HttpContext.Current.User.IsInRole("Productividad11"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("IndicadoresEspecialidades", "Manage")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/REPORTE-COVID-3x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Productividad</h5>
+                    <p class="card-text">
+                        Indicadores de productividad por especialidad
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+    @if (!HttpContext.Current.User.IsInRole("PruebaAntigenos"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("Manuales", "Manage")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/SISTEMA-ADMINISTRATIVO-3x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Capacitación</h5>
+                    <p class="card-text">
+                        Guía de instrucciones para el uso del Sistema Interno de Servicios Médicos.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+
+
+        <!--div class="col-lg-3 col-md-6 item text-center">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/SISTEMA-ADMINISTRATIVO-3x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Documentación y registros</h5>
+                    <p class="card-text">
+                        Documentación y registros.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+        </div-->
+
+
+    }
+    else
+    {
+        if (HttpContext.Current.User.IsInRole("UnidadER"))
+        {
+            <div class="col-lg-3 col-md-6 item text-center">
+                <a href="@Url.Action("Manuales", "Manage")">
+                    <div class="card item-card card-block">
+                        <center><img class="icons" src="~/Imagenes/iconos/SISTEMA-ADMINISTRATIVO-3x.png" /></center>
+                        <h5 class="item-card-title mt-3 mb-3">Capacitación</h5>
+                        <p class="card-text">
+                            Guía de instrucciones para el uso del Sistema Interno de Servicios Médicos.
+                        </p>
+                        <button class="card-link">Ver más</button>
+                    </div>
+                </a>
+            </div>
+        }
+    }
+
+    @if (!HttpContext.Current.User.IsInRole("PruebaAntigenos"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="http://148.234.143.206/ServiciosMedicos/Directorio/List">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/DIRECTORIO.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Directorio</h5>
+                    <p class="card-text">
+                        Directorio Telefónico Servicios Médicos.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+    else
+    {
+        if (HttpContext.Current.User.IsInRole("UnidadER"))
+        {
+            <div class="col-lg-3 col-md-6 item text-center">
+                <a href="http://148.234.143.206/ServiciosMedicos/Directorio/List">
+                    <div class="card item-card card-block">
+                        <center><img class="icons" src="~/Imagenes/iconos/DIRECTORIO.png" /></center>
+                        <h5 class="item-card-title mt-3 mb-3">Directorio</h5>
+                        <p class="card-text">
+                            Directorio Telefónico Servicios Médicos.
+                        </p>
+                        <button class="card-link">Ver más</button>
+                    </div>
+                </a>
+            </div>
+        }
+    }
+
+    @if (HttpContext.Current.User.IsInRole("Kioscos"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("KioscoCitas", "Kioscos")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/KIOSKO-3x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Kiosco Citas</h5>
+                    <p class="card-text">
+                        Kiosco Citas.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+
+    @if (HttpContext.Current.User.IsInRole("Kioscos"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("KioscoRecetas", "Kioscos")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/KIOSKO-3x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Kiosco Recetas</h5>
+                    <p class="card-text">
+                        Kiosco Recetas.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+
+    @if (HttpContext.Current.User.IsInRole("Enfermeria"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("MenuEnfermeria", "EnfermeriaSolicitud")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/enfermeriaicon.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Módulo Enfermería</h5>
+                    <p class="card-text">
+                        Solicitudes de Enfermería.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+    @if (HttpContext.Current.User.IsInRole("CapacitacionDesarrollo"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("Menu", "CapacitacionDesarrollo")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/capacitaciondesarrollo.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Capacitacion y Desarrollo</h5>
+                    <p class="card-text">
+                        Módulo Capacitacion y Desarrollo
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+    @if (HttpContext.Current.User.IsInRole("FarmacoVigilancia"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("Index", "FarmacoVigilancia")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/Farmaco.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">FarmacoVigilancia</h5>
+                    <p class="card-text">
+                        Notas de Farmacovigilancia.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+    @if (User.Identity.Name == "99999")
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("Index", "ReporteActividadesSemanal")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/reporteenfermeria.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Reporte Semanal</h5>
+                    <p class="card-text">
+                        Reportes por departamento.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+    @if (HttpContext.Current.User.IsInRole("PruebaAntigenos"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("PruebaAntigenos", "ServiciosMedicos")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/reporteenfermeria.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Captura Prueba Antigenos</h5>
+                    <p class="card-text">
+                        Busca paciente y llena el resultado del estudio.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+    @if (User.Identity.Name.Substring(0, 2) == "03" || User.Identity.Name == "02101" || User.Identity.Name == "92002" || User.Identity.Name == "04044" || User.Identity.Name == "04108" || User.Identity.Name == "02308" || User.Identity.Name == "RRAMOSL" || User.Identity.Name == "LAYALAL")
+    {
+        if (HttpContext.Current.User.IsInRole("FiltroCovid") || User.Identity.Name.Substring(0, 2) == "03")
+        {
+            <div class="col-lg-3 col-md-6 item text-center">
+                <a href="@Url.Action("Busqueda", "CovidSolicitud")">
+                    <div class="card item-card card-block">
+                        <center><img class="icons" src="~/Imagenes/iconos/coronavirus.png" /></center>
+                        <h5 class="item-card-title mt-3 mb-3">Filtro SM</h5>
+                        <p class="card-text">
+                            Captura cuestionario covid-19
+                        </p>
+                        <button class="card-link">Ver más</button>
+                    </div>
+                </a>
+            </div>
+        }
+    }
+
+    @if (Request.UserHostAddress == "148.234.143.166")
+    {
+        if (HttpContext.Current.User.IsInRole("FiltroCovid"))
+        {
+            <!---div class="col-lg-3 col-md-6 item text-center">
+                <a href="@Url.Action("BusquedaAEMA", "CovidSolicitud")">
+                    <div class="card item-card card-block">
+                        <center><img class="icons" src="~/Imagenes/iconos/coronavirus.png" /></center>
+                        <h5 class="item-card-title mt-3 mb-3">Filtro SM</h5>
+                        <p class="card-text">
+                            Captura cuestionario covid-19
+                        </p>
+                        <button class="card-link">Ver más</button>
+                    </div>
+                </a>
+            </div-->
+        }
+    }
+
+    @if (user == "891306e0-c80d-402f-af3d-d6fd4f566f66")
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("PantallaCitasCU", "Home")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/MONITOR-RECETAS-3x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3"> SEMAC </h5>
+                    <p class="card-text">
+                        Lista de espera SEMAC
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+    @if (HttpContext.Current.User.IsInRole("TrabajoSocial"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("CapturarNota", "TrabajoSocial")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/RECURSOS-HUMANOS-3x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Captura Nota T.S.</h5>
+                    <p class="card-text">
+                        Captura Nota T.S.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+
+    @if (HttpContext.Current.User.IsInRole("TrabajoSocial"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("HUPacientes", "TrabajoSocial")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/RECURSOS-HUMANOS-3x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">HU Pacientes</h5>
+                    <p class="card-text">
+                        HU Pacientes
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+
+    @if (HttpContext.Current.User.IsInRole("FiltroPrestaciones"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("FiltroPrestaciones", "ServiciosMedicos")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/REPORTES-MEDICOS-3x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3"> Recepción de Ordenes de Servicios</h5>
+                    <p class="card-text">
+                        Solicitud de ordenes generadas
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+
+    @if (HttpContext.Current.User.IsInRole("InventarioLista"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("InventarioLista", "Farmacia")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/REPORTES-MEDICOS-3x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Lista de Inventario</h5>
+                    <p class="card-text">
+                        Farmacia.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+    @if (HttpContext.Current.User.IsInRole("Almacen"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("InventarioLista", "Almacen")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/REPORTES-MEDICOS-3x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Lista de Inventario</h5>
+                    <p class="card-text">
+                        Almacen.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+
+    @if (HttpContext.Current.User.IsInRole("InventarioUER"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("InventarioListaUER", "Farmacia")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/REPORTES-MEDICOS-3x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Lista de Inventario UER</h5>
+                    <p class="card-text">
+                        Farmacia.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+    @if (HttpContext.Current.User.IsInRole("SalidaAlmacen"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("SalidaAlmacen", "Almacen")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/REPORTES-MEDICOS-3x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Salida de Inventario</h5>
+                    <p class="card-text">
+                        Almacen.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+    @if (HttpContext.Current.User.IsInRole("EntradaAlmacen"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("EntradaAlmacen", "Almacen")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/REPORTES-MEDICOS-3x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Entrada de Inventario</h5>
+                    <p class="card-text">
+                        Almacen.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+
+    @if (HttpContext.Current.User.IsInRole("ReporteConsumoInv"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("ReporteConsumoInv", "Inventario")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/reporteenfermeria.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Consumo Almacén</h5>
+                    <p class="card-text">
+                        Aplicación Consumo Almacén
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+
+    }
+
+
+    @if (HttpContext.Current.User.IsInRole("ReporteConsumoFarm"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("ReporteConsumoFarmacia", "Inventario")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/reporteenfermeria.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Consumo Farmacia</h5>
+                    <p class="card-text">
+                        Aplicación Consumo Farmacia
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+
+    }
+
+    @if (HttpContext.Current.User.IsInRole("Tickets"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("Index", "Tickets")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/SOISM13x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">SOI</h5>
+                    <p class="card-text">
+                        Solicitudes Internas entre Departamentos.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+    @if (HttpContext.Current.User.IsInRole("InhabilitarMedicamentos"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("InhabilitarMedicamentos", "Farmacia")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/iconos/FARMACIA-3x.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Inhabilitar medicamentos</h5>
+                    <p class="card-text">
+                        Inhabilita medicamentos por medio de su clave.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+
+    @if (HttpContext.Current.User.Identity.Name == "erickm")
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("CatalogoMedicamento", "CatalogoMedicamento")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/CatMedicamentos.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Registro Medicamentos</h5>
+                    <p class="card-text">
+                        Registra o edita medicamentos.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+    @if (HttpContext.Current.User.IsInRole("FarmaciaCatalogos"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("CatalogoMedicamento", "CatalogoMedicamento")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/CatMedicamentos.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Registro Medicamentos</h5>
+                    <p class="card-text">
+                        Registra o edita medicamentos.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+
+    @if (HttpContext.Current.User.IsInRole("FarmaciaCatalogos"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("RegistroCodBar", "RegistroCodBar")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/scanning.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Registro Código de barras</h5>
+                    <p class="card-text">
+                        Registra los codigos de barras.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+    @if (HttpContext.Current.User.IsInRole("FarmaciaCatalogos"))
+    {
+        <!--div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("VisorMed", "VisorMedicamentos")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/Medical123.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Visor Medicamentos</h5>
+                    <p class="card-text">
+                        Ver estatus de los medicamentos.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div-->
+    }
+
+
+    @if (HttpContext.Current.User.IsInRole("FarmaciaCatalogos") || HttpContext.Current.User.IsInRole("Almacen"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("MNivel2", "MedNivel2")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/Med2.jpeg" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Medicamento Temporal</h5>
+                    <p class="card-text">
+                        Medicamento Temporal
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+    @if (HttpContext.Current.User.IsInRole("Triage"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("RecTriage", "RecepcionTriage")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/recepcion_triage.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">FILTRO TRIAGE</h5>
+                    <p class="card-text">
+                        Captura de datos del derechohabiente
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+    @if (HttpContext.Current.User.IsInRole("Triage"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("MedicoUrgenciasT2", "RecepcionTriage")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/urgencias_triage.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">MÉDICOS TRIAGE</h5>
+                    <p class="card-text">
+                        Ver y llamar al derechohabiente al consultorio
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+    @if (HttpContext.Current.User.IsInRole("Triage"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("ListaEsperaT", "RecepcionTriage")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/ListaEspera_Triage.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">RECEPCIÓN TRIAGE</h5>
+                    <p class="card-text">
+                        Pantalla derechohabientes triage
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+
+
+    @if (HttpContext.Current.User.IsInRole("FarmaciaCatalogos") || HttpContext.Current.User.IsInRole("CatalogoCalidad") || HttpContext.Current.User.IsInRole("CatalogoAlmacen") || HttpContext.Current.User.IsInRole("Kioscos"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("AdministradorMed", "AdministradorMed")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/Medical123.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Visor Medicamentos</h5>
+                    <p class="card-text">
+                        Ver estatus de los medicamentos.
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+
+    @if (HttpContext.Current.User.IsInRole("AltaUrgencias"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("HUPacientes", "TrabajoSocial")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/Medical123.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Asignar Pacientes</h5>
+                    <p class="card-text">
+                        Registro de pacientes del Hospital
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+    @if (HttpContext.Current.User.IsInRole("PacientesHospitial"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("PacientesHospitial", "ServiciosMedicos")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/Medical123.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Pacientes Hospitial</h5>
+                    <p class="card-text">
+                        Registro de pacientes del Hospital
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+
+    @if (HttpContext.Current.User.IsInRole("Coordinador"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("CuadroBasico", "CuadroBasico")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/Med2.jpeg" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Cuadro Básico</h5>
+                    <p class="card-text">
+                        Medicamentos
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+
+    @if (HttpContext.Current.User.IsInRole("FarmaciaCatalogos"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("Requisicion", "Requisicion")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/requi.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">REQUISICIÓN</h5>
+                    <p class="card-text">
+                        Ver y generar Requisiciones y Borradores
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+    <script>
+        function imprimiExcel() {
+            window.open('/Manage/RpExcel/', '_blank');
+
+        }
+    </script>
+
+</div>
+

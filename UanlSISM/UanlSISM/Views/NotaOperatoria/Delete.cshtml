@@ -1,0 +1,217 @@
+﻿@model UanlSISM.Models.NotaOperatoria
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>NotaOperatoria</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.OrdenFolio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrdenFolio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PreOperatoriaId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PreOperatoriaId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Medico)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Medico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumEmp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumEmp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResumenClinico)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResumenClinico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResEstudiosDiagnosticos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResEstudiosDiagnosticos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DiagnosticoIngreso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DiagnosticoIngreso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DiagnosticoIngresoDesc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DiagnosticoIngresoDesc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PlanTerCirujiaPlaneada)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlanTerCirujiaPlaneada)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RiesgoQuirurgico)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RiesgoQuirurgico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CirujiaRealizada)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CirujiaRealizada)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DiagnosticoEgreso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DiagnosticoEgreso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DiagnosticoEgresoDesc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DiagnosticoEgresoDesc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoAnestecia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoAnestecia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DescTecnicaQuirurgicaTerapeutica)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DescTecnicaQuirurgicaTerapeutica)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Hallazgos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hallazgos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Incidentes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Incidentes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sangrado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sangrado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MotivoEgreso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MotivoEgreso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstadoActualProblemasClinicos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstadoActualProblemasClinicos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PlanManejo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlanManejo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Pronostico)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Pronostico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsuarioCreacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsuarioCreacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaCreacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaCreacion)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

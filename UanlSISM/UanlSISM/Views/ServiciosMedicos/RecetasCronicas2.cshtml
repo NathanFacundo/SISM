@@ -1,0 +1,3282 @@
+﻿@model UanlSISM.Models.DHABIENTES
+
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Recetas Crónicas - Servicios Médicos";
+    var user = HttpContext.Current.User.Identity.GetUserId();
+}
+
+<style>
+    #home-seccion {
+        margin-top: 20px;
+    }
+
+    .icons {
+        width: 8vw;
+    }
+
+    .item {
+        padding: 10px;
+    }
+
+    .item-card {
+        transition: 0.5s;
+        cursor: pointer;
+        padding: 20px;
+    }
+
+
+    .card-link {
+        background-color: #FBC43D;
+        border-color: #FBC43D;
+        color: white;
+        padding: 5px 20px;
+    }
+
+        .card-link:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+    .item-card-title {
+        font-size: 15px;
+        transition: 1s;
+        cursor: pointer;
+    }
+
+        .item-card-title i {
+            font-size: 15px;
+            transition: 1s;
+            cursor: pointer;
+            color: #ffa710
+        }
+
+    .card-title i:hover {
+        transform: scale(1.25) rotate(20deg);
+        color: #18d4ca;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        /*box-shadow: 5px 5px 5px rgba(0,0,0,0.3);*/
+    }
+
+    .card::before, .card::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: scale3d(0, 0, 1);
+        transition: transform .3s ease-out 0s;
+        background: rgba(255, 255, 255, 0.1);
+        content: '';
+        pointer-events: none;
+    }
+
+    .card::before {
+        transform-origin: left top;
+    }
+
+    .card::after {
+        transform-origin: right bottom;
+    }
+
+    .card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
+        transform: scale3d(1, 1, 1);
+    }
+
+    .foto-paciente {
+        width: 6vw;
+        height: 6vw;
+        border-radius: 6vw;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: rgba(0,74,143,0.8);
+        background-image: url('http://148.234.143.205/SISM/Imagenes/uanl.png');
+    }
+
+    .cuadro {
+        background-color: #fff;
+        border-radius: 1vw;
+    }
+
+    .nav-tabs .nav-item {
+        width: 195px;
+        z-index: 99;
+    }
+
+    .dropdown-toggle {
+        width: 195px;
+        font-size: 15px !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        text-align: left;
+        z-index: 0;
+        border-top-left-radius: 20px;
+        border: 3px solid rgba(0,74,143,1);
+    }
+
+        .dropdown-toggle:hover {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+        .dropdown-toggle:focus {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+    .dropdown-menu {
+        float: inherit !important;
+        width: 100% !important;
+    }
+
+    .dropdown-item {
+        font-size: 15px !important;
+        padding: 3px 10px !important;
+        white-space: break-spaces !important;
+    }
+
+        .dropdown-item .material-icons {
+            font-size: 15px !important;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+        .dropdown-item:focus {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 15px !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        border-top-left-radius: 20px;
+        margin-left: -20px;
+        -webkit-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        -moz-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        border: 2.5px solid rgba(0,74,143,1);
+    }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link:hover {
+            font-size: 15px !important;
+            background-color: rgba(0, 88, 171,1) !important;
+            color: white !important;
+            border: 2.5px solid rgba(0, 88, 171,1);
+        }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            background-color: #FBC43D;
+            color: white !important;
+            border: 2.5px solid #FBC43D;
+        }
+
+            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active:hover {
+                background-color: #FBC43D !important;
+            }
+
+    .doc-info {
+        text-align: right;
+    }
+
+    .fade {
+        opacity: 1 !important;
+    }
+
+    .modal-backdrop {
+        background-color: rgba(0,0,0,0.4) !important;
+    }
+
+    .modal-content {
+        margin-top: 6vw;
+        padding-bottom: 2vw;
+    }
+
+    .datos-paciente label {
+        font-size: 0.8vw;
+    }
+
+    .datos-paciente input {
+        border: none !important;
+        border-bottom: 2px solid lightgray !important;
+        padding: 1px 3px;
+        border-radius: 0px;
+    }
+
+    #grad1 {
+        background-color: : #9C27B0;
+        background-image: linear-gradient(120deg, #FF4081, #81D4FA)
+    }
+
+    #example2 {
+        text-align: center;
+        position: relative;
+        margin-top: 20px
+    }
+
+    #msform fieldset .form-card {
+        background: white;
+        border: 0 none;
+        border-radius: 0px;
+        box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+        padding: 20px 40px 30px 40px;
+        box-sizing: border-box;
+        width: 94%;
+        margin: 0 3% 20px 3%;
+        position: relative
+    }
+
+    #msform fieldset {
+        background: white;
+        border: 0 none;
+        border-radius: 0.5rem;
+        box-sizing: border-box;
+        width: 100%;
+        margin: 0;
+        position: relative;
+    }
+
+        #msform fieldset:not(:first-of-type) {
+            display: none
+        }
+
+        #msform fieldset .form-card {
+            text-align: left;
+            color: #9E9E9E
+        }
+
+    #msform input,
+    #msform textarea {
+        padding: 0px 8px 4px 8px;
+        border: none;
+        border-bottom: 1px solid #FBC43D;
+        border-radius: 0px;
+        margin-top: 2px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        color: #2C3E50;
+        font-size: 16px;
+        letter-spacing: 1px;
+    }
+
+        #msform input:focus,
+        #msform textarea:focus {
+            -moz-box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+            border: none;
+            font-weight: bold;
+            border-bottom: 2px solid #FBC43D;
+            outline-width: 0
+        }
+
+    #msform .action-button {
+        width: 130px;
+        background: #FBC43D;
+        font-weight: bold;
+        color: white;
+        border: 0 none;
+        border-radius: 0px;
+        cursor: pointer;
+        padding: 10px 5px;
+        margin: 10px 5px
+    }
+
+        #msform .action-button:hover,
+        #msform .action-button:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 3px #FBC43D
+        }
+
+    #msform .action-button-previous {
+        width: 130px;
+        background: lightgray;
+        font-weight: bold;
+        color: white;
+        border: 0 none;
+        border-radius: 0px;
+        cursor: pointer;
+        padding: 10px 5px;
+        margin: 10px 5px
+    }
+
+        #msform .action-button-previous:hover,
+        #msform .action-button-previous:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 3px lightgray
+        }
+
+
+
+    #msform .success-button {
+        width: 130px;
+        background: rgba(0,74,143,0.8);
+        font-weight: bold;
+        color: white;
+        border: 0 none;
+        border-radius: 0px;
+        cursor: pointer;
+        padding: 10px 5px;
+        margin: 10px 5px
+    }
+
+        #msform .success-button:hover,
+        #msform .success-button:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 3px rgba(0,74,143,0.8)
+        }
+
+    #msform .success-button-previous {
+        width: 130px;
+        background: rgba(0,74,143,0.8);
+        font-weight: bold;
+        color: white;
+        border: 0 none;
+        border-radius: 0px;
+        cursor: pointer;
+        padding: 10px 5px;
+        margin: 10px 5px
+    }
+
+        #msform .success-button-previous:hover,
+        #msform .success-button-previous:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 3px rgba(0,74,143,0.8);
+        }
+
+    select.list-dt {
+        border: none;
+        outline: 0;
+        border-bottom: 1px solid lightgray;
+        padding: 2px 5px 3px 5px;
+        margin: 2px
+    }
+
+        select.list-dt:focus {
+            border-bottom: 2px solid #FBC43D
+        }
+
+    .card {
+        z-index: 0;
+        border: none;
+        border-radius: 0.5rem;
+        position: relative
+    }
+
+    .fs-title {
+        font-size: 25px;
+        color: #2C3E50;
+        margin-bottom: 10px;
+        font-weight: bold;
+        text-align: left
+    }
+
+    #progressbar {
+        margin-bottom: 30px;
+        overflow: hidden;
+        color: lightgrey
+    }
+
+        #progressbar .active {
+            color: #000000;
+            opacity: 1;
+        }
+
+        #progressbar li {
+            list-style-type: none;
+            font-size: 12px;
+            width: 25%;
+            opacity: 0.7;
+            float: left;
+            cursor: pointer;
+            position: relative
+        }
+
+        #progressbar #account:before {
+            content: "S"
+        }
+
+        #progressbar li#account.changed:before,
+        #progressbar li#account.changed:after {
+            background: green;
+        }
+
+        #progressbar #personal:before {
+            content: "O"
+        }
+
+        #progressbar li#personal.changed:before,
+        #progressbar li#personal.changed:after {
+            background: green;
+        }
+
+        #progressbar #payment:before {
+            content: "A"
+        }
+
+        #progressbar li#payment.changed:before,
+        #progressbar li#payment.changed:after {
+            background: green;
+        }
+
+        #progressbar #confirm:before {
+            content: "P"
+        }
+
+        #progressbar li#confirm.changed:before,
+        #progressbar li#confirm.changed:after {
+            background: green;
+        }
+
+        #progressbar li:before {
+            width: 50px;
+            height: 50px;
+            line-height: 45px;
+            display: block;
+            font-size: 18px;
+            color: #ffffff;
+            background: lightgray;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+            padding: 2px
+        }
+
+        #progressbar li:after {
+            content: '';
+            width: 100%;
+            height: 2px;
+            background: lightgray;
+            position: absolute;
+            left: 0;
+            top: 25px;
+            z-index: -1
+        }
+
+        #progressbar li.active:before,
+        #progressbar li.active:after {
+            background: #FBC43D
+        }
+
+    .radio-group {
+        position: relative;
+        margin-bottom: 25px
+    }
+
+    .radio {
+        display: inline-block;
+        width: 204;
+        height: 104;
+        border-radius: 0;
+        background: lightblue;
+        box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
+        cursor: pointer;
+        margin: 8px 2px
+    }
+
+        .radio:hover {
+            box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3)
+        }
+
+        .radio.selected {
+            box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.1)
+        }
+
+    .fit-image {
+        width: 100%;
+        object-fit: cover
+    }
+
+    .btn-diagnosticos {
+        background-color: rgba(0,74,143,0.8) !important;
+        color: white;
+        font-size: 1vw;
+        width: 100%;
+    }
+
+        .btn-diagnosticos:hover {
+            color: white;
+        }
+
+    #loadingDiv {
+        position: fixed;
+        z-index: 9999;
+        background-color: rgba(0,0,0,0.2);
+        width: 100%;
+        height: 100vw;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        color: white;
+        text-align: center;
+        padding-top: 20vh;
+    }
+
+        #loadingDiv .spinner-border {
+            width: 8vw;
+            height: 8vw;
+        }
+
+    .diag-box {
+        background-color: #FBC43D;
+        color: white;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+
+    /*.select2-selection__choice {
+        float: initial !important;
+        margin: 0 !important;
+        font-size:1.5vw !important;
+        padding:1vw !important;
+    }
+
+    .select2-selection__rendered{
+        padding:0.5vw !important;
+    }
+
+    .select2-selection--multiple{
+        height:6vw !important;
+    }*/
+
+    #locality-dropdown {
+        max-width: 100% !important;
+    }
+
+    .dataTables_wrapper .dataTables_info {
+        width: 100% !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        width: 100% !important;
+        text-align: center !important;
+        text-align: center !important;
+        margin-bottom: 1vw;
+    }
+
+        .dataTables_wrapper .dataTables_filter label {
+            width: 100% !important;
+            font-weight: bolder;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            width: 80% !important;
+        }
+
+    .dataTables_wrapper .dataTables_length {
+        display: none;
+    }
+
+    .btn-danger {
+        width: 100%;
+    }
+
+        .btn-danger .material-icons {
+            font-size: 1.2vw !important;
+        }
+
+    table.dataTable tbody tr.selected {
+        background-color: #FBC43D !important;
+        color: white !important;
+    }
+
+    #msform h3 {
+        color: #000;
+    }
+
+    .checking {
+        cursor: pointer;
+        color: lightgray;
+    }
+
+    table.dataTable tbody tr.selected .checking {
+        color: white !important;
+    }
+
+    tipoconsulta {
+        border-radius: 0px;
+    }
+
+    .resumenTop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 2.5vw;
+        height: 2.5vw;
+        border-radius: 2.5vw;
+        background-color: green;
+        color: white;
+        font-size: 1.2vw;
+        line-height: 2.5vw;
+        text-align: center;
+    }
+
+    .resumenText {
+        font-size: 1.2vw;
+        margin-top: 3vw;
+        color: black;
+        cursor: pointer;
+    }
+
+    .tipoconsulta {
+        border-radius: 0px;
+        border: 2px solid #FBC43D;
+    }
+
+    .btn-vermas {
+        background-color: rgba(0,74,143,1) !important;
+        color: white !important;
+        font-size: 0.8vw !important;
+        border: 2px solid rgba(0,74,143,0.8) !important;
+    }
+
+    .modal-body .select-checkbox {
+        display: none;
+    }
+
+    .modal-header {
+        text-align: center;
+    }
+
+        .modal-header .close {
+            margin: 0 !important;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+    .dt-button-collection {
+        display: block !important;
+    }
+
+        .dt-button-collection .dropdown-menu {
+            margin-left: -8vw !important;
+            padding: 0;
+        }
+
+            .dt-button-collection .dropdown-menu li {
+                padding: 4px !important;
+            }
+
+                .dt-button-collection .dropdown-menu li:hover {
+                    background-color: rgba(0,74,143,0.8);
+                    color: white;
+                }
+
+    .buttons-collection {
+        color: #FBC43D;
+        padding: 3px;
+    }
+
+    #medicamentosModal .modal-footer {
+        justify-content: center;
+    }
+
+    #medicamentosModal .input-group-text {
+        font-size: 0.8rem;
+        background: transparent;
+        border: none;
+        color: black;
+    }
+
+    #medicamentosModal select {
+        border: none;
+        border-bottom: 2px solid #FBC43D;
+        border-radius: 0px;
+        color: black;
+        font-size: 0.8rem;
+    }
+
+    #medicamentosModal h3 {
+        font-size: 0.8rem;
+    }
+
+    #medicamentosModal2 .modal-footer {
+        justify-content: center;
+    }
+
+    #medicamentosModal2 .input-group-text {
+        font-size: 0.8rem;
+        background: transparent;
+        border: none;
+        color: black;
+    }
+
+    #medicamentosModal2 select {
+        border: none;
+        border-bottom: 2px solid #FBC43D;
+        border-radius: 0px;
+        color: black;
+        font-size: 0.8rem;
+    }
+
+    #medicamentosModal2 h3 {
+        font-size: 0.8rem;
+    }
+
+    #dosisinfo {
+        border-bottom: 2px solid #FBC43D;
+        padding-bottom: 12px;
+    }
+
+    .input-number {
+        border: none;
+        border-bottom: 2px solid #FBC43D;
+        padding: 1px;
+        font-size: 0.8rem;
+        text-align: center;
+        color: black;
+    }
+
+    .condiciones {
+        border: none;
+        border-bottom: 2px solid #FBC43D;
+        padding: 1px;
+        font-size: 0.8rem;
+        color: black;
+    }
+
+    .cantidad {
+        color: #FBC43D;
+    }
+
+    .meses_surtir {
+        color: #FBC43D;
+    }
+
+    .resumenReceta {
+        width: 5vw;
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        margin-bottom: 4vw;
+        z-index: 99;
+        margin-right: 1vw;
+        transform: rotate(20deg);
+    }
+
+    #resumenRecetaModal .modal-dialog {
+        max-width: 900px;
+    }
+
+    #resumenRecetaModal p {
+        font-size: 0.8vw;
+    }
+
+    .lineafirma {
+        width: 100%;
+        height: 2px;
+        background-color: #000000;
+        margin-bottom: 1vw;
+        margin-top: 4vw;
+    }
+
+    .linea2 {
+        width: 100%;
+        height: 2px;
+        background-color: #FBC43D;
+    }
+
+    .animated-progress {
+        width: 100%;
+        height: 30px;
+        border-radius: 5px;
+        overflow: hidden;
+        position: relative;
+        border: 2px solid #FBC43D;
+        cursor: pointer;
+    }
+
+        .animated-progress span {
+            height: 100%;
+            display: block;
+            width: 0;
+            color: rgb(255, 255, 255);
+            line-height: 30px;
+            position: absolute;
+            text-align: center;
+        }
+
+    .progress-green span {
+        background-color: #FBC43D;
+    }
+
+    .img-progress {
+        width: 4vw;
+        margin-top: -1vw;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 999;
+        transform: rotate(20deg);
+        cursor: pointer;
+    }
+
+    #alertMediModal span {
+        font-size: 0.7rem;
+    }
+
+    .imprimirUanl img {
+        width: 65%;
+    }
+
+    .imprimirLogo img {
+        width: 100%;
+    }
+
+
+    #regresarAgenda {
+        position: fixed;
+        z-index: 999;
+        bottom: 0;
+        right: 0;
+        width: 5vw;
+        height: 5vw;
+        border-radius: 100%;
+        background-color: #FBC43D;
+        margin-bottom: 3vw;
+        margin-right: 1vw;
+        text-align: center;
+        cursor: pointer
+    }
+
+        #regresarAgenda img {
+            width: 2.3vw;
+            margin-top: 1.2vw;
+            filter: brightness(0) invert(1);
+        }
+
+    #regresarAgendaTxt {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #FBC43D;
+        padding: 5px 20px !important;
+        font-size: 1.1vw;
+        width: 15vw;
+        margin-top: 1.3vw;
+        margin-left: -13.5vw;
+        color: white;
+    }
+
+    #medicamentosModal .modal-dialog {
+        max-width: 600px;
+    }
+
+    #medicamentosModal2 .modal-dialog {
+        max-width: 600px;
+    }
+
+    .reactivar {
+        background-color: #FBC43D;
+        color: white;
+        padding: 2px 10px;
+        margin-left: 10px;
+    }
+
+        .reactivar:hover {
+            color: white;
+        }
+
+
+    .noreactivar {
+        background-color: #FBC43D;
+        color: white;
+        padding: 2px 10px;
+        margin-left: 10px;
+    }
+
+        .noreactivar:hover {
+            color: white;
+        }
+
+    .btn-buscar {
+        background-color: #FBC43D;
+        color: white !important;
+    }
+
+        .btn-buscar:hover {
+            background-color: #FBC43D !important;
+            color: white;
+        }
+
+    #linea-doc-info {
+        width: 85%;
+        margin-left: 15%;
+        height: 2px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(100,100,100,1) 26%, rgba(50,50,50,1) 29%, rgba(20,20,20,1) 33%, rgba(0,0,0,1) 38%, rgba(0,0,0,1) 100%);
+    }
+
+    #inputGroupSelect01 {
+        border: none;
+        border-bottom: 2px solid #FBC43D;
+        padding: 1px;
+        font-size: 0.8rem;
+        color: black;
+        margin-right: 10px;
+    }
+
+    #error-condiciones {
+        color: #e3324a;
+    }
+
+    #editarResModal .modal-dialog {
+        max-width: 600px;
+    }
+
+    #listaeditar{
+        padding:10px;
+    }
+
+    .btn-surtir {
+        background-color: #FBC43D !important;
+        color: white !important;
+        border: 2px solid #FBC43D;
+        width: 100%;
+    }
+
+    .btn-liberar {
+        color: #282828 !important;
+        width: 100%;
+        background-color: #e9ecef;
+    }
+
+    .editar {
+        background-color: rgba(0,74,143,1);
+        color: white;
+        padding: 2px 10px;
+        margin-left: 10px;
+    }
+
+    .editar:hover{
+        color: white !important;
+    }
+
+    .editando {
+        background-color: rgba(0,74,143,1);
+        color: white;
+        padding: 2px 10px;
+        margin-left: 10px;
+    }
+
+    .editando:hover {
+         color: white !important;
+    }
+
+</style>
+
+<style type="text/css" media="screen and (max-width: 991px)">
+    .foto-paciente {
+        width: 18vw;
+        height: 18vw;
+        border-radius: 18vw;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 3vw !important;
+    }
+
+    .doc-info {
+        text-align: center;
+    }
+
+    .dropdown-toggle {
+        font-size: 3vw !important;
+    }
+
+    .dropdown-item {
+        font-size: 3vw !important;
+    }
+
+    .datos-paciente label {
+        font-size: 4vw;
+        text-align: center;
+    }
+
+    #progressbar {
+        padding: 0px !important;
+    }
+
+    #msform fieldset .form-card {
+        width: 100%;
+        margin: 0px !important;
+        padding: 10px !important;
+    }
+
+    .resumenText {
+        font-size: 3vw;
+        margin-top: 6vw;
+    }
+
+    .resumenTop {
+        margin-left: 2vw;
+        width: 6vw;
+        height: 6vw;
+        border-radius: 6vw;
+        font-size: 4vw;
+        line-height: 6vw;
+    }
+
+    .nav-tabs .nav-item {
+        z-index: 9;
+    }
+
+    #regresarAgenda {
+        width: 8vw;
+        height: 8vw;
+        margin-bottom: 7vw;
+    }
+
+        #regresarAgenda img {
+            width: 4vw;
+            margin-top: 2vw;
+        }
+
+    #regresarAgendaTxt {
+        font-size: 1.5vw;
+        width: 20vw;
+        margin-top: 2vw;
+        margin-left: -19vw;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 767px)">
+    .foto-paciente {
+        width: 18vw;
+        height: 18vw;
+        border-radius: 18vw;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 3vw !important;
+    }
+
+    .doc-info {
+        text-align: center;
+    }
+
+    .dropdown-toggle {
+        font-size: 3vw !important;
+    }
+
+    .dropdown-item {
+        font-size: 3vw !important;
+    }
+
+    .animated-progress {
+        height: 40px;
+        line-height: 40px;
+    }
+
+        .animated-progress h6 {
+            font-size: 13px;
+        }
+
+    .img-progress {
+        width: 17vw;
+        margin-top: -3vw;
+        margin-right: 2vw;
+    }
+
+    .btn-vermas {
+        font-size: 3vw !important;
+    }
+
+    .imprimir-content h5 {
+        font-size: 2vw;
+    }
+
+    .imprimirUanl {
+        padding: 0px !important;
+    }
+
+    .imprimirLogo {
+        padding: 0px !important;
+    }
+
+    .imprimirTitulo hr {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .imprimir-content h6 {
+        font-size: 2vw;
+    }
+
+    .imprimir-content svg {
+        height: 30px !important;
+        margin-left: -90px;
+    }
+
+    .getMedicamento {
+        font-size: 10px;
+    }
+
+    .btn-editar {
+        padding: 1px;
+        font-size: 10px;
+        margin-left: 20px;
+    }
+
+    .btn-eliminar {
+        padding: 1px;
+        font-size: 10px;
+        margin-left: 20px;
+    }
+
+    .nav-tabs .nav-item {
+        z-index: 9;
+    }
+
+    #regresarAgendaTxt {
+        display: none;
+    }
+
+    #regresarAgenda {
+        width: 15vw;
+        height: 15vw;
+    }
+
+        #regresarAgenda img {
+            width: 8vw;
+            margin-top: 3vw;
+        }
+</style>
+
+
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+
+<link rel='stylesheet' href='https://select2.github.io/select2-bootstrap-theme/css/select2-bootstrap.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css'>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.full.min.js'></script>
+
+<link rel='stylesheet' href='https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.css'>
+
+<link rel='stylesheet' href="~/Content/codebar.css" />
+
+
+<div id="loadingDiv">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<a href="@Url.Action("Index", "ServiciosMedicos")">
+    <div id="regresarAgenda" class="animate__animated animate__fadeInRight">
+        <img src="~/Imagenes/iconfinder_Artboard_23_6015036.png" />
+        <div id="regresarAgendaTxt"> <b>Regresar a mi agenda</b> </div>
+    </div>
+</a>
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Consultas", "Manage")"><b>Consultas</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Index", "ServiciosMedicos")"><b>Servicios Médicos</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("RecetasCronicas", "ServiciosMedicos", new { id = Model.NUMEMP })"><b>Recetas Crónicas</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12 text-center">
+        <h2><strong>Módulo Servicios Médicos</strong></h2>
+    </div>
+</div>
+
+
+<div class="row cuadro animate__animated animate__fadeInLeft">
+    <div class="col-lg-12 p-3">
+        <div class="row m-0">
+            <div class="col-md-7 m-auto p-3">
+                <div class="row m-0">
+                    <div class="col-lg-3 col-4 p-2 text-center m-auto">
+                        <center><div class="foto-paciente"></div></center>
+                    </div>
+                    <div class="col-lg-9 col-8 p-2 m-auto">
+                        <h6>Expediente: <b>@Model.NUMEMP </b> <input type="hidden" id="numemp" value="@Model.NUMEMP" /> </h6>
+                        <h6>Nombre: <b>@Model.NOMBRES @Model.APATERNO @Model.AMATERNO</b> </h6>
+                        <h6>Registro Hospital Universitario: <b>@Model.REGHU</b> </h6>
+                        <div class="row m-0">
+                            <!--div class="col-md-3 p-0">
+                                <h6 class="mt-0">Edad: <input type="hidden" id="FNAC" name="FNAC" value="@Model.FNAC" /> <b id="edad"></b> años</h6>
+                            </div-->
+                            <div class="col-md-3 p-0">
+                                <h6 class="mt-0">Sexo: <b>@Model.SEXO</b></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 p-3 doc-info">
+                <h6>Doctor: <b> <span class="putUserName"></span> </b></h6>
+                @if (user == "56c2d316-65ec-464e-9201-250eecc8a015")
+                {
+                    <h6>Especialidad: <b> MEDICINA GENERAL </b></h6>
+                }
+                else
+                {
+                    <h6>Especialidad: <b> <span class="putEspecialidad"></span> </b></h6>
+                }
+                <div id="linea-doc-info"></div>
+                <p class="m-0">HU - Usuario: <b>webpacs</b> Contraseña: <b>webpacs</b></p>
+                <p class="m-0">GARCIA BARELLA - Usuario: <b>UANL</b> Contraseña: <b>UANL</b></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <ul class="nav nav-tabs" id="custom-content-below-tab mt-4" role="tablist">
+            <div class="btn-group" style="z-index: 99;">
+                <button type="button" style="background-color:rgba(0,74,143,1) ; border:4.5px solid rgba(0,74,143,1);box-shadow:rgba(0,0,0,0.3) -5px 0px 5px -2px" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Historia del paciente
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="@Url.Action("HojaFrontal", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Hoja Frontal</a>
+                    <a href="@Url.Action("HistorialPadecimientos", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Historial de consultas</a>
+                    <a href="@Url.Action("Kardex", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Kardex</a>
+                </div>
+            </div>
+            <div class="btn-group" style="margin-left: -15px; z-index: 99;">
+                <button style="background-color:rgba(0,74,143,1) ; border:4.5px solid rgba(0,74,143,1);box-shadow:rgba(0,0,0,0.3) -5px 0px 5px -2px" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    SOAP
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="@Url.Action("SOAP", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span> Consulta</a>
+                </div>
+            </div>
+            <div class="btn-group" style="margin-left: -20px; z-index: 99;">
+                <button style="background-color:#FBC43D !important;border:4.5px solid #fbc43d !important; box-shadow:rgba(0,0,0,0.3) -5px 0px 5px -2px" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Recetas
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+
+                    @if (HttpContext.Current.User.IsInRole("UnidadERSEMAC"))
+                    {
+                        <a href="@Url.Action("RecetasUnidadERSEMAC", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span>Receta Unidad ER - SEMAC</a>
+                    }
+
+                    @if (HttpContext.Current.User.IsInRole("UnidadER"))
+                    {
+                        <a href="@Url.Action("RecetasUnidadER", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span>Receta Unidad ER</a>
+                    }
+
+                    @if (HttpContext.Current.User.IsInRole("Mederos"))
+                    {
+                        <a href="@Url.Action("RecetasMederos", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span>Receta Mederos</a>
+                    }
+
+                    @if (HttpContext.Current.User.IsInRole("Ciudad Universitaria"))
+                    {
+                        <a href="@Url.Action("RecetasCU", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span>Receta SEMAC</a>
+                    }
+
+                    <a href="@Url.Action("Recetas", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span> Receta Farmacia SM</a>
+
+
+                    @if (!HttpContext.Current.User.IsInRole("UnidadER"))
+                    {
+                        <a href="@Url.Action("RecetasCronicas", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span> Receta Resurtimiento</a>
+                    }
+
+                    <a href="@Url.Action("ListaRecetas", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Ver Recetas</a>
+                    <a href="@Url.Action("HistorialRecetas", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Historial Medicamentos</a>
+                </div>
+            </div>
+            <div class="btn-group" style="margin-left: -20px; z-index: 99;">
+                <button type="button" onclick="closetoogle()" style="background-color:rgba(0,74,143,1) ; border:4.5px solid rgba(0,74,143,1);box-shadow:rgba(0,0,0,0.3) -5px 0px 5px -2px" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Estudios
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+
+                    <a class="dropdown-item" id="rayosx" onmouseover="submenuRX()"><span class="material-icons">arrow_drop_down</span><b>Rayos X</b></a>
+                    <hr class="dropdown-divider">
+                    <a id="submenuRX_1" style="display:none" class="dropdown-item" href="@Url.Action("RayosX", "ServiciosMedicos", new { id = Model.NUMEMP ,medico = User.Identity.GetUserName()})"><span class="material-icons">add</span>Generar RX</a>
+                    <a id="submenuRX_2" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.200:3333/studyList?searchID=@Model.NUMEMP.Substring(0,5)-@Model.NUMEMP.Substring(@Model.NUMEMP.Length-3)">SMUANL</a>
+                    <a id="submenuRX_3" style="display:none" class="dropdown-item" target="_blank" href="http://cuid.dyndns.org/portal">HU</a>
+                    <a id="submenuRX_5" style="display:none" class="dropdown-item" target="_blank" href="http://radiodiagnostico.dynns.com/pacs/login.php?message=Bienvenido%20a%20iQ-WEB">Garcia Barella</a>
+                    <hr class="dropdown-divider">
+                    <a class="dropdown-item" id="lab-tab" onmouseover="submenuLab()"><span class="material-icons">arrow_drop_down</span><b>Laboratorio</b></a>
+                    <a id="submenuLab_1" style="display:none" class="dropdown-item" href="@Url.Action("Index", "Laboratorio", new { expediente = Model.NUMEMP ,medico = User.Identity.GetUserName()})"><span class="material-icons">add</span>Generar Solicitud</a>
+                    <a id="submenuLab_2" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.204/resultados3/listanombres.asp?numexp=@Model.NUMEMP">Ver Resultados Laboratorio</a>
+                    <hr class="dropdown-divider">
+                    <a class="dropdown-item" onmouseover="submenuAntigenos()"><span class="material-icons">arrow_drop_down</span><b>Prueba Antígenos</b></a>
+                    <a id="submenuAntigenos_1" style="display:none" class="dropdown-item" href="@Url.Action("Index", "CovidSolicitud", new { expediente = Model.NUMEMP })"><span class="material-icons">add</span>Generar Solicitud</a>
+                    <a id="submenuAntigenos_2" style="display:none" class="dropdown-item" href="@Url.Action("ResultadoAntigenos", "ServiciosMedicos", new { id = Model.NUMEMP })">Ver Resultados</a>
+                    <hr class="dropdown-divider">
+                    <a class="dropdown-item" id="lab-tab" onmouseover="submenuArchivos()"><span class="material-icons">arrow_drop_down</span><b>Archivos</b></a>
+                    <a id="submenuArchivos_1" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=ekg">E K G</a>
+                    <a id="submenuArchivos_2" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=cito">Citologías</a>
+                    <a id="submenuArchivos_3" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=biopsia">Biopsia</a>
+                    <a id="submenuArchivos_4" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=ecc">E.C.C</a>
+                    <a id="submenuArchivos_5" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=presfuerzo">Prueba esfuerzo</a>
+                    <a id="submenuArchivos_6" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=holters">Holters</a>
+                    <a id="submenuArchivos_7" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=consinf">Cons. Informado</a>
+                    <a id="submenuArchivos_8" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=endo">Procedimientos Qx.</a>
+                    <a id="submenuArchivos_9" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=DENS">Densitometria</a>
+                    <a id="submenuArchivos_10" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=LAB">Laboratorio Externo</a>
+                    <a id="submenuArchivos_11" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=psico">Psicología</a>
+                    <a id="submenuArchivos_12" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=onco">Oncología</a>
+                    <a id="submenuArchivos_13" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=gastro">Gastro</a>
+                    <a id="submenuArchivos_14" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=OTR">Otros Estudios</a>
+                </div>
+            </div>
+            <div class="btn-group" style="margin-left: -20px; z-index: 99;">
+                <button type="button" style="background-color:rgba(0,74,143,1);border:4.5px solid rgba(0,74,143,1);box-shadow:rgba(0,0,0,0.3) -5px 0px 5px -2px" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Órdenes
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    @if (User.IsInRole("PrestacionSolicitud") || User.Identity.Name.Substring(0, 2) == "05" || User.Identity.Name.Substring(0, 2) == "29" || User.Identity.Name.Substring(0, 2) == "14" || User.Identity.Name.Substring(0, 2) == "60" || User.Identity.Name.Substring(0, 2) == "23" || User.Identity.Name.Substring(0, 2) == "09" || User.Identity.Name.Substring(0, 2) == "63")
+                    {
+                        <a class="dropdown-item" href="@Url.Action("Prestaciones", "ServiciosMedicos", new { id = Model.NUMEMP })"><span class="material-icons">add</span><b>Solicitud de Servicio</b></a>
+                        <a class="dropdown-item" href="@Url.Action("VerPrestaciones", "ServiciosMedicos", new { id = Model.NUMEMP })">Ver solicitudes</a>
+                    }
+                    <a class="dropdown-item" href="@Url.Action("ValoracionPensionistas", "Manage", new { id = Model.NUMEMP })"><span class="material-icons">add</span><b>Valoración Urgencia</b></a>
+                    <a class="dropdown-item" href="@Url.Action("TodasValoracionesPensionistas", "Manage")">Ver mis valoraciones</a>
+                    <a class="dropdown-item" href="@Url.Action("OrdenInternamiento", "Manage", new { id = Model.NUMEMP })"><span class="material-icons">add</span><b>Orden Internamiento</b></a>
+                    <a class="dropdown-item" href="@Url.Action("TodasOrdenesInternamiento", "Manage")">Ver mis órdenes</a>
+                    <hr class="dropdown-divider">
+                    <a class="dropdown-item" href="@Url.Action("Index", "EnfermeriaSolicitud",new { expediente = Model.NUMEMP })"><span class="material-icons">add</span><b>Solicitud EKG</b></a>
+                    <hr class="dropdown-divider">
+                    <a class="dropdown-item" data-toggle="modal" data-target="#ModalPaquete"><span class="material-icons">add</span><b>Paq.Preoperatorio</b></a>
+                </div>
+            </div>
+            <div class="btn-group" style="margin-left: -20px; z-index: 99;">
+                <button type="button" style="background-color: rgba(0,74,143,1); border: 4.5px solid rgba(0,74,143,1);box-shadow: rgba(0,0,0,0.3) -5px 0px 5px -2px" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Proc. Ambulatorios
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="@Url.Action("ProcAmbOrdenes", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span>Capturar</a>
+                    <a href="@Url.Action("VerProcAmbOrdenes", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Ver Historial</a>
+                </div>
+            </div>
+        </ul>
+        <div class="row m-0">
+            <div class="col-12 mt-5 procesoReceta" data-toggle="modal" data-target="#resumenRecetaModal">
+                <div class="animated-progress progress-green">
+                    <span></span>
+                </div>
+                <img data-toggle="modal" data-target="#resumenRecetaModal" class="img-progress" src="http://148.234.143.203/SISM-Medico/Imagenes/resumen-recetas-2.png" />
+            </div>
+        </div>
+        <div class="row m-0">
+            <div class="col-12 mt-5 text-right">
+                <button class="btn btn-buscar" id="resurtirNuevo">Crear nuevo resurtimiento</button>
+                <button class="btn btn-buscar" id="cerrar"> ^ </button>
+            </div>
+        </div>
+        <div class="tab-content" id="custom-content-below-tabContent">
+            <div class="tab-pane fade show active" id="custom-content-below-1" role="tabpanel" aria-labelledby="custom-content-below-1-tab">
+                <div class="row">
+                    <div class="col-12 tabla1" id="msform">
+                        <table id="example" class="table table-bordered table-striped" width="100%">
+                            <!--caption style="caption-side: top">Selecciona un derechohabiente</caption-->
+                            <thead>
+                                <tr>
+                                    <!--th></th-->
+                                    <th>MEDICAMENTO</th>
+                                    <th>DOSIS</th>
+                                    <th>MÉDICO</th>
+                                    <th>FECHA DE CREACIÓN</th>
+                                    <th>DETALLES</th>
+                                    <!--th>CLAVE</th-->
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                    <div class="col-12 tabla2 text-center" id="msform">
+                        <table id="example2" class="table table-bordered table-striped" width="100%">
+                            <!--caption style="caption-side: top">Selecciona un derechohabiente</caption-->
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th>GRUPO</th>
+                                    <th>PRESENTACIÓN</th>
+                                    <th>EXISTENCIA S.M.</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-content-below-2" role="tabpanel" aria-labelledby="custom-content-below-2-tab">
+                <div class="row">
+                    <div class="col-12 mt-5">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-content-below-3" role="tabpanel" aria-labelledby="custom-content-below-3-tab">
+                <div class="row">
+                    <div class="col-12 mt-5">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-content-below-4" role="tabpanel" aria-labelledby="custom-content-below-4-tab">
+                <div class="row">
+                    <div class="col-12 mt-5">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-content-below-5" role="tabpanel" aria-labelledby="custom-content-below-5-tab">
+                <div class="row">
+                    <div class="col-12 mt-5">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-content-below-6" role="tabpanel" aria-labelledby="custom-content-below-6-tab">
+                <div class="row">
+                    <div class="col-12 mt-5">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-content-below-7" role="tabpanel" aria-labelledby="custom-content-below-7-tab">
+                <div class="row">
+                    <div class="col-12 mt-5">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-content-below-8" role="tabpanel" aria-labelledby="custom-content-below-8-tab">
+                <div class="row">
+                    <div class="col-12 mt-5">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-content-below-9" role="tabpanel" aria-labelledby="custom-content-below-9-tab">
+                <div class="row">
+                    <div class="col-12 mt-5">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-content-below-10" role="tabpanel" aria-labelledby="custom-content-below-10-tab">
+                <div class="row">
+                    <div class="col-12 mt-5">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="custom-content-below-11" role="tabpanel" aria-labelledby="custom-content-below-11-tab">
+                <div class="row">
+                    <div class="col-12 mt-5">
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="medicamentosModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            @using (Html.BeginForm("GuardarReceta", "ServiciosMedicos", FormMethod.Post))
+            {
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-10 m-auto">
+                            <input type="hidden" value="@Model.NUMEMP" id="numemp" name="Expediente" />
+                            <input type="hidden" value="" id="putNumero" name="medico" />
+                            <h3>Grupo: <b><span id="grupomodal"></span></b></h3>
+                            <!--h3>Sal: <b><span id="salmodal"></span></b></h3-->
+                            <h3>Presentación: <b><span id="premodal"></span></b></h3>
+                            <input type="hidden" value="" id="clavemodal" name="Codigo" />
+                            <input type="hidden" value="" id="unidadlimodal" name="unidad_licitacion" />
+                        </div>
+                        <div class="col-2 m-auto">
+                            <img style="width:100%; transform: rotate(20deg)" src="~/Imagenes/medicamento.png" />
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row m-0">
+                        <div class="col-md-12 p-1">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend pr-2">
+                                    <select required id="inputGroupSelect00" class="form-control"><option disabled selected>Seleccionar</option><option value="Tomar">Tomar</option><option value="Aplicar">Aplicar</option> </select>
+                                </div>
+                                <input id="inputGroupSelect01" value="1" type="number" min="0.5" max="300" onkeydown="return false;" step=".50" />
+                                <!--select class="custom-select" id="inputGroupSelect01">
+                                    <option value="0.25">1/4</option>
+                                    <option value="0.5">1/2</option>
+                                    @for (int i = 1; i < 301; i++)
+                                    {
+                                        if (i == 1)
+                                        {
+                                            @: <option selected value="@i">@i</option>
+                                        }
+                                        else
+                                        {
+                                            @: <option value="@i">@i</option>
+                                        }
+
+                                    }
+                                </select-->
+                                <select class="form-control" id="inputGroupSelect04">
+                                    <option disabled selected>Seleccionar</option>
+                                    <option value="ampolleta(s)">ampolleta(s)</option>
+                                    <option value="tableta(s)">tableta(s)</option>
+                                    <option value="pastilla(s)">pastilla(s)</option>
+                                    <option value="capsula(s)">capsula(s)</option>
+                                    <option value="mililitro(s)">mililitro(s)</option>
+                                    <option value="inyeccion(es)">inyeccion(es)</option>
+                                    <option value="cucharada(s)">cucharada(s)</option>
+                                    <option value="gragea(s)">gragea(s)</option>
+                                    <option value="gota(s)">gota(s)</option>
+                                    <option value="miligramo(s)">miligramo(s)</option>
+                                    <option value="suspension(es)">suspension(es)</option>
+                                    <option value="inhalacion(es)">inhalacion(es)</option>
+                                    <option value="gel">gel</option>
+                                    <option value="crema">crema</option>
+                                    <option value="jarabe">jarabe</option>
+                                    <option value="gota(s) pediatrica(s)">gota(s) pediatrica(s)</option>
+                                    <option value="tableta(s) sublingual(es)">tableta(s) sublingual(es)</option>
+                                    <option value="parche(s)">parche(s)</option>
+                                    <option value="tableta(s) efervecente(s)">tableta(s) efervecente(s)</option>
+                                    <option value="frasco(s) ampula(s)">frasco(s) ampula(s)</option>
+                                    <option value="frasco(s)">frasco(s)</option>
+                                    <option value="vacuna(s)">vacuna(s)</option>
+                                    <option value="polvo(s)">polvo(s)</option>
+                                    <option value="solucion(es)">solucion(es)</option>
+                                    <option value="comprimido(s)">comprimido(s)</option>
+                                    <option value="bolsa(s)">bolsa(s)</option>
+                                    <option value="ungüento(s)">ungüento(s)</option>
+                                    <option value="implante(s)">implante(s)</option>
+                                    <option value="aerosol nasal">aerosol nasal</option>
+                                    <option value="aerosol bucal">aerosol bucal</option>
+                                    <option value="sobre(s)">sobre(s)</option>
+                                    <option value="leche en polvo">leche en polvo</option>
+                                    <option value="lata(s)">lata(s)</option>
+                                    <option value="locion(es)">locion(es)</option>
+                                    <option value="perla(s)">perla(s)</option>
+                                    <option value="plumas(s) precargada(s)">plumas(s) precargada(s)</option>
+                                    <option value="cartucho(s)">cartucho(s)</option>
+                                    <option value="ovulo(s)">ovulo(s)</option>
+                                    <option value="supositorio(s)">supositorio(s)</option>
+                                    <option value="spray">spray</option>
+                                    <option value="disparo(s)">disparo(s)</option>
+                                    <option value="unidad(es) (ui)">unidad(es) (ui)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 p-1">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text p-1" for="inputGroupSelect02">cada</label>
+                                </div>
+                                <select class="custom-select" id="inputGroupSelect02">
+                                    @for (int i = 1; i < 25; i++)
+                                    {
+                                        @: <option value="@i">@i</option>
+                                    }
+                                </select>
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text p-1" for="inputGroupSelect02">horas</label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6 p-1">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text p-1" for="inputGroupSelect03">Tx.durante</label>
+                                </div>
+                                <select class="custom-select" id="inputGroupSelect03">
+                                    @for (int i = 1; i < 91; i++)
+                                    {
+                                        @: <option value="@i">@i</option>
+                                    }
+                                </select>
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text p-1" for="inputGroupSelect03">días</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row m-0">
+                        <div class="col-md-8 p-1">
+                            <h3>Dosis</h3>
+                            <h3 id="dosisinfo"><span id="viainfo" contenteditable="true"></span> <span id="tomarinfo" contenteditable="true">1</span> <span id="presentacioninfo" contenteditable="true"></span> <span contenteditable="true">cada</span> <span id="horasinfo" contenteditable="true">1</span> <span contenteditable="true">hora(s) por</span> <span id="diasinfo">1</span> <span contenteditable="true">días</span></h3>
+                            <input type="hidden" id="dosis" name="Dosis" value="" />
+                        </div>
+
+                        <div class="col-md-4 p-1">
+                            <h3>Cantidad a surtir</h3>
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default btn-number p-0" data-type="plus" data-field="Cantidad">
+                                        <span class="material-icons cantidad">add</span>
+                                    </button>
+                                </span>
+                                <input type="text" name="Cantidad" id="cantidad" class="form-control input-number" value="1" min="1" max="300">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default btn-number p-0" disabled="disabled" data-type="minus" data-field="Cantidad">
+                                        <span class="material-icons cantidad">remove</span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row m-0">
+                        <div class="col-md-12 p-1">
+                            <h3>Condiciones especiales de administración</h3>
+                            <textarea style="max-width:100%;" id="condiciones" name="Indicaciones" maxlength="100" class="form-control condiciones"></textarea>
+                            <h3 id="error-condiciones">Maximo de 100 caracteres en las condiciones</h3>
+                        </div>
+                    </div>
+
+
+                    <!--div class="row m-0">
+                        <div class="col-md-12 p-1">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="resurCheck">
+                                <label class="form-check-label" for="resurCheck"><h3>Recetar para resurtimiento</h3></label>
+                            </div>
+                        </div>
+                    </div-->
+
+                    <div-- class="row m-0" id="resurtimientoInfo">
+                        <div class="col-md-12 p-1">
+                            <h3>Meses a surtir</h3>
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default btn-number p-0" data-type="plus" data-field="meses_surtir">
+                                        <span class="material-icons meses_surtir">add</span>
+                                    </button>
+                                </span>
+                                <input type="text" name="meses_surtir" id="meses_surtir" class="form-control input-number" value="1" min="1" max="3" required>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default btn-number p-0" disabled="disabled" data-type="minus" data-field="meses_surtir">
+                                        <span class="material-icons meses_surtir">remove</span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!--div class="col-md-8 p-1">
+                            <h3>Fecha de inicio de síntomas</h3>
+                            <input style="max-width:100%;" type="date" name="fec_ini_sintomas" id="fec_ini_sintomas" class="form-control condiciones" required>
+                        </div-->
+                </div>
+
+                <div class="row m-0">
+                    <div class="col-md-12 p-1" id="alertMediModal">
+                    </div>
+                </div>
+
+
+                <hr />
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" style="width:100%;" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="submit" style="width:100%; background-color:rgba(0,74,143,1);" class="btn btn-success">Guardar</button>
+                    </div>
+                </div>
+
+
+            </div>
+        }
+        </div>
+    </div>
+    </div>
+
+
+    <div class="modal fade" id="medicamentosModal2" tabindex="-1" role="dialog" aria-labelledby="medicamentosModal2Label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                @using (Html.BeginForm("GuardarReceta", "ServiciosMedicos", FormMethod.Post))
+                {
+                    <div class="modal-body">
+
+                        <input type="hidden" value="@Model.NUMEMP" id="numemp" name="Expediente" />
+                        <input type="hidden" value="" id="putNumero" name="medico" />
+
+                        <div class="row m-0">
+                            <div class="col-md-12 p-0" id="medicamentosResur">
+
+                            </div>
+                        </div>
+
+                        <div class="row m-0" id="resurtimientoInfo">
+                            <div class="col-md-4 p-1">
+                                <h3>Meses a surtir</h3>
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default btn-number p-0" data-type="plus" data-field="meses_surtir">
+                                            <span class="material-icons meses_surtir">add</span>
+                                        </button>
+                                    </span>
+                                    <input type="text" name="meses_surtir" id="meses_surtir" class="form-control input-number" value="1" min="1" max="100" required>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default btn-number p-0" disabled="disabled" data-type="minus" data-field="meses_surtir">
+                                            <span class="material-icons meses_surtir">remove</span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8 p-1">
+                                <h3>Fecha de inicio de síntomas</h3>
+                                <input style="max-width:100%;" type="date" name="fec_ini_sintomas" id="fec_ini_sintomas" class="form-control condiciones" required>
+                            </div>
+                        </div>
+
+                        <div class="row m-0">
+                            <div class="col-md-12 p-1" id="alertMediModal">
+                            </div>
+                        </div>
+
+
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button type="button" style="width:100%;" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" style="width:100%; background-color:rgba(0,74,143,1);" class="btn btn-success">Guardar</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!--img data-toggle="modal" data-target="#resumenRecetaModal" class="resumenReceta" src="~/Imagenes/resumen-recetas.png" /-->
+
+
+    <div class="modal fade" id="resumenRecetaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body imprimir-content">
+                    <div class="row m-0 text-center pt-3">
+                        <div class="col-2 m-auto imprimirUanl">
+                            <img src="~/Imagenes/uanl.png" />
+                        </div>
+                        <div class="col-8 m-auto imprimirTitulo">
+                            <h5>UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</h5>
+                            <hr />
+                            <h5>SERVICIOS MÉDICOS</h5>
+                        </div>
+                        <div class="col-2 m-auto imprimirLogo">
+                            <img src="~/Imagenes/Servicios Medicos_Mesa de trabajo 1.png" />
+                        </div>
+                    </div>
+                    <div class="row m-0 text-center pt-4">
+                        <div class="col-12">
+                            <p class="m-0"><em>Receta Médica - Servicios Médicos</em></p>
+                            <h5><span class="putUserName"></span></h5>
+                            <h6>
+                                Registrar Datos Universidad Especialidad:
+                                @if (user == "56c2d316-65ec-464e-9201-250eecc8a015")
+                                {
+                                    <span>MEDICINA GENERAL</span>
+                                }
+                                else
+                                {
+                                    <span class="putEspecialidad"></span>
+                                }
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="row m-0 pt-4">
+                        <div class="col-7 p-0">
+                            <h6><b>Paciente:</b>  @Model.NOMBRES @Model.APATERNO @Model.AMATERNO</h6>
+                            <h6><b>Fecha:</b> @DateTime.Now.ToString("dddd, dd MMMM yyyy")</h6>
+                            <h6 class="folioReceta"><b>Folio de Receta: </b><span class="folio_rcta"></span></h6>
+                        </div>
+                        <div class="col-5 text-right p-0">
+                            <h6><b>Expediente:</b> @Model.NUMEMP</h6>
+                            <svg id="barcode"></svg>
+
+                        </div>
+                    </div>
+
+                    <div class="row m-0" style="border:2px solid black; border-radius:2px">
+                        <div class="col-12 p-0">
+                            <div-- class="row m-0 p-2">
+                                <div class="col-12 p-0 btn-editarMed">
+
+                                </div>
+                                <!--div class="col-3 m-auto">
+                                    <button class="btn btn-eliminar" style="color:rgba(0,74,143,1);">Eliminar</button>
+                                </div-->
+                        </div>
+                    </div>
+
+                    <div class="row m-0 pt-4 text-center">
+                        <div class="col-2 m-auto">
+                            <p class="m-0"><b>CED. PROF.</b></p>
+                            <p class="m-0"><b><span class="putCedula"></span></b></p>
+                        </div>
+                        <div class="col-2 m-auto">
+                            <p class="m-0"><b>CED. PROF. ESP.</b></p>
+                            <p class="m-0"><b><span class="putCedulaEsp"></span></b></p>
+                        </div>
+                        <div class="col-4 m-auto">
+                            <div class="lineafirma" style="width:100%; height:2px; background-color:#000000; margin-bottom:1vw; margin-top:4vw;"></div>
+                            <p>Firma del Médico</p>
+                        </div>
+                        <div class="col-4 m-auto">
+                            <p class="m-0"><b>U.A.N.L. SERVICIOS MÉDICOS</b></p>
+                            <p class="m-0"><b>GONZALITOS Y HAITI S/N COL. MITRAS CENTRO</b></p>
+                            <p class="m-0"><b>MONTERREY NUEVO LEÓN C.P. 66460 TEL.83486902</b></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row m-0 pt-4">
+                    <div class="col-md-6 m-auto" id="agregarotro">
+                        <button type="button" style="width:100%;" class="btn btn-secondary agregarotro" data-dismiss="modal">Agregar otro medicamento</button>
+                    </div>
+                    <div class="col-md-6" id="terminar">
+                        @using (Html.BeginForm("TerminarReceta", "ServiciosMedicos", FormMethod.Post))
+                        {
+                            <input type="hidden" class="folio_rcta" value="" name="Folio_Rcta" />
+                            <input type="hidden" class="folio_rc" value="0" name="folio_rc" />
+                            <input type="hidden" value="@Model.NUMEMP" id="numemp" name="Expediente" />
+                            <button type="submit" style="width:100%; background-color:rgba(0,74,143,1);" class="btn btn-success terminar">Terminar</button>
+                        }
+                    </div>
+                    <div class="col-md-6" id="imprimir">
+                        <button type="button" style="width:100%; background-color:rgba(0,74,143,1);" class="btn btn-success imprimir">Imprimir</button>
+                    </div>
+                    <!--div class="col-md-6" id="generarNueva">
+                            <input type="hidden" class="folio_rcta" value="" name="Folio_Rcta" />
+                            <button type="submit" style="width:100%;" class="btn btn-success">Generar nueva receta</button>
+                    </div-->
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="editarResModal" tabindex="-1" role="dialog" aria-labelledby="editarResModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content p-0">
+                <div class="modal-body imprimir-content p-0">
+
+                    <div class="row m-0">
+                        <div class="col-12 p-3 m-auto text-center" style="background-color: #FBC43D; color: white;">
+                            <img src="~/Imagenes/medicamento.png" style="width:10%;" />
+                            <h4 class="mt-3"><b>CONSULTA</b></h4>
+                        </div>
+                    </div>
+
+
+                    <div class="row m-0" id="listaeditar">
+
+                    </div>
+
+                    <div class="row m-0">
+                        <div class="col-md-5 ml-auto p-0">
+                            <div class="row m-0">
+                                <div class="col-md-6 p-2">
+                                    <button type="submit" class="btn btn-surtir">Guardar</button>
+                                </div>
+                                <div class="col-md-6 p-2">
+                                    <button type="button" class="btn btn-liberar">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                </div>
+        </div>
+    </div>
+
+
+    @Html.Partial("PaquetePreoperatorio")
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    @*//Funciones toogle del menu*@
+    <script type="text/javascript">
+
+        function submenuRX() {
+
+            $('#submenuRX_1').show();
+            $('#submenuRX_2').show();
+            $('#submenuRX_3').show();
+            $('#submenuRX_4').show();
+            $('#submenuRX_5').show();
+
+            $('#submenuLab_1').hide();
+            $('#submenuLab_2').hide();
+            $('#submenuArchivos_1').hide();
+            $('#submenuArchivos_2').hide();
+            $('#submenuArchivos_3').hide();
+            $('#submenuArchivos_4').hide();
+            $('#submenuArchivos_5').hide();
+            $('#submenuArchivos_6').hide();
+            $('#submenuArchivos_7').hide();
+            $('#submenuArchivos_8').hide();
+            $('#submenuArchivos_9').hide();
+            $('#submenuArchivos_10').hide();
+            $('#submenuArchivos_11').hide();
+            $('#submenuArchivos_12').hide();
+            $('#submenuArchivos_13').hide();
+            $('#submenuArchivos_14').hide();
+            $('#submenuAntigenos_1').hide();
+            $('#submenuAntigenos_2').hide();
+
+        }
+
+        function submenuLab() {
+
+            $('#submenuLab_1').show();
+            $('#submenuLab_2').show();
+
+            $('#submenuRX_1').hide();
+            $('#submenuRX_2').hide();
+            $('#submenuRX_3').hide();
+            $('#submenuRX_4').hide();
+            $('#submenuRX_5').hide();
+            $('#submenuArchivos_1').hide();
+            $('#submenuArchivos_2').hide();
+            $('#submenuArchivos_3').hide();
+            $('#submenuArchivos_4').hide();
+            $('#submenuArchivos_5').hide();
+            $('#submenuArchivos_6').hide();
+            $('#submenuArchivos_7').hide();
+            $('#submenuArchivos_8').hide();
+            $('#submenuArchivos_9').hide();
+            $('#submenuArchivos_10').hide();
+            $('#submenuArchivos_11').hide();
+            $('#submenuArchivos_12').hide();
+            $('#submenuArchivos_13').hide();
+            $('#submenuArchivos_14').hide();
+            $('#submenuAntigenos_1').hide();
+            $('#submenuAntigenos_2').hide();
+        }
+
+
+        function submenuArchivos() {
+            $('#submenuArchivos_1').show();
+            $('#submenuArchivos_2').show();
+            $('#submenuArchivos_3').show();
+            $('#submenuArchivos_4').show();
+            $('#submenuArchivos_5').show();
+            $('#submenuArchivos_6').show();
+            $('#submenuArchivos_7').show();
+            $('#submenuArchivos_8').show();
+            $('#submenuArchivos_9').show();
+            $('#submenuArchivos_10').show();
+            $('#submenuArchivos_11').show();
+            $('#submenuArchivos_12').show();
+            $('#submenuArchivos_13').show();
+            $('#submenuArchivos_14').show();
+
+            $('#submenuLab_1').hide();
+            $('#submenuLab_2').hide();
+            $('#submenuRX_1').hide();
+            $('#submenuRX_2').hide();
+            $('#submenuRX_3').hide();
+            $('#submenuRX_4').hide();
+            $('#submenuRX_5').hide();
+            $('#submenuAntigenos_1').hide();
+            $('#submenuAntigenos_2').hide();
+        }
+
+        function submenuAntigenos() {
+            $('#submenuAntigenos_1').show();
+            $('#submenuAntigenos_2').show();
+
+            $('#submenuRX_1').hide();
+            $('#submenuRX_2').hide();
+            $('#submenuRX_3').hide();
+            $('#submenuRX_4').hide();
+            $('#submenuRX_5').hide();
+            $('#submenuLab_1').hide();
+            $('#submenuLab_2').hide();
+            $('#submenuArchivos_1').hide();
+            $('#submenuArchivos_2').hide();
+            $('#submenuArchivos_3').hide();
+            $('#submenuArchivos_4').hide();
+            $('#submenuArchivos_5').hide();
+            $('#submenuArchivos_6').hide();
+            $('#submenuArchivos_7').hide();
+            $('#submenuArchivos_8').hide();
+            $('#submenuArchivos_9').hide();
+            $('#submenuArchivos_10').hide();
+            $('#submenuArchivos_11').hide();
+            $('#submenuArchivos_12').hide();
+            $('#submenuArchivos_13').hide();
+            $('#submenuArchivos_14').hide();
+        }
+
+        function closetoogle() {
+            $('#submenuRX_1').hide();
+            $('#submenuRX_2').hide();
+            $('#submenuRX_3').hide();
+            $('#submenuRX_4').hide();
+            $('#submenuRX_5').hide();
+            $('#submenuLab_1').hide();
+            $('#submenuLab_2').hide();
+            $('#submenuArchivos_1').hide();
+            $('#submenuArchivos_2').hide();
+            $('#submenuArchivos_3').hide();
+            $('#submenuArchivos_4').hide();
+            $('#submenuArchivos_5').hide();
+            $('#submenuArchivos_6').hide();
+            $('#submenuArchivos_7').hide();
+            $('#submenuArchivos_8').hide();
+            $('#submenuArchivos_9').hide();
+            $('#submenuArchivos_10').hide();
+            $('#submenuArchivos_11').hide();
+            $('#submenuArchivos_12').hide();
+            $('#submenuArchivos_13').hide();
+            $('#submenuArchivos_14').hide();
+            $('#submenuAntigenos_1').hide();
+            $('#submenuAntigenos_2').hide();
+
+        }
+
+    </script>
+
+    <script>
+        $('#loadingDiv').hide();
+        var numemp = $('#numemp').val();
+        $('.foto-paciente').css("background-image", "url(http://148.234.143.204/smuanl_web/fotos_dhab/" + numemp + ".jpg)");
+    </script>
+
+    <script>
+        var split1 = $('#FNAC').val().split(" ");
+        //console.log(split1);
+        var split2 = split1[0].split("/");
+        var hoy = new Date().getFullYear();
+        var edad = hoy - split2[2];
+        $('#edad').html(edad);
+    </script>
+
+    <script type="text/javascript">
+    $.ajax({
+        type: 'GET',
+        url: '@Url.Action("GetMedicoNombres", "Manage")',
+        dataType: 'json',
+        cache: false,
+        success: function (data) {
+            $('.putUserName').html(data.nombres + " " + data.apellido_paterno + " " + data.apellido_materno);
+            $('#putNumero').val(data.numero);
+            $('.putEspecialidad').html(data.especialidad);
+            $('.putCedula').html(data.cedula);
+            $('.putCedulaEsp').html(data.cedula_esp);
+        },
+        error: function (xhr, status, error) {
+            alert("Error");
+        }
+    });
+    </script>
+
+
+    <script>
+    $('.animated-progress span').attr('data-progress', '25');
+    $(".animated-progress span").animate(
+        {
+            width: $('.animated-progress span').attr("data-progress") + "%",
+        },
+        2000
+    );
+    //$(this).text("En proceso " + $(this).attr("data-progress") + "%");
+    $('.animated-progress span').html("<h6 class='m-0'>EN PROCESO</h6>");
+
+    $('#agregarotro').hide();
+    $('#terminar').hide();
+    $('#imprimir').hide();
+    $('#generarNueva').hide();
+    $('#dosis').val($('#viainfo').html() + ' ' + $('#tomarinfo').html() + ' ' + $('#presentacioninfo').html() + ' cada ' + $('#horasinfo').html() + ' hora(s) por ' + $('#diasinfo').html() + ' días');
+    $(".folioReceta").hide();
+    $("#meses_surtir").val('');
+
+
+    $.ajax({
+        url: '@Url.Action("GetLastRecetaResur", "ServiciosMedicos")',
+        dataType: "json",
+        data: { search: $("#numemp").val() },
+        success: function (data) {
+            $.each(data, function (i, item) {
+                /*if (data[i].recetaNorCount > 0) {
+                    $('#imprimir').hide();
+                    $('#terminar').show();
+                } else {
+                    $('#imprimir').hide();
+                    $('#terminar').hide();
+                }*/
+                //alert('dfff');
+                if (data[i].terminar == 1) {
+                    if (data[i].recetaNorCount > 0) {
+                        $('#imprimir').hide();
+                        $('#terminar').show();
+                    } else {
+                        $('#imprimir').hide();
+                        $('#terminar').hide();
+                    }
+                    //alert(data[i].recetaNorCount);
+                    $('.btn-editar').hide();
+                    $('.btn-eliminar-resur').hide();
+                    $('#agregarotro').hide();
+                    $('#generarNueva').show();
+                    $('.animated-progress span').attr('data-progress', '100');
+                    $('.animated-progress span').animate(
+                        {
+                            width: $('.animated-progress span').attr("data-progress") + "%",
+                        },
+                        2000
+                    );
+                    $('.animated-progress span').html("<h6 class='m-0'>TERMINADA</h6>");
+                    $('.animated-progress span').css("background-color", "rgb(0, 74, 143)");
+                    $('.animated-progress').css("border", "2px solid rgb(0, 74, 143)");
+                    $('.img-progress').attr('src', '../../Imagenes/resumen-recetas.png');
+                    $('#resumenRecetaModal').modal("show");
+                } else {
+                    $('#terminar').show();
+                    $('#agregarotro').show();
+                    $('#imprimir').hide();
+                    $('#generarNueva').hide();
+                    $('.animated-progress span').attr('data-progress', '90');
+                    $('.animated-progress span').animate(
+                        {
+                            width: $('.animated-progress span').attr("data-progress") + "%",
+                        },
+                        2000
+                    );
+                    $('#resumenRecetaModal').modal("show");
+                }
+
+                $('#resurCheck').prop("checked", true);
+                $('#resurtimientoInfo').show();
+                $('#meses_surtir').val(data[i].meses_surtir);
+                var fechasin = data[i].fec_ini_sintomas;
+                var fechasinSplit = fechasin.split(' ');
+                var convertedStartDate = new Date(fechasinSplit[0] + ' ' + fechasinSplit[1] + ' ' + fechasinSplit[2]);
+                var MyDateString = convertedStartDate.getFullYear() + '-' + ('0' + (convertedStartDate.getMonth() + 1)).slice(-2) + '-' + ('0' + convertedStartDate.getDate()).slice(-2);
+                $('#fec_ini_sintomas').val(MyDateString);
+
+                $('.btn-editarMed').append('<input type="hidden" class="medicodigo-res" value="' + data[i].codigo + '">');
+                $('.btn-editarMed').append('<input type="hidden" class="medidosis-res" data-crea="' + data[i].fecha_crea + '" data-sintomas="' + data[i].fec_ini_sintomas + '" data-meses="' + data[i].meses_surtir + '" data-cantidad="' + data[i].cantidad + '" data-indicaciones="' + data[i].indicaciones + '" id="' + data[i].codigo + '" value="' + data[i].dosis + '">');
+                //alert(data[i].folio_rc);
+                $(".folio_rc").val(data[i].folio_rc);
+                //$(".folio_rcta").html(data[i].folio_rc);
+                //console.log(data[i].folio_rc)
+                //$('.btn-editarMed').append('<div class="row m-0"><div class= "col-12 text-left"><input type="text" class="medidosis" value="' + data[i].Dosis + '"></div></div>');
+                //var split1 = data[i].Dosis;
+                //var split2 = split1.split(" ");
+                //console.log(split2[1]);
+
+
+            });
+
+            $(".medicodigo-res").each(function (index) {
+                $.ajax({
+                    url: '@Url.Action("GetNombreMedicamentos", "Manage")',
+                    dataType: "json",
+                    data: { search: $(this).val() },
+                    success: function (data) {
+                        $.each(data, function (i, item) {
+
+                            //console.log(data[i].Descripcion_Sal);
+                            $(".medidosis-res").each(function (index) {
+                                //alert('hola');
+                                if (data[i].Clave == $(this).attr('id')) {
+                                    //alert('hola');
+                                    var dosis = $(this).val();
+                                    var indicaciones = $(this).attr('data-indicaciones');
+                                    var cantidad = $(this).attr('data-cantidad');
+                                    var meses_surtir = $(this).attr('data-meses');
+                                    var fec_ini_sintomas = $(this).attr('data-sintomas');
+                                    var fecha_crea = $(this).attr('data-crea');
+                                    //$('.btn-editarMed').append('<div class="row m-0"><div class= "col-12 text-left getMedicamento"><input type="hidden" value="' + fecha_crea + '" class="creaEdi"><input type="hidden" value="' + fec_ini_sintomas + '" class="sintomasEdi"><input type="hidden" value="' + meses_surtir + '" class="mesesEdi"><input type="hidden" value="' + data[i].Clave + '" class="claveEdi"><input type="hidden" value="' + indicaciones + '" class="indicacionesEdi"><input type="hidden" value="' + cantidad + '" class="cantidadEdi"><input type="hidden" value="' + $(this).val() + '" class="dosisEdi"><b class="salEdi">' + data[i].Descripcion_Sal + '</b> <b class="preEdi">' + data[i].Presentacion + '</b><input type="hidden" class="grupoEdi" value="' + data[i].Descripcion_Grupo + '"><br><span>' + dosis + '</span><button data-sintomas="' + fec_ini_sintomas +'" class="btn btn-editar" style="color:rgba(0,74,143,1);"> Editar</button><button class="btn btn-eliminar-resur" data-clave="' + data[i].Clave + '" style="color:rgba(0,74,143,1);"> Eliminar</button>  <br><span> ' + indicaciones + ' </span>    </div></div>')
+                                    $('.btn-editarMed').append('<div class="row m-0"><div class= "col-12 text-left getMedicamento"><input type="hidden" value="' + fecha_crea + '" class="creaEdi"><input type="hidden" value="' + fec_ini_sintomas + '" class="sintomasEdi"><input type="hidden" value="' + meses_surtir + '" class="mesesEdi"><input type="hidden" value="' + data[i].Clave + '" class="claveEdi"><input type="hidden" value="' + indicaciones + '" class="indicacionesEdi"><input type="hidden" value="' + cantidad + '" class="cantidadEdi"><input type="hidden" value="' + $(this).val() + '" class="dosisEdi"> <b class="preEdi">' + data[i].Presentacion + '</b><input type="hidden" class="grupoEdi" value="' + data[i].Descripcion_Grupo + '"><br><span>' + dosis + '</span><button data-sintomas="' + fec_ini_sintomas +'" class="btn btn-editar" style="color:rgba(0,74,143,1);"> Editar</button><button class="btn btn-eliminar-resur" data-clave="' + data[i].Clave + '" style="color:rgba(0,74,143,1);"> Eliminar</button>  <br><span> ' + indicaciones + ' </span>    </div></div>')
+                                    //console.log(data[i].Descripcion_Sal + 'su dosis es:' + $('.medidosis').val());
+                                }
+                            });
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Error");
+                    }
+                });
+            });
+        },
+        error: function (xhr, status, error) {
+            alert("Error");
+        }
+    });
+
+
+    </script>
+
+
+    <!--script>
+        $.ajax({
+            url: '@Url.Action("GetMedicamentos", "Manage")',
+            dataType: "json",
+            data: { search: $("#numemp").val() },
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    console.log(data[i].Codigo);
+                    $('#resumenRecetaModal').modal("show");
+                    $('#getmedicamentos').html('<h6 class="codigoEdi">' + data[i].Codigo + '</h6>');
+                });
+            },
+            error: function (xhr, status, error) {
+                alert("Error");
+            }
+        });
+    </script-->
+
+    <script src='https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.js'></script>
+    <script src="~/Scripts/dataTables.select.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js"></script>
+    <script src="//cdn.datatables.net/plug-ins/1.12.1/filtering/type-based/accent-neutralise.js"></script>
+
+    <script>
+    $(document).ready(function () {
+
+        (function () {
+
+            function removeAccents(data) {
+                if (data.normalize) {
+                    // Use I18n API if avaiable to split characters and accents, then remove
+                    // the accents wholesale. Note that we use the original data as well as
+                    // the new to allow for searching of either form.
+                    return data + ' ' + data
+                        .normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, '');
+                }
+
+                return data;
+            }
+
+            var searchType = jQuery.fn.DataTable.ext.type.search;
+
+            searchType.string = function (data) {
+                return !data ?
+                    '' :
+                    typeof data === 'string' ?
+                        removeAccents(data) :
+                        data;
+            };
+
+            searchType.html = function (data) {
+                return !data ?
+                    '' :
+                    typeof data === 'string' ?
+                        removeAccents(data.replace(/<.*?>/g, '')) :
+                        data;
+            };
+
+        }());
+
+        $.fn.dataTable.ext.order['dom-checkbox'] = function (settings, col) {
+            return this.api().column(col, { order: 'index' }).nodes().map(function (td, i) {
+                return $(td).closest('tr').hasClass('selected') ? '1' : '0';
+            });
+        }
+
+
+        var groupColumn = 4;
+        var table = $('#example').DataTable({
+            "ajax": {
+                "url": "@Url.Action("RecetasCronicasMed2", "ServiciosMedicos", new { id = Model.NUMEMP })",
+                "dataSrc": "",
+            },
+            "language": {
+                "search": "Buscar medicamentos:",
+                "zeroRecords": "No se encontró ningun medicamento",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+                "select": {
+                    "rows": " %d filas seleccionadas"
+                },
+                "loadingRecords": "Un momento, cargando medicamentos...",
+                "processing": "Procesando medicamentos...",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ medicamentos",
+                "lengthMenu": "Mostrando _MENU_ medicamentos",
+            },
+            "columns": [
+                //{ "data": "Clave" },
+                { "data": "Medicamento" },
+                { "data": "Dosis" },
+                { "data": "Medico" },
+                //{ "data": "Descripcion_Grupo" },
+                //{ "data": "Presentacion" },
+                { "data": "Fecha" },
+                { "data": "Detalles" },
+            ],
+            "columnDefs": [
+                { "visible": false, "targets": groupColumn },
+                /*{
+                    className: 'select-checkbox',
+                    targets: 0,
+                    orderDataType: 'dom-checkbox',
+                    'checkboxes': {
+                        'selectRow': true
+                    },
+                    'render': function (data, type, full, meta) {
+                        var info = data;
+                        var infoSplit = info.split('*');
+                        var folio_rc = infoSplit[1];
+                        var codigo = infoSplit[0];
+                        var numemp = infoSplit[2];
+                        return '<input type="button" data-folio="' + folio_rc + '" data-codigo="' + codigo + '" data-numemp="' + numemp + '" class="btn btn-vermas agregar" value="Agregar">';
+                    }
+                },*/
+                /*{
+                    targets: 4,
+                    'render': function (data, type, full, meta) {
+                        if (data == 0) {
+                            return 'No disponible';
+                        } else {
+                            return 'Disponible';
+                        }
+                    }
+                },*/
+            ],
+            "order": [[3, 'desc']],
+            "displayLength": 25,
+            "drawCallback": function (settings) {
+                var api = this.api();
+                var rows = api.rows({ page: 'current' }).nodes();
+                var last = null;
+
+                api.column(groupColumn, { page: 'current' }).data().each(function (group, i) {
+                    if (last !== group) {
+                        var detalles = group;
+                        var detallesSplit = detalles.split('*');
+                        var folio_rc = detallesSplit[0];
+                        var meses_surtir = detallesSplit[1];
+                        var fecha = detallesSplit[2];
+                        var estado = detallesSplit[3];
+                        var boton = detallesSplit[4];
+                        if (boton == "Reactivar") {
+                            $(rows).eq(i).before(
+                                '<tr style="background-color:#e3e3e3; color:black; text-align:left;" class="group"><td colspan="5">  <span data-folio="' + folio_rc + '" data-meses="' + meses_surtir + '">Resurtimiento del <b>' + fecha + '</b> por <b>' + meses_surtir + '</b> meses</span> <br> <span>Estado: <b>' + estado + '</b></span><button data-folio="' + folio_rc + '" class="btn reactivar">Activar y editar</button></td></tr>'
+                            );
+                        } else {
+
+                            if (boton == "Editar") {
+                                $(rows).eq(i).before(
+                                    '<tr style="background-color:#e3e3e3; color:black; text-align:left;" class="group"><td colspan="5">  <span data-folio="' + folio_rc + '" data-meses="' + meses_surtir + '">Resurtimiento del <b>' + fecha + '</b> por <b>' + meses_surtir + '</b> meses</span> <br> <span>Estado: <b>' + estado + '</b></span><button data-folio="' + folio_rc + '" class="btn editar">Editar</button></td></tr>'
+                                );
+                            } else {
+
+                                if (boton == "Editando") {
+                                    $(rows).eq(i).before(
+                                        '<tr style="background-color:#e3e3e3; color:black; text-align:left;" class="group"><td colspan="5">  <span data-folio="' + folio_rc + '" data-meses="' + meses_surtir + '">Resurtimiento del <b>' + fecha + '</b> por <b>' + meses_surtir + '</b> meses</span> <br> <span>Estado: <b>' + estado + '</b></span><button data-folio="' + folio_rc + '" class="btn editando">Editando</button></td></tr>'
+                                    );
+                                } else {
+                                    $(rows).eq(i).before(
+                                        '<tr style="background-color:#e3e3e3; color:black; text-align:left;" class="group"><td colspan="5">  <span data-folio="' + folio_rc + '" data-meses="' + meses_surtir + '">Resurtimiento del <b>' + fecha + '</b> por <b>' + meses_surtir + '</b> meses</span> <br> <span>Estado: <b>' + estado + '</b></span></td></tr>'
+                                    );
+                                }
+
+
+                            }
+
+                        }
+
+
+
+                        last = group;
+                    }
+                });
+            }
+        });
+
+        // Order by the grouping
+        $('#example tbody').on('click', 'tr.group', function () {
+            /*var currentOrder = table.order()[0];
+            if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
+                table.order([groupColumn, 'desc']).draw();
+            }
+            else {
+                table.order([groupColumn, 'asc']).draw();
+            }*/
+        });
+
+        //Resurtir medicamento
+        table.on('click', '.agregar', function () {
+
+            //alert('fghfg');
+
+            $('#grupomodal').html('');
+            $('#salmodal').html('');
+            $('#premodal').html('');
+            $('#clavemodal').val('');
+            $('#dosis').val('');
+            $('#cantidad').val('');
+            $('#condiciones').val('');
+
+            folio_rc = $(this).attr('data-folio');
+            codigo = $(this).attr('data-codigo');
+            numemp = $(this).attr('data-numemp');
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("ResurtirMedicamento", "ServiciosMedicos")',
+                dataType: 'json',
+                data: { folio_rc: folio_rc, codigo: codigo, numemp: numemp },
+                cache: false,
+                success: function (data) {
+                    $('#grupomodal').html(data.Descripcion_Grupo);
+                    $('#salmodal').html(data.Descripcion_Sal);
+                    $('#premodal').html(data.Presentacion);
+                    $('#clavemodal').val(codigo);
+                    $('#dosis').val(data.Dosis);
+                    $('#cantidad').val(data.Cantidad);
+                    $('#condiciones').val(data.Indicaciones);
+                    $('#meses_surtir').val(data.Meses_surtir);
+                    $('#fec_ini_sintomas').val(data.fec_ini_sintomas);
+                    /*$('#putNumero').val(data.numero);
+                    $('.putEspecialidad').html(data.especialidad);
+                    $('.putCedula').html(data.cedula);
+                    $('.putCedulaEsp').html(data.cedula_esp);*/
+                },
+                error: function (xhr, status, error) {
+                    alert("Error");
+                }
+            });
+
+            $('#medicamentosModal').modal("show");
+        });
+
+        //Reactivar la receta
+        table.on('click', '.reactivar', function () {
+            folio_rc = $(this).attr('data-folio');
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("ReactivarResurtimiento2", "ServiciosMedicos")',
+                dataType: 'json',
+                data: { folio_rc: folio_rc },
+                cache: false,
+                success: function (data) {
+                    //alert("listo");
+                    window.location.reload(true);
+                },
+                error: function (xhr, status, error) {
+                    alert("Error");
+                }
+            });
+        });
+
+
+        //Solo editar
+        table.on('click', '.editar', function () {
+            folio_rc = $(this).attr('data-folio');
+
+            //alert(folio_rc);
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("EditarResurtimiento", "ServiciosMedicos")',
+                dataType: 'json',
+                data: { folio_rc: folio_rc },
+                cache: false,
+                success: function (data) {
+                    $.each(data, function (i, item) {
+                        //console.log(item);
+                        $('#listaeditar').append('<div class="col-12 p-0"><div class="row m-0"><div class="col-8 m-auto p-2"><h6 class="m-0">' + item.medicamento + '</h6><h6 class="m-0">' + item.dosis + '</h6><h6 class="m-0">' + item.indicaciones + '</h6></div><div class="col-2 p-2"><button class="btn btn-editarres" data-codigo="' + item.codigo + '" data-medicamento="' + item.medicamento + '" data-grupo="' + item.grupo + '">Editar</button></div><div class="col-2 p-2"><button class="btn btn-eliminarres">Eliminar</button></div></div></div>')
+                    });
+
+                    //window.location.reload(true);
+                },
+                error: function (xhr, status, error) {
+                    alert("Error");
+                }
+            });
+
+
+            $('#editarResModal').modal("show");
+
+
+        });
+
+        //buscar si hay una en proceso de edicion
+        /*
+        $.ajax({
+            type: 'GET',
+            //url: '@Url.Action("BuscarEditarRes", "ServiciosMedicos")',
+            /*dataType: 'json',
+            //data: { folio_rc: folio_rc },
+            cache: false,
+            success: function (data) {
+
+
+                //console.log(data.Result12);
+                $('#listaeditar').append('<div class="col-12 p-0"><div class="row m-0"><div class="col-7 p-2"><h6 class="m-0">Folio: ' + data.Result12.folio_rc + '</h6><h6 class="m-0">Fecha: ' + data.Result12.fecha + '</h6></div></div></div>');
+                $('#listaeditar').append('<div class="col-12 p-2"><div class="linea2"></div></div>');
+
+
+                $.each(data.Result1, function (i, item) {
+                    //console.log(item);
+                    $('#listaeditar').append('<div class="col-12 p-0"><div class="row m-0"><div class="col-8 m-auto p-2"><h6 class="m-0">' + item.medicamento + '</h6></div><div class="col-2 p-2"><button class="btn btn-editarres" data-codigo="' + item.codigo + '" data-medicamento="' + item.medicamento + '" data-grupo="' + item.grupo + '">Editar</button></div><div class="col-2 p-2"><button class="btn btn-eliminarres">Eliminar</button></div></div></div>')
+                });
+
+                //console.log(data.Result12);
+
+                $('#editarResModal').modal("show");
+
+                //window.location.reload(true);
+            },
+            error: function (xhr, status, error) {
+                alert("Error");
+            }
+        });
+
+        */
+
+
+        table.on('click', '.editando', function () {
+
+            $('#listaeditar').empty();
+
+            var dataFolio = $(this).attr('data-folio');
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("BuscarEditarResFolio", "ServiciosMedicos")',
+                dataType: 'json',
+                data: { folio_rc: dataFolio },
+                cache: false,
+                success: function (data) {
+
+
+                    //console.log(data.Result12);
+                    $('#listaeditar').append('<div class="col-12 p-0"><div class="row m-0"><div class="col-7 p-2"><h6 class="m-0">Folio: ' + data.Result12.folio_rc + '</h6><h6 class="m-0">Fecha: ' + data.Result12.fecha + '</h6></div></div></div>');
+                    $('#listaeditar').append('<div class="col-12 p-2"><div class="linea2"></div></div>');
+
+
+                    $.each(data.Result1, function (i, item) {
+                        //console.log(item);
+                        $('#listaeditar').append('<div class="col-12 p-0"><div class="row m-0"><div class="col-8 m-auto p-2"><h6 class="m-0">' + item.medicamento + '</h6><h6 class="m-0">' + item.dosis + '</h6><h6 class="m-0">' + item.indicaciones + '</h6></div><div class="col-2 p-2"><button class="btn btn-editarres" data-codigo="' + item.codigo + '" data-medicamento="' + item.medicamento + '" data-grupo="' + item.grupo + '">Editar</button></div><div class="col-2 p-2"><button class="btn btn-eliminarres">Eliminar</button></div></div></div>')
+                    });
+
+                    //console.log(data.Result12);
+
+                    $('#editarResModal').modal("show");
+
+                    //window.location.reload(true);
+                },
+                error: function (xhr, status, error) {
+                    alert("Error");
+                    }
+
+            });
+
+        });
+        //$(".btn-editarres").click(function () {
+        $(document).on('click', ".btn-editarres", function () {
+            //alert('dasd');
+            var dataCodigo = $(this).attr('data-codigo');
+            var dataMed = $(this).attr('data-medicamento');
+            var dataGrupo = $(this).attr('data-grupo');
+            //alert(dataGrupo);
+
+            $('#premodal').html(dataMed);
+            $('#clavemodal').val(dataCodigo);
+            $('#grupomodal').html(dataGrupo);
+
+
+            $('#editarResModal').modal("hide");
+            $('#medicamentosModal').modal("show");
+        });
+
+
+
+        $('.tabla2').hide();
+        $('#cerrar').hide();
+
+        $("#resurtirNuevo").click(function () {
+            $(this).hide();
+            $('.tabla1').hide();
+            $('.tabla2').show('200');
+            $('#cerrar').show();
+        });
+
+        $("#cerrar").click(function () {
+            $(this).hide();
+            $('.tabla2').hide();
+            $('.tabla1').show('200');
+            $('#resurtirNuevo').show();
+        });
+
+        $(".agregarotro").click(function () {
+            $('#resumenRecetaModal').modal("hide");
+            $('.tabla2').show('200');
+            $('.tabla1').hide();
+            $('#cerrar').show();
+            $('#resurtirNuevo').hide();
+        });
+
+
+        var groupColumn2 = 5;
+        var table2 = $('#example2').DataTable({
+            "ajax": {
+                "url": "@Url.Action("RecetasMedCro2_Prueba", "ServiciosMedicos", new { id = Model.NUMEMP })",
+                "dataSrc": "",
+            },
+            "language": {
+                "search": "Buscar medicamentos:",
+                "zeroRecords": "No se encontró ningun medicamento",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+                "select": {
+                    "rows": " %d filas seleccionadas"
+                },
+                "loadingRecords": "Un momento, cargando medicamentos...",
+                "processing": "Procesando medicamentos...",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ medicamentos",
+                "lengthMenu": "Mostrando _MENU_ medicamentos",
+            },
+            "columns": [
+                { "data": "clave" },
+                { "data": "descripcion_sal" },
+                { "data": "descripcion_grupo" },
+                { "data": "presentacion" },
+                { "data": "disponibilidad" },
+                { "data": "historial" },
+            ],
+            "columnDefs": [
+                { "visible": false, "targets": 1 },
+                { "visible": false, "targets": 5 },
+                {
+                    className: 'select-checkbox',
+                    targets: 0,
+                    orderDataType: 'dom-checkbox',
+                    'checkboxes': {
+                        'selectRow': true
+                    },
+                    'render': function (data, type, full, meta) {
+                        return '<input type="button" id="' + data + '" class="btn btn-vermas agregar" value="Agregar">';
+                    }
+                },
+                {
+                    targets: 4,
+                    className: 'dispo',
+                },
+            ],
+            "order": [[groupColumn2, 'asc']],
+            "displayLength": 25,
+            "drawCallback": function (settings) {
+                var api = this.api();
+                var rows = api.rows({ page: 'current' }).nodes();
+                var last = null;
+
+                api.column(groupColumn2, { page: 'current' }).data().each(function (group, i) {
+                    if (last !== group) {
+                        $(rows).eq(i).before(
+                            '<tr style="background-color:#FBC43D; color:white;" class="group"><td colspan="5">' + group + '</td></tr>'
+                        );
+
+                        last = group;
+                    }
+                });
+            }
+        });
+
+
+        //Resurtir nuevo medicamento
+        table2.on('click', '.agregar', function () {
+
+            var clave = $(this).attr('id');
+            $('#alertMediModal').hide();
+            $('#alergiasMedi').hide();
+            $('#espeMedi').hide();
+
+            //var disponible = $(this).closest(".dispo").text();
+
+            //alert('dads/');
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("CheckLastReceta", "Manage")',
+                dataType: 'json',
+                data: { expediente: $('#numemp').val(), codigo: clave },
+                cache: false,
+                success: function (data) {
+                    if (data) {
+                        $('#alertMediModal').show();
+                        $('#alertMediModal').html('<div class="alert alert-danger p-2 m-0" role="alert"><h3><span class="material-icons">warning</span>' + data + '</h3></div>');
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    //Swal.fire('Error', '', 'error');
+                }
+            });
+
+            //Buscar si tiene alergia al medicamento
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("MedicamentoAlergia", "ServiciosMedicos")',
+                dataType: 'json',
+                data: { clave: clave, id: $('#numemp').val() },
+                cache: false,
+                success: function (data) {
+                    //alert(data);
+                    if (data != "") {
+                        $('#alergiasMedi').show();
+                        $('#alergiasMedi').html('<div class="alert m-0 p-2" style="background-color:#ff7552;" role="alert"><h3 class="m-0"><img style="width: 20px; margin-right:5px; margin-top:-3px; filter: brightness(0) invert(1);" src="http://148.234.143.203/SISM-Medico/Imagenes/iconos/alergias.png">' + data + '</h3></div>');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    //Swal.fire('Error', '', 'error');
+                }
+            });
+
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("MedicamentoDetalleCroPrueba", "ServiciosMedicos")',
+                dataType: 'json',
+                data: { clave: clave, numexp: $('#numemp').val() },
+                cache: false,
+                success: function (data) {
+                    //alert(data.Descripcion_Sal);
+                    $('#grupomodal').text(data.Descripcion_Grupo);
+                    $('#premodal').text(data.Presentacion);
+                    $('#clavemodal').val(data.Clave);
+                    $('#unidadlimodal').val(data.Unidadlicitacion);
+                    //alert(data.inhabmed);
+
+                    //alert(data.mensajeRcta);
+
+
+                    if (data.mensajeRcta == 0) {
+                        $('#medicamentosModal').modal("show");
+                    } else {
+                        if (data.mensajeRcta == 1) {
+                            swal.fire("Medicamento no disponible", "Este medicamento no se ha surtido en los últimos 3 meses. Favor de buscar una alternativa de tratamiento.", "warning");
+                        } else {
+                            if (data.mensajeRcta == 2) {
+                                swal.fire("Medicamento no disponible", "Este medicamento esta activo en otro resurtimiento. Favor de buscar una alternativa de tratamiento.", "warning");
+                            } else {
+                                if (data.mensajeRcta == 3) {
+                                    swal.fire("Medicamento Faltante", "Favor de buscar una alternativa de tratamiento. De antemano, gracias.", "warning");
+                                } else {
+                                    if (data.mensajeRcta == 3) {
+                                        swal.fire("Medicamento Faltante", "Favor de buscar una alternativa de tratamiento. De antemano, gracias.", "warning");
+                                    }
+                                    //medicamento no disponible
+
+                                    //Favor de buscar una alternativa de tratamiento.De antemano, gracias.
+                                }
+                            }
+                        }
+                        //swal.fire("Medicamento Faltante", "Favor de buscar una alternativa de tratamiento. De antemano, gracias.", "warning");
+
+                        $('#medicamentosModal').modal("hide");
+                    }
+
+
+
+                },
+                error: function (xhr, status, error) {
+                    //Swal.fire('Error', '', 'error');
+                }
+            });
+
+
+        });
+
+
+
+
+
+        $('.btn-number').click(function (e) {
+            e.preventDefault();
+
+            fieldName = $(this).attr('data-field');
+            type = $(this).attr('data-type');
+            var input = $("input[name='" + fieldName + "']");
+            var currentVal = parseInt(input.val());
+            if (!isNaN(currentVal)) {
+                if (type == 'minus') {
+
+                    if (currentVal > input.attr('min')) {
+                        input.val(currentVal - 1).change();
+                    }
+                    if (parseInt(input.val()) == input.attr('min')) {
+                        $(this).attr('disabled', true);
+                    }
+
+                } else if (type == 'plus') {
+
+                    if (currentVal < input.attr('max')) {
+                        input.val(currentVal + 1).change();
+                    }
+                    if (parseInt(input.val()) == input.attr('max')) {
+                        $(this).attr('disabled', true);
+                    }
+
+                }
+            } else {
+                input.val(0);
+            }
+        });
+        $('.input-number').focusin(function () {
+            $(this).data('oldValue', $(this).val());
+        });
+        $('.input-number').change(function () {
+
+            minValue = parseInt($(this).attr('min'));
+            maxValue = parseInt($(this).attr('max'));
+            valueCurrent = parseInt($(this).val());
+
+            name = $(this).attr('name');
+            if (valueCurrent >= minValue) {
+                $(".btn-number[data-type='minus'][data-field='" + name + "']").removeAttr('disabled')
+            } else {
+                alert('Sorry, the minimum value was reached');
+                $(this).val($(this).data('oldValue'));
+            }
+            if (valueCurrent <= maxValue) {
+                $(".btn-number[data-type='plus'][data-field='" + name + "']").removeAttr('disabled')
+            } else {
+                alert('Sorry, the maximum value was reached');
+                $(this).val($(this).data('oldValue'));
+            }
+
+        });
+
+
+        $('#inputGroupSelect00').change(function () {
+            var premodal = $('#inputGroupSelect04').val();
+            if (premodal == "ampolleta(s)" || premodal == "tableta(s)" || premodal == "pastilla(s)" || premodal == "capsula(s)" || premodal == "gragea(s)" || premodal == "tableta(s) sublingual(es)" || premodal == "tableta(s) efervecente(s)" || premodal == "supositorio(s)" || premodal == "sobre(s)") {
+                //var via = $('#inputGroupSelect00').val();
+                var tomar = $('#inputGroupSelect01').val();
+                var horas = $('#inputGroupSelect02').val();
+                var dias = $('#inputGroupSelect03').val();
+                var unidad = $('#unidadlimodal').val();
+                var horasDiv = 24 / horas;
+                if (unidad != 0) {
+                    var cantidadtotal = (tomar * dias * horasDiv) / unidad;
+                } else {
+                    var cantidadtotal = (tomar * dias * horasDiv);
+                }
+
+                $('#cantidad').val(Math.ceil(cantidadtotal));
+
+            } else {
+                $('#cantidad').val(1);
+            }
+            $('#viainfo').text($(this).val());
+            $('#dosis').val($('#dosisinfo').text());
+        });
+
+        $('#inputGroupSelect01').change(function () {
+            var premodal = $('#inputGroupSelect04').val();
+            if (premodal == "ampolleta(s)" || premodal == "tableta(s)" || premodal == "pastilla(s)" || premodal == "capsula(s)" || premodal == "gragea(s)" || premodal == "tableta(s) sublingual(es)" || premodal == "tableta(s) efervecente(s)" || premodal == "supositorio(s)" || premodal == "sobre(s)") {
+                var tomar = $('#inputGroupSelect01').val();
+                var horas = $('#inputGroupSelect02').val();
+                var dias = $('#inputGroupSelect03').val();
+                var unidad = $('#unidadlimodal').val();
+                var horasDiv = 24 / horas;
+                if (unidad != 0) {
+                    var cantidadtotal = (tomar * dias * horasDiv) / unidad;
+                } else {
+                    var cantidadtotal = (tomar * dias * horasDiv);
+                }
+                $('#cantidad').val(Math.ceil(cantidadtotal));
+            } else {
+                $('#cantidad').val(1);
+            }
+
+            if ($(this).val() == "0.25") {
+                $('#tomarinfo').text('1/4');
+            } else {
+                if ($(this).val() == "0.5") {
+                    $('#tomarinfo').text('1/2');
+                } else {
+                    $('#tomarinfo').text($(this).val());
+                }
+            }
+
+            //$('#tomarinfo').text($(this).val());
+            $('#dosis').val($('#dosisinfo').text());
+        });
+
+        $('#inputGroupSelect02').change(function () {
+            var premodal = $('#inputGroupSelect04').val();
+            if (premodal == "ampolleta(s)" || premodal == "tableta(s)" || premodal == "pastilla(s)" || premodal == "capsula(s)" || premodal == "gragea(s)" || premodal == "tableta(s) sublingual(es)" || premodal == "tableta(s) efervecente(s)" || premodal == "supositorio(s)" || premodal == "sobre(s)") {
+                var tomar = $('#inputGroupSelect01').val();
+                var horas = $('#inputGroupSelect02').val();
+                var dias = $('#inputGroupSelect03').val();
+                var unidad = $('#unidadlimodal').val();
+                var horasDiv = 24 / horas;
+                if (unidad != 0) {
+                    var cantidadtotal = (tomar * dias * horasDiv) / unidad;
+                } else {
+                    var cantidadtotal = (tomar * dias * horasDiv);
+                }
+                $('#cantidad').val(Math.ceil(cantidadtotal));
+            } else {
+                $('#cantidad').val(1);
+            }
+            $('#horasinfo').text($(this).val());
+            $('#dosis').val($('#dosisinfo').text());
+        });
+
+        $('#inputGroupSelect03').change(function () {
+            var premodal = $('#inputGroupSelect04').val();
+            if (premodal == "ampolleta(s)" || premodal == "tableta(s)" || premodal == "pastilla(s)" || premodal == "capsula(s)" || premodal == "gragea(s)" || premodal == "tableta(s) sublingual(es)" || premodal == "tableta(s) efervecente(s)" || premodal == "supositorio(s)" || premodal == "sobre(s)") {
+                var tomar = $('#inputGroupSelect01').val();
+                var horas = $('#inputGroupSelect02').val();
+                var dias = $('#inputGroupSelect03').val();
+                var unidad = $('#unidadlimodal').val();
+                var horasDiv = 24 / horas;
+                if (unidad != 0) {
+                    var cantidadtotal = (tomar * dias * horasDiv) / unidad;
+                } else {
+                    var cantidadtotal = (tomar * dias * horasDiv);
+                }
+                $('#cantidad').val(Math.ceil(cantidadtotal));
+            } else {
+                $('#cantidad').val(1);
+            }
+            $('#diasinfo').text($(this).val());
+            $('#dosis').val($('#dosisinfo').text());
+        });
+
+        $('#inputGroupSelect04').change(function () {
+            var premodal = $('#inputGroupSelect04').val();
+            if (premodal == "ampolleta(s)" || premodal == "tableta(s)" || premodal == "pastilla(s)" || premodal == "capsula(s)" || premodal == "gragea(s)" || premodal == "tableta(s) sublingual(es)" || premodal == "tableta(s) efervecente(s)" || premodal == "supositorio(s)" || premodal == "sobre(s)") {
+                var tomar = $('#inputGroupSelect01').val();
+                var horas = $('#inputGroupSelect02').val();
+                var dias = $('#inputGroupSelect03').val();
+                var unidad = $('#unidadlimodal').val();
+                var horasDiv = 24 / horas;
+                if (unidad != 0) {
+                    var cantidadtotal = (tomar * dias * horasDiv) / unidad;
+                } else {
+                    var cantidadtotal = (tomar * dias * horasDiv);
+                }
+                $('#cantidad').val(Math.ceil(cantidadtotal));
+            } else {
+                $('#cantidad').val(1);
+            }
+            $('#presentacioninfo').text($(this).val());
+            $('#dosis').val($('#dosisinfo').text());
+        });
+
+    });
+
+
+    $(document).on('click', '.btn-editar', function () {
+        $('#resumenRecetaModal').modal("hide");
+        $('.modal-backdrop').hide();
+        $('#medicamentosModal').modal("show");
+
+        $('#grupomodal').text($(this).siblings('.grupoEdi').val());
+        $('#salmodal').text($(this).siblings('.salEdi').text());
+        $('#premodal').text($(this).siblings('.preEdi').text());
+
+        $('#clavemodal').val($(this).siblings('.claveEdi').val());
+
+        /*$('#viainfo').text($(this).siblings('.viaEdi').text());
+        $('#tomarinfo').text($(this).siblings('.tomarEdi').text());
+        $('#horasinfo').text($(this).siblings('.horasEdi').text());
+        $('#diasinfo').text($(this).siblings('.diasEdi').text());
+
+        var viatexto = $(this).siblings('.viaEdi').text();
+
+        $("#inputGroupSelect00 option").each(function () {
+            var via = $(this).val();
+            if (viatexto == via) {
+                $(this).prop('selected', true);
+            }
+        });
+
+        $('#inputGroupSelect01').val($(this).siblings('.tomarEdi').text());
+        $('#inputGroupSelect02').val($(this).siblings('.horasEdi').text());
+        $('#inputGroupSelect03').val($(this).siblings('.diasEdi').text());*/
+
+        $('#condiciones').val($(this).siblings('.indicacionesEdi').val());
+        $('#cantidad').val($(this).siblings('.cantidadEdi').val());
+
+        //Recetas resurtimientos
+        $('#meses_surtir').val($(this).siblings('.mesesEdi').val());
+        $('#fec_ini_sintomas').val($(this).siblings('.sintomasEdi').val());
+        //alert(fechasin);
+
+        //alert($(this).siblings('.mesesEdi').val());
+
+        /*if ($(this).siblings('.mesesEdi').val()) {
+            $('#resurCheck').prop("checked", true);
+            $('#resurtimientoInfo').show();
+            $('#meses_surtir').prop("required", true);
+            $('#fec_ini_sintomas').prop("required", true);
+            var fechasin = $(this).siblings('.sintomasEdi').val();
+            var fechasinSplit = fechasin.split(' ');
+            var convertedStartDate = new Date(fechasinSplit[0] + ' ' + fechasinSplit[1] + ' ' + fechasinSplit[2]);
+            var MyDateString = convertedStartDate.getFullYear() + '-' + ('0' + (convertedStartDate.getMonth() + 1)).slice(-2) + '-' + ('0' + convertedStartDate.getDate()).slice(-2);
+            $('#fec_ini_sintomas').val(MyDateString);
+        } else {
+            $('#resurCheck').prop("checked", false);
+            $('#resurtimientoInfo').hide();
+            $('#meses_surtir').prop("required", false);
+            $('#fec_ini_sintomas').prop("required", false);
+            $('#fec_ini_sintomas').val('');
+        }*/
+
+        /*var premodal = $(this).siblings('.preEdi').text();
+
+        if (premodal.includes("CAPSULA") || premodal.includes("PASTILLA") || premodal.includes("TABLETA") || premodal.includes("GRAGEA")) {
+            var tomar = $(this).siblings('.tomarEdi').text();
+            var horas = $(this).siblings('.horasEdi').text();
+            var dias = $(this).siblings('.diasEdi').text();
+            var horasDiv = 24 / horas
+            var cantidadtotal = tomar * dias * horasDiv;
+            $('#cantidad').val(Math.ceil(cantidadtotal));
+
+        }else{
+            $('#cantidad').val($(this).siblings('.cantidadEdi').val());
+        }*/
+
+        $('#dosis').val($(this).siblings('.dosisEdi').val());
+
+    });
+
+
+    $(document).on('click', '.btn-eliminar', function () {
+        Swal.fire({
+            title: "¿Seguro que desea eliminar el medicamento?",
+            //text: "No podras revertir esta acción",
+            button: "Eliminar",
+            icon: "warning",
+            dangerMode: true,
+            showCancelButton: true,
+            //cancelButtonText: "Cancelar",
+            confirmButtonText: 'Eliminar',
+            denyButtonText: "Cancelar",
+        })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    var folio_rcta = $(".folio_rcta").val();
+                    var clave = $(this).attr('data-clave');
+                    $.ajax({
+                        type: 'GET',
+                        url: '@Url.Action("DeleteMedicamento", "Manage")',
+                        dataType: 'json',
+                        data: { folio: folio_rcta, codigo: clave },
+                        cache: false,
+                        success: function (data) {
+                            swal.fire("¡Eliminado!", "Medicamento eliminado con éxito", "success");
+                            setTimeout(function () {
+                                window.location.reload(true);
+                            }, 1500);
+                            //$('#resumenRecetaModal').modal("show");
+                        },
+                        error: function (xhr, status, error) {
+                            Swal.fire('Error', '', 'error');
+                        }
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire('Medicamento no eliminado', '', 'info');
+                }
+            });
+    });
+
+
+    $(document).on('click', '.btn-eliminar-resur', function () {
+        Swal.fire({
+            title: "¿Seguro que desea eliminar el medicamento?",
+            //text: "No podras revertir esta acción",
+            button: "Eliminar",
+            icon: "warning",
+            dangerMode: true,
+            showCancelButton: true,
+            //cancelButtonText: "Cancelar",
+            confirmButtonText: 'Eliminar',
+            denyButtonText: "Cancelar",
+        })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    var folio_rc = $(".folio_rc").val();
+                    var clave = $(this).attr('data-clave');
+                    $.ajax({
+                        type: 'GET',
+                        url: '@Url.Action("DeleteMedicamentoResur", "ServiciosMedicos")',
+                        dataType: 'json',
+                        data: { folio: folio_rc, codigo: clave },
+                        cache: false,
+                        success: function (data) {
+                            swal.fire("¡Eliminado!", "Medicamento eliminado con éxito", "success");
+                            setTimeout(function () {
+                                window.location.reload(true);
+                            }, 1500);
+                            //$('#resumenRecetaModal').modal("show");
+                        },
+                        error: function (xhr, status, error) {
+                            Swal.fire('Error', '', 'error');
+                        }
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire('Medicamento no eliminado', '', 'info');
+                }
+            });
+    });
+
+    //Recetas resurtimiento
+
+    $('#resurtimientoInfo').show();
+
+    $("#resurCheck").change(function () {
+        //Si el medicamento va a ser de resurtimiento
+        if (this.checked) {
+            $('#resurtimientoInfo').show();
+            $('#meses_surtir').prop("required", true);
+            $('#fec_ini_sintomas').prop("required", true);
+            $.ajax({
+                url: '@Url.Action("GetLastRecetaResur", "ServiciosMedicos")',
+                dataType: "json",
+                data: { search: $("#numemp").val() },
+                success: function (data) {
+                    $.each(data, function (i, item) {
+                        $('#meses_surtir').val(data[i].meses_surtir);
+                        var fechasin = data[i].fec_ini_sintomas;
+                        var fechasinSplit = fechasin.split(' ');
+                        var convertedStartDate = new Date(fechasinSplit[0] + ' ' + fechasinSplit[1] + ' ' + fechasinSplit[2]);
+                        var MyDateString = convertedStartDate.getFullYear() + '-' + ('0' + (convertedStartDate.getMonth() + 1)).slice(-2) + '-' + ('0' + convertedStartDate.getDate()).slice(-2);
+                        $('#fec_ini_sintomas').val(MyDateString);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    $('#meses_surtir').val('');
+                    $('#fec_ini_sintomas').val('');
+                }
+            });
+        } else {
+            $('#resurtimientoInfo').hide();
+            $('#meses_surtir').prop("required", false);
+            $('#meses_surtir').val('');
+            $('#fec_ini_sintomas').prop("required", false);
+            $('#fec_ini_sintomas').val('');
+        }
+    });
+
+    </script>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jQuery.print/1.3.3/jQuery.print.min.js'></script>
+    <script>
+        $('.imprimir').on('click', function () {
+            //$(".imprimir-content .btn-secondary").hide();
+            //$(".imprimir-content .btn-success").hide();
+            //$(".imprimir-content .btn-editar").hide();
+            //$(".imprimir-content .btn-eliminar").hide();
+            $.print(".imprimir-content");
+        });
+    </script>
+
+    @if (TempData["message_success"] != null)
+    {
+        <script>
+    Swal.fire({
+        icon: 'success',
+        title: '@TempData["message_success"]',
+        //text: 'Something went wrong!',
+    })
+        </script>
+    }
+
+    @if (TempData["message_error"] != null)
+    {
+        <script>
+    Swal.fire({
+        icon: 'warning',
+        title: '@TempData["message_error"]',
+        //text: 'Something went wrong!',
+    })
+        </script>
+    }
+
+    <script src="~/Scripts/JsBarcode.code39.min.js"></script>
+
+    <script>
+
+    JsBarcode("#barcode", "@Model.NUMEMP", {
+        height: 70,
+        displayValue: false
+    });
+    </script>
+
+    <script>
+
+        $(document).ready(function () {
+            var NavActive = document.getElementById("MsmTab3");
+            NavActive.setAttribute('style', "background-color: #FBC43D !important;border-color: #FBC43D !important");
+
+        });
+
+    </script>
+
+
+    <script>
+        $('#dosisinfo span').on('DOMSubtreeModified', function () {
+            $('#dosis').val($('#dosisinfo').text());
+        });
+    </script>
+
+    <script>
+        $('#error-condiciones').hide();
+        $("#condiciones").keyup(function () {
+            var longitud = $(this).val().length;
+            if (longitud >= 100) {
+                $('#error-condiciones').show();
+            } else {
+                $('#error-condiciones').hide();
+            }
+        });
+
+    </script>

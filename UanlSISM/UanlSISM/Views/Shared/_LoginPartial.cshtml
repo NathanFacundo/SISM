@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <span>
+            <img class="soporte" src="~/Imagenes/iconos/support.png" />
+        </span>
+
+        <div class="tel-soporte">
+            <img class="cerrar" src="~/Imagenes/iconos/cerrar.png"/>
+            <h6> <b>Soporte técnico</b> </h6>
+            <div class="linea"></div>
+            <ul>
+                <li>Ext: 8242</li>
+                <li>Ext: 8241</li>
+            </ul>
+        </div>
+
+        <span>@Html.ActionLink("Hola " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })</span>
+
+        <span>
+            <a href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesión</a>
+        </span>
+
+        <span>
+            <img class="soporte2" src="~/Imagenes/iconos/support.png" />
+        </span>
+
+        <!--ul class="nav navbar-nav navbar-right text-center">
+            <li>
+                @Html.ActionLink("Hola " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            </li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesión</a></li>
+        </ul-->
+    }
+    }
+    else
+    {
+    <span>@Html.ActionLink("Iniciar sesión", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" }) </span>
+    <!--ul class="nav navbar-nav navbar-right text-center">
+        <li>@Html.ActionLink("Registrarse", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Iniciar sesión", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul-->
+    }

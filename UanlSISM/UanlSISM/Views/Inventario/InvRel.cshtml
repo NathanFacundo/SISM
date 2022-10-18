@@ -1,0 +1,286 @@
+﻿@model List<UanlSISM.Models.ReporteConsumo>
+@{
+    ViewBag.Title = "InvRel";
+    DateTime dt = DateTime.Now;
+
+}
+
+<style>
+
+    th {
+        color: white;
+        background-color: #FBC43D;
+        font-size: large;
+    }
+
+    .dataTables_wrapper .dataTables_info {
+        width: 100% !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+        .dataTables_wrapper .dataTables_filter label {
+            width: 100% !important;
+            font-weight: bolder;
+            text-align: center;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            width: 50% !important;
+            text-align: center;
+            border: none;
+            border-bottom: 1px solid lightgray;
+            margin-bottom: 25px;
+            margin-top: 30px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            color: #2C3E50;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+            .dataTables_wrapper .dataTables_filter input:focus {
+                -moz-box-shadow: none !important;
+                -webkit-box-shadow: none !important;
+                box-shadow: none !important;
+                border: none;
+                font-weight: bold;
+                border-bottom: 2px solid #FBC43D;
+                outline-width: 0
+            }
+
+    .dataTables_wrapper .dataTables_length {
+        display: none;
+    }
+
+    td.details-control {
+        background: url('../Imagenes/iconos/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        background: url('../Imagenes/iconos/details_close.png') no-repeat center center;
+    }
+</style>
+
+<table id="table" style="width:85vw;margin-left:-7%" class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="details-control"></th>
+            <th>Codigo</th>
+            <th>Sal</th>
+            <th>Presentacion</th>
+            <th>Existencia</th>
+            <th>Promedio Diario</th>
+            <th>Promedio Mensual</th>
+            <th>Dias Cobertura</th>
+            <th>Semáforo</th>
+            <th>Color</th>
+            <th>@dt.AddMonths(-1).ToString("MMMM")</th>
+            <th>@dt.AddMonths(-2).ToString("MMMM")</th>
+            <th>@dt.AddMonths(-3).ToString("MMMM")</th>
+            <th>@dt.AddMonths(-4).ToString("MMMM")</th>
+            <th>@dt.AddMonths(-5).ToString("MMMM")</th>
+            <th>@dt.AddMonths(-6).ToString("MMMM")</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td class="details-control"></td>
+            <td>@item.Clave</td>
+            <td>@item.Descripcion</td>
+            <td>@item.Presentacion</td>
+            <td>
+                @if (item.InvDisp == 0)
+                {
+                    <p>Sin Inventario</p>
+                }
+                else
+                {
+                    @item.InvDisp
+                }
+            </td>
+            <td>@item.PromDiaAlm</td>
+            <td>@item.PromMensual</td>
+            <td>@item.DiasConsumo</td>
+            <td>
+                @if ((Convert.ToInt32(item.DiasConsumo) / 30) < 2)
+                {
+                    <img style="width:100px" src="~/Imagenes/iconos/semaforo (3).png" />
+                }
+                @if ((Convert.ToInt32(item.DiasConsumo) / 30) >= 2 && (Convert.ToInt32(item.DiasConsumo) / 30) < 3)
+                {
+                    <img style="width:100px" src="~/Imagenes/iconos/semaforo (4).png" />
+                }
+                @if ((Convert.ToInt32(item.DiasConsumo) / 30) >= 3)
+                {
+                    <img style="width:100px" src="~/Imagenes/iconos/semaforo (5).png" />
+                }
+            </td>
+            <td>
+                @if ((Convert.ToInt32(item.DiasConsumo) / 30) < 2)
+                {
+                    <p>Rojo</p>
+                }
+                @if ((Convert.ToInt32(item.DiasConsumo) / 30) >= 2 && (Convert.ToInt32(item.DiasConsumo) / 30) < 3)
+                {
+                    <p>Amarillo</p>
+                }
+                @if ((Convert.ToInt32(item.DiasConsumo) / 30) >= 3)
+                {
+                    <p>Verde</p>
+                }
+            </td>
+
+            @if (item.Ult6Meses.Count > 0)
+            {
+
+                if (item.Ult6Meses[0].Item2 != null)
+                {
+                    <td>@item.Ult6Meses[0].Item2</td>
+                }
+                else
+                {
+                    <td>0</td>
+                }
+                if (item.Ult6Meses[0].Item2 != null)
+                {
+                    <td>@item.Ult6Meses[0].Item2</td>
+                }
+                else
+                {
+                    <td>0</td>
+                }
+                if (item.Ult6Meses[0].Item2 != null)
+                {
+                    <td>@item.Ult6Meses[0].Item2</td>
+                }
+                else
+                {
+                    <td>0</td>
+                }
+                if (item.Ult6Meses[0].Item2 != null)
+                {
+                    <td>@item.Ult6Meses[0].Item2</td>
+                }
+                else
+                {
+                    <td>0</td>
+                }
+                if (item.Ult6Meses[0].Item2 != null)
+                {
+                    <td>@item.Ult6Meses[0].Item2</td>
+                }
+                else
+                {
+                    <td>0</td>
+                }
+                if (item.Ult6Meses[0].Item2 != null)
+                {
+                    <td>@item.Ult6Meses[0].Item2</td>
+                }
+                else
+                {
+                    <td>0</td>
+                }
+            }
+            else
+            {
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+            }
+
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
+<script>
+
+    function format(d) {
+        // `d` is the original data object for the row
+        return '<table cellpadding="5" width="600px" cellspacing="0" border="0" style="padding-left:50px;">' +
+            '<caption style="caption-side:top">Historial últimos 6 meses</caption>' +
+            '<tr>' +
+            '<td style="width:100px;">'+ '@dt.AddMonths(-1).ToString("MMM")' +'</td>' +
+            '<td style="width:100px;">'+ '@dt.AddMonths(-2).ToString("MMM")' +'</td>' +
+            '<td style="width:100px;">'+ '@dt.AddMonths(-3).ToString("MMM")' +'</td>' +
+            '<td style="width:100px;">'+ '@dt.AddMonths(-4).ToString("MMM")' +'</td>' +
+            '<td style="width:100px;">'+ '@dt.AddMonths(-5).ToString("MMM")' +'</td>' +
+            '<td style="width:100px;">'+ '@dt.AddMonths(-6).ToString("MMM")' +'</td>' +
+            '</tr>' +
+             '<tr>' +
+            '<td>'+ d[10] +'</td>' +
+            '<td>'+ d[11] +'</td>' +
+            '<td>'+ d[12] +'</td>' +
+            '<td>'+ d[13] +'</td>' +
+            '<td>'+ d[14] +'</td>' +
+            '<td>'+ d[15] +'</td>' +
+            '</tr>' +
+            '</table>';
+    }
+
+
+    $(document).ready(function () {
+       var table = $('#table').DataTable({
+            searching: true,
+            "language": {
+                "search": "Buscar ",
+                "zeroRecords": "No se encontró ningun registro",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+                "select": {
+                    "rows": " filas seleccionadas"
+                },
+                "loadingRecords": "Un momento, cargando información...",
+                "processing": "Procesando ...",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ "
+            }
+        });
+
+        // Add event listener for opening and closing details
+        $('#table tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // Open this row
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
+
+
+    });
+
+</script>

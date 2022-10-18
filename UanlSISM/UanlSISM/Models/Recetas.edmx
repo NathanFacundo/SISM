@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SERVMEDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Receta_Exp">
+          <Key>
+            <PropertyRef Name="Folio_Rcta" />
+          </Key>
+          <Property Name="Folio_Rcta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Expediente" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="Medico" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Turno" Type="char" MaxLength="4" />
+          <Property Name="Regxdia" Type="char" MaxLength="2" />
+          <Property Name="Estado" Type="char" MaxLength="1" />
+          <Property Name="Dir_Ip" Type="char" MaxLength="15" />
+          <Property Name="imp_rcta" Type="char" MaxLength="1" />
+          <Property Name="Tipo" Type="char" MaxLength="1" />
+          <Property Name="Meses" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="Hora_Rcta" Type="datetime" />
+          <Property Name="Hora_Imp" Type="datetime" />
+          <Property Name="UsuarioId" Type="int" />
+          <Property Name="Fecha_Hora_Adjudicacion" Type="datetime" />
+          <Property Name="Usuario_Genero" Type="int" />
+          <Property Name="Manual" Type="bit" />
+          <Property Name="folio_rc" Type="int" />
+          <Property Name="Fecha_Hora_Entrega" Type="datetime" />
+          <Property Name="TurnoFar" Type="int" />
+          <Property Name="UserFar" Type="int" />
+          <Property Name="Fecha_Kiosco" Type="datetime" />
+          <Property Name="hora_genera" Type="datetime" />
+          <Property Name="costo" Type="real" />
+        </EntityType>
+        <EntityContainer Name="SERVMEDModelStoreContainer">
+          <EntitySet Name="Receta_Exp" EntityType="Self.Receta_Exp" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SERVMEDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Receta_Exp">
+          <Key>
+            <PropertyRef Name="Folio_Rcta" />
+          </Key>
+          <Property Name="Folio_Rcta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Expediente" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Medico" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Turno" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="Regxdia" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Dir_Ip" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="imp_rcta" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Tipo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Meses" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Hora_Rcta" Type="DateTime" Precision="3" />
+          <Property Name="Hora_Imp" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioId" Type="Int32" />
+          <Property Name="Fecha_Hora_Adjudicacion" Type="DateTime" Precision="3" />
+          <Property Name="Usuario_Genero" Type="Int32" />
+          <Property Name="Manual" Type="Boolean" />
+          <Property Name="folio_rc" Type="Int32" />
+          <Property Name="Fecha_Hora_Entrega" Type="DateTime" Precision="3" />
+          <Property Name="TurnoFar" Type="Int32" />
+          <Property Name="UserFar" Type="Int32" />
+          <Property Name="Fecha_Kiosco" Type="DateTime" Precision="3" />
+          <Property Name="hora_genera" Type="DateTime" Precision="3" />
+          <Property Name="costo" Type="Single" />
+        </EntityType>
+        <EntityContainer Name="SERVMEDEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Receta_Exp" EntityType="Self.Receta_Exp" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SERVMEDModelStoreContainer" CdmEntityContainer="SERVMEDEntities1">
+          <EntitySetMapping Name="Receta_Exp">
+            <EntityTypeMapping TypeName="SERVMEDModel.Receta_Exp">
+              <MappingFragment StoreEntitySet="Receta_Exp">
+                <ScalarProperty Name="Folio_Rcta" ColumnName="Folio_Rcta" />
+                <ScalarProperty Name="Expediente" ColumnName="Expediente" />
+                <ScalarProperty Name="Medico" ColumnName="Medico" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="Regxdia" ColumnName="Regxdia" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Dir_Ip" ColumnName="Dir_Ip" />
+                <ScalarProperty Name="imp_rcta" ColumnName="imp_rcta" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="Meses" ColumnName="Meses" />
+                <ScalarProperty Name="Hora_Rcta" ColumnName="Hora_Rcta" />
+                <ScalarProperty Name="Hora_Imp" ColumnName="Hora_Imp" />
+                <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+                <ScalarProperty Name="Fecha_Hora_Adjudicacion" ColumnName="Fecha_Hora_Adjudicacion" />
+                <ScalarProperty Name="Usuario_Genero" ColumnName="Usuario_Genero" />
+                <ScalarProperty Name="Manual" ColumnName="Manual" />
+                <ScalarProperty Name="folio_rc" ColumnName="folio_rc" />
+                <ScalarProperty Name="Fecha_Hora_Entrega" ColumnName="Fecha_Hora_Entrega" />
+                <ScalarProperty Name="TurnoFar" ColumnName="TurnoFar" />
+                <ScalarProperty Name="UserFar" ColumnName="UserFar" />
+                <ScalarProperty Name="Fecha_Kiosco" ColumnName="Fecha_Kiosco" />
+                <ScalarProperty Name="hora_genera" ColumnName="hora_genera" />
+                <ScalarProperty Name="costo" ColumnName="costo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

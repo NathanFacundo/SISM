@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SMDEVModel34.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="SolicitudLab">
+          <Key>
+            <PropertyRef Name="Solicitud_Id" />
+          </Key>
+          <Property Name="Solicitud_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Paciente_Id" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="Paciente_Nombre" Type="nvarchar" MaxLength="45" Nullable="false" />
+          <Property Name="Paciente_Apellido_Paterno" Type="nvarchar" MaxLength="45" Nullable="false" />
+          <Property Name="Paciente_Apellido_Materno" Type="nvarchar" MaxLength="45" />
+          <Property Name="Paciente_Sexo" Type="int" Nullable="false" />
+          <Property Name="Paciente_Fecha_Nacimiento" Type="datetime" Nullable="false" />
+          <Property Name="Paciente_Telefono" Type="nvarchar" MaxLength="20" />
+          <Property Name="Paciente_Correo" Type="nvarchar" MaxLength="50" />
+          <Property Name="Paciente_Dependencia_Id" Type="nchar" MaxLength="10" />
+          <Property Name="Paciente_Dependencia_Descripcion" Type="nchar" MaxLength="10" />
+          <Property Name="Solicitud_Expediente" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="Solicitud_Fecha" Type="date" Nullable="false" />
+          <Property Name="Solicitud_Medico_Id" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Solicitud_Medico_Nombre" Type="nvarchar" MaxLength="70" Nullable="false" />
+          <Property Name="Solicitud_Medico_ApellidoPaterno" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Solicitud_Medico_ApellidoMaterno" Type="nvarchar" MaxLength="500" />
+          <Property Name="Solicitud_Diagnostico1_Id" Type="nvarchar" MaxLength="7" />
+          <Property Name="Solicitud_Diagnostico1_Descripcion" Type="nvarchar" MaxLength="254" />
+          <Property Name="Solicitud_Diagnostico2_Id" Type="nvarchar" MaxLength="7" />
+          <Property Name="Solicitud_Diagnostico2_Descripcion" Type="nvarchar" MaxLength="254" />
+          <Property Name="Solicitud_Diagnostico3_Id" Type="nvarchar" MaxLength="7" />
+          <Property Name="Solicitud_Diagnostico3_Descripcion" Type="nvarchar" MaxLength="254" />
+          <Property Name="Solicitud_Urgente" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="Solicitud_Consultorio" Type="nvarchar" MaxLength="2" />
+          <Property Name="Solicitud_AreaMedica_Id" Type="nvarchar" MaxLength="10" />
+          <Property Name="Solicitud_AreaMedica_Descripcion" Type="nvarchar" MaxLength="45" />
+          <Property Name="Enterprise_Folio" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SolicitudLabEstudio">
+          <Key>
+            <PropertyRef Name="SolicitudId" />
+          </Key>
+          <Property Name="SolicitudId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EstudioId" Type="int" Nullable="false" />
+          <Property Name="EstudioDescripcion" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="SolicitudExpediente" Type="nvarchar" MaxLength="8" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="SMDEVModel34StoreContainer">
+          <EntitySet Name="SolicitudLab" EntityType="Self.SolicitudLab" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SolicitudLabEstudio" EntityType="Self.SolicitudLabEstudio" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SMDEVModel34" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="SolicitudLab">
+          <Key>
+            <PropertyRef Name="Solicitud_Id" />
+          </Key>
+          <Property Name="Solicitud_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Paciente_Id" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Paciente_Nombre" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Paciente_Apellido_Paterno" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Paciente_Apellido_Materno" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="Paciente_Sexo" Type="Int32" Nullable="false" />
+          <Property Name="Paciente_Fecha_Nacimiento" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Paciente_Telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Paciente_Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Paciente_Dependencia_Id" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Paciente_Dependencia_Descripcion" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Solicitud_Expediente" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Solicitud_Medico_Id" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Solicitud_Medico_Nombre" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Solicitud_Diagnostico1_Id" Type="String" MaxLength="7" FixedLength="false" Unicode="true" />
+          <Property Name="Solicitud_Diagnostico1_Descripcion" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
+          <Property Name="Solicitud_Diagnostico2_Id" Type="String" MaxLength="7" FixedLength="false" Unicode="true" />
+          <Property Name="Solicitud_Diagnostico2_Descripcion" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
+          <Property Name="Solicitud_Diagnostico3_Id" Type="String" MaxLength="7" FixedLength="false" Unicode="true" />
+          <Property Name="Solicitud_Diagnostico3_Descripcion" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
+          <Property Name="Solicitud_Urgente" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Solicitud_Consultorio" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Solicitud_AreaMedica_Id" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Solicitud_AreaMedica_Descripcion" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="Enterprise_Folio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Solicitud_Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Solicitud_Medico_ApellidoPaterno" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Solicitud_Medico_ApellidoMaterno" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SolicitudLabEstudio">
+          <Key>
+            <PropertyRef Name="SolicitudId" />
+          </Key>
+          <Property Name="SolicitudId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EstudioId" Type="Int32" Nullable="false" />
+          <Property Name="EstudioDescripcion" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SolicitudExpediente" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="SMDEVSolLab" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="SolicitudLab" EntityType="Self.SolicitudLab" />
+          <EntitySet Name="SolicitudLabEstudio" EntityType="Self.SolicitudLabEstudio" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SMDEVModel34StoreContainer" CdmEntityContainer="SMDEVSolLab">
+          <EntitySetMapping Name="SolicitudLab">
+            <EntityTypeMapping TypeName="SMDEVModel34.SolicitudLab">
+              <MappingFragment StoreEntitySet="SolicitudLab">
+                <ScalarProperty Name="Solicitud_Medico_ApellidoMaterno" ColumnName="Solicitud_Medico_ApellidoMaterno" />
+                <ScalarProperty Name="Solicitud_Medico_ApellidoPaterno" ColumnName="Solicitud_Medico_ApellidoPaterno" />
+                <ScalarProperty Name="Solicitud_Fecha" ColumnName="Solicitud_Fecha" />
+                <ScalarProperty Name="Solicitud_Id" ColumnName="Solicitud_Id" />
+                <ScalarProperty Name="Paciente_Id" ColumnName="Paciente_Id" />
+                <ScalarProperty Name="Paciente_Nombre" ColumnName="Paciente_Nombre" />
+                <ScalarProperty Name="Paciente_Apellido_Paterno" ColumnName="Paciente_Apellido_Paterno" />
+                <ScalarProperty Name="Paciente_Apellido_Materno" ColumnName="Paciente_Apellido_Materno" />
+                <ScalarProperty Name="Paciente_Sexo" ColumnName="Paciente_Sexo" />
+                <ScalarProperty Name="Paciente_Fecha_Nacimiento" ColumnName="Paciente_Fecha_Nacimiento" />
+                <ScalarProperty Name="Paciente_Telefono" ColumnName="Paciente_Telefono" />
+                <ScalarProperty Name="Paciente_Correo" ColumnName="Paciente_Correo" />
+                <ScalarProperty Name="Paciente_Dependencia_Id" ColumnName="Paciente_Dependencia_Id" />
+                <ScalarProperty Name="Paciente_Dependencia_Descripcion" ColumnName="Paciente_Dependencia_Descripcion" />
+                <ScalarProperty Name="Solicitud_Expediente" ColumnName="Solicitud_Expediente" />
+                <ScalarProperty Name="Solicitud_Medico_Id" ColumnName="Solicitud_Medico_Id" />
+                <ScalarProperty Name="Solicitud_Medico_Nombre" ColumnName="Solicitud_Medico_Nombre" />
+                <ScalarProperty Name="Solicitud_Diagnostico1_Id" ColumnName="Solicitud_Diagnostico1_Id" />
+                <ScalarProperty Name="Solicitud_Diagnostico1_Descripcion" ColumnName="Solicitud_Diagnostico1_Descripcion" />
+                <ScalarProperty Name="Solicitud_Diagnostico2_Id" ColumnName="Solicitud_Diagnostico2_Id" />
+                <ScalarProperty Name="Solicitud_Diagnostico2_Descripcion" ColumnName="Solicitud_Diagnostico2_Descripcion" />
+                <ScalarProperty Name="Solicitud_Diagnostico3_Id" ColumnName="Solicitud_Diagnostico3_Id" />
+                <ScalarProperty Name="Solicitud_Diagnostico3_Descripcion" ColumnName="Solicitud_Diagnostico3_Descripcion" />
+                <ScalarProperty Name="Solicitud_Urgente" ColumnName="Solicitud_Urgente" />
+                <ScalarProperty Name="Solicitud_Consultorio" ColumnName="Solicitud_Consultorio" />
+                <ScalarProperty Name="Solicitud_AreaMedica_Id" ColumnName="Solicitud_AreaMedica_Id" />
+                <ScalarProperty Name="Solicitud_AreaMedica_Descripcion" ColumnName="Solicitud_AreaMedica_Descripcion" />
+                <ScalarProperty Name="Enterprise_Folio" ColumnName="Enterprise_Folio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SolicitudLabEstudio">
+            <EntityTypeMapping TypeName="SMDEVModel34.SolicitudLabEstudio">
+              <MappingFragment StoreEntitySet="SolicitudLabEstudio">
+                <ScalarProperty Name="SolicitudId" ColumnName="SolicitudId" />
+                <ScalarProperty Name="EstudioId" ColumnName="EstudioId" />
+                <ScalarProperty Name="EstudioDescripcion" ColumnName="EstudioDescripcion" />
+                <ScalarProperty Name="SolicitudExpediente" ColumnName="SolicitudExpediente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

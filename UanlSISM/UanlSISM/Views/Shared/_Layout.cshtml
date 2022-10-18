@@ -1,0 +1,341 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - SISM</title>
+
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <!--link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"-->
+    <link rel="stylesheet" href="~/Content/jquery-ui.css">
+    <!--script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script-->
+    <script src="~/Scripts/jquery-ui.js"></script>
+
+    <!--link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"-->
+    <link rel="stylesheet" href="~/Content/bootstrap-2.min.css" crossorigin="anonymous">
+
+
+    <!--script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script-->
+    <script src="~/Scripts/bootstrap-2.min.js" crossorigin="anonymous"></script>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+
+    <style>
+        body {
+            padding: 0 !important;
+            margin: 0 !important;
+            background-color: #f5f5f5 !important;
+        }
+
+        .navbar {
+            background-color: rgba(0,74,143,1) !important;
+            border-color: rgba(0,74,143,1) !important;
+            border-radius: 0px;
+        }
+
+            .navbar span {
+                color: white;
+                font-size: 1vw;
+                padding: 3px 10px;
+            }
+
+        .navbar-brand {
+            height: auto;
+            padding: 0px 0px;
+            font-size: 0px;
+            line-height: 0px;
+        }
+
+        .navbar-nav > li > a {
+            color: white !important;
+            padding-top: 1.8vw;
+        }
+
+        .navbar-brand {
+            color: white !important;
+        }
+
+        .body-content {
+            margin-bottom: 5vw;
+        }
+
+        .logo {
+            width: 9vw;
+            /*float: left;*/
+            margin: 8px;
+        }
+
+        .logoSISM {
+            width: 4vw;
+            /*float: left;*/
+            margin: 8px;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            text-align: center;
+            left: 0;
+            width: 100%;
+            z-index: 99;
+            background-color: #f5f5f5;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        a {
+            color: inherit !important;
+            text-decoration: none !important;
+        }
+
+        .navbar-right {
+            margin-right: 0px !important;
+        }
+
+        .card {
+            border: 0px solid rgba(0,0,0,0);
+            background-color: transparent;
+        }
+
+        .card-text {
+            height: 120px;
+        }
+
+        .card-link {
+            border: none;
+        }
+
+        .material-icons {
+            line-height: inherit !important;
+        }
+
+        a:hover {
+            background-color: transparent !important;
+        }
+
+        .content {
+            background: url(http://smallenvelop.com/wp-content/uploads/2014/08/simple-pre-loader.jpg ) center no-repeat;
+            background-size: 100%;
+            width: 100%;
+        }
+
+        .soporte {
+            width: 25px;
+            filter: brightness(0) invert(1);
+        }
+
+        .tel-soporte {
+            position: absolute;
+            width: 200px;
+            background-color: white;
+            padding: 5px 10px;
+            top: 0;
+            right: 0;
+            margin-right: 280px;
+            margin-top: 40px;
+            text-align: left;
+            border-radius: 3px;
+            z-index: 999;
+            display:none;
+        }
+
+        .tel-soporte ul{
+           list-style:none;
+           margin:0px;
+           padding-left: 8px;
+        }
+
+        .tel-soporte .linea{
+           background-color:#cfcfcf;
+           width:100%;
+           height:1px;
+        }
+
+        .tel-soporte .cerrar {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin-top: 8px;
+            margin-right: 10px;
+            z-index: 999;
+            width: 11px;
+        }
+
+        .soporte2 {
+            display: none;
+            width: 25px;
+            filter: brightness(0) invert(1);
+        }
+
+    </style>
+
+    <style type="text/css" media="screen and (max-width: 991px)">
+        .logo {
+            width: 15vw;
+        }
+
+        .logoSISM {
+            width: 6vw;
+        }
+
+        .navbar-brand {
+            margin: 0px !important;
+        }
+
+        .body-content {
+            margin-bottom: 10vw;
+        }
+
+        .navbar span {
+            font-size: 1.5vw;
+        }
+
+        #menu table {
+            margin: auto;
+        }
+    </style>
+
+    <style type="text/css" media="screen and (max-width: 767px)">
+        .body-content {
+            margin-bottom: 20vw;
+        }
+
+        .navbar span {
+            font-size: 2.1vw;
+            padding: 3px 3px;
+        }
+
+        #menu b {
+            font-size: 10px;
+        }
+
+        #menu .material-icons {
+            font-size: 10px;
+        }
+
+        #menu table {
+            margin: auto;
+        }
+
+        .btn-group {
+            width: 100%;
+            margin-left: 0px !important;
+        }
+
+        .dropdown-toggle {
+            border-radius: 0px !important;
+        }
+
+        .nav-tabs .nav-item {
+            width: 100% !important;
+        }
+
+            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+                margin-left: 0px !important;
+                border-radius: 0px !important;
+            }
+
+        .dropdown-toggle {
+            font-weight: bolder !important;
+            font-size: 10px !important;
+        }
+
+        .dropdown-item {
+            font-size: 3vw !important;
+        }
+
+        .logo {
+            width: 20vw;
+        }
+
+        .logoSISM {
+            width: 7vw;
+        }
+
+        .navbar span {
+            font-size: 2.5vw !important;
+            padding-top: 0vw !important;
+        }
+
+        .dropdown-toggle {
+            font-size: 3vw !important;
+        }
+
+        .tel-soporte {
+            right:0;
+            left:0px;
+        }
+
+        .soporte2 {
+            display: initial;
+            width: 15px;
+        }
+
+        .soporte {
+            display: none;
+        }
+    </style>
+
+    <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" /-->
+    <link rel="stylesheet" href="~/Content/animate.min.css" />
+
+    <!--link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'-->
+    <link rel='stylesheet' href='~/Content/materialicons.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <div class="row m-0" style="width:100%;">
+                <div class="col-md-6 col-5 p-0">
+                    <a class="navbar-brand" href="@Url.Action("Index", "Home")"><img src="~/Imagenes/logo-sm.png" class="logo" /></a>
+                    <a class="navbar-brand" href="@Url.Action("Index", "Home")"><img class="logoSISM" src="~/Imagenes/logo_SISM2.png" /> </a>
+                </div>
+                <div class="col-md-6 col-7 text-right m-auto">
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+        </div>
+       
+        <!--button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span style="color:white;" class="material-icons">menu</span>
+        </button-->
+
+   
+    </nav>
+
+    <div class="container body-content">
+        @RenderBody()
+        <footer>
+            <h6>&copy; @DateTime.Now.Year | Servicios Médicos | Universidad Autónoma de Nuevo León</h6>
+        </footer>
+    </div>
+
+
+    <script>
+        $('.tel-soporte').hide();
+
+        $(".soporte").hover(function () {
+            $('.tel-soporte').show();
+        });
+
+        $(".soporte2").hover(function () {
+            $('.tel-soporte').show();
+        });
+
+
+        $(".tel-soporte .cerrar").click(function () {
+            $('.tel-soporte').hide();
+        });
+
+
+    </script>
+
+</body>
+</html>

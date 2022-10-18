@@ -1,0 +1,205 @@
+﻿@model UanlSISM.Models.SolicitudLaboratorioExp
+@{
+    ViewBag.Title = "Solicitud de Laboratorio";
+}
+
+<script src="https://kit.fontawesome.com/c1c7b8f39a.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script>
+
+      $(function() {
+
+        $("#estudioslabtxt").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "@Url.Action("GetLaboratorioCatalogo", "Manage")",
+                    dataType: "json",
+                    data: {
+                        search: request.term
+                    },
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            },
+            minLength: 2,
+            focus: function (event, ui) {
+                // prevent autocomplete from updating the textbox
+                event.preventDefault();
+                // manually update the textbox
+                $(this).val(ui.item.label);
+            },
+            select: function (event, ui) {
+                // prevent autocomplete from updating the textbox
+                event.preventDefault();
+                // manually update the textbox and hidden field
+
+
+                $("#lab_id").val(ui.item.value);
+                $(this).val('');
+
+                $('#tblEstudios > tbody:last').append('<tr class="added"> <td style="width:1px;max-width:1px;display:none;">' + ui.item.idserv + '</td>   <td style="width:1px;max-width:1px;display:none;">' + ui.item.idlab + '</td>  <td style="width:1px;max-width:1px;display:none;">' + ui.item.instructions + '</td>  <td><a onclick="DeleteEstudioMedico(this);" style="width:5px"><span class="fas fa-trash-alt" style="color:red;"></span></a></td>   <td>' + ui.item.value + '</td>    <td>' + ui.item.label + '</td> </tr>');
+
+            }
+        });
+    });
+
+</script>
+
+<script>
+
+   function DeleteEstudioMedico(row) {
+        if (window.confirm("Desea eliminar el estudio de la lista?")) {
+            $(row).closest('tr').remove();
+        }
+    }
+
+
+    function GuardarExpDetalle() {
+
+        var labExp = {};
+        labExp.Folio_lab = '21868';
+        labExp.medico_crea = '02101';
+        labExp.fecha_crea = '10/02/2021';
+        labExp.estado = 0;
+        labExp.observaciones = 'prueba insert desde pantalla nueva';
+        labExp.expediente = '62759100';
+        labExp.urgente = '1';
+
+        var array = [];
+        $('#tblEstudios tr').each(function (i) {
+            if ($(this).hasClass('added')) {
+
+                var lab_lab = document.getElementById('tblEstudios').rows[i].cells[1].innerText;
+                var lab_id = document.getElementById('tblEstudios').rows[i].cells[2].innerText;
+                var lab_instrucciones = document.getElementById('tblEstudios').rows[i].cells[2].innerText;
+
+                var newLabDetalle = {};
+                newLabDetalle.lab_lab = lab_lab;
+                newLabDetalle.lab_id = lab_id;
+                newLabDetalle.lab_instrucciones = lab_instrucciones;
+
+                array.push(newLabDetalle);
+                }
+            });
+
+
+        $.ajax({
+            url: '@Url.Action("GuardarSolicitudLaboratorioExp", "Manage")',
+            data: { labExpediente: JSON.stringify(labExp), labDetalle: JSON.stringify(array) }
+        }).done(function () {
+            alert('Estudio(s) añadido(s) con exito!');
+        });
+    }
+
+</script>
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Consultas", "Manage")"><b>Solicitud Laboratorio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 text-center mt-4">
+        <h2><strong>Solicitud de Laboratorio</strong></h2>
+    </div>
+</div>
+
+@Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <table style="width:100%" class="table table-bordered">
+        <tbody>
+            <tr>
+
+                <td>
+                    <b>Folio: </b>
+                    @if (Model.LabExpediente.Folio_lab != 0)
+                    {
+                        @Html.DisplayFor(model => model.LabExpediente.Folio_lab, new { @class = "" })
+                    }
+                </td>
+                <td>
+                    Agregar estudio
+                </td>
+                <td>
+                    <div style="display:flex;justify-content:start" class="input-group-sm">
+                        <input style="width:2px;visibility:hidden" type="password" id="lab_id" />
+                        <input placeholder="Buscar..." class="form-control form-control-sm" id="estudioslabtxt" />
+                        <span>
+                            <i style="margin-left:5px;" class="glyphicon glyphicon-search"></i>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table style="width:100%" id="tblEstudios" class="table table-bordered">
+        <thead style="background-color: rgba(0,74,143,1) !important;">
+            @*<tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> Grupo</td>
+                    <td> Nombre</td>
+                </tr>*@
+
+        </thead>
+        <tbody>
+            @foreach (var property in Model.LabDetalle)
+            {
+                <tr>
+
+                    <td style="width:1%;max-width:1%;display:none">
+                    </td>
+                    <td style="width:1%;max-width:1%;display:none">
+                    </td>
+                    <td style="width:1%;max-width:1%;display:none">
+                    </td>
+                    <td style="width:5px;">
+                    </td>
+                    <td>
+                        @property.lab_grupo
+                    </td>
+                    <td>
+                        @property.lab_des
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+    <hr />
+
+    <br />
+    <br />
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Cancelar" style="background-color: rgba(0,74,143,1) !important;color: white;
+                 font-weight: 700" class="btn btn-default" />
+
+            <input type="submit" value="Guardar" onclick="GuardarExpDetalle()" style="background-color: rgba(0,74,143,1) !important;color: white;
+                 font-weight: 700" class="btn btn-default" />
+
+        </div>
+    </div>
+</div>
+
+

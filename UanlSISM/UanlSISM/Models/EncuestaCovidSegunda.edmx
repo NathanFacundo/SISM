@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SMDEVModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="encuesta_covid_segunda">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="255" />
+          <Property Name="edad" Type="int" />
+          <Property Name="expediente" Type="varchar" MaxLength="255" />
+          <Property Name="antecedentes_medicos" Type="text" />
+          <Property Name="fiebre" Type="int" />
+          <Property Name="tos" Type="int" />
+          <Property Name="anosmia" Type="int" />
+          <Property Name="diarrea" Type="int" />
+          <Property Name="mialgias_atralgias" Type="int" />
+          <Property Name="hta_cardivascular" Type="int" />
+          <Property Name="diabetes_mellitus" Type="int" />
+          <Property Name="tabaquismo" Type="int" />
+          <Property Name="enf_inmunologica" Type="int" />
+          <Property Name="enf_reumatologia" Type="int" />
+          <Property Name="enf_neoplasica" Type="int" />
+          <Property Name="irc" Type="int" />
+          <Property Name="edad_mayo" Type="int" />
+          <Property Name="fr" Type="int" />
+          <Property Name="disnea" Type="int" />
+          <Property Name="saturacion_oxigeno" Type="int" />
+          <Property Name="hipotension" Type="int" />
+          <Property Name="alteracion_estado" Type="int" />
+          <Property Name="alteracion_pulmonares" Type="int" />
+          <Property Name="fecha" Type="datetime" />
+          <Property Name="notas" Type="text" />
+        </EntityType>
+        <EntityContainer Name="SMDEVModel1StoreContainer">
+          <EntitySet Name="encuesta_covid_segunda" EntityType="Self.encuesta_covid_segunda" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SMDEVModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="encuesta_covid_segunda">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="edad" Type="Int32" />
+          <Property Name="expediente" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="antecedentes_medicos" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="fiebre" Type="Int32" />
+          <Property Name="tos" Type="Int32" />
+          <Property Name="anosmia" Type="Int32" />
+          <Property Name="diarrea" Type="Int32" />
+          <Property Name="mialgias_atralgias" Type="Int32" />
+          <Property Name="hta_cardivascular" Type="Int32" />
+          <Property Name="diabetes_mellitus" Type="Int32" />
+          <Property Name="tabaquismo" Type="Int32" />
+          <Property Name="enf_inmunologica" Type="Int32" />
+          <Property Name="enf_reumatologia" Type="Int32" />
+          <Property Name="enf_neoplasica" Type="Int32" />
+          <Property Name="irc" Type="Int32" />
+          <Property Name="edad_mayo" Type="Int32" />
+          <Property Name="fr" Type="Int32" />
+          <Property Name="disnea" Type="Int32" />
+          <Property Name="saturacion_oxigeno" Type="Int32" />
+          <Property Name="hipotension" Type="Int32" />
+          <Property Name="alteracion_estado" Type="Int32" />
+          <Property Name="alteracion_pulmonares" Type="Int32" />
+          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <Property Name="notas" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="SMDEVEntities10" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="encuesta_covid_segunda" EntityType="Self.encuesta_covid_segunda" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SMDEVModel1StoreContainer" CdmEntityContainer="SMDEVEntities10">
+          <EntitySetMapping Name="encuesta_covid_segunda">
+            <EntityTypeMapping TypeName="SMDEVModel1.encuesta_covid_segunda">
+              <MappingFragment StoreEntitySet="encuesta_covid_segunda">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="edad" ColumnName="edad" />
+                <ScalarProperty Name="expediente" ColumnName="expediente" />
+                <ScalarProperty Name="antecedentes_medicos" ColumnName="antecedentes_medicos" />
+                <ScalarProperty Name="fiebre" ColumnName="fiebre" />
+                <ScalarProperty Name="tos" ColumnName="tos" />
+                <ScalarProperty Name="anosmia" ColumnName="anosmia" />
+                <ScalarProperty Name="diarrea" ColumnName="diarrea" />
+                <ScalarProperty Name="mialgias_atralgias" ColumnName="mialgias_atralgias" />
+                <ScalarProperty Name="hta_cardivascular" ColumnName="hta_cardivascular" />
+                <ScalarProperty Name="diabetes_mellitus" ColumnName="diabetes_mellitus" />
+                <ScalarProperty Name="tabaquismo" ColumnName="tabaquismo" />
+                <ScalarProperty Name="enf_inmunologica" ColumnName="enf_inmunologica" />
+                <ScalarProperty Name="enf_reumatologia" ColumnName="enf_reumatologia" />
+                <ScalarProperty Name="enf_neoplasica" ColumnName="enf_neoplasica" />
+                <ScalarProperty Name="irc" ColumnName="irc" />
+                <ScalarProperty Name="edad_mayo" ColumnName="edad_mayo" />
+                <ScalarProperty Name="fr" ColumnName="fr" />
+                <ScalarProperty Name="disnea" ColumnName="disnea" />
+                <ScalarProperty Name="saturacion_oxigeno" ColumnName="saturacion_oxigeno" />
+                <ScalarProperty Name="hipotension" ColumnName="hipotension" />
+                <ScalarProperty Name="alteracion_estado" ColumnName="alteracion_estado" />
+                <ScalarProperty Name="alteracion_pulmonares" ColumnName="alteracion_pulmonares" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="notas" ColumnName="notas" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

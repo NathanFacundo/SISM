@@ -1,0 +1,814 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@model UanlSISM.Models.DHABIENTES
+@using Microsoft.AspNet.Identity;
+@{
+    List<UanlSISM.Models.EnfermeriaSolicitud> SolicitudList = ViewBag.EnfermeriaSolicitudList;
+    var HistorialList = (dynamic)ViewBag.HistorialEnfermeria;
+
+}
+
+<style>
+    #home-seccion {
+        margin-top: 20px;
+    }
+
+    .icons {
+        width: 8vw;
+    }
+
+    .item {
+        padding: 10px;
+    }
+
+    .item-card {
+        transition: 0.5s;
+        cursor: pointer;
+        padding: 20px;
+    }
+
+    .card-link {
+        background-color: #FBC43D;
+        border-color: #FBC43D;
+        color: white;
+        padding: 5px 20px;
+    }
+
+        .card-link:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+    .item-card-title {
+        font-size: 15px;
+        transition: 1s;
+        cursor: pointer;
+    }
+
+        .item-card-title i {
+            font-size: 15px;
+            transition: 1s;
+            cursor: pointer;
+            color: #ffa710
+        }
+
+    .card-title i:hover {
+        transform: scale(1.25) rotate(20deg);
+        color: #18d4ca;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        /*box-shadow: 5px 5px 5px rgba(0,0,0,0.3);*/
+    }
+
+    .card::before, .card::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: scale3d(0, 0, 1);
+        transition: transform .3s ease-out 0s;
+        background: rgba(255, 255, 255, 0.1);
+        content: '';
+        pointer-events: none;
+    }
+
+    .card::before {
+        transform-origin: left top;
+    }
+
+    .card::after {
+        transform-origin: right bottom;
+    }
+
+    .card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
+        transform: scale3d(1, 1, 1);
+    }
+
+    .foto-paciente {
+        width: 6vw;
+        height: 6vw;
+        border-radius: 6vw;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: rgba(0,74,143,0.8);
+        background-image: url('http://148.234.143.205/SISM/Imagenes/uanl.png');
+    }
+
+    .cuadro {
+        background-color: #fff;
+        border-radius: 1vw;
+    }
+
+    .action-button {
+        width: 130px;
+        background: #FBC43D;
+        font-weight: bold;
+        color: white;
+        border: 0 none;
+        border-radius: 0px;
+        cursor: pointer;
+        padding: 10px 5px;
+        margin: 10px 5px;
+    }
+
+    .success-button {
+        width: 130px;
+        background: rgba(0,74,143,0.8);
+        font-weight: bold;
+        color: white;
+        border: 0 none;
+        border-radius: 0px;
+        cursor: pointer;
+        padding: 10px 5px;
+        margin: 10px 5px
+    }
+</style>
+<style>
+    .myinput {
+        padding: 0px 8px 4px 8px;
+        border: none;
+        border-bottom: 2px solid lightgray;
+        border-radius: 0px;
+        margin-top: 2px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        color: black;
+        font-size: 16px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+        .myinput:focus {
+            -moz-box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+            border: none;
+            font-weight: bold;
+            border-bottom: 2px solid #FBC43D;
+            outline-width: 0
+        }
+</style>
+<style>
+
+    .dropdown-toggle {
+        width: 195px;
+        font-size: 15px !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        text-align: left;
+        z-index: 0;
+        border-top-left-radius: 20px;
+        border: 3px solid rgba(0,74,143,1);
+    }
+
+        .dropdown-toggle:hover {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+        .dropdown-toggle:focus {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+    .dropdown-menu {
+        float: inherit !important;
+        width: 100% !important;
+    }
+
+    .dropdown-item {
+        font-size: 15px !important;
+        padding: 3px 10px !important;
+        white-space: break-spaces !important;
+    }
+
+        .dropdown-item .material-icons {
+            font-size: 15px !important;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+        .dropdown-item:focus {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 15px !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        border-top-left-radius: 20px;
+        margin-left: -20px;
+        -webkit-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        -moz-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        border: 2.5px solid rgba(0,74,143,1);
+    }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link:hover {
+            font-size: 15px !important;
+            background-color: rgba(0, 88, 171,1) !important;
+            color: white !important;
+            border: 2.5px solid rgba(0, 88, 171,1);
+        }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            background-color: #FBC43D;
+            color: white !important;
+            border: 2.5px solid #FBC43D;
+        }
+
+            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active:hover {
+                background-color: #FBC43D !important;
+            }
+</style>
+
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Consultas", "Manage")"><b>Consultas</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Index", "ServiciosMedicos")"><b>Servicios Médicos</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Index", "EnfermeriaSolicitud", new { expediente = Model.NUMEMP})"><b>Solicitud de EKG</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12 text-center">
+        <h2><strong>Módulo HU</strong></h2>
+    </div>
+</div>
+
+
+<div class="row cuadro animate__animated animate__fadeInLeft">
+    <div class="col-lg-12 p-3">
+        <div class="row m-0">
+            <div class="col-md-8 m-auto p-3">
+                <div class="row m-0">
+                    <div class="col-lg-2 col-4 p-2 text-center m-auto">
+                        <center><div class="foto-paciente"></div></center>
+                    </div>
+                    <div class="col-lg-10 col-8 p-2 m-auto">
+                        <h6>Expediente: <b>@Model.NUMEMP </b></h6>
+                        <h6>Nombre: <b>@Model.NOMBRES @Model.APATERNO @Model.AMATERNO</b> </h6>
+                        <h6>Registro Hospital Universitario: <b>@Model.REGHU</b> </h6>
+                        <div class="row m-0">
+                            <div class="col-md-3 p-0">
+                                <h6 class="mt-0">Edad: <input type="hidden" id="FNAC" name="FNAC" value="@Model.FNAC" /> <b id="edad"></b> años</h6>
+                            </div>
+                            <div class="col-md-3 p-0">
+                                <h6 class="mt-0">Sexo: <b>@Model.SEXO</b></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 p-3 doc-info">
+                <h6>Doctor: <b> <span class="putUserName"></span> </b></h6>
+                <h6>Especialidad: <b> <span class="putEspecialidad"></span> </b></h6>
+            </div>
+        </div>
+    </div>
+
+    <div id="tabs" class="col-12">
+        <ul class="nav nav-tabs" id="custom-content-below-tab mt-4" role="tablist">
+            <div class="btn-group" style="z-index: 99;">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Historia del paciente
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="@Url.Action("HojaFrontal", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Hoja Frontal</a>
+                    <a href="@Url.Action("HistorialPadecimientos", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Historial de consultas</a>
+                </div>
+            </div>
+            <div class="btn-group" id="recetasButton" style="margin-left: -20px; z-index: 99;">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    SOAP
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="@Url.Action("SOAP", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span> Consulta</a>
+                </div>
+            </div>
+            <div class="btn-group" style="margin-left: -20px; z-index: 99;">
+                <button style="background-color:rgba(0,74,143,1) ; border:4.5px solid rgba(0,74,143,1);box-shadow:rgba(0,0,0,0.3) -5px 0px 5px -2px" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Recetas
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="@Url.Action("Recetas", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span> Receta Normal</a>
+                    <a href="@Url.Action("RecetasCronicas", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span> Receta Resurtimiento</a>
+                    <a href="@Url.Action("ListaRecetas", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Ver Recetas</a>
+                    <a href="@Url.Action("HistorialRecetas", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Historial Medicamentos</a>
+                </div>
+            </div>
+            <div class="btn-group" style="margin-left: -20px; z-index: 99;">
+                <button type="button" onclick="closetoogle()" style="background-color:rgba(0,74,143,1);border:4.5px solid rgba(0,74,143,1);box-shadow:rgba(0,0,0,0.3) -5px 0px 5px -2px" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Estudios
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+
+                    <a class="dropdown-item" id="rayosx" onmouseover="submenuRX()"><span class="material-icons">arrow_drop_down</span><b>Rayos X</b></a>
+                    <hr class="dropdown-divider">
+                    <a id="submenuRX_1" style="display:none" class="dropdown-item" href="@Url.Action("RayosX", "ServiciosMedicos", new { id = Model.NUMEMP ,medico = User.Identity.GetUserName()})"><span class="material-icons">add</span>Generar RX</a>
+                    <a id="submenuRX_2" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.200:3333/studyList?searchID=@Model.NUMEMP.Substring(0,5)-@Model.NUMEMP.Substring(@Model.NUMEMP.Length-3)">SMUANL</a>
+                    <a id="submenuRX_3" style="display:none" class="dropdown-item" target="_blank" href="http://cuid.dyndns.org/portal">HU</a>
+                    <a id="submenuRX_4" style="display:none" class="dropdown-item" target="_blank" href="https://ar.dicomfix.space">AR</a>
+                    <!--a id="submenuRX_5" style="display:none" class="dropdown-item" target="_blank" href="http://radiodiagnostico.dynns.com/pacs/login.php?message=Bienvenido%20a%20iQ-WEB">Garcia Barella</-a-->
+                    <hr class="dropdown-divider">
+                    <a class="dropdown-item" id="lab-tab" onmouseover="submenuLab()"><span class="material-icons">arrow_drop_down</span><b>Laboratorio</b></a>
+                    <hr class="dropdown-divider">
+                    <a id="submenuLab_1" style="display:none" class="dropdown-item" href="@Url.Action("Index", "Laboratorio", new { expediente = Model.NUMEMP ,medico = User.Identity.GetUserName()})"><span class="material-icons">add</span>Generar Solicitud</a>
+                    <a id="submenuLab_2" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.204/resultados3/listanombres.asp?numexp=@Model.NUMEMP">Ver Resultados Laboratorio</a>
+                    <hr class="dropdown-divider">
+                    <a class="dropdown-item" onmouseover="submenuAntigenos()"><span class="material-icons">arrow_drop_down</span><b>Prueba Antígenos</b></a>
+                    <a id="submenuAntigenos_1" style="display:none" class="dropdown-item" href="@Url.Action("Index", "CovidSolicitud", new { expediente = Model.NUMEMP })"><span class="material-icons">add</span>Generar Solicitud</a>
+                    <a id="submenuAntigenos_2" style="display:none" class="dropdown-item" href="@Url.Action("ResultadoAntigenos", "ServiciosMedicos", new { id = Model.NUMEMP })">Ver Resultados</a>
+                    <hr class="dropdown-divider">
+                    <a class="dropdown-item" id="lab-tab" onmouseover="submenuArchivos()"><span class="material-icons">arrow_drop_down</span><b>Archivos</b></a>
+                    <a id="submenuArchivos_1" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=ekg">E K G</a>
+                    <a id="submenuArchivos_2" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=cito">Citologías</a>
+                    <a id="submenuArchivos_3" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=biopsia">Biopsia</a>
+                    <a id="submenuArchivos_4" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=ecc">E.C.C</a>
+                    <a id="submenuArchivos_5" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=presfuerzo">Prueba esfuerzo</a>
+                    <a id="submenuArchivos_6" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=holters">Holters</a>
+                    <a id="submenuArchivos_7" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=consinf">Cons. Informado</a>
+                    <a id="submenuArchivos_8" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=endo">Procedimientos Qx.</a>
+                    <a id="submenuArchivos_9" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=DENS">Densitometria</a>
+                    <a id="submenuArchivos_10" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=LAB">Laboratorio Externo</a>
+                    <a id="submenuArchivos_11" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=psico">Psicología</a>
+                    <a id="submenuArchivos_12" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=onco">Oncología</a>
+                    <a id="submenuArchivos_13" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=gastro">Gastro</a>
+                    <a id="submenuArchivos_14" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=OTR">Otros Estudios</a>
+                </div>
+            </div>
+            <div class="btn-group" style="margin-left: -20px; z-index: 99;">
+                <button type="button" style="background-color:#FBC43D !important; border:3px solid #fbc43d !important;" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Órdenes
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="@Url.Action("ValoracionPensionistas", "Manage", new { id = Model.NUMEMP })"><span class="material-icons">add</span><b>Valoración Urgencia</b></a>
+                    <a class="dropdown-item" href="@Url.Action("TodasValoracionesPensionistas", "Manage")">Ver mis valoraciones</a>
+                    <a class="dropdown-item" href="@Url.Action("OrdenInternamiento", "Manage", new { id = Model.NUMEMP })"><span class="material-icons">add</span><b>Orden Internamiento</b></a>
+                    <a class="dropdown-item" href="@Url.Action("TodasOrdenesInternamiento", "Manage")">Ver mis órdenes</a>
+                    <hr class="dropdown-divider">
+                    <a class="dropdown-item" href="@Url.Action("Index", "EnfermeriaSolicitud",new { expediente = Model.NUMEMP })"><span class="material-icons">add</span><b>Solicitud EKG</b></a>
+                    <hr class="dropdown-divider">
+                    <a class="dropdown-item" data-toggle="modal" data-target="#ModalPaquete"><span class="material-icons">add</span><b>Paq.Preoperatorio</b></a>
+                </div>
+            </div>
+            <div class="btn-group" style="margin-left: -20px; z-index: 99;">
+                <button type="button" style="background-color: rgba(0,74,143,1); border: 4.5px solid rgba(0,74,143,1);box-shadow: rgba(0,0,0,0.3) -5px 0px 5px -2px" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Proc. Ambulatorios
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="@Url.Action("ProcAmbOrdenes", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span>Capturar</a>
+                    <a href="@Url.Action("VerProcAmbOrdenes", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Ver Historial</a>
+                </div>
+            </div>
+        </ul>
+        <div class="tab-content" id="custom-content-below-tabContent">
+
+            <div class="tab-pane fade show active" id="lab" role="tabpanel" aria-labelledby="lab-tab">
+                <br />
+                <br />
+                <h2 style="text-align:center"><b>Solicitudes de EKG</b></h2>
+                <br />
+
+                <div class="col-md-12">
+                    <table id="TblEnfermeria" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Borrar</th>
+                                <th>Folio</th>
+                                <th>Fecha</th>
+                                <th>Urgente</th>
+                                <th>Nota</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in SolicitudList)
+                            {
+                                <tr>
+                                    @if (item.FechaSol.ToShortDateString() == System.DateTime.Now.ToShortDateString())
+                                    {
+                                        <td>
+                                            <button class="btn btn-default" style="width:50px;" onclick="Delete(@item.SolicitudId)">
+                                                <img style="width:20px;height:20px;" src="~/Imagenes/iconos/trashcan.png" />
+                                            </button>
+                                        </td>
+
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+
+                                    <td>
+                                        <p style="text-decoration:underline"><a class="text-primary" href="@Url.Action("Edit", "EnfermeriaSolicitud", new { id= item.SolicitudId })">@item.SolicitudId</a></p>
+                                    </td>
+
+                                    <td>
+                                        @item.FechaSol.ToString("dd/MM/yyyy hh:mm:ss")
+                                    </td>
+
+                                    <td>
+
+                                        @if (item.Urgente == "2")
+
+                                        {
+                                            <p>Ordinario</p>
+                                        }
+
+                                        else
+                                        {
+                                            <p class="text-danger">Urgente</p>
+                                        }
+
+                                    </td>
+                                    <td>
+                                        @item.Nota
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                    <br />
+                    <br />
+                    <h2 style="text-align:center"><b>Historial de Solicitudes</b></h2>
+                    <br />
+
+                    <table id="TblHistorial" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Estudio</th>
+                                <th>Médico</th>
+                                <th>Urgente</th>
+                                <th>Nota</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in HistorialList)
+                            {
+                                <tr>
+                                    <td>@item.FechaSol.ToString("dd/MM/yyyy hh:mm:ss")</td>
+                                    <td>@item.Descripcion</td>
+                                    <td>@item.UsuarioRealiza</td>
+                                    @if (item.Urgente == "2")
+
+                                    {
+                                        <td><p>Ordinario</p></td>
+                                    }
+
+                                    else
+                                    {
+                                        <td><p class="text-danger">Urgente</p></td>
+
+                                    }
+                                    <td>@item.Nota</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                    <br />
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@Html.Partial("PaquetePreoperatorio")
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css" />
+<script src="https://cdn.datatables.net/plug-ins/1.10.16/sorting/datetime-moment.js"></script>
+
+
+<script type="text/javascript">
+
+    function submenuRX() {
+
+        $('#submenuRX_1').show();
+        $('#submenuRX_2').show();
+        $('#submenuRX_3').show();
+        $('#submenuRX_4').show();
+        $('#submenuRX_5').show();
+
+        $('#submenuLab_1').hide();
+        $('#submenuLab_2').hide();
+        $('#submenuArchivos_1').hide();
+        $('#submenuArchivos_2').hide();
+        $('#submenuArchivos_3').hide();
+        $('#submenuArchivos_4').hide();
+        $('#submenuArchivos_5').hide();
+        $('#submenuArchivos_6').hide();
+        $('#submenuArchivos_7').hide();
+        $('#submenuArchivos_8').hide();
+        $('#submenuArchivos_9').hide();
+        $('#submenuArchivos_10').hide();
+        $('#submenuArchivos_11').hide();
+        $('#submenuArchivos_12').hide();
+        $('#submenuArchivos_13').hide();
+        $('#submenuArchivos_14').hide();
+        $('#submenuAntigenos_1').hide();
+        $('#submenuAntigenos_2').hide();
+    }
+
+    function submenuLab() {
+
+        $('#submenuLab_1').show();
+        $('#submenuLab_2').show();
+
+        $('#submenuRX_1').hide();
+        $('#submenuRX_2').hide();
+        $('#submenuRX_3').hide();
+        $('#submenuRX_4').hide();
+        $('#submenuRX_5').hide();
+
+        $('#submenuArchivos_1').hide();
+        $('#submenuArchivos_2').hide();
+        $('#submenuArchivos_3').hide();
+        $('#submenuArchivos_4').hide();
+        $('#submenuArchivos_5').hide();
+        $('#submenuArchivos_6').hide();
+        $('#submenuArchivos_7').hide();
+        $('#submenuArchivos_8').hide();
+        $('#submenuArchivos_9').hide();
+        $('#submenuArchivos_10').hide();
+        $('#submenuArchivos_11').hide();
+        $('#submenuArchivos_12').hide();
+        $('#submenuArchivos_13').hide();
+        $('#submenuArchivos_14').hide();
+        $('#submenuAntigenos_1').hide();
+        $('#submenuAntigenos_2').hide();
+    }
+
+
+    function submenuArchivos() {
+        $('#submenuArchivos_1').show();
+        $('#submenuArchivos_2').show();
+        $('#submenuArchivos_3').show();
+        $('#submenuArchivos_4').show();
+        $('#submenuArchivos_5').show();
+        $('#submenuArchivos_6').show();
+        $('#submenuArchivos_7').show();
+        $('#submenuArchivos_8').show();
+        $('#submenuArchivos_9').show();
+        $('#submenuArchivos_10').show();
+        $('#submenuArchivos_11').show();
+        $('#submenuArchivos_12').show();
+        $('#submenuArchivos_13').show();
+        $('#submenuArchivos_14').show();
+
+        $('#submenuLab_1').hide();
+        $('#submenuLab_2').hide();
+        $('#submenuRX_1').hide();
+        $('#submenuRX_2').hide();
+        $('#submenuRX_3').hide();
+        $('#submenuRX_4').hide();
+        $('#submenuRX_5').hide();
+        $('#submenuAntigenos_1').hide();
+        $('#submenuAntigenos_2').hide();
+    }
+
+    function submenuAntigenos() {
+        $('#submenuAntigenos_1').show();
+        $('#submenuAntigenos_2').show();
+
+        $('#submenuRX_1').hide();
+        $('#submenuRX_2').hide();
+        $('#submenuRX_3').hide();
+        $('#submenuRX_4').hide();
+        $('#submenuRX_5').hide();
+        $('#submenuLab_1').hide();
+        $('#submenuLab_2').hide();
+        $('#submenuArchivos_1').hide();
+        $('#submenuArchivos_2').hide();
+        $('#submenuArchivos_3').hide();
+        $('#submenuArchivos_4').hide();
+        $('#submenuArchivos_5').hide();
+        $('#submenuArchivos_6').hide();
+        $('#submenuArchivos_7').hide();
+        $('#submenuArchivos_8').hide();
+        $('#submenuArchivos_9').hide();
+        $('#submenuArchivos_10').hide();
+        $('#submenuArchivos_11').hide();
+        $('#submenuArchivos_12').hide();
+        $('#submenuArchivos_13').hide();
+        $('#submenuArchivos_14').hide();
+    }
+
+    function closetoogle() {
+
+        $('#submenuRX_1').hide();
+        $('#submenuRX_2').hide();
+        $('#submenuRX_3').hide();
+        $('#submenuRX_4').hide();
+        $('#submenuRX_5').hide();
+
+        $('#submenuLab_1').hide();
+        $('#submenuLab_2').hide();
+        $('#submenuArchivos_1').hide();
+        $('#submenuArchivos_2').hide();
+        $('#submenuArchivos_3').hide();
+        $('#submenuArchivos_4').hide();
+        $('#submenuArchivos_5').hide();
+        $('#submenuArchivos_6').hide();
+        $('#submenuArchivos_7').hide();
+        $('#submenuArchivos_8').hide();
+        $('#submenuArchivos_9').hide();
+        $('#submenuArchivos_10').hide();
+        $('#submenuArchivos_11').hide();
+        $('#submenuArchivos_12').hide();
+        $('#submenuArchivos_13').hide();
+        $('#submenuArchivos_14').hide();
+        $('#submenuAntigenos_1').hide();
+        $('#submenuAntigenos_2').hide();
+
+    }
+</script>
+
+<script>
+    $('#loadingDiv').hide();
+    var numemp = @Model.NUMEMP;
+    $('.foto-paciente').css("background-image", "url(http://148.234.143.204/smuanl_web/fotos_dhab/" + numemp + ".jpg)");
+</script>
+
+<script>
+    var split1 = $('#FNAC').val().split(" ");
+    //console.log(split1);
+    var split2 = split1[0].split("/");
+    var hoy = new Date().getFullYear();
+    var edad = hoy - split2[2];
+    $('#edad').html(edad);
+</script>
+
+
+<script type="text/javascript">
+    $.ajax({
+        type: 'GET',
+        url: '@Url.Action("GetMedicoNombres", "Manage")',
+        dataType: 'json',
+        cache: false,
+        success: function (data) {
+            $('.putUserName').html(data.nombres + " " + data.apellido_paterno + " " + data.apellido_materno);
+            $('#putNumero').val(data.numero);
+            $('.putEspecialidad').html(data.especialidad);
+            $('.putCedula').html(data.cedula);
+            $('.putCedulaEsp').html(data.cedula_esp);
+        },
+        error: function (xhr, status, error) {
+            Swal.fire("Error");
+        }
+    });
+</script>
+
+
+<script>
+
+    $(document).ready(function () {
+        $('#TblEnfermeria').DataTable({
+            "dom": '<"toolbar">frtip',
+            info: false,
+            searching: false,
+            lengthChange: false,
+            order: [[1, 'desc']],
+            "language": {
+                "zeroRecords": "No se encontró ninguna solicitud de enfermería",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+                "select": {
+                    "rows": " filas seleccionadas"
+                },
+                "loadingRecords": "Un momento, cargando solicitudes de enfermería...",
+                "processing": "Procesando solicitudes de laboratorio...",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_  solicitudes de enfermería",
+                "lengthMenu": "Mostrando _MENU_ solicitudes de enfermería",
+            }
+        });
+        $("div.toolbar").html('<button style="background-color:#004a8f;color:white;display:block;margin-left:0%" onclick="Create()" class="btn btn-default" >+ Agregar Solicitud</button><br/>');
+
+        $('#TblHistorial').DataTable({
+            info: false,
+            searching: false,
+            lengthChange: false,
+            order: [[0, 'desc']],
+            "ordering": true,
+            "language": {
+                "zeroRecords": "No se encontró ninguna solicitud de enfermería",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+                "loadingRecords": "Un momento, cargando solicitudes de enfermería...",
+                "processing": "Procesando solicitudes de laboratorio...",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_  solicitudes de enfermería",
+                "lengthMenu": "Mostrando _MENU_ solicitudes de enfermería",
+            }
+        });
+    });
+
+
+</script>
+
+
+
+
+<script>
+
+    function Create() {
+       location.href = '@Url.Action("Create", "EnfermeriaSolicitud", new { expediente = Model.NUMEMP })';
+    }
+
+    function Delete(folio) {
+
+        Swal.fire({
+            title: 'Desea eliminar la solicitud de enfermería?',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: `Ok`,
+            denyButtonText: `Cancelar`,
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+
+
+            $.ajax({
+                url: '@Url.Action("DeleteSolicitud", "EnfermeriaSolicitud")',
+                data: { id: folio },
+                success: function (data) {
+                    if (data == '1') {
+
+                        Swal.fire({
+                            icon:'success',
+                            title: 'Se ha eliminado la solicitud con éxito !',
+                            showDenyButton: false,
+                            showCancelButton: false,
+                            confirmButtonText: `Ok`,
+                            denyButtonText: `Cancelar`,
+                        }).then((result) => {
+                            location.reload();
+
+                        })
+                    }
+                    else {
+                        swal.fire('Error: ' + data);
+                        location.reload();
+                    }
+
+
+                },
+                error: function (reponse) {
+                    swal.fire("error");
+                    console.log(reponse);
+                }
+            });
+
+
+            }
+            else {
+                return;
+            }
+        })
+    }
+
+</script>

@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SERVMEDModel6.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Sustancia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Grupo" Type="smallint" Nullable="false" />
+          <Property Name="Id_Sal" Type="smallint" Nullable="false" />
+          <Property Name="Id_Nivel" Type="smallint" Nullable="false" />
+          <Property Name="clave_presentacion" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="Presentacion" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Clave" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="Consultorio" Type="char" MaxLength="1" />
+          <Property Name="estante_col" Type="char" MaxLength="10" />
+          <Property Name="estante_nivel" Type="char" MaxLength="10" />
+          <Property Name="pos_frecuencia" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="consumo_semana" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="cb_mederos" Type="char" MaxLength="1" />
+          <Property Name="cto_ultimo" Type="real" />
+          <Property Name="cto_promedio" Type="real" />
+          <Property Name="estatus_21" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="descripcion_21" Type="nchar" MaxLength="200" />
+          <Property Name="clave_21" Type="nchar" MaxLength="19" />
+          <Property Name="id_grupo_21" Type="int" />
+          <Property Name="id_principioactivo_21" Type="int" />
+          <Property Name="id_formafarm_21" Type="int" />
+          <Property Name="id_concentracion_21" Type="int" />
+          <Property Name="id_unidadeslicitacion_21" Type="int" />
+          <Property Name="id_unidadesmedida_21" Type="int" />
+          <Property Name="id_cantidadenvases_21" Type="int" />
+          <Property Name="id_tipoenvase_21" Type="int" />
+          <Property Name="codigo_21" Type="nchar" MaxLength="18" />
+        </EntityType>
+        <EntityContainer Name="SERVMEDModel6StoreContainer">
+          <EntitySet Name="Sustancia" EntityType="Self.Sustancia" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SERVMEDModel6" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Sustancia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Grupo" Type="Int16" Nullable="false" />
+          <Property Name="Id_Sal" Type="Int16" Nullable="false" />
+          <Property Name="Id_Nivel" Type="Int16" Nullable="false" />
+          <Property Name="clave_presentacion" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Presentacion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Clave" Type="String" MaxLength="6" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="Consultorio" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="estante_col" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="estante_nivel" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="pos_frecuencia" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="consumo_semana" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="cb_mederos" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="cto_ultimo" Type="Single" />
+          <Property Name="cto_promedio" Type="Single" />
+          <Property Name="estatus_21" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="descripcion_21" Type="String" MaxLength="200" FixedLength="true" Unicode="true" />
+          <Property Name="clave_21" Type="String" MaxLength="19" FixedLength="true" Unicode="true" />
+          <Property Name="id_grupo_21" Type="Int32" />
+          <Property Name="id_principioactivo_21" Type="Int32" />
+          <Property Name="id_formafarm_21" Type="Int32" />
+          <Property Name="id_concentracion_21" Type="Int32" />
+          <Property Name="id_unidadeslicitacion_21" Type="Int32" />
+          <Property Name="id_unidadesmedida_21" Type="Int32" />
+          <Property Name="id_cantidadenvases_21" Type="Int32" />
+          <Property Name="id_tipoenvase_21" Type="Int32" />
+          <Property Name="codigo_21" Type="String" MaxLength="18" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="SERVMEDEntities6" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Sustancia" EntityType="Self.Sustancia" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SERVMEDModel6StoreContainer" CdmEntityContainer="SERVMEDEntities6">
+          <EntitySetMapping Name="Sustancia">
+            <EntityTypeMapping TypeName="SERVMEDModel6.Sustancia">
+              <MappingFragment StoreEntitySet="Sustancia">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Id_Grupo" ColumnName="Id_Grupo" />
+                <ScalarProperty Name="Id_Sal" ColumnName="Id_Sal" />
+                <ScalarProperty Name="Id_Nivel" ColumnName="Id_Nivel" />
+                <ScalarProperty Name="clave_presentacion" ColumnName="clave_presentacion" />
+                <ScalarProperty Name="Presentacion" ColumnName="Presentacion" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Consultorio" ColumnName="Consultorio" />
+                <ScalarProperty Name="estante_col" ColumnName="estante_col" />
+                <ScalarProperty Name="estante_nivel" ColumnName="estante_nivel" />
+                <ScalarProperty Name="pos_frecuencia" ColumnName="pos_frecuencia" />
+                <ScalarProperty Name="consumo_semana" ColumnName="consumo_semana" />
+                <ScalarProperty Name="cb_mederos" ColumnName="cb_mederos" />
+                <ScalarProperty Name="cto_ultimo" ColumnName="cto_ultimo" />
+                <ScalarProperty Name="cto_promedio" ColumnName="cto_promedio" />
+                <ScalarProperty Name="estatus_21" ColumnName="estatus_21" />
+                <ScalarProperty Name="descripcion_21" ColumnName="descripcion_21" />
+                <ScalarProperty Name="clave_21" ColumnName="clave_21" />
+                <ScalarProperty Name="id_grupo_21" ColumnName="id_grupo_21" />
+                <ScalarProperty Name="id_principioactivo_21" ColumnName="id_principioactivo_21" />
+                <ScalarProperty Name="id_formafarm_21" ColumnName="id_formafarm_21" />
+                <ScalarProperty Name="id_concentracion_21" ColumnName="id_concentracion_21" />
+                <ScalarProperty Name="id_unidadeslicitacion_21" ColumnName="id_unidadeslicitacion_21" />
+                <ScalarProperty Name="id_unidadesmedida_21" ColumnName="id_unidadesmedida_21" />
+                <ScalarProperty Name="id_cantidadenvases_21" ColumnName="id_cantidadenvases_21" />
+                <ScalarProperty Name="id_tipoenvase_21" ColumnName="id_tipoenvase_21" />
+                <ScalarProperty Name="codigo_21" ColumnName="codigo_21" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

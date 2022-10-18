@@ -1,0 +1,608 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SMDEVModel15.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DIAGNOSTICOS">
+          <Key>
+            <PropertyRef Name="Clave" />
+          </Key>
+          <Property Name="Clave" Type="nvarchar" MaxLength="7" Nullable="false" />
+          <Property Name="DesCorta" Type="nvarchar" MaxLength="70" />
+          <Property Name="DescCompleta" Type="nvarchar" MaxLength="254" />
+          <Property Name="Grupo" Type="nvarchar" MaxLength="2" />
+          <Property Name="Especialidad" Type="nvarchar" MaxLength="50" />
+          <Property Name="Estatus" Type="nvarchar" MaxLength="1" />
+          <Property Name="clave2" Type="nvarchar" MaxLength="7" />
+          <Property Name="dental" Type="nvarchar" MaxLength="1" />
+          <Property Name="estatus_exp" Type="nvarchar" MaxLength="1" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SMDEV.dbo.ESPECIALIDADES' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="ESPECIALIDADES">
+          <Key>
+            <PropertyRef Name="id_pre_esp" />
+          </Key>
+          <Property Name="CLAVE" Type="nvarchar" MaxLength="2" />
+          <Property Name="DESCRIPCION" Type="nvarchar" MaxLength="40" />
+          <Property Name="OBS_MED" Type="nvarchar" MaxLength="76" />
+          <Property Name="GRUPO_DIR" Type="nvarchar" MaxLength="2" />
+          <Property Name="FMSR" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="FMSB" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="FVSR" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="FVSB" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="TIPO" Type="char" MaxLength="2" />
+          <Property Name="id_pre_esp" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="titulo" Type="nchar" MaxLength="50" />
+          <Property Name="estado" Type="nchar" MaxLength="1" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SMDEV.dbo.expediente' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="expediente">
+          <Key>
+            <PropertyRef Name="numemp" />
+            <PropertyRef Name="medico" />
+            <PropertyRef Name="fecha" />
+          </Key>
+          <Property Name="numemp" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="pariente" Type="nvarchar" MaxLength="1" />
+          <Property Name="curp" Type="nvarchar" MaxLength="18" />
+          <Property Name="medico" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="fecha" Type="smalldatetime" Nullable="false" />
+          <Property Name="diagnostico" Type="nvarchar" MaxLength="7" />
+          <Property Name="diagnostico2" Type="nvarchar" MaxLength="7" />
+          <Property Name="diagnostico3" Type="nvarchar" MaxLength="7" />
+          <Property Name="s_exp" Type="ntext" />
+          <Property Name="o_exp" Type="ntext" />
+          <Property Name="a_exp" Type="ntext" />
+          <Property Name="p_exp" Type="ntext" />
+          <Property Name="pesokg" Type="nvarchar" MaxLength="3" />
+          <Property Name="pesomg" Type="char" MaxLength="10" />
+          <Property Name="tallam" Type="nvarchar" MaxLength="3" />
+          <Property Name="tallac" Type="char" MaxLength="10" />
+          <Property Name="ta1" Type="nvarchar" MaxLength="6" />
+          <Property Name="ta2" Type="char" MaxLength="10" />
+          <Property Name="tipconsulta" Type="nvarchar" MaxLength="1" />
+          <Property Name="emprealizo" Type="nvarchar" MaxLength="10" />
+          <Property Name="frealizo" Type="smalldatetime" />
+          <Property Name="turno" Type="char" MaxLength="4" />
+          <Property Name="referido" Type="char" MaxLength="2" />
+          <Property Name="referido_urg" Type="char" MaxLength="1" />
+          <Property Name="incapacidad" Type="char" MaxLength="1" />
+          <Property Name="laboratorio" Type="char" MaxLength="1" />
+          <Property Name="receta" Type="char" MaxLength="1" />
+          <Property Name="edd_anio" Type="char" MaxLength="2" />
+          <Property Name="edd_mes" Type="char" MaxLength="2" />
+          <Property Name="MED_TMP" Type="char" MaxLength="5" />
+          <Property Name="ref_exp" Type="ntext" />
+          <Property Name="c_ref_exp" Type="ntext" />
+          <Property Name="ref_stat" Type="char" MaxLength="1" />
+          <Property Name="talla_r" Type="real" />
+          <Property Name="peso_r" Type="real" />
+          <Property Name="temp_r" Type="real" />
+          <Property Name="fresp" Type="char" MaxLength="3" />
+          <Property Name="fcard" Type="char" MaxLength="3" />
+          <Property Name="rxd" Type="char" MaxLength="2" />
+          <Property Name="dstx" Type="char" MaxLength="3" />
+          <Property Name="hora_termino" Type="datetime" />
+          <Property Name="tipconsulta2" Type="nvarchar" MaxLength="1" />
+          <Property Name="tipconsulta3" Type="nvarchar" MaxLength="1" />
+          <Property Name="consultadistancia" Type="char" MaxLength="1" />
+          <Property Name="ubicacion_realiza" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="ip_realiza" Type="char" MaxLength="15" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6013: La tabla o vista 'SMDEV.dbo.expediente_dental' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
+        <EntityType Name="expediente_dental">
+          <Property Name="fecha" Type="smalldatetime" />
+          <Property Name="expediente" Type="char" MaxLength="8" />
+          <Property Name="edad" Type="char" MaxLength="3" />
+          <Property Name="sexo" Type="char" MaxLength="1" />
+          <Property Name="medico" Type="char" MaxLength="5" />
+          <Property Name="pieza" Type="char" MaxLength="3" />
+          <Property Name="servicio" Type="char" MaxLength="2" />
+          <Property Name="sub_servicio" Type="char" MaxLength="4" />
+          <Property Name="nota" Type="text" />
+          <Property Name="diagnostico" Type="char" MaxLength="5" />
+          <Property Name="pecar" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="peper" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="peobt" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="peexi" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="tecar" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="teobt" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="teexi" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="piepr" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="pieperpre" Type="numeric" Precision="18" Scale="0" />
+        </EntityType>-->
+        <EntityType Name="MEDICOS">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Estatus" Type="nvarchar" MaxLength="1" />
+          <Property Name="Numero" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Apaterno" Type="nvarchar" MaxLength="20" />
+          <Property Name="Amaterno" Type="nvarchar" MaxLength="20" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="30" />
+          <Property Name="Titulo" Type="nvarchar" MaxLength="4" />
+          <Property Name="Consultorio" Type="nvarchar" MaxLength="2" />
+          <Property Name="FCancelini" Type="smalldatetime" />
+          <Property Name="FCancelFin" Type="smalldatetime" />
+          <Property Name="ObsCancel" Type="nvarchar" MaxLength="80" />
+          <Property Name="Recepcion" Type="nvarchar" MaxLength="2" />
+          <Property Name="Cedula" Type="nvarchar" MaxLength="20" />
+          <Property Name="HrLunes" Type="nvarchar" MaxLength="250" />
+          <Property Name="ObLunes" Type="nvarchar" MaxLength="80" />
+          <Property Name="pac_lun" Type="nvarchar" MaxLength="2" />
+          <Property Name="hrlun" Type="nvarchar" MaxLength="8" />
+          <Property Name="HrMartes" Type="nvarchar" MaxLength="250" />
+          <Property Name="ObMartes" Type="nvarchar" MaxLength="80" />
+          <Property Name="pac_mar" Type="nvarchar" MaxLength="2" />
+          <Property Name="hrmar" Type="nvarchar" MaxLength="8" />
+          <Property Name="HrMiercoles" Type="nvarchar" MaxLength="250" />
+          <Property Name="ObMiercoles" Type="nvarchar" MaxLength="80" />
+          <Property Name="pac_mie" Type="nvarchar" MaxLength="2" />
+          <Property Name="hrmie" Type="nvarchar" MaxLength="8" />
+          <Property Name="HrJueves" Type="nvarchar" MaxLength="250" />
+          <Property Name="ObJueves" Type="nvarchar" MaxLength="80" />
+          <Property Name="pac_jue" Type="nvarchar" MaxLength="2" />
+          <Property Name="hrjue" Type="nvarchar" MaxLength="8" />
+          <Property Name="HrViernes" Type="nvarchar" MaxLength="250" />
+          <Property Name="ObViernes" Type="nvarchar" MaxLength="80" />
+          <Property Name="pac_vie" Type="nvarchar" MaxLength="2" />
+          <Property Name="hrvie" Type="nvarchar" MaxLength="8" />
+          <Property Name="HrSabado" Type="nvarchar" MaxLength="250" />
+          <Property Name="ObSabado" Type="nvarchar" MaxLength="80" />
+          <Property Name="pac_sab" Type="nvarchar" MaxLength="2" />
+          <Property Name="hrsab" Type="nvarchar" MaxLength="8" />
+          <Property Name="HrDomingo" Type="nvarchar" MaxLength="250" />
+          <Property Name="ObDomingo" Type="nvarchar" MaxLength="80" />
+          <Property Name="pac_dom" Type="nvarchar" MaxLength="2" />
+          <Property Name="hrdom" Type="nvarchar" MaxLength="8" />
+          <Property Name="Socio1" Type="nvarchar" MaxLength="5" />
+          <Property Name="Socio2" Type="nvarchar" MaxLength="5" />
+          <Property Name="FCubreIni" Type="smalldatetime" />
+          <Property Name="FCubreFin" Type="smalldatetime" />
+          <Property Name="CubreMed" Type="nvarchar" MaxLength="5" />
+          <Property Name="hora" Type="smalldatetime" />
+          <Property Name="bloqueado" Type="int" />
+          <Property Name="cveesp" Type="nvarchar" MaxLength="2" />
+          <Property Name="fechab" Type="smalldatetime" />
+          <Property Name="USUARIO" Type="nvarchar" MaxLength="16" />
+          <Property Name="CLAVE" Type="nvarchar" MaxLength="2" />
+          <Property Name="TIP_HORARIO" Type="nvarchar" MaxLength="2" />
+          <Property Name="Estatus_Lab" Type="nvarchar" MaxLength="1" />
+          <Property Name="GRUPO_DIR" Type="nvarchar" MaxLength="2" />
+          <Property Name="f2cancelini" Type="smalldatetime" />
+          <Property Name="f2cancelfin" Type="smalldatetime" />
+          <Property Name="obs2cancel" Type="nvarchar" MaxLength="80" />
+          <Property Name="medico_grupo" Type="char" MaxLength="10" />
+          <Property Name="accesoweb" Type="int" />
+          <Property Name="consultorio_mt" Type="char" MaxLength="20" />
+          <Property Name="sexo" Type="nchar" MaxLength="1" />
+          <Property Name="cve_uni" Type="nchar" MaxLength="2" />
+          <Property Name="cedula_esp" Type="nchar" MaxLength="20" />
+          <Property Name="temporal" Type="nvarchar" MaxLength="100" />
+          <Property Name="emp_numemp" Type="int" />
+        </EntityType>
+        <EntityContainer Name="SMDEVModel15StoreContainer">
+          <EntitySet Name="DIAGNOSTICOS" EntityType="Self.DIAGNOSTICOS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEDICOS" EntityType="Self.MEDICOS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ESPECIALIDADES" EntityType="Self.ESPECIALIDADES" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ESPECIALIDADES].[CLAVE] AS [CLAVE], 
+    [ESPECIALIDADES].[DESCRIPCION] AS [DESCRIPCION], 
+    [ESPECIALIDADES].[OBS_MED] AS [OBS_MED], 
+    [ESPECIALIDADES].[GRUPO_DIR] AS [GRUPO_DIR], 
+    [ESPECIALIDADES].[FMSR] AS [FMSR], 
+    [ESPECIALIDADES].[FMSB] AS [FMSB], 
+    [ESPECIALIDADES].[FVSR] AS [FVSR], 
+    [ESPECIALIDADES].[FVSB] AS [FVSB], 
+    [ESPECIALIDADES].[TIPO] AS [TIPO], 
+    [ESPECIALIDADES].[id_pre_esp] AS [id_pre_esp], 
+    [ESPECIALIDADES].[titulo] AS [titulo], 
+    [ESPECIALIDADES].[estado] AS [estado]
+    FROM [dbo].[ESPECIALIDADES] AS [ESPECIALIDADES]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="expediente" EntityType="Self.expediente" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [expediente].[numemp] AS [numemp], 
+    [expediente].[pariente] AS [pariente], 
+    [expediente].[curp] AS [curp], 
+    [expediente].[medico] AS [medico], 
+    [expediente].[fecha] AS [fecha], 
+    [expediente].[diagnostico] AS [diagnostico], 
+    [expediente].[diagnostico2] AS [diagnostico2], 
+    [expediente].[diagnostico3] AS [diagnostico3], 
+    [expediente].[s_exp] AS [s_exp], 
+    [expediente].[o_exp] AS [o_exp], 
+    [expediente].[a_exp] AS [a_exp], 
+    [expediente].[p_exp] AS [p_exp], 
+    [expediente].[pesokg] AS [pesokg], 
+    [expediente].[pesomg] AS [pesomg], 
+    [expediente].[tallam] AS [tallam], 
+    [expediente].[tallac] AS [tallac], 
+    [expediente].[ta1] AS [ta1], 
+    [expediente].[ta2] AS [ta2], 
+    [expediente].[tipconsulta] AS [tipconsulta], 
+    [expediente].[emprealizo] AS [emprealizo], 
+    [expediente].[frealizo] AS [frealizo], 
+    [expediente].[turno] AS [turno], 
+    [expediente].[referido] AS [referido], 
+    [expediente].[referido_urg] AS [referido_urg], 
+    [expediente].[incapacidad] AS [incapacidad], 
+    [expediente].[laboratorio] AS [laboratorio], 
+    [expediente].[receta] AS [receta], 
+    [expediente].[edd_anio] AS [edd_anio], 
+    [expediente].[edd_mes] AS [edd_mes], 
+    [expediente].[MED_TMP] AS [MED_TMP], 
+    [expediente].[ref_exp] AS [ref_exp], 
+    [expediente].[c_ref_exp] AS [c_ref_exp], 
+    [expediente].[ref_stat] AS [ref_stat], 
+    [expediente].[talla_r] AS [talla_r], 
+    [expediente].[peso_r] AS [peso_r], 
+    [expediente].[temp_r] AS [temp_r], 
+    [expediente].[fresp] AS [fresp], 
+    [expediente].[fcard] AS [fcard], 
+    [expediente].[rxd] AS [rxd], 
+    [expediente].[dstx] AS [dstx], 
+    [expediente].[hora_termino] AS [hora_termino], 
+    [expediente].[tipconsulta2] AS [tipconsulta2], 
+    [expediente].[tipconsulta3] AS [tipconsulta3], 
+    [expediente].[consultadistancia] AS [consultadistancia], 
+    [expediente].[ubicacion_realiza] AS [ubicacion_realiza], 
+    [expediente].[ip_realiza] AS [ip_realiza]
+    FROM [dbo].[expediente] AS [expediente]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SMDEVModel15" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DIAGNOSTICOS">
+          <Key>
+            <PropertyRef Name="Clave" />
+          </Key>
+          <Property Name="Clave" Type="String" MaxLength="7" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DesCorta" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="DescCompleta" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
+          <Property Name="Grupo" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Especialidad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Estatus" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="clave2" Type="String" MaxLength="7" FixedLength="false" Unicode="true" />
+          <Property Name="dental" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="estatus_exp" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="MEDICOS">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Estatus" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="Numero" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Apaterno" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Amaterno" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Nombre" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Titulo" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="Consultorio" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="FCancelini" Type="DateTime" Precision="0" />
+          <Property Name="FCancelFin" Type="DateTime" Precision="0" />
+          <Property Name="ObsCancel" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Recepcion" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Cedula" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="HrLunes" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ObLunes" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="pac_lun" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="hrlun" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="HrMartes" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ObMartes" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="pac_mar" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="hrmar" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="HrMiercoles" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ObMiercoles" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="pac_mie" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="hrmie" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="HrJueves" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ObJueves" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="pac_jue" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="hrjue" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="HrViernes" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ObViernes" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="pac_vie" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="hrvie" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="HrSabado" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ObSabado" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="pac_sab" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="hrsab" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="HrDomingo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ObDomingo" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="pac_dom" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="hrdom" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="Socio1" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="Socio2" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="FCubreIni" Type="DateTime" Precision="0" />
+          <Property Name="FCubreFin" Type="DateTime" Precision="0" />
+          <Property Name="CubreMed" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="hora" Type="DateTime" Precision="0" />
+          <Property Name="bloqueado" Type="Int32" />
+          <Property Name="cveesp" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="fechab" Type="DateTime" Precision="0" />
+          <Property Name="USUARIO" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="CLAVE" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="TIP_HORARIO" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Estatus_Lab" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="GRUPO_DIR" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="f2cancelini" Type="DateTime" Precision="0" />
+          <Property Name="f2cancelfin" Type="DateTime" Precision="0" />
+          <Property Name="obs2cancel" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="medico_grupo" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="accesoweb" Type="Int32" />
+          <Property Name="consultorio_mt" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="sexo" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="cve_uni" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="cedula_esp" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="temporal" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="emp_numemp" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ESPECIALIDADES">
+          <Key>
+            <PropertyRef Name="id_pre_esp" />
+          </Key>
+          <Property Name="CLAVE" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="OBS_MED" Type="String" MaxLength="76" FixedLength="false" Unicode="true" />
+          <Property Name="GRUPO_DIR" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="FMSR" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="FMSB" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="FVSR" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="FVSB" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TIPO" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="id_pre_esp" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="titulo" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="estado" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="expediente">
+          <Key>
+            <PropertyRef Name="numemp" />
+            <PropertyRef Name="medico" />
+            <PropertyRef Name="fecha" />
+          </Key>
+          <Property Name="numemp" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="pariente" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="curp" Type="String" MaxLength="18" FixedLength="false" Unicode="true" />
+          <Property Name="medico" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="diagnostico" Type="String" MaxLength="7" FixedLength="false" Unicode="true" />
+          <Property Name="diagnostico2" Type="String" MaxLength="7" FixedLength="false" Unicode="true" />
+          <Property Name="diagnostico3" Type="String" MaxLength="7" FixedLength="false" Unicode="true" />
+          <Property Name="s_exp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="o_exp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="a_exp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="p_exp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="pesokg" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="pesomg" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="tallam" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="tallac" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="ta1" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Name="ta2" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="tipconsulta" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="emprealizo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="frealizo" Type="DateTime" Precision="0" />
+          <Property Name="turno" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="referido" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="referido_urg" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="incapacidad" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="laboratorio" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="receta" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="edd_anio" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="edd_mes" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="MED_TMP" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="ref_exp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="c_ref_exp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ref_stat" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="talla_r" Type="Single" />
+          <Property Name="peso_r" Type="Single" />
+          <Property Name="temp_r" Type="Single" />
+          <Property Name="fresp" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="fcard" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="rxd" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="dstx" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="hora_termino" Type="DateTime" Precision="3" />
+          <Property Name="tipconsulta2" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="tipconsulta3" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="consultadistancia" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ubicacion_realiza" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ip_realiza" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="SMDEVEntities28" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DIAGNOSTICOS" EntityType="Self.DIAGNOSTICOS" />
+          <EntitySet Name="MEDICOS" EntityType="Self.MEDICOS" />
+          <EntitySet Name="ESPECIALIDADES" EntityType="Self.ESPECIALIDADES" />
+          <EntitySet Name="expediente" EntityType="Self.expediente" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SMDEVModel15StoreContainer" CdmEntityContainer="SMDEVEntities28">
+          <EntitySetMapping Name="DIAGNOSTICOS">
+            <EntityTypeMapping TypeName="SMDEVModel15.DIAGNOSTICOS">
+              <MappingFragment StoreEntitySet="DIAGNOSTICOS">
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="DesCorta" ColumnName="DesCorta" />
+                <ScalarProperty Name="DescCompleta" ColumnName="DescCompleta" />
+                <ScalarProperty Name="Grupo" ColumnName="Grupo" />
+                <ScalarProperty Name="Especialidad" ColumnName="Especialidad" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+                <ScalarProperty Name="clave2" ColumnName="clave2" />
+                <ScalarProperty Name="dental" ColumnName="dental" />
+                <ScalarProperty Name="estatus_exp" ColumnName="estatus_exp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEDICOS">
+            <EntityTypeMapping TypeName="SMDEVModel15.MEDICOS">
+              <MappingFragment StoreEntitySet="MEDICOS">
+                <ScalarProperty Name="emp_numemp" ColumnName="emp_numemp" />
+                <ScalarProperty Name="temporal" ColumnName="temporal" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="Apaterno" ColumnName="Apaterno" />
+                <ScalarProperty Name="Amaterno" ColumnName="Amaterno" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Titulo" ColumnName="Titulo" />
+                <ScalarProperty Name="Consultorio" ColumnName="Consultorio" />
+                <ScalarProperty Name="FCancelini" ColumnName="FCancelini" />
+                <ScalarProperty Name="FCancelFin" ColumnName="FCancelFin" />
+                <ScalarProperty Name="ObsCancel" ColumnName="ObsCancel" />
+                <ScalarProperty Name="Recepcion" ColumnName="Recepcion" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="HrLunes" ColumnName="HrLunes" />
+                <ScalarProperty Name="ObLunes" ColumnName="ObLunes" />
+                <ScalarProperty Name="pac_lun" ColumnName="pac_lun" />
+                <ScalarProperty Name="hrlun" ColumnName="hrlun" />
+                <ScalarProperty Name="HrMartes" ColumnName="HrMartes" />
+                <ScalarProperty Name="ObMartes" ColumnName="ObMartes" />
+                <ScalarProperty Name="pac_mar" ColumnName="pac_mar" />
+                <ScalarProperty Name="hrmar" ColumnName="hrmar" />
+                <ScalarProperty Name="HrMiercoles" ColumnName="HrMiercoles" />
+                <ScalarProperty Name="ObMiercoles" ColumnName="ObMiercoles" />
+                <ScalarProperty Name="pac_mie" ColumnName="pac_mie" />
+                <ScalarProperty Name="hrmie" ColumnName="hrmie" />
+                <ScalarProperty Name="HrJueves" ColumnName="HrJueves" />
+                <ScalarProperty Name="ObJueves" ColumnName="ObJueves" />
+                <ScalarProperty Name="pac_jue" ColumnName="pac_jue" />
+                <ScalarProperty Name="hrjue" ColumnName="hrjue" />
+                <ScalarProperty Name="HrViernes" ColumnName="HrViernes" />
+                <ScalarProperty Name="ObViernes" ColumnName="ObViernes" />
+                <ScalarProperty Name="pac_vie" ColumnName="pac_vie" />
+                <ScalarProperty Name="hrvie" ColumnName="hrvie" />
+                <ScalarProperty Name="HrSabado" ColumnName="HrSabado" />
+                <ScalarProperty Name="ObSabado" ColumnName="ObSabado" />
+                <ScalarProperty Name="pac_sab" ColumnName="pac_sab" />
+                <ScalarProperty Name="hrsab" ColumnName="hrsab" />
+                <ScalarProperty Name="HrDomingo" ColumnName="HrDomingo" />
+                <ScalarProperty Name="ObDomingo" ColumnName="ObDomingo" />
+                <ScalarProperty Name="pac_dom" ColumnName="pac_dom" />
+                <ScalarProperty Name="hrdom" ColumnName="hrdom" />
+                <ScalarProperty Name="Socio1" ColumnName="Socio1" />
+                <ScalarProperty Name="Socio2" ColumnName="Socio2" />
+                <ScalarProperty Name="FCubreIni" ColumnName="FCubreIni" />
+                <ScalarProperty Name="FCubreFin" ColumnName="FCubreFin" />
+                <ScalarProperty Name="CubreMed" ColumnName="CubreMed" />
+                <ScalarProperty Name="hora" ColumnName="hora" />
+                <ScalarProperty Name="bloqueado" ColumnName="bloqueado" />
+                <ScalarProperty Name="cveesp" ColumnName="cveesp" />
+                <ScalarProperty Name="fechab" ColumnName="fechab" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="CLAVE" ColumnName="CLAVE" />
+                <ScalarProperty Name="TIP_HORARIO" ColumnName="TIP_HORARIO" />
+                <ScalarProperty Name="Estatus_Lab" ColumnName="Estatus_Lab" />
+                <ScalarProperty Name="GRUPO_DIR" ColumnName="GRUPO_DIR" />
+                <ScalarProperty Name="f2cancelini" ColumnName="f2cancelini" />
+                <ScalarProperty Name="f2cancelfin" ColumnName="f2cancelfin" />
+                <ScalarProperty Name="obs2cancel" ColumnName="obs2cancel" />
+                <ScalarProperty Name="medico_grupo" ColumnName="medico_grupo" />
+                <ScalarProperty Name="accesoweb" ColumnName="accesoweb" />
+                <ScalarProperty Name="consultorio_mt" ColumnName="consultorio_mt" />
+                <ScalarProperty Name="sexo" ColumnName="sexo" />
+                <ScalarProperty Name="cve_uni" ColumnName="cve_uni" />
+                <ScalarProperty Name="cedula_esp" ColumnName="cedula_esp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ESPECIALIDADES">
+            <EntityTypeMapping TypeName="SMDEVModel15.ESPECIALIDADES">
+              <MappingFragment StoreEntitySet="ESPECIALIDADES">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="CLAVE" ColumnName="CLAVE" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="OBS_MED" ColumnName="OBS_MED" />
+                <ScalarProperty Name="GRUPO_DIR" ColumnName="GRUPO_DIR" />
+                <ScalarProperty Name="FMSR" ColumnName="FMSR" />
+                <ScalarProperty Name="FMSB" ColumnName="FMSB" />
+                <ScalarProperty Name="FVSR" ColumnName="FVSR" />
+                <ScalarProperty Name="FVSB" ColumnName="FVSB" />
+                <ScalarProperty Name="TIPO" ColumnName="TIPO" />
+                <ScalarProperty Name="id_pre_esp" ColumnName="id_pre_esp" />
+                <ScalarProperty Name="titulo" ColumnName="titulo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="expediente">
+            <EntityTypeMapping TypeName="SMDEVModel15.expediente">
+              <MappingFragment StoreEntitySet="expediente">
+                <ScalarProperty Name="numemp" ColumnName="numemp" />
+                <ScalarProperty Name="pariente" ColumnName="pariente" />
+                <ScalarProperty Name="curp" ColumnName="curp" />
+                <ScalarProperty Name="medico" ColumnName="medico" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="diagnostico" ColumnName="diagnostico" />
+                <ScalarProperty Name="diagnostico2" ColumnName="diagnostico2" />
+                <ScalarProperty Name="diagnostico3" ColumnName="diagnostico3" />
+                <ScalarProperty Name="s_exp" ColumnName="s_exp" />
+                <ScalarProperty Name="o_exp" ColumnName="o_exp" />
+                <ScalarProperty Name="a_exp" ColumnName="a_exp" />
+                <ScalarProperty Name="p_exp" ColumnName="p_exp" />
+                <ScalarProperty Name="pesokg" ColumnName="pesokg" />
+                <ScalarProperty Name="pesomg" ColumnName="pesomg" />
+                <ScalarProperty Name="tallam" ColumnName="tallam" />
+                <ScalarProperty Name="tallac" ColumnName="tallac" />
+                <ScalarProperty Name="ta1" ColumnName="ta1" />
+                <ScalarProperty Name="ta2" ColumnName="ta2" />
+                <ScalarProperty Name="tipconsulta" ColumnName="tipconsulta" />
+                <ScalarProperty Name="emprealizo" ColumnName="emprealizo" />
+                <ScalarProperty Name="frealizo" ColumnName="frealizo" />
+                <ScalarProperty Name="turno" ColumnName="turno" />
+                <ScalarProperty Name="referido" ColumnName="referido" />
+                <ScalarProperty Name="referido_urg" ColumnName="referido_urg" />
+                <ScalarProperty Name="incapacidad" ColumnName="incapacidad" />
+                <ScalarProperty Name="laboratorio" ColumnName="laboratorio" />
+                <ScalarProperty Name="receta" ColumnName="receta" />
+                <ScalarProperty Name="edd_anio" ColumnName="edd_anio" />
+                <ScalarProperty Name="edd_mes" ColumnName="edd_mes" />
+                <ScalarProperty Name="MED_TMP" ColumnName="MED_TMP" />
+                <ScalarProperty Name="ref_exp" ColumnName="ref_exp" />
+                <ScalarProperty Name="c_ref_exp" ColumnName="c_ref_exp" />
+                <ScalarProperty Name="ref_stat" ColumnName="ref_stat" />
+                <ScalarProperty Name="talla_r" ColumnName="talla_r" />
+                <ScalarProperty Name="peso_r" ColumnName="peso_r" />
+                <ScalarProperty Name="temp_r" ColumnName="temp_r" />
+                <ScalarProperty Name="fresp" ColumnName="fresp" />
+                <ScalarProperty Name="fcard" ColumnName="fcard" />
+                <ScalarProperty Name="rxd" ColumnName="rxd" />
+                <ScalarProperty Name="dstx" ColumnName="dstx" />
+                <ScalarProperty Name="hora_termino" ColumnName="hora_termino" />
+                <ScalarProperty Name="tipconsulta2" ColumnName="tipconsulta2" />
+                <ScalarProperty Name="tipconsulta3" ColumnName="tipconsulta3" />
+                <ScalarProperty Name="consultadistancia" ColumnName="consultadistancia" />
+                <ScalarProperty Name="ubicacion_realiza" ColumnName="ubicacion_realiza" />
+                <ScalarProperty Name="ip_realiza" ColumnName="ip_realiza" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

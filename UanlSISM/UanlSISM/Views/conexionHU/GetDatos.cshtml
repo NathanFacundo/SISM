@@ -1,0 +1,61 @@
+﻿
+
+
+<h2>CensoPensionistas</h2>
+
+<div class="col-12" style="text-align: center">
+    <table class='table   table-hover table-striped' style='width: 100%;font-size: 12px;'>
+        <thead>
+            <tr>
+                <th>Registro</th>
+                <th>Paciente</th>
+                <th>Fecha deNacimiento</th>
+                <th>Edad</th>
+                <th>Expediente UANL</th>
+                <th>Sexo</th>
+                <th>Dep</th>
+                <th>Departamento</th>
+                <th>Tipo</th>
+                <th>Edificio</th>
+                <th>Cuarto</th>
+                <th>Edificio</th>
+                <th>Cama</th>
+                <th>Fecha de Ingreso</th>
+                <th>Especialidad</th>
+                <th>Médico</th>
+                <th>Diagnóstico</th>
+
+            </tr>
+        </thead>
+        <tbody id="contenido"></tbody>
+
+    </table>
+</div>
+
+
+<script type="text/javascript">
+      function() {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetDatos", "conexionHU")' ,
+            dataType: 'json',
+            cache: false,
+            success: function (data) {
+
+                console.log('Entra a llenar la tabla');
+
+                console.log(data);
+
+                $("#tblNotas > tbody").empty();
+
+                $.each(data, function (index, value) {
+                    $("#contenido")
+                        .append("<tr><td>" + value.Reg + "</td><td>" + value.Fecha_Nac + "</td><td>" + value.Edad + "</td><td>" + value.ExpedienteUANL + "</td><td>" + value.Sexo + "</td><td>" + value.Dep + "</td><td>" + value.Departamento + "</td><td>" + value.Tipo + "</td><td>" + value.Edificio + "</td><td>" + value.Cuarto + "</td><td>" + value.Cama + "</td><td>" + value.Fecha_Ingreso + "</td><td>" + value.Especialidad + "</td><td>" + value.Medico + "</td><td>" + value.Diagnostico + "</td></tr>");
+                });
+            },
+            error: function (xhr, status, error) {
+                alert("Error");
+            }
+        });
+    }
+</script>

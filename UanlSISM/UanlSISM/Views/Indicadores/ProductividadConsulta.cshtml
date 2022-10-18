@@ -1,0 +1,454 @@
+﻿@{
+    ViewBag.Title = "Indicadores Especialistas";
+}
+
+<style>
+    .input-daterange input {
+        width: 100%;
+        max-width: 100%;
+        border: none;
+        background: transparent;
+        border-bottom: 2px solid #FBC43D;
+        border-radius: 0px;
+    }
+
+    .dataTables_info {
+        display: none;
+    }
+
+    #example_filter {
+        width: 95% !important;
+        margin-bottom: 1vw;
+    }
+
+        #example_filter label {
+            width: 100% !important;
+        }
+
+        #example_filter input {
+            max-width: 85% !important;
+            width: 85% !important;
+            border: none;
+            background: transparent;
+            border-bottom: 2px solid #FBC43D;
+            border-radius: 0px;
+        }
+
+    #example2_filter {
+        width: 95% !important;
+        margin-bottom: 1vw;
+    }
+
+        #example2_filter label {
+            width: 100% !important;
+        }
+
+        #example2_filter input {
+            max-width: 85% !important;
+            width: 85% !important;
+            border: none;
+            background: transparent;
+            border-bottom: 2px solid #FBC43D;
+            border-radius: 0px;
+        }
+
+    .dt-button-collection {
+        display: block !important;
+    }
+
+        .dt-button-collection .dropdown-menu {
+            margin-left: -8vw !important;
+            padding: 0;
+        }
+
+            .dt-button-collection .dropdown-menu li {
+                padding: 4px !important;
+            }
+
+                .dt-button-collection .dropdown-menu li:hover {
+                    background-color: rgba(0,74,143,0.8);
+                    color: white;
+                }
+
+    .buttons-collection {
+        color: #FBC43D;
+        padding: 3px;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 767px)">
+
+    #msform h4 {
+        text-align: center;
+        margin-top: 7vw !important;
+    }
+
+    .btn-group {
+        width: 15% !important;
+    }
+
+    #example_filter {
+        width: 85% !important;
+    }
+
+        #example_filter input {
+            max-width: 100% !important;
+            width: 100% !important;
+        }
+
+    #example2_filter {
+        width: 85% !important;
+    }
+
+        #example2_filter input {
+            max-width: 100% !important;
+            width: 100% !important;
+        }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" />
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+<script src='https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js'></script>
+<script src='https://cdn.datatables.net/responsive/2.2.6/js/responsive.bootstrap.min.js'></script>
+
+
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("ProductividadConsulta", "Indicadores")"><b>Productividad</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="col-md-7 ml-auto p-0 mt-5">
+        <div class="form-group row m-0 input-group input-daterange">
+            <label for="min-date" class="col-sm-1 col-4 col-form-label text-center"> <b>Desde:</b>  </label>
+            <div class="col-sm-5 col-8">
+                <input type="text" id="min-date" class="form-control date-range-filter" data-date-format="dd-mm-yyyy" placeholder="Desde:">
+            </div>
+            <label for="max-date" class="col-sm-1 col-4 col-form-label text-center"><b>Hasta:</b>  </label>
+            <div class="col-sm-5 col-8">
+                <input type="text" id="max-date" class="form-control date-range-filter" data-date-format="dd-mm-yyyy" placeholder="Hasta:">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 p-2" id="msform">
+        @if (HttpContext.Current.User.IsInRole("Productividad6")){
+        <h4 class="mt-2"><b>Mederos</b></h4>
+        }else{
+            if (HttpContext.Current.User.IsInRole("Productividad10"))
+            {
+                <h4 class="mt-2"><b>Linares</b></h4>
+            }
+            else
+            {
+                <h4 class="mt-2"><b>Servicios Médicos</b></h4>
+            }
+        
+        }
+
+        <table id="example" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Especialidad</th>
+                    <th>Fecha</th>
+                    <th>Telefónica</th>
+                    <th>Presencial</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
+        </table>
+
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="especialidadesModal" tabindex="-1" role="dialog" aria-labelledby="especialidadesModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="row m-0" id="medicosinfo">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+
+    $(document).ready(function () {
+
+        $('.input-daterange input').each(function () {
+            $(this).datepicker('clearDates');
+        });
+
+        var table = $('#example').DataTable({
+            "ajax": {
+                "url": "/SISM-Medico/json/indicadores/especialidades/productividad.json",
+                //"url": "/json/indicadores/especialidades/productividad.json",
+                "dataSrc": "",
+            },
+            fixedHeader: {
+                header: true,
+            },
+            "language": {
+                "search": "Buscar especialidad:",
+                "zeroRecords": "No se encontró ninguna especialidad",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+                "select": {
+                    "rows": " %d filas seleccionadas"
+                },
+                "loadingRecords": "Un momento, cargando especialidades...",
+                "processing": "Procesando especialidades...",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ especialidades",
+                "lengthMenu": "Mostrando _MENU_ especialidades",
+            },
+            "paging": false,
+            responsive: true,
+            "order": [
+                [0, "desc"]
+            ],
+            dom: 'fBrtip',
+            "buttons": [
+                {
+                    extend: 'collection',
+                    text: '<span class="material-icons">menu</span >',
+                    buttons: [
+                        { extend: 'csvHtml5', text: 'CSV' },
+                        { extend: 'excelHtml5', text: 'Excel' },
+                        {
+                            extend: 'pdfHtml5',
+                            text: 'PDF',
+                            //orientation: 'landscape',
+                            //pageSize: 'A4',
+                        },
+                        {
+                            extend: 'print',
+                            text: 'Imprimir',
+                            customize: function (win) {
+                                $(win.document.body)
+                                    .css('font-size', '5pt');
+
+                                $(win.document.body).find('table')
+                                    .addClass('compact')
+                                    .css('font-size', 'inherit');
+                            },
+                            exportOptions: {
+                                modifier: {
+                                    selected: null
+                                }
+                            }
+                        },
+                        /*{
+                            extend: 'print',
+                            text: 'Imprimir seleccionados',
+                            customize: function (win) {
+                                $(win.document.body)
+                                    .css('font-size', '5pt');
+
+                                $(win.document.body).find('table')
+                                    .addClass('compact')
+                                    .css('font-size', 'inherit');
+                            }
+                        },*/
+                    ]
+                }
+            ],
+            "columns": [
+                { "data": "especialidad" },
+                { "data": "fecha" },
+                { "data": "telefonica" },
+                { "data": "presencial" },
+                { "data": "count" }
+            ],
+            columnDefs: [
+                /*{ responsivePriority: 10001, targets: 0 },
+                { responsivePriority: 10001, targets: 1},
+                { responsivePriority: 10001, targets: 2 },*/
+                /*{
+                    targets: 1,
+                    'render': function (data, type, full, meta) {
+                        var fecha1 = data.split('T');
+                        var fecha2 = fecha1[0].split('-');
+                        return fecha2[2] + '-' + fecha2[1] + '-' + fecha2[0];
+                    }
+                },*/
+            ],
+            "footerCallback": function (row, data, start, end, display) {
+
+                var w = window.innerWidth;
+                //alert(w);
+                // Total over all pages
+                if (w > 700) {
+
+                    // Total over this page
+                    pageTotal = this.api()
+                        .column(4, { page: 'current' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return a + b;
+                        }, 0);
+
+                    // Total presencial busqueda
+                    pagePresencial = this.api()
+                        .column(3, { page: 'current' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return a + b;
+                        }, 0);
+
+                    // Total telefonica busqueda
+                    pageTelefonica = this.api()
+                        .column(2, { page: 'current' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return a + b;
+                        }, 0);
+
+
+                    // Update footer
+                    $(this.api().column(0).footer()).html('');
+                    $(this.api().column(4).footer()).html(
+                        'Total: ' + pageTotal /* + ' ( ' + total + ' Totales)'*/
+                    );
+
+                    $(this.api().column(3).footer()).html(
+                        'Total: ' + pagePresencial /* + ' ( ' + total + ' Totales)'*/
+                    );
+
+                    $(this.api().column(2).footer()).html(
+                        'Total: ' + pageTelefonica /* + ' ( ' + total + ' Totales)'*/
+                    );
+
+
+                } else {
+
+                    // Total over this page
+                    pageTotal = this.api()
+                        .column(4, { page: 'current' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return a + b;
+                        }, 0);
+
+                    // Total presencial busqueda
+                    pagePresencial = this.api()
+                        .column(3, { page: 'current' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return a + b;
+                        }, 0);
+
+
+                    // Total telefonica busqueda
+                    pageTelefonica = this.api()
+                        .column(2, { page: 'current' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return a + b;
+                        }, 0);
+
+
+                    $(this.api().column(2).footer()).html('');
+                    $(this.api().column(3).footer()).html('');
+                    $(this.api().column(4).footer()).html('');
+                    // Update footer
+                    $(this.api().column(0).footer()).html(
+                        'Total presencial: ' + pagePresencial + ' Totales telefónica: ' + pageTelefonica + ' Total: ' + pageTotal
+                    );
+                }
+
+            }
+
+        });
+
+
+        //alert(fechaminDate);
+        //$("#min-date").datepicker.regional[""].dateFormat = 'dd/mm/yy';
+        $("#min-date").datepicker("setDate", new Date());
+        //$("#max-date").datepicker.regional[""].dateFormat = 'dd/mm/yy';
+        $("#max-date").datepicker("setDate", new Date());
+
+        // Re-draw the table when the a date range filter changes
+        $('.date-range-filter').change(function () {
+
+            var minDate = $("#min-date").val();
+            var minDateSplit = minDate.split('-');
+            var fechaminDate = minDateSplit[2] + '-' + minDateSplit[1] + '-' + minDateSplit[0];
+
+            var maxDate = $("#max-date").val();
+            var maxDateSplit = maxDate.split('-');
+            var fechamaxDate = maxDateSplit[2] + '-' + maxDateSplit[1] + '-' + maxDateSplit[0];
+
+
+            $.ajax({
+                url: '@Url.Action("ChangeIndicadoresEspes", "Indicadores")',
+                dataType: "json",
+                data: { minDate: fechaminDate, maxDate: fechamaxDate },
+                success: function (data) {
+                    //table.ajax.reload();
+                    table.ajax.url('/SISM-Medico/json/indicadores/especialidades/productividad_busqueda.json').load();
+                    //table.ajax.url('/json/indicadores/especialidades/productividad_busqueda.json').load();
+
+
+                },
+                error: function (xhr, status, error) {
+                    alert("Error");
+                }
+            });
+
+        });
+
+
+
+
+        table.on('click', 'tbody tr', function () {
+            var especialidad = $('td', this).eq(0).text();
+            $('#medicosinfo .info').remove();
+            $.getJSON('/SISM-Medico/json/indicadores/especialidades/productividad_detalles.json', function (json) {
+                $.each(json, function (i, item) {
+                    if (item.especialidad == especialidad) {
+                        console.log(item.nombre);
+                        $('#medicosinfo').append('<div class="col-12 p-3 info"><div class="row m-0"><div class="col-3 p-2 m-auto"><img style="width:100%;" src="http://148.234.143.203/SISM-Medico/Imagenes/resumen-recetas-2.png"></div><div class="col-9 p-2 m-auto"><h6><b>Nombre: </b>' + item.nombre + '</h6><h6><b>Telefónicas: </b>' + item.telefonica + ' <b>Presenciales: </b>' + item.presencial + ' <b>Totales: </b>' + item.count + '</h6></div></div></div>');
+                    }
+
+                });
+
+            });
+            $('#especialidadesModal').modal("show");
+        });
+
+
+    });
+</script>

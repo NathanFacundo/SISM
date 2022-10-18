@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SERVMEDModel2.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SERVMED.dbo.Receta_Detalle' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="Receta_Detalle">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Folio_Rcta" Type="int" />
+          <Property Name="Codigo" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="Cantidad" Type="int" />
+          <Property Name="CantSurtida" Type="int" />
+          <Property Name="Dosis" Type="char" MaxLength="100" />
+          <Property Name="Indicaciones" Type="char" MaxLength="100" />
+          <Property Name="Estatus" Type="char" MaxLength="1" />
+          <Property Name="Subrogar" Type="char" MaxLength="1" />
+          <Property Name="dep_sub" Type="varchar" MaxLength="50" />
+          <Property Name="no_surtida_razon" Type="varchar" MaxLength="50" />
+          <Property Name="costo" Type="real" />
+        </EntityType>
+        <EntityType Name="Receta_Exp">
+          <Key>
+            <PropertyRef Name="Folio_Rcta" />
+          </Key>
+          <Property Name="Folio_Rcta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Expediente" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="Medico" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Turno" Type="char" MaxLength="4" />
+          <Property Name="Regxdia" Type="char" MaxLength="2" />
+          <Property Name="Estado" Type="char" MaxLength="1" />
+          <Property Name="Dir_Ip" Type="char" MaxLength="15" />
+          <Property Name="imp_rcta" Type="char" MaxLength="1" />
+          <Property Name="Tipo" Type="char" MaxLength="1" />
+          <Property Name="Meses" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="Hora_Rcta" Type="datetime" />
+          <Property Name="Hora_Imp" Type="datetime" />
+          <Property Name="UsuarioId" Type="int" />
+          <Property Name="Fecha_Hora_Adjudicacion" Type="datetime" />
+          <Property Name="Usuario_Genero" Type="int" />
+          <Property Name="Manual" Type="bit" />
+          <Property Name="folio_rc" Type="int" />
+          <Property Name="Fecha_Hora_Entrega" Type="datetime" />
+          <Property Name="TurnoFar" Type="int" />
+          <Property Name="UserFar" Type="int" />
+          <Property Name="Fecha_Kiosco" Type="datetime" />
+          <Property Name="hora_genera" Type="datetime" />
+          <Property Name="costo" Type="real" />
+        </EntityType>
+        <Association Name="FK_Receta_Detalle_Receta_Exp">
+          <End Role="Receta_Exp" Type="Self.Receta_Exp" Multiplicity="0..1" />
+          <End Role="Receta_Detalle" Type="Self.Receta_Detalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Receta_Exp">
+              <PropertyRef Name="Folio_Rcta" />
+            </Principal>
+            <Dependent Role="Receta_Detalle">
+              <PropertyRef Name="Folio_Rcta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SERVMEDModel2StoreContainer">
+          <EntitySet Name="Receta_Exp" EntityType="Self.Receta_Exp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Receta_Detalle" EntityType="Self.Receta_Detalle" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Receta_Detalle].[Folio_Rcta] AS [Folio_Rcta], 
+    [Receta_Detalle].[Codigo] AS [Codigo], 
+    [Receta_Detalle].[Cantidad] AS [Cantidad], 
+    [Receta_Detalle].[CantSurtida] AS [CantSurtida], 
+    [Receta_Detalle].[Dosis] AS [Dosis], 
+    [Receta_Detalle].[Indicaciones] AS [Indicaciones], 
+    [Receta_Detalle].[Estatus] AS [Estatus], 
+    [Receta_Detalle].[Subrogar] AS [Subrogar], 
+    [Receta_Detalle].[dep_sub] AS [dep_sub], 
+    [Receta_Detalle].[no_surtida_razon] AS [no_surtida_razon], 
+    [Receta_Detalle].[costo] AS [costo]
+    FROM [dbo].[Receta_Detalle] AS [Receta_Detalle]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Receta_Detalle_Receta_Exp" Association="Self.FK_Receta_Detalle_Receta_Exp">
+            <End Role="Receta_Exp" EntitySet="Receta_Exp" />
+            <End Role="Receta_Detalle" EntitySet="Receta_Detalle" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SERVMEDModel2" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Receta_Exp">
+          <Key>
+            <PropertyRef Name="Folio_Rcta" />
+          </Key>
+          <Property Name="Folio_Rcta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Expediente" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Medico" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Turno" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="Regxdia" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Dir_Ip" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="imp_rcta" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Tipo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Meses" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Hora_Rcta" Type="DateTime" Precision="3" />
+          <Property Name="Hora_Imp" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioId" Type="Int32" />
+          <Property Name="Fecha_Hora_Adjudicacion" Type="DateTime" Precision="3" />
+          <Property Name="Usuario_Genero" Type="Int32" />
+          <Property Name="Manual" Type="Boolean" />
+          <Property Name="folio_rc" Type="Int32" />
+          <Property Name="Fecha_Hora_Entrega" Type="DateTime" Precision="3" />
+          <Property Name="TurnoFar" Type="Int32" />
+          <Property Name="UserFar" Type="Int32" />
+          <Property Name="Fecha_Kiosco" Type="DateTime" Precision="3" />
+          <Property Name="hora_genera" Type="DateTime" Precision="3" />
+          <Property Name="costo" Type="Single" />
+          <NavigationProperty Name="Receta_Detalle" Relationship="Self.FK_Receta_Detalle_Receta_Exp" FromRole="Receta_Exp" ToRole="Receta_Detalle" />
+        </EntityType>
+        <EntityType Name="Receta_Detalle">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Folio_Rcta" Type="Int32" />
+          <Property Name="Codigo" Type="String" MaxLength="6" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" />
+          <Property Name="CantSurtida" Type="Int32" />
+          <Property Name="Dosis" Type="String" MaxLength="100" FixedLength="true" Unicode="false" />
+          <Property Name="Indicaciones" Type="String" MaxLength="100" FixedLength="true" Unicode="false" />
+          <Property Name="Estatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Subrogar" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="dep_sub" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="no_surtida_razon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="costo" Type="Single" />
+          <NavigationProperty Name="Receta_Exp" Relationship="Self.FK_Receta_Detalle_Receta_Exp" FromRole="Receta_Detalle" ToRole="Receta_Exp" />
+        </EntityType>
+        <Association Name="FK_Receta_Detalle_Receta_Exp">
+          <End Role="Receta_Exp" Type="Self.Receta_Exp" Multiplicity="0..1" />
+          <End Role="Receta_Detalle" Type="Self.Receta_Detalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Receta_Exp">
+              <PropertyRef Name="Folio_Rcta" />
+            </Principal>
+            <Dependent Role="Receta_Detalle">
+              <PropertyRef Name="Folio_Rcta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SERVMEDEntities3" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Receta_Exp" EntityType="Self.Receta_Exp" />
+          <EntitySet Name="Receta_Detalle" EntityType="Self.Receta_Detalle" />
+          <AssociationSet Name="FK_Receta_Detalle_Receta_Exp" Association="Self.FK_Receta_Detalle_Receta_Exp">
+            <End Role="Receta_Exp" EntitySet="Receta_Exp" />
+            <End Role="Receta_Detalle" EntitySet="Receta_Detalle" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SERVMEDModel2StoreContainer" CdmEntityContainer="SERVMEDEntities3">
+          <EntitySetMapping Name="Receta_Exp">
+            <EntityTypeMapping TypeName="SERVMEDModel2.Receta_Exp">
+              <MappingFragment StoreEntitySet="Receta_Exp">
+                <ScalarProperty Name="Folio_Rcta" ColumnName="Folio_Rcta" />
+                <ScalarProperty Name="Expediente" ColumnName="Expediente" />
+                <ScalarProperty Name="Medico" ColumnName="Medico" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="Regxdia" ColumnName="Regxdia" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Dir_Ip" ColumnName="Dir_Ip" />
+                <ScalarProperty Name="imp_rcta" ColumnName="imp_rcta" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="Meses" ColumnName="Meses" />
+                <ScalarProperty Name="Hora_Rcta" ColumnName="Hora_Rcta" />
+                <ScalarProperty Name="Hora_Imp" ColumnName="Hora_Imp" />
+                <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+                <ScalarProperty Name="Fecha_Hora_Adjudicacion" ColumnName="Fecha_Hora_Adjudicacion" />
+                <ScalarProperty Name="Usuario_Genero" ColumnName="Usuario_Genero" />
+                <ScalarProperty Name="Manual" ColumnName="Manual" />
+                <ScalarProperty Name="folio_rc" ColumnName="folio_rc" />
+                <ScalarProperty Name="Fecha_Hora_Entrega" ColumnName="Fecha_Hora_Entrega" />
+                <ScalarProperty Name="TurnoFar" ColumnName="TurnoFar" />
+                <ScalarProperty Name="UserFar" ColumnName="UserFar" />
+                <ScalarProperty Name="Fecha_Kiosco" ColumnName="Fecha_Kiosco" />
+                <ScalarProperty Name="hora_genera" ColumnName="hora_genera" />
+                <ScalarProperty Name="costo" ColumnName="costo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Receta_Detalle">
+            <EntityTypeMapping TypeName="SERVMEDModel2.Receta_Detalle">
+              <MappingFragment StoreEntitySet="Receta_Detalle">
+                <ScalarProperty Name="Folio_Rcta" ColumnName="Folio_Rcta" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="CantSurtida" ColumnName="CantSurtida" />
+                <ScalarProperty Name="Dosis" ColumnName="Dosis" />
+                <ScalarProperty Name="Indicaciones" ColumnName="Indicaciones" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+                <ScalarProperty Name="Subrogar" ColumnName="Subrogar" />
+                <ScalarProperty Name="dep_sub" ColumnName="dep_sub" />
+                <ScalarProperty Name="no_surtida_razon" ColumnName="no_surtida_razon" />
+                <ScalarProperty Name="costo" ColumnName="costo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

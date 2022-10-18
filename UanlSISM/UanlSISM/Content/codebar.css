@@ -1,0 +1,44 @@
+﻿@font-face {
+    font-family: 'Code39';
+    src: url('../fonts/Code39.ttf');
+}
+
+#codebar {
+    font-family: 'Code39';
+}
+
+
+@media print {
+    .btn-editar {
+        display: none;
+    }
+
+    .btn-eliminar {
+        display: none;
+    }
+
+    .imprimir {
+        display: none;
+    }
+
+    .agregarotro {
+        display: none;
+    }
+
+    .terminar {
+        display: none;
+    }
+
+    #barcode {
+        margin-left: 0vw !important;
+    }
+
+    .imprimirTitulo h2 {
+        font-size: 2rem !important;
+    }
+
+    .paqpreoperatorio{
+        display:none;
+    }
+
+}

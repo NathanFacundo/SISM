@@ -1,0 +1,400 @@
+﻿
+@{
+    ViewBag.Title = "Pantalla Citas CU";
+    Layout = null;
+}
+
+<head>
+    <meta http-equiv="refresh" content="10">
+</head>
+
+<style>
+
+    body{
+        height:100vh;
+        overflow:hidden;
+    }
+
+    .logo {
+        width: 20vw;
+    }
+
+    #clockDiv {
+        height: 25vh;
+        width: 100%;
+        margin: auto;
+        margin-right: 0;
+        text-align: center;
+        color: white;
+        font-size: 3vw;
+        line-height:20vh;
+        padding: 1vw;
+        border: solid 2px white;
+        background-color: #34647A;
+        font-weight:bolder;
+    }
+
+    .imagenPantalla{
+        width:100%;
+    }
+
+    .fecha {
+        height: 25vh;
+        text-align: center;
+    }
+
+        .fecha img {
+            width: 4.5vw;
+            filter: brightness(0) invert(1);
+            margin-top: 20px;
+        }
+
+        .fecha h2 {
+            color: white;
+            font-weight: bolder;
+            font-size: 1.9vw;
+            margin-top: 1vw;
+        }
+
+    .incidente h6 {
+        color: black;
+        font-weight: bolder;
+        font-size: 2vw;
+    }
+
+
+    .pagination {
+        list-style-type: none;
+        margin: auto;
+    }
+
+        .pagination li {
+            padding: 3px 10px;
+            background-color: white;
+            border-radius: 0px;
+            cursor: pointer;
+            border: none
+        }
+
+        .pagination .active {
+            color: white;
+            background-color: rgba(0,74,143,1);
+            border: 1px solid rgba(0,74,143,1);
+        }
+
+    .btn-incidente {
+        color: white;
+        font-weight: bolder;
+        font-size: 15px;
+    }
+
+        .btn-incidente:hover {
+            color: white;
+        }
+
+    .titulo-incidente h4 {
+        color: white;
+        text-align: center;
+    }
+
+    #incidenteModal .modal-dialog {
+        width: 700px;
+        max-width: 700px;
+    }
+
+    #descripcionModal {
+        text-align: justify;
+    }
+
+    .respuestas .form-control {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0px;
+        border: none;
+    }
+
+    .btn-guardar {
+        border-radius: 0px;
+        width: 100%;
+        color: white;
+    }
+
+        .btn-guardar:hover {
+            color: white;
+        }
+
+    .puntos {
+        backgroud-color: transparent;
+        border: none;
+    }
+
+    .cuadro {
+        width: 15px;
+        height: 15px;
+    }
+
+    #info ul {
+        list-style-type: none;
+        margin: auto;
+        flex-direction: row;
+        display: flex;
+    }
+
+    #info td {
+        cursor: pointer;
+    }
+
+    .table tr {
+        background-color: transparent !important;
+    }
+
+    .table td {
+        border: none !important;
+    }
+
+    .table {
+        border: none !important;
+    }
+
+        .table thead {
+            display: none;
+        }
+
+        .table tfoot {
+            display: none;
+        }
+
+    .paginate_button {
+        padding: 2px 10px !important;
+        cursor: pointer !important;
+    }
+
+    .paging_simple_numbers .current {
+        background-color: #FBC43D !important;
+        color: white !important;
+        cursor: pointer !important;
+    }
+
+    .previous {
+        padding-left: 0px !important;
+    }
+
+    .dataTables_paginate {
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+        float: left !important;
+        text-align: left !important;
+    }
+
+    .dataTables_filter label {
+        width: 100%;
+    }
+
+    .dataTables_filter input {
+        padding: 0px 8px 4px 8px;
+        border: none;
+        border-bottom: 1px solid #FBC43D;
+        border-radius: 0px;
+        background-color: transparent;
+        width: 85%;
+        max-width: 85%;
+    }
+
+    tr {
+        border: none !important;
+    }
+
+    .dataTables_info{
+        display:none;
+    }
+
+    .dtr-control{
+        padding:0 !important;
+    }
+
+    .dataTables_empty{
+        display:none;
+    }
+</style>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<div class="container-fluid p-0">
+    <!--div class="row">
+        <div class="col-md-6 p-2">
+            <img class="logo" src="~/Imagenes/logo-sm.png" />
+        </div>
+        <div class="col-md-6 p-2">
+            <div id="clockDiv"></div>
+        </div>
+    </div-->
+
+    <div class="row m-0">
+        <div class="col-md-9 p-0">
+            <table id="table1" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="col-md-3 p-0">
+            <div id="clockDiv"></div>
+            <img src="~/Imagenes/credencial-digital-2.jpg" class="imagenPantalla" />
+        </div>
+    </div>
+
+
+</div>
+
+
+<script src='https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.js'></script>
+<script src="~/Scripts/dataTables.select.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js"></script>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        //$('#loadingDiv').show();
+
+        $.fn.dataTable.ext.order['dom-checkbox'] = function (settings, col) {
+            return this.api().column(col, { order: 'index' }).nodes().map(function (td, i) {
+                return $(td).closest('tr').hasClass('selected') ? '1' : '0';
+            });
+        }
+
+        var table = $('#table1').DataTable({
+            "ajax": {
+                "url": '@Url.Action("ListaCitasCU", "Home")',
+                "dataSrc": "",
+            },
+            responsive: true,
+            "searching": false,
+            "paging": false,
+            "language": {
+                "search": "Buscar registro:",
+                "zeroRecords": "No se encontró ningun registro",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+                "select": {
+                    "rows": " %d filas seleccionadas"
+                },
+                "loadingRecords": "Un momento, cargando registros...",
+                "processing": "Procesando registros...",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                "lengthMenu": "Mostrando _MENU_ registros",
+            },
+            dom: 'fBrtip',
+            "order": [[1, 'desc']],
+            "columns": [
+                { "data": "info" },
+                { "data": "hora_recepcion" },
+            ],
+            columnDefs: [
+                { "visible": false, "targets": 1 },
+                {
+                    targets: 0,
+                    'render': function (data, type, full, meta) {
+                        var info = data;
+
+                        var split = info.split('*');
+                        var paciente = split[0];
+                        var medico = split[1];
+                        var hora = split[2];
+                        var color = split[3];
+                        var color2 = split[4];
+                        var estatus = split[5];
+                        /*
+                        var fecha = split[2];
+                        var nombre = split[3];
+                        var sexo = split[4];
+                        var edad = split[5];
+                        var telefono = split[6];
+                        var area = split[7];
+                        var coordinador = split[8];
+                        var jefe = split[9];
+                        var tipo_incidente = split[10];
+                        var folio = split[11];
+                        */
+                        return '<div class="row m-0 incidente" style="margin-bottom:0.5vw !important; background-color:'+ color2 +';">' +
+                            '<div class= "col-md-4 p-2 fecha m-auto" style="background-color:' + color + ';">' +
+                            '<img src = "http://148.234.143.203/SISM-Medico/Imagenes/iconos/medical.png" > <h2> <b> ' + estatus + ' </b></h2>' +
+                            '</div>' +
+                            '<div class="col-md-8 p-3 m-auto">' +
+                            '<h6>Paciente: <b class="nombres">' + paciente + '</b></h6>' +
+                            '<h6>Médico: <b>' + medico + '</b></h6>' +
+                            '<h6>' + hora + '</h6>' +
+                            '</div>' +
+                            '</div>';
+                    }
+                },
+            ],
+
+        });
+
+        $('#info td').click(function () {
+            var tipo = $(this).attr('data-tipo');
+            table.search(tipo).draw();
+        });
+
+    });
+
+</script>
+
+
+<script>
+    $(document).ready(function () {
+
+        function displayTime() {
+
+            var time = new Date();
+            var hours = time.getHours();
+            var minutes = time.getMinutes();
+            var seconds = time.getSeconds();
+
+            var meridiem = " AM";
+
+            if (hours > 11) {
+                hours = hours - 12;
+                meridiem = " PM";
+            }
+
+            if (hours === 0) {
+                hours = 12;
+            }
+
+            if (hours < 10) {
+                hours = "0" + hours;
+            }
+
+            if (minutes < 10) {
+                minutes = "0" + minutes;
+            }
+
+            if (seconds < 10) {
+                seconds = "0" + seconds;
+            }
+
+            $("#clockDiv").text(hours + ":" + minutes + ":" + seconds + meridiem);
+
+        }
+        displayTime();
+        setInterval(displayTime, 1000);
+    });
+</script>

@@ -1,0 +1,549 @@
+﻿@{
+    ViewBag.Title = "Indicadores";
+}
+
+<head>
+    <meta http-equiv="refresh" content="1800">
+</head>
+
+<style>
+    .fade {
+        opacity: 1;
+    }
+
+    .nav-tabs {
+        margin-top: 2vw !important;
+    }
+
+    .highcharts-credits {
+        display: none;
+    }
+
+    .totalcount {
+        position: absolute;
+        z-index: 999;
+        top: 0;
+        left: 0;
+        margin-left: 3vw;
+        margin-top: 1vw;
+    }
+
+    .highcharts-range-input {
+        margin-left: -20px;
+    }
+
+    .nav-tabs .nav-item {
+        width: 220px;
+        z-index: 99;
+    }
+
+    .dropdown-toggle {
+        width: 550px;
+        font-size: 0.8vw !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        text-align: left;
+        z-index: 0;
+        border-top-left-radius: 20px;
+        border: 3px solid rgba(0,74,143,1);
+    }
+
+        .dropdown-toggle:hover {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+        .dropdown-toggle:focus {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+    .dropdown-menu {
+        float: inherit !important;
+        width: 100% !important;
+    }
+
+    .dropdown-item {
+        font-size: 0.8vw !important;
+    }
+
+        .dropdown-item.active, .dropdown-item:active {
+            background-color: rgba(0,74,143,1);
+            color: #fff !important;
+        }
+
+        .dropdown-item .material-icons {
+            font-size: 0.8vw !important;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+        .dropdown-item:focus {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 0.8vw !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        border-top-left-radius: 20px;
+        margin-left: -20px;
+        -webkit-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        -moz-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+    }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link:hover {
+            font-size: 0.8vw !important;
+            background-color: rgba(0, 88, 171,1) !important;
+            color: white !important;
+        }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            background-color: #FBC43D;
+            color: white !important;
+            border: 1px solid #FBC43D;
+        }
+
+            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active:hover {
+                background-color: #FBC43D !important;
+            }
+</style>
+
+<style type="text/css" media="screen and (max-width: 991px)">
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 1.5vw !important;
+    }
+
+    .dropdown-toggle {
+        width: 350px;
+    }
+
+    .totalcount {
+        margin-top: -4.5vw;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 767px)">
+    .totalcount {
+        margin-top: -10vw;
+        font-size: 15px;
+    }
+
+    .highcharts-series-group {
+        display: none !important;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 3vw !important;
+    }
+
+    .nav-tabs .nav-item {
+        z-index: 9;
+    }
+
+    .dropdown-menu {
+        z-index: 99999 !important;
+    }
+
+    #recetas {
+        top: 30px !important;
+    }
+
+    .dropdown-toggle {
+        font-size: 3vw !important;
+    }
+
+    .dropdown-item {
+        font-size: 3vw !important;
+    }
+
+    .nav-tabs .nav-item {
+        z-index: 9;
+    }
+
+    .highcharts-axis-grid {
+        display: none;
+    }
+
+    .highcharts-plot-border {
+        display: none;
+    }
+
+    .highcharts-axis {
+        display: none;
+    }
+
+    .highcharts-axis-labels {
+        display: none;
+    }
+
+    .highcharts-navigator {
+        display: none;
+    }
+
+    .highcharts-navigator-xaxis {
+        display: none;
+    }
+
+    .highcharts-root {
+        margin-left: -15vw !important;
+    }
+
+    .highcharts-yaxis-grid {
+        display: none;
+    }
+</style>
+
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+<script src="https://code.highcharts.com/stock/modules/data.js"></script>
+<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Medico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Monitores", "Manage")"><b>Monitores</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Indicadores", "Manage")"><b>Historial Consultas y Recetas</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("IndicadoresInternacion", "Manage")"><b>Historial Internados
+
+</table>
+    </div>
+</div>
+
+<ul class="nav nav-tabs" id="custom-content-below-tab mt-4" role="tablist">
+    <div class="btn-group" style="margin-left: -20px; z-index: 9999;">
+        <button type="button" style="background-color:#FBC43D !important; border:3px solid #fbc43d !important;" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Ver más
+        </button>
+        <div class="dropdown-menu dropdown-menu-right" id="recetas">
+            <a class="dropdown-item "   type="button" id="custom-detalle" data-toggle="pill"  ><span class="material-icons">add</span>Detalle</a>
+            <script>
+
+                $("#custom-detalle").click(function () {
+                    window.location.href = '/Manage/IndicadoresInternacionDetalles';
+                });
+            
+            </script>
+        </div>
+    </div>
+
+</ul>
+<div class="tab-content" id="custom-content-below-tabContent">
+
+    <div class="tab-pane fade show active" id="custom-content-below-profile" role="tabpanel" aria-labelledby="custom-content-below-profile-tab">
+        <div class="row">
+            <div class="col-12 mt-5">
+                <div id="container" style="height: 500px; min-width: 100%"></div>
+                <!--button id="button" class="autocompare">Set extremes</!--button>Total of series 0: <span id="total" style="font-size:20px;font-weight:bold;color:blue;"></span-->
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $(".dropdown-item").click(function () {
+        $(".dropdown-item").removeClass('active');
+        //$(this).addClass('active');
+    });
+</script>
+
+
+<script>
+    //Recetas todas
+    //$.getJSON('/json/expedientes_egresos.json', function (data1) {
+        //$.getJSON('/json/expedientes_ingresos.json', function (data2) {
+            $.getJSON('/json/expedientes_internados.json', function (data3) {
+                $('#container').highcharts({
+                    chart: {
+                        type: 'line',
+                        zoomType: 'x',
+                        resetZoomButton: {
+                            position: {
+                                // align: 'right', // by default
+                                // verticalAlign: 'top', // by default
+                                x: 0,
+                                y: 0
+                            }
+                        },
+
+                    },
+                    navigator: {
+                        enabled: true,
+                    },
+                    rangeSelector: {
+                        //allButtonsEnabled: true,
+                        //selected: 0,
+                        enabled: true,
+                        inputEnabled: true,
+                        buttonPosition: {
+                            align: 'left'
+                        },
+                        labelStyle: {
+                            display: 'block'
+                        },
+                        buttons: [{
+                            type: 'day',
+                            count: 1,
+                            text: '1d'
+                        },
+                        {
+                            type: 'month',
+                            count: 1,
+                            text: '1m'
+                        },
+                        {
+                            type: 'month',
+                            count: 3,
+                            text: '3m'
+                        },
+                        {
+                            type: 'month',
+                            count: 6,
+                            text: '6m'
+                        },
+                        {
+                            type: 'year',
+                            count: 1,
+                            text: '1y'
+                        },
+                        {
+                            type: 'year',
+                            count: 2,
+                            text: '2y'
+                        },
+                        {
+                            type: 'year',
+                            count: 5,
+                            text: '5y'
+                        },
+                        {
+                            type: 'all',
+                            text: 'All'
+                        },
+                            /*{
+                                type: 'second',
+                                count: 1,
+                                text: 'Latest',
+                                events: {
+                                    click: () => {
+
+                                        alert('in real app I scroll to latest results');
+
+                                        return false;
+
+                                    }
+                                }
+                            }*/
+                        ]
+                    },
+                    title: {
+                        text: 'Expedientes',
+                    },
+                    subtitle: {
+                        text: document.ontouchstart === undefined ?
+                            '  Egresos - Internacion' :
+                            '  Egresos - Internacion'
+                    },
+                    xAxis: {
+                        max: new Date().getTime(),
+                        //min: dateMonth,
+                        type: 'datetime',
+                        labels: {
+                            format: '{value:%Y-%m-%d}'
+                        },
+                        events: {
+                            afterSetExtremes: function (min, max) {
+                                var //serie_egresos = this.chart.series[0],
+                                    //serie_ingresos = this.chart.series[1],
+                                    serie_internados = this.chart.series[0],
+
+                                    min = this.getExtremes().min,
+                                    max = this.getExtremes().max,
+                                    //sum_egresos = 0;
+                                sum_internados = 0;
+                                //sum_ingresos = 0;
+
+                               /* $.each(serie_egresos.data, function (i, m) {
+                                    if (m.x >= min && m.x <= max) {
+                                        sum_egresos += m.y;
+                                    }
+                                });*/
+
+                                $.each(serie_internados.data, function (i, r) {
+                                    if (r.x >= min && r.x <= max) {
+                                        sum_internados += r.y;
+                                    }
+                                });
+
+                                //$.each(serie_ingresos.data, function (i, t) {
+                                //    if (t.x >= min && t.x <= max) {
+                                //        sum_ingresos += t.y;
+                                //    }
+                                //});
+
+                                var sum_total = /*sum_egresos +*/ sum_internados ;
+
+                                //$("#container5 .highcharts-series-0 tspan").remove();
+                                //$("#container .highcharts-series-0 tspan").html("Egresos : " + sum_egresos);
+                               // $("#container .highcharts-series-1 tspan").html("Ingresos: " + sum_ingresos);
+                                $("#container .highcharts-series-0 tspan").html("Internados: " + sum_internados);
+                                $("#container h4").remove();
+                                $("#container").append("<h4 class='totalcount'>Total: <b>" + sum_total + "</b></h4>");
+
+                                console.log(sum_total);
+                            }
+                        }
+                    },
+                    tooltip: {
+                        /*positioner: function () {
+                            return {
+                                x: 80,
+                                y: 100
+                            };
+                        },*/
+                        formatter: function () {
+                            var individualfoodbanks = '<b> Día:' + Highcharts.dateFormat('%m \'%d', this.x) + '</b><br>',
+                                sumofallfoodbanks = 0;
+                            totaltotal = 0;
+
+                            $.each(this.points, function (i, point) {
+                                individualfoodbanks += '<span style="color:' + point.series.color + '">\u25CF</span> ' + point.series.name + ': <b>' + point.y + '</b> <br/>';
+                                totaltotal += point.y;
+                            });
+
+                            individualfoodbanks += '<br/>Total : ' + totaltotal //"echo" title for the sum of all foodbanks series, and the total sum for all current y points
+
+                            console.log(this);
+                            return individualfoodbanks;
+                        }, //"echo" the value for each series current y-value, but the data appendix for the all foodbank sum only...?
+                        crosshairs: false,
+                        shared: true,
+                        shadow: false,
+                        borderWidth: 1,
+                    },
+                    legend: {
+                        enabled: true,
+                        labelFormatter: function () {
+                            var total = 0;
+                            var totaltotalhoy = 0;
+                            for (var i = this.yData.length; i--;) {
+                                total += this.yData[i];
+                            };
+
+                            return this.name + ': ' + total;
+                            //return this.name + ' - Total: ';
+                        },
+                    },
+                    plotOptions: {
+                        lineWidth: '40',
+                        series: {
+                            marker: {
+                                states: {
+                                    hover: {
+                                        enabled: true
+                                    }
+                                }
+                            }
+                        },
+                        /*line: {
+                            stacking: 'overlap',
+                            //lineColor: '#666666',
+                            lineWidth: 2,
+                            marker: {
+                                lineWidth: 2,
+                                //lineColor: '#666666'
+                            }
+                        }*/
+                    },
+                    series: [
+                        /*{
+                            name: 'Egresos',
+                            data: data1,
+                            marker: {
+                                enabled: true
+                            },
+                            color: '#004a8f',
+                            visible: false
+                        } , */{
+                            name: 'Internacion',
+                            data: data3,
+                            marker: {
+                                enabled: true
+                            },
+                            color: '#009e0d'
+                        }
+                    ]
+                }, function (chart) {
+
+                    var date = new Date();
+                    var newDate = new Date().getTime();
+                    chart.xAxis[0].dataMax = newDate;
+                    chart.xAxis[0].setExtremes(date.setDate(date.getDate() - 1), newDate, true);
+                    // apply the date pickers
+                    setTimeout(function () {
+                        $('input.highcharts-range-selector', $(chart.container).parent())
+                            .datepicker();
+                    }, 0);
+
+                    if ($(window).width() < 767) {
+                        //alert('hola');
+                        width = $(window).width()
+                        height = $(window).height() / 3
+                        $("#container").highcharts().setSize(width, height, doAnimation = false);
+                        var date = new Date();
+                        var newDate = new Date().getTime();
+                        chart.xAxis[0].dataMax = newDate;
+                        chart.xAxis[0].setExtremes(date.setDate(date.getDate() - 1), newDate, true);
+                    }
+                });
+
+                //chart.setSize(10, 10, doAnimation = true);
+
+            });
+        //});
+//    });
+
+
+
+    // Set the datepicker's date format
+    $.datepicker.setDefaults({
+        dateFormat: 'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true,
+        onSelect: function () {
+            this.onchange();
+            this.onblur();
+        }
+    });
+
+    /*$(window).resize(function () {
+        height = $(window).height() / 3
+        width = $(window).width()
+        $("#container").highcharts().setSize(width, height, doAnimation = false);
+    });*/
+</script>
+

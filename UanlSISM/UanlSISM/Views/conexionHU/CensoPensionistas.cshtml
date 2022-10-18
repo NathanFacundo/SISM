@@ -1,0 +1,248 @@
+﻿@model UanlSISM.ViewModels.CensoPensionistasViewModel
+@{
+    ViewBag.Title = "Censo Pensionistas";
+}
+<style>
+    label { 
+        font-weight: 600;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tbody>
+                <tr>
+                    <td><a href="/SISM-Medico/Home/Index"><b>Inicio</b></a></td>
+                    <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                    <td><a href="/SISM-Medico/Manage/Medico"><b>Médico</b></a></td>
+                    <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                    <td><a href="/SISM-Medico/Manage/Consultas"><b>Consultas</b></a></td>
+                    <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                    <td><a href="/SISM-Medico/MedicinaLaboral/Consulta_Historial"><b>Conexión HU</b></a></td>
+                    <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                    <td><a href="#"><b>Censo Pensionistas</b></a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<h2 class="text-center">Internados SM_UANL</h2>
+
+<div class="" style="margin-top: 2px;  padding: 10px; border-radius: 10px 10px 10px 10px; border: 1px solid; margin-top: 20px; box-shadow: 0 4px 5px #306695; border-color: #306695;">
+
+    <table class='table table-hover table-striped table-responsive' style='width: auto;font-size: 12px; overflow-x: scroll !important'>
+        <thead>
+            <tr>
+                <th></th>
+                <th style=""> Exp _ HU &nbsp; </th>
+                <th>Paciente</th>
+                <th>Área</th>
+                <th>Fecha de Ingreso</th>
+                <th>Médico</th>
+            </tr>
+        </thead>
+        <tbody id="contenido">
+            @foreach (var item in Model.censoLista)
+            {
+            <tr>
+                <td>
+                    <button type='button' class='btn btn-warning' onclick='verDet("@item.Fecha_Nac","@item.Edad","@item.ExpedienteUANL","@item.Sexo","@item.Dep","@item.Tipo","@item.Edificio","@item.Cuarto","@item.Cama","@item.Especialidad","@item.Diagnostico")'>
+
+                    
+                            Detalle
+                        </button>
+
+</td>
+
+
+                <td style="font-size: 1.2em; width: 110px !important" class="font-weight-bold">@item.Reg</td>
+                <td  class="font-weight-bold">@item.Paciente </td> 
+
+                <td class="font-weight-bold">@item.Departamento</td> 
+
+                <td class="font-weight-bold">@item.Fecha_Ingreso</td>
+                 
+
+                <td class="font-weight-bold">@item.Medico</td> 
+            </tr>
+            }
+        </tbody>
+
+    </table>
+
+    <div class='modal fade' id='Modalkx_det' role='dialog' style='display:none'>
+        <div class='modal-dialog modal-lg'>
+
+            <div class='modal-content' style="border: solid 3px; box-shadow: 0 4px 5px #306695; border-color: #306695 ">
+                <div class='modal-header'>
+                    Detalle
+                    <button type='button' class='close' data-dismiss='modal'>&times;</button>
+
+                </div>
+
+                <div class='modal-body'>
+
+                    <div class="form-group row">
+                        <div class="col-4" style="text-align: right;">
+                            <label>Fecha Nacimiento</label>
+                        </div>
+
+                        <div class="col-3">
+                            <input id="txtFec_nac" value="99/99/9999" class="form-control" disabled />
+                        </div>
+
+
+                        <div class="col-1" style="text-align: right;">
+                            <label>Edad</label>
+                        </div>
+
+                        <div class="col-2">
+                            <input id="txtEdad" value="" class="form-control" disabled />
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="form-group row">
+                        <div class="col-4" style="text-align: right;">
+                            <label>Expediente SM</label>
+                        </div>
+
+                        <div class="col-8">
+                            <input id="txtExp" value="" class="form-control" disabled />
+                        </div>
+
+                    </div>
+                  
+
+ 
+
+                    <div class="form-group row">
+                        <div class="col-4" style="text-align: right;">
+                            <label>Sexo</label>
+                        </div>
+
+                        <div class="col-3">
+                            <input id="txtSexo" value="" class="form-control" disabled />
+                        </div>
+
+
+                        <div class="col-1" style="text-align: right;">
+                            <label>Dep</label>
+                        </div>
+
+                        <div class="col-2">
+                            <input id="txtDep" value="" class="form-control" disabled />
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-4" style="text-align: right;">
+                            <label>Tipo</label>
+                        </div>
+
+                        <div class="col-8">
+                            <input id="txtTipo" value="" class="form-control" disabled />
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-4" style="text-align: right;">
+                            <label>Edificio</label>
+                        </div>
+
+                        <div class="col-8">
+                            <input id="txtEdificio" value="" class="form-control" disabled />
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="form-group row">
+                        <div class="col-4" style="text-align: right;">
+                            <label>Cuarto</label>
+                        </div>
+
+                        <div class="col-8">
+                            <input id="txtCuarto" value="" class="form-control" disabled />
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-4" style="text-align: right;">
+                            <label>Cama</label>
+                        </div>
+
+                        <div class="col-8">
+                            <input id="txtCama" value="" class="form-control" disabled />
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-4" style="text-align: right;">
+                            <label>Especialidad</label>
+                        </div>
+
+                        <div class="col-8">
+                            <input id="txtEsp" value="" class="form-control" disabled />
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-4" style="text-align: right;">
+                            <label>Diagnostico</label>
+                        </div>
+
+                        <div class="col-8">
+                           
+
+                            <textarea  rows="2" cols="20" id="txtDig" class="form-control" disabled></textarea> 
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        function verDet(fecnac, edad, exp, sex, dep, tipo, edi, cuarto, cama, esp, dig) {
+            var fec = fecnac.substring(0, 10);
+            $("#txtFec_nac").val(fec);
+            $("#txtEdad").val(edad);
+            $("#txtExp").val(exp);
+            $("#txtSexo").val(sex);
+            $("#txtDep").val(dep);
+            $("#txtTipo").val(tipo);
+            $("#txtEdificio").val(edi);
+            $("#txtCuarto").val(cuarto);
+            $("#txtCama").val(cama);
+            $("#txtEsp").val(esp);
+            $("#txtDig").val(dig);
+         
+
+
+
+        $("#Modalkx_det").modal();
+
+        }
+
+    </script>
+
+
+</div>

@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SMDEVModel21.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="NotaEgreso">
+          <Key>
+            <PropertyRef Name="EgresoId" />
+          </Key>
+          <Property Name="EgresoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrdenFolio" Type="int" Nullable="false" />
+          <Property Name="OperatoriaId" Type="int" Nullable="false" />
+          <Property Name="Medico" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="NumEmp" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="DiagnosticoFinal" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="DiagnosticoDesc" Type="text" Nullable="false" />
+          <Property Name="ResumenClinico" Type="text" Nullable="false" />
+          <Property Name="ProcedimientoRealizado" Type="text" Nullable="false" />
+          <Property Name="ProcProblemasPendientes" Type="text" Nullable="false" />
+          <Property Name="Medicacion" Type="text" Nullable="false" />
+          <Property Name="RecomendacionesIncapacidad" Type="text" Nullable="false" />
+          <Property Name="Pronostico" Type="text" Nullable="false" />
+          <Property Name="UsuarioCreacion" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="SMDEVModel21StoreContainer">
+          <EntitySet Name="NotaEgreso" EntityType="Self.NotaEgreso" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SMDEVModel21" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="NotaEgreso">
+          <Key>
+            <PropertyRef Name="EgresoId" />
+          </Key>
+          <Property Name="EgresoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrdenFolio" Type="Int32" Nullable="false" />
+          <Property Name="Medico" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NumEmp" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DiagnosticoFinal" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DiagnosticoDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ResumenClinico" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProcedimientoRealizado" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProcProblemasPendientes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Medicacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RecomendacionesIncapacidad" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Pronostico" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UsuarioCreacion" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OperatoriaId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="SMDEVNotaEgreso" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="NotaEgreso" EntityType="Self.NotaEgreso" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SMDEVModel21StoreContainer" CdmEntityContainer="SMDEVNotaEgreso">
+          <EntitySetMapping Name="NotaEgreso">
+            <EntityTypeMapping TypeName="SMDEVModel21.NotaEgreso">
+              <MappingFragment StoreEntitySet="NotaEgreso">
+                <ScalarProperty Name="OperatoriaId" ColumnName="OperatoriaId" />
+                <ScalarProperty Name="EgresoId" ColumnName="EgresoId" />
+                <ScalarProperty Name="OrdenFolio" ColumnName="OrdenFolio" />
+                <ScalarProperty Name="Medico" ColumnName="Medico" />
+                <ScalarProperty Name="NumEmp" ColumnName="NumEmp" />
+                <ScalarProperty Name="DiagnosticoFinal" ColumnName="DiagnosticoFinal" />
+                <ScalarProperty Name="DiagnosticoDesc" ColumnName="DiagnosticoDesc" />
+                <ScalarProperty Name="ResumenClinico" ColumnName="ResumenClinico" />
+                <ScalarProperty Name="ProcedimientoRealizado" ColumnName="ProcedimientoRealizado" />
+                <ScalarProperty Name="ProcProblemasPendientes" ColumnName="ProcProblemasPendientes" />
+                <ScalarProperty Name="Medicacion" ColumnName="Medicacion" />
+                <ScalarProperty Name="RecomendacionesIncapacidad" ColumnName="RecomendacionesIncapacidad" />
+                <ScalarProperty Name="Pronostico" ColumnName="Pronostico" />
+                <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

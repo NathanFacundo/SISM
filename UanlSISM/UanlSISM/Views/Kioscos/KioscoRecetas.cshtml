@@ -1,0 +1,918 @@
+﻿@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Kiosco Recetas - Servicios Médicos";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+
+<style>
+    .uanl-logo {
+        width: 10vw;
+        margin-top: 0vw;
+        margin-bottom: 1vw;
+    }
+
+    @@font-face {
+        font-family: 'Effra-Regular';
+        src: url('~/fonts/Effra-Regular.eot');
+        src: url('~/fonts/Effra-Regular.eot?#iefix') format('embedded-opentype'), url('~/fonts/Effra-Regular.ttf') format('truetype');
+    }
+
+    @@font-face {
+        font-family: 'Effra-Bold';
+        src: url('~/fonts/Effra-Bold.eot');
+        src: url('~/fonts/Effra-Bold.eot?#iefix') format('embedded-opentype'), url('~/fonts/Effra-Bold.ttf') format('truetype');
+    }
+
+
+    .somos-uni {
+        width: 5vw;
+        margin-top: 1vw;
+        margin-bottom: 3vw;
+    }
+
+    .linea-arriba {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: -1;
+        width: 2.5vw;
+        margin-top: 5.8vw;
+    }
+
+    .linea-abajo {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 2.5vw;
+        margin-bottom: 0.7vw;
+    }
+
+    body {
+        height: 100vh;
+        padding: 0 !important;
+    }
+
+    .inputBarcode {
+        padding-top: 1vw !important;
+        margin-left: 8.333%;
+    }
+
+        .inputBarcode h1 {
+            font-size: 2.5vw;
+        }
+
+        .inputBarcode h4 {
+            font-size: 1.3vw;
+        }
+
+    #exampleModal .modal-dialog {
+        max-width: 30vw;
+        width: 30vw;
+    }
+
+
+    #mostarData h2 {
+        font-size: 2vw;
+    }
+
+    #mostarData h4 {
+        font-size: 1.3vw;
+    }
+
+    #mostarData img {
+        width: 3vw;
+        margin-top: 1vw;
+    }
+
+    #home-seccion {
+        margin-top: 20px;
+    }
+
+    .icons {
+        width: 8vw;
+    }
+
+    .item {
+        padding: 10px;
+    }
+
+    .item-card {
+        transition: 0.5s;
+        cursor: pointer;
+        padding: 20px;
+    }
+
+    .card-link {
+        background-color: #FBC43D;
+        border-color: #FBC43D;
+        color: white;
+        padding: 5px 20px;
+    }
+
+        .card-link:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+    .item-card-title {
+        font-size: 15px;
+        transition: 1s;
+        cursor: pointer;
+    }
+
+        .item-card-title i {
+            font-size: 15px;
+            transition: 1s;
+            cursor: pointer;
+            color: #ffa710
+        }
+
+    .card-title i:hover {
+        transform: scale(1.25) rotate(20deg);
+        color: #18d4ca;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        /*box-shadow: 5px 5px 5px rgba(0,0,0,0.3);*/
+    }
+
+    .card::before, .card::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: scale3d(0, 0, 1);
+        transition: transform .3s ease-out 0s;
+        background: rgba(255, 255, 255, 0.1);
+        content: '';
+        pointer-events: none;
+    }
+
+    .card::before {
+        transform-origin: left top;
+    }
+
+    .card::after {
+        transform-origin: right bottom;
+    }
+
+    .card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
+        transform: scale3d(1, 1, 1);
+    }
+
+    .foto-paciente {
+        width: 6vw;
+        height: 6vw;
+        border-radius: 6vw;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: rgba(0,74,143,0.8);
+        background-image: url('http://148.234.143.204/smuanl_web/fotos_dhab/04586101.jpg');
+    }
+
+    .cuadro {
+        background-color: #fff;
+        border-radius: 1vw;
+    }
+
+    .nav-tabs .nav-item {
+        width: 180px;
+    }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+            font-size: 0.8vw !important;
+            background-color: rgba(0,74,143,0.8);
+            color: white !important;
+        }
+
+            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link:hover {
+                font-size: 0.8vw !important;
+                background-color: rgba(0,74,143,0.6) !important;
+                color: white !important;
+            }
+
+            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+                background-color: #FBC43D;
+                color: white !important;
+            }
+
+                .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active:hover {
+                    background-color: #FBC43D !important;
+                }
+
+    .doc-info {
+        text-align: right;
+    }
+
+    .fade {
+        opacity: 1 !important;
+    }
+
+    .modal-backdrop {
+        background-color: rgba(0,0,0,0.4) !important;
+    }
+
+    .modal-content {
+        margin-top: 15vw;
+    }
+
+    .datos-paciente label {
+        font-size: 0.8vw;
+    }
+
+    .datos-paciente input {
+        border: none !important;
+        border-bottom: 2px solid lightgray !important;
+        padding: 1px 3px;
+        border-radius: 0px;
+    }
+
+    #grad1 {
+        background-color: : #9C27B0;
+        background-image: linear-gradient(120deg, #FF4081, #81D4FA)
+    }
+
+    #msform {
+        text-align: center;
+        position: relative;
+        margin-top: 20px
+    }
+
+        #msform fieldset .form-card {
+            background: white;
+            border: 0 none;
+            border-radius: 0px;
+            box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+            padding: 20px 40px 30px 40px;
+            box-sizing: border-box;
+            width: 94%;
+            margin: 0 3% 20px 3%;
+            position: relative
+        }
+
+        #msform fieldset {
+            background: white;
+            border: 0 none;
+            border-radius: 0.5rem;
+            box-sizing: border-box;
+            width: 100%;
+            margin: 0;
+            position: relative
+        }
+
+            #msform fieldset:not(:first-of-type) {
+                display: none
+            }
+
+            #msform fieldset .form-card {
+                text-align: left;
+                color: #9E9E9E
+            }
+
+        #msform input,
+        #msform textarea {
+            padding: 0px 8px 4px 8px;
+            border: 2px solid #808080;
+            border-radius: 30px;
+            margin-top: 2px;
+            width: 100%;
+            height: 3vw;
+            max-width: 100%;
+            box-sizing: border-box;
+            color: #2C3E50;
+            font-size: 1.3vw;
+            letter-spacing: 1px;
+            background-color: transparent;
+            text-align: center;
+        }
+
+            #msform input:focus,
+            #msform textarea:focus {
+                -moz-box-shadow: none !important;
+                -webkit-box-shadow: none !important;
+                box-shadow: none !important;
+                border: none;
+                font-weight: bold;
+                border: 2px solid #808080;
+                outline-width: 0
+            }
+
+        #msform .action-button {
+            width: 130px;
+            background: #FBC43D;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .action-button:hover,
+            #msform .action-button:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px #FBC43D
+            }
+
+        #msform .action-button-previous {
+            width: 130px;
+            background: lightgray;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .action-button-previous:hover,
+            #msform .action-button-previous:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px lightgray
+            }
+
+
+
+        #msform .success-button {
+            width: 130px;
+            background: rgba(0,74,143,0.8);
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .success-button:hover,
+            #msform .success-button:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px rgba(0,74,143,0.8)
+            }
+
+        #msform .success-button-previous {
+            width: 130px;
+            background: rgba(0,74,143,0.8);
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .success-button-previous:hover,
+            #msform .success-button-previous:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px rgba(0,74,143,0.8);
+            }
+
+    select.list-dt {
+        border: none;
+        outline: 0;
+        border-bottom: 1px solid lightgray;
+        padding: 2px 5px 3px 5px;
+        margin: 2px
+    }
+
+        select.list-dt:focus {
+            border-bottom: 2px solid #FBC43D
+        }
+
+    .card {
+        z-index: 0;
+        border: none;
+        border-radius: 0.5rem;
+        position: relative
+    }
+
+    .fs-title {
+        font-size: 25px;
+        color: #2C3E50;
+        margin-bottom: 10px;
+        font-weight: bold;
+        text-align: left
+    }
+
+    #progressbar {
+        margin-bottom: 30px;
+        overflow: hidden;
+        color: lightgrey
+    }
+
+        #progressbar .active {
+            color: #000000;
+            opacity: 1;
+        }
+
+        #progressbar li {
+            list-style-type: none;
+            font-size: 12px;
+            width: 25%;
+            opacity: 0.7;
+            float: left;
+            cursor: pointer;
+            position: relative
+        }
+
+        #progressbar #account:before {
+            content: "S"
+        }
+
+        #progressbar li#account.changed:before,
+        #progressbar li#account.changed:after {
+            background: green;
+        }
+
+        #progressbar #personal:before {
+            content: "O"
+        }
+
+        #progressbar li#personal.changed:before,
+        #progressbar li#personal.changed:after {
+            background: green;
+        }
+
+        #progressbar #payment:before {
+            content: "A"
+        }
+
+        #progressbar li#payment.changed:before,
+        #progressbar li#payment.changed:after {
+            background: green;
+        }
+
+        #progressbar #confirm:before {
+            content: "P"
+        }
+
+        #progressbar li#confirm.changed:before,
+        #progressbar li#confirm.changed:after {
+            background: green;
+        }
+
+        #progressbar li:before {
+            width: 50px;
+            height: 50px;
+            line-height: 45px;
+            display: block;
+            font-size: 18px;
+            color: #ffffff;
+            background: lightgray;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+            padding: 2px
+        }
+
+        #progressbar li:after {
+            content: '';
+            width: 100%;
+            height: 2px;
+            background: lightgray;
+            position: absolute;
+            left: 0;
+            top: 25px;
+            z-index: -1
+        }
+
+        #progressbar li.active:before,
+        #progressbar li.active:after {
+            background: #FBC43D
+        }
+
+    .radio-group {
+        position: relative;
+        margin-bottom: 25px
+    }
+
+    .radio {
+        display: inline-block;
+        width: 204;
+        height: 104;
+        border-radius: 0;
+        background: lightblue;
+        box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
+        cursor: pointer;
+        margin: 8px 2px
+    }
+
+        .radio:hover {
+            box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3)
+        }
+
+        .radio.selected {
+            box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.1)
+        }
+
+    .fit-image {
+        width: 100%;
+        object-fit: cover
+    }
+
+    .btn-diagnosticos {
+        background-color: rgba(0,74,143,0.8) !important;
+        color: white;
+        font-size: 1vw;
+        width: 100%;
+    }
+
+        .btn-diagnosticos:hover {
+            color: white;
+        }
+
+    #loadingDiv {
+        position: fixed;
+        z-index: 9999;
+        background-color: rgba(0,0,0,0.2);
+        width: 100%;
+        height: 100vw;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        color: white;
+        text-align: center;
+        padding-top: 20vh;
+    }
+
+        #loadingDiv .spinner-border {
+            width: 8vw;
+            height: 8vw;
+        }
+
+    .diag-box {
+        background-color: #FBC43D;
+        color: white;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+
+    /*.select2-selection__choice {
+        float: initial !important;
+        margin: 0 !important;
+        font-size:1.5vw !important;
+        padding:1vw !important;
+    }
+
+    .select2-selection__rendered{
+        padding:0.5vw !important;
+    }
+
+    .select2-selection--multiple{
+        height:6vw !important;
+    }*/
+
+    #locality-dropdown {
+        max-width: 100% !important;
+    }
+
+    .dataTables_wrapper .dataTables_info {
+        width: 100% !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+        .dataTables_wrapper .dataTables_filter label {
+            width: 100% !important;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            width: 80% !important;
+        }
+
+    .dataTables_wrapper .dataTables_length {
+        display: none;
+    }
+
+    .btn-danger {
+        width: 100%;
+    }
+
+        .btn-danger .material-icons {
+            font-size: 1.2vw !important;
+        }
+
+    table.dataTable tbody tr.selected {
+        background-color: #FBC43D !important;
+        color: white !important;
+    }
+
+    #msform h3 {
+        color: #000;
+    }
+
+    .checking {
+        cursor: pointer;
+        color: lightgray;
+    }
+
+    table.dataTable tbody tr.selected .checking {
+        color: white !important;
+    }
+
+    tipoconsulta {
+        border-radius: 0px;
+    }
+
+    .resumenTop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 2.5vw;
+        height: 2.5vw;
+        border-radius: 2.5vw;
+        background-color: green;
+        color: white;
+        font-size: 1.2vw;
+        line-height: 2.5vw;
+        text-align: center;
+    }
+
+    .resumenText {
+        font-size: 1.2vw;
+        margin-top: 3vw;
+        color: black;
+        cursor: pointer;
+    }
+
+    .btn-asignar {
+        background-color: #FBC43D !important;
+        color: white !important;
+    }
+
+    .btn-asignar-modal {
+        background-color: #FBC43D !important;
+        border: 2px solid #FBC43D !important;
+        color: white !important;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .modal-body .select-checkbox {
+        display: none;
+    }
+
+    .modal-header {
+        text-align: center;
+    }
+
+        .modal-header .close {
+            margin: 0 !important;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+    .bsqpaciente {
+        width: 45px;
+        cursor: pointer;
+        position: absolute;
+        top: -2px;
+        left: 13px;
+    }
+
+    .medicoNombre {
+        font-family: 'Roboto', sans-serif;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 991px)">
+    .foto-paciente {
+        width: 10vw;
+        height: 10vw;
+        border-radius: 10vw;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 1.5vw !important;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 767px)">
+    .foto-paciente {
+        width: 18vw;
+        height: 18vw;
+        border-radius: 18vw;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 3vw !important;
+    }
+
+    .doc-info {
+        text-align: center;
+    }
+
+    #msform input, #msform textarea {
+        font-size: 10px;
+    }
+
+    .bsqpaciente {
+        width: 100%;
+        top: 0px;
+        left: 0px;
+        margin-top: 5px;
+    }
+
+    .medicoNombre {
+        font-size: 13px;
+    }
+
+    .uanl-logo {
+        width: 30vw;
+        margin-bottom: 8vw;
+        margin-bottom: 4vw;
+    }
+
+    .somos-uni {
+        width: 13vw;
+        margin-top: 8vw;
+    }
+
+    .modal-content {
+        margin-top: 30vw;
+    }
+
+    .btnbuscapac {
+        width: 7vw !important;
+        left: 0 !important;
+        top: 1vw !important;
+    }
+
+    #msform h3 {
+        font-size: 5vw;
+    }
+</style>
+
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+
+<link rel='stylesheet' href='https://select2.github.io/select2-bootstrap-theme/css/select2-bootstrap.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css'>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.full.min.js'></script>
+
+<link rel='stylesheet' href='https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.css'>
+
+
+<img class="linea-abajo" src="~/Imagenes/lineas-uanl-izquierda.png">
+<img class="linea-arriba" src="~/Imagenes/lineas-uanl-derecha.png">
+
+<div id="loadingDiv">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("KioscoRecetas", "Kioscos")"><b>Kiosco Recetas</b></a></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="col-md-10 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
+        <img src="~/Imagenes/uanl-logo.png" class="uanl-logo" />
+        <h1 class="mt-5" style="font-family: 'Roboto', sans-serif;"> <b>SERVICIOS MÉDICOS</b> </h1>
+        <h4 class="mt-5" style="font-family: 'Roboto', sans-serif;">Escanea aquí tu receta:</h4>
+        <center><input class="form-control ui-autocomplete-input" maxlength="8" minlength="8" onblur="this.focus()" autofocus="" id="searchInput" autocomplete="off"></center>
+
+    </div>
+
+    <div class="col-md-10 text-center m-auto p-3">
+        <img src="~/Imagenes/somos-uni.png" class="somos-uni" />
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div id="mostarPaciente" class="text-left">
+                    <div class="form-group row m-0 text-center">
+                        <div class="col-md-12 p-0" id="mostarData">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+<script>
+    $('#loadingDiv').hide();
+
+
+    $('#searchInput').on('change', function (e) {
+        $(e.target).val($(e.target).val().replace(/[^\d\.]/g, ''))
+    });
+    $('#searchInput').on('keypress', function (e) {
+        keys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.']
+        return keys.indexOf(event.key) > -1
+    });
+
+
+    $("#searchInput").autocomplete({
+        minLength: 8,
+        maxLength: 8,
+        source: function (request, response) {
+            $.ajax({
+                url: '@Url.Action("ConfirmarRecetasKiosco", "Kioscos")',
+                dataType: "json",
+                data: { numemp: $("#searchInput").val() },
+                success: function (data) {
+
+                    //alert(data.html);
+
+                    //$('#exampleModal').modal('show');
+
+                    //$('#mostarData').html(data.html);
+
+                    //$('#mostarData').append(data);
+
+
+                    Swal.fire({
+                        icon: data.icon,
+                        html: data.html,
+                        showConfirmButton: false,
+                    });
+
+                    /*if (data.estado == 1) {
+                        $('#mostarData').append('<div class="row m-0"><div class="col-md-12 pt-4 pb-4"><h2>¡Hola <b>' + data.Nombres + '</b>!</h2><h4 class="mt-4">tu cita con <b>' + data.Medico + '</b> a las <b>' + data.turno1 + ':' + data.turno2 + '</b> ha sido confirmada, toma asiento en la sala de espera</h4><img src="http://148.234.143.203/SISM-Medico/Imagenes/iconos/sala-espera.png"></div></div>');
+                    } else {
+                        if (data.estado == 2) {
+                            $('#mostarData').append('<div class="row m-0"><div class="col-md-12 pt-4 pb-4"><h2>¡Hola <b>' + data.Nombres + '</b>!</h2><h4 class="mt-4"> ya confirmaste tu cita, toma asiento en la sala de espera</h4><img src="http://148.234.143.203/SISM-Medico/Imagenes/iconos/sala-espera.png"></div></div>');
+                        } else {
+                            if (data.estado == 3) {
+                                $('#mostarData').append('<div class="row m-0"><div class="col-md-12 pt-4 pb-4"><h2>¡Hola <b>' + data.Nombres + '</b>!</h2><h4 class="mt-4">no cuentas con ninguna cita hoy</h4><img src="http://148.234.143.203/SISM-Medico/Imagenes/iconos/sala-espera.png"></div></div>');
+                            } else {
+                                $('#mostarData').append('<div class="row m-0"><div class="col-md-12 pt-4 pb-4"><h2>¡Hola <b>' + data.Nombres + '</b>!</h2><h4 class="mt-4">tu cita con <b>' + data.Medico + '</b> a las <b>' + data.turno1 + ':' + data.turno2 + '</b> ha expirado, reportate a citas para reagendar</h4><img src="http://148.234.143.203/SISM-Medico/Imagenes/iconos/sala-espera.png"></div></div>');
+                            }
+                        }
+
+                    }*/
+
+                    //$('#exampleModal').modal('show');
+
+                    setTimeout(function () {
+
+                        window.location.href = '@Url.Action("KioscoRecetas", "Kioscos")';
+
+
+                    }, 8000);
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Expediente no encontrado',
+                        showConfirmButton: false,
+                        timer: 10000
+                    });
+                }
+            });
+        }
+    });
+
+
+</script>
+
+<script>
+    function imgError(image) {
+        image.onerror = "";
+        image.src = "http://148.234.143.205/SISM/Imagenes/uanl.png";
+        return true;
+    }
+</script>
+
+
+<style>
+    .nomostrar {
+        display: none;
+    }
+</style>

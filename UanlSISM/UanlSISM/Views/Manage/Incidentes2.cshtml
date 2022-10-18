@@ -1,0 +1,517 @@
+﻿@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Incidentes";
+}
+
+<style>
+    .fecha {
+        height: 200px;
+        text-align: center;
+    }
+
+        .fecha img {
+            width: 70px;
+            filter: brightness(0) invert(1);
+            margin-top: 20px;
+        }
+
+        .fecha h2 {
+            color: white;
+            font-weight: bolder;
+            font-size: 25px;
+            margin-top: 20px;
+        }
+
+    .pagination {
+        list-style-type: none;
+        margin: auto;
+    }
+
+        .pagination li {
+            padding: 3px 10px;
+            background-color: white;
+            border-radius: 0px;
+            cursor: pointer;
+            border:none
+        }
+
+        .pagination .active {
+            color: white;
+            background-color: rgba(0,74,143,1);
+            border: 1px solid rgba(0,74,143,1);
+        }
+
+    .btn-incidente {
+        color: white;
+        font-weight: bolder;
+        font-size: 15px;
+    }
+
+        .btn-incidente:hover {
+            color: white;
+        }
+
+    .titulo-incidente h4 {
+        color: white;
+        text-align: center;
+    }
+
+    #incidenteModal .modal-dialog {
+        width: 700px;
+        max-width: 700px;
+    }
+
+    #descripcionModal {
+        text-align: justify;
+    }
+
+    .respuestas .form-control {
+        width: 100%;
+        max-width: 100%;
+        border-radius:0px;
+        border:none;
+    }
+
+    .btn-guardar{
+        border-radius:0px;
+        width:100%;
+        color:white;
+    }
+
+    .btn-guardar:hover {
+        color: white;
+    }
+
+    .puntos {
+        backgroud-color: transparent;
+        border: none;
+    }
+
+    .cuadro {
+        width: 15px;
+        height: 15px;
+    }
+
+    #info ul {
+        list-style-type: none;
+        margin: auto;
+        flex-direction: row;
+        display: flex;
+    }
+
+    #info td{
+        cursor:pointer;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Incidentes", "Manage")"><b>Incidentes</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="row m-0">
+    <div class="col-12 p-0 mt-3" id="info">
+        <table>
+            <tr>
+                <td><div class="cuadro" id="2" style="background-color: #f2c4f2;"></div></td>
+                <td><h6 class="mb-1 mr-3 ml-1"> <b>Recomendación</b></h6></td>
+                <td><div class="cuadro" style="background-color: #97f0eb;"></div></td>
+                <td><h6 class="mb-1 mr-3 ml-1"> <b>Felicitación</b></h6></td>
+                <td><div class="cuadro" style="background-color: #ffa91f;"></div></td>
+                <td><h6 class="mb-1 mr-3 ml-1"> <b>Inconformidad</b></h6></td>
+                <td><div class="cuadro" style="background-color: #FBC43D;"></div></td>
+                <td><h6 class="mb-1 mr-3 ml-1"> <b>Queja</b></h6></td>
+                <td><div class="cuadro" style="background-color: #f5d7ab;"></div></td>
+                <td><h6 class="mb-1 mr-3 ml-1"> <b>Seguimiento Coordinador y/o Jefe</b></h6></td>
+                <td><div class="cuadro" style="background-color: #dc3545;"></div></td>
+                <td><h6 class="mb-1 mr-3 ml-1"> <b>Tiempo agotado</b></h6></td>
+                <td><div class="cuadro" style="background-color:green;"></div></td>
+                <td><h6 class="mb-1 mr-3 ml-1"> <b>Cerrado</b></h6></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="row m-0" id="test-list">
+    <div class="col-12 m-auto p-0 list" id="listIncidentes">
+    </div>
+
+    <div class="col-md-12 p-0">
+        <ul class="pagination justify-content-center"></ul>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade p-0 m-0" id="incidenteModal" tabindex="-1" aria-labelledby="incidenteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="row m-0">
+                <div class="col-md-12 p-3 titulo-incidente">
+                    <h4><b id="tipoModal"></b></h4>
+                </div>
+                <div class="col-md-12 p-3">
+                    <div class="row m-0">
+                        <div class="col-md-8 p-0">
+                            <h6>Paciente: <b id="pacienteModal"></b></h6>
+                            <h6>Registró: <b id="registroModal"></b></h6>
+                            <h6>Sexo: <b id="sexoModal"></b> | Edad: <b id="edadModal"></b> | Teléfono: <b id="telefonoModal"></b></h6>
+                        </div>
+                        <div class="col-md-4 p-0 text-right">
+                            <h6>Folio: <b id="folioModal"></b></h6>
+                            <h6 class="text-right">Fecha: <em id="fechaModal"></em></h6>
+                        </div>
+                        <div class="col-md-12 p-0">
+                            <p id="descripcionModal"></p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            @using (Html.BeginForm("GuardarIncidente", "Manage", FormMethod.Post))
+            {
+
+                <input type="hidden" name="folio" id="folio" />
+
+                <div class="row m-0 respuestas">
+                    <div class="col-md-12 p-3 coordinador">
+                        <h6><b>Nota Coordinador</b></h6>
+                        <textarea name="nota_coordinador" id="nota_coordinador" class="form-control"></textarea>
+                    </div>
+
+                    <div class="col-md-12 p-3 jefe">
+                        <h6><b>Nota Jefe del Área</b></h6>
+                        <textarea name="nota_jefe" id="nota_jefe" class="form-control"></textarea>
+                    </div>
+
+                    <div class="col-md-12 p-3 area">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="reasignarCheck">
+                            <label class="form-check-label" for="reasignarCheck" ><b>Asignar</b></label>
+                        </div>
+                        <select id="areasList" class="form-control" name="area_incidente">
+                            <option disabled selected>Seleccionar área</option>
+                        </select>
+                    </div>
+
+
+                </div>
+
+                <div class="row m-0 boton">
+                    <div class="col-md-12 p-3">
+                        <button type="submit" class="btn btn-guardar">Guardar</button>
+                    </div>
+                </div>
+            }
+
+
+
+
+            <!--h6>Folio: <b id="folioModal"></b></h6>
+    <h6>Fecha: <b id="fechaModal"></b></h6-->
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    var total = 0;
+    var clase = 1;
+    var pageclase = "";
+    var css = "";
+    $.ajax({
+        url: '@Url.Action("ListIncidentes", "Manage")',
+        dataType: "json",
+        //data: { diagnostico: $("#analisis").val() },
+        success: function (data) {
+
+            $('.incidente').hide();
+
+            $.each(data, function (i, item) {
+                //console.log(item.fecha_incidente);
+                if (total == 4) {
+
+                    if (clase == 1) {
+                        pageclase = "active";
+                    } else {
+                        pageclase = "";
+                    }
+
+                    //$('.pagination').append('<li class="activar ' + pageclase + '" data-page="active-' + clase + '">' + clase + '</li>');
+
+                    var allpages = $('.pagination li').length;
+
+                    if (allpages > 10) {
+                        $('.pagination').append('<li style="display:none;" class="page ' + pageclase + '" data-page="active-' + clase + '">' + clase + '</li>');
+                    } else {
+                        $('.pagination').append('<li class="page activo ' + pageclase + '" data-page="active-' + clase + '">' + clase + '</li>');
+                    }
+
+                    total = 0;
+                    clase++;
+                }
+
+                if (clase == 1) {
+                    css = "flex";
+                } else {
+                    css = "none";
+                }
+
+                $('#listIncidentes').append('<div data-incidente="' + item.incidente_numero +'" class="row m-0 mt-4 mb-4 incidente active-' + clase + ' " style="background-color:' + item.fondo1 + '; display:' + css + ';">' +
+                    '<div class= "col-md-3 p-2 fecha" style = "background-color:' + item.fondo2 + '" >'+
+                    '<img src = "http://148.234.143.203/SISM-Medico/imagenes/iconos/calendario.png" > <h2>' + item.fecha_incidente + '</h2>' +
+                    '</div>' +
+                    '<div class="col-md-7 p-3">' +
+                    '<h6>Nombre: <b class="nombres">' + item.persona_reporta + '</b></h6>' +
+                    '<h6>Sexo: <b>' + item.sexo + '</b> | Edad: <b>' + item.edad + '</b> | Teléfono: <b><a href="tel:' + item.telefonos + '">' + item.telefonos + '</a></b></h6>' +
+                    '<h6>Área: <b>' + item.area_incidente + '</b></h6>' +
+                    '<h6>Coordinador: <b>' + item.coordinador + '</b></h6>'+
+                    '<h6>Jefe de área: <b>' + item.jefe + '</b></h6>'+
+                    '<h6>Tipo incidente: <b>' + item.tipo_incidente + '</b></h6>'+
+                    '</div>' +
+                    '<div class="col-md-2 m-auto p-3">' +
+                    '<button style = "background-color:' + item.fondo2 + '" class="btn btn-incidente" data-color="' + item.fondo2 + '" data-folio="' + item.folio + '">' + item.boton +'</button>' +
+                    '</div>' +
+                    '</div>');
+
+                total++;
+
+
+            });
+
+            var allpages2 = $('.pagination li').length;
+            //alert(allpages2);
+
+            if (allpages2 > 9) {
+                $('.pagination').append('<li style="backgroud-color:transparent; border:none;">...</li>');
+            }
+
+            $('.pagination').append('<li class="page" data-page="active-' + clase + '">' + clase + '</li>');
+
+            //Contar la paginacion
+            //var allpages = $('.pagination li').length;
+            //alert(allpages);
+
+        },
+        error: function (xhr, status, error) {
+            alert('error');
+        }
+    });
+</script>
+
+
+
+<script>
+    //Al dar clic en las opciones de arriba
+    $(".cuadro").click(function () {
+        var tipo = $(this).attr('id');
+        $(".incidente").each(function () {
+            if (tipo == $(this).attr('data-incidente')) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+            //console.log($(this).text());
+        });
+    });
+</script>
+
+
+<script>
+    $(document).on('click', '.page', function (event) {
+        $('.pagination li').removeClass('active');
+        $(this).addClass('active');
+        var page = $(this).attr('data-page');
+        //alert(page);
+        $('.incidente').hide();
+        $('#listIncidentes .' + page).show();
+
+        var text = $(this).text();
+        var a = parseInt(text);
+        var valPage = a + 10;
+
+        //alert(valPage);
+
+        /*
+        if ($('.pagination li').text() > valPage) {
+            $(this).hide();
+        } else {
+            $(this).show();
+        }
+        */
+
+        var allpages2 = $('.pagination li').length;
+
+        if (allpages2 > 9) {
+
+            $(".pagination li").each(function () {
+                if ($(this).text() > valPage || $(this).text() < a) {
+                    if ($(this).text() != 1) {
+                        $(this).hide();
+                    }
+                } else {
+                    $(this).show();
+                }
+                //console.log($(this).text());
+            });
+
+            $('.puntos').remove();
+
+            if (a > 2) {
+
+                $('<li class="puntos">...</li>').insertBefore(this);
+            }
+        }
+
+
+
+    });
+
+
+    $(document).on('click', '.btn-incidente', function (event) {
+
+        var folio = $(this).attr('data-folio');
+        var color = $(this).attr('data-color');
+
+        //alert(folio);
+
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("DetalleIncidente", "Manage")',
+            dataType: 'json',
+            data: { folio: folio },
+            cache: false,
+            success: function (data) {
+
+                $('#folio').val(data.folio);
+
+                $('.titulo-incidente').css('background-color', color);
+                $('#folioModal').text(data.folio);
+                $('#fechaModal').text(data.fecha_incidente);
+                $('#pacienteModal').text(data.paciente);
+                $('#registroModal').text(data.persona_reporta);
+                $('#tipoModal').text(data.tipo_incidente);
+                $('#sexoModal').text(data.sexo);
+                $('#edadModal').text(data.edad);
+                $('#telefonoModal').text(data.telefonos);
+                $('#descripcionModal').text(data.desc_sol);
+                $('#nota_coordinador').val(data.seguimiento_coordinador);
+                $('#nota_jefe').val(data.seguimiento_jefe);
+
+                $('#nota_coordinador').css('border-bottom', '2px solid ' + color);
+                $('#nota_jefe').css('border-bottom', '2px solid ' + color);
+                $('#areasList').css('border-bottom', '2px solid ' + color);
+
+                $('.btn-guardar').css('background-color', color);
+
+
+                if (data.cerrado == "Cerrado") {
+                    $('#nota_coordinador').attr("disabled", "disabled");
+                    $('#nota_jefe').attr("disabled", "disabled");
+                    $('#areasList').attr("disabled", "disabled");
+                    $('.btn-guardar').attr("disabled", "disabled");
+                } else {
+                    $('#nota_coordinador').removeAttr("disabled");
+                    $('#nota_jefe').removeAttr("disabled");
+                    $('#areasList').removeAttr("disabled");
+                    $('.btn-guardar').removeAttr("disabled");
+                }
+
+
+                if (data.tipo_incidente == "FELICITACION                                      ") {
+                    $('.coordinador').hide();
+                    $('.jefe').hide();
+                    $('.btn-guardar').hide();
+                    //$('.area').hide();
+                } else {
+                    if (data.emailcoordmed == data.emailjefe) {
+                        $('.jefe').hide();
+                        //$('.area').show();
+                    } else {
+
+                        if (data.emailusuario == data.emailcoordmed) {
+                            $('#nota_jefe').attr("disabled", "disabled");
+                            //$('.area').show();
+                        }
+
+                        if (data.emailusuario == data.emailjefe) {
+                            $('#nota_coordinador').attr("disabled", "disabled");
+                            //$('.area').hide();
+                        }
+
+                        $('.jefe').show();
+
+                    }
+
+                    $('.coordinador').show();
+                    $('.btn-guardar').show();
+                }
+
+
+
+                if (data.user == "22017") {
+                    $('.area').show();
+                } else {
+                    $('.area').show();
+                }
+
+
+
+
+            },
+            error: function (xhr, status, error) {
+                alert("Error");
+            }
+        });
+
+        $('#incidenteModal').modal('show');
+
+    });
+</script>
+
+
+<script>
+    $.ajax({
+        url: '/json/incidentes/sis_areas.json',
+        dataType: "json",
+        //data: { search: $("#numemp").val() },
+        success: function (data) {
+            $.each(data, function (i, item) {
+                //console.log(item.descripcion);
+                $('#areasList').append($('<option value="' + item.id_area + '">' + item.descripcion + '</option>'));
+            });
+        },
+        error: function (xhr, status, error) {
+            alert("Error");
+        }
+    });
+</script>
+
+
+<script>
+    $('#areasList').hide();
+    $("#reasignarCheck").change(function () {
+        if (this.checked) {
+            $('#areasList').show();
+            $('.coordinador').hide();
+            $('.jefe').hide();
+        } else {
+            $('#areasList').hide();
+            $('.coordinador').show();
+            $('.jefe').show();
+        }
+    });
+</script>

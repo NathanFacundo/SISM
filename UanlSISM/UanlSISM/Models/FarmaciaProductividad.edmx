@@ -1,0 +1,697 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SERVMEDModel3.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CodigoBarras">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Sustancia" Type="int" Nullable="false" />
+          <Property Name="Nombre_Comercial" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Codigo_Barra" Type="varchar" MaxLength="20" />
+          <Property Name="Contenido" Type="smallint" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="contenido_anterior" Type="int" />
+          <Property Name="codigobarra_anterior" Type="nchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Grupo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Clave_Grupo" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="Descripcion_Grupo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Status_Grupo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="grupo_21">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="clave" Type="nchar" MaxLength="2" />
+          <Property Name="descripcion" Type="nchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="InhabilitarMedicamentos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="clave" Type="varchar" MaxLength="50" />
+          <Property Name="fecha" Type="datetime" />
+          <Property Name="usuario" Type="varchar" MaxLength="50" />
+          <Property Name="ip_realiza" Type="text" />
+          <Property Name="estado" Type="int" />
+        </EntityType>
+        <EntityType Name="InventarioConteo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="clave" Type="varchar" MaxLength="50" />
+          <Property Name="total1" Type="int" />
+          <Property Name="total2" Type="int" />
+          <Property Name="totalfinal" Type="int" />
+        </EntityType>
+        <EntityType Name="InvFarm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InvFarmId" Type="smallint" Nullable="false" />
+          <Property Name="Inv_Fecha" Type="datetime" />
+          <Property Name="Id_Sustancia" Type="int" />
+          <Property Name="Inv_Ini" Type="int" />
+          <Property Name="Inv_Ent" Type="int" Nullable="false" />
+          <Property Name="Inv_Sal" Type="int" Nullable="false" />
+          <Property Name="Inv_Act" Type="int" Nullable="false" />
+          <Property Name="Inv_Reorden" Type="int" />
+          <Property Name="ManejoDisponible" Type="int" />
+          <Property Name="Usuario_Registra" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="MedicamentosControlados">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="clave" Type="varchar" MaxLength="50" />
+          <Property Name="status" Type="int" />
+          <Property Name="fecha" Type="datetime" />
+          <Property Name="usuario_registra" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SERVMED.dbo.Receta_Detalle' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="Receta_Detalle">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Folio_Rcta" Type="int" />
+          <Property Name="Codigo" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="Cantidad" Type="int" />
+          <Property Name="CantSurtida" Type="int" />
+          <Property Name="Dosis" Type="char" MaxLength="100" />
+          <Property Name="Indicaciones" Type="char" MaxLength="100" />
+          <Property Name="Estatus" Type="char" MaxLength="1" />
+          <Property Name="Subrogar" Type="char" MaxLength="1" />
+          <Property Name="dep_sub" Type="varchar" MaxLength="50" />
+          <Property Name="no_surtida_razon" Type="varchar" MaxLength="50" />
+          <Property Name="costo" Type="real" />
+        </EntityType>
+        <EntityType Name="Receta_Exp">
+          <Key>
+            <PropertyRef Name="Folio_Rcta" />
+          </Key>
+          <Property Name="Folio_Rcta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Expediente" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="Medico" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Turno" Type="char" MaxLength="4" />
+          <Property Name="Regxdia" Type="char" MaxLength="2" />
+          <Property Name="Estado" Type="char" MaxLength="1" />
+          <Property Name="Dir_Ip" Type="char" MaxLength="15" />
+          <Property Name="imp_rcta" Type="char" MaxLength="1" />
+          <Property Name="Tipo" Type="char" MaxLength="1" />
+          <Property Name="Meses" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="Hora_Rcta" Type="datetime" />
+          <Property Name="Hora_Imp" Type="datetime" />
+          <Property Name="UsuarioId" Type="int" />
+          <Property Name="Fecha_Hora_Adjudicacion" Type="datetime" />
+          <Property Name="Usuario_Genero" Type="int" />
+          <Property Name="Manual" Type="bit" />
+          <Property Name="folio_rc" Type="int" />
+          <Property Name="Fecha_Hora_Entrega" Type="datetime" />
+          <Property Name="TurnoFar" Type="int" />
+          <Property Name="UserFar" Type="int" />
+          <Property Name="Fecha_Kiosco" Type="datetime" />
+          <Property Name="hora_genera" Type="datetime" />
+          <Property Name="costo" Type="real" />
+          <Property Name="unidad_medica" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="proxima_cita" Type="text" />
+          <Property Name="folio_rcta_hu" Type="int" />
+          <Property Name="fecha_prox_cita" Type="datetime" />
+          <Property Name="medico_hu" Type="text" />
+        </EntityType>
+        <EntityType Name="Sal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Grupo" Type="smallint" Nullable="false" />
+          <Property Name="Clave_Sal" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="Descripcion_Sal" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Status_Sal" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sustancia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Grupo" Type="smallint" Nullable="false" />
+          <Property Name="Id_Sal" Type="smallint" Nullable="false" />
+          <Property Name="Id_Nivel" Type="smallint" Nullable="false" />
+          <Property Name="clave_presentacion" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="Presentacion" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Clave" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="Consultorio" Type="char" MaxLength="1" />
+          <Property Name="estante_col" Type="char" MaxLength="10" />
+          <Property Name="estante_nivel" Type="char" MaxLength="10" />
+          <Property Name="pos_frecuencia" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="consumo_semana" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="cb_mederos" Type="char" MaxLength="1" />
+          <Property Name="cto_ultimo" Type="real" />
+          <Property Name="cto_promedio" Type="real" />
+          <Property Name="estatus_21" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="descripcion_21" Type="nchar" MaxLength="200" />
+          <Property Name="clave_21" Type="nchar" MaxLength="19" />
+          <Property Name="id_grupo_21" Type="int" />
+          <Property Name="id_principioactivo_21" Type="int" />
+          <Property Name="id_formafarm_21" Type="int" />
+          <Property Name="id_concentracion_21" Type="int" />
+          <Property Name="id_unidadeslicitacion_21" Type="int" />
+          <Property Name="id_unidadesmedida_21" Type="int" />
+          <Property Name="id_cantidadenvases_21" Type="int" />
+          <Property Name="id_tipoenvase_21" Type="int" />
+          <Property Name="codigo_21" Type="nchar" MaxLength="19" />
+          <Property Name="Nivel_21" Type="int" />
+          <Property Name="SobranteInv2022" Type="char" MaxLength="2" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="IP" Type="varchar" MaxLength="20" />
+          <Property Name="FechaMed" Type="datetime" />
+          <Property Name="LicitacionStatus" Type="int" />
+          <Property Name="Compendio" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="unidadeslicitacion_21">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="clave" Type="nchar" MaxLength="2" />
+          <Property Name="descripcion" Type="decimal" Precision="16" Scale="2" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="UsuarioId" />
+          </Key>
+          <Property Name="UsuarioId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Usu_User" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Usu_Pass" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Usu_Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Usu_FecAlt" Type="datetime" Nullable="false" />
+          <Property Name="RolId" Type="tinyint" />
+          <Property Name="Usu_Status" Type="bit" Nullable="false" />
+          <Property Name="Baja" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="SERVMEDModel3StoreContainer">
+          <EntitySet Name="CodigoBarras" EntityType="Self.CodigoBarras" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Grupo" EntityType="Self.Grupo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="grupo_21" EntityType="Self.grupo_21" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InhabilitarMedicamentos" EntityType="Self.InhabilitarMedicamentos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InventarioConteo" EntityType="Self.InventarioConteo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvFarm" EntityType="Self.InvFarm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MedicamentosControlados" EntityType="Self.MedicamentosControlados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Receta_Exp" EntityType="Self.Receta_Exp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sal" EntityType="Self.Sal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sustancia" EntityType="Self.Sustancia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="unidadeslicitacion_21" EntityType="Self.unidadeslicitacion_21" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Receta_Detalle" EntityType="Self.Receta_Detalle" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Receta_Detalle].[Folio_Rcta] AS [Folio_Rcta], 
+    [Receta_Detalle].[Codigo] AS [Codigo], 
+    [Receta_Detalle].[Cantidad] AS [Cantidad], 
+    [Receta_Detalle].[CantSurtida] AS [CantSurtida], 
+    [Receta_Detalle].[Dosis] AS [Dosis], 
+    [Receta_Detalle].[Indicaciones] AS [Indicaciones], 
+    [Receta_Detalle].[Estatus] AS [Estatus], 
+    [Receta_Detalle].[Subrogar] AS [Subrogar], 
+    [Receta_Detalle].[dep_sub] AS [dep_sub], 
+    [Receta_Detalle].[no_surtida_razon] AS [no_surtida_razon], 
+    [Receta_Detalle].[costo] AS [costo]
+    FROM [dbo].[Receta_Detalle] AS [Receta_Detalle]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SERVMEDModel3" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="UsuarioId" />
+          </Key>
+          <Property Name="UsuarioId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Usu_User" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Usu_Pass" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Usu_Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Usu_FecAlt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RolId" Type="Byte" />
+          <Property Name="Usu_Status" Type="Boolean" Nullable="false" />
+          <Property Name="Baja" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Receta_Detalle">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Folio_Rcta" Type="Int32" />
+          <Property Name="Codigo" Type="String" MaxLength="6" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" />
+          <Property Name="CantSurtida" Type="Int32" />
+          <Property Name="Dosis" Type="String" MaxLength="100" FixedLength="true" Unicode="false" />
+          <Property Name="Indicaciones" Type="String" MaxLength="100" FixedLength="true" Unicode="false" />
+          <Property Name="Estatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Subrogar" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="dep_sub" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="no_surtida_razon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="costo" Type="Single" />
+        </EntityType>
+        <EntityContainer Name="SERVMEDEntities4" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <EntitySet Name="Receta_Detalle" EntityType="Self.Receta_Detalle" />
+          <EntitySet Name="Receta_Exp" EntityType="SERVMEDModel3.Receta_Exp" />
+          <EntitySet Name="InventarioConteo" EntityType="SERVMEDModel3.InventarioConteo" />
+          <EntitySet Name="InvFarm" EntityType="SERVMEDModel3.InvFarm" />
+          <EntitySet Name="CodigoBarras" EntityType="SERVMEDModel3.CodigoBarras" />
+          <EntitySet Name="InhabilitarMedicamentos" EntityType="SERVMEDModel3.InhabilitarMedicamentos" />
+          <EntitySet Name="Sustancia" EntityType="SERVMEDModel3.Sustancia" />
+          <EntitySet Name="unidadeslicitacion_21" EntityType="SERVMEDModel3.unidadeslicitacion_21" />
+          <EntitySet Name="grupo_21" EntityType="SERVMEDModel3.grupo_21" />
+          <EntitySet Name="Grupo" EntityType="SERVMEDModel3.Grupo" />
+          <EntitySet Name="Sal" EntityType="SERVMEDModel3.Sal" />
+          <EntitySet Name="MedicamentosControlados" EntityType="SERVMEDModel3.MedicamentosControlados" />
+        </EntityContainer>
+        <EntityType Name="Receta_Exp">
+          <Key>
+            <PropertyRef Name="Folio_Rcta" />
+          </Key>
+          <Property Name="Folio_Rcta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Expediente" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="Medico" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Turno" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="Regxdia" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Dir_Ip" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="imp_rcta" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Tipo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Meses" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Hora_Rcta" Type="DateTime" Precision="3" />
+          <Property Name="Hora_Imp" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioId" Type="Int32" />
+          <Property Name="Fecha_Hora_Adjudicacion" Type="DateTime" Precision="3" />
+          <Property Name="Usuario_Genero" Type="Int32" />
+          <Property Name="Manual" Type="Boolean" />
+          <Property Name="folio_rc" Type="Int32" />
+          <Property Name="Fecha_Hora_Entrega" Type="DateTime" Precision="3" />
+          <Property Name="TurnoFar" Type="Int32" />
+          <Property Name="UserFar" Type="Int32" />
+          <Property Name="Fecha_Kiosco" Type="DateTime" Precision="3" />
+          <Property Name="hora_genera" Type="DateTime" Precision="3" />
+          <Property Name="costo" Type="Single" />
+          <Property Name="unidad_medica" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="proxima_cita" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="folio_rcta_hu" Type="Int32" />
+          <Property Name="fecha_prox_cita" Type="DateTime" Precision="3" />
+          <Property Name="medico_hu" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="InventarioConteo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="clave" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="total1" Type="Int32" />
+          <Property Name="total2" Type="Int32" />
+          <Property Name="totalfinal" Type="Int32" />
+        </EntityType>
+        <EntityType Name="InvFarm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvFarmId" Type="Int16" Nullable="false" />
+          <Property Name="Inv_Fecha" Type="DateTime" Precision="3" />
+          <Property Name="Id_Sustancia" Type="Int32" />
+          <Property Name="Inv_Ini" Type="Int32" />
+          <Property Name="Inv_Ent" Type="Int32" Nullable="false" />
+          <Property Name="Inv_Sal" Type="Int32" Nullable="false" />
+          <Property Name="Inv_Act" Type="Int32" Nullable="false" />
+          <Property Name="Inv_Reorden" Type="Int32" />
+          <Property Name="ManejoDisponible" Type="Int32" />
+          <Property Name="Usuario_Registra" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CodigoBarras">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Sustancia" Type="Int32" Nullable="false" />
+          <Property Name="Nombre_Comercial" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Codigo_Barra" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Contenido" Type="Int16" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="contenido_anterior" Type="Int32" />
+          <Property Name="codigobarra_anterior" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="InhabilitarMedicamentos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="clave" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <Property Name="usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ip_realiza" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Sustancia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Grupo" Type="Int16" Nullable="false" />
+          <Property Name="Id_Sal" Type="Int16" Nullable="false" />
+          <Property Name="Id_Nivel" Type="Int16" Nullable="false" />
+          <Property Name="clave_presentacion" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Presentacion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Clave" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="Consultorio" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="estante_col" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="estante_nivel" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="pos_frecuencia" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="consumo_semana" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="cb_mederos" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="cto_ultimo" Type="Single" />
+          <Property Name="cto_promedio" Type="Single" />
+          <Property Name="estatus_21" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="descripcion_21" Type="String" MaxLength="200" FixedLength="true" Unicode="true" />
+          <Property Name="clave_21" Type="String" MaxLength="19" FixedLength="true" Unicode="true" />
+          <Property Name="id_grupo_21" Type="Int32" />
+          <Property Name="id_principioactivo_21" Type="Int32" />
+          <Property Name="id_formafarm_21" Type="Int32" />
+          <Property Name="id_concentracion_21" Type="Int32" />
+          <Property Name="id_unidadeslicitacion_21" Type="Int32" />
+          <Property Name="id_unidadesmedida_21" Type="Int32" />
+          <Property Name="id_cantidadenvases_21" Type="Int32" />
+          <Property Name="id_tipoenvase_21" Type="Int32" />
+          <Property Name="codigo_21" Type="String" MaxLength="19" FixedLength="true" Unicode="true" />
+          <Property Name="Nivel_21" Type="Int32" />
+          <Property Name="SobranteInv2022" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IP" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FechaMed" Type="DateTime" Precision="3" />
+          <Property Name="LicitacionStatus" Type="Int32" />
+          <Property Name="Compendio" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="unidadeslicitacion_21">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="clave" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="descripcion" Type="Decimal" Precision="16" Scale="2" />
+        </EntityType>
+        <EntityType Name="grupo_21">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="clave" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Grupo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Clave_Grupo" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Descripcion_Grupo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Status_Grupo" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Grupo" Type="Int16" Nullable="false" />
+          <Property Name="Clave_Sal" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Descripcion_Sal" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Status_Sal" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MedicamentosControlados">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="clave" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <Property Name="usuario_registra" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SERVMEDModel3StoreContainer" CdmEntityContainer="SERVMEDEntities4">
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="SERVMEDModel3.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+                <ScalarProperty Name="Usu_User" ColumnName="Usu_User" />
+                <ScalarProperty Name="Usu_Pass" ColumnName="Usu_Pass" />
+                <ScalarProperty Name="Usu_Nombre" ColumnName="Usu_Nombre" />
+                <ScalarProperty Name="Usu_FecAlt" ColumnName="Usu_FecAlt" />
+                <ScalarProperty Name="RolId" ColumnName="RolId" />
+                <ScalarProperty Name="Usu_Status" ColumnName="Usu_Status" />
+                <ScalarProperty Name="Baja" ColumnName="Baja" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Receta_Detalle">
+            <EntityTypeMapping TypeName="SERVMEDModel3.Receta_Detalle">
+              <MappingFragment StoreEntitySet="Receta_Detalle">
+                <ScalarProperty Name="Folio_Rcta" ColumnName="Folio_Rcta" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="CantSurtida" ColumnName="CantSurtida" />
+                <ScalarProperty Name="Dosis" ColumnName="Dosis" />
+                <ScalarProperty Name="Indicaciones" ColumnName="Indicaciones" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+                <ScalarProperty Name="Subrogar" ColumnName="Subrogar" />
+                <ScalarProperty Name="dep_sub" ColumnName="dep_sub" />
+                <ScalarProperty Name="no_surtida_razon" ColumnName="no_surtida_razon" />
+                <ScalarProperty Name="costo" ColumnName="costo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Receta_Exp">
+            <EntityTypeMapping TypeName="SERVMEDModel3.Receta_Exp">
+              <MappingFragment StoreEntitySet="Receta_Exp">
+                <ScalarProperty Name="medico_hu" ColumnName="medico_hu" />
+                <ScalarProperty Name="fecha_prox_cita" ColumnName="fecha_prox_cita" />
+                <ScalarProperty Name="folio_rcta_hu" ColumnName="folio_rcta_hu" />
+                <ScalarProperty Name="proxima_cita" ColumnName="proxima_cita" />
+                <ScalarProperty Name="unidad_medica" ColumnName="unidad_medica" />
+                <ScalarProperty Name="costo" ColumnName="costo" />
+                <ScalarProperty Name="hora_genera" ColumnName="hora_genera" />
+                <ScalarProperty Name="Fecha_Kiosco" ColumnName="Fecha_Kiosco" />
+                <ScalarProperty Name="UserFar" ColumnName="UserFar" />
+                <ScalarProperty Name="TurnoFar" ColumnName="TurnoFar" />
+                <ScalarProperty Name="Fecha_Hora_Entrega" ColumnName="Fecha_Hora_Entrega" />
+                <ScalarProperty Name="folio_rc" ColumnName="folio_rc" />
+                <ScalarProperty Name="Manual" ColumnName="Manual" />
+                <ScalarProperty Name="Usuario_Genero" ColumnName="Usuario_Genero" />
+                <ScalarProperty Name="Fecha_Hora_Adjudicacion" ColumnName="Fecha_Hora_Adjudicacion" />
+                <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+                <ScalarProperty Name="Hora_Imp" ColumnName="Hora_Imp" />
+                <ScalarProperty Name="Hora_Rcta" ColumnName="Hora_Rcta" />
+                <ScalarProperty Name="Meses" ColumnName="Meses" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="imp_rcta" ColumnName="imp_rcta" />
+                <ScalarProperty Name="Dir_Ip" ColumnName="Dir_Ip" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Regxdia" ColumnName="Regxdia" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Medico" ColumnName="Medico" />
+                <ScalarProperty Name="Expediente" ColumnName="Expediente" />
+                <ScalarProperty Name="Folio_Rcta" ColumnName="Folio_Rcta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InventarioConteo">
+            <EntityTypeMapping TypeName="SERVMEDModel3.InventarioConteo">
+              <MappingFragment StoreEntitySet="InventarioConteo">
+                <ScalarProperty Name="totalfinal" ColumnName="totalfinal" />
+                <ScalarProperty Name="total2" ColumnName="total2" />
+                <ScalarProperty Name="total1" ColumnName="total1" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvFarm">
+            <EntityTypeMapping TypeName="SERVMEDModel3.InvFarm">
+              <MappingFragment StoreEntitySet="InvFarm">
+                <ScalarProperty Name="Usuario_Registra" ColumnName="Usuario_Registra" />
+                <ScalarProperty Name="ManejoDisponible" ColumnName="ManejoDisponible" />
+                <ScalarProperty Name="Inv_Reorden" ColumnName="Inv_Reorden" />
+                <ScalarProperty Name="Inv_Act" ColumnName="Inv_Act" />
+                <ScalarProperty Name="Inv_Sal" ColumnName="Inv_Sal" />
+                <ScalarProperty Name="Inv_Ent" ColumnName="Inv_Ent" />
+                <ScalarProperty Name="Inv_Ini" ColumnName="Inv_Ini" />
+                <ScalarProperty Name="Id_Sustancia" ColumnName="Id_Sustancia" />
+                <ScalarProperty Name="Inv_Fecha" ColumnName="Inv_Fecha" />
+                <ScalarProperty Name="InvFarmId" ColumnName="InvFarmId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CodigoBarras">
+            <EntityTypeMapping TypeName="SERVMEDModel3.CodigoBarras">
+              <MappingFragment StoreEntitySet="CodigoBarras">
+                <ScalarProperty Name="codigobarra_anterior" ColumnName="codigobarra_anterior" />
+                <ScalarProperty Name="contenido_anterior" ColumnName="contenido_anterior" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Contenido" ColumnName="Contenido" />
+                <ScalarProperty Name="Codigo_Barra" ColumnName="Codigo_Barra" />
+                <ScalarProperty Name="Nombre_Comercial" ColumnName="Nombre_Comercial" />
+                <ScalarProperty Name="Id_Sustancia" ColumnName="Id_Sustancia" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InhabilitarMedicamentos">
+            <EntityTypeMapping TypeName="SERVMEDModel3.InhabilitarMedicamentos">
+              <MappingFragment StoreEntitySet="InhabilitarMedicamentos">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="ip_realiza" ColumnName="ip_realiza" />
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sustancia">
+            <EntityTypeMapping TypeName="SERVMEDModel3.Sustancia">
+              <MappingFragment StoreEntitySet="Sustancia">
+                <ScalarProperty Name="Compendio" ColumnName="Compendio" />
+                <ScalarProperty Name="LicitacionStatus" ColumnName="LicitacionStatus" />
+                <ScalarProperty Name="FechaMed" ColumnName="FechaMed" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="SobranteInv2022" ColumnName="SobranteInv2022" />
+                <ScalarProperty Name="Nivel_21" ColumnName="Nivel_21" />
+                <ScalarProperty Name="codigo_21" ColumnName="codigo_21" />
+                <ScalarProperty Name="id_tipoenvase_21" ColumnName="id_tipoenvase_21" />
+                <ScalarProperty Name="id_cantidadenvases_21" ColumnName="id_cantidadenvases_21" />
+                <ScalarProperty Name="id_unidadesmedida_21" ColumnName="id_unidadesmedida_21" />
+                <ScalarProperty Name="id_unidadeslicitacion_21" ColumnName="id_unidadeslicitacion_21" />
+                <ScalarProperty Name="id_concentracion_21" ColumnName="id_concentracion_21" />
+                <ScalarProperty Name="id_formafarm_21" ColumnName="id_formafarm_21" />
+                <ScalarProperty Name="id_principioactivo_21" ColumnName="id_principioactivo_21" />
+                <ScalarProperty Name="id_grupo_21" ColumnName="id_grupo_21" />
+                <ScalarProperty Name="clave_21" ColumnName="clave_21" />
+                <ScalarProperty Name="descripcion_21" ColumnName="descripcion_21" />
+                <ScalarProperty Name="estatus_21" ColumnName="estatus_21" />
+                <ScalarProperty Name="cto_promedio" ColumnName="cto_promedio" />
+                <ScalarProperty Name="cto_ultimo" ColumnName="cto_ultimo" />
+                <ScalarProperty Name="cb_mederos" ColumnName="cb_mederos" />
+                <ScalarProperty Name="consumo_semana" ColumnName="consumo_semana" />
+                <ScalarProperty Name="pos_frecuencia" ColumnName="pos_frecuencia" />
+                <ScalarProperty Name="estante_nivel" ColumnName="estante_nivel" />
+                <ScalarProperty Name="estante_col" ColumnName="estante_col" />
+                <ScalarProperty Name="Consultorio" ColumnName="Consultorio" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Presentacion" ColumnName="Presentacion" />
+                <ScalarProperty Name="clave_presentacion" ColumnName="clave_presentacion" />
+                <ScalarProperty Name="Id_Nivel" ColumnName="Id_Nivel" />
+                <ScalarProperty Name="Id_Sal" ColumnName="Id_Sal" />
+                <ScalarProperty Name="Id_Grupo" ColumnName="Id_Grupo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="unidadeslicitacion_21">
+            <EntityTypeMapping TypeName="SERVMEDModel3.unidadeslicitacion_21">
+              <MappingFragment StoreEntitySet="unidadeslicitacion_21">
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="grupo_21">
+            <EntityTypeMapping TypeName="SERVMEDModel3.grupo_21">
+              <MappingFragment StoreEntitySet="grupo_21">
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Grupo">
+            <EntityTypeMapping TypeName="SERVMEDModel3.Grupo">
+              <MappingFragment StoreEntitySet="Grupo">
+                <ScalarProperty Name="Status_Grupo" ColumnName="Status_Grupo" />
+                <ScalarProperty Name="Descripcion_Grupo" ColumnName="Descripcion_Grupo" />
+                <ScalarProperty Name="Clave_Grupo" ColumnName="Clave_Grupo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sal">
+            <EntityTypeMapping TypeName="SERVMEDModel3.Sal">
+              <MappingFragment StoreEntitySet="Sal">
+                <ScalarProperty Name="Status_Sal" ColumnName="Status_Sal" />
+                <ScalarProperty Name="Descripcion_Sal" ColumnName="Descripcion_Sal" />
+                <ScalarProperty Name="Clave_Sal" ColumnName="Clave_Sal" />
+                <ScalarProperty Name="Id_Grupo" ColumnName="Id_Grupo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MedicamentosControlados">
+            <EntityTypeMapping TypeName="SERVMEDModel3.MedicamentosControlados">
+              <MappingFragment StoreEntitySet="MedicamentosControlados">
+                <ScalarProperty Name="usuario_registra" ColumnName="usuario_registra" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

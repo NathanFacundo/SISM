@@ -1,0 +1,1169 @@
+﻿@model UanlSISM.Models.DHABIENTES
+
+@using Microsoft.AspNet.Identity;
+@{
+
+}
+
+<style>
+    #home-seccion {
+        margin-top: 20px;
+    }
+
+    .icons {
+        width: 8vw;
+    }
+
+    .item {
+        padding: 10px;
+    }
+
+    .item-card {
+        transition: 0.5s;
+        cursor: pointer;
+        padding: 20px;
+    }
+
+    .card-link {
+        background-color: #FBC43D;
+        border-color: #FBC43D;
+        color: white;
+        padding: 5px 20px;
+    }
+
+        .card-link:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+    .item-card-title {
+        font-size: 15px;
+        transition: 1s;
+        cursor: pointer;
+    }
+
+        .item-card-title i {
+            font-size: 15px;
+            transition: 1s;
+            cursor: pointer;
+            color: #ffa710
+        }
+
+    .card-title i:hover {
+        transform: scale(1.25) rotate(20deg);
+        color: #18d4ca;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        /*box-shadow: 5px 5px 5px rgba(0,0,0,0.3);*/
+    }
+
+    .card::before, .card::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: scale3d(0, 0, 1);
+        transition: transform .3s ease-out 0s;
+        background: rgba(255, 255, 255, 0.1);
+        content: '';
+        pointer-events: none;
+    }
+
+    .card::before {
+        transform-origin: left top;
+    }
+
+    .card::after {
+        transform-origin: right bottom;
+    }
+
+    .card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
+        transform: scale3d(1, 1, 1);
+    }
+
+    .foto-paciente {
+        width: 6vw;
+        height: 6vw;
+        border-radius: 6vw;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: rgba(0,74,143,0.8);
+        background-image: url('http://148.234.143.205/SISM/Imagenes/uanl.png');
+    }
+
+    .cuadro {
+        background-color: #fff;
+        border-radius: 1vw;
+    }
+
+    .nav-tabs .nav-item {
+        width: 195px;
+        z-index: 99;
+    }
+
+    .dropdown-toggle {
+        width: 195px;
+        font-size: 15px !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        text-align: left;
+        z-index: 0;
+        border-top-left-radius: 20px;
+        border: 3px solid rgba(0,74,143,1);
+    }
+
+        .dropdown-toggle:hover {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+        .dropdown-toggle:focus {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+    .dropdown-menu {
+        float: inherit !important;
+        width: 100% !important;
+    }
+
+    .dropdown-item {
+        font-size: 15px !important;
+        padding: 3px 10px !important;
+        white-space: break-spaces !important;
+    }
+
+        .dropdown-item .material-icons {
+            font-size: 15px !important;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+        .dropdown-item:focus {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 15px !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        border-top-left-radius: 20px;
+        margin-left: -20px;
+        -webkit-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        -moz-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        border: 2.5px solid rgba(0,74,143,1);
+    }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link:hover {
+            font-size: 15px !important;
+            background-color: rgba(0, 88, 171,1) !important;
+            color: white !important;
+            border: 2.5px solid rgba(0, 88, 171,1);
+        }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            background-color: #FBC43D;
+            color: white !important;
+            border: 2.5px solid #FBC43D;
+        }
+
+            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active:hover {
+                background-color: #FBC43D !important;
+            }
+
+
+    .doc-info {
+        text-align: right;
+    }
+
+    .fade {
+        opacity: 1;
+    }
+
+    .datos-paciente label {
+        font-size: 0.8vw;
+    }
+
+    .datos-paciente input {
+        border: none !important;
+        border-bottom: 2px solid lightgray !important;
+        padding: 1px 3px;
+        border-radius: 0px;
+    }
+
+    #grad1 {
+        background-color: #9C27B0;
+        background-image: linear-gradient(120deg, #FF4081, #81D4FA)
+    }
+
+    #msform {
+        text-align: center;
+        position: relative;
+        margin-top: 20px
+    }
+
+        #msform fieldset .form-card {
+            background: white;
+            border: 0 none;
+            border-radius: 0px;
+            box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+            padding: 20px 40px 30px 40px;
+            box-sizing: border-box;
+            width: 94%;
+            margin: 0 3% 20px 3%;
+            position: relative
+        }
+
+        #msform fieldset {
+            background: white;
+            border: 0 none;
+            border-radius: 0.5rem;
+            box-sizing: border-box;
+            width: 100%;
+            margin: 0;
+            position: relative;
+        }
+
+            #msform fieldset:not(:first-of-type) {
+                display: none
+            }
+
+            #msform fieldset .form-card {
+                text-align: left;
+                color: #9E9E9E
+            }
+
+        #msform input,
+        #msform textarea,
+        #msform select {
+            padding: 10px 8px 4px 8px;
+            border: none;
+            border-bottom: 1px solid lightgray;
+            border-radius: 0px;
+            margin-top: 2px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            color: #2C3E50;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+            #msform input:focus,
+            #msform textarea:focus,
+            #msform select:focus {
+                -moz-box-shadow: none !important;
+                -webkit-box-shadow: none !important;
+                box-shadow: none !important;
+                border: none;
+                font-weight: bold;
+                border-bottom: 2px solid #FBC43D;
+                outline-width: 0
+            }
+
+        #msform .action-button {
+            width: 130px;
+            background: #FBC43D;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .action-button:hover,
+            #msform .action-button:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px #FBC43D
+            }
+
+        #msform .action-button-previous {
+            width: 130px;
+            background: lightgray;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .action-button-previous:hover,
+            #msform .action-button-previous:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px lightgray
+            }
+
+
+
+        #msform .success-button {
+            width: 130px;
+            background: rgba(0,74,143,0.8);
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .success-button:hover,
+            #msform .success-button:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px rgba(0,74,143,0.8)
+            }
+
+        #msform .success-button-previous {
+            width: 130px;
+            background: rgba(0,74,143,0.8);
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .success-button-previous:hover,
+            #msform .success-button-previous:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px rgba(0,74,143,0.8);
+            }
+
+    select.list-dt {
+        border: none;
+        outline: 0;
+        border-bottom: 1px solid lightgray;
+        padding: 2px 5px 3px 5px;
+        margin: 2px
+    }
+
+        select.list-dt:focus {
+            border-bottom: 2px solid #FBC43D
+        }
+
+    .card {
+        z-index: 0;
+        border: none;
+        border-radius: 0.5rem;
+        position: relative
+    }
+
+    .fs-title {
+        font-size: 25px;
+        color: #2C3E50;
+        margin-bottom: 10px;
+        font-weight: bold;
+        text-align: left
+    }
+
+    #progressbar {
+        margin-bottom: 30px;
+        overflow: hidden;
+        color: lightgrey
+    }
+
+        #progressbar .active {
+            color: #000000;
+            opacity: 1;
+        }
+
+        #progressbar li {
+            list-style-type: none;
+            font-size: 12px;
+            width: 25%;
+            opacity: 0.5;
+            float: left;
+            cursor: pointer;
+            position: relative
+        }
+
+        #progressbar #account:before {
+            content: "S"
+        }
+
+        #progressbar li#account.changed:before,
+        #progressbar li#account.changed:after {
+            background: green;
+        }
+
+        #progressbar #personal:before {
+            content: "O"
+        }
+
+        #progressbar li#personal.changed:before,
+        #progressbar li#personal.changed:after {
+            background: green;
+        }
+
+        #progressbar #payment:before {
+            content: "A"
+        }
+
+        #progressbar li#payment.changed:before,
+        #progressbar li#payment.changed:after {
+            background: green;
+        }
+
+        #progressbar #confirm:before {
+            content: "P"
+        }
+
+        #progressbar li#confirm.changed:before,
+        #progressbar li#confirm.changed:after {
+            background: green;
+        }
+
+        #progressbar li:before {
+            width: 50px;
+            height: 50px;
+            line-height: 45px;
+            display: block;
+            font-size: 18px;
+            color: #ffffff;
+            background: lightgray;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+            padding: 2px
+        }
+
+        #progressbar li:after {
+            content: '';
+            width: 100%;
+            height: 2px;
+            background: lightgray;
+            position: absolute;
+            left: 0;
+            top: 25px;
+            z-index: -1
+        }
+
+        #progressbar li.active:before,
+        #progressbar li.active:after {
+            background: #FBC43D
+        }
+
+    .radio-group {
+        position: relative;
+        margin-bottom: 25px
+    }
+
+    .radio {
+        display: inline-block;
+        width: 204px;
+        height: 104px;
+        border-radius: 0;
+        background: lightblue;
+        box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
+        cursor: pointer;
+        margin: 8px 2px
+    }
+
+        .radio:hover {
+            box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3)
+        }
+
+        .radio.selected {
+            box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.1)
+        }
+
+    .fit-image {
+        width: 100%;
+        object-fit: cover
+    }
+
+    .btn-diagnosticos {
+        background-color: rgba(0,74,143,0.8) !important;
+        color: white;
+        font-size: 1vw;
+        width: 100%;
+    }
+
+        .btn-diagnosticos:hover {
+            color: white;
+        }
+
+    #loadingDiv {
+        position: fixed;
+        z-index: 9999;
+        background-color: rgba(0,0,0,0.2);
+        width: 100%;
+        height: 100vw;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        color: white;
+        text-align: center;
+        padding-top: 20vh;
+    }
+
+        #loadingDiv .spinner-border {
+            width: 8vw;
+            height: 8vw;
+        }
+
+    .diag-box {
+        background-color: #FBC43D;
+        color: white;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+
+    /*.select2-selection__choice {
+        float: initial !important;
+        margin: 0 !important;
+        font-size:1.5vw !important;
+        padding:1vw !important;
+    }
+
+    .select2-selection__rendered{
+        padding:0.5vw !important;
+    }
+
+    .select2-selection--multiple{
+        height:6vw !important;
+    }*/
+
+    #locality-dropdown {
+        max-width: 100% !important;
+    }
+
+    .dataTables_wrapper .dataTables_info {
+        width: 100% !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+        .dataTables_wrapper .dataTables_filter label {
+            width: 100% !important;
+            font-weight: bolder;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            width: 100% !important;
+        }
+
+    .dataTables_wrapper .dataTables_length {
+        display: none;
+    }
+
+    .btn-danger {
+        width: 100%;
+    }
+
+        .btn-danger .material-icons {
+            font-size: 1.2vw !important;
+        }
+
+    table.dataTable tbody tr.selected {
+        background-color: #FBC43D !important;
+        color: white !important;
+    }
+
+    #msform h3 {
+        color: #000;
+    }
+
+    .checking {
+        cursor: pointer;
+        color: lightgray;
+    }
+
+    table.dataTable tbody tr.selected .checking {
+        color: white !important;
+    }
+
+    .tipoconsulta {
+        border-radius: 0px;
+    }
+
+    .resumenTop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 2.5vw;
+        height: 2.5vw;
+        border-radius: 2.5vw;
+        background-color: green;
+        color: white;
+        font-size: 1.2vw;
+        line-height: 2.5vw;
+        text-align: center;
+    }
+
+    .resumenText {
+        font-size: 0.8vw;
+        margin-top: 3vw;
+        color: #9E9E9E;
+        cursor: pointer;
+        font-weight: bolder;
+    }
+
+    .tipoconsulta {
+        border-radius: 0px;
+        border: 2px solid #FBC43D;
+    }
+
+    .dataTables_paginate {
+        display: none !important;
+    }
+
+    .disabledButton {
+        background-color: lightgray !important;
+        border: 3px solid lightgray !important;
+    }
+
+        .disabledButton:hover {
+            background-color: lightgray !important;
+            border: 3px solid lightgray !important;
+        }
+
+        .disabledButton:focus {
+            background-color: lightgray !important;
+            border: 3px solid lightgray !important;
+        }
+
+    .nav-tabs .disabledButton:hover {
+        background-color: lightgray !important;
+        border: 3px solid lightgray !important;
+    }
+
+    .nav-tabs .disabledButton:focus {
+        background-color: lightgray !important;
+        border: 3px solid lightgray !important;
+    }
+
+    #interCheck {
+        width: 30px !important;
+        max-width: 30px !important;
+        margin-top: 5px !important;
+    }
+
+    #urgenciaCheck {
+        width: 30px !important;
+        max-width: 30px !important;
+        margin-top: 5px !important;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 991px)">
+    .foto-paciente {
+        width: 10vw;
+        height: 10vw;
+        border-radius: 10vw;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 1.5vw !important;
+    }
+
+    .dropdown-toggle {
+        font-size: 1.5vw !important;
+        border-radius: 0px;
+    }
+
+    .btn-group {
+        margin-left: 0px !important;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 767px)">
+    .foto-paciente {
+        width: 18vw;
+        height: 18vw;
+        border-radius: 18vw;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 3vw !important;
+    }
+
+    .doc-info {
+        text-align: center;
+    }
+
+    .dropdown-toggle {
+        font-size: 3vw !important;
+    }
+
+    .dropdown-item {
+        font-size: 3vw !important;
+    }
+
+    .datos-paciente label {
+        font-size: 4vw;
+        text-align: center;
+    }
+
+    #progressbar {
+        padding: 0px !important;
+    }
+
+    #msform fieldset .form-card {
+        width: 100%;
+        margin: 0px !important;
+        padding: 0px !important;
+    }
+
+    .resumenText {
+        font-size: 3vw;
+        margin-top: 6vw;
+    }
+
+    .resumenTop {
+        margin-left: 2vw;
+        width: 6vw;
+        height: 6vw;
+        border-radius: 6vw;
+        font-size: 4vw;
+        line-height: 6vw;
+    }
+
+    .nav-tabs .nav-item {
+        z-index: 9;
+    }
+</style>
+
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+
+<link rel='stylesheet' href='https://select2.github.io/select2-bootstrap-theme/css/select2-bootstrap.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css'>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.full.min.js'></script>
+
+<link rel='stylesheet' href='https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.css'>
+
+<link rel='stylesheet' href='https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.css'>
+<script src='https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.js'></script>
+<script src="~/Scripts/dataTables.select.min.js"></script>
+<script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.18/pdfmake.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.18/vfs_fonts.js'></script>
+<script src="https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js"></script>
+
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.colVis.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+<script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js'></script>
+
+
+<div id="loadingDiv">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Consultas", "Manage")"><b>Consultas</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Consulta_Historial", "MedicinaLaboral")"><b>Medicina Laboral</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="#"><b>Historial de incapacidades</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 text-center">
+        <h2><strong>Consulta Historia Clinica</strong></h2>
+    </div>
+</div>
+
+
+<div class="row cuadro animate__animated animate__fadeInLeft">
+    <div class="col-lg-12 p-3">
+        <div class="row m-0">
+            <div class="col-md-8 m-auto p-3">
+                <div class="row m-0">
+                    <div class="col-lg-2 col-4 p-2 text-center m-auto">
+                        <center><div class="foto-paciente"></div></center>
+                    </div>
+                    <div class="col-lg-10 col-8 p-2 m-auto">
+                        <h6>Expediente: <b>@Model.NUMEMP </b></h6>
+                        <h6>Nombre: <b>@Model.NOMBRES @Model.APATERNO @Model.AMATERNO</b> </h6>
+                        <h6>Registro Hospital Universitario: <b>@Model.REGHU</b> </h6>
+                        <div class="row m-0">
+                            <div class="col-md-3 p-0">
+                                <h6 class="mt-0">Edad: <input type="hidden" id="FNAC" name="FNAC" value="@Model.FNAC" /> <b id="edad"></b> años</h6>
+                            </div>
+                            <div class="col-md-3 p-0">
+                                <h6 class="mt-0">Sexo: <b>@Model.SEXO</b></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 p-3 doc-info">
+                <h6>Doctor: <b> <span class="putUserName"></span> </b></h6>
+                <h6>Especialidad: <b> <span class="putEspecialidad"></span> </b></h6>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <ul class="nav nav-tabs" id="custom-content-below-tab mt-4" role="tablist">
+            <div class="btn-group" style="z-index: 99;">
+                <button type="button" style="background-color:#FBC43D !important;border:4.5px solid #fbc43d !important;box-shadow:rgba(0,0,0,0.3) -5px 0px 5px -2px" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Historia del paciente
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="@Url.Action("Consulta_HistorialHojaFrontal", "MedicinaLaboral", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Hoja Frontal</a>
+                    <a href="@Url.Action("Consulta_HistorialPadecimientos", "MedicinaLaboral", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Historial de consultas</a>
+                    <a href="@Url.Action("Consultahistorial_incapacidades", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Historial de incapacidades</a>
+                </div>
+            </div>
+
+            <div class="btn-group" style="margin-left: -20px; z-index: 99;">
+                <button style="background-color:rgba(0,74,143,1) ; border:4.5px solid rgba(0,74,143,1);box-shadow:rgba(0,0,0,0.3) -5px 0px 5px -2px" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Recetas
+                </button>
+
+
+
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="@Url.Action("Consulta_HistorialHistorialRecetas", "MedicinaLaboral", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Historial de Medicamentos</a>
+                </div>
+
+
+
+
+
+            </div>
+
+
+            <div class="btn-group" style="margin-left: -20px; z-index: 99;">
+                <button type="button" onclick="closetoogle()" style="background-color:rgba(0,74,143,1) ; border:4.5px solid rgba(0,74,143,1);box-shadow:rgba(0,0,0,0.3) -5px 0px 5px -2px" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Estudios
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+
+                    <a class="dropdown-item" id="rayosx" onmouseover="submenuRX()"><span class="material-icons">arrow_drop_down</span><b>Rayos X</b></a>
+                    <hr class="dropdown-divider">
+
+                    <a id="submenuRX_2" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.200:3333/studyList?searchID=@Model.NUMEMP.Substring(0,5)-@Model.NUMEMP.Substring(@Model.NUMEMP.Length-3)">SMUANL</a>
+                    <a id="submenuRX_3" style="display:none" class="dropdown-item" target="_blank" href="http://cuid.dyndns.org/portal">HU</a>
+                    <!--a id="submenuRX_4" style="display:none" class="dropdown-item" target="_blank" href="">AR</a-->
+                    <a id="submenuRX_5" style="display:none" class="dropdown-item" target="_blank" href="http://radiodiagnostico.dynns.com/pacs/login.php?message=Bienvenido%20a%20iQ-WEB">Garcia Barella</a>
+
+                    <hr class="dropdown-divider">
+                    <a class="dropdown-item" id="lab-tab" onmouseover="submenuLab()"><span class="material-icons">arrow_drop_down</span><b>Laboratorio</b></a>
+                    <hr class="dropdown-divider">
+
+                    <a id="submenuLab_2" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.204/resultados3/listanombres.asp?numexp=@Model.NUMEMP">Ver Solicitudes Laboratorio</a>
+                    <hr class="dropdown-divider">
+                    <a class="dropdown-item" id="lab-tab" onmouseover="submenuArchivos()"><span class="material-icons">arrow_drop_down</span><b>Archivos</b></a>
+                    <a id="submenuArchivos_1" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=ekg">E K G</a>
+                    <a id="submenuArchivos_2" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=cito">Citologías</a>
+                    <a id="submenuArchivos_3" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=biopsia">Biopsia</a>
+                    <a id="submenuArchivos_4" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=ecc">E.C.C</a>
+                    <a id="submenuArchivos_5" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=presfuerzo">Prueba esfuerzo</a>
+                    <a id="submenuArchivos_6" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=holters">Holters</a>
+                    <a id="submenuArchivos_7" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=consinf">Cons. Informado</a>
+                    <a id="submenuArchivos_8" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=endo">Procedimientos Qx.</a>
+                    <a id="submenuArchivos_9" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=DENS">Densitometria</a>
+                    <a id="submenuArchivos_10" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=LAB">Laboratorio Externo</a>
+                    <a id="submenuArchivos_11" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=psico">Psicología</a>
+                    <a id="submenuArchivos_12" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=onco">Oncología</a>
+                    <a id="submenuArchivos_13" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=gastro">Gastro</a>
+                    <a id="submenuArchivos_14" style="display:none" class="dropdown-item" target="_blank" href="http://148.234.143.201/smuanl_web/img01.asp?NumEmp=@Model.NUMEMP&est=OTR">Otros Estudios</a>
+                </div>
+            </div>
+            <div class="btn-group" style="margin-left: -20px; z-index: 99;">
+                <button type="button" style="background-color:rgba(0,74,143,1);border:4.5px solid rgba(0,74,143,1);box-shadow:rgba(0,0,0,0.3) -5px 0px 5px -2px" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Órdenes
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+
+                    <a class="dropdown-item" href="@Url.Action("TodasValoracionesPensionistas", "Manage")">Ver mis valoraciones</a>
+
+                    <a class="dropdown-item" href="@Url.Action("TodasOrdenesInternamiento", "Manage")">Ver mis órdenes</a>
+                </div>
+            </div>
+            <div class="btn-group" style="margin-left: -20px; z-index: 99;">
+                <button type="button" style="background-color: rgba(0,74,143,1); border: 4.5px solid rgba(0,74,143,1);box-shadow: rgba(0,0,0,0.3) -5px 0px 5px -2px" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Proc. Ambulatorios
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+
+                    <a href="@Url.Action("Consulta_HistorialVerProcAmbOrdenes", "MedicinaLaboral", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Ver Historial</a>
+                </div>
+            </div>
+        </ul>
+        <div class="tab-content" id="custom-content-below-tabContent">
+            <div class="tab-pane fade show active" id="custom-content-below-1" role="tabpanel" aria-labelledby="custom-content-below-1-tab">
+                <div class="row">
+                    <div class="col-12" id="msform">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<input type="hidden" value="@Model.NUMEMP" id="numemp" name="numemp" />
+<input type="hidden" value="" id="putNumero" name="medico" />
+<div class="row" style="margin-top: 2px;  padding: 10px; border-radius: 10px 10px 10px 10px; border: 1px solid; margin-top: 30px; box-shadow: 0 4px 5px #306695; border-color: #306695; ">
+    <div style="        overflow: auto;
+        height: 420px;
+        width: 100%;
+">
+        <table class="table   table-hover table-striped" id="grilla1">
+
+            @{
+
+                var context = new UanlSISM.Models.SMDEVEntities16();
+                var connection = context.Database.Connection;
+                string conStr2 = connection.ConnectionString;
+
+                System.Data.SqlClient.SqlConnection cnn = new System.Data.SqlClient.SqlConnection(conStr2);
+
+                cnn.Open();
+
+                string cmdTxt = " SELECT CONCAT(AFI.NUM_contrato ,' ', AFI.APATERNO,' ',AFI.AMATERNO,' ', AFI.NOMBRES) NOMBRES ";
+                cmdTxt += "  , CONCAT(med.APATERNO,' ',med.AMATERNO,' ',med.NOMBRE) MEDICO,CONCAT('Dx. ', dia.descorta) DIAG ";
+                cmdTxt += "  , CONCAT(dias,' DIAS DEL ', RTRIM(convert(char, inc.fecha_inicio, 103)),' AL ', RTRIM( convert(char,DATEADD(DAY,dias -1,inc.fecha_inicio), 103))) DIAS ";
+                cmdTxt += "  , CONCAT('Expedida ',RTRIM(convert(char, inc.fecha_realiza, 103)),' ',LTRIM( CONVERT(varchar,inc.fecha_realiza,108)) ) EXPE ";
+                cmdTxt += "    from  incapacidades inc  ";
+                cmdTxt += "  left join  AFILIADOS AFI on AFI.NUM_contrato = inc.contrato ";
+                cmdTxt += "   left join  medicos med on med.numero= inc.medico ";
+                cmdTxt += "   left join diagnosticos dia on dia.clave=inc.dx_1 ";
+                cmdTxt += "     where inc.contrato='" + Model.NUMAFIL + "' ORDER BY  inc.FECHA_INICIO DESC ";
+
+                UanlSISM.Models.DalMisMedicos mm = new UanlSISM.Models.DalMisMedicos();
+                System.Data.SqlClient.SqlCommand cmm = new System.Data.SqlClient.SqlCommand(cmdTxt, cnn);
+
+                System.Data.SqlClient.SqlDataReader lector = cmm.ExecuteReader();
+
+
+                while (lector.Read())
+                {
+                    <tr>
+                        <td>@mm.VerifStringSql(lector, "NOMBRES")  </td>
+                        <td>@mm.VerifStringSql(lector, "MEDICO")  </td>
+                        <td>&nbsp;</td>
+                    </tr>
+
+                    <tr>
+                        <td>@mm.VerifStringSql(lector, "DIAG")  </td>
+                        <td>@mm.VerifStringSql(lector, "DIAS")  </td>
+                        <td>@mm.VerifStringSql(lector, "EXPE")  </td>
+                    </tr>
+
+                }
+                lector.Close();
+            }
+        </table>
+    </div>
+
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+@*//Funciones toogle del menu*@
+<script type="text/javascript">
+ 
+    function submenuRX() {
+
+        $('#submenuRX_1').show();
+        $('#submenuRX_2').show();
+        $('#submenuRX_3').show();
+        $('#submenuRX_4').show();
+        $('#submenuRX_5').show();
+
+        $('#submenuLab_1').hide();
+        $('#submenuLab_2').hide();
+        $('#submenuArchivos_1').hide();
+        $('#submenuArchivos_2').hide();
+        $('#submenuArchivos_3').hide();
+        $('#submenuArchivos_4').hide();
+        $('#submenuArchivos_5').hide();
+        $('#submenuArchivos_6').hide();
+        $('#submenuArchivos_7').hide();
+        $('#submenuArchivos_8').hide();
+        $('#submenuArchivos_9').hide();
+        $('#submenuArchivos_10').hide();
+        $('#submenuArchivos_11').hide();
+        $('#submenuArchivos_12').hide();
+        $('#submenuArchivos_13').hide();
+        $('#submenuArchivos_14').hide();
+
+    }
+
+    function submenuLab() {
+
+        $('#submenuLab_1').show();
+        $('#submenuLab_2').show();
+
+        $('#submenuRX_1').hide();
+        $('#submenuRX_2').hide();
+        $('#submenuRX_3').hide();
+        $('#submenuRX_4').hide();
+        $('#submenuRX_5').hide();
+        $('#submenuArchivos_1').hide();
+        $('#submenuArchivos_2').hide();
+        $('#submenuArchivos_3').hide();
+        $('#submenuArchivos_4').hide();
+        $('#submenuArchivos_5').hide();
+        $('#submenuArchivos_6').hide();
+        $('#submenuArchivos_7').hide();
+        $('#submenuArchivos_8').hide();
+        $('#submenuArchivos_9').hide();
+        $('#submenuArchivos_10').hide();
+        $('#submenuArchivos_11').hide();
+        $('#submenuArchivos_12').hide();
+        $('#submenuArchivos_13').hide();
+        $('#submenuArchivos_14').hide();
+    }
+
+
+    function submenuArchivos() {
+        $('#submenuArchivos_1').show();
+        $('#submenuArchivos_2').show();
+        $('#submenuArchivos_3').show();
+        $('#submenuArchivos_4').show();
+        $('#submenuArchivos_5').show();
+        $('#submenuArchivos_6').show();
+        $('#submenuArchivos_7').show();
+        $('#submenuArchivos_8').show();
+        $('#submenuArchivos_9').show();
+        $('#submenuArchivos_10').show();
+        $('#submenuArchivos_11').show();
+        $('#submenuArchivos_12').show();
+        $('#submenuArchivos_13').show();
+        $('#submenuArchivos_14').show();
+
+        $('#submenuLab_1').hide();
+        $('#submenuLab_2').hide();
+        $('#submenuRX_1').hide();
+        $('#submenuRX_2').hide();
+        $('#submenuRX_3').hide();
+        $('#submenuRX_4').hide();
+        $('#submenuRX_5').hide();
+    }
+
+
+    function closetoogle() {
+        $('#submenuRX_1').hide();
+        $('#submenuRX_2').hide();
+        $('#submenuRX_3').hide();
+        $('#submenuRX_4').hide();
+        $('#submenuRX_5').hide();
+        $('#submenuLab_1').hide();
+        $('#submenuLab_2').hide();
+        $('#submenuArchivos_1').hide();
+        $('#submenuArchivos_2').hide();
+        $('#submenuArchivos_3').hide();
+        $('#submenuArchivos_4').hide();
+        $('#submenuArchivos_5').hide();
+        $('#submenuArchivos_6').hide();
+        $('#submenuArchivos_7').hide();
+        $('#submenuArchivos_8').hide();
+        $('#submenuArchivos_9').hide();
+        $('#submenuArchivos_10').hide();
+        $('#submenuArchivos_11').hide();
+        $('#submenuArchivos_12').hide();
+        $('#submenuArchivos_13').hide();
+        $('#submenuArchivos_14').hide();
+
+    }
+
+</script>
+
+<script>
+    $('#loadingDiv').hide();
+
+</script>
+
+
+<!--script type="text/javascript">
+    $.ajax({
+        type: 'GET',
+        url: '@Url.Action("GetMedicoNombres", "Manage")',
+        dataType: 'json',
+        cache: false,
+        success: function (data) {
+            $('.putUserName').html(data.nombres + " " + data.apellido_paterno + " " + data.apellido_materno);
+            $('#putNumero').val(data.numero);
+            $('.putEspecialidad').html(data.especialidad);
+            $('.putCedula').html(data.cedula);
+            $('.putCedulaEsp').html(data.cedula_esp);
+        },
+        error: function (xhr, status, error) {
+            alert("Error");
+        }
+    });
+</script-->
+
+<script>
+    var numemp = $('#numemp').val();
+    $('.foto-paciente').css("background-image", "url(http://148.234.143.204/smuanl_web/fotos_dhab/" + numemp + ".jpg)");
+
+</script>
+<hr />
+
+
+
+
+<script>
+    $('#loadingDiv').hide();
+</script>
+
+
+
+
+<script src='https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.js'></script>
+<script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+<script src='https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js'></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.colVis.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
+<script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js'></script>
+<script src='https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.18/pdfmake.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.18/vfs_fonts.js'></script>
+<script src='https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js'></script>
+<script src='https://cdn.datatables.net/responsive/2.2.6/js/responsive.bootstrap.min.js'></script>
+<script src="~/Scripts/JsBarcode.code39.min.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.4/moment.min.js"></script>

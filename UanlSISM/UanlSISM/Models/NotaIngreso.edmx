@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SMDEVModel19.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="NotaIngreso">
+          <Key>
+            <PropertyRef Name="IngresoId" />
+          </Key>
+          <Property Name="IngresoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrdenFolio" Type="int" />
+          <Property Name="Medico" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="NumEmp" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="T" Type="nvarchar" MaxLength="6" Nullable="false" />
+          <Property Name="A" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Pulso" Type="int" Nullable="false" />
+          <Property Name="Respiracion" Type="int" Nullable="false" />
+          <Property Name="Temp" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="MotivoIngreso" Type="text" Nullable="false" />
+          <Property Name="ResumenInterrogatorio" Type="text" />
+          <Property Name="ResLabGabinete" Type="text" Nullable="false" />
+          <Property Name="DiagnosticoPresuntivo" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="DiagnosticoDesc" Type="text" Nullable="false" />
+          <Property Name="PlanManejo" Type="text" Nullable="false" />
+          <Property Name="Pronostico" Type="text" />
+          <Property Name="UsuarioCreacion" Type="nvarchar" MaxLength="5" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="SMDEVModel19StoreContainer">
+          <EntitySet Name="NotaIngreso" EntityType="Self.NotaIngreso" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SMDEVModel19" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="NotaIngreso">
+          <Key>
+            <PropertyRef Name="IngresoId" />
+          </Key>
+          <Property Name="IngresoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Medico" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NumEmp" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="T" Type="String" MaxLength="6" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="A" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Pulso" Type="Int32" Nullable="false" />
+          <Property Name="Respiracion" Type="Int32" Nullable="false" />
+          <Property Name="Temp" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="MotivoIngreso" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ResumenInterrogatorio" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ResLabGabinete" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DiagnosticoPresuntivo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PlanManejo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Pronostico" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DiagnosticoDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OrdenFolio" Type="Int32" />
+          <Property Name="UsuarioCreacion" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="SMDEVNotaIngreso" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="NotaIngreso" EntityType="Self.NotaIngreso" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SMDEVModel19StoreContainer" CdmEntityContainer="SMDEVNotaIngreso">
+          <EntitySetMapping Name="NotaIngreso">
+            <EntityTypeMapping TypeName="SMDEVModel19.NotaIngreso">
+              <MappingFragment StoreEntitySet="NotaIngreso">
+                <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+                <ScalarProperty Name="OrdenFolio" ColumnName="OrdenFolio" />
+                <ScalarProperty Name="DiagnosticoDesc" ColumnName="DiagnosticoDesc" />
+                <ScalarProperty Name="IngresoId" ColumnName="IngresoId" />
+                <ScalarProperty Name="Medico" ColumnName="Medico" />
+                <ScalarProperty Name="NumEmp" ColumnName="NumEmp" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="T" ColumnName="T" />
+                <ScalarProperty Name="A" ColumnName="A" />
+                <ScalarProperty Name="Pulso" ColumnName="Pulso" />
+                <ScalarProperty Name="Respiracion" ColumnName="Respiracion" />
+                <ScalarProperty Name="Temp" ColumnName="Temp" />
+                <ScalarProperty Name="MotivoIngreso" ColumnName="MotivoIngreso" />
+                <ScalarProperty Name="ResumenInterrogatorio" ColumnName="ResumenInterrogatorio" />
+                <ScalarProperty Name="ResLabGabinete" ColumnName="ResLabGabinete" />
+                <ScalarProperty Name="DiagnosticoPresuntivo" ColumnName="DiagnosticoPresuntivo" />
+                <ScalarProperty Name="PlanManejo" ColumnName="PlanManejo" />
+                <ScalarProperty Name="Pronostico" ColumnName="Pronostico" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

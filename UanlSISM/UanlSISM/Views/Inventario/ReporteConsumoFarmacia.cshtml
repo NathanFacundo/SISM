@@ -1,0 +1,603 @@
+﻿@model List<UanlSISM.Models.ReporteAbastecimeinto>
+@{
+    ViewBag.Title = "ReporteConsumoFarmacia";
+    DateTime dt = DateTime.Now;
+    string mystring = "";
+}
+<style>
+
+    th {
+        color: white;
+        background-color: #FBC43D;
+        font-size: large;
+    }
+
+    #exampleModal table th {
+        color: white;
+        background-color: #004a8f;
+        font-size: large;
+    }
+
+    .dataTables_wrapper .dataTables_info {
+        width: 100% !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+        .dataTables_wrapper .dataTables_filter label {
+            width: 100% !important;
+            font-weight: bolder;
+            text-align: center;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            border: none;
+            border-bottom: 1px solid lightgray;
+            margin-bottom: 25px;
+            margin-top: 30px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            color: #2C3E50;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+    .btn-group {
+        text-align: left;
+        margin-bottom: -30px;
+    }
+
+    .dataTables_wrapper .dataTables_filter input:focus {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        border: none;
+        font-weight: bold;
+        border-bottom: 2px solid #FBC43D;
+        outline-width: 0
+    }
+
+    #msform {
+        margin-left: -18%;
+    }
+
+        #msform input,
+        #msform textarea {
+            -moz-box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+            border: none;
+            width: 50% !important;
+            text-align: center;
+            margin-bottom: 25px;
+            margin-top: 30px;
+            font-weight: bold;
+            border-bottom: 2px solid #FBC43D;
+            outline-width: 0
+        }
+
+
+    td.details-control {
+        background: url('../Imagenes/iconos/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        background: url('../Imagenes/iconos/details_close.png') no-repeat center center;
+    }
+
+    .btn {
+        color: #fff;
+        background-color: #306695;
+        border-color: #306695;
+    }
+</style>
+<div id="msform">
+    <div>
+    </div>
+    <h1 style="text-align:center;">Consumo Farmacia</h1>
+    <table id="table" class="table table-bordered table">
+        <thead>
+            <tr>
+                <th class="details-control"></th>
+                <th>Id_Sustancia</th>
+                <th>Codigo</th>
+                <th>Descripción_21</th>
+                @*<th>Presentacion</th>*@
+                @*<th>Nivel</th>*@
+                <th>Inventario Actual</th>
+                <th>Cosumo de @dt.AddMonths(0).ToString("MMMM")</th>
+                <th>Cosumo de @dt.AddMonths(-1).ToString("MMMM")</th>
+                @*<th>@dt.AddMonths(-3).ToString("MMMM")</th>
+        <th>@dt.AddMonths(-4).ToString("MMMM")</th>
+        <th>@dt.AddMonths(-5).ToString("MMMM")</th>
+        <th>@dt.AddMonths(-6).ToString("MMMM")</th>
+        <th>Promedio (Ultimos 3 Meses)</th>
+        <th>Stock Máximo</th>
+        <th>Stock Mínimo</th>
+        <th style="display:none;">Dias Cobertura Mínimo</th>
+        <th>Cantidad Requerida</th>
+        <th>Semáforo</th>
+        <th>ColorSemaforo</th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                int Total = 0;
+                decimal Mes1 = 0;
+                decimal Mes2 = 0;
+            <tr>
+                <td class="details-control"></td>
+                <td>@item.SustanciaId</td>
+                <td>@item.Clave</td>
+                <td>@item.Descripcion_21</td>
+
+                <td>
+                    @if (item.InvDisp == 0)
+                    {
+                        <p>Sin Inventario</p>
+                    }
+                    else
+                    {
+                        @item.InvDisp
+                    }
+                </td>
+                @if (item.Ult6Meses.Count > 0)
+                {
+                    if (item.Ult6Meses[0].Item2 != null)
+                    {
+                        <td>@item.Ult6Meses[0].Item2</td>
+                        Total = Total + item.Ult6Meses[0].Item2.Value;
+                        Mes1 = Mes1 + item.Ult6Meses[0].Item2.Value;
+                    }
+                    else
+                    {
+                        <td>0</td>
+                    }
+                }
+                @if (item.Ult6Meses.Count > 0)
+                {
+                    if (item.Ult6Meses[1].Item2 != null)
+                    {
+                        <td>@item.Ult6Meses[1].Item2</td>
+                        Total = Total + item.Ult6Meses[1].Item2.Value;
+                        Mes2 = Mes2 + item.Ult6Meses[1].Item2.Value;
+                    }
+                    else
+                    {
+                        <td>0</td>
+                    }
+                }
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@*<div id="exampleModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Requisiciones/OC</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <table id="OCtable" class="table table-bordered table">
+                        <thead>
+                            <tr>
+                                <tH class="details-control"></tH>
+                                <th>Fecha de Requisicion:</th>
+                                <th>Folio</th>
+                                <th>Proveedor</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody id="OCTableBody">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+@*<div id="exampleModal1" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Requisiciones/OC</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table id="OCtable1" class="table table-bordered table">
+                        <thead>
+                            <tr>
+                                <tH class="details-control"></tH>
+                                <th>Clave</th>
+                                <th>Fecha</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody id="OCTableBody1">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+
+<!--<link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.0/css/fixedHeader.dataTables.min.css" />
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+<script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js'></script>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.18/pdfmake.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.18/vfs_fonts.js'></script>
+<script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.colVis.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+<script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.min.js" integrity="sha512-JiRzqZPYxjedpFqoYdKBcsKiBUfsmRZTyjuGlumbyJt4WJfWBZNqIizmbNgPN19VFtg3NYywvNk9lkt4KXVhiA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src='https://cdn.datatables.net/fixedheader/3.2.0/js/dataTables.fixedHeader.min.js'></script>
+
+<script>
+    function format(d) {
+        // `d` is the original data object for the row-->
+@*return '<table cellpadding="5" width="600px" cellspacing="0" border="0" style="padding-left:50px;">' +
+     '<caption style="caption-side:top">Historial últimos 6 meses</caption>' +
+     '<tr style="color:white;background-color:#004a8f;font-size:large;">' +
+     '<td style="width:100px;">' + '@dt.AddMonths(-1).ToString("MMMM")' + '</td>' +
+     '<td style="width:100px;">' + '@dt.AddMonths(-2).ToString("MMMM")' + '</td>' +
+     '<td style="width:100px;">' + '@dt.AddMonths(-3).ToString("MMMM")' + '</td>' +
+     '<td style="width:100px;">' + '@dt.AddMonths(-4).ToString("MMMM")' + '</td>' +
+     '<td style="width:100px;">' + '@dt.AddMonths(-5).ToString("MMMM")' + '</td>' +
+     '<td style="width:100px;">' + '@dt.AddMonths(-6).ToString("MMMM")' + '</td>' +
+    '<td style="width:100px;"></td>' +
+     '<td style="width:100px;"></td>' +
+     '</tr>' +
+     '<tr>' +
+     '<td>' + d[7] + '</td>' +
+     '<td>' + d[8] + '</td>' +
+     '<td>' + d[9] + '</td>' +
+     '<td>' + d[10] + '</td>' +
+     '<td>' + d[11] + '</td>' +
+     '<td>' + d[12] + '</td>' +
+     '<td><button data-toggle="modal" data-target="#exampleModal" onclick="SetOCTable(' + d[1] + ')" class="btn btn-default" style="margin-left:5%;color:white;text-color:white">Ver Requisicones/OC</button></td>' +
+     '<td><button data-toggle="modal" data-target="#exampleModal1" onclick="SetOCTable1(' + d[1] + ')" class="btn btn-default" style="margin-left:5%;color:white;text-color:white">Ver Req. Farmacia</button></td>' +
+     '</tr>' +
+     '</table>';*@
+<!--}
+    $(document).ready(function () {
+        var table = $('#table').DataTable({
+            "language": {
+                "search": "Filtrar:",
+                "zeroRecords": "No se encontró ningun registro",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior",
+                    "print": "Imprimir",
+
+                },
+                "select": {
+                    "rows": " %d filas seleccionadas"
+                },
+
+                "loadingRecords": "Un momento, cargando...",
+                "processing": "Procesando  ...",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                lengthMenu: "Mostrar _MENU_ registros"
+            },
+            lengthChange: true,
+            paging: true,
+            paginate:true,
+            lengthMenu: [10, 25, 50, 100],
+            pageLength: 50,
+            dom: 'Bfrtip',
+            buttons: [
+                // 'excel', 'pdf', 'print'
+                {
+                    extend: 'pdf',
+                    title: 'Reporte de Consumo',
+                    orientation: 'landscape',
+                    exportOptions: {
+                        columns: [2, 3, 4, 5, 6, 13, 14,  15, 16, 18, 9, 10, 11, 12]
+                    },
+                    customize: function (doc) {
+                        doc.defaultStyle.fontSize = 6;
+                        doc.styles.tableHeader.fontSize = 9;
+                        doc.pageMargins = [10, 10, 10, 10];//left,top,right,bottom
+
+                    }
+
+                },
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: [2, 3, 4, 5, 6, 13, 14, 15, 16, 18, 9, 10, 11, 12]
+                    }
+                }
+            ],
+            "columnDefs": [
+                {
+                    "targets": [1],
+                    "visible": false
+                },
+                {
+                    "targets": [7],
+                    "visible": false
+                },
+                {
+                    "targets": [8],
+                    "visible": false
+
+                },
+                {
+                    "targets": [9],
+                    "visible": false
+                },
+                {
+                    "targets": [10],
+                    "visible": false
+                },
+                {
+                    "targets": [11],
+                    "visible": false
+                },
+                {
+                    "targets": [12],
+                    "visible": false
+                },
+                {
+                    "targets": [19],
+                    "visible": false
+                }
+            ]
+        });
+        new $.fn.dataTable.FixedHeader(table);
+
+        // Add event listener for opening and closing details
+        $('#table tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // Open this row
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
+    });
+</script>-->
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.4/moment.min.js"></script>*@
+@*<script>
+        function SetOCTable(sustanciaid) {
+            var dataParseado = '';
+            $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetRequisicionesOC", "Inventario")?SustanciaId='+ sustanciaid,
+            dataType: 'json',
+            cache: false,
+                success: function (data) {
+                    dataParseado = JSON.parse(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log(data);
+                    console.log("Error");
+                },
+                complete: function (data) {
+                    var Ocs = '';
+                    $.each(dataParseado, (index, value) => {
+
+                        Ocs = Ocs +
+                            '<tr>' +
+                            '<td class="details-control"></td>' +
+                            '<td>' + moment(value.req.Fecha).format('DD/MM/YYYY') + '</td>' +
+                            '<td>' + value.req.clave + '</td>' +
+                            '<td>' + value.Prov.Prov_Nombre + '</td>' +
+                            '<td>' + value.detreq.C_Solicitada + '</td>' +
+                            '</tr>';
+                    });
+
+                    if ($.fn.DataTable.isDataTable('#OCtable')) {
+                        $('#OCtable').DataTable().destroy();
+                    }
+
+                    $('#OCTableBody').html(Ocs);
+
+                    $('#OCtable').DataTable({
+                            destroy: true,
+                            searching: false,
+                            paging: true,
+                            lengthChange: false,
+                            info: false,
+                            pageLength: 5,
+                            language: {
+                                paginate: {
+                                    first: "Primero",
+                                    last: "Último",
+                                    next: "Siguiente",
+                                    previous: "Anterior"
+                                },
+                            }
+                        });
+                    // Add event listener for opening and closing details
+                    $('#OCtable tbody').on('click', 'td.details-control', function (event) {
+                        var table = $('#OCtable').DataTable();
+                        var tr = $(this).closest('tr');
+                        var row = table.row(tr);
+
+                        if (row.child.isShown()) {
+                            // This row is already open - close it
+                            row.child.hide();
+                            tr.removeClass('shown');
+                            return false;
+                        }
+                        else {
+                            // Open this row
+
+                            row.child(OCformat(dataParseado,table.row(this).index())).show();
+                            tr.addClass('shown');
+                            return false;
+                        }
+                        return false;
+                    });
+
+                }
+            });
+        }
+        function OCformat(data, index) {
+            var table = "";
+            if (data.length > 0) {
+                table =
+                    '<table class= table table-bordered table>' +
+                    '<thead>' +
+                    '<tr>' +
+                    '<th>Vale de Entrada</th>' +
+                    '<th>Realizado</th>' +
+                    '<th>LLegaron</th>' +
+                    '<th>Cantidad</th>' +
+                    '<th>Contenido</th>' +
+                    '</tr>' +
+                    '</thead>' +
+                    '<tbody>' +
+                    '<tr>' +
+                    '<td>' + data[index].VEntrada.clave + '</td>' +
+                    '<td>' + moment(data[index].VEntrada.Fecha).format('DD/MM/YYYY') + '</td>' +
+                    '<td>' + moment(data[index].VEntrada.Fecha).format('DD/MM/YYYY') + '</td>' +
+                    '<td>' + data[index].DetalleVE.Cant_Surtida + '</td>' +
+                    '<td>' + data[index].CodBarras.Nombre_Comercial + ' C/' + data[index].CodBarras.Contenido + '</td>' +
+                    '</tr>' +
+                    '</tbody>' +
+                    '</table>';
+            }
+            return table;
+        }
+        function SetOCTable1(sustanciaid) {
+            var InfoTabla = '';
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetRequisicionesOC1", "Inventario")?SustanciaId=' + sustanciaid,
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+                    InfoTabla = JSON.parse(data);
+                },
+                error: function (xhr, status, error) {
+
+                    console.log("Error");
+                },
+                complete: function (data) {
+                    var Ocs1 = '';
+                    $.each(InfoTabla, (index, value) => {
+                        Ocs1 = Ocs1 +
+                            '<tr>' +
+                            '<td class="details-control"></td>' +
+                            '<td>' + value.id + '</td>' +
+                            '<td>' + moment(value.Fecha).format('DD/MM/YYYY') + '</td>' +
+                            '<td>' + value.C_Solicitada + '</td>' +
+                            '</tr>';
+                    });
+                    if ($.fn.DataTable.isDataTable('#OCtable1')) {
+                        $('#OCtable1').DataTable().destroy();
+                    }
+                    $('#OCTableBody1').html(Ocs1);
+                    $('#OCtable1').DataTable({
+                        destroy: true,
+                        searching: false,
+                        paging: true,
+                        lengthChange: false,
+                        info: false,
+                        pageLength: 4,
+                        language: {
+                            paginate: {
+                                first: "Primero",
+                                last: "Último",
+                                next: "Siguiente",
+                                previous: "Anterior"
+                            },
+                        }
+                    });
+                     //Add event listener for opening and closing details
+                    $('#OCtable1 tbody').on('click', 'td.details-control', function (event) {
+                        var table = $('#OCtable1').DataTable();
+                        var tr = $(this).closest('tr');
+                        var row = table.row(tr);
+
+                        if (row.child.isShown()) {
+                            // This row is already open - close it
+                            row.child.hide();
+                            tr.removeClass('shown');
+                            return false;
+                        }
+                        else {
+                            // Open this row
+
+                            row.child(OCformat1(InfoTabla, table.row(this).index())).show();
+                            tr.addClass('shown');
+                            return false;
+                        }
+                        return false;
+                    });
+                }
+            });
+        }
+        function OCformat1(data, index) {
+            var table = "";
+            if (data.length > 0) {
+                table =
+                    '<table class= table table-bordered table>' +
+                    '<thead>' +
+                    '<tr>' +
+                    '<th>Vale de Entrada</th>' +
+                    '<th>Realizado</th>' +
+                    '<th>LLegaron</th>' +
+                    '<th>Cantidad</th>' +
+                    '<th>Contenido</th>' +
+                    '</tr>' +
+                    '</thead>' +
+                    '<tbody>' +
+                    '<tr>' +
+                    '<td>' + data[index].VEntrada.clave + '</td>' +
+                    '<td>' + moment(data[index].VEntrada.Fecha).format('DD/MM/YYYY') + '</td>' +
+                    '<td>' + moment(data[index].VEntrada.Fecha).format('DD/MM/YYYY') + '</td>' +
+                    '<td>' + data[index].DetalleVE.Cant_Surtida + '</td>' +
+                    '<td>' + data[index].CodBarras.Nombre_Comercial + ' C/' + data[index].CodBarras.Contenido + '</td>' +
+                    '</tr>' +
+                    '</tbody>' +
+                    '</table>';
+            }
+            return table;
+        }
+    </script>*@

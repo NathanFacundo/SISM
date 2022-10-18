@@ -1,0 +1,214 @@
+﻿@using UanlSISM.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Iniciar sesión";
+}
+
+<style>
+    body {
+        background-image: linear-gradient(#f3bc25, #086cb0);
+        background-size: 100vw 100vh;
+        background-repeat: no-repeat;
+    }
+
+    #login{
+        margin-top:5vw !important;
+    }
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    h1{
+        text-align:center;
+    }
+
+    label {
+        text-align: center !important;
+        margin-bottom: 10px !important;
+    }
+
+    #login .radio label, .checkbox label {
+       padding-left: 0px !important;
+    }
+
+    .text-center{
+        text-align:center;
+    }
+
+    .left-side{
+        height:100vh;
+        position:absolute;
+        z-index:999;
+        top:0;
+        left:0;
+    }
+
+    .somos-uni {
+        width: 2.5vw;
+        text-align: center;
+        position: absolute;
+        z-index: 999;
+        bottom: 0;
+        right: 0;
+        margin: 0;
+        transform: rotateY(180deg);
+    }
+
+    .form-control {
+        border: 2px solid #fff;
+        border-radius:5vw;
+        padding:8px 30px;
+        color:#333;
+    }
+
+    .btn-login {
+        background-color: #fff;
+        border-radius: 5vw;
+        color: ##0c5072;
+        border: 2px solid #fff;
+    }
+
+    footer {
+        display: none;
+    }
+
+    .navbar {
+        display: none;
+    }
+
+    #login-footer{
+        position:absolute;
+        bottom:0;
+        left:0;
+        z-index:999;
+        margin:0;
+        width:100%;
+    }
+
+    #login-footer .uanl-logo {
+        width: 20vw;
+    }
+
+    #login-footer .sism-logo {
+        width: 9vw;
+    }
+
+    .line-white{
+        width:0.2vw;
+        height:13vh;
+        background-color:white;
+    }
+
+</style>
+
+<style type="text/css" media="screen and (max-width: 991px)">
+
+
+    #login {
+       margin-top: 1vw !important;
+    }
+
+    #login-footer .uanl-logo {
+        width: 12vw;
+    }
+
+    .line-white {
+        width: 0.2vw;
+        height: 4vh;
+    }
+
+    #login-footer .sism-logo {
+        width: 5vw;
+    }
+
+</style>
+
+<style type="text/css" media="screen and (max-width: 767px)">
+    #login-footer .sism-logo {
+        width: 10vw;
+    }
+
+    #login-footer .uanl-logo {
+        width: 24vw;
+    }
+</style>
+
+<!--h2>@ViewBag.Title.</h2-->
+
+<!--img class="left-side" src="~/Imagenes/uanl-left-side.jpg" />
+<img class="uanl-logo" src="~/Imagenes/lineas-uanl-derecha.png" />
+<img class="somos-uni" src="~/Imagenes/lineas-uanl-izquierda.png" /-->
+
+<div class="row">
+    <div class="col-md-6 m-auto p-3 animate__animated animate__fadeInLeft" id="login">
+        <section id="loginForm">
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <div class="form-group">
+                    <div class="col-md-12 text-center">
+                        <h2>Iniciar Sesión</h2>
+                    </div>
+                </div>
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group text-center">
+                    <label>Nombre de usuario:</label>
+                    <div class="col-md-12 text-center">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "col-md-12 control-label" })
+                    <div class="col-md-12 text-center">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <!--div class="form-group m-0">
+                    <div class="col-md-12 text-center">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            @Html.LabelFor(m => m.RememberMe)
+                        </div>
+                    </div>
+                </div-->
+                <div class="form-group">
+                    <div class="col-md-12 text-center">
+                        <input type="submit" value="Iniciar sesión" class="btn btn-login" />
+                    </div>
+                </div>
+                <!--p>
+            @Html.ActionLink("Registrar como nuevo usuario", "Register")
+        </p-->
+                @* Habilite esta opción después de habilitar la confirmación de la cuenta para la función de restablecimiento de contraseña
+            <p>
+                @Html.ActionLink("¿Ha olvidado su contraseña?", "ForgotPassword")
+            </p>*@
+            }
+        </section>
+    </div>
+    <!--div class="col-md-4">
+        <section id="socialLoginForm">
+            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+        </section>
+    </div-->
+</div>
+
+
+<div class="row" id="login-footer">
+    <div class="col-md-7 m-auto p-0">
+        <div class="row m-0">
+            <div class="col-5 p-3 text-center">
+                <img class="uanl-logo" src="~/Imagenes/logo-sm.png" />
+            </div>
+            <div class="col-2 p-3 m-auto text-center">
+                <center> <div class="line-white"></div></center>
+            </div>
+            <div class="col-5 p-3 text-center">
+                <img class="sism-logo" src="~/Imagenes/logo_SISM2.png" />
+            </div>
+        </div>
+    </div>
+</div>

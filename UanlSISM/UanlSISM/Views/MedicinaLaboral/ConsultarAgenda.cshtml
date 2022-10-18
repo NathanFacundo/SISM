@@ -1,0 +1,199 @@
+﻿
+@{
+
+}
+
+
+
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+
+<link rel='stylesheet' href='https://select2.github.io/select2-bootstrap-theme/css/select2-bootstrap.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css'>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.full.min.js'></script>
+
+<link rel='stylesheet' href='https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.css'>
+
+<style>
+
+
+    .valid {
+        background-color: #ddffdd;
+        border: red 2px solid;
+    }
+
+    input, select, textarea {
+         max-width:none;
+    }
+</style>
+
+
+
+@*<div id="loadingDiv">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+    </div>*@
+
+
+
+
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Consultas", "Manage")"><b>Consultas</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Index", "MedicinaLaboral")"><b>Coordinación Médica</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="#"><b>Consultar Agenda</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<br />
+
+<div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
+    <img src="~/Imagenes/Horario.png" class="uanl-logo" />
+    <h3 style="font-family: 'Roboto', sans-serif;">
+        Consulta de Agenda
+
+        <span class="putUserName"></span>
+    </h3>
+</div>
+
+
+
+
+<hr />
+
+
+
+<div class="row">
+    <div class="col-4"> </div>
+    <div class="col-2" style="        text-align: right;
+        text-transform: uppercase
+">Clave de Médico </div>
+    <div class="col-2"> <input type="number" value="" class="form-control" id="numemp" /> </div>
+    <div class="col-4"> </div>
+
+</div>
+
+
+<div class="row" style="        margin-top: 10px;
+        text-transform: uppercase
+">
+    <div class="col-2"> </div>
+    <div class="col-2" style="text-align:right">O Seleccione </div>
+    <div class="col-6">
+        <select id="cboMEDICOS" name="cboMEDICOS" class="form-control" style="width:100%">
+            <option selected disabled>     </option>
+            @{
+                List<UanlSISM.Models.Combos> cmb = (List<UanlSISM.Models.Combos>)ViewData["cmb"];
+
+                foreach (var item in cmb)
+                {
+                    <option  value=" @item.Id" > @item.Valor</option>       
+                }
+
+            }
+        </select>
+    </div>
+    <div class="col-2"> </div>
+
+
+</div>
+
+
+
+<div class="row" style="        margin-top: 10px;
+        text-transform: uppercase
+">
+    <div class="col-3"> </div>
+
+    <div class="col-1" style="text-align:right">Fecha </div>
+    <div class="col-2">
+       
+        <input type="date" id="txtfec" date-format="DD/MM/YYYY" class="form-control">
+    </div>
+
+
+    <div class="col-2" style="text-align:center; text-transform:uppercase">Fecha Final </div>
+    <div class="col-2">
+      
+        <input type="date" id="txtfec1" date-format="DD/MM/YYYY" class="form-control"         >
+    </div>
+
+
+    <div class="col-3"> </div>
+
+</div>
+
+
+<div class="row" style="margin-top:10px">
+    <div class="col-5"> </div>
+    <div class="col-2" style="float:right">
+        <button type="button" class="btn btn-warning" onclick="Consultar()">
+           Consultar agenda
+        </button>
+    </div>
+    <div class="col-2" style="text-align:right">
+        <button id="btnVolver1" type="button" class="btn btn-warning" onclick="window.history.back();">
+        Regresar
+        </button>
+    </div>
+  
+    <div class="col-4"> </div>
+
+</div>
+
+<script>
+
+    $(function () { 
+        
+    } 
+    );
+
+
+    function Consultar() {
+        //$("#numemp").removeClass("valid");
+
+        //if ($("#numemp").val() == "") {
+        //    $("#numemp").addClass("valid");
+        //    return;
+        //}
+
+
+         if ($("#numemp").val() == "") {
+
+             window.location.href = 'http://148.234.143.203/SISM-Medico/MedicinaLaboral/ConsultarAgendaCitas?NUM=' + $("#cboMEDICOS").val() + "&strfecini=" + $("#txtfec").val() + "&strfecfin=" + $("#txtfec1").val() ; 
+
+         } else {
+             window.location.href = 'http://148.234.143.203/SISM-Medico/MedicinaLaboral/ConsultarAgendaCitas?NUM=' + $("#numemp").val() + "&strfecini=" + $("#txtfec").val() + "&strfecfin=" + $("#txtfec1").val(); 
+         }
+
+    }
+    var date = new Date();
+    var primerDia = new Date();
+   
+    var dd = primerDia.getDate();
+    var mm = primerDia.getMonth(); //January is 0!
+
+    var yyyy = primerDia.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    var today = dd + '/' + mm + '/' + yyyy; 
+    document.getElementById("txtfec1").value = new Date(yyyy, mm, dd).toISOString().substring(0, 10);
+
+    document.getElementById("txtfec").value = new Date(yyyy, mm, dd).toISOString().substring(0, 10);
+
+    
+</script>

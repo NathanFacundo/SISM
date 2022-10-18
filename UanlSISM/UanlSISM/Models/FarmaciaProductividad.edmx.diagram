@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="043205bbf4974d6ea7a320bc47c51fbf" Name="Diagram1" ZoomLevel="62">
+        <EntityTypeShape EntityType="SERVMEDModel3.Usuario" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVMEDModel3.Receta_Detalle" Width="1.5" PointX="3" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVMEDModel3.Receta_Exp" Width="1.5" PointX="5.375" PointY="4.75" />
+        <EntityTypeShape EntityType="SERVMEDModel3.InventarioConteo" Width="1.5" PointX="7.375" PointY="4.75" />
+        <EntityTypeShape EntityType="SERVMEDModel3.InvFarm" Width="1.5" PointX="7.375" PointY="7.75" />
+        <EntityTypeShape EntityType="SERVMEDModel3.CodigoBarras" Width="1.5" PointX="8.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SERVMEDModel3.InhabilitarMedicamentos" Width="1.5" PointX="9.375" PointY="4.75" />
+        <EntityTypeShape EntityType="SERVMEDModel3.Sustancia" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="SERVMEDModel3.unidadeslicitacion_21" Width="1.5" PointX="9.375" PointY="7.75" />
+        <EntityTypeShape EntityType="SERVMEDModel3.grupo_21" Width="1.5" PointX="10.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SERVMEDModel3.Grupo" Width="1.5" PointX="9.375" PointY="10.75" />
+        <EntityTypeShape EntityType="SERVMEDModel3.Sal" Width="1.5" PointX="11.375" PointY="3.75" />
+        <EntityTypeShape EntityType="SERVMEDModel3.MedicamentosControlados" Width="1.5" PointX="11.375" PointY="6.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

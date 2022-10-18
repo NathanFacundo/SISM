@@ -1,0 +1,132 @@
+﻿
+@{
+    ViewBag.Title = "Especialidades_directorio";
+    List<UanlSISM.Models.Combos> ListaEsp = (List<UanlSISM.Models.Combos>)ViewData["especialidades"];
+
+}
+
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+
+<link rel='stylesheet' href='https://select2.github.io/select2-bootstrap-theme/css/select2-bootstrap.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css'>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.full.min.js'></script>
+
+<link rel='stylesheet' href='https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.css'>
+
+<style>
+
+
+    .valid {
+        background-color: #ddffdd;
+        border: red 2px solid;
+    }
+</style>
+
+
+
+@*<div id="loadingDiv">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+    </div>*@
+
+
+
+
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Consultas", "Manage")"><b>Consultas</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Index", "MedicinaLaboral")"><b>Coordinación Médica</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="#"><b>Especialidades</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<br />
+
+<div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
+    <img src="~/Imagenes/horarioesp.png" class="uanl-logo" />
+    <h3 style="font-family: 'Roboto', sans-serif;">Horarios por Especialidad <span class="putUserName"></span></h3>
+</div>
+
+
+<hr />
+
+<div class="row">
+    <div class="col-4"> </div>
+
+    <div class="col-4">
+
+
+        <select id="cmbEsp" class="form-control">
+            <option selected disabled>     </option>
+            @{
+                foreach (var item in ListaEsp)
+                {
+                    <option value="@item.Id">@item.Valor</option>
+                }
+            }
+
+
+        </select>
+    </div>
+    <div class="col-4"> </div>
+
+</div>
+
+<div class="row" style="margin-top:10px">
+    <div class="col-4">
+
+
+    </div>
+
+    <div class="col-2" style="text-align:center">
+        BAJA &nbsp
+        <INPUT id=chkbaja type=checkbox value="" >
+
+    </div>
+    <div class="col-2" style="text-align:right">
+        <button type="button" class="btn btn-warning" onclick="Consultar()">
+            Ver Espeialidades
+        </button>
+    </div>
+    <div class="col-3"> </div>
+
+</div>
+
+
+<div class="row" style="margin-top:10px">
+   
+    <div class="col-12 " style="text-align:center">
+       
+        <button id="btnAgregar1a" type="button" class="btn btn-warning" onclick="window.history.back();">
+            Regresar
+        </button>
+    </div>
+   
+
+</div>
+
+
+
+<script>
+    function Consultar() {
+        
+        var chkbaja = false; 
+        
+        if ($("#chkbaja").is(':checked')) {
+            chkbaja= true;
+        } 
+
+        window.location.href = 'http://148.234.143.203/SISM-Medico/MedicinaLaboral/Medicos_directorio/?vBaja=' + chkbaja+'&vEsp=' + $("#cmbEsp").val();
+    }
+</script>

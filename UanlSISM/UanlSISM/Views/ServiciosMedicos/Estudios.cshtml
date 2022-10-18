@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Estudios";
+}
+
+
+<script>
+    $.get('http://148.234.143.201/smuanl_web/img01.asp?NumEmp=62759100&est=gastro', function (data) {
+        var imgs = $('<div/>').html(data).find('img');
+        imgs.each(function (i, img) {
+            console.log(img.src); // show a dialog containing the url of image
+        });
+    });
+</script>

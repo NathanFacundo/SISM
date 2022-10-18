@@ -1,0 +1,1743 @@
+﻿@{
+    ViewBag.Title = "IndicadoresDetalles";
+    UanlSISM.Models.HojaFrontal hoja = (UanlSISM.Models.HojaFrontal)ViewData["hoja"];
+}
+
+<head>
+    <meta http-equiv="refresh" content="1800">
+</head>
+
+<style>
+
+    .modal-content {
+        margin-top: 4vw !important;
+    }
+
+    .RecudroPopHp {
+        border: 1px inset;
+        vertical-align: middle;
+        padding-top: 29px;
+        font-weight: 500;
+        border-radius: 10px 10px 10px 10px;
+        border: 1px solid;
+        border-color: #FBC43D;
+        height: 100%;
+    }
+
+    textarea.form-control {
+        font-size: 14px;
+        border-color: #004a8f;
+    }
+
+    .alert-info {
+        color: #e7e6e1;
+        background-color: rgba(0,74,143,1);
+        border-color: rgb(4 40 73);
+    }
+
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #0982fb;
+        background-color: rgba(0,74,143,1);
+        color: #fefefe;
+        text-transform: uppercase;
+    }
+
+    .TituloCabTable {
+        margin-bottom: 3px;
+        margin-top: -14px;
+        font-weight: 700;
+        font-size: 16px;
+        margin-left: -1px;
+        background-color: rgba(0,74,143,1);
+        padding-bottom: 15px;
+        padding-top: 15px;
+        padding-left: 8px;
+        color: white;
+    }
+
+    .table-bordered th, .table-bordered td {
+        border: 1px solid #0982fb;
+    }
+
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #0982fb;
+    }
+
+    #home-seccion {
+        margin-top: 20px;
+    }
+
+    .icons {
+        width: 8vw;
+    }
+
+    .item {
+        padding: 10px;
+    }
+
+    .item-card {
+        transition: 0.5s;
+        cursor: pointer;
+        padding: 20px;
+    }
+
+    .card-link {
+        background-color: #FBC43D;
+        border-color: #FBC43D;
+        color: white;
+        padding: 5px 20px;
+    }
+
+        .card-link:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+    .item-card-title {
+        font-size: 15px;
+        transition: 1s;
+        cursor: pointer;
+    }
+
+        .item-card-title i {
+            font-size: 15px;
+            transition: 1s;
+            cursor: pointer;
+            color: #ffa710
+        }
+
+    .card-title i:hover {
+        transform: scale(1.25) rotate(20deg);
+        color: #18d4ca;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        /*box-shadow: 5px 5px 5px rgba(0,0,0,0.3);*/
+    }
+
+    .card::before, .card::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: scale3d(0, 0, 1);
+        transition: transform .3s ease-out 0s;
+        background: rgba(255, 255, 255, 0.1);
+        content: '';
+        pointer-events: none;
+    }
+
+    .card::before {
+        transform-origin: left top;
+    }
+
+    .card::after {
+        transform-origin: right bottom;
+    }
+
+    .card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
+        transform: scale3d(1, 1, 1);
+    }
+
+    .foto-paciente {
+        width: 6vw;
+        height: 6vw;
+        border-radius: 6vw;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: rgba(0,74,143,0.8);
+        background-image: url('http://148.234.143.205/SISM/Imagenes/uanl.png');
+    }
+
+    .cuadro {
+        background-color: #fff;
+        border-radius: 1vw;
+    }
+
+    .dropdown-toggle {
+        width: 180px;
+        font-size: 0.8vw !important;
+        background-color: #FBC43D;
+        color: white !important;
+        text-align: left;
+        /*border: none !important;*/
+        z-index: 0;
+        border-top-left-radius: 20px;
+        border: 4.5px solid #FBC43D;
+    }
+
+        .dropdown-toggle:hover {
+            background-color: #FBC43D !important;
+            z-index: 0;
+        }
+
+        .dropdown-toggle:focus {
+            background-color: #FBC43D !important;
+            z-index: 0;
+        }
+
+    .dropdown-menu {
+        float: inherit !important;
+        width: 100% !important;
+        z-index: 999;
+    }
+
+    .dropdown-item {
+        font-size: 0.8vw !important;
+    }
+
+        .dropdown-item:hover {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+        .dropdown-item:focus {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 0.8vw !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        border-top-left-radius: 20px;
+        margin-left: -20px;
+        -webkit-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        -moz-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        border: 2.5px solid rgba(0,74,143,1);
+    }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link:hover {
+            font-size: 0.8vw !important;
+            background-color: rgba(0, 88, 171,1) !important;
+            color: white !important;
+            border: 2.5px solid rgba(0, 88, 171,1) !important;
+        }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            background-color: #FBC43D;
+            color: white !important;
+            border: 1px solid #FBC43D;
+        }
+
+            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active:hover {
+                background-color: #FBC43D !important;
+            }
+
+    .doc-info {
+        text-align: right;
+    }
+
+    .fade {
+        opacity: 1 !important;
+    }
+
+    .modal-backdrop {
+        background-color: rgba(0,0,0,0.4) !important;
+    }
+
+    .modal-content {
+        margin-top: 6vw;
+    }
+
+    .datos-paciente label {
+        font-size: 0.8vw;
+    }
+
+    .datos-paciente input {
+        border: none !important;
+        border-bottom: 2px solid lightgray !important;
+        padding: 1px 3px;
+        border-radius: 0px;
+    }
+
+    #grad1 {
+        background-color: : #9C27B0;
+        background-image: linear-gradient(120deg, #FF4081, #81D4FA)
+    }
+
+    #msform {
+        text-align: center;
+        position: relative;
+        margin-top: 20px
+    }
+
+        #msform fieldset .form-card {
+            background: white;
+            border: 0 none;
+            border-radius: 0px;
+            box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+            padding: 20px 40px 30px 40px;
+            box-sizing: border-box;
+            width: 94%;
+            margin: 0 3% 20px 3%;
+            position: relative
+        }
+
+        #msform fieldset {
+            background: white;
+            border: 0 none;
+            border-radius: 0.5rem;
+            box-sizing: border-box;
+            width: 100%;
+            margin: 0;
+            position: relative;
+        }
+
+            #msform fieldset:not(:first-of-type) {
+                display: none
+            }
+
+            #msform fieldset .form-card {
+                text-align: left;
+                color: #9E9E9E
+            }
+
+        #msform input,
+        #msform textarea {
+            padding: 0px 8px 4px 8px;
+            border: none;
+            border-bottom: 1px solid #FBC43D;
+            border-radius: 0px;
+            margin-top: 2px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            color: #2C3E50;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+        #msform .action-button:hover,
+        #msform .action-button:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 3px #FBC43D
+        }
+
+        #msform .action-button-previous {
+            width: 130px;
+            background: lightgray;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .action-button-previous:hover,
+            #msform .action-button-previous:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px lightgray
+            }
+
+
+
+        #msform .success-button {
+            width: 130px;
+            background: rgba(0,74,143,0.8);
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .success-button:hover,
+            #msform .success-button:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px rgba(0,74,143,0.8)
+            }
+
+        #msform .success-button-previous {
+            width: 130px;
+            background: rgba(0,74,143,0.8);
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+            #msform .success-button-previous:hover,
+            #msform .success-button-previous:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px rgba(0,74,143,0.8);
+            }
+
+    select.list-dt {
+        border: none;
+        outline: 0;
+        border-bottom: 1px solid lightgray;
+        padding: 2px 5px 3px 5px;
+        margin: 2px
+    }
+
+        select.list-dt:focus {
+            border-bottom: 2px solid #FBC43D
+        }
+
+    .card {
+        z-index: 0;
+        border: none;
+        border-radius: 0.5rem;
+        position: relative
+    }
+
+    .fs-title {
+        font-size: 25px;
+        color: #2C3E50;
+        margin-bottom: 10px;
+        font-weight: bold;
+        text-align: left
+    }
+
+    #progressbar {
+        margin-bottom: 30px;
+        overflow: hidden;
+        color: lightgrey
+    }
+
+        #progressbar .active {
+            color: #000000;
+            opacity: 1;
+        }
+
+        #progressbar li {
+            list-style-type: none;
+            font-size: 12px;
+            width: 25%;
+            opacity: 0.7;
+            float: left;
+            cursor: pointer;
+            position: relative
+        }
+
+        #progressbar #account:before {
+            content: "S"
+        }
+
+        #progressbar li#account.changed:before,
+        #progressbar li#account.changed:after {
+            background: green;
+        }
+
+        #progressbar #personal:before {
+            content: "O"
+        }
+
+        #progressbar li#personal.changed:before,
+        #progressbar li#personal.changed:after {
+            background: green;
+        }
+
+        #progressbar #payment:before {
+            content: "A"
+        }
+
+        #progressbar li#payment.changed:before,
+        #progressbar li#payment.changed:after {
+            background: green;
+        }
+
+        #progressbar #confirm:before {
+            content: "P"
+        }
+
+        #progressbar li#confirm.changed:before,
+        #progressbar li#confirm.changed:after {
+            background: green;
+        }
+
+        #progressbar li:before {
+            width: 50px;
+            height: 50px;
+            line-height: 45px;
+            display: block;
+            font-size: 18px;
+            color: #ffffff;
+            background: lightgray;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+            padding: 2px
+        }
+
+        #progressbar li:after {
+            content: '';
+            width: 100%;
+            height: 2px;
+            background: lightgray;
+            position: absolute;
+            left: 0;
+            top: 25px;
+            z-index: -1
+        }
+
+        #progressbar li.active:before,
+        #progressbar li.active:after {
+            background: #FBC43D
+        }
+
+    .radio-group {
+        position: relative;
+        margin-bottom: 25px
+    }
+
+    .radio {
+        display: inline-block;
+        width: 204;
+        height: 104;
+        border-radius: 0;
+        background: lightblue;
+        box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
+        cursor: pointer;
+        margin: 8px 2px
+    }
+
+        .radio:hover {
+            box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3)
+        }
+
+        .radio.selected {
+            box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.1)
+        }
+
+    .fit-image {
+        width: 100%;
+        object-fit: cover
+    }
+
+    .btn-diagnosticos {
+        background-color: rgba(0,74,143,0.8) !important;
+        color: white;
+        font-size: 1vw;
+        width: 100%;
+    }
+
+        .btn-diagnosticos:hover {
+            color: white;
+        }
+
+    #loadingDiv {
+        position: fixed;
+        z-index: 9999;
+        background-color: rgba(0,0,0,0.2);
+        width: 100%;
+        height: 100vw;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        color: white;
+        text-align: center;
+        padding-top: 20vh;
+    }
+
+        #loadingDiv .spinner-border {
+            width: 8vw;
+            height: 8vw;
+        }
+
+    .diag-box {
+        background-color: #FBC43D;
+        color: white;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+    /*.select2-selection__choice {
+        float: initial !important;
+        margin: 0 !important;
+        font-size:1.5vw !important;
+        padding:1vw !important;
+    }
+
+    .select2-selection__rendered{
+        padding:0.5vw !important;
+    }
+
+    .select2-selection--multiple{
+        height:6vw !important;
+    }*/
+    #locality-dropdown {
+        max-width: 100% !important;
+    }
+
+    .dataTables_wrapper .dataTables_info {
+        width: 100% !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        width: 95% !important;
+        text-align: center !important;
+        text-align: center !important;
+        margin-bottom: 1vw;
+    }
+
+        .dataTables_wrapper .dataTables_filter label {
+            width: 100% !important;
+            font-weight: bolder;
+        }
+
+    .dataTables_wrapper .dataTables_length {
+        display: none;
+    }
+
+    .btn-danger {
+        width: 100%;
+    }
+
+        .btn-danger .material-icons {
+            font-size: 1.2vw !important;
+        }
+
+    table.dataTable tbody tr.selected {
+        background-color: #FBC43D !important;
+        color: white !important;
+    }
+
+    #msform h3 {
+        color: #000;
+    }
+
+    .checking {
+        cursor: pointer;
+        color: lightgray;
+    }
+
+    table.dataTable tbody tr.selected .checking {
+        color: white !important;
+    }
+
+    tipoconsulta {
+        border-radius: 0px;
+    }
+
+    .resumenTop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 2.5vw;
+        height: 2.5vw;
+        border-radius: 2.5vw;
+        background-color: green;
+        color: white;
+        font-size: 1.2vw;
+        line-height: 2.5vw;
+        text-align: center;
+    }
+
+    .resumenText {
+        font-size: 1.2vw;
+        margin-top: 3vw;
+        color: black;
+        cursor: pointer;
+    }
+
+    .tipoconsulta {
+        border-radius: 0px;
+        border: 2px solid #FBC43D;
+    }
+
+    .btn-vermas {
+        background-color: rgba(0,74,143,1) !important;
+        color: white !important;
+        font-size: 0.8vw !important;
+        border: 2px solid rgba(0,74,143,0.8) !important;
+    }
+
+    .modal-body .select-checkbox {
+        display: none;
+    }
+
+    .modal-header {
+        text-align: center;
+    }
+
+        .modal-header .close {
+            margin: 0 !important;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+    .dt-button-collection {
+        display: block !important;
+    }
+
+        .dt-button-collection .dropdown-menu {
+            margin-left: -8vw !important;
+            padding: 0;
+        }
+
+            .dt-button-collection .dropdown-menu li {
+                padding: 4px !important;
+            }
+
+                .dt-button-collection .dropdown-menu li:hover {
+                    background-color: rgba(0,74,143,0.8);
+                    color: white;
+                }
+
+    .buttons-collection {
+        color: #FBC43D;
+        padding: 3px;
+    }
+
+    .container {
+        width: 100% !important;
+    }
+
+    .nav-tabs .nav-item {
+        width: 220px;
+        z-index: 99;
+    }
+
+    .dropdown-toggle {
+        width: 220px;
+        font-size: 0.8vw !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        text-align: left;
+        z-index: 0;
+        border-top-left-radius: 20px;
+        border: 4.5px solid rgba(0,74,143,1);
+    }
+
+        .dropdown-toggle:hover {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+        .dropdown-toggle:focus {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+    .dropdown-menu {
+        float: inherit !important;
+        width: 100% !important;
+    }
+
+    .dropdown-item {
+        font-size: 0.8vw !important;
+    }
+
+        .dropdown-item .material-icons {
+            font-size: 0.8vw !important;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+        .dropdown-item:focus {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 0.8vw !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        border-top-left-radius: 20px;
+        margin-left: -20px;
+        -webkit-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        -moz-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+    }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link:hover {
+            font-size: 0.8vw !important;
+            background-color: rgba(0, 88, 171,1) !important;
+            color: white !important;
+        }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            background-color: #FBC43D;
+            color: white !important;
+            border: 1px solid #FBC43D;
+        }
+
+            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active:hover {
+                background-color: #FBC43D !important;
+            }
+
+
+
+
+    .modal-dialog {
+        max-width: 1059px;
+        margin: 1.75rem auto;
+    }
+
+    .disabledButton {
+        background-color: lightgray !important;
+        border: 3px solid lightgray !important;
+    }
+
+        .disabledButton:hover {
+            background-color: lightgray !important;
+            border: 3px solid lightgray !important;
+        }
+
+        .disabledButton:focus {
+            background-color: lightgray !important;
+            border: 3px solid lightgray !important;
+        }
+
+    .nav-tabs .disabledButton:hover {
+        background-color: lightgray !important;
+        border: 3px solid lightgray !important;
+    }
+
+    .nav-tabs .disabledButton:focus {
+        background-color: lightgray !important;
+        border: 3px solid lightgray !important;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 991px)">
+    .foto-paciente {
+        width: 10vw;
+        height: 10vw;
+        border-radius: 10vw;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 1.5vw !important;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 767px)">
+    .foto-paciente {
+        width: 18vw;
+        height: 18vw;
+        border-radius: 18vw;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 3vw !important;
+    }
+
+    .doc-info {
+        text-align: center;
+    }
+
+    .dropdown-toggle {
+        font-size: 3vw !important;
+    }
+
+    #grilla1 {
+        width: 40px;
+        overflow-x: scroll
+    }
+
+    .dropdown-item {
+        font-size: 3vw !important;
+    }
+
+    .nav-tabs .nav-item {
+        z-index: 9;
+    }
+</style>
+
+<style>
+
+
+    .fade {
+        opacity: 1;
+    }
+
+    .nav-tabs {
+        margin-top: 2vw !important;
+    }
+
+    .highcharts-credits {
+        display: none;
+    }
+
+    .totalcount {
+        position: absolute;
+        z-index: 999;
+        top: 0;
+        left: 0;
+        margin-left: 3vw;
+        margin-top: 1vw;
+    }
+
+    .highcharts-range-input {
+        margin-left: -20px;
+    }
+
+    .nav-tabs .nav-item {
+        width: 220px;
+        z-index: 99;
+    }
+
+    .dropdown-toggle {
+        width: 550px;
+        font-size: 0.8vw !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        text-align: left;
+        z-index: 0;
+        border-top-left-radius: 20px;
+        border: 3px solid rgba(0,74,143,1);
+    }
+
+        .dropdown-toggle:hover {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+        .dropdown-toggle:focus {
+            background-color: rgba(0, 88, 171,1) !important;
+            border: 3px solid rgba(0, 88, 171,1) !important;
+            z-index: 0;
+        }
+
+    .dropdown-menu {
+        float: inherit !important;
+        width: 100% !important;
+    }
+
+    .dropdown-item {
+        font-size: 0.8vw !important;
+    }
+
+        .dropdown-item.active, .dropdown-item:active {
+            background-color: rgba(0,74,143,1);
+            color: #fff !important;
+        }
+
+        .dropdown-item .material-icons {
+            font-size: 0.8vw !important;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+        .dropdown-item:focus {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 0.8vw !important;
+        background-color: rgba(0,74,143,1);
+        color: white !important;
+        border-top-left-radius: 20px;
+        margin-left: -20px;
+        -webkit-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        -moz-box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+        box-shadow: -5px 0px 5px -2px rgba(0,0,0,0.3);
+    }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link:hover {
+            font-size: 0.8vw !important;
+            background-color: rgba(0, 88, 171,1) !important;
+            color: white !important;
+        }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            background-color: #FBC43D;
+            color: white !important;
+            border: 1px solid #FBC43D;
+        }
+
+            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active:hover {
+                background-color: #FBC43D !important;
+            }
+
+    .alert-info {
+        color: #e7e6e1;
+        background-color: rgba(0,74,143,1);
+        border-color: rgb(4 40 73);
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 991px)">
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 1.5vw !important;
+    }
+
+    .dropdown-toggle {
+        width: 350px;
+    }
+
+    .totalcount {
+        margin-top: -4.5vw;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 767px)">
+    .totalcount {
+        margin-top: -10vw;
+        font-size: 15px;
+    }
+
+    .highcharts-series-group {
+        display: none !important;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+        font-size: 3vw !important;
+    }
+
+    .nav-tabs .nav-item {
+        z-index: 9;
+    }
+
+    .dropdown-menu {
+        z-index: 99999 !important;
+    }
+
+    #recetas {
+        top: 30px !important;
+    }
+
+    .dropdown-toggle {
+        font-size: 3vw !important;
+    }
+
+    .dropdown-item {
+        font-size: 3vw !important;
+    }
+
+    .nav-tabs .nav-item {
+        z-index: 9;
+    }
+
+    .highcharts-axis-grid {
+        display: none;
+    }
+
+    .highcharts-plot-border {
+        display: none;
+    }
+
+    .highcharts-axis {
+        display: none;
+    }
+
+    .highcharts-axis-labels {
+        display: none;
+    }
+
+    .highcharts-navigator {
+        display: none;
+    }
+
+    .highcharts-navigator-xaxis {
+        display: none;
+    }
+
+    .highcharts-root {
+        margin-left: -15vw !important;
+    }
+
+    .highcharts-yaxis-grid {
+        display: none;
+    }
+</style>
+
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+<script src="https://code.highcharts.com/stock/modules/data.js"></script>
+<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Medico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Direccion", "Manage")"><b>Dirección Médica</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("IndicadoresInternacionDetalles", "Manage")"><b>Detalles</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script src='https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.js'></script>
+<script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+<script src='https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js'></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.colVis.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
+<script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js'></script>
+<script src='https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.18/pdfmake.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.18/vfs_fonts.js'></script>
+<script src='https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js'></script>
+<script src='https://cdn.datatables.net/responsive/2.2.6/js/responsive.bootstrap.min.js'></script>
+<div class="container">
+    <div id='ResultadoC' style="overflow : auto;   width: 100%; margin-top:30px ">
+        <table class='table   table-hover table-striped' style='width: 100%;font-size: 12px;'>
+            <tr>
+                <td> <span style="white-space: nowrap;">FECHA</span>  </td>
+                @{
+
+
+                    var strmes = DateTime.Now.Month.ToString("D2");
+                    var stranio = DateTime.Now.Year.ToString();
+
+                    for (int i = 1; i < 32; i++)
+                    {
+
+
+                        var strfecha = i.ToString("D2") + "/" + strmes + "/" + stranio;
+                        string dnombre = "";
+                        DateTime dia = DateTime.Now.Date;
+                        try
+                        {
+                            dia = DateTime.ParseExact(strfecha, "dd/MM/yyyy", null);
+
+                            int dnro = (int)dia.DayOfWeek;
+
+                            if (dnro == 1)
+                            {
+                                dnombre = "LUNES";
+                            }
+                            if (dnro == 2)
+                            {
+                                dnombre = "MARTES";
+                            }
+                            if (dnro == 3)
+                            {
+                                dnombre = "MIERCOLES";
+                            }
+                            if (dnro == 4)
+                            {
+                                dnombre = "JUEVES";
+                            }
+                            if (dnro == 5)
+                            {
+                                dnombre = "VIERNES";
+                            }
+                            if (dnro == 6)
+                            {
+                                dnombre = "SABADO";
+                            }
+                            if (dnro == 0)
+                            {
+                                dnombre = "DOMINGO";
+                            }
+
+                        }
+                        catch (Exception)
+                        {
+                            dnombre = "";
+
+                        }
+
+                        if (dnombre != "" && dia <= DateTime.Now.Date)
+                        {
+
+                            <td> <span style="white-space: nowrap;">@dnombre @i </span>  </td>
+
+                        }
+                    }
+                }
+            </tr>
+
+
+            @*<tr>
+                    <td> <span style="white-space: nowrap;">INGRESOS</span>  </td>
+                    @{
+                        System.Data.SqlClient.SqlConnection cnn = null;
+                        try
+                        {
+
+
+                            var context = new UanlSISM.Models.SMDEVEntities16();
+                            var connection = context.Database.Connection;
+                            string conStr2 = connection.ConnectionString;
+
+                            cnn = new System.Data.SqlClient.SqlConnection(conStr2);
+
+                            cnn.Open();
+
+                            for (int i = 1; i < 32; i++)
+                            {
+
+
+                                var strfecha = i.ToString("D2") + "/" + strmes + "/" + stranio;
+                                string dnombre = "";
+                                DateTime dia = DateTime.Now.Date;
+                                try
+                                {
+                                    dia = DateTime.ParseExact(strfecha, "dd/MM/yyyy", null).Date;
+                                    dnombre = "SI";
+
+                                }
+                                catch (Exception)
+                                {
+                                    dnombre = "";
+
+                                }
+                                string cmdTxt = "";
+                                if (dnombre != "" && dia <= DateTime.Now.Date)
+                                {
+                                    cmdTxt = " select count(expediente) cant from expediente_hu where ing_fecha= CONVERT(smalldatetime,'" + dia.ToString("dd/MM/yyyy") + "',103) ";
+                                    System.Data.SqlClient.SqlCommand cmm = new System.Data.SqlClient.SqlCommand(cmdTxt, cnn);
+
+                                    System.Data.SqlClient.SqlDataReader lector = cmm.ExecuteReader();
+
+                                    while (lector.Read())
+                                    {
+
+                                        <td> <span style="white-space: nowrap;">@lector["cant"] </span>  </td>
+
+                                    }
+
+                                    lector.Close();
+
+
+
+
+                                }
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                            throw;
+                        }
+                        finally
+                        {
+                            cnn.Close();
+
+
+                        }
+                    }
+                </tr>*@
+
+
+            @*<tr>
+                    <td> <span style="white-space: nowrap;">EGRESOS</span>  </td>
+                    @{
+
+                        try
+                        {
+
+                            cnn.Open();
+
+                            for (int i = 1; i < 32; i++)
+                            {
+
+
+                                var strfecha = i.ToString("D2") + "/" + strmes + "/" + stranio;
+                                string dnombre = "";
+                                DateTime dia = DateTime.Now.Date;
+                                try
+                                {
+                                    dia = DateTime.ParseExact(strfecha, "dd/MM/yyyy", null);
+                                    dnombre = "SI";
+
+                                }
+                                catch (Exception)
+                                {
+                                    dnombre = "";
+
+                                }
+                                string cmdTxt = "";
+                                if (dnombre != "" && dia <= DateTime.Now.Date)
+                                {
+                                    cmdTxt = " select count(expediente) cant from expediente_hu where egr_fecha= CONVERT(smalldatetime,'" + dia.ToString("dd/MM/yyyy") + "',103)   ";
+                                    System.Data.SqlClient.SqlCommand cmm = new System.Data.SqlClient.SqlCommand(cmdTxt, cnn);
+
+                                    System.Data.SqlClient.SqlDataReader lector = cmm.ExecuteReader();
+
+                                    while (lector.Read())
+                                    {
+
+                                        <td> <span style="white-space: nowrap;">@lector["cant"] </span>  </td>
+
+                                    }
+
+                                    lector.Close();
+
+
+
+
+                                }
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                            throw;
+                        }
+                        finally
+                        {
+                            cnn.Close();
+
+
+                        }
+                    }
+                </tr>*@
+            <tr>
+                <td> <span style="white-space: nowrap;">INTERNADOS</span>  </td>
+                @{ System.Data.SqlClient.SqlConnection cnn = null;
+
+                    try
+                    {
+                        var context = new UanlSISM.Models.SMDEVEntities16();
+                        var connection = context.Database.Connection;
+                        string conStr2 = connection.ConnectionString;
+
+                        cnn = new System.Data.SqlClient.SqlConnection(conStr2);
+
+                        cnn.Open();
+
+
+
+                        for (int i = 1; i < 32; i++)
+                        {
+
+
+                            var strfecha = i.ToString("D2") + "/" + strmes + "/" + stranio;
+                            string dnombre = "";
+                            DateTime dia = DateTime.Now.Date;
+                            try
+                            {
+                                dia = DateTime.ParseExact(strfecha, "dd/MM/yyyy", null);
+                                dnombre = "SI";
+
+                            }
+                            catch (Exception)
+                            {
+                                dnombre = "";
+
+                            }
+                            string cmdTxt = "";
+                            if (dnombre != "" && dia <= DateTime.Now.Date)
+                            {
+                                cmdTxt = " select count(expediente) cant from expediente_hu where ing_fecha<=CONVERT(smalldatetime,'" + dia.ToString("dd/MM/yyyy") + "',103)  and (egr_fecha>CONVERT(smalldatetime,'" + dia.ToString("dd/MM/yyyy") + "',103)  or egr_fecha is null)   ";
+                                System.Data.SqlClient.SqlCommand cmm = new System.Data.SqlClient.SqlCommand(cmdTxt, cnn);
+
+                                System.Data.SqlClient.SqlDataReader lector = cmm.ExecuteReader();
+
+                                while (lector.Read())
+                                {
+
+                                    <td> <span style="white-space: nowrap;">@lector["cant"] </span>  </td>
+
+                                }
+
+                                lector.Close();
+
+
+
+
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+                    finally
+                    {
+                        cnn.Close();
+
+
+                    }
+                }
+            </tr>
+        </table>
+
+    </div>
+
+    <br />
+    <div class="col-12" style="text-align:center">
+        <div class="alert alert-info"> Pacientes Internados</div>
+        <table class='table   table-hover table-striped' style='width: 100%;font-size: 12px;'>
+            <tr>
+                <td>&nbsp;</td>
+
+
+                <td>Nombre</td>
+                <td>Parentesco</td>
+                <td>Sexo</td>
+                <td>Edad</td>
+
+                <td>Fecha de ingreso</td>
+                <td>Dias de hospitalizacion</td>
+                <td>Unidad que recibe</td>
+                <td>Nota de Ingreso </td>
+            </tr>
+
+            @{
+                cnn.Open();
+                try
+                {
+
+                    string cmdTxt = " select concat(dh.apaterno,' ' ,dh.AMATERNO ,' ' ,dh.NOMBRES) NOMBRES,  dh.NUMEMP exp, pa.descr PARENTESCO, dh.SEXO, convert(char, dh.fnac, 103) FNAC,  CONVERT(char,ing_fecha,103) ing_fecha  ,DATEDIFF(DAY,  ing_fecha, getdate()) DIAS, rec.DESCRIPCION  RECI  ";
+
+                    cmdTxt += " from expediente_HU expe   left join    dhabientes dh  on dh.numemp= expe.expediente ";
+                    cmdTxt += " left join    parentesco pa  on dh.pariente= pa.pariente 	  left join    hu_recibe rec  on rec.clave= ing_unidad_rec";
+                    cmdTxt += "   where (egr_fecha IS NULL or egr_fecha='01/01/1900'  )  order by ing_unidad_rec,ing_fecha ";
+
+                    System.Data.SqlClient.SqlCommand cmm = new System.Data.SqlClient.SqlCommand(cmdTxt, cnn);
+
+                    System.Data.SqlClient.SqlDataReader lector = cmm.ExecuteReader();
+
+                    int cant = 0;
+
+                    while (lector.Read())
+                    {
+                        var v_nac = "";
+                        if (lector["FNAC"].ToString() != "")
+                        {
+
+                            cant++;
+                            var v_mes = lector["FNAC"].ToString().Substring(3, 2);
+                            var v_anio = lector["FNAC"].ToString().Substring(6, 4);
+
+                            if (v_anio != "1900")
+                            {
+                                DateTime now = DateTime.Now;
+
+                                string fechaactual = now.Date.ToString("dd/MM/yyyy");
+                                v_nac = (Convert.ToInt32(now.Date.ToString("dd/MM/yyyy").Substring(6, 4)) - Convert.ToInt32(v_anio)).ToString() + " " + (Convert.ToInt32(now.Date.ToString("dd/MM/yyyy").Substring(3, 2)) - Convert.ToInt32(v_mes)).ToString();
+
+                            }
+
+                        }
+                        <tr>
+                            <td> <span style="white-space: nowrap;">@cant </span>  </td>
+                            <td> <span style="white-space: nowrap;">@lector["NOMBRES"] </span>  </td>
+                            <td> <span style="white-space: nowrap;">@lector["PARENTESCO"] </span>  </td>
+                            <td> <span style="white-space: nowrap;">@lector["SEXO"] </span>  </td>
+                            <td> <span style="white-space: nowrap;">@v_nac </span>  </td>
+                            <td> <span style="white-space: nowrap;">@lector["ing_fecha"] </span>  </td>
+                            <td> <span style="white-space: nowrap;">@lector["DIAS"] </span>  </td>
+                            <td> <span style="white-space: nowrap;">@lector["RECI"]  </span>  </td>
+                            <th style=" text-align: center;  cursor: pointer" data-id="@lector["exp"].ToString().Trim()" onclick="abrir(this)">Abrir</th>
+                            
+
+                        </tr>
+
+                    }
+
+
+                    lector.Close();
+
+
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                finally
+                {
+                    cnn.Close();
+
+
+                }
+
+            }
+
+        </table>
+
+
+
+
+
+        <div class='modal fade' id='Modalkx_Int' style='display:none'>
+            <div class='modal-dialog modal-lg'>
+                <!-- Modal content-->
+                <div class='modal-content' style="width:1080px">
+                    <div class='modal-header'>
+
+                        <button type='button' class='close' onclick="cerrarInt()">&times;</button>
+                        <br />
+
+                    </div>
+
+                    <div class='modal-body' style="        font-size: 14px;
+        overflow: auto;
+        height: 580px;
+        width: 100%;
+">
+                        <!-- Modal cuerpo-->
+                        <div class="row">
+                            <div class="col-lg-2 col-4 p-2 text-center m-auto">
+                                <center><div class="foto-paciente"></div></center>
+                            </div>
+                            <div class="col-5 ">
+                                <div class=" col-12 RecudroPopHp">
+                                    <div class="  row">
+                                        <label class="col-5"> Expediente :</label>
+                                        <label class="col-7"> @hoja.EXPE</label>
+
+                                    </div>
+
+                                    <div class=" row">
+                                        <label class="col-5"> Nombre:</label>
+                                        <label class="col-7">@hoja.NOMBRE</label>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="col-5 " style="text-align:center">
+
+                                <div class=" col-12  RecudroPopHp">
+
+
+                                    <label>Modulo Ingreso Hospital Universitario</label>
+                                    <label>Busqueda de Derechohabientes</label>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <table class="table table-bordered" style="font-size: 14px; margin-top: 5px;">
+                            <thead>
+                                <tr>
+                                    <th>Fecha de Ingreso</th>
+                                    <th>Referido de</th>
+                                    <th>Medico que refiere</th>
+                                    <th>Recibido en</th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td>
+                                    <label style="font-size:14px">@hoja.PopHp.FechaIngreso</label>
+
+                                </td>
+                                <td>@hoja.PopHp.refNombre</td>
+                                <td> </td>
+                                <td>@hoja.PopHp.recNombre</td>
+                            </tr>
+
+                        </table>
+                        <hr style="border-color:black" />
+
+
+                        <div class="form-group row">
+                            <label class="col-4" style="        text-align: left;
+        font-weight: bold;
+        padding-top: 15px;
+">Resumen Interrogatorio</label>
+                            <div class="col-8">
+
+
+                                <textarea class="form-control" style=" min-width: 500px; max-width: 100%; min-height: 50px; height: 100%; width: 100%;"> @hoja.PopHp.resumen_evo</textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" style="font-size:14px;font-weight:bold">
+                            <label class="col-1" style=" text-align: right;"> Peso:</label>
+                            <label class="col-1">@hoja.PopHp.ing_peso</label>
+
+                            <label class="col-1" style=" text-align: right;"> Talla:</label>
+                            <label class="col-1"> @hoja.PopHp.ing_talla</label>
+
+                            <label class="col-3" style=" text-align: right;"> Frecuencia Cardiaca:</label>
+                            <label class="col-1"> @hoja.PopHp.ing_frec_card</label>
+
+                            <label class="col-3" style=" text-align: right;"> Presion arterial:</label>
+                            <label class="col-1">@hoja.PopHp.ing_pres_art1</label>
+
+                        </div>
+                        <input type="hidden" id="numemp"   value="@hoja.NUMEMP"  />
+
+                        <div class="form-group row">
+                            <label class="col-4" style="        text-align: left;
+        font-weight: bold;
+        padding-top: 15px;
+">Exploración Fisica</label>
+                            <div class="col-8">
+
+
+                                <textarea class="form-control" style=" min-width: 500px; max-width: 100%; min-height: 50px; height: 100%; width: 100%;"> @hoja.PopHp.ing_explora_fis</textarea>
+                            </div>
+                        </div>
+
+
+
+
+                        <hr style="border-color:black" />
+                        <div class="row" style="padding-left:5px;padding-right:5px">
+                            <div class="col-6">
+
+                                <div class="form-group row">
+                                    <label class="col-4" style="text-align:left;font-weight:bold">Examenes de Laboratorio</label>
+                                    <div class="col-8">
+
+
+                                        <textarea class="form-control"> @hoja.PopHp.ing_exa_lab</textarea>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="form-group row">
+                                    <label class="col-4" style="        text-align: left;
+        font-weight: bold
+"> Tratamiento apliacado antes de ingreso</label>
+                                    <div class="col-8">
+
+
+                                        <textarea class="form-control">@hoja.PopHp.Lab</textarea>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <label class="col-4" style="        text-align: left;
+        font-weight: bold
+">Plan de tratamiento</label>
+                                    <div class="col-8">
+
+
+                                        <textarea class="form-control">@hoja.PopHp.planTratamiento</textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-6">
+
+                                <div class="form-group row">
+                                    <label class="col-4" style="        text-align: left;
+        font-weight: bold
+">Examenes de gabinete</label>
+                                    <div class="col-8">
+
+
+                                        <textarea class="form-control">@hoja.PopHp.ing_exa_gab</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-4" style="        text-align: left;
+        font-weight: bold
+">Diagnostico probable</label>
+                                    <div class="col-8">
+
+
+                                        <textarea class="form-control">@hoja.PopHp.ing_tx_probable</textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-4" style="        text-align: left;
+        font-weight: bold
+">Indicaciones</label>
+                                    <div class="col-8">
+
+
+                                        <textarea class="form-control">@hoja.PopHp.ing_indicaciones</textarea>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+    <script>
+        function verInt() {
+
+            $('#Modalkx_Int').modal();
+            $('#numemp').val(getUrlParameter('id'));
+
+            $('.foto-paciente').css("background-image", "url(http://148.234.143.204/smuanl_web/fotos_dhab/" + getUrlParameter('id') + ".jpg)");
+        }
+
+        function  cerrarInt(){
+            $('#Modalkx_Int').modal('hide');
+        }
+        function abrir(obj) {
+
+         var ids=   $(obj).attr("data-id")
+          
+               window.location.href = "http://148.234.143.203/SISM-Medico/Manage/IndicadoresInternacionDetalles/?id=" +ids;
+        }
+      
+        $(".dropdown-item").click(function () {
+            $(".dropdown-item").removeClass('active');
+            //$(this).addClass('active');
+        });
+
+     
+
+        var getUrlParameter = function getUrlParameter(sParam) {
+            //obtiene parametros desde la url ?ss=ds
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        };
+
+
+        $(function () {
+            if (getUrlParameter('id') != null) {
+                verInt();
+            }
+        }
+        );
+    </script>
+
+

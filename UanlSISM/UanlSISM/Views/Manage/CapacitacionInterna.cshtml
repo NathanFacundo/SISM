@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "Tutoriales";
+}
+
+<style>
+    .card-link {
+        background-color: #FBC43D;
+        border-color: #FBC43D;
+        color: white;
+        padding: 5px 20px;
+        width: 100%;
+    }
+
+        .card-link:hover {
+            text-decoration: none;
+            background-color: #FBC43D !important;
+        }
+</style>
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Manuales", "Manage")"><b>Manuales</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("CapacitacionInterna", "Manage")"><b>Capacitación Interna</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<div class="row">
+
+    <div class="col-md-6 item text-left">
+        <h5 class="mt-4"><b>Capacitación: Tema 1 - Tele de tórax, ¿Normal o Patológica?</b></h5>
+        <video width="100%" controls>
+            <source src="~/Videos/capacitacion-tema-1tele-de-torax-normal-o-patologica.mp4" type="video/mp4">
+            <source src="~/Videos/capacitacion-tema-1tele-de-torax-normal-o-patologica.ogg" type="video/ogg">
+            Your browser does not support HTML video.s
+        </video>
+        <a class="btn card-link" target="_blank" href="https://forms.gle/KcRBayTWnDtW16Fq9">Ir al cuestionario</a>
+    </div>
+
+
+    <div class="col-md-6 item text-left">
+        <h5 class="mt-4" style="max-height:20px;"><b>Capacitación: Tema 6 - Clasificacion y manejo de RPBI</b></h5>
+        <video width="100%" controls>
+            <source src="~/Videos/Tema 6 - Clasificacion y manejo de RPBI.mp4" type="video/mp4">
+            <source src="~/Videos/Tema 6 - Clasificacion y manejo de RPBI.ogg" type="video/ogg">
+            Your browser does not support HTML video.s
+        </video>
+        <a class="btn card-link" target="_blank" href="https://forms.gle/hdJwCZYsb9XzSa9R9">Ir al cuestionario</a>
+    </div>
+
+    <div class="col-md-6 item text-left">
+        <h5 class="mt-4" style="max-height:20px;"><b>Capacitación: PCI 2022 1 TRAIGE en urgencias</b></h5>
+        <video width="100%" controls>
+            <source src="~/Videos/PCI 2022 1 TRAIGE en urgencias.mp4" type="video/mp4">
+            <source src="~/Videos/PCI 2022 1 TRAIGE en urgencias.ogg" type="video/ogg">
+            Your browser does not support HTML video.s
+        </video>
+        <a class="btn card-link" target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdae_daZccKSjLgRlkIeIDYUhU6aRpCGmPIpQT9JFxnpJci4g/viewform">Ir al cuestionario</a>
+    </div>
+
+    <div class="col-md-6 item text-left">
+        <h5 class="mt-4" style="max-height:20px;"><b>Capacitación: PCI Tema 11.- Relacion - medico paciente y la practica de la medicina en la actualidad</b></h5>
+        <video width="100%" controls>
+            <source src="~/Videos/PCI Tema 11.- Relacion - medico paciente y la practica de la medicina en la actualidad.mp4" type="video/mp4">
+            <source src="~/Videos/PCI Tema 11.- Relacion - medico paciente y la practica de la medicina en la actualidad.ogg" type="video/ogg">
+            Your browser does not support HTML video.s
+        </video>
+        <a class="btn card-link" target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSd-4IV1SSIlRYbhgC9vpXEIEd3XauqoyUTAVTZDn0ifvrWYQw/viewform">Ir al cuestionario</a>
+    </div>
+
+
+</div>

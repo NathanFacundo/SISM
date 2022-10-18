@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SMDEVModel23.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SMDEV.dbo.Directorio' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="Directorio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="text" />
+          <Property Name="Usuario" Type="text" />
+          <Property Name="Departamento" Type="text" />
+          <Property Name="Ubicacion" Type="text" />
+          <Property Name="Puesto" Type="text" />
+          <Property Name="NombreEquipo" Type="text" />
+          <Property Name="IP" Type="text" />
+          <Property Name="Tipo" Type="text" />
+          <Property Name="MarcaCPU" Type="text" />
+          <Property Name="ModeloCPU" Type="text" />
+          <Property Name="SerieCPU" Type="text" />
+          <Property Name="MarcaMonitor" Type="text" />
+          <Property Name="ModeloMonitor" Type="text" />
+          <Property Name="SerieMonitor" Type="text" />
+          <Property Name="Office" Type="text" />
+          <Property Name="ModeloImpresora" Type="text" />
+          <Property Name="SerieImpresora" Type="text" />
+          <Property Name="ConexionImpresora" Type="text" />
+          <Property Name="ModeloTelefono" Type="text" />
+          <Property Name="SerieTelefono" Type="text" />
+          <Property Name="NumDirecto" Type="text" />
+          <Property Name="Extension" Type="int" />
+          <Property Name="Display" Type="text" />
+        </EntityType>
+        <EntityContainer Name="SMDEVModel23StoreContainer">
+          <EntitySet Name="Directorio" EntityType="Self.Directorio" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Directorio].[Id] AS [Id], 
+    [Directorio].[Nombre] AS [Nombre], 
+    [Directorio].[Usuario] AS [Usuario], 
+    [Directorio].[Departamento] AS [Departamento], 
+    [Directorio].[Ubicacion] AS [Ubicacion], 
+    [Directorio].[Puesto] AS [Puesto], 
+    [Directorio].[NombreEquipo] AS [NombreEquipo], 
+    [Directorio].[IP] AS [IP], 
+    [Directorio].[Tipo] AS [Tipo], 
+    [Directorio].[MarcaCPU] AS [MarcaCPU], 
+    [Directorio].[ModeloCPU] AS [ModeloCPU], 
+    [Directorio].[SerieCPU] AS [SerieCPU], 
+    [Directorio].[MarcaMonitor] AS [MarcaMonitor], 
+    [Directorio].[ModeloMonitor] AS [ModeloMonitor], 
+    [Directorio].[SerieMonitor] AS [SerieMonitor], 
+    [Directorio].[Office] AS [Office], 
+    [Directorio].[ModeloImpresora] AS [ModeloImpresora], 
+    [Directorio].[SerieImpresora] AS [SerieImpresora], 
+    [Directorio].[ConexionImpresora] AS [ConexionImpresora], 
+    [Directorio].[ModeloTelefono] AS [ModeloTelefono], 
+    [Directorio].[SerieTelefono] AS [SerieTelefono], 
+    [Directorio].[NumDirecto] AS [NumDirecto], 
+    [Directorio].[Extension] AS [Extension], 
+    [Directorio].[Display] AS [Display]
+    FROM [dbo].[Directorio] AS [Directorio]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SMDEVModel23" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Directorio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Usuario" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Departamento" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Ubicacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Puesto" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="NombreEquipo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IP" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Tipo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="MarcaCPU" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ModeloCPU" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SerieCPU" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="MarcaMonitor" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ModeloMonitor" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SerieMonitor" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Office" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ModeloImpresora" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SerieImpresora" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ConexionImpresora" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ModeloTelefono" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SerieTelefono" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="NumDirecto" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Extension" Type="Int32" Nullable="true" />
+          <Property Name="Display" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="SMDEVDirectorio" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Directorio" EntityType="Self.Directorio" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SMDEVModel23StoreContainer" CdmEntityContainer="SMDEVDirectorio">
+          <EntitySetMapping Name="Directorio">
+            <EntityTypeMapping TypeName="SMDEVModel23.Directorio">
+              <MappingFragment StoreEntitySet="Directorio">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="Ubicacion" ColumnName="Ubicacion" />
+                <ScalarProperty Name="Puesto" ColumnName="Puesto" />
+                <ScalarProperty Name="NombreEquipo" ColumnName="NombreEquipo" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="MarcaCPU" ColumnName="MarcaCPU" />
+                <ScalarProperty Name="ModeloCPU" ColumnName="ModeloCPU" />
+                <ScalarProperty Name="SerieCPU" ColumnName="SerieCPU" />
+                <ScalarProperty Name="MarcaMonitor" ColumnName="MarcaMonitor" />
+                <ScalarProperty Name="ModeloMonitor" ColumnName="ModeloMonitor" />
+                <ScalarProperty Name="SerieMonitor" ColumnName="SerieMonitor" />
+                <ScalarProperty Name="Office" ColumnName="Office" />
+                <ScalarProperty Name="ModeloImpresora" ColumnName="ModeloImpresora" />
+                <ScalarProperty Name="SerieImpresora" ColumnName="SerieImpresora" />
+                <ScalarProperty Name="ConexionImpresora" ColumnName="ConexionImpresora" />
+                <ScalarProperty Name="ModeloTelefono" ColumnName="ModeloTelefono" />
+                <ScalarProperty Name="SerieTelefono" ColumnName="SerieTelefono" />
+                <ScalarProperty Name="NumDirecto" ColumnName="NumDirecto" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="Display" ColumnName="Display" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

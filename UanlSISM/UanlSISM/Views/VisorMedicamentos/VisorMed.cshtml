@@ -1,0 +1,399 @@
+﻿@{
+    DateTime dt = DateTime.Now;
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("VisorMed", "VisorMedicamentos")"><b>Administrador Medicamentos</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<h2>Administrador de Medicamentos</h2>
+<br />
+<div>
+    <br />
+    <button type="button" class="btn btn-primary" id="btnExcel">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
+            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z" />
+        </svg> Generar Excel
+    </button>
+    <button type="button" class="btn btn-danger" id="btnConsumoAlm" data-bs-toggle="modal" data-bs-target="#ConsumoAlmacen">Consumo Almacen</button>
+    <button type="button" class="btn btn-warning" id="btnConsumoFar" data-bs-toggle="modal" data-bs-target="#ConsumoFarmacia">Consumo Gonzalitos</button>
+    <button type="button" class="btn btn-success">Consumo Mederos</button>
+    <button type="button" class="btn btn-secondary">Consumo SEMAC</button>
+</div>
+<br />
+<div>
+    @if (HttpContext.Current.User.IsInRole("FarmaciaCatalogos"))
+    {
+        <table class="table table-hover" id="tblMedicamentos">
+            <thead>
+                <tr>
+                    <th>Clave</th>
+                    <th>Descripción_21</th>
+                    <th>Cuadro</th>
+                    <th>Grupo</th>
+                    <th>Nivel</th>
+                    <th>Inv. Almacen</th>
+                    <th>Inv. Gonzalitos</th>
+                    <th>Inv. Mederos</th>
+                    <th>Inv. SEMAC</th>
+                    <th>Licitación</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <script type="text/javascript">
+            function Buscar1() {
+                $("#tblMedicamentos").dataTable().fnDestroy();
+                 $('#tblMedicamentos').dataTable({
+                    "ajax": {
+                        "url": '@Url.Action("VistaReporte", "VisorMedicamentos")',
+                        "dataSrc": "",
+                    },
+                    responsive: true,
+                    searching: true,
+                    info: false,
+                    lengthChange: false,
+                    language: {
+                        "zeroRecords": "Lista Vacía",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Último",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        },
+                        "select": {
+                            "rows": " %d filas seleccionadas"
+                        },
+                    },
+                    columns: [
+                        { "data": "Clave" },
+                        { "data": "Descripcion" },
+                        { "data": "Cuadro" },
+                        { "data": "Grupo" },
+                        { "data": "Nivel" },
+                        { "data": "Inv_Almacen" },
+                        { "data": "Inv_Gonzalitos" },
+                        { "data": "Inv_Mederos" },
+                        { "data": "Inv_CU" },
+                        { "data": "Licitacion" },
+                        {
+                            "render": function () {
+                                return '<button type="button" id="ButtonEditar" class="btn btn-success" onclick="ListaMed()" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-search"></i></span><span class="hidden-xs"> Detalle</span></button>';
+                            }
+                        },
+                    ],
+                    pageLength: 1000
+                });
+            }
+        </script>
+    }
+</div>
+<div>
+    @if (HttpContext.Current.User.IsInRole("CatalogoCalidad") || HttpContext.Current.User.IsInRole("CatalogoAlmacen"))
+    {
+        <table class="table table-hover" id="tblMedicamentos">
+            <thead>
+                <tr>
+                    <th>Clave</th>
+                    <th>Descripción_21</th>
+                    <th>Cuadro</th>
+                    <th>Grupo</th>
+                    <th>Nivel</th>
+                    <th>Inv. Almacen</th>
+                    <th>Inv. Gonzalitos</th>
+                    <th>Inv. Mederos</th>
+                    <th>Inv. SEMAC</th>
+                    <th>Licitación</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <script type="text/javascript">
+            function Buscar() {
+                $("#tblMedicamentos").dataTable().fnDestroy();
+                $('#tblMedicamentos').dataTable({
+                    "ajax": {
+                        "url": '@Url.Action("VistaReporte", "VisorMedicamentos")',
+                        "dataSrc": "",
+                    },
+                    responsive: true,
+                    searching: true,
+                    info: false,
+                    lengthChange: false,
+                    language: {
+                        "zeroRecords": "Lista Vacía",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Último",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        },
+                        "select": {
+                            "rows": " %d filas seleccionadas"
+                        },
+                    },
+                    columns: [
+                        { "data": "Clave" },
+                        { "data": "Descripcion" },
+                        { "data": "Cuadro" },
+                        { "data": "Grupo" },
+                        { "data": "Nivel" },
+                        { "data": "Inv_Almacen" },
+                        { "data": "Inv_Gonzalitos" },
+                        { "data": "Inv_Mederos" },
+                        { "data": "Inv_CU" },
+                        { "data": "Licitacion" },
+                        {
+                            "render": function () {
+                                return '<button type="button" id="BtnDetalle" class="btn btn-warning" onclick="btn1()" data-bs-toggle="modal" data-bs-target="#editarGeneral"><i class="bi bi-pencil-square"></i></span><span class="hidden-xs"> Editar</span></button>';
+                            }
+                        }
+                    ],
+                    pageLength: 1000
+                });
+            }
+        </script>
+    }
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Lista de medicamentos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped" id="tblDetalleMed">
+                    <thead>
+                        <tr>
+                            <th>Descripción_21</th>
+                            <th>Codigo de barras</th>
+                            <th>Nombre Comercial</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function ListaMed() {
+        var Id;
+        $("#tblMedicamentos tbody").on("click", "tr", function () {
+            var dat = new Array();
+            var td = $(this).find("td");
+            for (var i = 0; i < td.length; i++) {
+                dat.push(td.eq(i).text());
+            }
+            Id = dat[0];
+            $("#tblDetalleMed").dataTable().fnDestroy();
+            $('#tblDetalleMed').dataTable({
+                "ajax": {
+                    "url": '@Url.Action("ListaMed", "VisorMedicamentos")?Codigo=' + Id,
+                    "dataSrc": "",
+                },
+                responsive: true,
+                searching: true,
+                info: false,
+                lengthChange: false,
+                language: {
+                    "zeroRecords": "Lista Vacía",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Último",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    },
+                    "select": {
+                        "rows": " %d filas seleccionadas"
+                    },
+                },
+                columns: [
+                    { "data": "descripcion_21" },
+                    { "data": "Codigo_Barra" },
+                    { "data": "Nombre_Comercial" }
+                ],
+                pageLength: 20
+            });
+            $('#tblDetalleMed').DataTable().ajax.reload();
+        });
+    }
+</script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript">
+    var Datos;
+    function btn1() {
+        $("#tblMedicamentos tbody").on("click", "tr", function () {
+            var dat = new Array();
+            var td = $(this).find("td");
+            for (var i = 0; i < td.length; i++) {
+                dat.push(td.eq(i).text());
+            }
+            Datos = dat[0];
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetDatos", "VisorMedicamentos")?Clave=' + Datos,
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+                    $("#cmbGrupo").val(data[0].clave);
+                    $("#cmbNivel").val(data[0].Nivel_21);
+                },
+                error: function (xhr, status, error) {
+                    alert("Error");
+                }
+            });
+            if (dat[2] == 'Cuadro Basico') {
+                $("#cmbEstatus").val('1');
+            }
+            if (dat[2] == 'Temporal(Fuera de cuadro)') {
+                $("#cmbEstatus").val('2');
+            }
+        });
+    };
+    function GuardarDetalle() {
+        Swal.fire({
+            title: '¿Desea guardar los cambios?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Guardar',
+            denyButtonText: `No guardar`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var url = '@Url.Action("GuadarDetalleMed", "VisorMedicamentos")';
+                var IdGrupo = $("#cmbGrupo").val();
+                var SobranteInv2022 = $("#cmbEstatus").val();
+                var Nivel_21 = $("#cmbNivel").val();
+                var array = { Clave: Datos, SobranteInv2022: SobranteInv2022, IdGrupo: IdGrupo, IdNivel: Nivel_21 };
+                $.post(url, array).done();
+                Swal.fire('Cambio realizado!', '', 'success');
+                $('#tblMedicamentos').DataTable().ajax.reload();
+                $("#cmbEstatus").val('0');
+                $("#cmbGrupo").val('0');
+                $("#cmbNivel").val('0');
+
+            } else if (result.isDenied) {
+                Swal.fire('Cambio no realizado', '', 'info')
+            }
+        });
+    }
+</script>
+<!-- Modal -->
+<div class="modal fade" id="editarGeneral" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar Medicamento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <label for="exampleFormControlInput1" class="form-label">Estatus</label>
+                    <select class="form-select" aria-label="Default select example" id="cmbEstatus">
+                        <option value="0" selected>--Seleccionar--</option>
+                        <option value="1">Cuadro Basico</option>
+                        <option value="2">Temporal(Fuera de cuadro)</option>
+                    </select>
+                    <label for="exampleFormControlInput1" class="form-label">Grupo</label>
+                    <select class="form-select" aria-label="Default select example" id="cmbGrupo">
+                    </select>
+                    <label for="exampleFormControlInput1" class="form-label">Nivel</label>
+                    <select class="form-select" aria-label="Default select example" id="cmbNivel">
+                        <option value="0" selected>--Seleccionar--</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <label for="exampleFormControlInput1" class="form-label">Licitacion</label>
+                    <select class="form-select" aria-label="Default select example" id="cmbNivel">
+                        <option value="0" selected>--Seleccionar--</option>
+                        <option value="1">Licitado</option>
+                        <option value="2">No licitado</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="btnGuardarDet" onclick="GuardarDetalle()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="ConsumoFarmacia" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 1450px!important;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Lista de medicamentos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               @Html.Partial("_ConsumoFar")
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="ConsumoAlmacen" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 1450px!important;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Lista de medicamentos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @*@Html.Partial("_ConsumoAlm")*@
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            url: '@Url.Action("GetGrupo_21", "VisorMedicamentos")',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $("#cmbGrupo").append('<option value=0>--Seleccionar--</option>');
+                $.each(data, function (i, item) {
+                    $('<option value="' + item.clave + '">' + item.descripcion + '</option>').appendTo('#cmbGrupo');
+                });
+            },
+            error: function () {
+                console.log('err');
+            }
+        });
+    });
+</script>

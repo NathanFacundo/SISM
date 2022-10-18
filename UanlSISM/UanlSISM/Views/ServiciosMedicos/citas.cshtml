@@ -1,0 +1,899 @@
+﻿@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Consultas - citas";
+    string ESTILO = " FONT-WEIGHT: bold";
+}
+
+
+<head>
+    <meta http-equiv="refresh" content="60">
+</head>
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+<link rel='stylesheet' href='https://fullcalendar.io/releases/core/4.0.1/main.min.css'>
+<link rel='stylesheet' href='https://fullcalendar.io/releases/timeline/4.0.1/main.min.css'>
+<link rel='stylesheet' href='https://fullcalendar.io/releases/resource-timeline/4.0.1/main.min.css'>
+
+
+
+
+
+<script type="text/javascript">
+    $(function () {
+        initClock();
+    }
+    );
+    function updateClock() {
+        var now = new Date();
+        var dname = now.getDay(),
+            mo = now.getMonth(),
+            dnum = now.getDate(),
+            yr = now.getFullYear(),
+            hou = now.getHours(),
+            min = now.getMinutes(),
+            sec = now.getSeconds(),
+            pe = "AM";
+
+        if (hou >= 12) {
+            pe = "PM";
+        }
+        if (hou == 0) {
+            hou = 12;
+        }
+        if (hou > 12) {
+            hou = hou - 12;
+        }
+
+        Number.prototype.pad = function (digits) {
+            for (var n = this.toString(); n.length < digits; n = 0 + n);
+            return n;
+        }
+
+        var months = ["January", "February", "March", "April", "May", "June", "July", "Augest", "September", "October", "November", "December"];
+        var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"];
+        var values = [week[dname], months[mo], dnum.pad(2), yr, hou.pad(2), min.pad(2), sec.pad(2), pe];
+        for (var i = 0; i < ids.length; i++)
+            document.getElementById(ids[i]).firstChild.nodeValue = values[i];
+    }
+
+    function initClock() {
+        updateClock();
+        window.setInterval("updateClock()", 1);
+    }
+</script>
+
+
+
+<style>
+    .btn-warning {
+        border-radius: 3vw;
+    }
+
+    .datetime {
+        color: #fff;
+        background: #004a8f;
+        font-family: "Segoe UI", sans-serif;
+        width: 340px;
+        padding: 15px 10px;
+        border: 3px solid #0a70d0;
+        border-radius: 5px;
+        -webkit-box-reflect: below 1px linear-gradient(transparent, rgba(255, 255, 255, 0.1));
+        transition: 0.5s;
+        transition-property: background, box-shadow;
+        margin-top: 5px;
+    }
+
+    .date {
+        font-size: 20px;
+        font-weight: 600;
+        text-align: center;
+        letter-spacing: 3px;
+    }
+
+    .time span:not(:last-child) {
+        position: relative;
+        margin: 0 6px;
+        font-weight: 600;
+        text-align: center;
+        letter-spacing: 3px;
+    }
+
+    .time {
+        font-size: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .time span:last-child {
+            background: #2E94E3;
+            font-size: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 10px;
+            padding: 0 5px;
+            border-radius: 3px;
+        }
+
+    .datetime:hover {
+        background: #1472ca;
+        box-shadow: 0 0 30px #2E94E3;
+    }
+
+    a.tooltips {
+        position: relative;
+        display: inline;
+    }
+
+        a.tooltips span {
+            position: absolute;
+            width: 180px;
+            color: #FFFFFF;
+            background: #000000;
+            padding: 5px;
+            line-height: 30px;
+            text-align: center;
+            visibility: hidden;
+            border-radius: 6px;
+        }
+
+            a.tooltips span:after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                right: 100%;
+                margin-top: -8px;
+                width: 0;
+                height: 0;
+                border-right: 8px solid #000000;
+                border-top: 8px solid transparent;
+                border-bottom: 8px solid transparent;
+            }
+
+    a:hover.tooltips span {
+        visibility: visible;
+        opacity: 0.8;
+        left: 100%;
+        top: 50%;
+        margin-top: -15px;
+        margin-left: 15px;
+        z-index: 999;
+    }
+
+
+
+    .detalles {
+        background-color: rgba(0,74,143,1) !important;
+        color: white !important;
+    }
+
+        .detalles:hover {
+            background-color: rgba(0,74,143,1) !important;
+            color: white !important;
+        }
+
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #0982fb;
+    }
+
+    .foto-paciente {
+        width: 4vw;
+        border-radius: 6vw;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: rgb(255 255 255 / 80%);
+    }
+
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #0982fb;
+        background-color: rgba(0,74,143,1);
+        color: #fefefe;
+        text-transform: uppercase;
+    }
+
+    .uanl-logo {
+        width: 10vw;
+        margin-top: 0vw;
+        margin-bottom: 1vw;
+    }
+
+    @@font-face {
+        font-family: 'Effra-Regular';
+        src: url('~/fonts/Effra-Regular.eot');
+        src: url('~/fonts/Effra-Regular.eot?#iefix') format('embedded-opentype'), url('~/fonts/Effra-Regular.ttf') format('truetype');
+    }
+
+    @@font-face {
+        font-family: 'Effra-Bold';
+        src: url('~/fonts/Effra-Bold.eot');
+        src: url('~/fonts/Effra-Bold.eot?#iefix') format('embedded-opentype'), url('~/fonts/Effra-Bold.ttf') format('truetype');
+    }
+
+
+    .somos-uni {
+        width: 5vw;
+        margin-top: 1vw;
+        margin-bottom: 3vw;
+    }
+
+    .linea-arriba {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: -1;
+        width: 2.5vw;
+        margin-top: 5.8vw;
+    }
+
+    .linea-abajo {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 2.5vw;
+        margin-bottom: 0.7vw;
+    }
+</style>
+
+
+<img class="linea-abajo" src="~/Imagenes/lineas-uanl-izquierda.png">
+<img class="linea-arriba" src="~/Imagenes/lineas-uanl-derecha.png">
+
+<div id="loadingDiv" style="display:none;">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-9" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Consultas", "Manage")"><b>Consultas</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("ServiciosMedicos", "Manage")"><b>Servicios Médicos</b></a></td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-3" id="menu">
+        <a href="@Url.Action("Calendario", "ServiciosMedicos")">
+
+            <!--digital clock start-->
+            <div class="datetime">
+                <div class="date">
+                    <span id="dayname">Day</span>,
+                    <span id="month">Month</span>
+                    <span id="daynum">00</span>,
+                    <span id="year">Year</span>
+                </div>
+                <div class="time">
+                    <span id="hour">00</span>:
+                    <span id="minutes">00</span>:
+                    <span id="seconds">00</span>
+                    <span id="period">AM</span>
+                </div>
+            </div>
+            <!--digital clock end-->
+        </a>
+    </div>
+
+    <!--div class="col-md-10 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
+        <img src="~/Imagenes/pasta.png" class="uanl-logo" />
+        <h3 style="font-family: 'Roboto', sans-serif;">Médico: <span class="putUserName"></span></h3>
+    </div-->
+
+    <div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
+        <img src="~/Imagenes/uanl-logo.png" class="uanl-logo">
+    </div>
+
+    <div class="col-12">
+        <div id='calendar'></div>
+    </div>
+
+
+</div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script type="text/javascript">
+    $.ajax({
+        type: 'GET',
+        url: '@Url.Action("GetMedicoNombres", "Manage")',
+        dataType: 'json',
+        cache: false,
+        success: function (data) {
+            $('.putUserName').html(data.numero+ " - " +   data.nombres + " " + data.apellido_paterno + " " + data.apellido_materno);
+        },
+        error: function (xhr, status, error) {
+            Swal.fire('Error', 'No cuenta con número de Médico', 'No cuenta con número de Médico');
+        }
+    });
+
+    function llamar(ids) {
+        $.ajax({
+        type: 'GET',
+            url: '@Url.Action("llamar", "ServiciosMedicos")' + '?reg='+ids,
+        dataType: 'json',
+        cache: false,
+        success: function (data) {
+            window.location.href = '@Url.Action("citas", "ServiciosMedicos")';
+        },
+        error: function (xhr, status, error) {
+            Swal.fire('Error', 'Error', '');
+        }
+    });
+    }
+
+</script>
+
+<script>
+    function imgError(image) {
+        image.onerror = "";
+        image.src = "http://148.234.143.205/SISM/Imagenes/uanl.png";
+        return true;
+    }
+</script>
+
+<div class="row" style="margin-bottom:5px">
+    <div class="col-12">
+
+
+
+    </div>
+
+</div>
+
+
+
+<table id="grilla1" class="table table-bordered table-striped dataTable no-footer dtr-inline collapsed " style="        width: 100%;
+        font-size: 18px;">
+    <thead style=" ">
+        <tr>
+
+            <th style=" text-align: center;">TIPO</th>
+            <th style=" text-align: center;">TURNO</th>
+            <th style=" text-align: center;">TIPO CITA</th>
+            <th style=" text-align: center;">LLEGO</th>
+            <th style=" text-align: center;">LLAMAR</th>
+            <th style=" text-align: center;">NOMBRE</th>
+            <th style=" text-align: center;">Estatus</th>
+        </tr>
+    </thead>
+    @{
+        System.Data.SqlClient.SqlConnection cnn = null;
+        try
+        {
+            int CONSECUTIVO = 0;
+            var user = User.Identity.Name;
+
+
+            var context = new UanlSISM.Models.SMDEVEntities16();
+            var connection = context.Database.Connection;
+            string conStr2 = connection.ConnectionString;
+
+            cnn = new System.Data.SqlClient.SqlConnection(conStr2);
+
+            cnn.Open();
+
+
+            string cmdTxt = " SELECT  ex.fecha  llamo , regxdia , NoContesto, Id ,SeCortoComunicacion, Otros, ( dh.NOMBRES) + '.' + SUBSTRING(CITAS.turno, 1, 2) + ':' + SUBSTRING(CITAS.turno, 3, 2)    + ' .'  + (CASE WHEN len(DH.tel_consulta)  > 0 THEN DH.tel_consulta ELSE AF.tel_celular END) AS Telefonos ,  hora_recepcion,hr_llamado, IIF(TC.Clave='10', CONCAT( 'Realizar' ,TC.Descripcion),  TC.Descripcion)  TIPOC  ,concat( SUBSTRING(CITAS.turno,1,2),':' , SUBSTRING(CITAS.turno,3,2)) turno,HORA_RECEPCION,citas.diagnostico, citas.numemp, concat( dh.NOMBRES,' ',dh.APATERNO,' ',dh.AMATERNO) Nombre ,dh.SEXO,convert(char,dh.FNAC, 103) FNAC,convert(char, FECALTA, 103) FECALTA FROM CITAS   ";
+            cmdTxt += " left join tiposconsulta tc on tc.Clave= CITAS.Tipo   left join DHABIENTES dh on dh.NUMEMP=CITAS.numemp and FVIGENCIA != '1900-01-01T00:00:00' AND NUMAFIL IS NOT NULL AND IsNull(BAJA,'0') <> '01' AND IsNull(BAJA,'0') <> '03'   left join  expediente ex   ON ex.numemp =citas.numemp  and ex.medico =CITAS.MEDICO  and CITAS.FECHA=  CAST(CAST(EX.fecha AS DATE) AS SMALLDATETIME)    left join AFILIADOS af   ON DH.NUMAFIL = AF.num_contrato  ";
+            cmdTxt += "  WHERE CITAS.MEDICO =  '" + user + "' AND CITAS.FECHA = CAST(CAST(GETDATE()  AS DATE) AS SMALLDATETIME)  AND (LEN(CITAS.NumEmp) > 0) AND (CITAS.NumEmp <> '99999100') order by regxdia  ";
+
+            System.Data.SqlClient.SqlCommand cmm = new System.Data.SqlClient.SqlCommand(cmdTxt, cnn);
+
+            System.Data.SqlClient.SqlDataReader lector = cmm.ExecuteReader();
+
+            while (lector.Read())
+            {
+                CONSECUTIVO = CONSECUTIVO++;
+
+                <tr>
+
+                    <th style=" text-align: center;">@lector["TIPOC"]  </th>
+                    <th style=" text-align: center;">@lector["turno"] </th>
+                    <div class="col-2" style="text-align:center">
+
+                        @{
+                            string Telefonos = lector["Telefonos"] != DBNull.Value ? lector["Telefonos"].ToString() : "";
+
+                            Telefonos = WebUtility.HtmlEncode(Telefonos);
+                            string tiposc = lector["TIPOC"] != DBNull.Value ? lector["TIPOC"].ToString() : "";
+
+                            string icono = "http://148.234.143.203/SISM-Medico/Imagenes/llego.png";
+
+                            if (lector["llamo"] != DBNull.Value)
+                            {
+                                if (tiposc == "Agregado" || tiposc == "Urg.")
+                                {
+                                    icono = "http://148.234.143.203/SISM-Medico/Imagenes/iconos/Urgencias.png";
+                                }
+                                else
+                                {
+                                    icono = "http://148.234.143.203/SISM-Medico/Imagenes/termino_consulta_verde.png";
+                                }
+                            }
+                            else
+                            {
+                                if (tiposc == "consulta_retardo")
+                                {
+                                    icono = "http://148.234.143.203/SISM-Medico/Imagenes/termino_consulta1.png";
+                                }
+                            }
+
+
+
+
+                            if (tiposc == "Cancelada")
+                            {
+                                icono = "http://148.234.143.203/SISM-Medico/Imagenes/iconos/Cancelado.png";
+                            }
+
+
+                            //if(tiposc == "consulta_retardo")
+                            //{
+                            //    icono = "http://148.234.143.203/SISM-Medico/Imagenes/iconos/llego.png";
+                            //}
+
+
+                            if (tiposc == "Presencial" || tiposc == "Agregado" || tiposc == "Cancelada" || tiposc == "consulta_retardo")
+                            {
+                                <th style=" text-align: center;">
+
+                                    <img onclick="ir(this,@lector["numemp"])" src="@icono" style=" cursor:pointer; width: 75px;margin-top: 15px; cursor: pointer" />
+
+                                </th>
+
+                            }
+
+                            else if (tiposc == "Telefonica" || tiposc == "Subs." || tiposc == "1a. Vez" || tiposc == "Urg." || tiposc == "Historia Clinica" || tiposc == "Agregado" || tiposc == "Clinica de Diabetes" || tiposc == "MCHAT-R" || tiposc == "Cancelado" || tiposc == "consulta_retardo" || tiposc == "Neurodesarrollo")
+                            {
+                                var llamo = "";
+
+                                if (lector["NoContesto"].ToString() == "True")
+                                {
+                                    llamo = "http://148.234.143.203/SISM-Medico/Imagenes/no_contesto.png";
+                                }
+                                else
+                                {
+                                    llamo = "http://148.234.143.203/SISM-Medico/Imagenes/NoContesto.png?ds=2";
+                                }
+
+                                if (lector["llamo"] != DBNull.Value)
+                                {
+                                    if (tiposc == "Urg.")
+                                    {
+                                        llamo = "http://148.234.143.203/SISM-Medico/Imagenes/iconos/Urgencias.png";
+                                    }
+                                    else
+                                    {
+                                        llamo = "http://148.234.143.203/SISM-Medico/Imagenes/verde.png";
+                                    }
+                                }
+                                else
+                                {
+                                    if (lector["NoContesto"].ToString() == "True")
+                                    {
+                                        llamo = "http://148.234.143.203/SISM-Medico/Imagenes/no_contesto.png";
+                                    }
+                                    else
+                                    {
+                                        if (tiposc == "Urg.")
+                                        {
+                                            llamo = "http://148.234.143.203/SISM-Medico/Imagenes/iconos/Urgencias.png";
+                                        }
+                                        else
+                                        {
+                                            llamo = "http://148.234.143.203/SISM-Medico/Imagenes/phone-call.png";
+                                        }
+
+
+                                    }
+
+                                }
+
+                                if (tiposc == "consulta_retardo")
+                                {
+                                    llamo = "http://148.234.143.203/SISM-Medico/Imagenes/termino_consulta1.png";
+                                }
+
+
+
+                                <th style="text-align: center;">
+                                    <a class="tooltips">
+                                        <img id="IconTelephone_@CONSECUTIVO" src="@llamo" onclick="ir(this,@lector["numemp"])" style="width: 75px; margin-top: 15px; cursor: pointer" />
+                                        <span>  @Telefonos </span>
+                                </th>
+
+                            }
+
+
+                            else if (lector["hr_llamado"] == DBNull.Value && lector["hora_recepcion"] == DBNull.Value)
+                            {
+                                <th style=" text-align: center;"> </th>
+
+                            }
+                            else if (lector["hr_llamado"].ToString().Trim() == "" && lector["hora_recepcion"].ToString().Trim() == "")
+                            {
+                                <th style=" text-align: center;"> </th>
+
+                            }
+
+
+                            string STR_COLOR = "";
+                            string ESTILO1 = "";
+
+                            string str_color = "";
+                            string str_hrrecep = "";
+                            if (String.IsNullOrEmpty(lector["HORA_RECEPCION"].ToString().Trim()) == false)
+                            {
+                                try
+                                {
+
+
+                                    str_hrrecep = lector["HORA_RECEPCION"].ToString();
+                                    if (DateTime.Parse(lector["HORA_RECEPCION"].ToString(), System.Globalization.CultureInfo.CurrentCulture) < DateTime.Parse(lector["turno"].ToString(), System.Globalization.CultureInfo.CurrentCulture))
+                                    {
+                                        str_color = "Chartreuse";
+                                        ESTILO1 = ";color: green;";
+                                    }
+                                    else
+                                    {
+                                        if (lector["diagnostico"] != DBNull.Value)
+                                        {
+                                            STR_COLOR = "DeepSkyBlue";
+                                            ESTILO1 = ";color: blue;";
+                                        }
+                                    }
+                                }
+                                catch (Exception)
+                                {
+
+                                }
+
+                            }
+                            else
+                            {
+                                str_hrrecep = "";
+
+                            }
+
+                            //if (lector["HORA_RECEPCION"] != DBNull.Value)
+                            //{
+
+
+                            //}
+
+                            //if (lector["HORA_RECEPCION"] != DBNull.Value)
+                            //{
+
+
+                            //}
+
+
+
+
+                            string foto = "";
+
+
+
+
+
+                        }
+
+
+                        <td align="center" STYLE="@ESTILO @ESTILO1">
+
+
+                            <span @Html.Raw(" id='icono" + lector["numemp"] + lector["turno"] + "' ")>
+                            </span>
+                            <span class="material-icons-outlined"></span>
+                            @str_hrrecep
+                        </td>
+
+                        <th style="text-align: center;">
+
+
+                            @if (lector["hr_llamado"] == DBNull.Value && lector["hora_recepcion"] != DBNull.Value)
+                            {
+                                if (lector["TIPOC"].ToString() == "Cancelada")
+                                {
+
+                                }
+                                else
+                                {
+
+                                    <button id="btnAgregar1a" type="button" class="btn btn-warning" onclick="llamar(@lector["regxdia"])">
+                                        Llamar
+                                    </button>
+                                }
+
+                            }
+                            else
+                            {
+                                @lector["hr_llamado"]
+
+                            }
+
+                        </th>
+
+
+
+                        @{
+                            string urlhu = "#";
+                            if (DBNull.Value == lector["numemp"])
+                            {
+                                foto = "http://148.234.143.203/SISM-Medico/Imagenes/iconfinder_Doctor_3436593.png";
+                                <th style=" text-align: center;"><img src="http://148.234.143.203/SISM-Medico/Imagenes/iconfinder_Doctor_3436593.png" width="74px" /> </th>
+                            }
+                            else
+                            {
+                                foto = lector["numemp"].ToString() + ".jpg";
+                                //urlhu = "../ServiciosMedicos/HojaFrontal/" + lector["numemp"].ToString();
+                                urlhu = "/SISM-Medico/ServiciosMedicos/HojaFrontal/" + lector["numemp"].ToString();
+                                <th style=" text-align: center;">
+
+                                    <div class="row m-0">
+                                        <div class="col-12 p-2 m-auto text-center">
+                                            <center><a href="@urlhu">  <img src="http://148.234.143.204/smuanl_web/fotos_dhab/@foto" class="foto-paciente" /> </a> </center>
+                                            <h6 class="m-0 pt-3"><b id="nombresModal" style="font-size:13px">@lector["Nombre"]</b></h6>
+                                            <h6 class="m-0 pt-3">
+                                                <b id="nombresModal" style="font-size:13px">
+                                                    <h6 class="m-0"><b id="sexoModal"></b><b id="edadModal" style="font-size:12px">SEXO: @lector["SEXO"]</b></h6>
+                                                    <h6 class="m-0"><b id="fecaltaModal" style="font-size:12px">FECHA NAC: @lector["FNAC"]</b></h6>
+                                                    <h6 class="m-0"><b id="fecbajaModal" style="font-size:12px">FECHA ALTA: @lector["FECALTA"]</b></h6>
+                                        </div>
+                                        <div class="col-12 p-2 text-center" id="botonModal">
+                                        </div>
+                                    </div>
+                                </th>
+
+                            }
+
+                        }
+
+                        @{
+
+                            if (tiposc == "Telefonica" || tiposc == "no_contesto" || tiposc == "Subs." || tiposc == "1a. Vez" || tiposc == "MCHAT-R." || tiposc == "Neurodesarrollo")
+                            {
+                                <th style=" text-align: center;">
+                                    <div class="row m-0">
+                                        <div class="col-12 p-2 text-center" id="botonModal">
+                                            <label style="font-size:13px">
+                                                Motivo
+                                            </label>
+                                            @*<button id="StatusCall" class="btn btn-danger" type="button"
+                                                        @Html.Raw(" onclick='Cambiar_Estado(" + CONSECUTIVO + ")' ")>
+
+                                                    No se Atendio la llamada
+                                                </button>*@
+                                            <div>
+                                                @*@using (Html.BeginForm("ModificarCamposCheckBoxes", "ServiciosMedicos"))*@
+                                                <div>
+
+                                                    <label>No Contestó la LLamada</label>
+                                                    @{var Idcita = @lector["Id"]; }
+
+                                                    @if (lector["NoContesto"].ToString() == "True")
+                                                    {
+                                                        @Html.CheckBox("NoContesto", lector["NoContesto"].ToString() == "True" ? true : false, new { @disabled = "disabled", @readonly = "readonly" })
+
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.CheckBox("NoContesto", lector["NoContesto"].ToString() == "True" ? true : false, new { @onclick = "activarNoContesto(this,'" + Idcita + "',this.parent)", @class = "checkboxnocontesto" })
+
+                                                    }
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+                                </th>
+                            }
+                            else
+                            {
+                                if (String.IsNullOrEmpty(lector["HORA_RECEPCION"].ToString().Trim()) == false)
+                                {
+                                    if (DateTime.Parse(lector["HORA_RECEPCION"].ToString(), System.Globalization.CultureInfo.CurrentCulture) > DateTime.Parse(lector["turno"].ToString(), System.Globalization.CultureInfo.CurrentCulture) && tiposc != "Agregado")
+                                    {
+                                        <th style=" text-align: center;">
+                                            <div class="row m-0">
+                                                <div class="col-12 p-2 m-auto text-center">
+                                                    <input type="checkbox" checked="" disabled / hidden">
+                                                </div>
+                                                <div class="col-12 p-2 text-center" id="botonModal">
+                                                    <p style="font-size:13px">Consulta Cancelada por Retardo</p>
+                                                </div>
+                                            </div>
+                                        </th>
+
+                                    }
+                                    else
+                                    {
+                                        <th style=" text-align: center;">
+
+                                            <div class="row m-0">
+                                                <div class="col-12 p-2 m-auto text-center">
+                                                    <input type="checkbox" disabled / hidden>
+                                                </div>
+                                                <div class="col-12 p-2 text-center" id="botonModal">
+                                                </div>
+                                            </div>
+                                        </th>
+                                    }
+                                }
+                                else
+                                {
+                                    if (tiposc == "Presencial")
+                                    {
+                                        <th style=" text-align: center;">
+
+                                            <div class="row m-0">
+                                                <div class="col-12 p-2 m-auto text-center">
+                                                    <input type="checkbox" disabled / hidden>
+                                                </div>
+                                                <div class="col-12 p-2 text-center" id="botonModal">
+                                                </div>
+                                            </div>
+                                        </th>
+                                    }
+                                    else
+                                    {
+                                        <th style=" text-align: center;">
+                                            <!--div class="row m-0">
+                                                <div class="col-12 p-2 m-auto text-center">
+                                                    <input type="checkbox" checked="" disabled / hidden">
+                                                </div>
+                                                <div class="col-12 p-2 text-center" id="botonModal">
+                                                    <p style="font-size:14px">No se Presento.</p>
+
+                                                </div>
+                                            </div-->
+                                        </th>
+                                    }
+                                }
+                            }
+                        }
+
+                </tr>
+            }
+            lector.Close();
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+        finally
+        {
+            cnn.Close();
+
+
+        }
+    }
+
+</table>
+
+<div class="  text-center ">
+    <img src="~/Imagenes/somos-uni.png" class="somos-uni" />
+</div>
+
+
+<script>
+    function activarNoContesto(v, id, estructura) {
+        var valor = v.value;
+        datos = { "NoContesto": valor, "IdCita": id };
+        var temp = v.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+
+          $.ajax({
+                url: "@Url.Action("CambiarEstadoANoContestar", "Citas")",
+                type: 'POST',
+                dataType: 'json',
+                data: datos,
+              success: function (result) {
+
+                  // cuando se aplique los cambios en la bd, hay que desactivar el check
+                  $(v).attr('disabled', 'disabled');
+                  $(v).attr('readonly', 'readonly');
+
+                  // cambiar la imagen
+                  var imagen = temp.querySelectorAll('th')[2].querySelectorAll('img')[0];
+                  $(imagen).attr("src", "../../Imagenes/no_contesto.png");
+                },
+                fail: (function () {
+                    dialog.show(objJSON['mensaje']);
+                    $('#msjfail').html(result.mensaje);
+
+                })
+           });
+    }
+
+</script>
+
+<script>
+    /*function ir(obj,num) {
+
+        if ($(obj).attr('src') == "http://148.234.143.203/SISM-Medico/Imagenes/llego.png") {
+            if (num ==null) {
+                return;
+            }
+            window.location.href = "http://148.234.143.203/SISM-Medico/ServiciosMedicos/Consultahistorial_incapacidades/" + num;
+        }
+    }*/
+
+    function Cambiar_Estado(id)
+
+    {
+        var item = "#IconTelephone_" + id.toString();
+        $(item).attr("src", "../../Imagenes/no_contesto.png");
+    }
+
+
+
+
+
+    function guardarEstado(id_numemp,turno)oks
+        {
+
+        var estado = $("#selestatus_" + id_numemp+ turno).val();
+
+
+        var datos = {
+            'id_numemp': id_numemp, 'turno': turno,
+                 'estado': estado
+        };
+
+            $.ajax({
+                url: "@Url.Action("Cambiar_Estado", "Citas")",
+                type: 'POST',
+                dataType: 'json',
+                data: datos,
+                success: function (result) {
+                    if (result.resultado == 1) {
+                    /*location.reload();*/
+                        var estilo;
+                        switch (result.estado) {
+                            case 1:
+                                estilo = "<i class='fa fa-phone text-primary'></i>";
+                                break;
+                        }
+                        $("#iconoestado_" + id_numemp + turno).html(estilo);
+                    } else {
+                        $('#msjfail').html(result.mensaje);
+                        $('#msjfail').show();
+                    }
+                },
+                fail: (function () {
+                    //dialog.show(objJSON['mensaje']);
+                    $('#msjfail').html(result.mensaje);
+                })
+            });
+            return false;
+        }
+
+</script>
+
+@if (TempData["message_warning"] != null)
+{
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        Swal.fire({
+            icon: 'warning',
+            title: '@TempData["message_warning"]',
+        });
+    </script>
+}

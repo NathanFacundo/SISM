@@ -1,0 +1,799 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="incidentesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="dtproperties">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="property" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="objectid" Type="int" />
+          <Property Name="property" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="value" Type="varchar" MaxLength="255" />
+          <Property Name="uvalue" Type="nvarchar" MaxLength="255" />
+          <Property Name="lvalue" Type="image" />
+          <Property Name="version" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'incidentes.dbo.INV_GRAL' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="INV_GRAL">
+          <Key>
+            <PropertyRef Name="CODIGO" />
+          </Key>
+          <Property Name="CODIGO" Type="char" MaxLength="4" Nullable="false" />
+          <Property Name="NOMBRE" Type="char" MaxLength="40" />
+          <Property Name="CPU_MODELO" Type="char" MaxLength="2" />
+          <Property Name="CPU_MARCA" Type="char" MaxLength="2" />
+          <Property Name="CPU_SERIE" Type="char" MaxLength="20" />
+          <Property Name="MONITOR_MODELO" Type="char" MaxLength="20" />
+          <Property Name="MONITOR_MARCA" Type="char" MaxLength="2" />
+          <Property Name="MONITOR_SERIE" Type="char" MaxLength="20" />
+          <Property Name="TECLADO_MODELO" Type="char" MaxLength="20" />
+          <Property Name="TECLADO_MARCA" Type="char" MaxLength="2" />
+          <Property Name="TECLADO_SERIE" Type="char" MaxLength="20" />
+          <Property Name="MOUSE_MODELO" Type="char" MaxLength="20" />
+          <Property Name="MOUSE_MARCA" Type="char" MaxLength="2" />
+          <Property Name="MOUSE_SERIE" Type="char" MaxLength="20" />
+          <Property Name="DIRECCION_IP" Type="char" MaxLength="15" />
+          <Property Name="ESTATUS" Type="char" MaxLength="2" />
+          <Property Name="OBS" Type="text" />
+          <Property Name="RACK" Type="char" MaxLength="5" />
+          <Property Name="INV_COD" Type="char" MaxLength="3" />
+        </EntityType>
+        <EntityType Name="INVENTARIO">
+          <Key>
+            <PropertyRef Name="CODIGO" />
+          </Key>
+          <Property Name="CODIGO" Type="char" MaxLength="4" Nullable="false" />
+          <Property Name="NOMBRE" Type="char" MaxLength="40" />
+          <Property Name="CPU_MODELO" Type="char" MaxLength="2" />
+          <Property Name="CPU_MARCA" Type="char" MaxLength="2" />
+          <Property Name="CPU_SERIE" Type="char" MaxLength="20" />
+          <Property Name="MONITOR_MODELO" Type="char" MaxLength="20" />
+          <Property Name="MONITOR_MARCA" Type="char" MaxLength="2" />
+          <Property Name="MONITOR_SERIE" Type="char" MaxLength="20" />
+          <Property Name="TECLADO_MODELO" Type="char" MaxLength="20" />
+          <Property Name="TECLADO_MARCA" Type="char" MaxLength="2" />
+          <Property Name="TECLADO_SERIE" Type="char" MaxLength="20" />
+          <Property Name="MOUSE_MODELO" Type="char" MaxLength="20" />
+          <Property Name="MOUSE_MARCA" Type="char" MaxLength="2" />
+          <Property Name="MOUSE_SERIE" Type="char" MaxLength="20" />
+          <Property Name="DIRECCION_IP" Type="char" MaxLength="15" />
+          <Property Name="ESTATUS" Type="char" MaxLength="2" />
+          <Property Name="OBS" Type="text" />
+          <Property Name="RACK" Type="char" MaxLength="5" />
+          <Property Name="INV_COD" Type="char" MaxLength="3" />
+          <Property Name="num_cons" Type="char" MaxLength="10" />
+          <Property Name="recepcion_mt" Type="char" MaxLength="2" />
+        </EntityType>
+        <EntityType Name="sis_areas">
+          <Key>
+            <PropertyRef Name="clave" />
+          </Key>
+          <Property Name="clave" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="descripcion" Type="char" MaxLength="40" Nullable="false" />
+          <Property Name="COORDINADOR" Type="char" MaxLength="50" />
+          <Property Name="EMAIL" Type="char" MaxLength="100" />
+          <Property Name="estatus" Type="nchar" MaxLength="1" />
+          <Property Name="subdireccion" Type="nchar" MaxLength="10" />
+          <Property Name="coordmedico" Type="nchar" MaxLength="100" />
+          <Property Name="emailcoordmed" Type="nchar" MaxLength="100" />
+          <Property Name="tipo_area" Type="nchar" MaxLength="3" />
+          <Property Name="id_area" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sis_estado">
+          <Key>
+            <PropertyRef Name="clave" />
+          </Key>
+          <Property Name="clave" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="descripcion" Type="char" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="sis_marcas">
+          <Key>
+            <PropertyRef Name="clave" />
+          </Key>
+          <Property Name="clave" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="descripcion" Type="char" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="sis_modcpu">
+          <Key>
+            <PropertyRef Name="clave" />
+          </Key>
+          <Property Name="clave" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="descripcion" Type="char" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="SOL_SERVICIO">
+          <Key>
+            <PropertyRef Name="folio" />
+          </Key>
+          <Property Name="TIPO_SOL" Type="char" MaxLength="1" />
+          <Property Name="EMP_SOL" Type="char" MaxLength="20" />
+          <Property Name="FECHA_SOL" Type="smalldatetime" />
+          <Property Name="AREA_SOL" Type="char" MaxLength="2" />
+          <Property Name="EQUIPO_SOL" Type="char" MaxLength="4" />
+          <Property Name="DESC_SOL" Type="ntext" />
+          <Property Name="CALIF_SOL" Type="char" MaxLength="1" />
+          <Property Name="EMP_SIS" Type="char" MaxLength="2" />
+          <Property Name="DX_SIS" Type="text" />
+          <Property Name="SOL_SIS" Type="ntext" />
+          <Property Name="FEC_SIS" Type="smalldatetime" />
+          <Property Name="emp_atiende" Type="char" MaxLength="20" />
+          <Property Name="emp_soluciona" Type="char" MaxLength="20" />
+          <Property Name="folio" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="prg_sol" Type="char" MaxLength="1" />
+          <Property Name="req_sol" Type="char" MaxLength="1" />
+          <Property Name="emp_asignado" Type="char" MaxLength="20" />
+          <Property Name="seguimiento" Type="ntext" />
+          <Property Name="seguimiento_cliente" Type="ntext" />
+          <Property Name="proyecto_largoplazo" Type="nchar" MaxLength="1" />
+          <Property Name="fecha_incidente" Type="smalldatetime" />
+          <Property Name="fecha_seguimiento" Type="smalldatetime" />
+          <Property Name="fuente_recepcion" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="tipo_incidente" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="expediente" Type="nchar" MaxLength="8" />
+          <Property Name="parentesco" Type="nchar" MaxLength="2" />
+          <Property Name="naturaleza_incidente" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="tipo_contrato" Type="nchar" MaxLength="2" />
+          <Property Name="persona_reporta" Type="char" MaxLength="100" />
+          <Property Name="dep_incidente" Type="char" MaxLength="4" />
+          <Property Name="prov_incidente" Type="char" MaxLength="3" />
+          <Property Name="area_incidente" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="emp_incidente" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="fecha_cierre" Type="smalldatetime" />
+          <Property Name="tipo_solucion" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="seguimiento_jefe" Type="ntext" />
+          <Property Name="fecha_seg_jefe" Type="smalldatetime" />
+          <Property Name="jefe_asignado" Type="int" />
+          <Property Name="area_reasignada" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="coord_notifica" Type="nchar" MaxLength="1" />
+          <Property Name="fecha_coord_notifica" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_INVENTARIO_sis_estado">
+          <End Role="sis_estado" Type="Self.sis_estado" Multiplicity="0..1" />
+          <End Role="INVENTARIO" Type="Self.INVENTARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sis_estado">
+              <PropertyRef Name="clave" />
+            </Principal>
+            <Dependent Role="INVENTARIO">
+              <PropertyRef Name="ESTATUS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INVENTARIO_sis_marcas">
+          <End Role="sis_marcas" Type="Self.sis_marcas" Multiplicity="0..1" />
+          <End Role="INVENTARIO" Type="Self.INVENTARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sis_marcas">
+              <PropertyRef Name="clave" />
+            </Principal>
+            <Dependent Role="INVENTARIO">
+              <PropertyRef Name="CPU_MARCA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INVENTARIO_sis_marcas1">
+          <End Role="sis_marcas" Type="Self.sis_marcas" Multiplicity="0..1" />
+          <End Role="INVENTARIO" Type="Self.INVENTARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sis_marcas">
+              <PropertyRef Name="clave" />
+            </Principal>
+            <Dependent Role="INVENTARIO">
+              <PropertyRef Name="MONITOR_MARCA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INVENTARIO_sis_marcas2">
+          <End Role="sis_marcas" Type="Self.sis_marcas" Multiplicity="0..1" />
+          <End Role="INVENTARIO" Type="Self.INVENTARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sis_marcas">
+              <PropertyRef Name="clave" />
+            </Principal>
+            <Dependent Role="INVENTARIO">
+              <PropertyRef Name="TECLADO_MARCA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INVENTARIO_sis_marcas3">
+          <End Role="sis_marcas" Type="Self.sis_marcas" Multiplicity="0..1" />
+          <End Role="INVENTARIO" Type="Self.INVENTARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sis_marcas">
+              <PropertyRef Name="clave" />
+            </Principal>
+            <Dependent Role="INVENTARIO">
+              <PropertyRef Name="MOUSE_MARCA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INVENTARIO_sis_modcpu">
+          <End Role="sis_modcpu" Type="Self.sis_modcpu" Multiplicity="0..1" />
+          <End Role="INVENTARIO" Type="Self.INVENTARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sis_modcpu">
+              <PropertyRef Name="clave" />
+            </Principal>
+            <Dependent Role="INVENTARIO">
+              <PropertyRef Name="CPU_MODELO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SOL_SERVICIO_INVENTARIO">
+          <End Role="INVENTARIO" Type="Self.INVENTARIO" Multiplicity="0..1" />
+          <End Role="SOL_SERVICIO" Type="Self.SOL_SERVICIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="INVENTARIO">
+              <PropertyRef Name="CODIGO" />
+            </Principal>
+            <Dependent Role="SOL_SERVICIO">
+              <PropertyRef Name="EQUIPO_SOL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SOL_SERVICIO_sis_areas">
+          <End Role="sis_areas" Type="Self.sis_areas" Multiplicity="0..1" />
+          <End Role="SOL_SERVICIO" Type="Self.SOL_SERVICIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sis_areas">
+              <PropertyRef Name="clave" />
+            </Principal>
+            <Dependent Role="SOL_SERVICIO">
+              <PropertyRef Name="AREA_SOL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="incidentesModelStoreContainer">
+          <EntitySet Name="dtproperties" EntityType="Self.dtproperties" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="INVENTARIO" EntityType="Self.INVENTARIO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sis_areas" EntityType="Self.sis_areas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sis_estado" EntityType="Self.sis_estado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sis_marcas" EntityType="Self.sis_marcas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sis_modcpu" EntityType="Self.sis_modcpu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SOL_SERVICIO" EntityType="Self.SOL_SERVICIO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="INV_GRAL" EntityType="Self.INV_GRAL" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [INV_GRAL].[CODIGO] AS [CODIGO], 
+    [INV_GRAL].[NOMBRE] AS [NOMBRE], 
+    [INV_GRAL].[CPU_MODELO] AS [CPU_MODELO], 
+    [INV_GRAL].[CPU_MARCA] AS [CPU_MARCA], 
+    [INV_GRAL].[CPU_SERIE] AS [CPU_SERIE], 
+    [INV_GRAL].[MONITOR_MODELO] AS [MONITOR_MODELO], 
+    [INV_GRAL].[MONITOR_MARCA] AS [MONITOR_MARCA], 
+    [INV_GRAL].[MONITOR_SERIE] AS [MONITOR_SERIE], 
+    [INV_GRAL].[TECLADO_MODELO] AS [TECLADO_MODELO], 
+    [INV_GRAL].[TECLADO_MARCA] AS [TECLADO_MARCA], 
+    [INV_GRAL].[TECLADO_SERIE] AS [TECLADO_SERIE], 
+    [INV_GRAL].[MOUSE_MODELO] AS [MOUSE_MODELO], 
+    [INV_GRAL].[MOUSE_MARCA] AS [MOUSE_MARCA], 
+    [INV_GRAL].[MOUSE_SERIE] AS [MOUSE_SERIE], 
+    [INV_GRAL].[DIRECCION_IP] AS [DIRECCION_IP], 
+    [INV_GRAL].[ESTATUS] AS [ESTATUS], 
+    [INV_GRAL].[OBS] AS [OBS], 
+    [INV_GRAL].[RACK] AS [RACK], 
+    [INV_GRAL].[INV_COD] AS [INV_COD]
+    FROM [dbo].[INV_GRAL] AS [INV_GRAL]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_INVENTARIO_sis_estado" Association="Self.FK_INVENTARIO_sis_estado">
+            <End Role="sis_estado" EntitySet="sis_estado" />
+            <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INVENTARIO_sis_marcas" Association="Self.FK_INVENTARIO_sis_marcas">
+            <End Role="sis_marcas" EntitySet="sis_marcas" />
+            <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INVENTARIO_sis_marcas1" Association="Self.FK_INVENTARIO_sis_marcas1">
+            <End Role="sis_marcas" EntitySet="sis_marcas" />
+            <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INVENTARIO_sis_marcas2" Association="Self.FK_INVENTARIO_sis_marcas2">
+            <End Role="sis_marcas" EntitySet="sis_marcas" />
+            <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INVENTARIO_sis_marcas3" Association="Self.FK_INVENTARIO_sis_marcas3">
+            <End Role="sis_marcas" EntitySet="sis_marcas" />
+            <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INVENTARIO_sis_modcpu" Association="Self.FK_INVENTARIO_sis_modcpu">
+            <End Role="sis_modcpu" EntitySet="sis_modcpu" />
+            <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SOL_SERVICIO_INVENTARIO" Association="Self.FK_SOL_SERVICIO_INVENTARIO">
+            <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+            <End Role="SOL_SERVICIO" EntitySet="SOL_SERVICIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SOL_SERVICIO_sis_areas" Association="Self.FK_SOL_SERVICIO_sis_areas">
+            <End Role="sis_areas" EntitySet="sis_areas" />
+            <End Role="SOL_SERVICIO" EntitySet="SOL_SERVICIO" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="incidentesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="dtproperties">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="property" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="objectid" Type="Int32" />
+          <Property Name="property" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="value" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="uvalue" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="lvalue" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="version" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="INVENTARIO">
+          <Key>
+            <PropertyRef Name="CODIGO" />
+          </Key>
+          <Property Name="CODIGO" Type="String" MaxLength="4" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="40" FixedLength="true" Unicode="false" />
+          <Property Name="CPU_MODELO" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="CPU_MARCA" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="CPU_SERIE" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="MONITOR_MODELO" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="MONITOR_MARCA" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="MONITOR_SERIE" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="TECLADO_MODELO" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="TECLADO_MARCA" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="TECLADO_SERIE" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="MOUSE_MODELO" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="MOUSE_MARCA" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="MOUSE_SERIE" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="DIRECCION_IP" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="ESTATUS" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="OBS" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="RACK" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="INV_COD" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="num_cons" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="recepcion_mt" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="sis_estado" Relationship="Self.FK_INVENTARIO_sis_estado" FromRole="INVENTARIO" ToRole="sis_estado" />
+          <NavigationProperty Name="sis_marcas" Relationship="Self.FK_INVENTARIO_sis_marcas" FromRole="INVENTARIO" ToRole="sis_marcas" />
+          <NavigationProperty Name="sis_marcas1" Relationship="Self.FK_INVENTARIO_sis_marcas1" FromRole="INVENTARIO" ToRole="sis_marcas" />
+          <NavigationProperty Name="sis_marcas2" Relationship="Self.FK_INVENTARIO_sis_marcas2" FromRole="INVENTARIO" ToRole="sis_marcas" />
+          <NavigationProperty Name="sis_marcas3" Relationship="Self.FK_INVENTARIO_sis_marcas3" FromRole="INVENTARIO" ToRole="sis_marcas" />
+          <NavigationProperty Name="sis_modcpu" Relationship="Self.FK_INVENTARIO_sis_modcpu" FromRole="INVENTARIO" ToRole="sis_modcpu" />
+          <NavigationProperty Name="SOL_SERVICIO" Relationship="Self.FK_SOL_SERVICIO_INVENTARIO" FromRole="INVENTARIO" ToRole="SOL_SERVICIO" />
+        </EntityType>
+        <EntityType Name="sis_areas">
+          <Key>
+            <PropertyRef Name="clave" />
+          </Key>
+          <Property Name="clave" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="40" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="COORDINADOR" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+          <Property Name="EMAIL" Type="String" MaxLength="100" FixedLength="true" Unicode="false" />
+          <Property Name="estatus" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="subdireccion" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="SOL_SERVICIO" Relationship="Self.FK_SOL_SERVICIO_sis_areas" FromRole="sis_areas" ToRole="SOL_SERVICIO" />
+          <Property Name="coordmedico" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="emailcoordmed" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="tipo_area" Type="String" MaxLength="3" FixedLength="true" Unicode="true" />
+          <Property Name="id_area" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="sis_estado">
+          <Key>
+            <PropertyRef Name="clave" />
+          </Key>
+          <Property Name="clave" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="40" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="INVENTARIO" Relationship="Self.FK_INVENTARIO_sis_estado" FromRole="sis_estado" ToRole="INVENTARIO" />
+        </EntityType>
+        <EntityType Name="sis_marcas">
+          <Key>
+            <PropertyRef Name="clave" />
+          </Key>
+          <Property Name="clave" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="40" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="INVENTARIO" Relationship="Self.FK_INVENTARIO_sis_marcas" FromRole="sis_marcas" ToRole="INVENTARIO" />
+          <NavigationProperty Name="INVENTARIO1" Relationship="Self.FK_INVENTARIO_sis_marcas1" FromRole="sis_marcas" ToRole="INVENTARIO" />
+          <NavigationProperty Name="INVENTARIO2" Relationship="Self.FK_INVENTARIO_sis_marcas2" FromRole="sis_marcas" ToRole="INVENTARIO" />
+          <NavigationProperty Name="INVENTARIO3" Relationship="Self.FK_INVENTARIO_sis_marcas3" FromRole="sis_marcas" ToRole="INVENTARIO" />
+        </EntityType>
+        <EntityType Name="sis_modcpu">
+          <Key>
+            <PropertyRef Name="clave" />
+          </Key>
+          <Property Name="clave" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="40" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="INVENTARIO" Relationship="Self.FK_INVENTARIO_sis_modcpu" FromRole="sis_modcpu" ToRole="INVENTARIO" />
+        </EntityType>
+        <EntityType Name="SOL_SERVICIO">
+          <Key>
+            <PropertyRef Name="folio" />
+          </Key>
+          <Property Name="TIPO_SOL" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="EMP_SOL" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="FECHA_SOL" Type="DateTime" Precision="0" />
+          <Property Name="AREA_SOL" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="EQUIPO_SOL" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="DESC_SOL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CALIF_SOL" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="EMP_SIS" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="DX_SIS" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SOL_SIS" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FEC_SIS" Type="DateTime" Precision="0" />
+          <Property Name="emp_atiende" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="emp_soluciona" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="folio" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="prg_sol" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="req_sol" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="emp_asignado" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="seguimiento" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="seguimiento_cliente" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="proyecto_largoplazo" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="fecha_incidente" Type="DateTime" Precision="0" />
+          <Property Name="fecha_seguimiento" Type="DateTime" Precision="0" />
+          <Property Name="fuente_recepcion" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="tipo_incidente" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="expediente" Type="String" MaxLength="8" FixedLength="true" Unicode="true" />
+          <Property Name="parentesco" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="naturaleza_incidente" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="tipo_contrato" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="persona_reporta" Type="String" MaxLength="100" FixedLength="true" Unicode="false" />
+          <Property Name="dep_incidente" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="prov_incidente" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="area_incidente" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="emp_incidente" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="INVENTARIO" Relationship="Self.FK_SOL_SERVICIO_INVENTARIO" FromRole="SOL_SERVICIO" ToRole="INVENTARIO" />
+          <NavigationProperty Name="sis_areas" Relationship="Self.FK_SOL_SERVICIO_sis_areas" FromRole="SOL_SERVICIO" ToRole="sis_areas" />
+          <Property Name="fecha_cierre" Type="DateTime" Precision="0" />
+          <Property Name="tipo_solucion" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="seguimiento_jefe" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_seg_jefe" Type="DateTime" Precision="0" />
+          <Property Name="jefe_asignado" Type="Int32" />
+          <Property Name="area_reasignada" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="coord_notifica" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="fecha_coord_notifica" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="INV_GRAL">
+          <Key>
+            <PropertyRef Name="CODIGO" />
+          </Key>
+          <Property Name="CODIGO" Type="String" MaxLength="4" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="40" FixedLength="true" Unicode="false" />
+          <Property Name="CPU_MODELO" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="CPU_MARCA" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="CPU_SERIE" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="MONITOR_MODELO" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="MONITOR_MARCA" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="MONITOR_SERIE" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="TECLADO_MODELO" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="TECLADO_MARCA" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="TECLADO_SERIE" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="MOUSE_MODELO" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="MOUSE_MARCA" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="MOUSE_SERIE" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="DIRECCION_IP" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="ESTATUS" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="OBS" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="RACK" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="INV_COD" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_INVENTARIO_sis_estado">
+          <End Role="sis_estado" Type="Self.sis_estado" Multiplicity="0..1" />
+          <End Role="INVENTARIO" Type="Self.INVENTARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sis_estado">
+              <PropertyRef Name="clave" />
+            </Principal>
+            <Dependent Role="INVENTARIO">
+              <PropertyRef Name="ESTATUS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INVENTARIO_sis_marcas">
+          <End Role="sis_marcas" Type="Self.sis_marcas" Multiplicity="0..1" />
+          <End Role="INVENTARIO" Type="Self.INVENTARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sis_marcas">
+              <PropertyRef Name="clave" />
+            </Principal>
+            <Dependent Role="INVENTARIO">
+              <PropertyRef Name="CPU_MARCA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INVENTARIO_sis_marcas1">
+          <End Role="sis_marcas" Type="Self.sis_marcas" Multiplicity="0..1" />
+          <End Role="INVENTARIO" Type="Self.INVENTARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sis_marcas">
+              <PropertyRef Name="clave" />
+            </Principal>
+            <Dependent Role="INVENTARIO">
+              <PropertyRef Name="MONITOR_MARCA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INVENTARIO_sis_marcas2">
+          <End Role="sis_marcas" Type="Self.sis_marcas" Multiplicity="0..1" />
+          <End Role="INVENTARIO" Type="Self.INVENTARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sis_marcas">
+              <PropertyRef Name="clave" />
+            </Principal>
+            <Dependent Role="INVENTARIO">
+              <PropertyRef Name="TECLADO_MARCA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INVENTARIO_sis_marcas3">
+          <End Role="sis_marcas" Type="Self.sis_marcas" Multiplicity="0..1" />
+          <End Role="INVENTARIO" Type="Self.INVENTARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sis_marcas">
+              <PropertyRef Name="clave" />
+            </Principal>
+            <Dependent Role="INVENTARIO">
+              <PropertyRef Name="MOUSE_MARCA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INVENTARIO_sis_modcpu">
+          <End Role="sis_modcpu" Type="Self.sis_modcpu" Multiplicity="0..1" />
+          <End Role="INVENTARIO" Type="Self.INVENTARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sis_modcpu">
+              <PropertyRef Name="clave" />
+            </Principal>
+            <Dependent Role="INVENTARIO">
+              <PropertyRef Name="CPU_MODELO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SOL_SERVICIO_INVENTARIO">
+          <End Role="INVENTARIO" Type="Self.INVENTARIO" Multiplicity="0..1" />
+          <End Role="SOL_SERVICIO" Type="Self.SOL_SERVICIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="INVENTARIO">
+              <PropertyRef Name="CODIGO" />
+            </Principal>
+            <Dependent Role="SOL_SERVICIO">
+              <PropertyRef Name="EQUIPO_SOL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SOL_SERVICIO_sis_areas">
+          <End Role="sis_areas" Type="Self.sis_areas" Multiplicity="0..1" />
+          <End Role="SOL_SERVICIO" Type="Self.SOL_SERVICIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sis_areas">
+              <PropertyRef Name="clave" />
+            </Principal>
+            <Dependent Role="SOL_SERVICIO">
+              <PropertyRef Name="AREA_SOL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="incidentesEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="dtproperties" EntityType="Self.dtproperties" />
+          <EntitySet Name="INVENTARIO" EntityType="Self.INVENTARIO" />
+          <EntitySet Name="sis_areas" EntityType="Self.sis_areas" />
+          <EntitySet Name="sis_estado" EntityType="Self.sis_estado" />
+          <EntitySet Name="sis_marcas" EntityType="Self.sis_marcas" />
+          <EntitySet Name="sis_modcpu" EntityType="Self.sis_modcpu" />
+          <EntitySet Name="SOL_SERVICIO" EntityType="Self.SOL_SERVICIO" />
+          <EntitySet Name="INV_GRAL" EntityType="Self.INV_GRAL" />
+          <AssociationSet Name="FK_INVENTARIO_sis_estado" Association="Self.FK_INVENTARIO_sis_estado">
+            <End Role="sis_estado" EntitySet="sis_estado" />
+            <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INVENTARIO_sis_marcas" Association="Self.FK_INVENTARIO_sis_marcas">
+            <End Role="sis_marcas" EntitySet="sis_marcas" />
+            <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INVENTARIO_sis_marcas1" Association="Self.FK_INVENTARIO_sis_marcas1">
+            <End Role="sis_marcas" EntitySet="sis_marcas" />
+            <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INVENTARIO_sis_marcas2" Association="Self.FK_INVENTARIO_sis_marcas2">
+            <End Role="sis_marcas" EntitySet="sis_marcas" />
+            <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INVENTARIO_sis_marcas3" Association="Self.FK_INVENTARIO_sis_marcas3">
+            <End Role="sis_marcas" EntitySet="sis_marcas" />
+            <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INVENTARIO_sis_modcpu" Association="Self.FK_INVENTARIO_sis_modcpu">
+            <End Role="sis_modcpu" EntitySet="sis_modcpu" />
+            <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SOL_SERVICIO_INVENTARIO" Association="Self.FK_SOL_SERVICIO_INVENTARIO">
+            <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+            <End Role="SOL_SERVICIO" EntitySet="SOL_SERVICIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SOL_SERVICIO_sis_areas" Association="Self.FK_SOL_SERVICIO_sis_areas">
+            <End Role="sis_areas" EntitySet="sis_areas" />
+            <End Role="SOL_SERVICIO" EntitySet="SOL_SERVICIO" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="incidentesModelStoreContainer" CdmEntityContainer="incidentesEntities">
+          <EntitySetMapping Name="dtproperties">
+            <EntityTypeMapping TypeName="incidentesModel.dtproperties">
+              <MappingFragment StoreEntitySet="dtproperties">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="objectid" ColumnName="objectid" />
+                <ScalarProperty Name="property" ColumnName="property" />
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="uvalue" ColumnName="uvalue" />
+                <ScalarProperty Name="lvalue" ColumnName="lvalue" />
+                <ScalarProperty Name="version" ColumnName="version" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="INVENTARIO">
+            <EntityTypeMapping TypeName="incidentesModel.INVENTARIO">
+              <MappingFragment StoreEntitySet="INVENTARIO">
+                <ScalarProperty Name="CODIGO" ColumnName="CODIGO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="CPU_MODELO" ColumnName="CPU_MODELO" />
+                <ScalarProperty Name="CPU_MARCA" ColumnName="CPU_MARCA" />
+                <ScalarProperty Name="CPU_SERIE" ColumnName="CPU_SERIE" />
+                <ScalarProperty Name="MONITOR_MODELO" ColumnName="MONITOR_MODELO" />
+                <ScalarProperty Name="MONITOR_MARCA" ColumnName="MONITOR_MARCA" />
+                <ScalarProperty Name="MONITOR_SERIE" ColumnName="MONITOR_SERIE" />
+                <ScalarProperty Name="TECLADO_MODELO" ColumnName="TECLADO_MODELO" />
+                <ScalarProperty Name="TECLADO_MARCA" ColumnName="TECLADO_MARCA" />
+                <ScalarProperty Name="TECLADO_SERIE" ColumnName="TECLADO_SERIE" />
+                <ScalarProperty Name="MOUSE_MODELO" ColumnName="MOUSE_MODELO" />
+                <ScalarProperty Name="MOUSE_MARCA" ColumnName="MOUSE_MARCA" />
+                <ScalarProperty Name="MOUSE_SERIE" ColumnName="MOUSE_SERIE" />
+                <ScalarProperty Name="DIRECCION_IP" ColumnName="DIRECCION_IP" />
+                <ScalarProperty Name="ESTATUS" ColumnName="ESTATUS" />
+                <ScalarProperty Name="OBS" ColumnName="OBS" />
+                <ScalarProperty Name="RACK" ColumnName="RACK" />
+                <ScalarProperty Name="INV_COD" ColumnName="INV_COD" />
+                <ScalarProperty Name="num_cons" ColumnName="num_cons" />
+                <ScalarProperty Name="recepcion_mt" ColumnName="recepcion_mt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sis_areas">
+            <EntityTypeMapping TypeName="incidentesModel.sis_areas">
+              <MappingFragment StoreEntitySet="sis_areas">
+                <ScalarProperty Name="id_area" ColumnName="id_area" />
+                <ScalarProperty Name="tipo_area" ColumnName="tipo_area" />
+                <ScalarProperty Name="emailcoordmed" ColumnName="emailcoordmed" />
+                <ScalarProperty Name="coordmedico" ColumnName="coordmedico" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="COORDINADOR" ColumnName="COORDINADOR" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="estatus" ColumnName="estatus" />
+                <ScalarProperty Name="subdireccion" ColumnName="subdireccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sis_estado">
+            <EntityTypeMapping TypeName="incidentesModel.sis_estado">
+              <MappingFragment StoreEntitySet="sis_estado">
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sis_marcas">
+            <EntityTypeMapping TypeName="incidentesModel.sis_marcas">
+              <MappingFragment StoreEntitySet="sis_marcas">
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sis_modcpu">
+            <EntityTypeMapping TypeName="incidentesModel.sis_modcpu">
+              <MappingFragment StoreEntitySet="sis_modcpu">
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SOL_SERVICIO">
+            <EntityTypeMapping TypeName="incidentesModel.SOL_SERVICIO">
+              <MappingFragment StoreEntitySet="SOL_SERVICIO">
+                <ScalarProperty Name="fecha_coord_notifica" ColumnName="fecha_coord_notifica" />
+                <ScalarProperty Name="coord_notifica" ColumnName="coord_notifica" />
+                <ScalarProperty Name="area_reasignada" ColumnName="area_reasignada" />
+                <ScalarProperty Name="jefe_asignado" ColumnName="jefe_asignado" />
+                <ScalarProperty Name="fecha_seg_jefe" ColumnName="fecha_seg_jefe" />
+                <ScalarProperty Name="seguimiento_jefe" ColumnName="seguimiento_jefe" />
+                <ScalarProperty Name="tipo_solucion" ColumnName="tipo_solucion" />
+                <ScalarProperty Name="fecha_cierre" ColumnName="fecha_cierre" />
+                <ScalarProperty Name="TIPO_SOL" ColumnName="TIPO_SOL" />
+                <ScalarProperty Name="EMP_SOL" ColumnName="EMP_SOL" />
+                <ScalarProperty Name="FECHA_SOL" ColumnName="FECHA_SOL" />
+                <ScalarProperty Name="AREA_SOL" ColumnName="AREA_SOL" />
+                <ScalarProperty Name="EQUIPO_SOL" ColumnName="EQUIPO_SOL" />
+                <ScalarProperty Name="DESC_SOL" ColumnName="DESC_SOL" />
+                <ScalarProperty Name="CALIF_SOL" ColumnName="CALIF_SOL" />
+                <ScalarProperty Name="EMP_SIS" ColumnName="EMP_SIS" />
+                <ScalarProperty Name="DX_SIS" ColumnName="DX_SIS" />
+                <ScalarProperty Name="SOL_SIS" ColumnName="SOL_SIS" />
+                <ScalarProperty Name="FEC_SIS" ColumnName="FEC_SIS" />
+                <ScalarProperty Name="emp_atiende" ColumnName="emp_atiende" />
+                <ScalarProperty Name="emp_soluciona" ColumnName="emp_soluciona" />
+                <ScalarProperty Name="folio" ColumnName="folio" />
+                <ScalarProperty Name="prg_sol" ColumnName="prg_sol" />
+                <ScalarProperty Name="req_sol" ColumnName="req_sol" />
+                <ScalarProperty Name="emp_asignado" ColumnName="emp_asignado" />
+                <ScalarProperty Name="seguimiento" ColumnName="seguimiento" />
+                <ScalarProperty Name="seguimiento_cliente" ColumnName="seguimiento_cliente" />
+                <ScalarProperty Name="proyecto_largoplazo" ColumnName="proyecto_largoplazo" />
+                <ScalarProperty Name="fecha_incidente" ColumnName="fecha_incidente" />
+                <ScalarProperty Name="fecha_seguimiento" ColumnName="fecha_seguimiento" />
+                <ScalarProperty Name="fuente_recepcion" ColumnName="fuente_recepcion" />
+                <ScalarProperty Name="tipo_incidente" ColumnName="tipo_incidente" />
+                <ScalarProperty Name="expediente" ColumnName="expediente" />
+                <ScalarProperty Name="parentesco" ColumnName="parentesco" />
+                <ScalarProperty Name="naturaleza_incidente" ColumnName="naturaleza_incidente" />
+                <ScalarProperty Name="tipo_contrato" ColumnName="tipo_contrato" />
+                <ScalarProperty Name="persona_reporta" ColumnName="persona_reporta" />
+                <ScalarProperty Name="dep_incidente" ColumnName="dep_incidente" />
+                <ScalarProperty Name="prov_incidente" ColumnName="prov_incidente" />
+                <ScalarProperty Name="area_incidente" ColumnName="area_incidente" />
+                <ScalarProperty Name="emp_incidente" ColumnName="emp_incidente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="INV_GRAL">
+            <EntityTypeMapping TypeName="incidentesModel.INV_GRAL">
+              <MappingFragment StoreEntitySet="INV_GRAL">
+                <ScalarProperty Name="CODIGO" ColumnName="CODIGO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="CPU_MODELO" ColumnName="CPU_MODELO" />
+                <ScalarProperty Name="CPU_MARCA" ColumnName="CPU_MARCA" />
+                <ScalarProperty Name="CPU_SERIE" ColumnName="CPU_SERIE" />
+                <ScalarProperty Name="MONITOR_MODELO" ColumnName="MONITOR_MODELO" />
+                <ScalarProperty Name="MONITOR_MARCA" ColumnName="MONITOR_MARCA" />
+                <ScalarProperty Name="MONITOR_SERIE" ColumnName="MONITOR_SERIE" />
+                <ScalarProperty Name="TECLADO_MODELO" ColumnName="TECLADO_MODELO" />
+                <ScalarProperty Name="TECLADO_MARCA" ColumnName="TECLADO_MARCA" />
+                <ScalarProperty Name="TECLADO_SERIE" ColumnName="TECLADO_SERIE" />
+                <ScalarProperty Name="MOUSE_MODELO" ColumnName="MOUSE_MODELO" />
+                <ScalarProperty Name="MOUSE_MARCA" ColumnName="MOUSE_MARCA" />
+                <ScalarProperty Name="MOUSE_SERIE" ColumnName="MOUSE_SERIE" />
+                <ScalarProperty Name="DIRECCION_IP" ColumnName="DIRECCION_IP" />
+                <ScalarProperty Name="ESTATUS" ColumnName="ESTATUS" />
+                <ScalarProperty Name="OBS" ColumnName="OBS" />
+                <ScalarProperty Name="RACK" ColumnName="RACK" />
+                <ScalarProperty Name="INV_COD" ColumnName="INV_COD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

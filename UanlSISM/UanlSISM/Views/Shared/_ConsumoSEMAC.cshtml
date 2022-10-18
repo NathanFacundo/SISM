@@ -1,0 +1,424 @@
+﻿@model List<UanlSISM.Models._ConsumoSEMAC>
+@{
+    ViewBag.Title = "_ConsumoSEMAC";
+    DateTime dt = DateTime.Now;
+}
+<style>
+
+    th {
+        color: black;
+        background-color: #FBC43D;
+        font-size: large;
+    }
+
+    #exampleModal table th {
+        color: black;
+        background-color: #004a8f;
+        font-size: large;
+    }
+
+    .dataTables_wrapper .dataTables_info {
+        width: 100% !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+        .dataTables_wrapper .dataTables_filter label {
+            width: 100% !important;
+            font-weight: bolder;
+            text-align: center;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            border: none;
+            border-bottom: 1px solid lightgray;
+            margin-bottom: 25px;
+            margin-top: 30px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            color: #2C3E50;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+    .btn-group {
+        text-align: left;
+        margin-bottom: -30px;
+    }
+
+    .dataTables_wrapper .dataTables_filter input:focus {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        border: none;
+        font-weight: bold;
+        border-bottom: 2px solid #FBC43D;
+        outline-width: 0
+    }
+
+    #msform {
+        margin-left: 0%;
+    }
+
+        #msform input,
+        #msform textarea {
+            -moz-box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+            border: none;
+            width: 50% !important;
+            text-align: center;
+            margin-bottom: 25px;
+            margin-top: 30px;
+            font-weight: bold;
+            border-bottom: 2px solid #FBC43D;
+            outline-width: 0
+        }
+
+
+    td.details-control {
+        background: url('../Imagenes/iconos/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        background: url('../Imagenes/iconos/details_close.png') no-repeat center center;
+    }
+
+    .btn {
+        color: #fff;
+        background-color: #306695;
+        border-color: #306695;
+    }
+</style>
+<div id="msform">
+    <div>
+    </div>
+    <table class="table table-striped" id="tblSEMAC" width="95%">
+        <thead>
+            <tr>
+                <th class="details-control"></th>
+                <th style="display:none;">IdSustancia</th>
+                <th>Clave</th>
+                <th>Descripcion_21</th>
+                <th>Inventario Actual</th>
+                <th>Consumo @dt.AddDays(-1).ToString("d")</th>
+                <th>Consumo @dt.AddDays(-2).ToString("d")</th>
+                <th>Consumo @dt.AddDays(-3).ToString("d")</th>
+                <th>Consumo @dt.AddDays(-4).ToString("d")</th>
+                <th>Consumo @dt.AddDays(-5).ToString("d")</th>
+                <th>Consumo @dt.AddDays(-6).ToString("d")</th>
+                <th>Consumo @dt.AddDays(-7).ToString("d")</th>
+                <th>Total</th>
+                <th>Consumo Ult. 30 Dias</th>
+                <th>Consumo Diario</th>
+                <th>Dias de Cobertura</th>
+                <th>Semaforo</th>
+                <th style="display:none;">ColorSemaFarmaciaoro</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                int Tot = 0;
+            <tr>
+                <td class="details-control"></td>
+                <td style="display:none;">@item.SustanciaId</td>
+                <td>@item.Clave</td>
+                <td>@item.Descripcion_21</td>
+                <td>@item.cactual</td>
+                @if (item.Dia_1 != null)
+                {
+                    <td>@item.Dia_1</td>
+
+                }
+                else
+                {
+                    <td>0</td>
+                }
+                @if (item.Dia_2 != null)
+                {
+                    <td>@item.Dia_2</td>
+
+                }
+                else
+                {
+                    <td>0</td>
+                }
+                @if (item.Dia_3 != null)
+                {
+                    <td>@item.Dia_3</td>
+
+                }
+                else
+                {
+                    <td>0</td>
+                }
+                @if (item.Dia_4 != null)
+                {
+                    <td>@item.Dia_4</td>
+                }
+                else
+                {
+                    <td>0</td>
+                }
+                @if (item.Dia_5 != null)
+                {
+                    <td>@item.Dia_5</td>
+                }
+                else
+                {
+                    <td>0</td>
+                }
+                @if (item.Dia_6 != null)
+                {
+                    <td>@item.Dia_6</td>
+                }
+                else
+                {
+                    <td>0</td>
+                }
+                @if (item.Dia_7 != null)
+                {
+                    <td>@item.Dia_7</td>
+                }
+                else
+                {
+                    <td>0</td>
+                }
+                <td>
+                    @Convert.ToInt32(Convert.ToInt32(item.Ult6Meses[0].Item2.Value + item.Ult6Meses[1].Item2.Value + item.Ult6Meses[2].Item2.Value + item.Ult6Meses[3].Item2.Value + item.Ult6Meses[4].Item2.Value + item.Ult6Meses[5].Item2.Value + item.Ult6Meses[6].Item2.Value)).ToString()
+                </td>
+                <td>@item.ConsumoMes</td>
+                <td>@Convert.ToDecimal(item.ConsumoMes / 30).ToString("0.00")</td>
+                <td>@Convert.ToDecimal(item.cactual / (item.ConsumoMes / 30)).ToString("0.00")</td>
+                <td>
+                    @if (item.cactual > 0)
+                    {
+                        decimal Total = 0;
+                        decimal Semaforo = 0;
+                        Total = item.ConsumoMes / 30;
+                        if (Total > 0)
+                        {
+                            Semaforo = item.cactual / Convert.ToDecimal(Total);
+
+                            if (Semaforo <= 5)
+                            {
+                                <img style="width:80px" src="~/Imagenes/iconos/semafororojo.png" />
+                            }
+                        }
+                    }
+                    @if (item.cactual > 0)
+                    {
+                        decimal Total = 0;
+                        decimal Semaforo = 0;
+                        Total = item.ConsumoMes / 30;
+                        if (Total > 0)
+                        {
+                            Semaforo = item.cactual / Convert.ToDecimal(Total);
+
+                            if (Semaforo > 5 && Semaforo <= 10)
+                            {
+                                <img style="width:80px" src="~/Imagenes/iconos/semaforoverde.png" />
+                            }
+                        }
+                    }
+                    @if (item.cactual > 0)
+                    {
+                        decimal Total = 0;
+                        decimal Semaforo = 0;
+                        Total = item.ConsumoMes / 30;
+                        if (Total > 0)
+                        {
+                            Semaforo = item.cactual / Convert.ToDecimal(Total);
+                            if (Semaforo > 10)
+                            {
+                                <img style="width:80px" src="~/Imagenes/iconos/semaforoazul.png" />
+                            }
+                        }
+                    }
+                    @if (item.cactual <= 0)
+                    {
+                        <img style="width:80px" src="~/Imagenes/iconos/semaforoblanco.png" />
+                    }
+                </td>
+                <td style="display:none;">
+                    @if (item.cactual <= 0)
+                    {
+                        <p>Blanco</p>
+                    }
+                    @if (item.cactual > 0)
+                    {
+                        decimal Total = 0;
+                        decimal Semaforo = 0;
+                        Total = item.ConsumoMes / 30;
+                        if (Total > 0)
+                        {
+                            Semaforo = item.cactual / Convert.ToDecimal(Total);
+
+                            if (Semaforo <= 5)
+                            {
+                                <p>Rojo</p>
+                            }
+                        }
+                    }
+                    @if (item.cactual > 0)
+                    {
+                        decimal Total = 0;
+                        decimal Semaforo = 0;
+                        Total = item.ConsumoMes / 30;
+                        if (Total > 0)
+                        {
+                            Semaforo = item.cactual / Convert.ToDecimal(Total);
+
+                            if (Semaforo > 5 && Semaforo <= 10)
+                            {
+                                <p>Verde</p>
+                            }
+                        }
+                    }
+                    @if (item.cactual > 0)
+                    {
+                        decimal Total = 0;
+                        decimal Semaforo = 0;
+                        Total = item.ConsumoMes / 30;
+                        if (Total > 0)
+                        {
+                            Semaforo = item.cactual / Convert.ToDecimal(Total);
+
+                            if (Semaforo > 10)
+                            {
+                                <p>Azul</p>
+                            }
+                        }
+                    }
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script src='https://code.jquery.com/jquery-3.5.1.js'></script>
+<script src='https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js'></script>
+
+<script type="text/javascript">
+    function format(d) {
+        // `d` is the original data object for the row
+        return '<table cellpadding="5" width="600px" cellspacing="0" border="0" style="padding-left:50px;">' +
+            '<caption style="caption-side:top">Historial últimos 7 Dias</caption>' +
+            '<tr style="color:white;background-color:#004a8f;font-size:large;">' +
+            '<td style="width:100px;">' + '@dt.AddDays(-1).ToString("d")' + '</td>' +
+            '<td style="width:100px;">' + '@dt.AddDays(-2).ToString("d")' + '</td>' +
+            '<td style="width:100px;">' + '@dt.AddDays(-3).ToString("d")' + '</td>' +
+            '<td style="width:100px;">' + '@dt.AddDays(-4).ToString("d")' + '</td>' +
+            '<td style="width:100px;">' + '@dt.AddDays(-5).ToString("d")' + '</td>' +
+            '<td style="width:100px;">' + '@dt.AddDays(-6).ToString("d")' + '</td>' +
+            '<td style="width:100px;">' + '@dt.AddDays(-7).ToString("d")' + '</td>' +
+            '<td style="width:100px;">Total</td>'+
+            '</tr>'+
+            '<tr>' +
+            '<td>' + d[5] + '</td>' +
+            '<td>' + d[6] + '</td>' +
+            '<td>' + d[7] + '</td>' +
+            '<td>' + d[8] + '</td>' +
+            '<td>' + d[9] + '</td>' +
+            '<td>' + d[10] + '</td>' +
+            '<td>' + d[11] + '</td>' +
+            '<td>' + d[12] + '</td>' +
+            '</tr>'+
+            '</table>';
+    }
+    $(document).ready(function () {
+        var table = $('#tblSEMAC').DataTable({
+            "language": {
+                "search": "Filtrar:",
+                "zeroRecords": "No se encontró ningun registro",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior",
+                    "print": "Imprimir",
+                },
+                "select": {
+                    "rows": " %d filas seleccionadas"
+                },
+                "loadingRecords": "Un momento, cargando...",
+                "processing": "Procesando  ...",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                lengthMenu: "Mostrar _MENU_ registros"
+            },
+            lengthChange: true,
+            paging: true,
+            paginate:true,
+            lengthMenu: [10, 25, 50, 100,1500],
+            pageLength: 50,
+            "columnDefs": [
+
+                {
+                    "targets": [5],
+                    "visible": false
+                },
+                {
+                    "targets": [6],
+                    "visible": false
+
+                },
+                {
+                    "targets": [7],
+                    "visible": false
+                },
+                {
+                    "targets": [8],
+                    "visible": false
+                },
+                {
+                    "targets": [9],
+                    "visible": false
+                },
+                {
+                    "targets": [10],
+                    "visible": false
+                },
+                {
+                    "targets": [11],
+                    "visible": false
+                },
+                {
+                    "targets": [12],
+                    "visible": false
+                }
+            ]
+        });
+        //new $.fn.dataTable.FixedHeader(table);
+        // Add event listener for opening and closing details
+        $('#tblSEMAC tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // Open this row
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
+    });
+</script>

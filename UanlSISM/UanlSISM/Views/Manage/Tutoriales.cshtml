@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Tutoriales";
+}
+
+<style>
+    .card-link {
+        background-color: #FBC43D;
+        border-color: #FBC43D;
+        color: white;
+        padding: 5px 20px;
+        width:100%;
+    }
+
+    .card-link:hover {
+        text-decoration: none;
+	    background-color: #FBC43D !important;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Manuales", "Manage")"><b>Manuales</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Tutoriales", "Manage")"><b>Tutoriales</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-6 item text-left">
+        <h5 class="mt-4"><b>Expediente Médico Electrónico</b></h5>
+        <video width="100%" controls>
+            <source src="~/Videos/TUTORIAL_SISM_1.mp4" type="video/mp4">
+            <source src="~/Videos/TUTORIAL_SISM_1.ogg" type="video/ogg">
+            Your browser does not support HTML video.s
+        </video>
+    </div>
+
+
+</div>

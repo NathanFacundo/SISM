@@ -1,0 +1,218 @@
+﻿@model UanlSISM.Models.DHABIENTES
+
+@{
+    ViewBag.Title = "Mi Credencial Digital";
+    Layout = null;
+
+}
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+        padding: 0;
+        margin: 0;
+    }
+
+    .imagen {
+        position: absolute;
+        top: 0;
+        width: 15vw;
+        right: 0;
+        height: 15vw;
+        border-radius: 100%;
+        margin-right: 34.8vw;
+        margin-top: 3.66vw;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    .numafil {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin-left: 35.5vw;
+        margin-top: 31.5vw;
+        font-size: 1.8vw;
+        color: rgba(0,74,143,1) !important;
+    }
+
+    .numemp {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin-left: 35.5vw;
+        margin-top: 39.5vw;
+        font-size: 1.8vw;
+        color: rgba(0,74,143,1) !important;
+    }
+
+    .nombre {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin-left: 35.4vw;
+        margin-top: 23vw;
+        font-size: 1.8vw;
+        color: rgba(0,74,143,1) !important;
+    }
+
+    .fnac {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin-right: 35.5vw;
+        margin-top: 31.5vw;
+        font-size: 1.8vw;
+        color: rgba(0,74,143,1) !important;
+    }
+
+    #barcode {
+        margin-top: -12vw;
+        margin-left: 9vw;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 991px)">
+    .imagen {
+        width: 20vw;
+        margin-right: 30vw;
+        margin-top: 5.2vw;
+        height: 20vw;
+    }
+
+    .numafil {
+        margin-left: 31vw;
+        margin-top: 43vw;
+        font-size: 2.2vw;
+    }
+
+    .numemp {
+        margin-left: 31vw;
+        font-size: 2.2vw;
+        margin-top: 54vw;
+    }
+
+    .nombre {
+        margin-left: 31vw;
+        margin-top: 32vw;
+        font-size: 2.2vw;
+    }
+
+    .fnac {
+        margin-right: 33vw;
+        margin-top: 43vw;
+        font-size: 2.2vw;
+    }
+
+    #barcode {
+        margin-top: -16vw;
+        margin-left: 2vw;
+        height: 8vw;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 767px)">
+
+    .imagen {
+        width: 43vw;
+        height: 43vw;
+        margin-top: 11vw;
+        margin-right: 7.3vw;
+    }
+
+    .numafil {
+        margin-left: 10vw;
+        margin-top: 92vw;
+        font-size: 5vw;
+    }
+
+    .numemp {
+        margin-left: 10vw;
+        font-size: 5vw;
+        margin-top: 115vw;
+    }
+
+    .nombre {
+        margin-left: 10vw;
+        margin-top: 65vw;
+        font-size: 5vw;
+    }
+
+    .fnac {
+        margin-right: 13vw;
+        margin-top: 92vw;
+        font-size: 5vw;
+    }
+
+    #barcode {
+        margin-top: -35vw;
+        margin-left: 5vw;
+        height: 17vw;
+    }
+</style>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/g/filesaver.js"></script>
+
+
+<div class="container" id="test">
+    <div class="row">
+        <div class="col-md-6 m-auto p-0">
+            <img src="~/Imagenes/dhabientes/formato-credencial.jpeg" style="width:100%;" />
+            <div class="imagen" style="background-image:url('@Model.foto')"></div>
+            <div class="numafil">@Model.NUMAFIL</div>
+            <!--div class="numemp">@Model.NUMEMP</div-->
+            <div class="nombre">@Model.NOMBRES @Model.APATERNO @Model.AMATERNO</div>
+            <!--div class="apaterno">@Model.APATERNO</div>
+            <div class="amaterno">@Model.AMATERNO</div-->
+            <div class="fnac">@(string.Format("{0:dd/MMMM/yyyy}", Model.FNAC))</div>
+            <svg id="barcode"></svg>
+
+
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-6 m-auto p-0">
+            <button class="btn btn-primary mt-3" style="width:100%;" id="button">Descargar</button>
+        </div>
+
+    </div>
+</div>
+
+
+
+<script src="~/Scripts/JsBarcode.code39.min.js"></script>
+
+<script>
+
+    JsBarcode("#barcode", "@Model.NUMEMP", {
+        height: 100,
+        displayValue: false
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(() => {
+        $("#button").click(() => {
+            //const footer = $('<div></div>').attr('id', 'footer').attr('class', 'footer').text('custom footer');
+            //$('#test').append(footer);
+            //$('#barcode').css('margin-bottom', '25%');
+
+            domtoimage.toBlob(document.getElementById('test'))
+                .then((blob) => {
+                    window.saveAs(blob, '@Model.NUMEMP');
+                    footer.remove();
+                });
+        });
+    });
+</script>

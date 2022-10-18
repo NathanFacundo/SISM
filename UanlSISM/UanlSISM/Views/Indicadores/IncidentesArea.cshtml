@@ -1,0 +1,461 @@
+﻿@{
+    ViewBag.Title = "Indicadores Especialistas";
+}
+
+<style>
+    .input-daterange input {
+        width: 100%;
+        max-width: 100%;
+        border: none;
+        background: transparent;
+        border-bottom: 2px solid #FBC43D;
+        border-radius: 0px;
+    }
+
+    .dataTables_info {
+        display: none;
+    }
+
+    .dataTables_filter {
+        width: 95% !important;
+        margin-bottom: 1vw;
+    }
+
+        .dataTables_filter label {
+            width: 100% !important;
+        }
+
+        .dataTables_filter input {
+            max-width: 85% !important;
+            width: 85% !important;
+            border: none;
+            background: transparent;
+            border-bottom: 2px solid #FBC43D;
+            border-radius: 0px;
+        }
+
+    .btn-success {
+        background-color: #207548;
+    }
+
+        .btn-success:hover {
+            background-color: #207548 !important;
+        }
+
+        .btn-success img {
+            width: 15px;
+        }
+
+    .dt-button-collection {
+    }
+
+        .dt-button-collection .dropdown-menu {
+            margin-left: -8vw !important;
+            padding: 0;
+        }
+
+            .dt-button-collection .dropdown-menu li {
+                padding: 4px !important;
+            }
+
+                .dt-button-collection .dropdown-menu li:hover {
+                    background-color: rgba(0,74,143,0.8);
+                    color: white;
+                }
+
+    .buttons-collection {
+        color: #FBC43D;
+        padding: 3px;
+    }
+
+    #loadingDiv {
+        position: fixed;
+        z-index: 9999;
+        background-color: rgba(0,0,0,0.2);
+        width: 100%;
+        height: 100vw;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        color: white;
+        text-align: center;
+        padding-top: 20vh;
+    }
+
+        #loadingDiv .spinner-border {
+            width: 8vw;
+            height: 8vw;
+        }
+
+    .dtrg-end {
+        border-bottom: 2px solid #a8a8a8;
+    }
+
+    .dtrg-start {
+        background-color: #FBC43D !important;
+        color: white !important;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 767px)">
+
+    #msform h4 {
+        text-align: center;
+        margin-top: 7vw !important;
+    }
+
+    .btn-group {
+        width: 15% !important;
+    }
+
+    #example_filter {
+        width: 85% !important;
+    }
+
+        #example_filter input {
+            max-width: 100% !important;
+            width: 100% !important;
+        }
+
+    #example2_filter {
+        width: 85% !important;
+    }
+
+        #example2_filter input {
+            max-width: 100% !important;
+            width: 100% !important;
+        }
+
+    #example3_filter {
+        width: 85% !important;
+    }
+
+        #example3_filter input {
+            max-width: 100% !important;
+            width: 100% !important;
+        }
+
+    #example4_filter {
+        width: 85% !important;
+    }
+
+        #example4_filter input {
+            max-width: 100% !important;
+            width: 100% !important;
+        }
+
+    #example5_filter {
+        width: 85% !important;
+    }
+
+        #example5_filter input {
+            max-width: 100% !important;
+            width: 100% !important;
+        }
+
+    #example6_filter {
+        width: 85% !important;
+    }
+
+        #example6_filter input {
+            max-width: 100% !important;
+            width: 100% !important;
+        }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" />
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/rowgroup/1.1.3/js/dataTables.rowGroup.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+<script src='https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js'></script>
+<script src='https://cdn.datatables.net/responsive/2.2.6/js/responsive.bootstrap.min.js'></script>
+
+<div id="loadingDiv">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Medico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Direccion", "Manage")"><b>Dirección Médica</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("IncidentesArea", "Indicadores")"><b>Incidentes por área</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="col-md-7 ml-auto p-0 mt-5">
+        <div class="form-group row m-0 input-group input-daterange">
+            <label for="min-date" class="col-sm-1 col-4 col-form-label text-center"> <b>Desde:</b>  </label>
+            <div class="col-sm-5 col-8">
+                <input type="text" id="min-date" class="form-control date-range-filter" data-date-format="dd-mm-yyyy" placeholder="Desde:">
+            </div>
+            <label for="max-date" class="col-sm-1 col-4 col-form-label text-center"><b>Hasta:</b>  </label>
+            <div class="col-sm-5 col-8">
+                <input type="text" id="max-date" class="form-control date-range-filter" data-date-format="dd-mm-yyyy" placeholder="Hasta:">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 p-2" id="msform">
+
+        <div class="row m-0 mt-5">
+            <div class="col-md-9 m-auto p-0">
+                <h4 class="mt-2"><b>Incidentes</b></h4>
+            </div>
+            <div class="col-md-3 text-right m-auto p-0">
+                <a class="btn btn-success text-white" id="Xcel"><img src="~/Imagenes/iconos/excel.png" />  Descargar Excel</a>
+            </div>
+        </div>
+
+
+        <table id="exampleExcel1" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Área</th>
+                    <th>Coordinador</th>
+                    <th>Fecha</th>
+                    <th>Jefe</th>
+                    <th>Tipo</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
+        </table>
+
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="especialidadesModal" tabindex="-1" role="dialog" aria-labelledby="especialidadesModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="row m-0" id="medicosinfo">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
+
+<script>
+    $("#Xcel").click(function () {
+        $("#exampleExcel1").table2excel({
+            //exclude: '.exclude',
+            exclude: ".xls",
+            filename: 'Incidentes.xls'
+        });
+    });
+
+</script>
+
+
+<script>
+
+    $('#loadingDiv').hide();
+
+    $(document).ready(function () {
+
+        $('.input-daterange input').each(function () {
+            $(this).datepicker('clearDates');
+        });
+
+        //Servicios Médicos
+        var tableExcel1 = $('#exampleExcel1').DataTable({
+            "ajax": {
+                "url": "/SISM-Medico/json/incidentes/area_detalles.json",
+                "dataSrc": "",
+            },
+            fixedHeader: {
+                header: true,
+            },
+            "language": {
+                "search": "Buscar:",
+                "zeroRecords": "No se encontró ninguna registro",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+                "select": {
+                    "rows": " %d filas seleccionadas"
+                },
+                "loadingRecords": "Un momento, cargando registros...",
+                "processing": "Procesando registros...",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                "lengthMenu": "Mostrando _MENU_ registros",
+            },
+            "columns": [
+                { "data": "area" },
+                { "data": "coordinador" },
+                { "data": "fecha" },
+                { "data": "jefe" },
+                { "data": "tipo" },
+                { "data": "count" }
+            ],
+            "columnDefs": [
+                /*{
+                    targets: 3,
+                    width:300,
+                },*/
+                {
+                    targets: 1,
+                    'render': function (data, type, full, meta) {
+                        return '<span style="text-transform:uppercase;">' + data + '</span>';
+                    }
+                },
+                {
+                    targets: 3,
+                    'render': function (data, type, full, meta) {
+                        return '<span style="text-transform:uppercase;">' + data + '</span>';
+                    }
+                },
+            ],
+            "paging": false,
+            responsive: true,
+            order: [[0, 'asc']],
+            rowGroup: {
+                //startRender: null,
+                endRender: function (rows, group) {
+
+                    var total = rows
+                        .data()
+                        .pluck("count")
+                        .reduce(function (a, b) {
+                            return a + b;
+                        }, 0);
+
+
+                    var w = window.innerWidth;
+
+                    if (w > 700) {
+                        return $('<tr/>')
+                            //.append('<td colspan="4"><b>Total de ' + group +'</b></td>' )
+                            .append('<td></td>')
+                            .append('<td></td>')
+                            .append('<td></td>')
+                            .append('<td></td>')
+                            .append('<td></td>')
+                            .append('<td><b>' + total + '</b></td>');
+                    } else {
+                        return $('<tr/>')
+                            .append('<td colspan="2"><b> Totales: ' + total + '</b></td>');
+                    }
+                },
+                dataSrc: "area"
+            },
+            "footerCallback": function (row, data, start, end, display) {
+
+                var w = window.innerWidth;
+                //alert(w);
+                // Total over all pages
+                if (w > 700) {
+
+                    // Total over this page
+                    pageTotal = this.api()
+                        .column(5, { page: 'current' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return a + b;
+                        }, 0);
+
+
+                    // Update footer
+                    $(this.api().column(0).footer()).html('');
+                    $(this.api().column(5).footer()).html(
+                        'Total: ' + pageTotal /* + ' ( ' + total + ' Totales)'*/
+                    );
+
+
+                } else {
+
+                    // Total over this page
+                    pageTotal = this.api()
+                        .column(5, { page: 'current' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return a + b;
+                        }, 0);
+
+
+                    $(this.api().column(5).footer()).html('');
+                    // Update footer
+                    $(this.api().column(0).footer()).html(
+                        'Total: ' + pageTotal
+                    );
+                }
+
+            }
+
+        });
+
+
+        //alert(fechaminDate);
+        //$("#min-date").datepicker.regional[""].dateFormat = 'dd/mm/yy';
+        $("#min-date").datepicker("setDate", new Date());
+        //$("#max-date").datepicker.regional[""].dateFormat = 'dd/mm/yy';
+        $("#max-date").datepicker("setDate", new Date());
+
+        // Re-draw the table when the a date range filter changes
+        $('.date-range-filter').change(function () {
+
+            $('#loadingDiv').show();
+
+            var minDate = $("#min-date").val();
+            var minDateSplit = minDate.split('-');
+            var fechaminDate = minDateSplit[2] + '-' + minDateSplit[1] + '-' + minDateSplit[0];
+
+            var maxDate = $("#max-date").val();
+            var maxDateSplit = maxDate.split('-');
+            var fechamaxDate = maxDateSplit[2] + '-' + maxDateSplit[1] + '-' + maxDateSplit[0];
+
+
+            $.ajax({
+                url: '@Url.Action("ChangeIndicadores", "Indicadores")',
+                dataType: "json",
+                data: { minDate: fechaminDate, maxDate: fechamaxDate },
+                success: function (data) {
+                    //table.ajax.reload();
+                    tableExcel1.ajax.url('/SISM-Medico/json/incidentes/area_detalles.json').load();
+
+                    $('#loadingDiv').hide();
+
+                },
+                error: function (xhr, status, error) {
+                    alert("Error");
+                }
+            });
+
+        });
+
+    });
+</script>

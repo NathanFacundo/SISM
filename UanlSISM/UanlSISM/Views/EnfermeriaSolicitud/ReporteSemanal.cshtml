@@ -1,0 +1,348 @@
+﻿@model IEnumerable<UanlSISM.Controllers.SemanasList>
+@{
+    ViewBag.Title = "Reporte Semanal";
+    List<UanlSISM.Models.ActividadesDepartamento> ActividadesSM = ViewBag.ActividadesSM;
+    List<UanlSISM.Models.ActividadesDepartamento> ActividadesLinares = ViewBag.ActividadesLinares;
+    List<UanlSISM.Models.ActividadesDepartamento> ActividadesMederos = ViewBag.ActividadesMederos;
+}
+
+<style>
+
+    .success-button {
+        width: 130px;
+        background: rgba(0,74,143,0.8);
+        font-weight: bold;
+        color: white;
+        border: 0 none;
+        border-radius: 0px;
+        cursor: pointer;
+        padding: 10px 5px;
+        margin: 10px 5px
+    }
+
+    input {
+        padding: 0px 8px 4px 8px;
+        border: none;
+        border-bottom: 2px solid lightgray;
+        border-radius: 0px;
+        margin-top: 2px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        color: black;
+        background-color:transparent;
+        font-size: 16px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    input:focus {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        border: none;
+        font-weight: bold;
+        border-bottom: 2px solid #FBC43D;
+        outline-width: 0
+    }
+
+</style>
+
+
+<br />
+<br />
+
+<h2 style="text-align:center">Reporte Semanal Servicios Médicos UANL</h2>
+<br />
+
+<table class="table table-bordered">
+
+    <tr style="background-color: #FBC43D !important">
+        <td>Fecha</td>
+        <td>
+            <select id="semanaddl" style="max-width:80%;" class="form-control">
+
+                @foreach (var item in Model)
+                {
+                    <option value="@item.SemanaId" >@item.Semana.ToString().Replace("{", "").Replace("}", "")</option>
+                }
+
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>Lugar</td>
+        <td>Subdirección de Servicios Médicos UANL</td>
+    </tr>
+    <tr>
+        <td>Convoca:</td>
+        <td>Dr. Med. Jorge Gutierrez de la O</td>
+    </tr>
+    <tr>
+        <td>Servicio</td>
+        <td>Enfermería</td>
+    </tr>
+
+</table>
+<br /><br />
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="SM-tab" data-toggle="tab" href="#SM" role="tab" aria-controls="home" aria-selected="true">SM</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="Linares-tab" data-toggle="tab" href="#Linares" role="tab" aria-controls="profile" aria-selected="false">Linares</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="Mederos-tab" data-toggle="tab" href="#Mederos" role="tab" aria-controls="contact" aria-selected="false">Mederos</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="SM" role="tabpanel" aria-labelledby="SM-tab">
+        <table id="tblSM" class="table table-bordered">
+            <tr style="background-color: #FBC43D !important">
+                <td>Actividad</td>
+                <td>Cantidad</td>
+            </tr>
+
+            @foreach (var item in ActividadesSM)
+            {
+                <tr class="SM">
+                    <td id="@item.ActividadId">@item.Descripcion</td>
+                    <td><input type="text" id="@String.Concat("txtsm_",item.ActividadId)" /></td>
+                </tr>
+            }
+
+        </table>
+        <br />
+
+        <button class="success-button" onclick="Guardar1()">Guardar</button>
+        <a href="@Url.Action("MenuEnfermeria","EnfermeriaSolicitud")" style="background-color:lightgray" class="btn success-button">Regresar</a>
+
+    </div>
+    <div class="tab-pane fade" id="Linares" role="tabpanel" aria-labelledby="Linares-tab">
+        <table id="tblLinares" class="table table-bordered">
+
+            <tr style="background-color: #FBC43D !important">
+                <td>Actividad</td>
+                <td>Cantidad</td>
+            </tr>
+
+            @foreach (var item in ActividadesLinares)
+            {
+                <tr class="Linares">
+                    <td id="@item.ActividadId">@item.Descripcion</td>
+                    <td><input type="text" id="@String.Concat("txtlin_",item.ActividadId)" /></td>
+                </tr>
+            }
+
+        </table>
+        <br />
+
+        <button class="success-button" onclick="Guardar2()">Guardar</button>
+        <a href="@Url.Action("MenuEnfermeria","EnfermeriaSolicitud")" style="background-color:lightgray" class="btn success-button">Regresar</a>
+
+    </div>
+    <div class="tab-pane fade" id="Mederos" role="tabpanel" aria-labelledby="Mederos-tab">
+        <table  id="tblMederos" class="table table-bordered">
+
+            <tr style="background-color: #FBC43D !important">
+                <td>Actividad</td>
+                <td>Cantidad</td>
+            </tr>
+
+            @foreach (var item in ActividadesMederos)
+            {
+                <tr class="Mederos">
+                    <td id="@item.ActividadId">@item.Descripcion</td>
+                    <td><input type="text" id="@String.Concat("txtmed_",item.ActividadId)" /></td>
+                </tr>
+            }
+
+        </table>
+        <br />
+
+        <button class="success-button" onclick="Guardar3()">Guardar</button>
+        <a href="@Url.Action("MenuEnfermeria","EnfermeriaSolicitud")" style="background-color:lightgray" class="btn success-button">Regresar</a>
+
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    function Guardar1() {
+        var Detalle = [];
+        var success = "";
+
+        $('#tblSM tr').each(function (i) {
+            if ($(this).hasClass('SM')) {
+
+                var currentdate = new Date();
+                var actividad = document.getElementById('tblSM').rows[i].cells[0].id;
+                var cantidad = $('#txtsm_' + actividad).val();
+                var semana = $('#semanaddl').val();
+
+                if (cantidad != '') {
+                    var actividades = {};
+                    actividades.ActividadId = actividad;
+                    actividades.Cantidad = cantidad;
+                    actividades.Semana = semana;
+
+                    Detalle.push(actividades);
+                }
+                else {
+                    alert('Favor capturar cantidad de todas las actividades');
+                    success = "0";
+                    return false;
+
+                }
+            }
+        });
+
+        if (success != "0") {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GuardarReporteSemanal", "EnfermeriaSolicitud")',
+                data: { Detalle: JSON.stringify(Detalle) },
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+
+                    if (data == "1") {
+                        Swal.fire({
+                            icon: 'success',
+                            text: 'Se guardo el reporte correctamente',
+                        });
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            text: 'Error: ' + data,
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire("Error");
+                }
+            });
+        }
+    }
+
+    function Guardar2() {
+        var Detalle = [];
+        var success = "";
+
+        $('#tblLinares tr').each(function (i) {
+            if ($(this).hasClass('Linares')) {
+
+                var currentdate = new Date();
+                var actividad = document.getElementById('tblLinares').rows[i].cells[0].id;
+                var cantidad = $('#txtlin_' + actividad).val();
+                var semana = $('#semanaddl').val();
+
+                if (cantidad != '') {
+                    var actividades = {};
+                    actividades.ActividadId = actividad;
+                    actividades.Cantidad = cantidad;
+                    actividades.Semana = semana;
+
+                    Detalle.push(actividades);
+                }
+                else {
+                    alert('Favor capturar cantidad de todas las actividades');
+                    success = "0";
+                    return false;
+
+                }
+            }
+        });
+
+        if (success != "0") {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GuardarReporteSemanal", "EnfermeriaSolicitud")',
+                data: { Detalle: JSON.stringify(Detalle) },
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+
+                    if (data == "1") {
+                        Swal.fire({
+                            icon: 'success',
+                            text: 'Se guardo el reporte correctamente',
+                        });
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            text: 'Error: ' + data,
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire("Error");
+                }
+            });
+        }
+    }
+
+    function Guardar3() {
+                var Detalle = [];
+        var success = "";
+
+        $('#tblMederos tr').each(function (i) {
+            if ($(this).hasClass('Mederos')) {
+
+                var currentdate = new Date();
+                var actividad = document.getElementById('tblMederos').rows[i].cells[0].id;
+                var cantidad = $('#txtmed_' + actividad).val();
+                var semana = $('#semanaddl').val();
+
+                if (cantidad != '') {
+                    var actividades = {};
+                    actividades.ActividadId = actividad;
+                    actividades.Cantidad = cantidad;
+                    actividades.Semana = semana;
+
+                    Detalle.push(actividades);
+                }
+                else {
+                    alert('Favor capturar cantidad de todas las actividades');
+                    success = "0";
+                    return false;
+
+                }
+            }
+        });
+
+        if (success != "0") {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GuardarReporteSemanal", "EnfermeriaSolicitud")',
+                data: { Detalle: JSON.stringify(Detalle) },
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+
+                    if (data == "1") {
+                        Swal.fire({
+                            icon: 'success',
+                            text: 'Se guardo el reporte correctamente',
+                        });
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            text: 'Error: ' + data,
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire("Error");
+                }
+            });
+        }
+    }
+</script>
+
+
+

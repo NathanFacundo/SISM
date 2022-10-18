@@ -1,0 +1,806 @@
+﻿@model UanlSISM.Models.TblEmpleado
+@{
+    ViewBag.Title = "RegistroEmpleado";
+}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.4/moment.min.js"></script>
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="col-md-10 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
+    <img src="~/Imagenes/uanl-logo.png" class="uanl-logo" />
+    <h3 style="font-family: 'Roboto', sans-serif;">Usuario: <span class="putUserName"></span></h3>
+</div>
+<div class="card">
+    <div class="card-header">
+        Registro de Personal
+    </div>
+    <div class="card-body">
+        <div class="d-flex align-content-md-start">
+            <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Identificación</button>
+                <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Dirección </button>
+                <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Dirección Fiscal</button>
+                <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Información Academica</button>
+                <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-contrato" type="button" role="tab" aria-controls="v-pills-contrato" aria-selected="false">Contrato</button>
+                <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-Historial" type="button" role="tab" aria-controls="v-pills-contrato" aria-selected="false">Historial Contratos</button>
+            </div>
+            <div class="tab-content container-md" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                    <!----------------------IDENTIFICACIÓN------------------------>
+                    <div class="form-row">
+                        <div class="form-group col-xl-4">
+                            <label for="exampleFormControlInput1" class="form-label">Numero de Empleado:</label>
+                            <input value="@Model.Emp_NumEmpAccess" type="text" class="form-control" id="txtNumEmp" placeholder="Numero de Empleado">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="exampleFormControlTextarea1" class="form-label">Nombre(s):</label>
+                            <input value="@Model.Emp_Nombre" type="text" class="form-control" id="txtNombre" placeholder="Nombre(s)">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="exampleFormControlTextarea1" class="form-label">Apellido Paterno:</label>
+                            <input value="@Model.Emp_APaterno" type="text" class="form-control" id="txtAP" placeholder="Nombre(s)">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="exampleFormControlTextarea1" class="form-label">Apellido Materno:</label>
+                            <input value="@Model.Emp_AMaterno" type="text" class="form-control" id="txtAM" placeholder="Nombre(s)">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="exampleFormControlInput1" class="form-label">RFC:</label>
+                            <input value="@Model.Emp_RFC" type="text" class="form-control" id="txtRFC" placeholder="RFC">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="exampleFormControlTextarea1" class="form-label">CURP:</label>
+                            <input value="@Model.Emp_CURP" type="text" class="form-control" id="txtCURP" placeholder="CURP">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="exampleFormControlTextarea1" class="form-label">Fecha de Nacimiento:</label>
+                            <input value="@Model.Emp_FechaNacimiento" type="date" class="form-control" id="txtFN" placeholder="Fecha de Nacimiento">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="exampleFormControlTextarea1" class="form-label">Sexo:</label>
+                            <select class="form-select" aria-label="Default select example" id="cmbSexo">
+                                <option selected>--Seleccionar--</option>
+                                <option value="1">Masculino</option>
+                                <option value="2">Femenino</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="exampleFormControlInput1" class="form-label">Lugar de Nacimiento:</label>
+                            <select class="form-select" aria-label="Default select example" id="cmbLN">
+                                <option selected>--Seleccionar--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="exampleFormControlTextarea1" class="form-label">Estado Civil:</label>
+                            <select class="form-select" aria-label="Default select example" id="cmbEstCivil">
+                                <option selected>--Seleccionar--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="btnGuardar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-save2" viewBox="0 0 16 16">
+                            <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v4.5h2a.5.5 0 0 1 .354.854l-2.5 2.5a.5.5 0 0 1-.708 0l-2.5-2.5A.5.5 0 0 1 5.5 6.5h2V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z" />
+                        </svg> Guardar
+                    </button>
+                    <button type="button" class="btn btn-warning" id="btnCancelar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
+                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                        </svg> Cancelar
+                    </button>
+                </div>
+                <!----------------------------------------------------------------------------->
+                <!-------------------------------------DIRECCIÓN------------------------------->
+                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="lblCP">Codigo Postal</label>
+                            <input value="@Model.Emp_CodigoPostal" type="text" class="form-control" id="txtCP" placeholder="Codigo Postal">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="lblPais">País</label>
+                            <select class="form-select" aria-label="Default select example" id="cmbPais">
+                                <option selected>--Seleccionar--</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="lblEstado">Estado</label>
+                            <select class="form-select" aria-label="Default select example" id="cmbEstado">
+                                <option>--Seleccionar--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="lblMunicipio">Municipio</label>
+                            <select class="form-select" aria-label="Default select example" id="cmbMunicipio">
+                                <option selected>--Seleccionar--</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="lblColonia">Colonia</label>
+                            <select class="form-select" aria-label="Default select example" id="cmbColinia">
+                                <option selected>--Seleccionar--</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="lblCalle">Calle</label>
+                            <input value="@Model.Emp_Calle" type="text" class="form-control" id="txtCalle" placeholder="Calle">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="lblNumero">Numero Exterior:</label>
+                            <input value="@Model.Emp_NumExt" type="text" class="form-control" id="txtNumExt" placeholder="Numero Exterior">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="lblNumeroInt">Numero Interior:</label>
+                            <input value="@Model.Emp_NumInt" type="text" class="form-control" id="txtNumInt" placeholder="Numero Interior">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="lblTelefono">Telefono Fijo:</label>
+                            <input value="@Model.Emp_NumFijo" type="text" class="form-control" id="txtTelefonoFijo" placeholder="Telefono Fijo">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="lblTelCel">Telefono Celular:</label>
+                            <input value="@Model.Emp_NumCelular" type="text" class="form-control" id="txtTelCel" placeholder="Telefono Celular">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="btnGuardar1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-save2" viewBox="0 0 16 16">
+                            <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v4.5h2a.5.5 0 0 1 .354.854l-2.5 2.5a.5.5 0 0 1-.708 0l-2.5-2.5A.5.5 0 0 1 5.5 6.5h2V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z" />
+                        </svg> Guardar
+                    </button>
+                    <button type="button" class="btn btn-warning" id="btnCancelar1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
+                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                        </svg> Cancelar
+                    </button>
+                </div>
+                <!----------------------------------------------------------------------------->
+                <!--------------------------------DIRECCIÓN FISCAL----------------------------->
+                <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="lblCP">Codigo Postal</label>
+                            <input value="@Model.Emp_CodigoPostalFiscal" type="text" class="form-control" id="txtCP1" placeholder="Codigo Postal">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="lblPais">País</label>
+                            <select class="form-select" aria-label="Default select example" id="cmbPais1">
+                                <option selected>--Seleccionar--</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="lblEstado">Estado</label>
+                            <select class="form-select" aria-label="Default select example" id="cmbEstado1">
+                                <option selected>--Seleccionar--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="lblMunicipio">Municipio</label>
+                            <select class="form-select" aria-label="Default select example" id="cmbMunicipio1">
+                                <option selected>--Seleccionar--</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="lblColonia">Colonia</label>
+                            <select class="form-select" aria-label="Default select example" id="cmbColonia1">
+                                <option selected>--Seleccionar--</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="lblCalle">Calle</label>
+                            <input value="@Model.Emp_CalleFiscal" type="text" class="form-control" id="txtCalle1" placeholder="Calle">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="lblNumero">Numero Exterior</label>
+                            <input value="@Model.Emp_NumExtFiscal" type="text" class="form-control" id="txtNumExt1" placeholder="Numero Exterior">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="lblNumeroInt">Numero Interior</label>
+                            <input value="@Model.Emp_NumIntFiscal" type="text" class="form-control" id="txtNumInt1" placeholder="Numero Interior">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="lblTelefono">Telefono Fijo</label>
+                            <input value="@Model.Emp_NumFijoFiscal" type="text" class="form-control" id="txtTelFIjo" placeholder="Telefono Fijo">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="lblTelCel">Telefono Celular</label>
+                            <input value="@Model.Emp_NumCelularFiscal" type="text" class="form-control" id="txtTelCelular" placeholder="Telefono Celular">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="btnGuardar2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-save2" viewBox="0 0 16 16">
+                            <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v4.5h2a.5.5 0 0 1 .354.854l-2.5 2.5a.5.5 0 0 1-.708 0l-2.5-2.5A.5.5 0 0 1 5.5 6.5h2V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z" />
+                        </svg> Guardar
+                    </button>
+                    <button type="button" class="btn btn-warning" id="btnCancelar2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
+                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                        </svg> Cancelar
+                    </button>
+                </div>
+                <!----------------------------------------------------------------------------->
+                <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                    <center>
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                                <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z" />
+                                <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
+                            </svg> Agregar
+                        </button>
+                    </center>
+                    <br />
+                    <div class="form-row">
+                        <table class="table table-bordered" id="tblInfoAcademica">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Folio</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Nivel Academico</th>
+                                    <th scope="col">Carrera</th>
+                                    <th scope="col">Cedula</th>
+                                    <th scope="col">Fecha Expedición</th>
+                                    <th scope="col">Escuela</th>
+                                </tr>
+                            </thead>
+                            <tbody id="contenido">
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="btnGuardar3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-save2" viewBox="0 0 16 16">
+                            <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v4.5h2a.5.5 0 0 1 .354.854l-2.5 2.5a.5.5 0 0 1-.708 0l-2.5-2.5A.5.5 0 0 1 5.5 6.5h2V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z" />
+                        </svg> Guardar
+                    </button>
+                    <button type="button" class="btn btn-warning" id="btnCancelar3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
+                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                        </svg> Cancelar
+                    </button>
+                </div>
+                <div class="tab-pane fade" id="v-pills-contrato" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div>
+                                        <center><strong> <label for="lblNombre">Horario 1:</label></strong></center>
+                                    </div>
+                                    <div>
+                                        <strong> <label for="lblNombre">Dias Laborales:</label></strong>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" checked="@Model.Emp_Lunes">
+                                                <label class="form-check-label" for="inlineCheckbox1" id="chkLunes">L</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" checked="@Model.Emp_Martes">
+                                                <label class="form-check-label" for="inlineCheckbox2" id="chkMartes">M</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox3" checked="@Model.Emp_Miercoles">
+                                                <label class="form-check-label" for="inlineCheckbox3" id="chkMiercoles">M</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" checked="@Model.Emp_Jueves">
+                                                <label class="form-check-label" for="inlineCheckbox1" id="chkJueves">J</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" checked="@Model.Emp_Viernes">
+                                                <label class="form-check-label" for="inlineCheckbox2" id="chkViernes">V</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox3" checked="@Model.Emp_Sabado">
+                                                <label class="form-check-label" for="inlineCheckbox3" id="chkSabado">S</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" checked="@Model.Emp_Domingo">
+                                                <label class="form-check-label" for="inlineCheckbox1" id="chkDomingo">D</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="lblTelefono">Hora de Entrada:</label>
+                                            <input type="time" class="form-control" id="txtHoraEntrada">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="lblTelefono">Hora de Salida</label>
+                                            <input type="time" class="form-control" id="txtHoraSalida">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div>
+                                        <center><strong> <label for="lblNombre">Horario 2:</label></strong></center>
+                                    </div>
+                                    <div>
+                                        <strong> <label for="lblNombre">Dias Laborales:</label></strong>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" checked="@Model.Emp_Lunes2">
+                                                <label class="form-check-label" for="inlineCheckbox1" id="chkLunes1">L</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" checked="@Model.Emp_Martes2">
+                                                <label class="form-check-label" for="inlineCheckbox2" id="chkMartes1">M</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox3" checked="@Model.Emp_Miercoles2">
+                                                <label class="form-check-label" for="inlineCheckbox3" id="chkMiercoles1">M</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" checked="@Model.Emp_Jueves2">
+                                                <label class="form-check-label" for="inlineCheckbox1" id="chkJueves1">J</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" checked="@Model.Emp_Viernes2">
+                                                <label class="form-check-label" for="inlineCheckbox2" id="chkViernes1">V</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox3" checked="@Model.Emp_Sabado2">
+                                                <label class="form-check-label" for="inlineCheckbox3" id="chkSabado1">S</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" checked="@Model.Emp_Domingo2">
+                                                <label class="form-check-label" for="inlineCheckbox1" id="chkDomingo1">D</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="lblTelefono">Hora de Entrada:</label>
+                                            <input type="time" class="form-control" id="txtHoraEntrada1">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="lblTelefono">Hora de Salida</label>
+                                            <input type="time" class="form-control" id="txtHoraSalida1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label for="lblMunicipio">Regimen:</label>
+                            <select class="form-select" aria-label="Default select example" id="cmbRegimen">
+                                <option selected>--Seleccionar--</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="lblMunicipio">Categoria:</label>
+                            <select class="form-select" aria-label="Default select example" id="cmbCategoria">
+                                <option selected>--Seleccionar--</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="lblMunicipio">Puesto:</label>
+                            <select class="form-select" aria-label="Default select example" id="cmbPuesto">
+                                <option selected>--Seleccionar--</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="lblMunicipio">Unidad Medica:</label>
+                            <select class="form-select" aria-label="Default select example" id="cmbUnidad">
+                                <option selected>--Seleccionar--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label for="lblMunicipio">Departamento:</label>
+                            <select class="form-select" aria-label="Default select example" id="cmbDepartamento">
+                                <option selected>--Seleccionar--</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="lblMunicipio">A cargo de:</label>
+                            <select class="form-select" aria-label="Default select example" id="cmbAcargo">
+                                <option selected>--Seleccionar--</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="lblMunicipio">Uniforme:</label>
+                            <select class="form-select" aria-label="Default select example" id="cmbUniforme">
+                                <option selected>--Seleccionar--</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="lblMunicipio">Talla:</label>
+                            <select class="form-select" aria-label="Default select example" id="cmbTalla">
+                                <option selected>--Seleccionar--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="exampleFormControlTextarea1" class="form-label">Fecha de Ingreso:</label>
+                            <input type="date" class="form-control" id="txtFechaIngreso">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="lblMunicipio">Tipo de Pago:</label>
+                            <select class="form-select" aria-label="Default select example" id="cmbTipoPago">
+                                <option selected>--Seleccionar--</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="exampleFormControlTextarea1" class="form-label">Ingreso(Neto):</label>
+                            <input type="text" class="form-control" id="txtIngreso" placeholder="Ingreso(Neto)">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label for="exampleFormControlTextarea1" class="form-label">Observaciones:</label>
+                            <textarea class="form-control" id="txtObservacion" rows="3" style="min-width: 100%"></textarea>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="exampleFormControlTextarea1" class="form-label">Actividades:</label>
+                            <textarea class="form-control" id="txtActividades" rows="3" style="min-width: 100%"></textarea>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="btnGuardar4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-save2" viewBox="0 0 16 16">
+                            <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v4.5h2a.5.5 0 0 1 .354.854l-2.5 2.5a.5.5 0 0 1-.708 0l-2.5-2.5A.5.5 0 0 1 5.5 6.5h2V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z" />
+                        </svg> Guardar
+                    </button>
+                    <button type="button" class="btn btn-warning" id="btnCancelar4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
+                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                        </svg> Cancelar
+                    </button>
+                </div>
+                <div class="tab-pane fade show active" id="v-pills-Historial" role="tabpanel" aria-labelledby="v-pills-Historial-tab">
+                    <div class="form-row">
+                        @*<table class="table table-striped" id="tblInfoAcademica">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Folio</th>
+                                        <th scope="col">Regimen</th>
+                                        <th scope="col">Fecha Inicio</th>
+                                        <th scope="col">Fecha Fin</th>
+                                        <th scope="col">Puesto</th>
+                                        <th scope="col">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>mdo</td>
+                                        <td>Otto</td>
+                                        <td>mdo</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>fat</td>
+                                        <td>Otto</td>
+                                        <td>mdo</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>twitter</td>
+                                        <td>Otto</td>
+                                        <td>mdo</td>
+                                        <td>Otto</td>
+                                        <td>mdo</td>
+                                    </tr>
+                                </tbody>
+                            </table>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Pantallas Modales-->
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nuevo Nivel Academico</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="lblMunicipio">Nivel Academico:</label>
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>--Seleccionar--</option>
+                    </select>
+                    <label for="lblMunicipio">Institución:</label>
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>--Seleccionar--</option>
+                    </select>
+                    <label for="lblMunicipio">Carrera:</label>
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>--Seleccionar--</option>
+                    </select>
+                    <label for="exampleFormControlTextarea1" class="form-label">Fecha Expedición:</label>
+                    <input type="date" class="form-control" id="txtNombre" placeholder="Fecha de Nacimiento">
+                    <label for="lblTelefono">Cedula</label>
+                    <input type="text" class="form-control" id="txtCP" placeholder="CURP">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-octagon" viewBox="0 0 16 16">
+                            <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z" />
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                        </svg> Cerrar
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-save2" viewBox="0 0 16 16">
+                            <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v4.5h2a.5.5 0 0 1 .354.854l-2.5 2.5a.5.5 0 0 1-.708 0l-2.5-2.5A.5.5 0 0 1 5.5 6.5h2V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z" />
+                        </svg> Guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---------------------------------------------------------------------------->
+</div>
+<input type="hidden" id="MunicipioId" value="@Model.IdMunicipio" />
+<input type="hidden" id="ColoniaId" value="@Model.IdColonia" />
+<input type="hidden" id="EstadoId" value="@Model.IdEstado" />
+<input type="hidden" id="NumEmp" value="@Model.Emp_NumEmp" />
+<input type="hidden" id="PaisId" value="@Model.IdPais" />
+<input type="hidden" id="PaisIdFis" value="@Model.IdPaisFiscal" />
+<input type="hidden" id="EstadoIdFis" value="@Model.IdEstadoFiscal" />
+<input type="hidden" id="MunicipioIdFis" value="@Model.IdMunicipioFiscal" />
+<input type="hidden" id="ColoniaIdFis" value="@Model.IdColoniaFiscal" />
+<!--Llena el ComboBox De Pais-->
+<script>
+    $(document).ready(function () {
+        var IdPais = $("#PaisId").val();
+        $.ajax({
+            url: '@Url.Action("GetPais", "Empleados")',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    if (item.IdPais == IdPais) {
+                        $('<option selected value="' + item.IdPais + '">' + item.NombrePais + '</option>').appendTo('#cmbPais');
+                    }
+                    else {
+                        $('<option value="' + item.IdPais + '">' + item.NombrePais + '</option>').appendTo('#cmbPais');
+                    }
+                });
+            },
+            error: function () {
+                console.log('err')
+            }
+        });
+    });
+</script>
+<!--Llena el ComboBox De Pais Fiscal-->
+<script>
+    $(document).ready(function () {
+        var IdPaisFis = $("#PaisIdFis").val();
+        $.ajax({
+            url: '@Url.Action("GetPais", "Empleados")',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    if (item.IdPais == IdPaisFis) {
+                        $('<option selected value="' + item.IdPais + '">' + item.NombrePais + '</option>').appendTo('#cmbPais1');
+                    }
+                    else {
+                        $('<option value="' + item.IdPais + '">' + item.NombrePais + '</option>').appendTo('#cmbPais1');
+                    }
+                });
+            },
+            error: function () {
+                console.log('err');
+            }
+        });
+    });
+</script>
+<!--Llena el ComboBox De estados-->
+<script>
+    $(document).ready(function () {
+        var IdEstado = $("#EstadoId").val();
+        $.ajax({
+            url: '@Url.Action("GetEstados", "Empleados")',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    if (item.IdEstado == IdEstado) {
+                        $('<option selected value="' + item.IdEstado + '">' + item.nombre + '</option>').appendTo('#cmbEstado');
+                    }
+                    else {
+                        $('<option value="' + item.IdEstado + '">' + item.nombre + '</option>').appendTo('#cmbEstado');
+                    }
+                });
+            },
+            error: function () {
+                console.log('err')
+            }
+        });
+    });
+</script>
+<!--Llena el ComboBox De Estado Fiscal-->
+<script>
+    $(document).ready(function () {
+        var IdEstadoFis = $("#EstadoIdFis").val();
+        $.ajax({
+            url: '@Url.Action("GetEstados", "Empleados")',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    if (item.IdEstado == IdEstadoFis) {
+                        $('<option selected value="' + item.IdEstado + '">' + item.nombre + '</option>').appendTo('#cmbEstado1');
+                    }
+                    else {
+                        $('<option value="' + item.IdEstado + '">' + item.nombre + '</option>').appendTo('#cmbEstado1');
+                    }
+                });
+            },
+            error: function () {
+                console.log('err')
+            }
+        });
+    });
+</script>
+<!--Llena el ComboBox De Municipio-->
+<script>
+    $(document).ready(function () {
+        var IdMunicipio = $("#MunicipioId").val();
+        $.ajax({
+            url: '@Url.Action("GetMunicipio", "Empleados")',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    if (item.IdMunicipio == IdMunicipio) {
+                        $('<option selected value="' + item.IdMunicipio + '">' + item.nombre + '</option>').appendTo('#cmbMunicipio');
+                    }
+                    else {
+                        $('<option value="' + item.IdMunicipio + '">' + item.nombre + '</option>').appendTo('#cmbMunicipio');
+                    }
+                });
+            },
+            error: function () {
+                console.log('err')
+            }
+        });
+    });
+</script>
+<!--Llena el ComboBox De Municipio Fiscal-->
+<script>
+    $(document).ready(function () {
+        var IdMunicipioFis = $("#MunicipioIdFis").val();
+        $.ajax({
+            url: '@Url.Action("GetMunicipio", "Empleados")',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    if (item.IdMunicipio == IdMunicipioFis) {
+                        $('<option selected value="' + item.IdMunicipio + '">' + item.nombre + '</option>').appendTo('#cmbMunicipio1');
+                    }
+                    else {
+                        $('<option value="' + item.IdMunicipio + '">' + item.nombre + '</option>').appendTo('#cmbMunicipio1');
+                    }
+                });
+            },
+            error: function () {
+                console.log('err')
+            }
+        });
+    });
+</script>
+<!--Llena el ComboBox De Colonia-->
+<script>
+    $(document).ready(function () {
+        var IdColonia = $("#ColoniaId").val();
+        $.ajax({
+            url: '@Url.Action("GetColonia", "Empleados")',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    if (item.IdColonia == IdColonia) {
+                        $('<option selected value="' + item.IdColonia + '">' + item.NombreColonia + '</option>').appendTo('#cmbColinia');
+                    }
+                    else {
+                        $('<option value="' + item.IdColonia + '">' + item.NombreColonia + '</option>').appendTo('#cmbColinia');
+                    }
+                });
+            },
+            error: function () {
+                console.log('err')
+            }
+        });
+    });
+</script>
+<!--Llena el ComboBox De Colonia Fiscal-->
+<script>
+    $(document).ready(function () {
+        var IdColoniaFis = $("#ColoniaIdFis").val();
+        $.ajax({
+            url: '@Url.Action("GetColonia", "Empleados")',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    if (item.IdColonia == IdColoniaFis) {
+                        $('<option selected value="' + item.IdColonia + '">' + item.NombreColonia + '</option>').appendTo('#cmbColonia1');
+                    }
+                    else {
+                        $('<option value="' + item.IdColonia + '">' + item.NombreColonia + '</option>').appendTo('#cmbColonia1');
+                    }
+                });
+            },
+            error: function () {
+                console.log('err')
+            }
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var NumEmpId = $("#NumEmp").val();
+        NumEmp
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetEstudiosEmpleado", "Empleados")?Emp_NumEmp=' + NumEmpId,
+            dataType: 'json',
+            cache: false,
+            success: function (data) {
+                $("#tblInfoAcademica > tbody").empty();
+                $.each(data, function (index, value) {
+                    $("#contenido")
+                        .append("<tr><td>" + value.Folio + "</td><td>" + value.Nombre + "</td><td>" + value.NivelAcademico + "</td><td>" + value.Carrera + "</td><td>" + value.Cedula + "</td><td>" + moment(value.Fecha).format('DD/MM/YYYY') + "</td><td>" + value.Escuela + "</td></tr>");
+                });
+            },
+            error: function (xhr, status, error) {
+                alert("Error");
+            }
+        });
+    });
+</script>

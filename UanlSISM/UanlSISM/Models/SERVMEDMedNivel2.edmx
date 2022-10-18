@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SERVMEDModel7.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="ReporteInventarios">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Id_Grupo" />
+            <PropertyRef Name="Id_Sal" />
+            <PropertyRef Name="Id_Nivel" />
+            <PropertyRef Name="clave_presentacion" />
+            <PropertyRef Name="Presentacion" />
+            <PropertyRef Name="Clave" />
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Grupo" Type="smallint" Nullable="false" />
+          <Property Name="Id_Sal" Type="smallint" Nullable="false" />
+          <Property Name="Id_Nivel" Type="smallint" Nullable="false" />
+          <Property Name="clave_presentacion" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="SobranteInv2022" Type="char" MaxLength="2" />
+          <Property Name="Presentacion" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Clave" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="descripcion_21" Type="nchar" MaxLength="200" />
+          <Property Name="id_grupo_21" Type="int" />
+          <Property Name="Inv_Act_Farmacia" Type="int" />
+          <Property Name="Inv_Act_Almacen" Type="int" />
+          <Property Name="Inv_Act_CU" Type="numeric" Precision="38" Scale="0" />
+          <Property Name="Inv_Act_Mederos" Type="numeric" Precision="38" Scale="0" />
+          <Property Name="InventarioTotal" Type="numeric" Precision="38" Scale="0" />
+        </EntityType>
+        <Function Name="SP_MedicamentosTemporales" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idUnidad" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_ObtenerSustancias_Milton" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_Temporales" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idUnidad" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="SERVMEDModel7StoreContainer">
+          <EntitySet Name="ReporteInventarios" EntityType="Self.ReporteInventarios" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ReporteInventarios].[Id] AS [Id], 
+    [ReporteInventarios].[Id_Grupo] AS [Id_Grupo], 
+    [ReporteInventarios].[Id_Sal] AS [Id_Sal], 
+    [ReporteInventarios].[Id_Nivel] AS [Id_Nivel], 
+    [ReporteInventarios].[clave_presentacion] AS [clave_presentacion], 
+    [ReporteInventarios].[SobranteInv2022] AS [SobranteInv2022], 
+    [ReporteInventarios].[Presentacion] AS [Presentacion], 
+    [ReporteInventarios].[Clave] AS [Clave], 
+    [ReporteInventarios].[Status] AS [Status], 
+    [ReporteInventarios].[descripcion_21] AS [descripcion_21], 
+    [ReporteInventarios].[id_grupo_21] AS [id_grupo_21], 
+    [ReporteInventarios].[Inv_Act_Farmacia] AS [Inv_Act_Farmacia], 
+    [ReporteInventarios].[Inv_Act_Almacen] AS [Inv_Act_Almacen], 
+    [ReporteInventarios].[Inv_Act_CU] AS [Inv_Act_CU], 
+    [ReporteInventarios].[Inv_Act_Mederos] AS [Inv_Act_Mederos], 
+    [ReporteInventarios].[InventarioTotal] AS [InventarioTotal]
+    FROM [dbo].[ReporteInventarios] AS [ReporteInventarios]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SERVMEDModel7" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ReporteInventarios">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Id_Grupo" />
+            <PropertyRef Name="Id_Sal" />
+            <PropertyRef Name="Id_Nivel" />
+            <PropertyRef Name="clave_presentacion" />
+            <PropertyRef Name="Presentacion" />
+            <PropertyRef Name="Clave" />
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Grupo" Type="Int16" Nullable="false" />
+          <Property Name="Id_Sal" Type="Int16" Nullable="false" />
+          <Property Name="Id_Nivel" Type="Int16" Nullable="false" />
+          <Property Name="clave_presentacion" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="SobranteInv2022" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Presentacion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Clave" Type="String" MaxLength="6" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="descripcion_21" Type="String" MaxLength="200" FixedLength="true" Unicode="true" />
+          <Property Name="id_grupo_21" Type="Int32" />
+          <Property Name="Inv_Act_Farmacia" Type="Int32" />
+          <Property Name="Inv_Act_Almacen" Type="Int32" />
+          <Property Name="Inv_Act_CU" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="Inv_Act_Mederos" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="InventarioTotal" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityContainer Name="SERVMEDEntities9" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ReporteInventarios" EntityType="Self.ReporteInventarios" />
+          <FunctionImport Name="SP_MedicamentosTemporales" ReturnType="Collection(SERVMEDModel7.SP_MedicamentosTemporales_Result)">
+            <Parameter Name="idUnidad" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ObtenerSustancias_Milton" ReturnType="Collection(SERVMEDModel7.SP_ObtenerSustancias_Milton_Result)" />
+          <FunctionImport Name="SP_Temporales" ReturnType="Collection(SERVMEDModel7.SP_Temporales_Result)">
+            <Parameter Name="idUnidad" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="SP_MedicamentosTemporales_Result">
+          <Property Type="String" Name="Clave" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="descripcion_21" Nullable="true" MaxLength="200" />
+          <Property Type="Int16" Name="Id_Grupo" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_ObtenerSustancias_Milton_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int16" Name="Id_Grupo" Nullable="false" />
+          <Property Type="Int16" Name="Id_Sal" Nullable="false" />
+          <Property Type="Int16" Name="Id_Nivel" Nullable="false" />
+          <Property Type="String" Name="clave_presentacion" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="Presentacion" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Clave" Nullable="false" MaxLength="6" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+          <Property Type="String" Name="Consultorio" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="estante_col" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="estante_nivel" Nullable="true" MaxLength="10" />
+          <Property Type="Decimal" Name="pos_frecuencia" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="consumo_semana" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="cb_mederos" Nullable="true" MaxLength="1" />
+          <Property Type="Single" Name="cto_ultimo" Nullable="true" />
+          <Property Type="Single" Name="cto_promedio" Nullable="true" />
+          <Property Type="Decimal" Name="estatus_21" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="descripcion_21" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="clave_21" Nullable="true" MaxLength="19" />
+          <Property Type="Int32" Name="id_grupo_21" Nullable="true" />
+          <Property Type="Int32" Name="id_principioactivo_21" Nullable="true" />
+          <Property Type="Int32" Name="id_formafarm_21" Nullable="true" />
+          <Property Type="Int32" Name="id_concentracion_21" Nullable="true" />
+          <Property Type="Int32" Name="id_unidadeslicitacion_21" Nullable="true" />
+          <Property Type="Int32" Name="id_unidadesmedida_21" Nullable="true" />
+          <Property Type="Int32" Name="id_cantidadenvases_21" Nullable="true" />
+          <Property Type="Int32" Name="id_tipoenvase_21" Nullable="true" />
+          <Property Type="String" Name="codigo_21" Nullable="true" MaxLength="19" />
+          <Property Type="Int32" Name="Nivel_21" Nullable="true" />
+          <Property Type="String" Name="SobranteInv2022" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="UserId" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="IP" Nullable="true" MaxLength="20" />
+          <Property Type="DateTime" Name="FechaMed" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="LicitacionStatus" Nullable="true" />
+          <Property Type="String" Name="Compendio" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="Id1" Nullable="false" />
+          <Property Type="Int16" Name="InvAlmId" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="16" />
+          <Property Type="Int32" Name="Id_Sustancia" Nullable="false" />
+          <Property Type="Int32" Name="Inv_Ini" Nullable="false" />
+          <Property Type="Int32" Name="Inv_Ent" Nullable="false" />
+          <Property Type="Int32" Name="Inv_Sal" Nullable="false" />
+          <Property Type="Int32" Name="Inv_Disp" Nullable="false" />
+          <Property Type="Int32" Name="Inv_Reorden" Nullable="false" />
+          <Property Type="Int32" Name="ManejoDisponible" Nullable="true" />
+          <Property Type="String" Name="Usuario_Registra" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SP_Temporales_Result">
+          <Property Type="String" Name="Clave" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="descripcion_21" Nullable="true" MaxLength="200" />
+          <Property Type="Decimal" Name="c_actual" Nullable="true" Precision="18" Scale="0" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SERVMEDModel7StoreContainer" CdmEntityContainer="SERVMEDEntities9">
+          <EntitySetMapping Name="ReporteInventarios">
+            <EntityTypeMapping TypeName="SERVMEDModel7.ReporteInventarios">
+              <MappingFragment StoreEntitySet="ReporteInventarios">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Id_Grupo" ColumnName="Id_Grupo" />
+                <ScalarProperty Name="Id_Sal" ColumnName="Id_Sal" />
+                <ScalarProperty Name="Id_Nivel" ColumnName="Id_Nivel" />
+                <ScalarProperty Name="clave_presentacion" ColumnName="clave_presentacion" />
+                <ScalarProperty Name="SobranteInv2022" ColumnName="SobranteInv2022" />
+                <ScalarProperty Name="Presentacion" ColumnName="Presentacion" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="descripcion_21" ColumnName="descripcion_21" />
+                <ScalarProperty Name="id_grupo_21" ColumnName="id_grupo_21" />
+                <ScalarProperty Name="Inv_Act_Farmacia" ColumnName="Inv_Act_Farmacia" />
+                <ScalarProperty Name="Inv_Act_Almacen" ColumnName="Inv_Act_Almacen" />
+                <ScalarProperty Name="Inv_Act_CU" ColumnName="Inv_Act_CU" />
+                <ScalarProperty Name="Inv_Act_Mederos" ColumnName="Inv_Act_Mederos" />
+                <ScalarProperty Name="InventarioTotal" ColumnName="InventarioTotal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_MedicamentosTemporales" FunctionName="SERVMEDModel7.Store.SP_MedicamentosTemporales">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SERVMEDModel7.SP_MedicamentosTemporales_Result">
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="descripcion_21" ColumnName="descripcion_21" />
+                <ScalarProperty Name="Id_Grupo" ColumnName="Id_Grupo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_ObtenerSustancias_Milton" FunctionName="SERVMEDModel7.Store.SP_ObtenerSustancias_Milton">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SERVMEDModel7.SP_ObtenerSustancias_Milton_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Id_Grupo" ColumnName="Id_Grupo" />
+                <ScalarProperty Name="Id_Sal" ColumnName="Id_Sal" />
+                <ScalarProperty Name="Id_Nivel" ColumnName="Id_Nivel" />
+                <ScalarProperty Name="clave_presentacion" ColumnName="clave_presentacion" />
+                <ScalarProperty Name="Presentacion" ColumnName="Presentacion" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Consultorio" ColumnName="Consultorio" />
+                <ScalarProperty Name="estante_col" ColumnName="estante_col" />
+                <ScalarProperty Name="estante_nivel" ColumnName="estante_nivel" />
+                <ScalarProperty Name="pos_frecuencia" ColumnName="pos_frecuencia" />
+                <ScalarProperty Name="consumo_semana" ColumnName="consumo_semana" />
+                <ScalarProperty Name="cb_mederos" ColumnName="cb_mederos" />
+                <ScalarProperty Name="cto_ultimo" ColumnName="cto_ultimo" />
+                <ScalarProperty Name="cto_promedio" ColumnName="cto_promedio" />
+                <ScalarProperty Name="estatus_21" ColumnName="estatus_21" />
+                <ScalarProperty Name="descripcion_21" ColumnName="descripcion_21" />
+                <ScalarProperty Name="clave_21" ColumnName="clave_21" />
+                <ScalarProperty Name="id_grupo_21" ColumnName="id_grupo_21" />
+                <ScalarProperty Name="id_principioactivo_21" ColumnName="id_principioactivo_21" />
+                <ScalarProperty Name="id_formafarm_21" ColumnName="id_formafarm_21" />
+                <ScalarProperty Name="id_concentracion_21" ColumnName="id_concentracion_21" />
+                <ScalarProperty Name="id_unidadeslicitacion_21" ColumnName="id_unidadeslicitacion_21" />
+                <ScalarProperty Name="id_unidadesmedida_21" ColumnName="id_unidadesmedida_21" />
+                <ScalarProperty Name="id_cantidadenvases_21" ColumnName="id_cantidadenvases_21" />
+                <ScalarProperty Name="id_tipoenvase_21" ColumnName="id_tipoenvase_21" />
+                <ScalarProperty Name="codigo_21" ColumnName="codigo_21" />
+                <ScalarProperty Name="Nivel_21" ColumnName="Nivel_21" />
+                <ScalarProperty Name="SobranteInv2022" ColumnName="SobranteInv2022" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="FechaMed" ColumnName="FechaMed" />
+                <ScalarProperty Name="LicitacionStatus" ColumnName="LicitacionStatus" />
+                <ScalarProperty Name="Compendio" ColumnName="Compendio" />
+                <ScalarProperty Name="Id1" ColumnName="Id1" />
+                <ScalarProperty Name="InvAlmId" ColumnName="InvAlmId" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Id_Sustancia" ColumnName="Id_Sustancia" />
+                <ScalarProperty Name="Inv_Ini" ColumnName="Inv_Ini" />
+                <ScalarProperty Name="Inv_Ent" ColumnName="Inv_Ent" />
+                <ScalarProperty Name="Inv_Sal" ColumnName="Inv_Sal" />
+                <ScalarProperty Name="Inv_Disp" ColumnName="Inv_Disp" />
+                <ScalarProperty Name="Inv_Reorden" ColumnName="Inv_Reorden" />
+                <ScalarProperty Name="ManejoDisponible" ColumnName="ManejoDisponible" />
+                <ScalarProperty Name="Usuario_Registra" ColumnName="Usuario_Registra" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Temporales" FunctionName="SERVMEDModel7.Store.SP_Temporales">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SERVMEDModel7.SP_Temporales_Result">
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="descripcion_21" ColumnName="descripcion_21" />
+                <ScalarProperty Name="c_actual" ColumnName="c_actual" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SMDEVModel20.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="NotaPreoperatoria">
+          <Key>
+            <PropertyRef Name="PreOperatoriaId" />
+          </Key>
+          <Property Name="PreOperatoriaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IngresoId" Type="int" Nullable="false" />
+          <Property Name="OrdenFolio" Type="int" Nullable="false" />
+          <Property Name="Medico" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="NumEmp" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="Diagnostico" Type="nvarchar" MaxLength="20" />
+          <Property Name="DiagnosticoDesc" Type="text" Nullable="false" />
+          <Property Name="PlanesCuidados" Type="text" />
+          <Property Name="PlanQuirurgico" Type="text" />
+          <Property Name="FactoresRiesgo" Type="text" />
+          <Property Name="RiesgoQuirurgico" Type="text" Nullable="false" />
+          <Property Name="Pronostico" Type="text" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioCreacion" Type="nvarchar" MaxLength="5" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="SMDEVModel20StoreContainer">
+          <EntitySet Name="NotaPreoperatoria" EntityType="Self.NotaPreoperatoria" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SMDEVModel20" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="NotaPreoperatoria">
+          <Key>
+            <PropertyRef Name="PreOperatoriaId" />
+          </Key>
+          <Property Name="PreOperatoriaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrdenFolio" Type="Int32" Nullable="false" />
+          <Property Name="Medico" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NumEmp" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Diagnostico" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="DiagnosticoDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PlanesCuidados" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PlanQuirurgico" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FactoresRiesgo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="RiesgoQuirurgico" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Pronostico" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UsuarioCreacion" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IngresoId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="SMDEVNotaPreoperatoria" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="NotaPreoperatoria" EntityType="Self.NotaPreoperatoria" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SMDEVModel20StoreContainer" CdmEntityContainer="SMDEVNotaPreoperatoria">
+          <EntitySetMapping Name="NotaPreoperatoria">
+            <EntityTypeMapping TypeName="SMDEVModel20.NotaPreoperatoria">
+              <MappingFragment StoreEntitySet="NotaPreoperatoria">
+                <ScalarProperty Name="IngresoId" ColumnName="IngresoId" />
+                <ScalarProperty Name="PreOperatoriaId" ColumnName="PreOperatoriaId" />
+                <ScalarProperty Name="OrdenFolio" ColumnName="OrdenFolio" />
+                <ScalarProperty Name="Medico" ColumnName="Medico" />
+                <ScalarProperty Name="NumEmp" ColumnName="NumEmp" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Diagnostico" ColumnName="Diagnostico" />
+                <ScalarProperty Name="DiagnosticoDesc" ColumnName="DiagnosticoDesc" />
+                <ScalarProperty Name="PlanesCuidados" ColumnName="PlanesCuidados" />
+                <ScalarProperty Name="PlanQuirurgico" ColumnName="PlanQuirurgico" />
+                <ScalarProperty Name="FactoresRiesgo" ColumnName="FactoresRiesgo" />
+                <ScalarProperty Name="RiesgoQuirurgico" ColumnName="RiesgoQuirurgico" />
+                <ScalarProperty Name="Pronostico" ColumnName="Pronostico" />
+                <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SMDEVModel22.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="NotaOperatoria">
+          <Key>
+            <PropertyRef Name="OperatoriaId" />
+          </Key>
+          <Property Name="OperatoriaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrdenFolio" Type="int" Nullable="false" />
+          <Property Name="PreOperatoriaId" Type="int" />
+          <Property Name="Medico" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="NumEmp" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="ResumenClinico" Type="text" Nullable="false" />
+          <Property Name="ResEstudiosDiagnosticos" Type="text" Nullable="false" />
+          <Property Name="DiagnosticoIngreso" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="DiagnosticoIngresoDesc" Type="text" Nullable="false" />
+          <Property Name="PlanTerCirujiaPlaneada" Type="text" Nullable="false" />
+          <Property Name="RiesgoQuirurgico" Type="text" Nullable="false" />
+          <Property Name="CirujiaRealizada" Type="text" Nullable="false" />
+          <Property Name="DiagnosticoEgreso" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="DiagnosticoEgresoDesc" Type="text" Nullable="false" />
+          <Property Name="TipoAnestecia" Type="text" Nullable="false" />
+          <Property Name="DescTecnicaQuirurgicaTerapeutica" Type="text" Nullable="false" />
+          <Property Name="Hallazgos" Type="text" Nullable="false" />
+          <Property Name="Incidentes" Type="text" Nullable="false" />
+          <Property Name="Sangrado" Type="text" Nullable="false" />
+          <Property Name="MotivoEgreso" Type="int" />
+          <Property Name="EstadoActualProblemasClinicos" Type="text" Nullable="false" />
+          <Property Name="PlanManejo" Type="text" />
+          <Property Name="Pronostico" Type="text" />
+          <Property Name="UsuarioCreacion" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="SMDEVModel22StoreContainer">
+          <EntitySet Name="NotaOperatoria" EntityType="Self.NotaOperatoria" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SMDEVModel22" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="NotaOperatoria">
+          <Key>
+            <PropertyRef Name="OperatoriaId" />
+          </Key>
+          <Property Name="OperatoriaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrdenFolio" Type="Int32" Nullable="false" />
+          <Property Name="PreOperatoriaId" Type="Int32" />
+          <Property Name="Medico" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NumEmp" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ResumenClinico" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ResEstudiosDiagnosticos" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DiagnosticoIngreso" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DiagnosticoIngresoDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PlanTerCirujiaPlaneada" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RiesgoQuirurgico" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CirujiaRealizada" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DiagnosticoEgreso" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DiagnosticoEgresoDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TipoAnestecia" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DescTecnicaQuirurgicaTerapeutica" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Hallazgos" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Incidentes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Sangrado" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MotivoEgreso" Type="Int32" />
+          <Property Name="EstadoActualProblemasClinicos" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PlanManejo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Pronostico" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UsuarioCreacion" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="SMDEVNotaOperatoria" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="NotaOperatoria" EntityType="Self.NotaOperatoria" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SMDEVModel22StoreContainer" CdmEntityContainer="SMDEVNotaOperatoria">
+          <EntitySetMapping Name="NotaOperatoria">
+            <EntityTypeMapping TypeName="SMDEVModel22.NotaOperatoria">
+              <MappingFragment StoreEntitySet="NotaOperatoria">
+                <ScalarProperty Name="OperatoriaId" ColumnName="OperatoriaId" />
+                <ScalarProperty Name="OrdenFolio" ColumnName="OrdenFolio" />
+                <ScalarProperty Name="PreOperatoriaId" ColumnName="PreOperatoriaId" />
+                <ScalarProperty Name="Medico" ColumnName="Medico" />
+                <ScalarProperty Name="NumEmp" ColumnName="NumEmp" />
+                <ScalarProperty Name="ResumenClinico" ColumnName="ResumenClinico" />
+                <ScalarProperty Name="ResEstudiosDiagnosticos" ColumnName="ResEstudiosDiagnosticos" />
+                <ScalarProperty Name="DiagnosticoIngreso" ColumnName="DiagnosticoIngreso" />
+                <ScalarProperty Name="DiagnosticoIngresoDesc" ColumnName="DiagnosticoIngresoDesc" />
+                <ScalarProperty Name="PlanTerCirujiaPlaneada" ColumnName="PlanTerCirujiaPlaneada" />
+                <ScalarProperty Name="RiesgoQuirurgico" ColumnName="RiesgoQuirurgico" />
+                <ScalarProperty Name="CirujiaRealizada" ColumnName="CirujiaRealizada" />
+                <ScalarProperty Name="DiagnosticoEgreso" ColumnName="DiagnosticoEgreso" />
+                <ScalarProperty Name="DiagnosticoEgresoDesc" ColumnName="DiagnosticoEgresoDesc" />
+                <ScalarProperty Name="TipoAnestecia" ColumnName="TipoAnestecia" />
+                <ScalarProperty Name="DescTecnicaQuirurgicaTerapeutica" ColumnName="DescTecnicaQuirurgicaTerapeutica" />
+                <ScalarProperty Name="Hallazgos" ColumnName="Hallazgos" />
+                <ScalarProperty Name="Incidentes" ColumnName="Incidentes" />
+                <ScalarProperty Name="Sangrado" ColumnName="Sangrado" />
+                <ScalarProperty Name="MotivoEgreso" ColumnName="MotivoEgreso" />
+                <ScalarProperty Name="EstadoActualProblemasClinicos" ColumnName="EstadoActualProblemasClinicos" />
+                <ScalarProperty Name="PlanManejo" ColumnName="PlanManejo" />
+                <ScalarProperty Name="Pronostico" ColumnName="Pronostico" />
+                <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

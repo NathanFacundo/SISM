@@ -1,0 +1,135 @@
+﻿@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Consultas - Servicios Médicos";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+<link rel='stylesheet' href='https://fullcalendar.io/releases/core/4.0.1/main.min.css'>
+<link rel='stylesheet' href='https://fullcalendar.io/releases/timeline/4.0.1/main.min.css'>
+<link rel='stylesheet' href='https://fullcalendar.io/releases/resource-timeline/4.0.1/main.min.css'>
+
+
+<style>
+    .uanl-logo {
+        width: 10vw;
+        margin-top: 0vw;
+        margin-bottom: 1vw;
+    }
+
+    @@font-face {
+        font-family: 'Effra-Regular';
+        src: url('~/fonts/Effra-Regular.eot');
+        src: url('~/fonts/Effra-Regular.eot?#iefix') format('embedded-opentype'), url('~/fonts/Effra-Regular.ttf') format('truetype');
+    }
+
+    @@font-face {
+        font-family: 'Effra-Bold';
+        src: url('~/fonts/Effra-Bold.eot');
+        src: url('~/fonts/Effra-Bold.eot?#iefix') format('embedded-opentype'), url('~/fonts/Effra-Bold.ttf') format('truetype');
+    }
+
+
+    .somos-uni {
+        width: 5vw;
+        margin-top: 1vw;
+        margin-bottom: 3vw;
+    }
+
+    .linea-arriba {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: -1;
+        width: 2.5vw;
+        margin-top: 5.8vw;
+    }
+
+    .linea-abajo {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 2.5vw;
+        margin-bottom: 0.7vw;
+    }
+</style>
+
+
+<img class="linea-abajo" src="~/Imagenes/lineas-uanl-izquierda.png">
+<img class="linea-arriba" src="~/Imagenes/lineas-uanl-derecha.png">
+
+<div id="loadingDiv" style="display:none;">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Consultas", "Manage")"><b>Consultas</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("ServiciosMedicos", "Manage")"><b>Servicios Médicos</b></a></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="col-md-10 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
+        <img src="~/Imagenes/uanl-logo.png" class="uanl-logo" />
+        <h3 style="font-family: 'Roboto', sans-serif;">Médico: <span class="putUserName"></span></h3>
+    </div>
+
+    <div class="col-12">
+        <div id='calendar'></div>
+    </div>
+
+    <div class="col-md-10 text-center m-auto p-3">
+        <img src="~/Imagenes/somos-uni.png" class="somos-uni" />
+    </div>
+</div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script type="text/javascript">
+    $.ajax({
+        type: 'GET',
+        url: '@Url.Action("GetMedicoNombres", "Manage")',
+        dataType: 'json',
+        cache: false,
+        success: function (data) {
+            $('.putUserName').html(data.nombres + " " + data.apellido_paterno + " " + data.apellido_materno);
+        },
+        error: function (xhr, status, error) {
+            Swal.fire('Error', 'No cuenta con número de Médico', 'No cuenta con número de Médico');
+        }
+    });
+</script>
+
+<script>
+    function imgError(image) {
+        image.onerror = "";
+        image.src = "http://148.234.143.205/SISM/Imagenes/uanl.png";
+        return true;
+    }
+</script>
+<table id="grilla1" class="table table-bordered " style="        width: 100%;
+        font-size: 12px;
+">
+    <thead style=" ">
+        <tr>
+
+            <th style=" text-align: center;">Fecha de Ingreso</th>
+            <th style=" text-align: center;">Resumen Interrogatorio</th>
+            <th style=" text-align: center;">Dias Internado</th>
+            <th style=" text-align: center;">Fecha de Egreso</th>
+            <th style=" text-align: center;">Resumen de Evolución</th>
+        </tr>
+    </thead>

@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SMDEVModel32.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CovidSolicitud">
+          <Key>
+            <PropertyRef Name="SolicitudId" />
+          </Key>
+          <Property Name="SolicitudId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NumEmp" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="Medico" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Nota" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FechaSol" Type="datetime" Nullable="false" />
+          <Property Name="Vacunado" Type="bit" Nullable="false" />
+          <Property Name="MarcaVacuna" Type="nvarchar(max)" />
+          <Property Name="EsquemaCompleto" Type="bit" />
+          <Property Name="FechaUltimaDosis" Type="datetime" />
+          <Property Name="Fiebre" Type="bit" />
+          <Property Name="Tos" Type="bit" />
+          <Property Name="Anosmia" Type="bit" />
+          <Property Name="Hipotension" Type="bit" />
+          <Property Name="Odinofagia" Type="bit" />
+          <Property Name="Mialgia" Type="bit" />
+          <Property Name="FRM25" Type="bit" />
+          <Property Name="AlteracionConsciencia" Type="bit" />
+          <Property Name="DolorCabeza" Type="bit" />
+          <Property Name="DolorAbdominal" Type="bit" />
+          <Property Name="Disnea" Type="bit" />
+          <Property Name="Saturacion" Type="bit" />
+          <Property Name="Alteraciones" Type="bit" />
+          <Property Name="Diarrea" Type="bit" />
+          <Property Name="Mareo" Type="bit" />
+          <Property Name="Tipo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FechaAgenda" Type="datetime" />
+          <Property Name="UsuarioAgenda" Type="nvarchar" MaxLength="10" />
+          <Property Name="UsuarioRealiza" Type="nvarchar" MaxLength="10" />
+          <Property Name="FechaRealiza" Type="datetime" />
+          <Property Name="NotaRealiza" Type="nvarchar(max)" />
+          <Property Name="Finalizado" Type="bit" Nullable="false" />
+          <Property Name="Cancelado" Type="bit" Nullable="false" />
+          <Property Name="NoPresento" Type="bit" Nullable="false" />
+          <Property Name="Urgente" Type="nvarchar" MaxLength="1" />
+          <Property Name="Resultado" Type="int" />
+          <Property Name="NotaResultado" Type="varchar" MaxLength="500" />
+          <Property Name="FechaResultado" Type="datetime" />
+          <Property Name="UsuarioResultado" Type="varchar" MaxLength="50" />
+          <Property Name="Rinorrea" Type="bit" />
+          <Property Name="Diarrea16" Type="bit" />
+          <Property Name="Ictericia" Type="bit" />
+          <Property Name="Acolia" Type="bit" />
+          <Property Name="Coluria" Type="bit" />
+        </EntityType>
+        <EntityContainer Name="SMDEVModel32StoreContainer">
+          <EntitySet Name="CovidSolicitud" EntityType="Self.CovidSolicitud" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SMDEVModel32" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SMDEVCovidSolicitud" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CovidSolicitud" EntityType="SMDEVModel32.CovidSolicitud" />
+        </EntityContainer>
+        <EntityType Name="CovidSolicitud">
+          <Key>
+            <PropertyRef Name="SolicitudId" />
+          </Key>
+          <Property Name="SolicitudId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumEmp" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="Medico" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="Nota" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FechaSol" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Vacunado" Type="Boolean" Nullable="false" />
+          <Property Name="MarcaVacuna" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EsquemaCompleto" Type="Boolean" />
+          <Property Name="FechaUltimaDosis" Type="DateTime" Precision="3" />
+          <Property Name="Fiebre" Type="Boolean" />
+          <Property Name="Tos" Type="Boolean" />
+          <Property Name="Anosmia" Type="Boolean" />
+          <Property Name="Hipotension" Type="Boolean" />
+          <Property Name="Odinofagia" Type="Boolean" />
+          <Property Name="Mialgia" Type="Boolean" />
+          <Property Name="FRM25" Type="Boolean" />
+          <Property Name="AlteracionConsciencia" Type="Boolean" />
+          <Property Name="DolorCabeza" Type="Boolean" />
+          <Property Name="DolorAbdominal" Type="Boolean" />
+          <Property Name="Disnea" Type="Boolean" />
+          <Property Name="Saturacion" Type="Boolean" />
+          <Property Name="Alteraciones" Type="Boolean" />
+          <Property Name="Diarrea" Type="Boolean" />
+          <Property Name="Mareo" Type="Boolean" />
+          <Property Name="Tipo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FechaAgenda" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioAgenda" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="UsuarioRealiza" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="FechaRealiza" Type="DateTime" Precision="3" />
+          <Property Name="NotaRealiza" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Finalizado" Type="Boolean" Nullable="false" />
+          <Property Name="Cancelado" Type="Boolean" Nullable="false" />
+          <Property Name="NoPresento" Type="Boolean" Nullable="false" />
+          <Property Name="Urgente" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="Resultado" Type="Int32" />
+          <Property Name="NotaResultado" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="FechaResultado" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioResultado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Rinorrea" Type="Boolean" />
+          <Property Name="Diarrea16" Type="Boolean" />
+          <Property Name="Ictericia" Type="Boolean" />
+          <Property Name="Acolia" Type="Boolean" />
+          <Property Name="Coluria" Type="Boolean" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SMDEVModel32StoreContainer" CdmEntityContainer="SMDEVCovidSolicitud">
+          <EntitySetMapping Name="CovidSolicitud">
+            <EntityTypeMapping TypeName="SMDEVModel32.CovidSolicitud">
+              <MappingFragment StoreEntitySet="CovidSolicitud">
+                <ScalarProperty Name="Coluria" ColumnName="Coluria" />
+                <ScalarProperty Name="Acolia" ColumnName="Acolia" />
+                <ScalarProperty Name="Ictericia" ColumnName="Ictericia" />
+                <ScalarProperty Name="Diarrea16" ColumnName="Diarrea16" />
+                <ScalarProperty Name="Rinorrea" ColumnName="Rinorrea" />
+                <ScalarProperty Name="UsuarioResultado" ColumnName="UsuarioResultado" />
+                <ScalarProperty Name="FechaResultado" ColumnName="FechaResultado" />
+                <ScalarProperty Name="NotaResultado" ColumnName="NotaResultado" />
+                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="Urgente" ColumnName="Urgente" />
+                <ScalarProperty Name="NoPresento" ColumnName="NoPresento" />
+                <ScalarProperty Name="Cancelado" ColumnName="Cancelado" />
+                <ScalarProperty Name="Finalizado" ColumnName="Finalizado" />
+                <ScalarProperty Name="NotaRealiza" ColumnName="NotaRealiza" />
+                <ScalarProperty Name="FechaRealiza" ColumnName="FechaRealiza" />
+                <ScalarProperty Name="UsuarioRealiza" ColumnName="UsuarioRealiza" />
+                <ScalarProperty Name="UsuarioAgenda" ColumnName="UsuarioAgenda" />
+                <ScalarProperty Name="FechaAgenda" ColumnName="FechaAgenda" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="Mareo" ColumnName="Mareo" />
+                <ScalarProperty Name="Diarrea" ColumnName="Diarrea" />
+                <ScalarProperty Name="Alteraciones" ColumnName="Alteraciones" />
+                <ScalarProperty Name="Saturacion" ColumnName="Saturacion" />
+                <ScalarProperty Name="Disnea" ColumnName="Disnea" />
+                <ScalarProperty Name="DolorAbdominal" ColumnName="DolorAbdominal" />
+                <ScalarProperty Name="DolorCabeza" ColumnName="DolorCabeza" />
+                <ScalarProperty Name="AlteracionConsciencia" ColumnName="AlteracionConsciencia" />
+                <ScalarProperty Name="FRM25" ColumnName="FRM25" />
+                <ScalarProperty Name="Mialgia" ColumnName="Mialgia" />
+                <ScalarProperty Name="Odinofagia" ColumnName="Odinofagia" />
+                <ScalarProperty Name="Hipotension" ColumnName="Hipotension" />
+                <ScalarProperty Name="Anosmia" ColumnName="Anosmia" />
+                <ScalarProperty Name="Tos" ColumnName="Tos" />
+                <ScalarProperty Name="Fiebre" ColumnName="Fiebre" />
+                <ScalarProperty Name="FechaUltimaDosis" ColumnName="FechaUltimaDosis" />
+                <ScalarProperty Name="EsquemaCompleto" ColumnName="EsquemaCompleto" />
+                <ScalarProperty Name="MarcaVacuna" ColumnName="MarcaVacuna" />
+                <ScalarProperty Name="Vacunado" ColumnName="Vacunado" />
+                <ScalarProperty Name="FechaSol" ColumnName="FechaSol" />
+                <ScalarProperty Name="Nota" ColumnName="Nota" />
+                <ScalarProperty Name="Medico" ColumnName="Medico" />
+                <ScalarProperty Name="NumEmp" ColumnName="NumEmp" />
+                <ScalarProperty Name="SolicitudId" ColumnName="SolicitudId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

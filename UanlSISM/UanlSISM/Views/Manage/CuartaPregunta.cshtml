@@ -1,0 +1,386 @@
+﻿
+@model IEnumerable<UanlSISM.Models.encuesta_covid>
+@{
+    ViewBag.Title = "CuartaPregunta";
+    var ultimo_item = "";
+}
+
+<style>
+
+    .navbar {
+        display: none;
+    }
+
+    #encuesta {
+        -webkit-box-shadow: 0px 2px 5px 3px rgba(0,0,0,0.51);
+        -moz-box-shadow: 0px 2px 5px 3px rgba(0,0,0,0.51);
+        box-shadow: 0px 2px 5px 3px rgba(0,0,0,0.51);
+        background-color: white;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 10px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        width: 100%;
+    }
+
+    .res-preguntas {
+        display: none;
+    }
+
+    #example {
+        width: 100% !important;
+    }
+
+    #example_filter {
+        margin-top: 10px;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter input {
+        width: 100% !important;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter {
+        text-align: left !important;
+    }
+
+    div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+        margin: 10px !important;
+    }
+
+    .dataTables_length {
+        margin-top: -40px;
+        margin-left: auto;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+
+        .dataTables_length select {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+    .dataTables_info {
+        margin-top: 20px;
+        margin-left: auto;
+        flex: 0 0 50%;
+        max-width: 50%;
+        padding: 0px !important;
+    }
+
+    td:last-child {
+        text-align: center;
+    }
+
+    table.dataTable tr.child ul li {
+        white-space: normal !important;
+    }
+
+    .dt-buttons {
+        width: 70%;
+    }
+
+        .dt-buttons .btn {
+            background-color: rgba(0,74,143,0.8);
+            color: white;
+        }
+
+    .btn-group {
+        width: 100%;
+    }
+
+    .btn-mas {
+        background-color: rgba(0,74,143,0.8);
+        color: white;
+        margin-bottom: 5px;
+    }
+
+    .btn-preguntas {
+        background-color: #FBC43D;
+        color: white;
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin-left: 20px;
+        z-index: 9999;
+    }
+
+    .dropdown-menu {
+        background-color: rgb(124, 181, 236);
+        color: white;
+    }
+
+        .dropdown-menu a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+    .highcharts-credits {
+        display: none;
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 991px)">
+    .dataTables_length {
+        margin-top: 20px;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    #example_filter {
+        text-align: center;
+    }
+
+    .btn-preguntas {
+        display: none;
+    }
+
+    .res-preguntas {
+        display: block;
+    }
+
+        .res-preguntas .btn-preguntas {
+            display: block;
+            position: relative;
+            margin: 0;
+            margin-bottom: 20px;
+        }
+
+    .btn-mas {
+        padding: 5px;
+    }
+</style>
+
+
+<link rel='stylesheet' href='https://cdn.rawgit.com/t4t5/sweetalert/v0.2.0/lib/sweet-alert.css'>
+
+<link rel='stylesheet' href='https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css'>
+<link rel='stylesheet' href='https://cdn.datatables.net/buttons/1.2.2/css/buttons.bootstrap.min.css'>
+
+<link rel='stylesheet' href='https://cdn.datatables.net/responsive/1.0.4/css/dataTables.responsive.css'>
+
+
+<div id="encuesta">
+    <div class="row res-preguntas">
+        <center> <a href="../Manage/EncuestaCovid"><button class="btn btn-preguntas">Ir a las preguntas</button></a></center>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <a href="../Manage/EncuestaCovid"><button class="btn btn-preguntas">Ir a las preguntas</button></a>
+            <div id="chart"></div>
+            <h5>Total de encuestados: <span class="count_all" style="font-weight:bolder;"></span> </h5>
+            <h5>Si: <span class="si_count" style="font-weight:bolder;"></span> </h5>
+            <h5>No: <span class="no_count" style="font-weight:bolder;"></span> </h5>
+
+            @foreach (var item in Model)
+            {
+                if (ultimo_item != item.medico)
+                {
+                    <h5>Medico: <span class="medicos" style="font-weight:bolder;">@item.medico</span></h5>
+                }
+                ultimo_item = item.medico;
+
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table id="example">
+                <thead>
+                    <tr>
+                        <th>Expediente</th>
+                        <th>Médico</th>
+                        <th>¿Efectúo el aislamiento estricto?</th>
+                        <th>Detalles</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.expediente</td>
+                            <td>@item.medico</td>
+                            @if (@item.aislamiento == "1")
+                            {
+                                <td> Si </td>
+
+                            }
+                            else
+                            {
+                                <td> No </td>
+                            }
+                            <td><button class="btn btn-mas">Ver más</button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- partial -->
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+<script src='https://code.highcharts.com/highcharts.js'></script>
+<script src='https://code.highcharts.com/modules/no-data-to-display.js'></script>
+<script>
+    $(document).ready(function () {
+        $.getJSON("GetDataCuarta","Manage", function (data) {
+            $('.count_all').text(data.count_all);
+            $('.si_count').text(data.si_count);
+            $('.no_count').text(data.no_count);
+            Highcharts.chart('chart', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: '¿Efectuó el aislamiento estricto?'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                        }
+                    }
+                },
+                series: [{
+                    name: '¿Lo efectuó?',
+                    colorByPoint: true,
+                    data: [
+                        {
+                            name: 'Si',
+                            y: data.cuatro_si,
+                            sliced: true,
+                            selected: true
+                        },
+                        {
+                            name: 'No',
+                            y: data.cuatro_no,
+                            sliced: true,
+                            selected: true
+                        },
+                        {
+                            name: 'Sin constestar',
+                            y: data.cuatro_null,
+                            sliced: true,
+                            selected: true
+                        }
+                    ]
+                }]
+            });
+
+        });
+    });
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src='https://cdn.rawgit.com/t4t5/sweetalert/v0.2.0/lib/sweet-alert.min.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+
+    $(".deleteUsuarios").click(function () {
+        var id = $(this).attr('rel');
+        var deleteFunction = $(this).attr('rel1');
+        swal({
+            title: "¿Seguro que desea eliminarlo?",
+            text: "No podras revertir esta acción",
+            button: "Eliminar",
+            icon: "warning",
+            dangerMode: true,
+            showCancelButton: true,
+            confirmButtonText: 'Eliminar',
+            cancelButtonText: "Cancelar",
+        })
+            .then(willDelete => {
+                if (willDelete) {
+                    swal("¡Eliminado!", "Se ha eliminado con éxito", "success");
+                    window.location.href = "/admin/" + deleteFunction + "/" + id;
+                }
+            });
+    });
+
+</script>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+<script src='https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js'></script>
+<script src='https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.18/pdfmake.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.18/vfs_fonts.js'></script>
+
+
+<script src='https://cdn.datatables.net/responsive/1.0.4/js/dataTables.responsive.js'></script>
+
+<script>
+
+    $(document).ready(function () {
+        //Only needed for the filename of export files.
+        //Normally set in the title tag of your page.
+        document.title = 'Encuesta Covid';
+        // DataTable initialisation
+        $('#example').DataTable(
+            {
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "",
+                    "sInfoEmpty": "",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                },
+                "dom": '<"dt-buttons"Bf><"clear">lirtp',
+                "paging": true,
+                "autoWidth": true,
+                "buttons": [
+                    { extend: 'colvis', text: 'Columnas visibles' },
+                    { extend: 'copyHtml5', text: 'Copiar al portapapeles' },
+                    { extend: 'csvHtml5', text: 'CSV' },
+                    { extend: 'excelHtml5', text: 'Excel' },
+                    { extend: 'pdfHtml5', text: 'PDF' },
+                    { extend: 'print', text: 'Imprimir' }
+                ]
+            }
+        );
+    });
+
+
+</script>
+
+
+

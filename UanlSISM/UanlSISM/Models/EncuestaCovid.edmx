@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SMDEVModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="encuesta_covid">
+          <Key>
+            <PropertyRef Name="expediente" />
+          </Key>
+          <Property Name="expediente" Type="nchar" MaxLength="8" Nullable="false" />
+          <Property Name="medico" Type="nchar" MaxLength="5" />
+          <Property Name="veces_consulta" Type="nchar" MaxLength="1" />
+          <Property Name="aislamiento" Type="nchar" MaxLength="1" />
+          <Property Name="dif_respirar" Type="nchar" MaxLength="1" />
+          <Property Name="int_requerido" Type="nchar" MaxLength="1" />
+          <Property Name="oxi_requerido" Type="nchar" MaxLength="1" />
+          <Property Name="vent_asistida" Type="nchar" MaxLength="1" />
+          <Property Name="alta" Type="nchar" MaxLength="1" />
+          <Property Name="fam_sintomas" Type="nchar" MaxLength="1" />
+          <Property Name="derechohabiente" Type="nchar" MaxLength="1" />
+          <Property Name="inc_vence" Type="datetime" />
+          <Property Name="comentarios" Type="ntext" />
+          <Property Name="fecha_enc" Type="datetime" />
+          <Property Name="fecha_pos" Type="datetime" />
+          <Property Name="dias_prueba" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="gpo_riesgo" Type="nchar" MaxLength="1" />
+          <Property Name="trabajo_ubica" Type="nchar" MaxLength="1" />
+        </EntityType>
+        <EntityContainer Name="SMDEVModelStoreContainer">
+          <EntitySet Name="encuesta_covid" EntityType="Self.encuesta_covid" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SMDEVModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="encuesta_covid">
+          <Key>
+            <PropertyRef Name="expediente" />
+          </Key>
+          <Property Name="expediente" Type="String" MaxLength="8" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="medico" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
+          <Property Name="veces_consulta" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="aislamiento" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="dif_respirar" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="int_requerido" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="oxi_requerido" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="vent_asistida" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="alta" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="fam_sintomas" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="derechohabiente" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="inc_vence" Type="DateTime" Precision="3" />
+          <Property Name="comentarios" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_enc" Type="DateTime" Precision="3" />
+          <Property Name="fecha_pos" Type="DateTime" Precision="3" />
+          <Property Name="dias_prueba" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="gpo_riesgo" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="trabajo_ubica" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="SMDEVEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="encuesta_covid" EntityType="Self.encuesta_covid" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SMDEVModelStoreContainer" CdmEntityContainer="SMDEVEntities">
+          <EntitySetMapping Name="encuesta_covid">
+            <EntityTypeMapping TypeName="SMDEVModel.encuesta_covid">
+              <MappingFragment StoreEntitySet="encuesta_covid">
+                <ScalarProperty Name="expediente" ColumnName="expediente" />
+                <ScalarProperty Name="medico" ColumnName="medico" />
+                <ScalarProperty Name="veces_consulta" ColumnName="veces_consulta" />
+                <ScalarProperty Name="aislamiento" ColumnName="aislamiento" />
+                <ScalarProperty Name="dif_respirar" ColumnName="dif_respirar" />
+                <ScalarProperty Name="int_requerido" ColumnName="int_requerido" />
+                <ScalarProperty Name="oxi_requerido" ColumnName="oxi_requerido" />
+                <ScalarProperty Name="vent_asistida" ColumnName="vent_asistida" />
+                <ScalarProperty Name="alta" ColumnName="alta" />
+                <ScalarProperty Name="fam_sintomas" ColumnName="fam_sintomas" />
+                <ScalarProperty Name="derechohabiente" ColumnName="derechohabiente" />
+                <ScalarProperty Name="inc_vence" ColumnName="inc_vence" />
+                <ScalarProperty Name="comentarios" ColumnName="comentarios" />
+                <ScalarProperty Name="fecha_enc" ColumnName="fecha_enc" />
+                <ScalarProperty Name="fecha_pos" ColumnName="fecha_pos" />
+                <ScalarProperty Name="dias_prueba" ColumnName="dias_prueba" />
+                <ScalarProperty Name="gpo_riesgo" ColumnName="gpo_riesgo" />
+                <ScalarProperty Name="trabajo_ubica" ColumnName="trabajo_ubica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

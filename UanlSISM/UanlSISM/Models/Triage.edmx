@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SMDEVModel35.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TblTriage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="250" />
+          <Property Name="Expediente" Type="varchar" MaxLength="20" />
+          <Property Name="ip_realiza" Type="char" MaxLength="15" />
+          <Property Name="UsuarioRegistra" Type="varchar" MaxLength="50" />
+          <Property Name="FechaLlamado" Type="datetime" />
+          <Property Name="ColorConsulta" Type="varchar" MaxLength="20" />
+          <Property Name="ConsultaEspecial" Type="varchar" MaxLength="30" />
+          <Property Name="SV_PAdiastolica" Type="varchar" MaxLength="20" />
+          <Property Name="SV_FC" Type="varchar" MaxLength="20" />
+          <Property Name="SV_FR" Type="varchar" MaxLength="20" />
+          <Property Name="SV_Temperatura" Type="varchar" MaxLength="20" />
+          <Property Name="SV_SO2" Type="varchar" MaxLength="20" />
+          <Property Name="SV_Glucosa" Type="varchar" MaxLength="20" />
+          <Property Name="SV_Glasgow" Type="varchar" MaxLength="20" />
+          <Property Name="SV_Peso" Type="varchar" MaxLength="20" />
+          <Property Name="SV_Talla" Type="varchar" MaxLength="20" />
+          <Property Name="SV_PAsistolica" Type="varchar" MaxLength="20" />
+          <Property Name="NombrePaciente" Type="varchar" MaxLength="50" />
+          <Property Name="EdadPaciente" Type="varchar" MaxLength="50" />
+          <Property Name="SexoPaciente" Type="varchar" MaxLength="5" />
+          <Property Name="VigenciaPaciente" Type="varchar" MaxLength="30" />
+          <Property Name="EstatusConsulta" Type="varchar" MaxLength="5" />
+          <Property Name="MedicoLlama" Type="varchar" MaxLength="15" />
+          <Property Name="ip_realizaMedico" Type="varchar" MaxLength="15" />
+          <Property Name="ConsultorioMedico" Type="int" />
+          <Property Name="PasarASoap" Type="varchar" MaxLength="5" />
+          <Property Name="NotaEvolucion" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityContainer Name="SMDEVModel35StoreContainer">
+          <EntitySet Name="TblTriage" EntityType="Self.TblTriage" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SMDEVModel35" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TblTriage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="Descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Expediente" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ip_realiza" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="UsuarioRegistra" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaLlamado" Type="DateTime" Precision="3" />
+          <Property Name="ColorConsulta" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ConsultaEspecial" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="SV_PAdiastolica" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SV_FC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SV_FR" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SV_Temperatura" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SV_SO2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SV_Glucosa" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SV_Glasgow" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SV_Peso" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SV_Talla" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SV_PAsistolica" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="NombrePaciente" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EdadPaciente" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SexoPaciente" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="VigenciaPaciente" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="EstatusConsulta" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="MedicoLlama" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="ip_realizaMedico" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="ConsultorioMedico" Type="Int32" />
+          <Property Name="PasarASoap" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="NotaEvolucion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="SMDEVTriage" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TblTriage" EntityType="Self.TblTriage" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SMDEVModel35StoreContainer" CdmEntityContainer="SMDEVTriage">
+          <EntitySetMapping Name="TblTriage">
+            <EntityTypeMapping TypeName="SMDEVModel35.TblTriage">
+              <MappingFragment StoreEntitySet="TblTriage">
+                <ScalarProperty Name="NotaEvolucion" ColumnName="NotaEvolucion" />
+                <ScalarProperty Name="PasarASoap" ColumnName="PasarASoap" />
+                <ScalarProperty Name="ConsultorioMedico" ColumnName="ConsultorioMedico" />
+                <ScalarProperty Name="ip_realizaMedico" ColumnName="ip_realizaMedico" />
+                <ScalarProperty Name="MedicoLlama" ColumnName="MedicoLlama" />
+                <ScalarProperty Name="EstatusConsulta" ColumnName="EstatusConsulta" />
+                <ScalarProperty Name="VigenciaPaciente" ColumnName="VigenciaPaciente" />
+                <ScalarProperty Name="SexoPaciente" ColumnName="SexoPaciente" />
+                <ScalarProperty Name="EdadPaciente" ColumnName="EdadPaciente" />
+                <ScalarProperty Name="NombrePaciente" ColumnName="NombrePaciente" />
+                <ScalarProperty Name="SV_PAsistolica" ColumnName="SV_PAsistolica" />
+                <ScalarProperty Name="SV_Talla" ColumnName="SV_Talla" />
+                <ScalarProperty Name="SV_Peso" ColumnName="SV_Peso" />
+                <ScalarProperty Name="SV_Glasgow" ColumnName="SV_Glasgow" />
+                <ScalarProperty Name="SV_Glucosa" ColumnName="SV_Glucosa" />
+                <ScalarProperty Name="SV_SO2" ColumnName="SV_SO2" />
+                <ScalarProperty Name="SV_Temperatura" ColumnName="SV_Temperatura" />
+                <ScalarProperty Name="SV_FR" ColumnName="SV_FR" />
+                <ScalarProperty Name="SV_FC" ColumnName="SV_FC" />
+                <ScalarProperty Name="SV_PAdiastolica" ColumnName="SV_PAdiastolica" />
+                <ScalarProperty Name="ConsultaEspecial" ColumnName="ConsultaEspecial" />
+                <ScalarProperty Name="ColorConsulta" ColumnName="ColorConsulta" />
+                <ScalarProperty Name="FechaLlamado" ColumnName="FechaLlamado" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Expediente" ColumnName="Expediente" />
+                <ScalarProperty Name="ip_realiza" ColumnName="ip_realiza" />
+                <ScalarProperty Name="UsuarioRegistra" ColumnName="UsuarioRegistra" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

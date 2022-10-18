@@ -1,0 +1,278 @@
+﻿
+@model UanlSISM.Models.Lab_Expediente
+
+@using Microsoft.AspNet.Identity;
+@{
+    Layout = "";
+
+}
+<style>
+
+
+    .dataTables_wrapper .dataTables_info {
+        width: 100% !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+        .dataTables_wrapper .dataTables_filter label {
+            width: 100% !important;
+            font-weight: bolder;
+            text-align: center;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            width: 80% !important;
+            text-align: center;
+        }
+
+    .dataTables_wrapper .dataTables_length {
+        display: none;
+    }
+
+
+
+    table.dataTable tbody tr.selected {
+        background-color: #FBC43D !important;
+        color: white !important;
+    }
+
+        table.dataTable tbody tr.selected .checking {
+            color: white !important;
+        }
+
+    #msform textarea {
+        padding: 0px 8px 4px 8px;
+        border: none;
+        border-bottom: 1px solid lightgray;
+        border-radius: 0px;
+        margin-top: 2px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        color: #2C3E50;
+        font-size: 16px;
+        letter-spacing: 1px;
+    }
+</style>
+
+<div class="col-12 mt-5" id="msform">
+    <table id="tblSolLab" class="table table-bordered table-striped" style="width:100%;" width="100%">
+        <thead>
+            <tr>
+                <th></th>
+                <th>FOLIO</th>
+                <th>FECHA</th>
+                <th>URGENTE</th>
+                <th>OBSERVACIONES</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var property in Model.LabExpediente)
+            {
+            <tr>
+                @if (property.fecha_crea.ToShortDateString() == System.DateTime.Now.ToShortDateString())
+                {
+                    <td>
+                        <button class="btn btn-default" style="width:50px;" onclick="DeleteSolLab(@property.Folio_lab)">
+                            <img style="width:20px;height:20px;" src="~/Imagenes/iconos/trashcan.png" />
+                        </button>
+                    </td>
+                }
+
+
+                else
+                {
+
+                    <td>
+                        
+                    </td>
+
+                }
+
+                <td>
+                    <p style="text-decoration:underline"><a href="#" onclick="SolicitudLab(@property.Folio_lab)" class="text-primary">@property.Folio_lab</a></p>
+                </td>
+                <td>
+
+                    @property.fecha_crea.ToString("dd/MM/yyyy")
+                </td>
+
+                @if (@property.urgente == "2")
+
+                {
+                    <td>
+
+                        Ordinario
+                    </td>
+                }
+
+                else
+                {
+                    <td>
+                        <p class="text-danger">Urgente</p>
+
+                    </td>
+                }
+
+                <td>
+
+                    @property.observaciones
+
+                </td>
+            </tr>
+
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="col-12 mt-5" id="msform">
+    <h4 style="text-align:center;font-weight:bold">Historial</h4>
+    <br />
+    <table style="width:100%" class="table table-bordered table-striped" id="historialpaciente">
+        <thead>
+            <tr>
+                <th>Estudio</th>
+                <th>Fecha Creacion</th>
+                <th>Medico</th>
+                <th>Observaciones</th>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<br />
+<br />
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css" />
+<script src="https://cdn.datatables.net/plug-ins/1.10.16/sorting/datetime-moment.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#tblSolLab').DataTable({
+            "dom": '<"toolbar">frtip',
+            order: [[1, 'desc']],
+            "language": {
+                "search": "Buscar Solicitud ",
+                "zeroRecords": "No se encontró ninguna solicitud de laboratorio",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+                "select": {
+                    "rows": " filas seleccionadas"
+                },
+                "loadingRecords": "Un momento, cargando solicitudes de laboratorio...",
+                "processing": "Procesando solicitudes de laboratorio...",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_  solicitudes de laboratorio",
+                "lengthMenu": "Mostrando _MENU_ solicitudes de laboratorio",
+            }
+        });
+        $("div.toolbar").html('<button style="background-color:#004a8f;color:white;display:block;margin-left:85%"  data-toggle="modal" data-target="#exampleModal" class="btn btn-default" >+ Agregar</button>');
+    });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.4/moment.min.js"></script>
+<script>
+
+   function SolicitudLab(folio) {
+
+        $("#divListSolLab").hide();
+       $('#divSolLab').html('');
+
+        $.ajax({
+            url: '@Url.Action("SolicitudLaboratorioExp", "Manage")?folio='+ folio,
+            success: function (data) {
+                $('#divSolLab').show();
+                $('#divSolLab').html(data);
+            },
+            error: function (reponse) {
+                alert("Error !");
+                console.log(reponse);
+            }
+        });
+    }
+
+
+    var table = $('#historialpaciente').DataTable({
+        "ajax": {
+            "url": '@Url.Action("GetHistorialLab", "Manage", new { expediente = @Model.expediente })',
+            "dataSrc": "",
+            },
+            responsive: true,
+            searching: false,
+             info: false,
+             order: [[1, 'desc']],
+            language: {
+            "zeroRecords": "Historial vacio",
+            "paginate": {
+            "first": "Primero",
+            "last": "Último",
+            "next": "Siguiente",
+            "previous": "Anterior"
+            },
+            "select": {
+            "rows": " %d filas seleccionadas"
+            },
+            },
+            columns: [
+            { "data": "labCat.lab_des" },
+            {
+            "data": "labexp.fecha_crea",
+            "render": function (data, type, row) {
+             return moment(row.labexp.fecha_crea).format('DD/MM/YYYY');
+            }
+
+            },
+            { "data": "med.Nombre" },
+            { "data": "labexp.observaciones" }
+            ],
+            pageLength: 5
+    });
+
+    $.fn.dataTable.moment('DD/MM/YYYY');
+
+    function DeleteSolLab(folio) {
+
+        if (window.confirm("Desea eliminar el estudio de la lista?")) {
+
+
+            $.ajax({
+                url: '@Url.Action("DeleteSolicitudLab", "Manage")',
+                data: { folioLab: folio },
+                success: function (data) {
+                    if (data == '1') {
+                        alert('Se ha eliminado el estudio! ');
+                    }
+                    else {
+                        alert('Error: ' + data);
+                    }
+
+                    refresh();
+                },
+                error: function (reponse) {
+                    alert("error");
+                    console.log(reponse);
+                }
+            });
+        }
+    
+    }
+
+
+</script>
+

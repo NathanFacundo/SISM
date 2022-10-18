@@ -1,0 +1,1039 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+@*CSS only*@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+@*JavaScript Bundle with Popper*@
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+<script src="~/JavaScript/jquery.quicksearch.js" type="text/javascript"></script>
+<script src="~/JavaScript/jquery.tablesorter.js" type="text/javascript"></script>
+<br />
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("MenuReportes", "MenuRH")"><b>Menú Reportes</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<br />
+<h3>Reportes Recursos Humanos</h3>
+<br />
+<div class="form-row">
+    <div class="form-group col-md-12">
+        <input type="text" ID="search" onkeyup="Search_Gridview(this,'tblNotas')" placeholder="Buscar..." class="form-control" />
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col-md-12">
+        <center>
+            <strong><label ID="Label1">Total de Busqueda:</label></strong>
+            <strong><label ID="lblContar"></label></strong>
+        </center>
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col-md-2">
+        <label for="exampleFormControlInput1" class="form-label">Regimen:</label>
+        <select class="form-select" aria-label="Default select example" id="cmbRegimen"></select>
+    </div>
+    <div class="form-group col-md-2">
+        <label for="exampleFormControlInput1" class="form-label">Categoria SM:</label>
+        <select class="form-select" aria-label="Default select example" id="cmbCategoriaSM"></select>
+    </div>
+    <div class="form-group col-md-2">
+        <label for="exampleFormControlInput1" class="form-label">Sub-Categoria SM:</label>
+        <select class="form-select" aria-label="Default select example" id="cmbSubCategoria"></select>
+    </div>
+    <div class="form-group col-md-2">
+        <label for="exampleFormControlInput1" class="form-label">Departamento:</label>
+        <select class="form-select" aria-label="Default select example" id="cmbDepartamento"></select>
+    </div>
+    <div class="form-group col-md-2">
+        <label for="exampleFormControlInput1" class="form-label">Puesto SM:</label>
+        <select class="form-select" aria-label="Default select example" id="cmbPuestoSM"></select>
+    </div>
+    <div class="form-group col-md-2">
+        <label for="exampleFormControlInput1" class="form-label">Unidad Medica:</label>
+        <select class="form-select" aria-label="Default select example" id="cmbUnidadMedica"></select>
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col-md-6">
+        <button type="button" class="btn btn-warning" id="btnGenerar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-bar-graph" viewBox="0 0 16 16">
+                <path d="M4.5 12a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1zm3 0a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm3 0a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5h-1z" />
+                <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+            </svg> Generar Reporte
+        </button>
+    </div>
+    <div class="form-group col-md-6">
+        <button type="button" class="btn btn-primary" id="btnExcel">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
+                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z" />
+            </svg> Generar Excel
+        </button>
+
+        <button type="button" class="btn btn-primary" id="btnExcel1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
+                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z" />
+            </svg> Generar Excel
+        </button>
+    </div>
+</div>
+<br />
+<strong><h3>Personal Servicios Medicos</h3></strong>
+<br />
+<div>
+    <table class="table table-bordered" id="tblNotas">
+        <thead>
+            <tr>
+                <th>Regimen</th>
+                <th>Numero_Empleado</th>
+                <th>Nombre_Coompleto</th>
+                <th>Categoria</th>
+                <th>Sub-Categoria</th>
+                <th>Departamento</th>
+                <th>Puesto_SM</th>
+                <th>Unidad_Medica</th>
+                <th>Ingreso_Neto</th>
+                <th>Ingreso_Bruto</th>
+            </tr>
+        </thead>
+        <tbody id="contenido"></tbody>
+    </table>
+</div>
+<div>
+    <table class="table table-striped table-hover" id="table_id">
+        <thead>
+            <tr>
+                <th>Regimen</th>
+                <th>Numero_Empleado</th>
+                <th>Nombre_Coompleto</th>
+                <th>Categoria</th>
+                <th>Sub-Categoria</th>
+                <th>Departamento</th>
+                <th>Puesto_SM</th>
+                <th>Unidad_Medica</th>
+                <th>Ingreso_Neto</th>
+                <th>Ingreso_Bruto</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<script>
+    $("#btnExcel").click(function () {
+        fnExcelReport();
+        $("#search").val('');
+
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetEmpleadosActivos", "ReporteRH")',
+            dataType: 'json',
+            cache: false,
+            success: function (data) {
+                $("#tblNotas > tbody").empty();
+                $.each(data, function (index, value) {
+                    $("#contenido")
+                        .append("<tr><td>" + value.Regimen + "</td><td>" + value.Numero_Empleado + "</td><td>" + value.Nombre_Coompleto + "</td><td>" + value.Categoria + "</td><td>" + value.SubCat + "</td><td>" + value.Dpto + "</td><td>" + value.Puesto + "</td><td>" + value.UniMed + "</td><td>" + value.Ingreso_Neto + "</td><td>" + value.Ingreso_Bruto + "</td></tr>");
+                });
+            },
+            error: function (xhr, status, error) {
+                alert("Error");
+            }
+        });
+    });
+</script>
+<script>
+    $("#btnExcel1").click(function () {
+        fnExcelReport1();
+        $("#search").val('');
+    });
+</script>
+<script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#tblNotas").css("display", "block");
+            $("#table_id").css("display", "none");
+
+            $("#btnExcel").css("display", "block");
+            $("#btnExcel1").css("display", "none");
+
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetEmpleadosActivos", "ReporteRH")',
+            dataType: 'json',
+            cache: false,
+            success: function (data) {
+                $("#tblNotas > tbody").empty();
+                $.each(data, function (index, value) {
+                    $("#contenido")
+                        .append("<tr><td>" + value.Regimen + "</td><td>" + value.Numero_Empleado + "</td><td>" + value.Nombre_Coompleto + "</td><td>" + value.Categoria + "</td><td>" + value.SubCat + "</td><td>" + value.Dpto + "</td><td>" + value.Puesto + "</td><td>" + value.UniMed + "</td><td>" + value.Ingreso_Neto + "</td><td>" + value.Ingreso_Bruto + "</td></tr>");
+                });
+            },
+            error: function (xhr, status, error) {
+                alert("Error");
+            }
+        });
+    });
+</script>
+<script type="text/javascript">
+    function Search_Gridview(strKey, strGV) {
+
+        $("#tblNotas").css("display", "block");
+        $("#table_id").css("display", "none");
+
+        $("#btnExcel1").css("display", "none");
+        $("#btnExcel").css("display", "block");
+
+        var strData = strKey.value.toLowerCase().split(" ");
+        var tblData = document.getElementById(strGV);
+        var rowData;
+        for (var i = 1; i < tblData.rows.length; i++) {
+            rowData = tblData.rows[i].innerHTML;
+            var styleDisplay = 'none';
+            for (var j = 0; j < strData.length; j++) {
+                if (rowData.toLowerCase().indexOf(strData[j]) >= 0)
+                    styleDisplay = '';
+                else {
+                    styleDisplay = 'none';
+                    break;
+                }
+            }
+            tblData.rows[i].style.display = styleDisplay;
+        }
+        var numOfVisibleRows = $('tr').filter(function () {
+            return $(this).css('display') !== 'none';
+        }).length - 1;
+
+        var x = numOfVisibleRows - 1;
+        $('#lblContar').text(x);
+    }
+</script>
+<script>
+    $("#btnGenerar").click(function () {
+        var cmbRegimen = $("#cmbRegimen").val();
+        var cmbCategoriaSM = $("#cmbCategoriaSM").val();
+        var cmbSubCat = $("#cmbSubCategoria").val();
+        var cmbDepartamento = $("#cmbDepartamento").val();
+        var cmbUnidadM = $("#cmbUnidadMedica").val();
+        var cmbPuestoSM = $("#cmbPuestoSM").val();
+
+        $("#tblNotas").css("display", "none");
+        $("#table_id").css("display", "block");
+
+        $("#btnExcel1").css("display", "block");
+        $("#btnExcel").css("display", "none");
+
+        $("#table_id").dataTable().fnDestroy();
+        if (cmbRegimen > 0 && cmbCategoriaSM == 0 && cmbDepartamento == 0 && cmbUnidadM == 0) {
+            $('#table_id').dataTable({
+                "ajax": {
+                    "url": '@Url.Action("ReporteRH5", "ReporteRH")?Regimen=' + $("#cmbRegimen").val(),
+                    "dataSrc": "",
+                },
+                responsive: true,
+                searching: true,
+                info: false,
+                lengthChange: false,
+                language: {
+                    "zeroRecords": "Lista Vacía",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Último",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    },
+                    "select": {
+                        "rows": " %d filas seleccionadas"
+                    },
+                },
+                columns: [
+                    { "data": "Regimen" },
+                    { "data": "Numero_Empleado" },
+                    { "data": "Nombre_Coompleto" },
+                    { "data": "Categoria" },
+                    { "data": "SubCat" },
+                    { "data": "Dpto" },
+                    { "data": "Puesto" },
+                    { "data": "UniMed" },
+                    { "data": "Ingreso_Neto" },
+                    { "data": "Ingreso_Bruto" }
+                ],
+                pageLength: 20
+            });
+
+            $("#cmbDepartamento").val('0');
+            $("#cmbRegimen").val('0');
+            $("#cmbCategoriaSM").val('0');
+            $("#cmbSubCategoria").val('0');
+            $("#cmbUnidadMedica").val('0');
+            $("#cmbPuestoSM").val('0');
+
+        }
+        else {
+            if (cmbRegimen > 0 && cmbCategoriaSM > 0 && cmbDepartamento == 0 && cmbUnidadM == 0 && cmbSubCat == 0) {
+                $('#table_id').DataTable({
+                    "ajax": {
+                        "url": '@Url.Action("RegimenCatSM", "ReporteRH")?CatSM=' + cmbCategoriaSM + '&Regimen=' + cmbRegimen,
+                        "dataSrc": "",
+                    },
+                    responsive: true,
+                    searching: true,
+                    info: false,
+                    lengthChange: false,
+                    language: {
+                        "zeroRecords": "Lista Vacía",
+                        "paginate": {
+
+                            "first": "Primero",
+                            "last": "Último",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        },
+                        "select": {
+                            "rows": " %d filas seleccionadas"
+                        },
+                    },
+                    columns: [
+                        { "data": "Regimen" },
+                        { "data": "Numero_Empleado" },
+                        { "data": "Nombre_Coompleto" },
+                        { "data": "Categoria" },
+                        { "data": "SubCat" },
+                        { "data": "Dpto" },
+                        { "data": "Puesto" },
+                        { "data": "UniMed" },
+                        { "data": "Ingreso_Neto" },
+                        { "data": "Ingreso_Bruto" }
+                    ],
+                    pageLength: 20
+                });
+
+                $("#cmbDepartamento").val('0');
+                $("#cmbRegimen").val('0');
+                $("#cmbCategoriaSM").val('0');
+                $("#cmbSubCategoria").val('0');
+                $("#cmbUnidadMedica").val('0');
+                $("#cmbPuestoSM").val('0');
+
+            }
+            else {
+                if (cmbRegimen > 0 && cmbCategoriaSM > 0 && cmbDepartamento == 0 && cmbUnidadM == 0 && cmbSubCat > 0) {
+                    $('#table_id').DataTable({
+                        "ajax": {
+                            "url": '@Url.Action("RegimenCatSMSubCatSM", "ReporteRH")?SubCatSM=' + cmbCategoriaSM + '&Regimen=' + cmbRegimen + '&CatSM=' + cmbSubCat,
+                            "dataSrc": "",
+                        },
+                        responsive: true,
+                        searching: true,
+                        info: false,
+                        lengthChange: false,
+                        language: {
+                            "zeroRecords": "Lista Vacía",
+                            "paginate": {
+
+                                "first": "Primero",
+                                "last": "Último",
+                                "next": "Siguiente",
+                                "previous": "Anterior"
+                            },
+                            "select": {
+                                "rows": " %d filas seleccionadas"
+                            },
+                        },
+                        columns: [
+                            { "data": "Regimen" },
+                            { "data": "Numero_Empleado" },
+                            { "data": "Nombre_Coompleto" },
+                            { "data": "Categoria" },
+                            { "data": "SubCat" },
+                            { "data": "Dpto" },
+                            { "data": "Puesto" },
+                            { "data": "UniMed" },
+                            { "data": "Ingreso_Neto" },
+                            { "data": "Ingreso_Bruto" }
+                        ],
+                        pageLength: 20
+                    });
+
+                    $("#cmbDepartamento").val('0');
+                    $("#cmbRegimen").val('0');
+                    $("#cmbCategoriaSM").val('0');
+                    $("#cmbSubCategoria").val('0');
+                    $("#cmbUnidadMedica").val('0');
+                    $("#cmbPuestoSM").val('0');
+                }
+                else {
+                    if (cmbRegimen > 0 && cmbCategoriaSM > 0 && cmbDepartamento > 0 && cmbUnidadM == 0 && cmbSubCat > 0 && cmbPuestoSM == 0) {
+                        $('#table_id').DataTable({
+                            "ajax": {
+                                "url": '@Url.Action("RegimenCatSMSubCatSMDep", "ReporteRH")?SubCatSM=' + cmbCategoriaSM + '&Regimen=' + cmbRegimen + '&CatSM=' + cmbSubCat + '&Dpto=' + cmbDepartamento,
+                                "dataSrc": "",
+                            },
+                            responsive: true,
+                            searching: true,
+                            info: false,
+                            lengthChange: false,
+                            language: {
+                                "zeroRecords": "Lista Vacía",
+                                "paginate": {
+
+                                    "first": "Primero",
+                                    "last": "Último",
+                                    "next": "Siguiente",
+                                    "previous": "Anterior"
+                                },
+                                "select": {
+                                    "rows": " %d filas seleccionadas"
+                                },
+                            },
+                            columns: [
+                                { "data": "Regimen" },
+                                { "data": "Numero_Empleado" },
+                                { "data": "Nombre_Coompleto" },
+                                { "data": "Categoria" },
+                                { "data": "SubCat" },
+                                { "data": "Dpto" },
+                                { "data": "Puesto" },
+                                { "data": "UniMed" },
+                                { "data": "Ingreso_Neto" },
+                                { "data": "Ingreso_Bruto" }
+                            ],
+                            pageLength: 20
+                        });
+
+                        $("#cmbDepartamento").val('0');
+                        $("#cmbRegimen").val('0');
+                        $("#cmbCategoriaSM").val('0');
+                        $("#cmbSubCategoria").val('0');
+                        $("#cmbUnidadMedica").val('0');
+                        $("#cmbPuestoSM").val('0');
+
+                    } else {
+                        if (cmbRegimen > 0 && cmbCategoriaSM > 0 && cmbDepartamento > 0 && cmbUnidadM == 0 && cmbSubCat > 0 && cmbPuestoSM > 0) {
+                            $('#table_id').DataTable({
+                                "ajax": {
+                                    "url": '@Url.Action("RegimenCatSMSubCatSMDepPSM", "ReporteRH")?SubCatSM=' + cmbCategoriaSM + '&Regimen=' + cmbRegimen + '&CatSM=' + cmbSubCat + '&Dpto=' + cmbDepartamento + '&PuestoSM=' + cmbPuestoSM,
+                                    "dataSrc": "",
+                                },
+                                responsive: true,
+                                searching: true,
+                                info: false,
+                                lengthChange: false,
+                                language: {
+                                    "zeroRecords": "Lista Vacía",
+                                    "paginate": {
+
+                                        "first": "Primero",
+                                        "last": "Último",
+                                        "next": "Siguiente",
+                                        "previous": "Anterior"
+                                    },
+                                    "select": {
+                                        "rows": " %d filas seleccionadas"
+                                    },
+                                },
+                                columns: [
+                                    { "data": "Regimen" },
+                                    { "data": "Numero_Empleado" },
+                                    { "data": "Nombre_Coompleto" },
+                                    { "data": "Categoria" },
+                                    { "data": "SubCat" },
+                                    { "data": "Dpto" },
+                                    { "data": "Puesto" },
+                                    { "data": "UniMed" },
+                                    { "data": "Ingreso_Neto" },
+                                    { "data": "Ingreso_Bruto" }
+                                ],
+                                pageLength: 20
+                            });
+                        } else {
+                            if (cmbRegimen > 0 && cmbCategoriaSM > 0 && cmbDepartamento > 0 && cmbUnidadM > 0 && cmbSubCat > 0 && cmbPuestoSM > 0) {
+
+                                $('#table_id').DataTable({
+                                    "ajax": {
+                                        "url": '@Url.Action("RegimenCatSMSubCatSMDepPSMUniMed", "ReporteRH")?SubCatSM=' + cmbCategoriaSM + '&Regimen=' + cmbRegimen + '&CatSM=' + cmbSubCat + '&Dpto=' + cmbDepartamento + '&PuestoSM=' + cmbPuestoSM + '&UniMed=' + cmbUnidadM,
+                                        "dataSrc": "",
+                                    },
+                                    responsive: true,
+                                    searching: true,
+                                    info: false,
+                                    lengthChange: false,
+                                    language: {
+                                        "zeroRecords": "Lista Vacía",
+                                        "paginate": {
+
+                                            "first": "Primero",
+                                            "last": "Último",
+                                            "next": "Siguiente",
+                                            "previous": "Anterior"
+                                        },
+                                        "select": {
+                                            "rows": " %d filas seleccionadas"
+                                        },
+                                    },
+                                    columns: [
+                                        { "data": "Regimen" },
+                                        { "data": "Numero_Empleado" },
+                                        { "data": "Nombre_Coompleto" },
+                                        { "data": "Categoria" },
+                                        { "data": "SubCat" },
+                                        { "data": "Dpto" },
+                                        { "data": "Puesto" },
+                                        { "data": "UniMed" },
+                                        { "data": "Ingreso_Neto" },
+                                        { "data": "Ingreso_Bruto" }
+                                    ],
+                                    pageLength: 20
+                                });
+
+                                $("#cmbDepartamento").val('0');
+                                $("#cmbRegimen").val('0');
+                                $("#cmbCategoriaSM").val('0');
+                                $("#cmbSubCategoria").val('0');
+                                $("#cmbUnidadMedica").val('0');
+                                $("#cmbPuestoSM").val('0');
+
+                            }
+                            else {
+                                if (cmbRegimen > 0 && cmbCategoriaSM > 0 && cmbDepartamento > 0 && cmbUnidadM == 0 && cmbSubCat == 0 && cmbPuestoSM == 0) {
+                                    $('#table_id').DataTable({
+                                        "ajax": {
+                                            "url": '@Url.Action("ReporteSinSubCat", "ReporteRH")?Categoria=' + cmbCategoriaSM + '&Regimen=' + cmbRegimen + '&Dpto=' + cmbDepartamento,
+                                            "dataSrc": "",
+                                        },
+                                        responsive: true,
+                                        searching: true,
+                                        info: false,
+                                        lengthChange: false,
+                                        language: {
+                                            "zeroRecords": "Lista Vacía",
+                                            "paginate": {
+                                                "first": "Primero",
+                                                "last": "Último",
+                                                "next": "Siguiente",
+                                                "previous": "Anterior"
+                                            },
+                                            "select": {
+                                                "rows": " %d filas seleccionadas"
+                                            },
+                                        },
+                                        columns: [
+                                            { "data": "Regimen" },
+                                            { "data": "Numero_Empleado" },
+                                            { "data": "Nombre_Coompleto" },
+                                            { "data": "Categoria" },
+                                            { "data": "SubCat" },
+                                            { "data": "Dpto" },
+                                            { "data": "Puesto" },
+                                            { "data": "UniMed" },
+                                            { "data": "Ingreso_Neto" },
+                                            { "data": "Ingreso_Bruto" }
+                                        ],
+                                        pageLength: 20
+                                    });
+
+                                    $("#cmbDepartamento").val('0');
+                                    $("#cmbRegimen").val('0');
+                                    $("#cmbCategoriaSM").val('0');
+                                    $("#cmbSubCategoria").val('0');
+                                    $("#cmbUnidadMedica").val('0');
+                                    $("#cmbPuestoSM").val('0');
+
+                                } else {
+                                    if (cmbRegimen == 0 && cmbCategoriaSM == 0 && cmbDepartamento == 0 && cmbUnidadM > 0) {
+                                        $('#table_id').DataTable({
+                                            "ajax": {
+                                                "url": '@Url.Action("ReporteRH4", "ReporteRH")?UnidadMedica=' + cmbUnidadM,
+                                                "dataSrc": "",
+                                            },
+                                            responsive: true,
+                                            searching: true,
+                                            info: false,
+                                            lengthChange: false,
+                                            language: {
+                                                "zeroRecords": "Lista Vacía",
+                                                "paginate": {
+
+                                                    "first": "Primero",
+                                                    "last": "Último",
+                                                    "next": "Siguiente",
+                                                    "previous": "Anterior"
+                                                },
+                                                "select": {
+                                                    "rows": " %d filas seleccionadas"
+                                                },
+                                            },
+                                            columns: [
+                                                { "data": "Regimen" },
+                                                { "data": "Numero_Empleado" },
+                                                { "data": "Nombre_Coompleto" },
+                                                { "data": "Categoria" },
+                                                { "data": "SubCat" },
+                                                { "data": "Dpto" },
+                                                { "data": "Puesto" },
+                                                { "data": "UniMed" },
+                                                { "data": "Ingreso_Neto" },
+                                                { "data": "Ingreso_Bruto" }
+                                            ],
+                                            pageLength: 20
+                                        });
+
+                                        $("#cmbDepartamento").val('0');
+                                        $("#cmbRegimen").val('0');
+                                        $("#cmbCategoriaSM").val('0');
+                                        $("#cmbSubCategoria").val('0');
+                                        $("#cmbUnidadMedica").val('0');
+                                        $("#cmbPuestoSM").val('0');
+
+                                    } else {
+                                        if (cmbRegimen == 0 && cmbCategoriaSM > 0 && cmbDepartamento == 0 && cmbUnidadM == 0) {
+                                            $('#table_id').DataTable({
+                                                "ajax": {
+                                                    "url": '@Url.Action("ReporteRH1", "ReporteRH")?Categoria=' + cmbCategoriaSM,
+                                                    "dataSrc": "",
+                                                },
+                                                responsive: true,
+                                                searching: true,
+                                                info: false,
+                                                lengthChange: false,
+                                                language: {
+                                                    "zeroRecords": "Lista Vacía",
+                                                    "paginate": {
+
+                                                        "first": "Primero",
+                                                        "last": "Último",
+                                                        "next": "Siguiente",
+                                                        "previous": "Anterior"
+                                                    },
+                                                    "select": {
+                                                        "rows": " %d filas seleccionadas"
+                                                    },
+                                                },
+                                                columns: [
+                                                    { "data": "Regimen" },
+                                                    { "data": "Numero_Empleado" },
+                                                    { "data": "Nombre_Coompleto" },
+                                                    { "data": "Categoria" },
+                                                    { "data": "SubCat" },
+                                                    { "data": "Dpto" },
+                                                    { "data": "Puesto" },
+                                                    { "data": "UniMed" },
+                                                    { "data": "Ingreso_Neto" },
+                                                    { "data": "Ingreso_Bruto" }
+                                                ],
+                                                pageLength: 20
+                                            });
+
+                                            $("#cmbDepartamento").val('0');
+                                            $("#cmbRegimen").val('0');
+                                            $("#cmbCategoriaSM").val('0');
+                                            $("#cmbSubCategoria").val('0');
+                                            $("#cmbUnidadMedica").val('0');
+                                            $("#cmbPuestoSM").val('0');
+
+                                        } else {
+                                            if (cmbRegimen == 0 && cmbCategoriaSM == 0 && cmbDepartamento > 0 && cmbUnidadM == 0) {
+                                                $('#table_id').DataTable({
+                                                    "ajax": {
+                                                        "url": '@Url.Action("ReporteRH2", "ReporteRH")?Dpto=' + cmbDepartamento,
+                                                        "dataSrc": "",
+                                                    },
+                                                    responsive: true,
+                                                    searching: true,
+                                                    info: false,
+                                                    lengthChange: false,
+                                                    language: {
+                                                        "zeroRecords": "Lista Vacía",
+                                                        "paginate": {
+
+                                                            "first": "Primero",
+                                                            "last": "Último",
+                                                            "next": "Siguiente",
+                                                            "previous": "Anterior"
+                                                        },
+                                                        "select": {
+                                                            "rows": " %d filas seleccionadas"
+                                                        },
+                                                    },
+                                                    columns: [
+                                                        { "data": "Regimen" },
+                                                        { "data": "Numero_Empleado" },
+                                                        { "data": "Nombre_Coompleto" },
+                                                        { "data": "Categoria" },
+                                                        { "data": "SubCat" },
+                                                        { "data": "Dpto" },
+                                                        { "data": "Puesto" },
+                                                        { "data": "UniMed" },
+                                                        { "data": "Ingreso_Neto" },
+                                                        { "data": "Ingreso_Bruto" }
+                                                    ],
+                                                    pageLength: 20
+                                                });
+
+                                                $("#cmbDepartamento").val('0');
+                                                $("#cmbRegimen").val('0');
+                                                $("#cmbCategoriaSM").val('0');
+                                                $("#cmbSubCategoria").val('0');
+                                                $("#cmbUnidadMedica").val('0');
+                                                $("#cmbPuestoSM").val('0');
+
+                                            } else {
+                                                if (cmbRegimen > 0 && cmbCategoriaSM == 0 && cmbDepartamento > 0 && cmbUnidadM == 0) {
+                                                    $('#table_id').DataTable({
+                                                        "ajax": {
+                                                            "url": '@Url.Action("TablaReporte2", "ReporteRH")?Regimen=' + cmbRegimen + '&Dpto=' + cmbDepartamento,
+                                                            "dataSrc": "",
+                                                        },
+                                                        responsive: true,
+                                                        searching: true,
+                                                        info: false,
+                                                        lengthChange: false,
+                                                        language: {
+                                                            "zeroRecords": "Lista Vacía",
+                                                            "paginate": {
+
+                                                                "first": "Primero",
+                                                                "last": "Último",
+                                                                "next": "Siguiente",
+                                                                "previous": "Anterior"
+                                                            },
+                                                            "select": {
+                                                                "rows": " %d filas seleccionadas"
+                                                            },
+                                                        },
+                                                        columns: [
+                                                            { "data": "Regimen" },
+                                                            { "data": "Numero_Empleado" },
+                                                            { "data": "Nombre_Coompleto" },
+                                                            { "data": "Categoria" },
+                                                            { "data": "SubCat" },
+                                                            { "data": "Dpto" },
+                                                            { "data": "Puesto" },
+                                                            { "data": "UniMed" },
+                                                            { "data": "Ingreso_Neto" },
+                                                            { "data": "Ingreso_Bruto" }
+                                                        ],
+                                                        pageLength: 20
+                                                    });
+
+                                                    $("#cmbDepartamento").val('0');
+                                                    $("#cmbRegimen").val('0');
+                                                    $("#cmbCategoriaSM").val('0');
+                                                    $("#cmbSubCategoria").val('0');
+                                                    $("#cmbUnidadMedica").val('0');
+                                                    $("#cmbPuestoSM").val('0');
+
+                                                } else {
+                                                    if (cmbRegimen > 0 && cmbCategoriaSM == 0 && cmbDepartamento == 0 && cmbUnidadM > 0) {
+                                                        $('#table_id').DataTable({
+                                                            "ajax": {
+                                                                "url": '@Url.Action("TablaReporte3", "ReporteRH")?Regimen=' + cmbRegimen + '&UniMed=' + cmbUnidadM,
+                                                                "dataSrc": "",
+                                                            },
+                                                            responsive: true,
+                                                            searching: true,
+                                                            info: false,
+                                                            lengthChange: false,
+                                                            language: {
+                                                                "zeroRecords": "Lista Vacía",
+                                                                "paginate": {
+
+                                                                    "first": "Primero",
+                                                                    "last": "Último",
+                                                                    "next": "Siguiente",
+                                                                    "previous": "Anterior"
+                                                                },
+                                                                "select": {
+                                                                    "rows": " %d filas seleccionadas"
+                                                                },
+                                                            },
+                                                            columns: [
+                                                                { "data": "Regimen" },
+                                                                { "data": "Numero_Empleado" },
+                                                                { "data": "Nombre_Coompleto" },
+                                                                { "data": "Categoria" },
+                                                                { "data": "SubCat" },
+                                                                { "data": "Dpto" },
+                                                                { "data": "Puesto" },
+                                                                { "data": "UniMed" },
+                                                                { "data": "Ingreso_Neto" },
+                                                                { "data": "Ingreso_Bruto" }
+                                                            ],
+                                                            pageLength: 20
+                                                        });
+
+                                                        $("#cmbDepartamento").val('0');
+                                                        $("#cmbRegimen").val('0');
+                                                        $("#cmbCategoriaSM").val('0');
+                                                        $("#cmbSubCategoria").val('0');
+                                                        $("#cmbUnidadMedica").val('0');
+                                                        $("#cmbPuestoSM").val('0');
+
+                                                    }
+                                                    else {
+                                                        if (cmbRegimen == 0 && cmbCategoriaSM > 0 && cmbDepartamento > 0 && cmbUnidadM == 0) {
+                                                            $('#table_id').DataTable({
+                                                                "ajax": {
+                                                                    "url": '@Url.Action("TablaReporte4", "ReporteRH")?Categoria=' + cmbCategoriaSM + '&Dpto=' + cmbDepartamento,
+                                                                    "dataSrc": "",
+                                                                },
+                                                                responsive: true,
+                                                                searching: true,
+                                                                info: false,
+                                                                lengthChange: false,
+                                                                language: {
+                                                                    "zeroRecords": "Lista Vacía",
+                                                                    "paginate": {
+
+                                                                        "first": "Primero",
+                                                                        "last": "Último",
+                                                                        "next": "Siguiente",
+                                                                        "previous": "Anterior"
+                                                                    },
+                                                                    "select": {
+                                                                        "rows": " %d filas seleccionadas"
+                                                                    },
+                                                                },
+                                                                columns: [
+                                                                    { "data": "Regimen" },
+                                                                    { "data": "Numero_Empleado" },
+                                                                    { "data": "Nombre_Coompleto" },
+                                                                    { "data": "Categoria" },
+                                                                    { "data": "SubCat" },
+                                                                    { "data": "Dpto" },
+                                                                    { "data": "Puesto" },
+                                                                    { "data": "UniMed" },
+                                                                    { "data": "Ingreso_Neto" },
+                                                                    { "data": "Ingreso_Bruto" }
+                                                                ],
+                                                                pageLength: 20
+                                                            });
+
+                                                            $("#cmbDepartamento").val('0');
+                                                            $("#cmbRegimen").val('0');
+                                                            $("#cmbCategoriaSM").val('0');
+                                                            $("#cmbSubCategoria").val('0');
+                                                            $("#cmbUnidadMedica").val('0');
+                                                            $("#cmbPuestoSM").val('0');
+
+                                                        } else {
+                                                            if (cmbRegimen == 0 && cmbCategoriaSM == 0 && cmbDepartamento > 0 && cmbUnidadM > 0) {
+                                                                $('#table_id').DataTable({
+                                                                    "ajax": {
+                                                                        "url": '@Url.Action("TablaReporte5", "ReporteRH")?Dpto=' + cmbDepartamento + '&UniMed=' + cmbUnidadM,
+                                                                        "dataSrc": "",
+                                                                    },
+                                                                    responsive: true,
+                                                                    searching: true,
+                                                                    info: false,
+                                                                    lengthChange: false,
+                                                                    language: {
+                                                                        "zeroRecords": "Lista Vacía",
+                                                                        "paginate": {
+
+                                                                            "first": "Primero",
+                                                                            "last": "Último",
+                                                                            "next": "Siguiente",
+                                                                            "previous": "Anterior"
+                                                                        },
+                                                                        "select": {
+                                                                            "rows": " %d filas seleccionadas"
+                                                                        },
+                                                                    },
+                                                                    columns: [
+                                                                        { "data": "Regimen" },
+                                                                        { "data": "Numero_Empleado" },
+                                                                        { "data": "Nombre_Coompleto" },
+                                                                        { "data": "Categoria" },
+                                                                        { "data": "SubCat" },
+                                                                        { "data": "Dpto" },
+                                                                        { "data": "Puesto" },
+                                                                        { "data": "UniMed" },
+                                                                        { "data": "Ingreso_Neto" },
+                                                                        { "data": "Ingreso_Bruto" }
+                                                                    ],
+                                                                    pageLength: 20
+                                                                });
+
+                                                                $("#cmbDepartamento").val('0');
+                                                                $("#cmbRegimen").val('0');
+                                                                $("#cmbCategoriaSM").val('0');
+                                                                $("#cmbSubCategoria").val('0');
+                                                                $("#cmbUnidadMedica").val('0');
+                                                                $("#cmbPuestoSM").val('0');
+
+                                                            } else {
+
+                                                                alert('Seleccionar un filtro');
+
+                                                                $("#cmbDepartamento").val('0');
+                                                                $("#cmbRegimen").val('0');
+                                                                $("#cmbCategoriaSM").val('0');
+                                                                $("#cmbSubCategoria").val('0');
+                                                                $("#cmbUnidadMedica").val('0');
+                                                                $("#cmbPuestoSM").val('0');
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '@Url.Action("CategoriaSM", "ReporteRH")',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $("#cmbCategoriaSM").append('<option value=0>--Seleccionar--</option>');
+                $.each(data, function (i, item) {
+                    $('<option value="' + item.IdSubCategoria + '">' + item.SubCategoria + '</option>').appendTo('#cmbCategoriaSM');
+                });
+            },
+            error: function () {
+                console.log('err');
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $.ajax({
+            url: '@Url.Action("Departamento", "ReporteRH")',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $("#cmbDepartamento").append('<option value=0>--Seleccionar--</option>');
+                $.each(data, function (i, item) {
+                    $('<option value="' + item.IdDepartamento + '">' + item.NomDepartamento + '</option>').appendTo('#cmbDepartamento');
+                });
+            },
+            error: function () {
+                console.log('err');
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $.ajax({
+            url: '@Url.Action("UnidadMedica", "ReporteRH")',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $("#cmbUnidadMedica").append('<option value=0>--Seleccionar--</option>');
+                $.each(data, function (i, item) {
+                    $('<option value="' + item.IdUnidadMed + '">' + item.UnidadMedica + '</option>').appendTo('#cmbUnidadMedica');
+                });
+            },
+            error: function () {
+                console.log('err');
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $.ajax({
+            url: '@Url.Action("Regimen", "ReporteRH")',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $("#cmbRegimen").append('<option value=0>--Seleccionar--</option>');
+                $.each(data, function (i, item) {
+                    $('<option value="' + item.IdRegimen + '">' + item.Regimen + '</option>').appendTo('#cmbRegimen');
+                });
+            },
+            error: function () {
+                console.log('err');
+            }
+        });
+    });
+</script>
+<script>
+        $('#cmbCategoriaSM').change(function () {
+            $("#cmbSubCategoria").empty();
+            $.ajax({
+                url: '@Url.Action("SubCategoriaSM", "ReporteRH")?IdSubCategoria=' + $(this).val(),
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {
+                    $("#cmbSubCategoria").append('<option value=0>--Seleccionar--</option>');
+                    $.each(data, function (i, item) {
+                        $('<option value="' + item.IdCategoriaSM + '">' + item.CategoriaSM + '</option>').appendTo('#cmbSubCategoria');
+                    });
+                },
+                error: function () {
+                    console.log('err');
+                }
+            });
+        });
+</script>
+<script>
+        $('#cmbDepartamento').change(function () {
+            $("#cmbPuestoSM").empty();
+            $.ajax({
+                url: '@Url.Action("PuestoSM", "ReporteRH")?IdDpto=' + $(this).val(),
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {
+                    $("#cmbPuestoSM").append('<option value=0>--Seleccionar--</option>');
+                    $.each(data, function (i, item) {
+                        $('<option value="' + item.IdPuestoSM + '">' + item.PuestoSM + '</option>').appendTo('#cmbPuestoSM');
+                    });
+                },
+                error: function () {
+                    console.log('err');
+                }
+            });
+        });
+</script>
+<script>
+    function fnExcelReport() {
+        var uri = 'data:application/vnd.ms-excel;base64,'
+            , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+            , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+            , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+
+        var table = 'tblNotas';
+        var name = 'nombre_hoja_calculo';
+
+        if (!table.nodeType) table = document.getElementById(table)
+        var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
+        window.location.href = uri + base64(format(template, ctx))
+    }
+</script>
+<script>
+    function fnExcelReport1() {
+        var uri = 'data:application/vnd.ms-excel;base64,'
+            , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+            , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+            , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+
+        var table = 'table_id';
+        var name = 'nombre_hoja_calculo';
+
+        if (!table.nodeType) table = document.getElementById(table)
+        var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
+        window.location.href = uri + base64(format(template, ctx))
+    }
+</script>

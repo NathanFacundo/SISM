@@ -1,0 +1,276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SERVMEDModel6.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cotizaciones">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Sustancia" Type="int" Nullable="false" />
+          <Property Name="Id_Requisicion" Type="int" Nullable="false" />
+          <Property Name="Id_Prov_1" Type="int" />
+          <Property Name="Cant_Asig_1" Type="int" />
+          <Property Name="CostoUnit_1" Type="float" />
+          <Property Name="Id_Prov_2" Type="int" />
+          <Property Name="Cant_Asig_2" Type="int" />
+          <Property Name="CostoUnit_2" Type="float" />
+          <Property Name="Id_Prov_3" Type="int" />
+          <Property Name="Cant_Asig_3" Type="int" />
+          <Property Name="CostoUnit_3" Type="float" />
+          <Property Name="Status" Type="bit" />
+          <Property Name="FechaCrea" Type="datetime" />
+          <Property Name="FechaMod" Type="datetime" />
+          <Property Name="Id_Usuario" Type="int" />
+          <Property Name="Cuadro" Type="int" />
+        </EntityType>
+        <EntityType Name="DetalleReq">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Requisicion" Type="int" Nullable="false" />
+          <Property Name="Id_Sustancia" Type="int" Nullable="false" />
+          <Property Name="C_Solicitada" Type="int" Nullable="false" />
+          <Property Name="C_Recibida" Type="int" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Requisicion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="clave" Type="varchar" MaxLength="20" />
+          <Property Name="Id_Tipo" Type="tinyint" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" />
+          <Property Name="Status" Type="bit" />
+          <Property Name="Id_Usuario" Type="int" />
+          <Property Name="cerrado" Type="bit" Nullable="false" />
+          <Property Name="UserId" Type="varchar(max)" />
+          <Property Name="EstatusContrato" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="UsuarioId" />
+          </Key>
+          <Property Name="UsuarioId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Usu_User" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Usu_Pass" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Usu_Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Usu_FecAlt" Type="datetime" Nullable="false" />
+          <Property Name="RolId" Type="tinyint" />
+          <Property Name="Usu_Status" Type="bit" Nullable="false" />
+          <Property Name="Baja" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_DetalleReq_Requisicion">
+          <End Role="Requisicion" Type="Self.Requisicion" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DetalleReq" Type="Self.DetalleReq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Requisicion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DetalleReq">
+              <PropertyRef Name="Id_Requisicion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SERVMEDModel6StoreContainer">
+          <EntitySet Name="Cotizaciones" EntityType="Self.Cotizaciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DetalleReq" EntityType="Self.DetalleReq" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Requisicion" EntityType="Self.Requisicion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DetalleReq_Requisicion" Association="Self.FK_DetalleReq_Requisicion">
+            <End Role="Requisicion" EntitySet="Requisicion" />
+            <End Role="DetalleReq" EntitySet="DetalleReq" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SERVMEDModel6" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cotizaciones">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Sustancia" Type="Int32" Nullable="false" />
+          <Property Name="Id_Requisicion" Type="Int32" Nullable="false" />
+          <Property Name="Id_Prov_1" Type="Int32" />
+          <Property Name="Cant_Asig_1" Type="Int32" />
+          <Property Name="CostoUnit_1" Type="Double" />
+          <Property Name="Id_Prov_2" Type="Int32" />
+          <Property Name="Cant_Asig_2" Type="Int32" />
+          <Property Name="CostoUnit_2" Type="Double" />
+          <Property Name="Id_Prov_3" Type="Int32" />
+          <Property Name="Cant_Asig_3" Type="Int32" />
+          <Property Name="CostoUnit_3" Type="Double" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="FechaCrea" Type="DateTime" Precision="3" />
+          <Property Name="FechaMod" Type="DateTime" Precision="3" />
+          <Property Name="Id_Usuario" Type="Int32" />
+          <Property Name="Cuadro" Type="Int32" />
+        </EntityType>
+        <EntityType Name="DetalleReq">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Requisicion" Type="Int32" Nullable="false" />
+          <Property Name="Id_Sustancia" Type="Int32" Nullable="false" />
+          <Property Name="C_Solicitada" Type="Int32" Nullable="false" />
+          <Property Name="C_Recibida" Type="Int32" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Requisicion" Relationship="Self.FK_DetalleReq_Requisicion" FromRole="DetalleReq" ToRole="Requisicion" />
+        </EntityType>
+        <EntityType Name="Requisicion_1">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="clave" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Id_Tipo" Type="Byte" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="Id_Usuario" Type="Int32" />
+          <Property Name="cerrado" Type="Boolean" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="EstatusContrato" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DetalleReq" Relationship="Self.FK_DetalleReq_Requisicion" FromRole="Requisicion" ToRole="DetalleReq" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="UsuarioId" />
+          </Key>
+          <Property Name="UsuarioId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Usu_User" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Usu_Pass" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Usu_Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Usu_FecAlt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RolId" Type="Byte" />
+          <Property Name="Usu_Status" Type="Boolean" Nullable="false" />
+          <Property Name="Baja" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_DetalleReq_Requisicion">
+          <End Role="Requisicion" Type="SERVMEDModel6.Requisicion_1" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DetalleReq" Type="Self.DetalleReq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Requisicion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DetalleReq">
+              <PropertyRef Name="Id_Requisicion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SERVMEDEntities8" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cotizaciones" EntityType="Self.Cotizaciones" />
+          <EntitySet Name="DetalleReq" EntityType="Self.DetalleReq" />
+          <EntitySet Name="Requisicion" EntityType="SERVMEDModel6.Requisicion_1" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <AssociationSet Name="FK_DetalleReq_Requisicion" Association="Self.FK_DetalleReq_Requisicion">
+            <End Role="Requisicion" EntitySet="Requisicion" />
+            <End Role="DetalleReq" EntitySet="DetalleReq" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SERVMEDModel6StoreContainer" CdmEntityContainer="SERVMEDEntities8">
+          <EntitySetMapping Name="Cotizaciones">
+            <EntityTypeMapping TypeName="SERVMEDModel6.Cotizaciones">
+              <MappingFragment StoreEntitySet="Cotizaciones">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Id_Sustancia" ColumnName="Id_Sustancia" />
+                <ScalarProperty Name="Id_Requisicion" ColumnName="Id_Requisicion" />
+                <ScalarProperty Name="Id_Prov_1" ColumnName="Id_Prov_1" />
+                <ScalarProperty Name="Cant_Asig_1" ColumnName="Cant_Asig_1" />
+                <ScalarProperty Name="CostoUnit_1" ColumnName="CostoUnit_1" />
+                <ScalarProperty Name="Id_Prov_2" ColumnName="Id_Prov_2" />
+                <ScalarProperty Name="Cant_Asig_2" ColumnName="Cant_Asig_2" />
+                <ScalarProperty Name="CostoUnit_2" ColumnName="CostoUnit_2" />
+                <ScalarProperty Name="Id_Prov_3" ColumnName="Id_Prov_3" />
+                <ScalarProperty Name="Cant_Asig_3" ColumnName="Cant_Asig_3" />
+                <ScalarProperty Name="CostoUnit_3" ColumnName="CostoUnit_3" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="FechaMod" ColumnName="FechaMod" />
+                <ScalarProperty Name="Id_Usuario" ColumnName="Id_Usuario" />
+                <ScalarProperty Name="Cuadro" ColumnName="Cuadro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DetalleReq">
+            <EntityTypeMapping TypeName="SERVMEDModel6.DetalleReq">
+              <MappingFragment StoreEntitySet="DetalleReq">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Id_Requisicion" ColumnName="Id_Requisicion" />
+                <ScalarProperty Name="Id_Sustancia" ColumnName="Id_Sustancia" />
+                <ScalarProperty Name="C_Solicitada" ColumnName="C_Solicitada" />
+                <ScalarProperty Name="C_Recibida" ColumnName="C_Recibida" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Requisicion">
+            <EntityTypeMapping TypeName="SERVMEDModel6.Requisicion_1">
+              <MappingFragment StoreEntitySet="Requisicion">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="Id_Tipo" ColumnName="Id_Tipo" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Id_Usuario" ColumnName="Id_Usuario" />
+                <ScalarProperty Name="cerrado" ColumnName="cerrado" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="EstatusContrato" ColumnName="EstatusContrato" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="SERVMEDModel6.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+                <ScalarProperty Name="Usu_User" ColumnName="Usu_User" />
+                <ScalarProperty Name="Usu_Pass" ColumnName="Usu_Pass" />
+                <ScalarProperty Name="Usu_Nombre" ColumnName="Usu_Nombre" />
+                <ScalarProperty Name="Usu_FecAlt" ColumnName="Usu_FecAlt" />
+                <ScalarProperty Name="RolId" ColumnName="RolId" />
+                <ScalarProperty Name="Usu_Status" ColumnName="Usu_Status" />
+                <ScalarProperty Name="Baja" ColumnName="Baja" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SMDEVModel6.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SMDEV.dbo.RECETA_EXP_2' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="RECETA_EXP_2">
+          <Key>
+            <PropertyRef Name="Folio_Rcta" />
+            <PropertyRef Name="Expediente" />
+            <PropertyRef Name="Medico" />
+            <PropertyRef Name="Fecha" />
+          </Key>
+          <Property Name="Folio_Rcta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Expediente" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="Medico" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Turno" Type="char" MaxLength="4" />
+          <Property Name="Regxdia" Type="char" MaxLength="2" />
+          <Property Name="Estado" Type="char" MaxLength="1" />
+          <Property Name="Dir_Ip" Type="char" MaxLength="15" />
+          <Property Name="imp_rcta" Type="char" MaxLength="1" />
+          <Property Name="Tipo" Type="char" MaxLength="1" />
+          <Property Name="Meses" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="Hora_Rcta" Type="smalldatetime" />
+          <Property Name="Hora_Imp" Type="smalldatetime" />
+          <Property Name="UsuarioId" Type="int" />
+          <Property Name="Fecha_Hora_Adjudicacion" Type="datetime" />
+          <Property Name="Usuario_Genero" Type="int" />
+          <Property Name="Manual" Type="bit" />
+          <Property Name="folio_rc" Type="int" />
+        </EntityType>
+        <EntityContainer Name="SMDEVModel6StoreContainer">
+          <EntitySet Name="RECETA_EXP_2" EntityType="Self.RECETA_EXP_2" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [RECETA_EXP_2].[Folio_Rcta] AS [Folio_Rcta], 
+    [RECETA_EXP_2].[Expediente] AS [Expediente], 
+    [RECETA_EXP_2].[Medico] AS [Medico], 
+    [RECETA_EXP_2].[Fecha] AS [Fecha], 
+    [RECETA_EXP_2].[Turno] AS [Turno], 
+    [RECETA_EXP_2].[Regxdia] AS [Regxdia], 
+    [RECETA_EXP_2].[Estado] AS [Estado], 
+    [RECETA_EXP_2].[Dir_Ip] AS [Dir_Ip], 
+    [RECETA_EXP_2].[imp_rcta] AS [imp_rcta], 
+    [RECETA_EXP_2].[Tipo] AS [Tipo], 
+    [RECETA_EXP_2].[Meses] AS [Meses], 
+    [RECETA_EXP_2].[Hora_Rcta] AS [Hora_Rcta], 
+    [RECETA_EXP_2].[Hora_Imp] AS [Hora_Imp], 
+    [RECETA_EXP_2].[UsuarioId] AS [UsuarioId], 
+    [RECETA_EXP_2].[Fecha_Hora_Adjudicacion] AS [Fecha_Hora_Adjudicacion], 
+    [RECETA_EXP_2].[Usuario_Genero] AS [Usuario_Genero], 
+    [RECETA_EXP_2].[Manual] AS [Manual], 
+    [RECETA_EXP_2].[folio_rc] AS [folio_rc]
+    FROM [dbo].[RECETA_EXP_2] AS [RECETA_EXP_2]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SMDEVModel6" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="RECETA_EXP_2">
+          <Key>
+            <PropertyRef Name="Folio_Rcta" />
+            <PropertyRef Name="Expediente" />
+            <PropertyRef Name="Medico" />
+            <PropertyRef Name="Fecha" />
+          </Key>
+          <Property Name="Folio_Rcta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Expediente" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Medico" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Turno" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="Regxdia" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Dir_Ip" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="imp_rcta" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Tipo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Meses" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Hora_Rcta" Type="DateTime" Precision="0" />
+          <Property Name="Hora_Imp" Type="DateTime" Precision="0" />
+          <Property Name="UsuarioId" Type="Int32" />
+          <Property Name="Fecha_Hora_Adjudicacion" Type="DateTime" Precision="3" />
+          <Property Name="Usuario_Genero" Type="Int32" />
+          <Property Name="Manual" Type="Boolean" />
+          <Property Name="folio_rc" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="SMDEVEntities17" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="RECETA_EXP_2" EntityType="Self.RECETA_EXP_2" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SMDEVModel6StoreContainer" CdmEntityContainer="SMDEVEntities17">
+          <EntitySetMapping Name="RECETA_EXP_2">
+            <EntityTypeMapping TypeName="SMDEVModel6.RECETA_EXP_2">
+              <MappingFragment StoreEntitySet="RECETA_EXP_2">
+                <ScalarProperty Name="Folio_Rcta" ColumnName="Folio_Rcta" />
+                <ScalarProperty Name="Expediente" ColumnName="Expediente" />
+                <ScalarProperty Name="Medico" ColumnName="Medico" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Turno" ColumnName="Turno" />
+                <ScalarProperty Name="Regxdia" ColumnName="Regxdia" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Dir_Ip" ColumnName="Dir_Ip" />
+                <ScalarProperty Name="imp_rcta" ColumnName="imp_rcta" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="Meses" ColumnName="Meses" />
+                <ScalarProperty Name="Hora_Rcta" ColumnName="Hora_Rcta" />
+                <ScalarProperty Name="Hora_Imp" ColumnName="Hora_Imp" />
+                <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+                <ScalarProperty Name="Fecha_Hora_Adjudicacion" ColumnName="Fecha_Hora_Adjudicacion" />
+                <ScalarProperty Name="Usuario_Genero" ColumnName="Usuario_Genero" />
+                <ScalarProperty Name="Manual" ColumnName="Manual" />
+                <ScalarProperty Name="folio_rc" ColumnName="folio_rc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

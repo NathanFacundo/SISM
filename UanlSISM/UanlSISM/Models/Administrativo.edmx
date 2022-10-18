@@ -1,0 +1,1791 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SISMModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TblCarreras">
+          <Key>
+            <PropertyRef Name="IdCarrera" />
+          </Key>
+          <Property Name="IdCarrera" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" />
+          <Property Name="IdNivel" Type="int" Nullable="false" />
+          <Property Name="IdEscuela" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TblCatalogoContratos">
+          <Key>
+            <PropertyRef Name="IdClave" />
+          </Key>
+          <Property Name="IdClave" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="TipoCatalogo" Type="char" MaxLength="10" />
+          <Property Name="Catalogo" Type="char" MaxLength="10" />
+          <Property Name="Estatus" Type="bit" />
+          <Property Name="Clave" Type="char" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TblColonia">
+          <Key>
+            <PropertyRef Name="IdColonia" />
+          </Key>
+          <Property Name="IdColonia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreColonia" Type="varchar" MaxLength="50" />
+          <Property Name="CodigoPostal" Type="int" Nullable="false" />
+          <Property Name="IdMunicipio" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TblDepartamento">
+          <Key>
+            <PropertyRef Name="IdDepartamento" />
+          </Key>
+          <Property Name="IdDepartamento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NomDepartamento" Type="varchar(max)" />
+          <Property Name="Emp_RFC" Type="varchar" MaxLength="15" />
+          <Property Name="NumEmp_Jefe" Type="int" />
+          <Property Name="Estatus" Type="bit" />
+        </EntityType>
+        <EntityType Name="TblDocumentos">
+          <Key>
+            <PropertyRef Name="IdDocumentacion" />
+          </Key>
+          <Property Name="IdDocumentacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Emp_NumEmp" Type="int" Nullable="false" />
+          <Property Name="Carta" Type="varchar" MaxLength="100" />
+          <Property Name="Curriculum" Type="varchar" MaxLength="100" />
+          <Property Name="Acta" Type="varchar" MaxLength="100" />
+          <Property Name="INE" Type="varchar" MaxLength="100" />
+          <Property Name="DocRFC" Type="varchar" MaxLength="100" />
+          <Property Name="CURP" Type="varchar" MaxLength="100" />
+          <Property Name="Comprobante" Type="varchar" MaxLength="100" />
+          <Property Name="Formato" Type="varchar" MaxLength="100" />
+          <Property Name="Caratula" Type="varchar" MaxLength="100" />
+          <Property Name="Kardex" Type="varchar" MaxLength="100" />
+          <Property Name="Cedula" Type="varchar" MaxLength="100" />
+          <Property Name="Titulo" Type="varchar" MaxLength="100" />
+          <Property Name="CedulaEsp" Type="varchar" MaxLength="100" />
+          <Property Name="Constancia" Type="varchar" MaxLength="100" />
+          <Property Name="Opinion" Type="varchar" MaxLength="100" />
+          <Property Name="Propuesta" Type="varchar" MaxLength="100" />
+          <Property Name="Alta" Type="varchar" MaxLength="100" />
+          <Property Name="Examen" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="TblEmpleado">
+          <Key>
+            <PropertyRef Name="Emp_NumEmp" />
+          </Key>
+          <Property Name="Emp_NumEmp" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Emp_RFC" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Emp_Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="Emp_APaterno" Type="varchar" MaxLength="50" />
+          <Property Name="Emp_AMaterno" Type="varchar" MaxLength="50" />
+          <Property Name="Emp_CURP" Type="varchar" MaxLength="20" />
+          <Property Name="IdRegimen" Type="int" />
+          <Property Name="IdPuesto" Type="varchar" MaxLength="50" />
+          <Property Name="IdDepartamento" Type="int" />
+          <Property Name="Emp_HoraEntrada" Type="varchar" MaxLength="30" />
+          <Property Name="Emp_HoraSalida" Type="varchar" MaxLength="30" />
+          <Property Name="IdTipoIngreso" Type="int" />
+          <Property Name="Emp_Ingresos" Type="varchar" MaxLength="20" />
+          <Property Name="IdUniforme" Type="int" />
+          <Property Name="Emp_Actividades" Type="varchar(max)" />
+          <Property Name="Emp_Observaciones" Type="varchar(max)" />
+          <Property Name="Emp_FechaNacimiento" Type="varchar" MaxLength="50" />
+          <Property Name="Emp_LugarNac" Type="varchar" MaxLength="50" />
+          <Property Name="Emp_Sexo" Type="int" />
+          <Property Name="Emp_EstadoCivil" Type="int" />
+          <Property Name="Emp_NumeroHijos" Type="int" />
+          <Property Name="Emp_CodigoPostal" Type="int" />
+          <Property Name="IdPais" Type="int" />
+          <Property Name="IdEstado" Type="int" />
+          <Property Name="IdMunicipio" Type="int" />
+          <Property Name="IdColonia" Type="int" />
+          <Property Name="Emp_Calle" Type="varchar" MaxLength="100" />
+          <Property Name="Emp_NumExt" Type="varchar(max)" />
+          <Property Name="Emp_NumInt" Type="varchar(max)" />
+          <Property Name="Emp_NumFijo" Type="varchar" MaxLength="20" />
+          <Property Name="Emp_NumCelular" Type="varchar" MaxLength="20" />
+          <Property Name="Emp_CodigoPostalFiscal" Type="int" />
+          <Property Name="IdPaisFiscal" Type="int" />
+          <Property Name="IdEstadoFiscal" Type="int" />
+          <Property Name="IdMunicipioFiscal" Type="int" />
+          <Property Name="IdColoniaFiscal" Type="int" />
+          <Property Name="Emp_CalleFiscal" Type="varchar" MaxLength="100" />
+          <Property Name="Emp_NumExtFiscal" Type="varchar(max)" />
+          <Property Name="Emp_NumIntFiscal" Type="varchar(max)" />
+          <Property Name="Emp_NumFijoFiscal" Type="varchar" MaxLength="20" />
+          <Property Name="Emp_NumCelularFiscal" Type="varchar" MaxLength="20" />
+          <Property Name="Emp_Edad" Type="varchar" MaxLength="50" />
+          <Property Name="Emp_Lunes" Type="bit" />
+          <Property Name="Emp_Martes" Type="bit" />
+          <Property Name="Emp_Miercoles" Type="bit" />
+          <Property Name="Emp_Jueves" Type="bit" />
+          <Property Name="Emp_Viernes" Type="bit" />
+          <Property Name="Emp_Sabado" Type="bit" />
+          <Property Name="Emp_Domingo" Type="bit" />
+          <Property Name="Emp_FechaIngreso" Type="varchar" MaxLength="50" />
+          <Property Name="Emp_FechaBaja" Type="datetime" />
+          <Property Name="Emp_Estatus" Type="bit" />
+          <Property Name="Emp_NumEmpAccess" Type="varchar" MaxLength="50" />
+          <Property Name="Emp_NumRectoria" Type="varchar(max)" />
+          <Property Name="EMail" Type="varchar" MaxLength="20" />
+          <Property Name="Emp_Lunes2" Type="bit" />
+          <Property Name="Emp_Martes2" Type="bit" />
+          <Property Name="Emp_Miercoles2" Type="bit" />
+          <Property Name="Emp_Jueves2" Type="bit" />
+          <Property Name="Emp_Viernes2" Type="bit" />
+          <Property Name="Emp_Sabado2" Type="bit" />
+          <Property Name="Emp_Domingo2" Type="bit" />
+          <Property Name="Emp_HoraEntrada2" Type="varchar" MaxLength="30" />
+          <Property Name="Emp_HoraSalida2" Type="varchar" MaxLength="30" />
+          <Property Name="Emp_ExtencionTel" Type="int" />
+          <Property Name="NumEmp_Id" Type="int" />
+          <Property Name="Emp_Baja" Type="bit" />
+          <Property Name="IdCategoria" Type="varchar" MaxLength="20" />
+          <Property Name="UnidadMedica" Type="int" />
+        </EntityType>
+        <EntityType Name="TblEscuela">
+          <Key>
+            <PropertyRef Name="IdEscuela" />
+          </Key>
+          <Property Name="IdEscuela" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NomEscuela" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="TblEstado">
+          <Key>
+            <PropertyRef Name="IdEstado" />
+          </Key>
+          <Property Name="IdEstado" Type="int" Nullable="false" />
+          <Property Name="clave" Type="char" MaxLength="3" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" />
+          <Property Name="abrev" Type="varchar" MaxLength="20" />
+          <Property Name="activo" Type="int" />
+          <Property Name="IdPais" Type="int" />
+        </EntityType>
+        <EntityType Name="TblEstudiosEmpleado">
+          <Key>
+            <PropertyRef Name="IdCarreraEmpleado" />
+          </Key>
+          <Property Name="IdCarreraEmpleado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Emp_NumEmp" Type="int" Nullable="false" />
+          <Property Name="IdNivel" Type="int" Nullable="false" />
+          <Property Name="IdCarrera" Type="int" />
+          <Property Name="Emp_Cedula" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="FechaExpedicion" Type="datetime" />
+          <Property Name="IdEscuela" Type="int" />
+        </EntityType>
+        <EntityType Name="TblHijos">
+          <Key>
+            <PropertyRef Name="IdHijo" />
+          </Key>
+          <Property Name="IdHijo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" />
+          <Property Name="FechaNac" Type="varchar" MaxLength="50" />
+          <Property Name="Sexo" Type="varchar" MaxLength="100" />
+          <Property Name="Emp_NumEmp" Type="int" Nullable="false" />
+          <Property Name="Edad" Type="int" />
+        </EntityType>
+        <EntityType Name="TblKardex">
+          <Key>
+            <PropertyRef Name="IdKardex" />
+          </Key>
+          <Property Name="IdKardex" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Kar_REG" Type="int" />
+          <Property Name="Kar_MOV" Type="varchar" MaxLength="50" />
+          <Property Name="Kar_INI" Type="datetime" />
+          <Property Name="Kar_FIN" Type="datetime" />
+          <Property Name="Kar_FRE" Type="datetime" />
+          <Property Name="Kar_FSOL" Type="datetime" />
+          <Property Name="Kar_DIA" Type="varchar" MaxLength="50" />
+          <Property Name="Kar_HOR" Type="varchar" MaxLength="50" />
+          <Property Name="Kar_OBS" Type="varchar" MaxLength="100" />
+          <Property Name="Kar_PER" Type="varchar" MaxLength="50" />
+          <Property Name="Kar_SUB" Type="varchar" MaxLength="50" />
+          <Property Name="Kar_Emp" Type="varchar" MaxLength="50" />
+          <Property Name="Kar_REA" Type="varchar" MaxLength="50" />
+          <Property Name="Kar_FCA" Type="datetime" />
+          <Property Name="Kar_HCA" Type="datetime" />
+          <Property Name="Kar_DEP" Type="varchar" MaxLength="50" />
+          <Property Name="Kar_TIP" Type="varchar" MaxLength="50" />
+          <Property Name="Kar_STA" Type="varchar" MaxLength="50" />
+          <Property Name="ClaveMov" Type="int" Nullable="false" />
+          <Property Name="ClaveNom" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="IdDepartamento" Type="int" Nullable="false" />
+          <Property Name="Emp_NumEmp" Type="int" Nullable="false" />
+          <Property Name="IdMovimiento" Type="int" />
+          <Property Name="NumEmp_Autoriza" Type="int" />
+        </EntityType>
+        <EntityType Name="TblKardexRHyNom">
+          <Key>
+            <PropertyRef Name="ClaveMov" />
+          </Key>
+          <Property Name="ClaveMov" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="Tipo" Type="int" />
+          <Property Name="Activo" Type="bit" />
+        </EntityType>
+        <EntityType Name="TblMunicipio">
+          <Key>
+            <PropertyRef Name="IdMunicipio" />
+          </Key>
+          <Property Name="IdMunicipio" Type="int" Nullable="false" />
+          <Property Name="IdEstado" Type="int" Nullable="false" />
+          <Property Name="clave" Type="char" MaxLength="3" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" />
+          <Property Name="activo" Type="int" />
+        </EntityType>
+        <EntityType Name="TblNivelAcademico">
+          <Key>
+            <PropertyRef Name="IdNivel" />
+          </Key>
+          <Property Name="IdNivel" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NivelAcademico" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="TblPais">
+          <Key>
+            <PropertyRef Name="IdPais" />
+          </Key>
+          <Property Name="IdPais" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombrePais" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TblPuesto">
+          <Key>
+            <PropertyRef Name="IdPuesto" />
+          </Key>
+          <Property Name="IdPuesto" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NombrePuesto" Type="varchar" MaxLength="50" />
+          <Property Name="Estructura_Clave" Type="varchar" MaxLength="30" />
+          <Property Name="ACStatus" Type="bit" />
+        </EntityType>
+        <EntityType Name="TblRegimen">
+          <Key>
+            <PropertyRef Name="IdRegimen" />
+          </Key>
+          <Property Name="IdRegimen" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Regimen" Type="varchar" MaxLength="50" />
+          <Property Name="Clave" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="Status_Regimen" Type="bit" />
+        </EntityType>
+        <EntityType Name="TblTallasUniformes">
+          <Key>
+            <PropertyRef Name="IdTalla" />
+          </Key>
+          <Property Name="IdTalla" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreUniforme" Type="varchar" MaxLength="50" />
+          <Property Name="IdUniforme" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TblUniforme">
+          <Key>
+            <PropertyRef Name="IdUniforme" />
+          </Key>
+          <Property Name="IdUniforme" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Uniforme" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK__TblCarrer__IdNiv__4CA06362">
+          <End Role="TblNivelAcademico" Type="Self.TblNivelAcademico" Multiplicity="1" />
+          <End Role="TblCarreras" Type="Self.TblCarreras" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblNivelAcademico">
+              <PropertyRef Name="IdNivel" />
+            </Principal>
+            <Dependent Role="TblCarreras">
+              <PropertyRef Name="IdNivel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblColoni__IdMun__2B3F6F97">
+          <End Role="TblMunicipio" Type="Self.TblMunicipio" Multiplicity="1" />
+          <End Role="TblColonia" Type="Self.TblColonia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblMunicipio">
+              <PropertyRef Name="IdMunicipio" />
+            </Principal>
+            <Dependent Role="TblColonia">
+              <PropertyRef Name="IdMunicipio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblDocume__Emp_N__5812160E">
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="1" />
+          <End Role="TblDocumentos" Type="Self.TblDocumentos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblEmpleado">
+              <PropertyRef Name="Emp_NumEmp" />
+            </Principal>
+            <Dependent Role="TblDocumentos">
+              <PropertyRef Name="Emp_NumEmp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdCol__3C69FB99">
+          <End Role="TblColonia" Type="Self.TblColonia" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblColonia">
+              <PropertyRef Name="IdColonia" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdColonia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdCol__403A8C7D">
+          <End Role="TblColonia" Type="Self.TblColonia" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblColonia">
+              <PropertyRef Name="IdColonia" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdColonia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdDep__37A5467C">
+          <End Role="TblDepartamento" Type="Self.TblDepartamento" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblDepartamento">
+              <PropertyRef Name="IdDepartamento" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdDepartamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdEst__3A81B327">
+          <End Role="TblEstado" Type="Self.TblEstado" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblEstado">
+              <PropertyRef Name="IdEstado" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdEst__3E52440B">
+          <End Role="TblEstado" Type="Self.TblEstado" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblEstado">
+              <PropertyRef Name="IdEstado" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdMun__3B75D760">
+          <End Role="TblMunicipio" Type="Self.TblMunicipio" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblMunicipio">
+              <PropertyRef Name="IdMunicipio" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdMunicipio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdMun__3F466844">
+          <End Role="TblMunicipio" Type="Self.TblMunicipio" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblMunicipio">
+              <PropertyRef Name="IdMunicipio" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdMunicipio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdPai__398D8EEE">
+          <End Role="TblPais" Type="Self.TblPais" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblPais">
+              <PropertyRef Name="IdPais" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdPais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdPai__3D5E1FD2">
+          <End Role="TblPais" Type="Self.TblPais" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblPais">
+              <PropertyRef Name="IdPais" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdPais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdPue__36B12243">
+          <End Role="TblPuesto" Type="Self.TblPuesto" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblPuesto">
+              <PropertyRef Name="IdPuesto" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdPuesto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdReg__35BCFE0A">
+          <End Role="TblRegimen" Type="Self.TblRegimen" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblRegimen">
+              <PropertyRef Name="IdRegimen" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdRegimen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdUni__38996AB5">
+          <End Role="TblUniforme" Type="Self.TblUniforme" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUniforme">
+              <PropertyRef Name="IdUniforme" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdUniforme" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEstado__IdPai__25869641">
+          <End Role="TblPais" Type="Self.TblPais" Multiplicity="0..1" />
+          <End Role="TblEstado" Type="Self.TblEstado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblPais">
+              <PropertyRef Name="IdPais" />
+            </Principal>
+            <Dependent Role="TblEstado">
+              <PropertyRef Name="IdPais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEstudi__Emp_N__5070F446">
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="1" />
+          <End Role="TblEstudiosEmpleado" Type="Self.TblEstudiosEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblEmpleado">
+              <PropertyRef Name="Emp_NumEmp" />
+            </Principal>
+            <Dependent Role="TblEstudiosEmpleado">
+              <PropertyRef Name="Emp_NumEmp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEstudi__IdCar__52593CB8">
+          <End Role="TblCarreras" Type="Self.TblCarreras" Multiplicity="0..1" />
+          <End Role="TblEstudiosEmpleado" Type="Self.TblEstudiosEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblCarreras">
+              <PropertyRef Name="IdCarrera" />
+            </Principal>
+            <Dependent Role="TblEstudiosEmpleado">
+              <PropertyRef Name="IdCarrera" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEstudi__IdNiv__5165187F">
+          <End Role="TblNivelAcademico" Type="Self.TblNivelAcademico" Multiplicity="1" />
+          <End Role="TblEstudiosEmpleado" Type="Self.TblEstudiosEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblNivelAcademico">
+              <PropertyRef Name="IdNivel" />
+            </Principal>
+            <Dependent Role="TblEstudiosEmpleado">
+              <PropertyRef Name="IdNivel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblHijos__Emp_Nu__5535A963">
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="1" />
+          <End Role="TblHijos" Type="Self.TblHijos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblEmpleado">
+              <PropertyRef Name="Emp_NumEmp" />
+            </Principal>
+            <Dependent Role="TblHijos">
+              <PropertyRef Name="Emp_NumEmp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblKardex__Clave__44FF419A">
+          <End Role="TblKardexRHyNom" Type="Self.TblKardexRHyNom" Multiplicity="1" />
+          <End Role="TblKardex" Type="Self.TblKardex" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblKardexRHyNom">
+              <PropertyRef Name="ClaveMov" />
+            </Principal>
+            <Dependent Role="TblKardex">
+              <PropertyRef Name="ClaveMov" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblKardex__Emp_N__45F365D3">
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="1" />
+          <End Role="TblKardex" Type="Self.TblKardex" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblEmpleado">
+              <PropertyRef Name="Emp_NumEmp" />
+            </Principal>
+            <Dependent Role="TblKardex">
+              <PropertyRef Name="Emp_NumEmp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblMunici__IdEst__286302EC">
+          <End Role="TblEstado" Type="Self.TblEstado" Multiplicity="1" />
+          <End Role="TblMunicipio" Type="Self.TblMunicipio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblEstado">
+              <PropertyRef Name="IdEstado" />
+            </Principal>
+            <Dependent Role="TblMunicipio">
+              <PropertyRef Name="IdEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblTallas__IdUni__5AEE82B9">
+          <End Role="TblUniforme" Type="Self.TblUniforme" Multiplicity="1" />
+          <End Role="TblTallasUniformes" Type="Self.TblTallasUniformes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUniforme">
+              <PropertyRef Name="IdUniforme" />
+            </Principal>
+            <Dependent Role="TblTallasUniformes">
+              <PropertyRef Name="IdUniforme" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="SpReporteRetardos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFinal" Type="datetime" Mode="In" />
+        </Function>
+        <EntityContainer Name="SISMModelStoreContainer">
+          <EntitySet Name="TblCarreras" EntityType="Self.TblCarreras" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblCatalogoContratos" EntityType="Self.TblCatalogoContratos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblColonia" EntityType="Self.TblColonia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblDepartamento" EntityType="Self.TblDepartamento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblDocumentos" EntityType="Self.TblDocumentos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblEmpleado" EntityType="Self.TblEmpleado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblEscuela" EntityType="Self.TblEscuela" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblEstado" EntityType="Self.TblEstado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblEstudiosEmpleado" EntityType="Self.TblEstudiosEmpleado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblHijos" EntityType="Self.TblHijos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblKardex" EntityType="Self.TblKardex" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblKardexRHyNom" EntityType="Self.TblKardexRHyNom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblMunicipio" EntityType="Self.TblMunicipio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblNivelAcademico" EntityType="Self.TblNivelAcademico" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblPais" EntityType="Self.TblPais" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblPuesto" EntityType="Self.TblPuesto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblRegimen" EntityType="Self.TblRegimen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblTallasUniformes" EntityType="Self.TblTallasUniformes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblUniforme" EntityType="Self.TblUniforme" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__TblCarrer__IdNiv__4CA06362" Association="Self.FK__TblCarrer__IdNiv__4CA06362">
+            <End Role="TblNivelAcademico" EntitySet="TblNivelAcademico" />
+            <End Role="TblCarreras" EntitySet="TblCarreras" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblColoni__IdMun__2B3F6F97" Association="Self.FK__TblColoni__IdMun__2B3F6F97">
+            <End Role="TblMunicipio" EntitySet="TblMunicipio" />
+            <End Role="TblColonia" EntitySet="TblColonia" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblDocume__Emp_N__5812160E" Association="Self.FK__TblDocume__Emp_N__5812160E">
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+            <End Role="TblDocumentos" EntitySet="TblDocumentos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdCol__3C69FB99" Association="Self.FK__TblEmplea__IdCol__3C69FB99">
+            <End Role="TblColonia" EntitySet="TblColonia" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdCol__403A8C7D" Association="Self.FK__TblEmplea__IdCol__403A8C7D">
+            <End Role="TblColonia" EntitySet="TblColonia" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdDep__37A5467C" Association="Self.FK__TblEmplea__IdDep__37A5467C">
+            <End Role="TblDepartamento" EntitySet="TblDepartamento" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdEst__3A81B327" Association="Self.FK__TblEmplea__IdEst__3A81B327">
+            <End Role="TblEstado" EntitySet="TblEstado" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdEst__3E52440B" Association="Self.FK__TblEmplea__IdEst__3E52440B">
+            <End Role="TblEstado" EntitySet="TblEstado" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdMun__3B75D760" Association="Self.FK__TblEmplea__IdMun__3B75D760">
+            <End Role="TblMunicipio" EntitySet="TblMunicipio" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdMun__3F466844" Association="Self.FK__TblEmplea__IdMun__3F466844">
+            <End Role="TblMunicipio" EntitySet="TblMunicipio" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdPai__398D8EEE" Association="Self.FK__TblEmplea__IdPai__398D8EEE">
+            <End Role="TblPais" EntitySet="TblPais" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdPai__3D5E1FD2" Association="Self.FK__TblEmplea__IdPai__3D5E1FD2">
+            <End Role="TblPais" EntitySet="TblPais" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdPue__36B12243" Association="Self.FK__TblEmplea__IdPue__36B12243">
+            <End Role="TblPuesto" EntitySet="TblPuesto" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdReg__35BCFE0A" Association="Self.FK__TblEmplea__IdReg__35BCFE0A">
+            <End Role="TblRegimen" EntitySet="TblRegimen" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdUni__38996AB5" Association="Self.FK__TblEmplea__IdUni__38996AB5">
+            <End Role="TblUniforme" EntitySet="TblUniforme" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEstado__IdPai__25869641" Association="Self.FK__TblEstado__IdPai__25869641">
+            <End Role="TblPais" EntitySet="TblPais" />
+            <End Role="TblEstado" EntitySet="TblEstado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEstudi__Emp_N__5070F446" Association="Self.FK__TblEstudi__Emp_N__5070F446">
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+            <End Role="TblEstudiosEmpleado" EntitySet="TblEstudiosEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEstudi__IdCar__52593CB8" Association="Self.FK__TblEstudi__IdCar__52593CB8">
+            <End Role="TblCarreras" EntitySet="TblCarreras" />
+            <End Role="TblEstudiosEmpleado" EntitySet="TblEstudiosEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEstudi__IdNiv__5165187F" Association="Self.FK__TblEstudi__IdNiv__5165187F">
+            <End Role="TblNivelAcademico" EntitySet="TblNivelAcademico" />
+            <End Role="TblEstudiosEmpleado" EntitySet="TblEstudiosEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblHijos__Emp_Nu__5535A963" Association="Self.FK__TblHijos__Emp_Nu__5535A963">
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+            <End Role="TblHijos" EntitySet="TblHijos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblKardex__Clave__44FF419A" Association="Self.FK__TblKardex__Clave__44FF419A">
+            <End Role="TblKardexRHyNom" EntitySet="TblKardexRHyNom" />
+            <End Role="TblKardex" EntitySet="TblKardex" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblKardex__Emp_N__45F365D3" Association="Self.FK__TblKardex__Emp_N__45F365D3">
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+            <End Role="TblKardex" EntitySet="TblKardex" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblMunici__IdEst__286302EC" Association="Self.FK__TblMunici__IdEst__286302EC">
+            <End Role="TblEstado" EntitySet="TblEstado" />
+            <End Role="TblMunicipio" EntitySet="TblMunicipio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblTallas__IdUni__5AEE82B9" Association="Self.FK__TblTallas__IdUni__5AEE82B9">
+            <End Role="TblUniforme" EntitySet="TblUniforme" />
+            <End Role="TblTallasUniformes" EntitySet="TblTallasUniformes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SISMModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TblCarreras">
+          <Key>
+            <PropertyRef Name="IdCarrera" />
+          </Key>
+          <Property Name="IdCarrera" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IdNivel" Type="Int32" Nullable="false" />
+          <Property Name="IdEscuela" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TblEscuela" Relationship="Self.FK__TblCarrer__IdEsc__4D94879B" FromRole="TblCarreras" ToRole="TblEscuela" />
+          <NavigationProperty Name="TblNivelAcademico" Relationship="Self.FK__TblCarrer__IdNiv__4CA06362" FromRole="TblCarreras" ToRole="TblNivelAcademico" />
+          <NavigationProperty Name="TblEstudiosEmpleado" Relationship="Self.FK__TblEstudi__IdCar__52593CB8" FromRole="TblCarreras" ToRole="TblEstudiosEmpleado" />
+        </EntityType>
+        <EntityType Name="TblCatalogoContratos">
+          <Key>
+            <PropertyRef Name="IdClave" />
+          </Key>
+          <Property Name="IdClave" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TipoCatalogo" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="Catalogo" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="Estatus" Type="Boolean" />
+          <Property Name="Clave" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TblColonia">
+          <Key>
+            <PropertyRef Name="IdColonia" />
+          </Key>
+          <Property Name="IdColonia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreColonia" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoPostal" Type="Int32" Nullable="false" />
+          <Property Name="IdMunicipio" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TblMunicipio" Relationship="Self.FK__TblColoni__IdMun__2B3F6F97" FromRole="TblColonia" ToRole="TblMunicipio" />
+          <NavigationProperty Name="TblEmpleado" Relationship="Self.FK__TblEmplea__IdCol__3C69FB99" FromRole="TblColonia" ToRole="TblEmpleado" />
+          <NavigationProperty Name="TblEmpleado1" Relationship="Self.FK__TblEmplea__IdCol__403A8C7D" FromRole="TblColonia" ToRole="TblEmpleado" />
+        </EntityType>
+        <EntityType Name="TblDepartamento">
+          <Key>
+            <PropertyRef Name="IdDepartamento" />
+          </Key>
+          <Property Name="IdDepartamento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NomDepartamento" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_RFC" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TblEmpleado" Relationship="Self.FK__TblEmplea__IdDep__37A5467C" FromRole="TblDepartamento" ToRole="TblEmpleado" />
+          <Property Name="NumEmp_Jefe" Type="Int32" />
+          <Property Name="Estatus" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="TblDocumentos">
+          <Key>
+            <PropertyRef Name="IdDocumentacion" />
+          </Key>
+          <Property Name="IdDocumentacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Emp_NumEmp" Type="Int32" Nullable="false" />
+          <Property Name="Carta" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Curriculum" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Acta" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="INE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DocRFC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CURP" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Comprobante" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Formato" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Caratula" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Kardex" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Cedula" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Titulo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CedulaEsp" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Constancia" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Opinion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Propuesta" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Alta" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Examen" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TblEmpleado" Relationship="Self.FK__TblDocume__Emp_N__5812160E" FromRole="TblDocumentos" ToRole="TblEmpleado" />
+        </EntityType>
+        <EntityType Name="TblEmpleado">
+          <Key>
+            <PropertyRef Name="Emp_NumEmp" />
+          </Key>
+          <Property Name="Emp_NumEmp" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Emp_RFC" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Emp_Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_APaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_AMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_CURP" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IdRegimen" Type="Int32" />
+          <Property Name="IdPuesto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IdDepartamento" Type="Int32" />
+          <Property Name="Emp_HoraEntrada" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_HoraSalida" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="IdTipoIngreso" Type="Int32" />
+          <Property Name="Emp_Ingresos" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IdUniforme" Type="Int32" />
+          <Property Name="Emp_Actividades" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_Observaciones" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_FechaNacimiento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_LugarNac" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_Sexo" Type="Int32" />
+          <Property Name="Emp_EstadoCivil" Type="Int32" />
+          <Property Name="Emp_NumeroHijos" Type="Int32" />
+          <Property Name="Emp_CodigoPostal" Type="Int32" />
+          <Property Name="IdPais" Type="Int32" />
+          <Property Name="IdEstado" Type="Int32" />
+          <Property Name="IdMunicipio" Type="Int32" />
+          <Property Name="IdColonia" Type="Int32" />
+          <Property Name="Emp_Calle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_NumExt" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_NumInt" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_NumFijo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_NumCelular" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_CodigoPostalFiscal" Type="Int32" />
+          <Property Name="IdPaisFiscal" Type="Int32" />
+          <Property Name="IdEstadoFiscal" Type="Int32" />
+          <Property Name="IdMunicipioFiscal" Type="Int32" />
+          <Property Name="IdColoniaFiscal" Type="Int32" />
+          <Property Name="Emp_CalleFiscal" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_NumExtFiscal" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_NumIntFiscal" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_NumFijoFiscal" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_NumCelularFiscal" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_Edad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_Lunes" Type="Boolean" />
+          <Property Name="Emp_Martes" Type="Boolean" />
+          <Property Name="Emp_Miercoles" Type="Boolean" />
+          <Property Name="Emp_Jueves" Type="Boolean" />
+          <Property Name="Emp_Viernes" Type="Boolean" />
+          <Property Name="Emp_Sabado" Type="Boolean" />
+          <Property Name="Emp_Domingo" Type="Boolean" />
+          <Property Name="Emp_FechaIngreso" Type="String" />
+          <Property Name="Emp_FechaBaja" Type="DateTime" Precision="3" />
+          <Property Name="Emp_Estatus" Type="Boolean" />
+          <Property Name="Emp_NumEmpAccess" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_NumRectoria" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TblColonia" Relationship="Self.FK__TblEmplea__IdCol__3C69FB99" FromRole="TblEmpleado" ToRole="TblColonia" />
+          <NavigationProperty Name="TblColonia1" Relationship="Self.FK__TblEmplea__IdCol__403A8C7D" FromRole="TblEmpleado" ToRole="TblColonia" />
+          <NavigationProperty Name="TblDepartamento" Relationship="Self.FK__TblEmplea__IdDep__37A5467C" FromRole="TblEmpleado" ToRole="TblDepartamento" />
+          <NavigationProperty Name="TblDocumentos" Relationship="Self.FK__TblDocume__Emp_N__5812160E" FromRole="TblEmpleado" ToRole="TblDocumentos" />
+          <NavigationProperty Name="TblEstado" Relationship="Self.FK__TblEmplea__IdEst__3A81B327" FromRole="TblEmpleado" ToRole="TblEstado" />
+          <NavigationProperty Name="TblEstado1" Relationship="Self.FK__TblEmplea__IdEst__3E52440B" FromRole="TblEmpleado" ToRole="TblEstado" />
+          <NavigationProperty Name="TblMunicipio" Relationship="Self.FK__TblEmplea__IdMun__3B75D760" FromRole="TblEmpleado" ToRole="TblMunicipio" />
+          <NavigationProperty Name="TblMunicipio1" Relationship="Self.FK__TblEmplea__IdMun__3F466844" FromRole="TblEmpleado" ToRole="TblMunicipio" />
+          <NavigationProperty Name="TblPais" Relationship="Self.FK__TblEmplea__IdPai__398D8EEE" FromRole="TblEmpleado" ToRole="TblPais" />
+          <NavigationProperty Name="TblPais1" Relationship="Self.FK__TblEmplea__IdPai__3D5E1FD2" FromRole="TblEmpleado" ToRole="TblPais" />
+          <NavigationProperty Name="TblPuesto" Relationship="Self.FK__TblEmplea__IdPue__36B12243" FromRole="TblEmpleado" ToRole="TblPuesto" />
+          <NavigationProperty Name="TblRegimen" Relationship="Self.FK__TblEmplea__IdReg__35BCFE0A" FromRole="TblEmpleado" ToRole="TblRegimen" />
+          <NavigationProperty Name="TblUniforme" Relationship="Self.FK__TblEmplea__IdUni__38996AB5" FromRole="TblEmpleado" ToRole="TblUniforme" />
+          <NavigationProperty Name="TblEstudiosEmpleado" Relationship="Self.FK__TblEstudi__Emp_N__5070F446" FromRole="TblEmpleado" ToRole="TblEstudiosEmpleado" />
+          <NavigationProperty Name="TblHijos" Relationship="Self.FK__TblHijos__Emp_Nu__5535A963" FromRole="TblEmpleado" ToRole="TblHijos" />
+          <NavigationProperty Name="TblKardex" Relationship="Self.FK__TblKardex__Emp_N__45F365D3" FromRole="TblEmpleado" ToRole="TblKardex" />
+          <Property Name="EMail" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_Lunes2" Type="Boolean" />
+          <Property Name="Emp_Martes2" Type="Boolean" />
+          <Property Name="Emp_Miercoles2" Type="Boolean" />
+          <Property Name="Emp_Jueves2" Type="Boolean" />
+          <Property Name="Emp_Viernes2" Type="Boolean" />
+          <Property Name="Emp_Sabado2" Type="Boolean" />
+          <Property Name="Emp_Domingo2" Type="Boolean" />
+          <Property Name="Emp_HoraEntrada2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_HoraSalida2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_ExtencionTel" Type="Int32" />
+          <Property Name="NumEmp_Id" Type="Int32" />
+          <Property Name="Emp_Baja" Type="Boolean" />
+          <Property Name="IdCategoria" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="UnidadMedica" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TblEscuela">
+          <Key>
+            <PropertyRef Name="IdEscuela" />
+          </Key>
+          <Property Name="IdEscuela" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NomEscuela" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TblCarreras" Relationship="Self.FK__TblCarrer__IdEsc__4D94879B" FromRole="TblEscuela" ToRole="TblCarreras" />
+        </EntityType>
+        <EntityType Name="TblEstado">
+          <Key>
+            <PropertyRef Name="IdEstado" />
+          </Key>
+          <Property Name="IdEstado" Type="Int32" Nullable="false" />
+          <Property Name="clave" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="abrev" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="activo" Type="Int32" />
+          <Property Name="IdPais" Type="Int32" />
+          <NavigationProperty Name="TblEmpleado" Relationship="Self.FK__TblEmplea__IdEst__3A81B327" FromRole="TblEstado" ToRole="TblEmpleado" />
+          <NavigationProperty Name="TblEmpleado1" Relationship="Self.FK__TblEmplea__IdEst__3E52440B" FromRole="TblEstado" ToRole="TblEmpleado" />
+          <NavigationProperty Name="TblPais" Relationship="Self.FK__TblEstado__IdPai__25869641" FromRole="TblEstado" ToRole="TblPais" />
+          <NavigationProperty Name="TblMunicipio" Relationship="Self.FK__TblMunici__IdEst__286302EC" FromRole="TblEstado" ToRole="TblMunicipio" />
+        </EntityType>
+        <EntityType Name="TblEstudiosEmpleado">
+          <Key>
+            <PropertyRef Name="IdCarreraEmpleado" />
+          </Key>
+          <Property Name="IdCarreraEmpleado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Emp_NumEmp" Type="Int32" Nullable="false" />
+          <Property Name="IdNivel" Type="Int32" Nullable="false" />
+          <Property Name="IdCarrera" Type="Int32" />
+          <Property Name="Emp_Cedula" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaExpedicion" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="TblCarreras" Relationship="Self.FK__TblEstudi__IdCar__52593CB8" FromRole="TblEstudiosEmpleado" ToRole="TblCarreras" />
+          <NavigationProperty Name="TblEmpleado" Relationship="Self.FK__TblEstudi__Emp_N__5070F446" FromRole="TblEstudiosEmpleado" ToRole="TblEmpleado" />
+          <NavigationProperty Name="TblNivelAcademico" Relationship="Self.FK__TblEstudi__IdNiv__5165187F" FromRole="TblEstudiosEmpleado" ToRole="TblNivelAcademico" />
+          <Property Name="IdEscuela" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TblHijos">
+          <Key>
+            <PropertyRef Name="IdHijo" />
+          </Key>
+          <Property Name="IdHijo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FechaNac" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sexo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Emp_NumEmp" Type="Int32" Nullable="false" />
+          <Property Name="Edad" Type="Int32" />
+          <NavigationProperty Name="TblEmpleado" Relationship="Self.FK__TblHijos__Emp_Nu__5535A963" FromRole="TblHijos" ToRole="TblEmpleado" />
+        </EntityType>
+        <EntityType Name="TblKardex">
+          <Key>
+            <PropertyRef Name="IdKardex" />
+          </Key>
+          <Property Name="IdKardex" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Kar_REG" Type="Int32" />
+          <Property Name="Kar_MOV" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Kar_INI" Type="DateTime" Precision="3" />
+          <Property Name="Kar_FIN" Type="DateTime" Precision="3" />
+          <Property Name="Kar_FRE" Type="DateTime" Precision="3" />
+          <Property Name="Kar_FSOL" Type="DateTime" Precision="3" />
+          <Property Name="Kar_DIA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Kar_HOR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Kar_OBS" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Kar_PER" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Kar_SUB" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Kar_Emp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Kar_REA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Kar_FCA" Type="DateTime" Precision="3" />
+          <Property Name="Kar_HCA" Type="DateTime" Precision="3" />
+          <Property Name="Kar_DEP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Kar_TIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Kar_STA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ClaveMov" Type="Int32" Nullable="false" />
+          <Property Name="ClaveNom" Type="String" MaxLength="6" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="IdDepartamento" Type="Int32" Nullable="false" />
+          <Property Name="Emp_NumEmp" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TblEmpleado" Relationship="Self.FK__TblKardex__Emp_N__45F365D3" FromRole="TblKardex" ToRole="TblEmpleado" />
+          <NavigationProperty Name="TblKardexRHyNom" Relationship="Self.FK__TblKardex__Clave__44FF419A" FromRole="TblKardex" ToRole="TblKardexRHyNom" />
+          <Property Name="IdMovimiento" Type="Int32" />
+          <Property Name="NumEmp_Autoriza" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TblKardexRHyNom">
+          <Key>
+            <PropertyRef Name="ClaveMov" />
+          </Key>
+          <Property Name="ClaveMov" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Tipo" Type="Int32" />
+          <Property Name="Activo" Type="Boolean" />
+          <NavigationProperty Name="TblKardex" Relationship="Self.FK__TblKardex__Clave__44FF419A" FromRole="TblKardexRHyNom" ToRole="TblKardex" />
+        </EntityType>
+        <EntityType Name="TblMunicipio">
+          <Key>
+            <PropertyRef Name="IdMunicipio" />
+          </Key>
+          <Property Name="IdMunicipio" Type="Int32" Nullable="false" />
+          <Property Name="IdEstado" Type="Int32" Nullable="false" />
+          <Property Name="clave" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="activo" Type="Int32" />
+          <NavigationProperty Name="TblColonia" Relationship="Self.FK__TblColoni__IdMun__2B3F6F97" FromRole="TblMunicipio" ToRole="TblColonia" />
+          <NavigationProperty Name="TblEmpleado" Relationship="Self.FK__TblEmplea__IdMun__3B75D760" FromRole="TblMunicipio" ToRole="TblEmpleado" />
+          <NavigationProperty Name="TblEmpleado1" Relationship="Self.FK__TblEmplea__IdMun__3F466844" FromRole="TblMunicipio" ToRole="TblEmpleado" />
+          <NavigationProperty Name="TblEstado" Relationship="Self.FK__TblMunici__IdEst__286302EC" FromRole="TblMunicipio" ToRole="TblEstado" />
+        </EntityType>
+        <EntityType Name="TblNivelAcademico">
+          <Key>
+            <PropertyRef Name="IdNivel" />
+          </Key>
+          <Property Name="IdNivel" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NivelAcademico" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TblCarreras" Relationship="Self.FK__TblCarrer__IdNiv__4CA06362" FromRole="TblNivelAcademico" ToRole="TblCarreras" />
+          <NavigationProperty Name="TblEstudiosEmpleado" Relationship="Self.FK__TblEstudi__IdNiv__5165187F" FromRole="TblNivelAcademico" ToRole="TblEstudiosEmpleado" />
+        </EntityType>
+        <EntityType Name="TblPais">
+          <Key>
+            <PropertyRef Name="IdPais" />
+          </Key>
+          <Property Name="IdPais" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombrePais" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TblEmpleado" Relationship="Self.FK__TblEmplea__IdPai__398D8EEE" FromRole="TblPais" ToRole="TblEmpleado" />
+          <NavigationProperty Name="TblEmpleado1" Relationship="Self.FK__TblEmplea__IdPai__3D5E1FD2" FromRole="TblPais" ToRole="TblEmpleado" />
+          <NavigationProperty Name="TblEstado" Relationship="Self.FK__TblEstado__IdPai__25869641" FromRole="TblPais" ToRole="TblEstado" />
+        </EntityType>
+        <EntityType Name="TblPuesto">
+          <Key>
+            <PropertyRef Name="IdPuesto" />
+          </Key>
+          <Property Name="IdPuesto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NombrePuesto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Estructura_Clave" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TblEmpleado" Relationship="Self.FK__TblEmplea__IdPue__36B12243" FromRole="TblPuesto" ToRole="TblEmpleado" />
+          <Property Name="ACStatus" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="TblRegimen">
+          <Key>
+            <PropertyRef Name="IdRegimen" />
+          </Key>
+          <Property Name="IdRegimen" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Regimen" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Clave" Type="String" MaxLength="6" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TblEmpleado" Relationship="Self.FK__TblEmplea__IdReg__35BCFE0A" FromRole="TblRegimen" ToRole="TblEmpleado" />
+          <Property Name="Status_Regimen" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="TblTallasUniformes">
+          <Key>
+            <PropertyRef Name="IdTalla" />
+          </Key>
+          <Property Name="IdTalla" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreUniforme" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IdUniforme" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TblUniforme" Relationship="Self.FK__TblTallas__IdUni__5AEE82B9" FromRole="TblTallasUniformes" ToRole="TblUniforme" />
+        </EntityType>
+        <EntityType Name="TblUniforme">
+          <Key>
+            <PropertyRef Name="IdUniforme" />
+          </Key>
+          <Property Name="IdUniforme" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Uniforme" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TblEmpleado" Relationship="Self.FK__TblEmplea__IdUni__38996AB5" FromRole="TblUniforme" ToRole="TblEmpleado" />
+          <NavigationProperty Name="TblTallasUniformes" Relationship="Self.FK__TblTallas__IdUni__5AEE82B9" FromRole="TblUniforme" ToRole="TblTallasUniformes" />
+        </EntityType>
+        <Association Name="FK__TblCarrer__IdEsc__4D94879B">
+          <End Role="TblEscuela" Type="Self.TblEscuela" Multiplicity="1" />
+          <End Role="TblCarreras" Type="Self.TblCarreras" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblEscuela">
+              <PropertyRef Name="IdEscuela" />
+            </Principal>
+            <Dependent Role="TblCarreras">
+              <PropertyRef Name="IdEscuela" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblCarrer__IdNiv__4CA06362">
+          <End Role="TblNivelAcademico" Type="Self.TblNivelAcademico" Multiplicity="1" />
+          <End Role="TblCarreras" Type="Self.TblCarreras" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblNivelAcademico">
+              <PropertyRef Name="IdNivel" />
+            </Principal>
+            <Dependent Role="TblCarreras">
+              <PropertyRef Name="IdNivel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEstudi__IdCar__52593CB8">
+          <End Role="TblCarreras" Type="Self.TblCarreras" Multiplicity="0..1" />
+          <End Role="TblEstudiosEmpleado" Type="Self.TblEstudiosEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblCarreras">
+              <PropertyRef Name="IdCarrera" />
+            </Principal>
+            <Dependent Role="TblEstudiosEmpleado">
+              <PropertyRef Name="IdCarrera" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblColoni__IdMun__2B3F6F97">
+          <End Role="TblMunicipio" Type="Self.TblMunicipio" Multiplicity="1" />
+          <End Role="TblColonia" Type="Self.TblColonia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblMunicipio">
+              <PropertyRef Name="IdMunicipio" />
+            </Principal>
+            <Dependent Role="TblColonia">
+              <PropertyRef Name="IdMunicipio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdCol__3C69FB99">
+          <End Role="TblColonia" Type="Self.TblColonia" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblColonia">
+              <PropertyRef Name="IdColonia" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdColonia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdCol__403A8C7D">
+          <End Role="TblColonia" Type="Self.TblColonia" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblColonia">
+              <PropertyRef Name="IdColonia" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdColonia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdDep__37A5467C">
+          <End Role="TblDepartamento" Type="Self.TblDepartamento" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblDepartamento">
+              <PropertyRef Name="IdDepartamento" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdDepartamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblDocume__Emp_N__5812160E">
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="1" />
+          <End Role="TblDocumentos" Type="Self.TblDocumentos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblEmpleado">
+              <PropertyRef Name="Emp_NumEmp" />
+            </Principal>
+            <Dependent Role="TblDocumentos">
+              <PropertyRef Name="Emp_NumEmp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdEst__3A81B327">
+          <End Role="TblEstado" Type="Self.TblEstado" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblEstado">
+              <PropertyRef Name="IdEstado" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdEst__3E52440B">
+          <End Role="TblEstado" Type="Self.TblEstado" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblEstado">
+              <PropertyRef Name="IdEstado" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdMun__3B75D760">
+          <End Role="TblMunicipio" Type="Self.TblMunicipio" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblMunicipio">
+              <PropertyRef Name="IdMunicipio" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdMunicipio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdMun__3F466844">
+          <End Role="TblMunicipio" Type="Self.TblMunicipio" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblMunicipio">
+              <PropertyRef Name="IdMunicipio" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdMunicipio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdPai__398D8EEE">
+          <End Role="TblPais" Type="Self.TblPais" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblPais">
+              <PropertyRef Name="IdPais" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdPais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdPai__3D5E1FD2">
+          <End Role="TblPais" Type="Self.TblPais" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblPais">
+              <PropertyRef Name="IdPais" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdPais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdPue__36B12243">
+          <End Role="TblPuesto" Type="Self.TblPuesto" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblPuesto">
+              <PropertyRef Name="IdPuesto" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdPuesto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdReg__35BCFE0A">
+          <End Role="TblRegimen" Type="Self.TblRegimen" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblRegimen">
+              <PropertyRef Name="IdRegimen" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdRegimen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEmplea__IdUni__38996AB5">
+          <End Role="TblUniforme" Type="Self.TblUniforme" Multiplicity="0..1" />
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUniforme">
+              <PropertyRef Name="IdUniforme" />
+            </Principal>
+            <Dependent Role="TblEmpleado">
+              <PropertyRef Name="IdUniforme" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEstudi__Emp_N__5070F446">
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="1" />
+          <End Role="TblEstudiosEmpleado" Type="Self.TblEstudiosEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblEmpleado">
+              <PropertyRef Name="Emp_NumEmp" />
+            </Principal>
+            <Dependent Role="TblEstudiosEmpleado">
+              <PropertyRef Name="Emp_NumEmp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblHijos__Emp_Nu__5535A963">
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="1" />
+          <End Role="TblHijos" Type="Self.TblHijos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblEmpleado">
+              <PropertyRef Name="Emp_NumEmp" />
+            </Principal>
+            <Dependent Role="TblHijos">
+              <PropertyRef Name="Emp_NumEmp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblKardex__Emp_N__45F365D3">
+          <End Role="TblEmpleado" Type="Self.TblEmpleado" Multiplicity="1" />
+          <End Role="TblKardex" Type="Self.TblKardex" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblEmpleado">
+              <PropertyRef Name="Emp_NumEmp" />
+            </Principal>
+            <Dependent Role="TblKardex">
+              <PropertyRef Name="Emp_NumEmp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEstado__IdPai__25869641">
+          <End Role="TblPais" Type="Self.TblPais" Multiplicity="0..1" />
+          <End Role="TblEstado" Type="Self.TblEstado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblPais">
+              <PropertyRef Name="IdPais" />
+            </Principal>
+            <Dependent Role="TblEstado">
+              <PropertyRef Name="IdPais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblMunici__IdEst__286302EC">
+          <End Role="TblEstado" Type="Self.TblEstado" Multiplicity="1" />
+          <End Role="TblMunicipio" Type="Self.TblMunicipio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblEstado">
+              <PropertyRef Name="IdEstado" />
+            </Principal>
+            <Dependent Role="TblMunicipio">
+              <PropertyRef Name="IdEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblEstudi__IdNiv__5165187F">
+          <End Role="TblNivelAcademico" Type="Self.TblNivelAcademico" Multiplicity="1" />
+          <End Role="TblEstudiosEmpleado" Type="Self.TblEstudiosEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblNivelAcademico">
+              <PropertyRef Name="IdNivel" />
+            </Principal>
+            <Dependent Role="TblEstudiosEmpleado">
+              <PropertyRef Name="IdNivel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblKardex__Clave__44FF419A">
+          <End Role="TblKardexRHyNom" Type="Self.TblKardexRHyNom" Multiplicity="1" />
+          <End Role="TblKardex" Type="Self.TblKardex" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblKardexRHyNom">
+              <PropertyRef Name="ClaveMov" />
+            </Principal>
+            <Dependent Role="TblKardex">
+              <PropertyRef Name="ClaveMov" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblTallas__IdUni__5AEE82B9">
+          <End Role="TblUniforme" Type="Self.TblUniforme" Multiplicity="1" />
+          <End Role="TblTallasUniformes" Type="Self.TblTallasUniformes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUniforme">
+              <PropertyRef Name="IdUniforme" />
+            </Principal>
+            <Dependent Role="TblTallasUniformes">
+              <PropertyRef Name="IdUniforme" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SISMEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TblCarreras" EntityType="Self.TblCarreras" />
+          <EntitySet Name="TblCatalogoContratos" EntityType="Self.TblCatalogoContratos" />
+          <EntitySet Name="TblColonia" EntityType="Self.TblColonia" />
+          <EntitySet Name="TblDepartamento" EntityType="Self.TblDepartamento" />
+          <EntitySet Name="TblDocumentos" EntityType="Self.TblDocumentos" />
+          <EntitySet Name="TblEmpleado" EntityType="Self.TblEmpleado" />
+          <EntitySet Name="TblEscuela" EntityType="Self.TblEscuela" />
+          <EntitySet Name="TblEstado" EntityType="Self.TblEstado" />
+          <EntitySet Name="TblEstudiosEmpleado" EntityType="Self.TblEstudiosEmpleado" />
+          <EntitySet Name="TblHijos" EntityType="Self.TblHijos" />
+          <EntitySet Name="TblKardex" EntityType="Self.TblKardex" />
+          <EntitySet Name="TblKardexRHyNom" EntityType="Self.TblKardexRHyNom" />
+          <EntitySet Name="TblMunicipio" EntityType="Self.TblMunicipio" />
+          <EntitySet Name="TblNivelAcademico" EntityType="Self.TblNivelAcademico" />
+          <EntitySet Name="TblPais" EntityType="Self.TblPais" />
+          <EntitySet Name="TblPuesto" EntityType="Self.TblPuesto" />
+          <EntitySet Name="TblRegimen" EntityType="Self.TblRegimen" />
+          <EntitySet Name="TblTallasUniformes" EntityType="Self.TblTallasUniformes" />
+          <EntitySet Name="TblUniforme" EntityType="Self.TblUniforme" />
+          <AssociationSet Name="FK__TblCarrer__IdEsc__4D94879B" Association="Self.FK__TblCarrer__IdEsc__4D94879B">
+            <End Role="TblEscuela" EntitySet="TblEscuela" />
+            <End Role="TblCarreras" EntitySet="TblCarreras" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblCarrer__IdNiv__4CA06362" Association="Self.FK__TblCarrer__IdNiv__4CA06362">
+            <End Role="TblNivelAcademico" EntitySet="TblNivelAcademico" />
+            <End Role="TblCarreras" EntitySet="TblCarreras" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEstudi__IdCar__52593CB8" Association="Self.FK__TblEstudi__IdCar__52593CB8">
+            <End Role="TblCarreras" EntitySet="TblCarreras" />
+            <End Role="TblEstudiosEmpleado" EntitySet="TblEstudiosEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblColoni__IdMun__2B3F6F97" Association="Self.FK__TblColoni__IdMun__2B3F6F97">
+            <End Role="TblMunicipio" EntitySet="TblMunicipio" />
+            <End Role="TblColonia" EntitySet="TblColonia" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdCol__3C69FB99" Association="Self.FK__TblEmplea__IdCol__3C69FB99">
+            <End Role="TblColonia" EntitySet="TblColonia" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdCol__403A8C7D" Association="Self.FK__TblEmplea__IdCol__403A8C7D">
+            <End Role="TblColonia" EntitySet="TblColonia" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdDep__37A5467C" Association="Self.FK__TblEmplea__IdDep__37A5467C">
+            <End Role="TblDepartamento" EntitySet="TblDepartamento" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblDocume__Emp_N__5812160E" Association="Self.FK__TblDocume__Emp_N__5812160E">
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+            <End Role="TblDocumentos" EntitySet="TblDocumentos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdEst__3A81B327" Association="Self.FK__TblEmplea__IdEst__3A81B327">
+            <End Role="TblEstado" EntitySet="TblEstado" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdEst__3E52440B" Association="Self.FK__TblEmplea__IdEst__3E52440B">
+            <End Role="TblEstado" EntitySet="TblEstado" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdMun__3B75D760" Association="Self.FK__TblEmplea__IdMun__3B75D760">
+            <End Role="TblMunicipio" EntitySet="TblMunicipio" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdMun__3F466844" Association="Self.FK__TblEmplea__IdMun__3F466844">
+            <End Role="TblMunicipio" EntitySet="TblMunicipio" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdPai__398D8EEE" Association="Self.FK__TblEmplea__IdPai__398D8EEE">
+            <End Role="TblPais" EntitySet="TblPais" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdPai__3D5E1FD2" Association="Self.FK__TblEmplea__IdPai__3D5E1FD2">
+            <End Role="TblPais" EntitySet="TblPais" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdPue__36B12243" Association="Self.FK__TblEmplea__IdPue__36B12243">
+            <End Role="TblPuesto" EntitySet="TblPuesto" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdReg__35BCFE0A" Association="Self.FK__TblEmplea__IdReg__35BCFE0A">
+            <End Role="TblRegimen" EntitySet="TblRegimen" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEmplea__IdUni__38996AB5" Association="Self.FK__TblEmplea__IdUni__38996AB5">
+            <End Role="TblUniforme" EntitySet="TblUniforme" />
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEstudi__Emp_N__5070F446" Association="Self.FK__TblEstudi__Emp_N__5070F446">
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+            <End Role="TblEstudiosEmpleado" EntitySet="TblEstudiosEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblHijos__Emp_Nu__5535A963" Association="Self.FK__TblHijos__Emp_Nu__5535A963">
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+            <End Role="TblHijos" EntitySet="TblHijos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblKardex__Emp_N__45F365D3" Association="Self.FK__TblKardex__Emp_N__45F365D3">
+            <End Role="TblEmpleado" EntitySet="TblEmpleado" />
+            <End Role="TblKardex" EntitySet="TblKardex" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEstado__IdPai__25869641" Association="Self.FK__TblEstado__IdPai__25869641">
+            <End Role="TblPais" EntitySet="TblPais" />
+            <End Role="TblEstado" EntitySet="TblEstado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblMunici__IdEst__286302EC" Association="Self.FK__TblMunici__IdEst__286302EC">
+            <End Role="TblEstado" EntitySet="TblEstado" />
+            <End Role="TblMunicipio" EntitySet="TblMunicipio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblEstudi__IdNiv__5165187F" Association="Self.FK__TblEstudi__IdNiv__5165187F">
+            <End Role="TblNivelAcademico" EntitySet="TblNivelAcademico" />
+            <End Role="TblEstudiosEmpleado" EntitySet="TblEstudiosEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblKardex__Clave__44FF419A" Association="Self.FK__TblKardex__Clave__44FF419A">
+            <End Role="TblKardexRHyNom" EntitySet="TblKardexRHyNom" />
+            <End Role="TblKardex" EntitySet="TblKardex" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblTallas__IdUni__5AEE82B9" Association="Self.FK__TblTallas__IdUni__5AEE82B9">
+            <End Role="TblUniforme" EntitySet="TblUniforme" />
+            <End Role="TblTallasUniformes" EntitySet="TblTallasUniformes" />
+          </AssociationSet>
+          <FunctionImport Name="SpReporteRetardos" ReturnType="Collection(SISMModel.SpReporteRetardos_Result)">
+            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaFinal" Mode="In" Type="DateTime" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="SpReporteRetardos_Result">
+          <Property Type="String" Name="FECHA" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="Emp_Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Emp_APaterno" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Emp_AMaterno" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NomDepartamento" Nullable="true" />
+          <Property Type="String" Name="Kar_DEP" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Kar_TIP" Nullable="true" MaxLength="7" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SISMModelStoreContainer" CdmEntityContainer="SISMEntities">
+          <EntitySetMapping Name="TblCarreras">
+            <EntityTypeMapping TypeName="SISMModel.TblCarreras">
+              <MappingFragment StoreEntitySet="TblCarreras">
+                <ScalarProperty Name="IdCarrera" ColumnName="IdCarrera" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdNivel" ColumnName="IdNivel" />
+                <ScalarProperty Name="IdEscuela" ColumnName="IdEscuela" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblCatalogoContratos">
+            <EntityTypeMapping TypeName="SISMModel.TblCatalogoContratos">
+              <MappingFragment StoreEntitySet="TblCatalogoContratos">
+                <ScalarProperty Name="IdClave" ColumnName="IdClave" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="TipoCatalogo" ColumnName="TipoCatalogo" />
+                <ScalarProperty Name="Catalogo" ColumnName="Catalogo" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblColonia">
+            <EntityTypeMapping TypeName="SISMModel.TblColonia">
+              <MappingFragment StoreEntitySet="TblColonia">
+                <ScalarProperty Name="IdColonia" ColumnName="IdColonia" />
+                <ScalarProperty Name="NombreColonia" ColumnName="NombreColonia" />
+                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
+                <ScalarProperty Name="IdMunicipio" ColumnName="IdMunicipio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblDepartamento">
+            <EntityTypeMapping TypeName="SISMModel.TblDepartamento">
+              <MappingFragment StoreEntitySet="TblDepartamento">
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+                <ScalarProperty Name="NumEmp_Jefe" ColumnName="NumEmp_Jefe" />
+                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
+                <ScalarProperty Name="NomDepartamento" ColumnName="NomDepartamento" />
+                <ScalarProperty Name="Emp_RFC" ColumnName="Emp_RFC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblDocumentos">
+            <EntityTypeMapping TypeName="SISMModel.TblDocumentos">
+              <MappingFragment StoreEntitySet="TblDocumentos">
+                <ScalarProperty Name="IdDocumentacion" ColumnName="IdDocumentacion" />
+                <ScalarProperty Name="Emp_NumEmp" ColumnName="Emp_NumEmp" />
+                <ScalarProperty Name="Carta" ColumnName="Carta" />
+                <ScalarProperty Name="Curriculum" ColumnName="Curriculum" />
+                <ScalarProperty Name="Acta" ColumnName="Acta" />
+                <ScalarProperty Name="INE" ColumnName="INE" />
+                <ScalarProperty Name="DocRFC" ColumnName="DocRFC" />
+                <ScalarProperty Name="CURP" ColumnName="CURP" />
+                <ScalarProperty Name="Comprobante" ColumnName="Comprobante" />
+                <ScalarProperty Name="Formato" ColumnName="Formato" />
+                <ScalarProperty Name="Caratula" ColumnName="Caratula" />
+                <ScalarProperty Name="Kardex" ColumnName="Kardex" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Titulo" ColumnName="Titulo" />
+                <ScalarProperty Name="CedulaEsp" ColumnName="CedulaEsp" />
+                <ScalarProperty Name="Constancia" ColumnName="Constancia" />
+                <ScalarProperty Name="Opinion" ColumnName="Opinion" />
+                <ScalarProperty Name="Propuesta" ColumnName="Propuesta" />
+                <ScalarProperty Name="Alta" ColumnName="Alta" />
+                <ScalarProperty Name="Examen" ColumnName="Examen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblEmpleado">
+            <EntityTypeMapping TypeName="SISMModel.TblEmpleado">
+              <MappingFragment StoreEntitySet="TblEmpleado">
+                <ScalarProperty Name="UnidadMedica" ColumnName="UnidadMedica" />
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="Emp_Baja" ColumnName="Emp_Baja" />
+                <ScalarProperty Name="NumEmp_Id" ColumnName="NumEmp_Id" />
+                <ScalarProperty Name="Emp_ExtencionTel" ColumnName="Emp_ExtencionTel" />
+                <ScalarProperty Name="Emp_HoraSalida2" ColumnName="Emp_HoraSalida2" />
+                <ScalarProperty Name="Emp_HoraEntrada2" ColumnName="Emp_HoraEntrada2" />
+                <ScalarProperty Name="Emp_Domingo2" ColumnName="Emp_Domingo2" />
+                <ScalarProperty Name="Emp_Sabado2" ColumnName="Emp_Sabado2" />
+                <ScalarProperty Name="Emp_Viernes2" ColumnName="Emp_Viernes2" />
+                <ScalarProperty Name="Emp_Jueves2" ColumnName="Emp_Jueves2" />
+                <ScalarProperty Name="Emp_Miercoles2" ColumnName="Emp_Miercoles2" />
+                <ScalarProperty Name="Emp_Martes2" ColumnName="Emp_Martes2" />
+                <ScalarProperty Name="Emp_Lunes2" ColumnName="Emp_Lunes2" />
+                <ScalarProperty Name="EMail" ColumnName="EMail" />
+                <ScalarProperty Name="Emp_NumEmp" ColumnName="Emp_NumEmp" />
+                <ScalarProperty Name="Emp_RFC" ColumnName="Emp_RFC" />
+                <ScalarProperty Name="Emp_Nombre" ColumnName="Emp_Nombre" />
+                <ScalarProperty Name="Emp_APaterno" ColumnName="Emp_APaterno" />
+                <ScalarProperty Name="Emp_AMaterno" ColumnName="Emp_AMaterno" />
+                <ScalarProperty Name="Emp_CURP" ColumnName="Emp_CURP" />
+                <ScalarProperty Name="IdRegimen" ColumnName="IdRegimen" />
+                <ScalarProperty Name="IdPuesto" ColumnName="IdPuesto" />
+                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
+                <ScalarProperty Name="Emp_HoraEntrada" ColumnName="Emp_HoraEntrada" />
+                <ScalarProperty Name="Emp_HoraSalida" ColumnName="Emp_HoraSalida" />
+                <ScalarProperty Name="IdTipoIngreso" ColumnName="IdTipoIngreso" />
+                <ScalarProperty Name="Emp_Ingresos" ColumnName="Emp_Ingresos" />
+                <ScalarProperty Name="IdUniforme" ColumnName="IdUniforme" />
+                <ScalarProperty Name="Emp_Actividades" ColumnName="Emp_Actividades" />
+                <ScalarProperty Name="Emp_Observaciones" ColumnName="Emp_Observaciones" />
+                <ScalarProperty Name="Emp_FechaNacimiento" ColumnName="Emp_FechaNacimiento" />
+                <ScalarProperty Name="Emp_LugarNac" ColumnName="Emp_LugarNac" />
+                <ScalarProperty Name="Emp_Sexo" ColumnName="Emp_Sexo" />
+                <ScalarProperty Name="Emp_EstadoCivil" ColumnName="Emp_EstadoCivil" />
+                <ScalarProperty Name="Emp_NumeroHijos" ColumnName="Emp_NumeroHijos" />
+                <ScalarProperty Name="Emp_CodigoPostal" ColumnName="Emp_CodigoPostal" />
+                <ScalarProperty Name="IdPais" ColumnName="IdPais" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+                <ScalarProperty Name="IdMunicipio" ColumnName="IdMunicipio" />
+                <ScalarProperty Name="IdColonia" ColumnName="IdColonia" />
+                <ScalarProperty Name="Emp_Calle" ColumnName="Emp_Calle" />
+                <ScalarProperty Name="Emp_NumExt" ColumnName="Emp_NumExt" />
+                <ScalarProperty Name="Emp_NumInt" ColumnName="Emp_NumInt" />
+                <ScalarProperty Name="Emp_NumFijo" ColumnName="Emp_NumFijo" />
+                <ScalarProperty Name="Emp_NumCelular" ColumnName="Emp_NumCelular" />
+                <ScalarProperty Name="Emp_CodigoPostalFiscal" ColumnName="Emp_CodigoPostalFiscal" />
+                <ScalarProperty Name="IdPaisFiscal" ColumnName="IdPaisFiscal" />
+                <ScalarProperty Name="IdEstadoFiscal" ColumnName="IdEstadoFiscal" />
+                <ScalarProperty Name="IdMunicipioFiscal" ColumnName="IdMunicipioFiscal" />
+                <ScalarProperty Name="IdColoniaFiscal" ColumnName="IdColoniaFiscal" />
+                <ScalarProperty Name="Emp_CalleFiscal" ColumnName="Emp_CalleFiscal" />
+                <ScalarProperty Name="Emp_NumExtFiscal" ColumnName="Emp_NumExtFiscal" />
+                <ScalarProperty Name="Emp_NumIntFiscal" ColumnName="Emp_NumIntFiscal" />
+                <ScalarProperty Name="Emp_NumFijoFiscal" ColumnName="Emp_NumFijoFiscal" />
+                <ScalarProperty Name="Emp_NumCelularFiscal" ColumnName="Emp_NumCelularFiscal" />
+                <ScalarProperty Name="Emp_Edad" ColumnName="Emp_Edad" />
+                <ScalarProperty Name="Emp_Lunes" ColumnName="Emp_Lunes" />
+                <ScalarProperty Name="Emp_Martes" ColumnName="Emp_Martes" />
+                <ScalarProperty Name="Emp_Miercoles" ColumnName="Emp_Miercoles" />
+                <ScalarProperty Name="Emp_Jueves" ColumnName="Emp_Jueves" />
+                <ScalarProperty Name="Emp_Viernes" ColumnName="Emp_Viernes" />
+                <ScalarProperty Name="Emp_Sabado" ColumnName="Emp_Sabado" />
+                <ScalarProperty Name="Emp_Domingo" ColumnName="Emp_Domingo" />
+                <ScalarProperty Name="Emp_FechaIngreso" ColumnName="Emp_FechaIngreso" />
+                <ScalarProperty Name="Emp_FechaBaja" ColumnName="Emp_FechaBaja" />
+                <ScalarProperty Name="Emp_Estatus" ColumnName="Emp_Estatus" />
+                <ScalarProperty Name="Emp_NumEmpAccess" ColumnName="Emp_NumEmpAccess" />
+                <ScalarProperty Name="Emp_NumRectoria" ColumnName="Emp_NumRectoria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblEscuela">
+            <EntityTypeMapping TypeName="SISMModel.TblEscuela">
+              <MappingFragment StoreEntitySet="TblEscuela">
+                <ScalarProperty Name="IdEscuela" ColumnName="IdEscuela" />
+                <ScalarProperty Name="NomEscuela" ColumnName="NomEscuela" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblEstado">
+            <EntityTypeMapping TypeName="SISMModel.TblEstado">
+              <MappingFragment StoreEntitySet="TblEstado">
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="abrev" ColumnName="abrev" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+                <ScalarProperty Name="IdPais" ColumnName="IdPais" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblEstudiosEmpleado">
+            <EntityTypeMapping TypeName="SISMModel.TblEstudiosEmpleado">
+              <MappingFragment StoreEntitySet="TblEstudiosEmpleado">
+                <ScalarProperty Name="IdEscuela" ColumnName="IdEscuela" />
+                <ScalarProperty Name="IdCarreraEmpleado" ColumnName="IdCarreraEmpleado" />
+                <ScalarProperty Name="Emp_NumEmp" ColumnName="Emp_NumEmp" />
+                <ScalarProperty Name="IdNivel" ColumnName="IdNivel" />
+                <ScalarProperty Name="IdCarrera" ColumnName="IdCarrera" />
+                <ScalarProperty Name="Emp_Cedula" ColumnName="Emp_Cedula" />
+                <ScalarProperty Name="FechaExpedicion" ColumnName="FechaExpedicion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblHijos">
+            <EntityTypeMapping TypeName="SISMModel.TblHijos">
+              <MappingFragment StoreEntitySet="TblHijos">
+                <ScalarProperty Name="IdHijo" ColumnName="IdHijo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="FechaNac" ColumnName="FechaNac" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Emp_NumEmp" ColumnName="Emp_NumEmp" />
+                <ScalarProperty Name="Edad" ColumnName="Edad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblKardex">
+            <EntityTypeMapping TypeName="SISMModel.TblKardex">
+              <MappingFragment StoreEntitySet="TblKardex">
+                <ScalarProperty Name="NumEmp_Autoriza" ColumnName="NumEmp_Autoriza" />
+                <ScalarProperty Name="IdMovimiento" ColumnName="IdMovimiento" />
+                <ScalarProperty Name="IdKardex" ColumnName="IdKardex" />
+                <ScalarProperty Name="Kar_REG" ColumnName="Kar_REG" />
+                <ScalarProperty Name="Kar_MOV" ColumnName="Kar_MOV" />
+                <ScalarProperty Name="Kar_INI" ColumnName="Kar_INI" />
+                <ScalarProperty Name="Kar_FIN" ColumnName="Kar_FIN" />
+                <ScalarProperty Name="Kar_FRE" ColumnName="Kar_FRE" />
+                <ScalarProperty Name="Kar_FSOL" ColumnName="Kar_FSOL" />
+                <ScalarProperty Name="Kar_DIA" ColumnName="Kar_DIA" />
+                <ScalarProperty Name="Kar_HOR" ColumnName="Kar_HOR" />
+                <ScalarProperty Name="Kar_OBS" ColumnName="Kar_OBS" />
+                <ScalarProperty Name="Kar_PER" ColumnName="Kar_PER" />
+                <ScalarProperty Name="Kar_SUB" ColumnName="Kar_SUB" />
+                <ScalarProperty Name="Kar_Emp" ColumnName="Kar_Emp" />
+                <ScalarProperty Name="Kar_REA" ColumnName="Kar_REA" />
+                <ScalarProperty Name="Kar_FCA" ColumnName="Kar_FCA" />
+                <ScalarProperty Name="Kar_HCA" ColumnName="Kar_HCA" />
+                <ScalarProperty Name="Kar_DEP" ColumnName="Kar_DEP" />
+                <ScalarProperty Name="Kar_TIP" ColumnName="Kar_TIP" />
+                <ScalarProperty Name="Kar_STA" ColumnName="Kar_STA" />
+                <ScalarProperty Name="ClaveMov" ColumnName="ClaveMov" />
+                <ScalarProperty Name="ClaveNom" ColumnName="ClaveNom" />
+                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
+                <ScalarProperty Name="Emp_NumEmp" ColumnName="Emp_NumEmp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblKardexRHyNom">
+            <EntityTypeMapping TypeName="SISMModel.TblKardexRHyNom">
+              <MappingFragment StoreEntitySet="TblKardexRHyNom">
+                <ScalarProperty Name="ClaveMov" ColumnName="ClaveMov" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblMunicipio">
+            <EntityTypeMapping TypeName="SISMModel.TblMunicipio">
+              <MappingFragment StoreEntitySet="TblMunicipio">
+                <ScalarProperty Name="IdMunicipio" ColumnName="IdMunicipio" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblNivelAcademico">
+            <EntityTypeMapping TypeName="SISMModel.TblNivelAcademico">
+              <MappingFragment StoreEntitySet="TblNivelAcademico">
+                <ScalarProperty Name="IdNivel" ColumnName="IdNivel" />
+                <ScalarProperty Name="NivelAcademico" ColumnName="NivelAcademico" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblPais">
+            <EntityTypeMapping TypeName="SISMModel.TblPais">
+              <MappingFragment StoreEntitySet="TblPais">
+                <ScalarProperty Name="IdPais" ColumnName="IdPais" />
+                <ScalarProperty Name="NombrePais" ColumnName="NombrePais" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblPuesto">
+            <EntityTypeMapping TypeName="SISMModel.TblPuesto">
+              <MappingFragment StoreEntitySet="TblPuesto">
+                <ScalarProperty Name="ACStatus" ColumnName="ACStatus" />
+                <ScalarProperty Name="IdPuesto" ColumnName="IdPuesto" />
+                <ScalarProperty Name="NombrePuesto" ColumnName="NombrePuesto" />
+                <ScalarProperty Name="Estructura_Clave" ColumnName="Estructura_Clave" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblRegimen">
+            <EntityTypeMapping TypeName="SISMModel.TblRegimen">
+              <MappingFragment StoreEntitySet="TblRegimen">
+                <ScalarProperty Name="Status_Regimen" ColumnName="Status_Regimen" />
+                <ScalarProperty Name="IdRegimen" ColumnName="IdRegimen" />
+                <ScalarProperty Name="Regimen" ColumnName="Regimen" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblTallasUniformes">
+            <EntityTypeMapping TypeName="SISMModel.TblTallasUniformes">
+              <MappingFragment StoreEntitySet="TblTallasUniformes">
+                <ScalarProperty Name="IdTalla" ColumnName="IdTalla" />
+                <ScalarProperty Name="NombreUniforme" ColumnName="NombreUniforme" />
+                <ScalarProperty Name="IdUniforme" ColumnName="IdUniforme" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblUniforme">
+            <EntityTypeMapping TypeName="SISMModel.TblUniforme">
+              <MappingFragment StoreEntitySet="TblUniforme">
+                <ScalarProperty Name="IdUniforme" ColumnName="IdUniforme" />
+                <ScalarProperty Name="Uniforme" ColumnName="Uniforme" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SpReporteRetardos" FunctionName="SISMModel.Store.SpReporteRetardos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SISMModel.SpReporteRetardos_Result">
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="Emp_Nombre" ColumnName="Emp_Nombre" />
+                <ScalarProperty Name="Emp_APaterno" ColumnName="Emp_APaterno" />
+                <ScalarProperty Name="Emp_AMaterno" ColumnName="Emp_AMaterno" />
+                <ScalarProperty Name="NomDepartamento" ColumnName="NomDepartamento" />
+                <ScalarProperty Name="Kar_DEP" ColumnName="Kar_DEP" />
+                <ScalarProperty Name="Kar_TIP" ColumnName="Kar_TIP" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

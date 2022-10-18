@@ -1,0 +1,706 @@
+﻿<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+<style>
+    table.dataTable {
+        width: 100% !important;
+    }
+
+    .btn-space {
+        margin-right: 5px;
+    }
+</style>
+
+<h5>BORRADOR DE REQUISICIÓN</h5>
+<br />
+
+<div class="row">
+    <div class="col-6">
+        <button type="button" class="btn btn-outline-primary" onclick="Regresar()">REGRESAR</button>
+    </div>
+
+</div>
+
+<div>
+    <table class="table table-striped table-hover" id="example">
+        <thead>
+            <tr>
+                <th>Folio Borrador</th>
+                <th>Fecha</th>
+                <th>Usuario Elaboró</th>
+                <th>Estatus Contrato</th>
+                <th>Detalle</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="NuevaRequiModal" tabindex="-1" role="dialog" aria-labelledby="NuevaRequiModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+
+                <div class="row">
+                    <input id="folio" name="Folio" value="" style="display: none;" />
+                </div>
+
+                <div class="row" id="contenido">
+                    <h5 class="text-center" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Borrador</h5>
+                </div>
+
+                <div class="row">
+                    <table class="table table-striped table-hover" id="tblGenerarRequi">
+                        <thead>
+                            <tr>
+                                <th>Cant. Actual</th>
+                                <th>Clave</th>
+                                <th>Descripción</th>
+                                <th>Compendio</th>
+                                <th>Cant. Nueva</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row">
+                    @*<div class="col-6">
+                            <button type="button" id="btnConsultar" class="btn btn-success" >Generar Requisición</button>
+                        </div>
+                        <div class="col-6">
+                            <button type="button" id="btnEliminarBorrador" class="btn btn-danger">Eliminar Borrador</button>
+                        </div>*@
+                    <div class="btn-toolbar">
+                        <button type="button" id="btnConsultar" class="btn btn-success btn-space">Generar Requisición</button>
+                        <button type="button" id="btnEliminarBorrador" class="btn btn-danger">Eliminar Borrador</button>
+                    </div>
+                </div>
+
+                <br />
+                <div class="row" id="contenido">
+                    <h5 class="text-center" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Agregar a Borrador</h5>
+                </div>
+
+                <div class="row">
+                    <table class="table table-striped table-hover" id="tblGenerarRequi2">
+                        <thead>
+                            <tr>
+                                <th>Clave</th>
+                                <th>Descripción</th>
+                                <th>Compendio</th>
+                                <th>Existencia</th>
+                                <th>Agregar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <button type="button" id="Cancelar" class="btn btn-secondary">Cancelar</button>
+                    </div>
+                    <div class="col-6">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+
+    var ListaSustancias = [];
+
+    $(document).ready(function () {
+
+        $('#example').DataTable({
+            responsive: true,
+            searching: false,
+            info: true,
+            deferRender: true,
+            scroller: true,
+            scrollColapse: true,
+            scrollY: 280,
+            lengthChange: false,
+            language: {
+                "zeroRecords": " ",
+                "search": "Buscar:",
+                "info": "_TOTAL_  Borradores Requisiciones",
+                "infoEmpty": "",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior",
+                },
+                "select": {
+                    "rows": " %d filas seleccionadas"
+                },
+            }
+        });
+
+        $('#tblGenerarRequi2').DataTable({
+            responsive: true,
+            searching: true,
+            info: true,
+            deferRender: true,
+            scroller: true,
+            scrollColapse: true,
+            lengthChange: false,
+            language: {
+                "zeroRecords": " ",
+                "search": "Buscar Medicamento por Clave/Descipción:",
+                "info": "",
+                "infoEmpty": "",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior",
+                },
+                "select": {
+                    "rows": " %d filas seleccionadas"
+                },
+            }
+        });
+
+        //$('#tblGenerarRequi').DataTable({
+        //    responsive: true,
+        //    searching: false,
+        //    info: true,
+        //    deferRender: true,
+        //    scroller: true,
+        //    scrollColapse: true,
+        //    lengthChange: false,
+        //    language: {
+        //        "zeroRecords": " ",
+        //        "info": "",
+        //        "infoEmpty": "",
+        //        "paginate": {
+        //            "first": "",
+        //            "last": "",
+        //            "next": "",
+        //            "previous": "",
+        //        }
+        //    }
+        //});
+
+        Llena();
+    });
+
+    function Regresar() {
+        window.location = '@Url.Action("Requisicion")';
+    }
+
+    //CONSULTA AL CONTROLADOR DE TODOS LOS BORRADORES
+    function Llena() {
+        $.ajax({
+            url: '@Url.Action("ObtenerBorradores", "Requisicion")',
+            method: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                if (data.MENSAJE.substring(0, 6) == "Error:") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops... ¡Error!',
+                        text: data.MENSAJE.substring(7),
+                    });
+                }
+                else {
+                    LlenaTabla(data.BORRADORES);
+                }
+            },
+            error: function (ex) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                });
+            }
+        });
+    }
+
+    //LLENADO FORMATEO TABLA DE LOS BORRADORES
+    function LlenaTabla(ListaBorradores) {
+        var table = $('#example').DataTable();
+        table.destroy();
+
+        table = $('#example').DataTable({
+            responsive: true,
+            searching: false,
+            info: true,
+            deferRender: true,
+            scroller: true,
+            scrollColapse: true,
+            scrollY: 280,
+            lengthChange: false,
+            language: {
+                "zeroRecords": " ",
+                //"search": "Buscar:",
+                "info": "_TOTAL_  Borradores",
+                "infoEmpty": "",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior",
+                },
+                "select": {
+                    "rows": " %d filas seleccionadas"
+                },
+            },
+            data: ListaBorradores,
+            order: [[1, 'desc']],
+            columns: [
+                { 'data': 'Id_BorradorRequi', className: "text-center" },
+                { 'data': 'Fecha', className: "text-center" },
+                { 'data': 'UsuarioRegistra', className: "text-center" },
+                { 'data': 'EstatusContrato', className: "text-center" },
+                {
+                    "className": 'text-center',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": '<button title="Ver Detalle" id="VerDetalle" class="btn btn-primary fa fa-book" data-toggle="modal"></button>',
+                    "target": -2
+                }
+            ]
+        });
+    }
+
+    @*//BOTON "VER DETALLE" DE UN BORRADOR
+    $('#example tbody').on('click', '#VerDetalle', function () {
+        var tr = $(this).closest('tr');
+        var row = $('#example').DataTable().row(tr);
+        var Id = row.data().Id_BorradorRequi;
+        $('#folio').val(Id);
+
+        $('#NuevaRequiModal').modal("show");
+
+        var table = $('#tblGenerarRequi').DataTable({
+            destroy: true,
+            searching: false,
+            responsive: true,
+            lengthChange: false,
+            "ajax": {
+                "url": "@Url.Action("LlenarDetalleBorrador", "Requisicion")" + "?Id_Borrador=" + Id,
+                "dataSrc": "",
+            },
+            language: {
+                "zeroRecords": " ",
+                "search": "",
+                "info": "_TOTAL_  Sustancias",
+                "infoEmpty": "",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior",
+                },
+                "select": {
+                    "rows": " %d filas seleccionadas"
+                },
+            },
+            "columns": [
+                { "data": "Cantidad", className: "text-center" },
+                { "data": "Clave", className: "text-center" },
+                { "data": "Descripcion", className: "text-center" },
+                { "data": "CANTIDAD_NUEVA", className: "text-center", render: function (data) { return "<input id='InputCantidad' style='width:70px; border:0; border-bottom:1px solid; background: transparent;' type='number' min='0' max='10000' value='" + data + "'></input>" } },
+                {
+                    "className": 'text-center',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": '<button title="Eliminar" id="botonDelete" class="btn btn-danger btn-sm fa fa-times" data-toggle="modal"></button>',
+                    "target": -2
+                }
+            ],
+
+        });
+
+    });*@
+
+
+
+    $('#example tbody').on('click', '#VerDetalle', function () {
+        $('#NuevaRequiModal').modal("show");
+
+        var tr = $(this).closest('tr');
+        var row = $('#example').DataTable().row(tr);
+        var Id = row.data().Id_BorradorRequi;
+
+        $('#folio').val(Id);
+        LlenaDetalleBorrador(Id);
+    });
+
+    function LlenaDetalleBorrador(Id) {
+        $.ajax({
+            url: '@Url.Action("LlenarDetalleBorrador", "Requisicion")',
+            method: 'POST',
+            dataType: 'json',
+            data: { Id_Borrador: Id },
+            success: function (data) {
+
+                if (data.MENSAJE.substring(0, 6) == "Error:") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops... ¡Error!',
+                        text: data.MENSAJE.substring(7),
+                    });
+                }
+                else {
+                    //Llena2(data.DETALLES);
+                    $.grep(data.DETALLES, function (item) {
+                        var Insertar = true;
+                        $.grep(ListaSustancias, function (itemEnLista) {
+                            if (item.Clave == itemEnLista.Clave) {
+                                Insertar = false;
+                            };
+                        });
+                        if (Insertar) {
+                            item.CANTIDAD_NUEVA = 0;
+                            //item.Id_BorradorRequi = Id;
+                            ListaSustancias.push(item);
+                        }
+                        Llena2(ListaSustancias);
+                    });
+                }
+            },
+            error: function (ex) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                });
+            }
+        });
+    }
+
+
+
+
+    $('#NuevaRequiModal').on('shown.bs.modal', function () {
+        LlenaSustanciaModal();
+    })
+
+    function LlenaSustanciaModal() {
+        $.ajax({
+            url: '@Url.Action("ObtenerSustanciasModal", "Requisicion")',
+            method: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                if (data.MENSAJE.substring(0, 6) == "Error:") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops... ¡Error!',
+                        text: data.MENSAJE.substring(7),
+                    });
+                }
+                else {
+                    LlenaTablaSustanciaModal(data.SUSTANCIAS);
+                }
+            },
+            error: function (ex) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                });
+            }
+        });
+    }
+
+    function LlenaTablaSustanciaModal(ListaSustancias) {
+        var tableVenta = $('#tblGenerarRequi2').DataTable();
+        tableVenta.destroy();
+
+        tableVenta = $('#tblGenerarRequi2').DataTable({
+            responsive: true,
+            searching: true,
+            info: true,
+            deferRender: true,
+            scroller: true,
+            scrollColapse: true,
+            scrollY: 100,
+            lengthChange: false,
+            language: {
+                "zeroRecords": " ",
+                "search": "Buscar Medicamento por Clave/Descipción:",
+                "info": "_TOTAL_  Sustancias",
+                "infoEmpty": "",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior",
+                },
+                "select": {
+                    "rows": " %d filas seleccionadas"
+                },
+            },
+            data: ListaSustancias,
+            columns: [
+                { 'data': 'Clave', className: "text-center" },
+                { 'data': 'Descripcion', className: "text-center" },
+                { 'data': 'Compendio', className: "text-center" },
+                { 'data': 'Existencia', className: "text-center" },
+                {
+                    "className": 'text-center',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": '<button title="Agregar a lista" id="AgregarRequi" class="btn btn-primary btn-sm fa fa-check" data-toggle="modal"></button>',
+                    "target": -2
+                }
+            ]
+        });
+
+        var Folio = $("#folio").val();
+
+        $('.dataTables_filter input').on('keyup', function (e) {
+            var value = $('.dataTables_filter input').val();
+
+            var tr = $(this).closest('tr');
+            var row = $('#tblGenerarRequi2').DataTable().row(tr);
+
+            var count = $("#tblGenerarRequi2").dataTable().fnSettings().aoData.length;
+
+            var keycode = e.keyCode || e.which;
+            if (keycode == 13) {
+
+                if (count = 1)
+                    AgregarALista(value, Folio)
+            }
+        });
+    }
+
+    $('#tblGenerarRequi2 tbody').on('click', '#AgregarRequi', function () {
+        var tr = $(this).closest('tr');
+        var row = $('#tblGenerarRequi2').DataTable().row(tr);
+        var Clave = row.data().Clave;
+        var Folio = $("#folio").val();
+
+         @*$.ajax({
+            url: '@Url.Action("BuscarSustancia", "Requisicion")',
+            method: 'POST',
+            dataType: 'json',
+            data: { Clave: Clave, Id_FolioBorrador: Folio },
+             success: function (data) {
+                 $.grep(data.SUSTANCIAS, function (item) {
+                    var Insertar = true;
+                    $.grep(ListaSustancias, function (itemEnLista) {
+                        if (item.Clave == itemEnLista.Clave) {
+                            Insertar = false;
+                        };
+                    });
+                    if (Insertar) {
+                        item.CANTIDAD_NUEVA = 0;
+                        ListaSustancias.push(item);
+                    }
+                    Llena2(ListaSustancias);
+                 });
+                 //Llena2(data.SUSTANCIAS);
+            },
+            error: function (ex) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                });
+            }
+        });*@
+        AgregarALista(Clave, Folio);
+    });
+
+    function AgregarALista(Clave, Folio) {
+        $.ajax({
+            url: '@Url.Action("BuscarSustancia", "Requisicion")',
+            method: 'POST',
+            dataType: 'json',
+            data: { Clave: Clave, Id_FolioBorrador: Folio },
+             success: function (data) {
+                 $.grep(data.SUSTANCIAS, function (item) {
+                    var Insertar = true;
+                    $.grep(ListaSustancias, function (itemEnLista) {
+                        if (item.Clave == itemEnLista.Clave) {
+                            Insertar = false;
+                        };
+                    });
+                    if (Insertar) {
+                        item.CANTIDAD_NUEVA = 0;
+                        ListaSustancias.push(item);
+                    }
+                    Llena2(ListaSustancias);
+                 });
+                 //Llena2(data.SUSTANCIAS);
+            },
+            error: function (ex) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                });
+            }
+        });
+    }
+
+    function Llena2(ListaSustancias) {
+        var tablePermisos = $('#tblGenerarRequi').DataTable();
+
+        tablePermisos.destroy();
+        tablePermisos = $('#tblGenerarRequi').DataTable({
+            //responsive: true,
+            //searching: false,
+            //info: true,
+            //deferRender: true,
+            //scroller: true,
+            //scrollColapse: true,
+            //scrollY: 180,
+            //lengthChange: false,
+
+            searching: false,
+            responsive: true,
+            lengthChange: false,
+
+            data: ListaSustancias,
+            language: {
+                "zeroRecords": " ",
+                "search": "",
+                "info": "_TOTAL_  Sustancias",
+                "infoEmpty": "",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior",
+                },
+                "select": {
+                    "rows": " %d filas seleccionadas"
+                },
+            },
+            columns: [
+                { 'data': 'Cantidad', className: "text-center" },
+                { 'data': 'Clave', className: "text-center" },
+                { 'data': 'Descripcion', className: "text-center" },
+                { 'data': 'Compendio', className: "text-center" },
+                { 'data': 'CANTIDAD_NUEVA', className: "text-center", render: function (data) { return "<input id='InputCantidad' style='width:70px; border:0; border-bottom:1px solid;  background: transparent;' type='number' min='1' max='10000' value='" + data + "'></input>" } },
+                {
+                    "className": 'text-center',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": '<button title="Eliminar de la borrador" id="botonDelete" class="btn btn-danger btn-sm fa fa-times" data-toggle="modal"></button>',
+                    "target": -2
+                }
+            ]
+        });
+    }
+
+    $('#tblGenerarRequi tbody').on('change', '#InputCantidad', function () {
+        var tr = $(this).closest('tr');
+        var row = $('#tblGenerarRequi').DataTable().row(tr);
+        row.data().CANTIDAD_NUEVA = $(this).val();
+    }).change();
+
+    $('#tblGenerarRequi tbody').on('click', '#botonDelete', function () {
+        var tr = $(this).closest('tr');
+        var row = $('#tblGenerarRequi').DataTable().row(tr);
+
+        ListaSustancias.splice(ListaSustancias.indexOf(row.data()), 1);
+        Llena2(ListaSustancias);
+    });
+
+    $('#btnConsultar').on('click', function () {
+        if (ListaSustancias.length > 0) {
+
+            var Folio = $("#folio").val();
+                $.ajax({
+                    url: '@Url.Action("GenerarRequi", "Requisicion")',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: { ListaSustanciasBorrador: ListaSustancias, Id_FolioBorrador: Folio },
+                    success: function (data) {
+                        if (data.MENSAJE.substring(0, 6) == "Error:") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops... ¡Error!',
+                                text: data.MENSAJE.substring(7)
+                            });
+                        }
+                        else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '¡Éxito!',
+                                text: data.MENSAJE.substring(7),
+                                willClose: () => {
+                                    location.reload();
+                                }
+                            })
+                        }
+                    },
+                    error: function (ex) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '¡Error!',
+                            text: 'Requisición no generada'
+                        });
+                        //location.reload();
+                    }
+                });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'Requisición sin medicamentos'
+            });
+        }
+    });
+
+    $('#btnEliminarBorrador').on('click', function () {
+            var Folio = $("#folio").val();
+                $.ajax({
+                    url: '@Url.Action("EliminarBorrador", "Requisicion")',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: { Id_FolioBorrador: Folio },
+                    success: function (data) {
+                        if (data.MENSAJE.substring(0, 6) == "Error:") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops... ¡Error!',
+                                text: data.MENSAJE.substring(7)
+                            });
+                        }
+                        else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '¡Éxito!',
+                                text: data.MENSAJE.substring(7),
+                                willClose: () => {
+                                    location.reload();
+                                }
+                            })
+                        }
+                    },
+                    error: function (ex) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '¡Error!',
+                            text: ''
+                        });
+                    }
+                });
+    });
+
+    $('#Cancelar').on('click', function () {
+        location.reload();
+    });
+
+</script>
+

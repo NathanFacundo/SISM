@@ -1,0 +1,220 @@
+﻿
+@{
+    ViewBag.Title = "Reporte Primera Encuesta";
+}
+
+<style>
+    #encuestas{
+        padding-top:20px;
+        padding-bottom:40px;
+    }
+    .item {
+        padding: 10px;
+    }
+
+    .item-card {
+        transition: 0.5s;
+        cursor: pointer;
+        padding:20px;
+    }
+
+    .card-link {
+        background-color: #FBC43D;
+        border-color: #FBC43D;
+        color:white;
+        padding:5px 20px;
+    }
+
+    .card-link:hover {
+        text-decoration:none;
+        color:white;
+    }
+
+    .item-card-title {
+        font-size: 15px;
+        transition: 1s;
+        cursor: pointer;
+    }
+
+    .item-card-title i {
+        font-size: 15px;
+        transition: 1s;
+        cursor: pointer;
+        color: #ffa710
+    }
+
+    .card-text {
+        height: 80px;
+    }
+
+    .card-title i:hover {
+        transform: scale(1.25) rotate(20deg);
+        color: #18d4ca;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 5px 5px 5px rgba(0,0,0,0.3);
+    }
+
+    .card::before, .card::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: scale3d(0, 0, 1);
+        transition: transform .3s ease-out 0s;
+        background: rgba(255, 255, 255, 0.1);
+        content: '';
+        pointer-events: none;
+    }
+
+    .card::before {
+        transform-origin: left top;
+    }
+
+    .card::after {
+        transform-origin: right bottom;
+    }
+
+    .card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
+        transform: scale3d(1, 1, 1);
+    }
+</style>
+
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+
+<div class="container animate__animated animate__fadeIn" id="encuestas">
+
+    <div class="row">
+        <div class="col-md-12" id="menu">
+            <table>
+                <tr>
+                    <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                    <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                    <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                    <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                    <td><a href="@Url.Action("Reportes", "Manage")"><b>Reportes</b></a></td>
+                    <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                    <td><a href="@Url.Action("EncuestaCovidSegunda", "Manage")"><b>Reporte Primera Encuesta</b></a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="row mt-3 mb-4">
+        <div class="col-lg-3 col-md-6 item">
+            <a href="@Url.Action("PrimerPregunta", "Manage")">
+                <div class="card item-card card-block">
+                    <h4 class="card-title text-right"><i class="material-icons">question_answer</i></h4>
+                    <h5 class="item-card-title mt-3 mb-3">Primera Pregunta</h5>
+                    <p class="card-text">¿A partir del inicio de sus síntomas cuántos días tardo en realizarse la prueba?.</p>
+                    <button class="card-link"> Ir a la pregunta</button>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-6 item">
+            <a href="@Url.Action("SegundaPregunta", "Manage")">
+                <div class="card item-card card-block">
+                    <h4 class="card-title text-right"><i class="material-icons">question_answer</i></h4>
+                    <h5 class="item-card-title mt-3 mb-3">Segunda Pregunta</h5>
+                    <p class="card-text">¿Pertenece a un grupo de riesgo?</p>
+                    <button class="card-link"> Ir a la pregunta</button>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-6 item">
+            <a href="@Url.Action("TerceraPregunta", "Manage")">
+                <div class="card item-card card-block">
+                    <h4 class="card-title text-right"><i class="material-icons">question_answer</i></h4>
+                    <h5 class="item-card-title mt-3 mb-3">Tercera Pregunta</h5>
+                    <p class="card-text">¿Su trabajo lo realiza desde casa o se traslada a su lugar de trabajo?</p>
+                    <button class="card-link"> Ir a la pregunta</button>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-6 item">
+            <a href="@Url.Action("CuartaPregunta", "Manage")">
+                <div class="card item-card card-block">
+                    <h4 class="card-title text-right"><i class="material-icons">question_answer</i></h4>
+                    <h5 class="item-card-title mt-3 mb-3">Cuarta Pregunta</h5>
+                    <p class="card-text">¿Efectúo el aislamiento estricto?</p>
+                    <button class="card-link"> Ir a la pregunta</button>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-6 item">
+            <a href="@Url.Action("QuintaPregunta", "Manage")">
+                <div class="card item-card card-block">
+                    <h4 class="card-title text-right"><i class="material-icons">question_answer</i></h4>
+                    <h5 class="item-card-title mt-3 mb-3">Quinta Pregunta</h5>
+                    <p class="card-text">¿Requirió internamiento?</p>
+                    <button class="card-link"> Ir a la pregunta</button>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-6 item">
+            <a href="@Url.Action("SextaPregunta", "Manage")">
+                <div class="card item-card card-block">
+                    <h4 class="card-title text-right"><i class="material-icons">question_answer</i></h4>
+                    <h5 class="item-card-title mt-3 mb-3">Sexta Pregunta</h5>
+                    <p class="card-text">¿Requirió oxigeno suplementario?</p>
+                    <button class="card-link"> Ir a la pregunta</button>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-6 item">
+            <a href="@Url.Action("SeptimaPregunta", "Manage")">
+                <div class="card item-card card-block">
+                    <h4 class="card-title text-right"><i class="material-icons">question_answer</i></h4>
+                    <h5 class="item-card-title mt-3 mb-3">Septima Pregunta</h5>
+                    <p class="card-text">¿Requirió respirador artificial?</p>
+                    <button class="card-link"> Ir a la pregunta</button>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-6 item">
+            <a href="@Url.Action("OctavaPregunta", "Manage")">
+                <div class="card item-card card-block">
+                    <h4 class="card-title text-right"><i class="material-icons">question_answer</i></h4>
+                    <h5 class="item-card-title mt-3 mb-3">Octava Pregunta</h5>
+                    <p class="card-text">¿Requirió más de 14 días para incorporarse a sus labores?</p>
+                    <button class="card-link"> Ir a la pregunta</button>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-6 item">
+            <a href="@Url.Action("NovenaPregunta", "Manage")">
+                <div class="card item-card card-block">
+                    <h4 class="card-title text-right"><i class="material-icons">question_answer</i></h4>
+                    <h5 class="item-card-title mt-3 mb-3">Novena y Decima Pregunta</h5>
+                    <p class="card-text">¿Alguien de su familia que viva con usted presentó sintomas de covid? | ¿Es derechohabiente?</p>
+                    <button class="card-link"> Ir a la pregunta</button>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-6 item">
+            <a href="@Url.Action("OnceavaPregunta", "Manage")">
+                <div class="card item-card card-block">
+                    <h4 class="card-title text-right"><i class="material-icons">question_answer</i></h4>
+                    <h5 class="item-card-title mt-3 mb-3">Onceava</h5>
+                    <p class="card-text">¿Cuándo vencio su incapacidad?</p>
+                    <button class="card-link"> Ir a la pregunta</button>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-6 item">
+            <a href="@Url.Action("Comentarios", "Manage")">
+                <div class="card item-card card-block">
+                    <h4 class="card-title text-right"><i class="material-icons">question_answer</i></h4>
+                    <h5 class="item-card-title mt-3 mb-3">Comentarios</h5>
+                    <p class="card-text">Comentarios de la encuesta</p>
+                    <button class="card-link"> Ir a la pregunta</button>
+                </div>
+            </a>
+        </div>
+
+    </div>
+</div>

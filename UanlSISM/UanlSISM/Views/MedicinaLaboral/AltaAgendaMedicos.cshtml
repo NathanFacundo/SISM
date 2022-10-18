@@ -1,0 +1,664 @@
+﻿
+@{
+    ViewBag.Title = "AltaAgendaMedicos";
+    List<UanlSISM.Models.Combos> cbohorario = (List<UanlSISM.Models.Combos>)ViewData["cbohorario"];
+
+    List<UanlSISM.Models.Combos> cbogpo = (List<UanlSISM.Models.Combos>)ViewData["cbogpo"];
+    List<UanlSISM.Models.Combos> cbouni = (List<UanlSISM.Models.Combos>)ViewData["cbouni"];
+
+     
+}
+
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+
+<link rel='stylesheet' href='https://select2.github.io/select2-bootstrap-theme/css/select2-bootstrap.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css'>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.full.min.js'></script>
+
+<link rel='stylesheet' href='https://cdn.datatables.net/v/dt/dt-1.10.15/datatables.min.css'>
+
+<style>
+
+
+    .valid {
+        background-color: #ddffdd;
+        border: red 2px solid;
+    }
+</style>
+
+ 
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Consultas", "Manage")"><b>Consultas</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Index", "MedicinaLaboral")"><b>Medicina Laboral</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="#"><b>Mis Medicos</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<br />
+
+<div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
+    <img src="~/Imagenes/Horario.png" class="Horario" />
+    <h3 style="font-family: 'Roboto', sans-serif;">Horario Medico <span class="putUserName"></span></h3>
+</div>
+
+
+<hr />
+
+<div class="row">
+
+    <table class="table   table-hover table-striped" style="width: 100%;">
+        <thead><tr> <th>Estatus</th><th>Numero</th><th>Apaterno</th> <th>Amaterno</th><th>Nombre</th><th>Acceso Internet</th>  </tr></thead>
+
+        <tbody>
+            <tr>
+
+                <td><INPUT id=chkbaja style="HEIGHT: 25px; WIDTH: 25px" CHECKED type=checkbox value="" name=chkbaja></td>
+                <td>
+                    <INPUT id=txtNUMERO style="FONT-SIZE: 10pt; " readOnly maxLength=8 size=5 value=43001 name=txtNUMERO>
+                </td>
+
+                <td>
+                    <INPUT readOnly maxLength=20 value=APLICACION name=txtAPATERNO>
+                </td>
+
+                <td>
+                    <INPUT id=txtAMATERNO style="FONT-SIZE: 10pt; FONT-FAMILY: TAHOMA" readOnly maxLength=20 value=VACUNA name=txtAMATERNO>
+                </td>
+
+                <td>
+                    <INPUT id=txtNOMBRE style="FONT-SIZE: 10pt; FONT-FAMILY: TAHOMA" readOnly maxLength=30 size=30 value="TURNO MAT 1" name=txtNOMBRE>
+                </td>
+                <td>
+                    <SELECT id=cboweb name=cboweb style="width: 100%;"> <OPTION selected value=0>No Permitir</OPTION> <OPTION value=1>Permitir</OPTION></SELECT>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <table class="table   table-hover table-striped" style="width: 100%;">
+        <thead>
+            <tr>
+                <th>Titulo</th>
+                <th>Consultorio</th>
+                <th>Recepción</th>
+                <th>Horario</th>
+                <th>Directorio</th>
+                <th>Universidad</th>
+                <th>Cedula</th>
+                <th>Cedula especialidad</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <TD><input id="txtTITULO" name="txtTITULO" maxLength="4" size="4" value=""></TD>
+                <td><input id="txtCONSULTORIO" name="txtCONSULTORIO" maxLength="5" size="2" value=""></td>
+                <td><input id="txtRECEPCION" name="txtRECEPCION" maxLength="10" size="10" value=""></td>
+
+                <td>
+                    <select id="cbohorario" name="cbohorario" style=" width:100%">
+                        @{
+                            foreach (var item in cbohorario)
+                            {
+                                <option value="@item.Id">@item.Valor</option>
+                            }
+                        }
+                    </select>
+                </td>
+
+
+                <td>
+                    <select id="cbogpo" name="cbogpo" style=" width:100%">
+                        @{
+                            foreach (var item in cbogpo)
+                            {
+                                <option value="@item.Id">@item.Valor</option>
+                            }
+                        }
+                    </select>
+                </td>
+
+                <td>
+                    <select id="cbouni" name="cbouni" style=" width:100%">
+                        @{
+                            foreach (var item in cbouni)
+                            {
+                                <option value="@item.Id">@item.Valor</option>
+                            }
+                        }
+                    </select>
+                </td>
+
+
+
+
+                <td><input id="txtCEDULA" name="txtCEDULA" maxLength="20" size="20" value=""></td>
+                <td><input id="txtCEDULAesp" name="txtCEDULAesp" maxLength="10" size="10" value=""></td>
+
+
+
+            </tr>
+        </tbody>
+    </table>
+
+
+    <hr />
+
+    <table cellSpacing="0" cellPadding="0" width="80%" align="center" border="0" class=" table-striped" style="width: 100%;">
+
+        <tr>
+            <td >Lunes</td>
+            <td ><INPUT type="text" id=txtpac_lun name=txtpac_lun maxLength="2" size="1" value=""></td>
+            <td>
+                <TABLE WIDTH=200 BORDER=0 CELLSPACING=1 CELLPADDING=1>
+                    <TR>
+                        <TD>
+                            <TABLE WIDTH=100 BORDER=0 CELLSPACING=1 CELLPADDING=1>
+                                <TR>
+                                    <TD>
+                                        <SELECT id=cboh1lu name=cboh1lu>
+                                            @{
+                                                for (int i = 0; i < 24; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2,'0')</OPTION>
+                                                }
+                                            }
+
+
+
+                                        </SELECT>
+                                    </TD>
+                                    <TD  > : </TD>
+                                    <TD>
+                                        <SELECT id=cbom1lu name=cbomi1lu >
+                                             
+                                            @{
+                                                for (int i = 0; i < 60; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }
+                                        </SELECT>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                        <TD width=30 align=center> a </TD>
+                        <TD>
+                            <TABLE WIDTH=100 BORDER=0 CELLSPACING=1 CELLPADDING=1>
+                                <TR>
+                                    <TD>
+                                        <SELECT id=cboh2lu name=cboh2lu >
+                                               
+                                            @{
+                                                for (int i = 0; i < 24; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }
+
+                                        </SELECT>
+                                    </TD>
+                                    <TD  > : </TD>
+                                    <TD>
+                                        <SELECT id=cbom2lu name=cbom2lu>
+                                           
+                                            @{
+                                                for (int i = 0; i < 60; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }
+                                        </SELECT>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </td>
+            <td><input  id="txtHRLUNES" name="txtHRLUNES" maxLength="250" size="60" value=""></td>
+        </tr>
+
+        <tr>
+            <td >Martes</td>
+            <td ><INPUT type="text" id=txtpac_mar name=txtpac_mar maxLength="2" size="1" value=""></td>
+            <td>
+                <TABLE WIDTH=200 BORDER=0 CELLSPACING=1 CELLPADDING=1>
+                    <TR>
+                        <TD>
+                            <TABLE WIDTH=100 BORDER=0 CELLSPACING=1 CELLPADDING=1>
+                                <TR>
+                                    <TD>
+                                        <SELECT id=cboh1ma name=cboh1ma   >	 
+
+                                           @{
+                                                for (int i = 0; i < 24; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }
+					</SELECT>
+                                    </TD>
+                                    <TD   > : </TD>
+                                    <TD>
+                                        <SELECT id=cbom1ma name=cbomi1ma>
+                                           
+                                            @{
+                                                for (int i = 0; i < 60; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }
+                                        </SELECT>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                        <TD width=30 align=center> a </TD>
+                        <TD>
+                            <TABLE WIDTH=100 BORDER=0 CELLSPACING=1 CELLPADDING=1>
+                                <TR>
+                                    <TD>
+                                        <SELECT id=cboh2ma name=cboh2ma  > 
+
+                                            @{
+                                                for (int i = 0; i < 24; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }
+					</SELECT>
+                                    </TD>
+                                    <TD  > : </TD>
+                                    <TD>
+                                        <SELECT id=cbom2ma name=cbom2ma>
+                                          
+                                            @{
+                                                for (int i = 0; i < 60; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }
+                                        </SELECT>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </td>
+            <td><input  id="txtHRMARTES" name="txtHRMARTES" maxLength="250" size="60" value=""></td>
+
+        </tr>
+        <tr>
+            <td >Miercoles</td>
+            <td ><INPUT type="text" id=txtpac_mie name=txtpac_mie maxLength="2" size="1" value=""></td>
+            <td>
+                <TABLE WIDTH=200 BORDER=0 CELLSPACING=1 CELLPADDING=1>
+                    <TR>
+                        <TD>
+                            <TABLE WIDTH=100 BORDER=0 CELLSPACING=1 CELLPADDING=1>
+                                <TR>
+                                    <TD>
+                                        <SELECT id=cboh1mi name=cboh1mi>
+                                         
+                                            @{
+                                                for (int i = 0; i <24; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }
+                                        </SELECT>
+                                    </TD>
+                                    <TD   > : </TD>
+                                    <TD>
+                                        <SELECT id=cbom1mi name=cbomi1mi>
+                                       
+
+                                            @{
+                                                for (int i = 0; i < 60; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }
+
+                                        </SELECT>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                        <TD width=30 align=center> a </TD>
+                        <TD>
+                            <TABLE WIDTH=100 BORDER=0 CELLSPACING=1 CELLPADDING=1>
+                                <TR>
+                                    <TD>
+                                        <SELECT id=cboh2mi name=cboh2mi> 
+                                            @{
+                                                for (int i = 0; i < 24; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }
+                                        </SELECT>
+                                    </TD>
+                                    <TD > : </TD>
+                                    <TD>
+                                        <SELECT id=cbom2mi name=cbom2mi> 
+
+                                            @{
+                                                for (int i = 0; i < 60; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }
+                                        </SELECT>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </td>
+            <td><input  id="txtHRMIERCOLES" name="txtHRMIERCOLES" maxLength="250" size="60" value=""></td>
+        </tr>
+        <tr>
+            <td >Jueves</td>
+            <td ><INPUT type="text" id=txtpac_jue name=txtpac_jue maxLength="2" size="1" value=""></td>
+            <td>
+                <TABLE WIDTH=200 BORDER=0 CELLSPACING=1 CELLPADDING=1>
+                    <TR>
+                        <TD>
+                            <TABLE WIDTH=100 BORDER=0 CELLSPACING=1 CELLPADDING=1>
+                                <TR>
+                                    <TD>
+                                        <SELECT id=cboh1ju name=cboh1ju>
+                                           
+
+                                            @{
+                                                for (int i = 0; i < 24; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }
+                                        </SELECT>
+                                    </TD>
+                                    <TD   > : </TD>
+                                    <TD>
+                                        <SELECT id=cbom1ju name=cbomi1ju>
+                                           
+                                            @{
+                                                for (int i = 0; i < 60; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }
+                                        </SELECT>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                        <TD width=30 align=center> a </TD>
+                        <TD>
+                            <TABLE WIDTH=100 BORDER=0 CELLSPACING=1 CELLPADDING=1>
+                                <TR>
+                                    <TD>
+                                        <SELECT id=cboh2ju name=cboh2ju>
+
+                                            @{
+                                                for (int i = 0; i < 24; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }
+                                        </SELECT>
+                                    </TD>
+                                    <TD > : </TD>
+                                    <TD>
+                                        <SELECT id=cbom2ju name=cbom2ju >
+						   @{
+                                                for (int i = 0; i < 60; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }
+					</SELECT>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </td>
+            <td><input  id="txtHRJUEVES" name="txtHRJUEVES" maxLength="250" size="60" value=""></td>
+        </tr>
+        <tr>
+            <td >Viernes</td>
+            <td ><INPUT type="text" id=txtpac_vie name=txtpac_vie maxLength="2" size="1" value=""></td>
+            <td>
+                <TABLE WIDTH=200 BORDER=0 CELLSPACING=1 CELLPADDING=1>
+                    <TR>
+                        <TD>
+                            <TABLE WIDTH=100 BORDER=0 CELLSPACING=1 CELLPADDING=1>
+                                <TR>
+                                    <TD>
+                                        <SELECT id=cboh1vi name=cboh1vi>
+                                           
+                                            @{
+                                                for (int i = 0; i <24; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }										 
+                                        </SELECT>
+                                    </TD>
+                                    <TD  > : </TD>
+                                    <TD>
+                                        <SELECT id=cbom1vi name=cbomi1vi>
+
+                                            @{
+                                                for (int i = 0; i < 60; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }
+                                        </SELECT>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                        <TD width=30 align=center> a </TD>
+                        <TD>
+                            <TABLE WIDTH=100 BORDER=0 CELLSPACING=1 CELLPADDING=1>
+                                <TR>
+                                    <TD>
+                                        <SELECT id=cboh2vi name=cboh2vi>
+
+                                            @{
+                                                for (int i = 0; i <24; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }						 
+                                        </SELECT>
+                                    </TD>
+                                    <TD > : </TD>
+                                    <TD>
+                                        <SELECT id=cbom2vi name=cbom2vi>
+
+                                            @{
+                                                for (int i = 0; i < 60; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }						 
+                                        </SELECT>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </td>
+
+            <td><input  id="txtHRVIERNES" name="txtHRVIERNES" maxLength="250" size="60" value=""></td>
+        </tr>
+        <tr>
+            <td >Sabado</td>
+            <td ><INPUT type="text" id=txtpac_sab name=txtpac_sab maxLength="2" size="1"></td>
+            <td>
+                <TABLE WIDTH=200 BORDER=0 CELLSPACING=1 CELLPADDING=1>
+                    <TR>
+                        <TD>
+                            <TABLE WIDTH=100 BORDER=0 CELLSPACING=1 CELLPADDING=1>
+                                <TR>
+                                    <TD>
+                                        <SELECT id=cboh1sa name=cboh1sa>
+
+                                            @{
+                                                for (int i = 0; i < 24; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }
+                                        </SELECT>
+                                    </TD>
+                                    <TD   > : </TD>
+                                    <TD>
+                                        <SELECT id=cbom1sa name=cbomi1sa>
+
+                                            @{
+                                                for (int i = 0; i < 60; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }							 
+                                        </SELECT>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                        <TD width=30 align=center> a </TD>
+                        <TD>
+                            <TABLE WIDTH=100 BORDER=0 CELLSPACING=1 CELLPADDING=1>
+                                <TR>
+                                    <TD>
+                                        <SELECT id=cboh2sa name=cboh2sa>
+
+                                            @{
+                                                for (int i = 0; i < 24; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }
+                                        </SELECT>
+                                    </TD>
+                                    <TD  > : </TD>
+                                    <TD>
+                                        <SELECT id=cbom2sa name=cbom2sa>
+
+                                            @{
+                                                for (int i = 0; i < 60; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }
+                                        </SELECT>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </td>
+            <td><input  id="txtHRSABADO" name="txtHRSABADO" maxLength="250" size=60" value=""></td>
+        </tr>
+        <tr>
+            <td >Domingo</td>
+            <td ><INPUT type="text" id=txtpac_DOM name=txtpac_DOM maxLength="2" size="1"></td>
+            <td>
+                <TABLE WIDTH=200 BORDER=0 CELLSPACING=1 CELLPADDING=1>
+                    <TR>
+                        <TD>
+                            <TABLE WIDTH=100 BORDER=0 CELLSPACING=1 CELLPADDING=1>
+                                <TR>
+                                    <TD>
+                                        <SELECT id=cboh1mi name=cboh1mi>
+
+                                            @{
+                                                for (int i = 0; i <24; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }								 
+                                        </SELECT>
+                                    </TD>
+                                    <TD   > : </TD>
+                                    <TD>
+                                        <SELECT id=cbom1mi name=cbomi1mi>
+
+                                            @{
+                                                for (int i = 0; i < 60; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }						 
+                                        </SELECT>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                        <TD width=30 align=center> a </TD>
+                        <TD>
+                            <TABLE WIDTH=100 BORDER=0 CELLSPACING=1 CELLPADDING=1>
+                                <TR>
+                                    <TD>
+                                        <SELECT id=cboh2mi name=cboh2mi>
+
+                                            @{
+                                                for (int i = 0; i < 24; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }
+                                        </SELECT>
+                                    </TD>
+                                    <TD  > : </TD>
+                                    <TD>
+                                        <SELECT id=cbom2mi name=cbom2mi>
+
+                                            @{
+                                                for (int i = 0; i < 60; i++)
+                                                {
+                                                    <OPTION>@i.ToString().PadLeft(2, '0')</OPTION>
+                                                }
+                                            }					 
+                                        </SELECT>
+                                    </TD>
+                                </TR>
+                            </TABLE>
+                        </TD>
+                    </TR>
+                </TABLE>
+            </td>
+
+            <td><input  id="txtHRDOMINGO" name="txtHRDOMINGO" maxLength="250" size="60" value=""></td>
+    </table>
+    
+   
+
+
+
+</div>
