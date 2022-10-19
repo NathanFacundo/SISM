@@ -536,7 +536,7 @@ namespace UanlSISM.Controllers
                                       select a).FirstOrDefault();
                 
                 RegistroTriage.EstatusConsulta = "3";
-                //RegistroTriage.ConsultorioMedico = Convert.ToInt32(ConsulMedico.consultorio_mt);
+                
                 RegistroTriage.MedicoLlama = Medico1;
                 RegistroTriage.FechaLlamado = fechaDT;
                 RegistroTriage.ip_realizaMedico = ip_realiza;
@@ -1082,16 +1082,16 @@ namespace UanlSISM.Controllers
 
                         //LINEAS DE MILTON
                         //dbMilton.Database.ExecuteSqlCommand("UPDATE TblTriage SET PasarASoap = CONVERT(VARCHAR(5),getdate(),108) WHERE Expediente = '" + id + "' and Fecha = '" + fechaMilton + "'");
-                        var soap = (from a in dbMilton.TblTriage
-                                    where a.Expediente == id &&
-                                    a.Fecha >= fechaHoyMilton
-                                    select a).FirstOrDefault();
+                        //var soap = (from a in dbMilton.TblTriage
+                        //            where a.Expediente == id &&
+                        //            a.Fecha >= fechaHoyMilton
+                        //            select a).FirstOrDefault();
 
-                        if (soap.PasarASoap == null)
-                        {
-                            soap.PasarASoap = "1";
-                            dbMilton.SaveChanges();
-                        }
+                        //if (soap.PasarASoap == null)
+                        //{
+                        //    soap.PasarASoap = "1";
+                        //    dbMilton.SaveChanges();
+                        //}
 
                         if (res != null)
                         {
@@ -1276,16 +1276,16 @@ namespace UanlSISM.Controllers
                         {
                             //LINEAS DE MILTON
                             //dbMilton.Database.ExecuteSqlCommand("UPDATE TblTriage SET PasarASoap = CONVERT(VARCHAR(5),getdate(),108) WHERE Expediente = '" + id + "' and Fecha = '" + fechaMilton + "'");
-                            var soap = (from a in dbMilton.TblTriage
-                                        where a.Expediente == id &&
-                                        a.Fecha >= fechaHoyMilton
-                                        select a).FirstOrDefault();
+                            //var soap = (from a in dbMilton.TblTriage
+                            //            where a.Expediente == id &&
+                            //            a.Fecha >= fechaHoyMilton
+                            //            select a).FirstOrDefault();
 
-                            if (soap.PasarASoap == null)
-                            {
-                                soap.PasarASoap = "1";
-                                dbMilton.SaveChanges();
-                            }
+                            //if (soap.PasarASoap == null)
+                            //{
+                            //    soap.PasarASoap = "1";
+                            //    dbMilton.SaveChanges();
+                            //}
 
                             Models.SMDEVEntities20 db = new Models.SMDEVEntities20();
                             var dhabientes = (from a in db.DHABIENTES
@@ -1360,7 +1360,9 @@ namespace UanlSISM.Controllers
             {
                 var query = (from a in db.TblTriage
                              where a.Fecha >= fechaHoyDT
-                             where a.EstatusConsulta == "0"
+                             //where a.EstatusConsulta == "0"
+                             where a.PasarASoap == null
+                             where a.EstatusConsulta != "2"
                              select new
                              {
                                  a.Id,

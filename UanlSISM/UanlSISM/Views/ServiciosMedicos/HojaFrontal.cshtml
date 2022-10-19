@@ -1109,6 +1109,19 @@
                     <a href="@Url.Action("Kardex", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button">Kardex</a>
                 </div>
             </div>
+
+            @*@if (!HttpContext.Current.User.IsInRole("RecepcionQuirofano"))
+        {
+            <div class="btn-group" style="margin-left: -15px; z-index: 99;">
+                <button style="background-color:rgba(0,74,143,1) ; border:4.5px solid rgba(0,74,143,1);box-shadow:rgba(0,0,0,0.3) -5px 0px 5px -2px" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    SOAP
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="@Url.Action("SOAP", "ServiciosMedicos", new { id = Model.NUMEMP })" class="dropdown-item" type="button"><span class="material-icons">add</span> Consulta</a>
+                </div>
+            </div>
+        }*@
+
             @if (!HttpContext.Current.User.IsInRole("RecepcionQuirofano"))
             {
                 <div class="btn-group" style="margin-left: -15px; z-index: 99;">
@@ -1120,6 +1133,7 @@
                     </div>
                 </div>
             }
+
             @if (!HttpContext.Current.User.IsInRole("RecepcionQuirofano"))
             {
                 <div class="btn-group" style="margin-left: -20px; z-index: 99;">
@@ -1255,7 +1269,7 @@
                     </div>
                 </div>
             }
-            </ul>
+        </ul>
         <div class="tab-content" id="custom-content-below-tabContent">
             <div class="tab-pane fade show active" id="custom-content-below-1" role="tabpanel" aria-labelledby="custom-content-below-1-tab">
                 <div class="row">

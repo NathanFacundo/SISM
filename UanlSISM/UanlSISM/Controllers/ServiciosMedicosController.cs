@@ -869,19 +869,19 @@ namespace UanlSISM.Controllers
 
                         //LINEAS DE MILTON
                         //dbMilton.Database.ExecuteSqlCommand("UPDATE TblTriage SET PasarASoap = CONVERT(VARCHAR(5),getdate(),108) WHERE Expediente = '" + id + "' and Fecha = '" + fechaMilton + "'");
-                        var soap = (from a in dbMilton.TblTriage
-                                    where a.Expediente == id &&
-                                    a.Fecha >= fechaHoyMilton
-                                    select a).FirstOrDefault();
+                        //var soap = (from a in dbMilton.TblTriage
+                        //            where a.Expediente == id &&
+                        //            a.Fecha >= fechaHoyMilton
+                        //            select a).FirstOrDefault();
 
 
-                        if (soap != null) {
-                            if (soap.PasarASoap == null)
-                            {
-                                soap.PasarASoap = "1";
-                                dbMilton.SaveChanges();
-                            }
-                        }
+                        //if (soap != null) {
+                        //    if (soap.PasarASoap == null)
+                        //    {
+                        //        soap.PasarASoap = "1";
+                        //        dbMilton.SaveChanges();
+                        //    }
+                        //}
 
 
                         if (res != null)
@@ -1067,20 +1067,20 @@ namespace UanlSISM.Controllers
                         {
                             //LINEAS DE MILTON
                             //dbMilton.Database.ExecuteSqlCommand("UPDATE TblTriage SET PasarASoap = CONVERT(VARCHAR(5),getdate(),108) WHERE Expediente = '" + id + "' and Fecha = '" + fechaMilton + "'");
-                            var soap = (from a in dbMilton.TblTriage
-                                        where a.Expediente == id &&
-                                        a.Fecha >= fechaHoyMilton
-                                        select a).FirstOrDefault();
+                            //var soap = (from a in dbMilton.TblTriage
+                            //            where a.Expediente == id &&
+                            //            a.Fecha >= fechaHoyMilton
+                            //            select a).FirstOrDefault();
 
 
-                            if (soap != null)
-                            {
-                                if (soap.PasarASoap == null)
-                                {
-                                    soap.PasarASoap = "1";
-                                    dbMilton.SaveChanges();
-                                }
-                            }
+                            //if (soap != null)
+                            //{
+                            //    if (soap.PasarASoap == null)
+                            //    {
+                            //        soap.PasarASoap = "1";
+                            //        dbMilton.SaveChanges();
+                            //    }
+                            //}
 
                             Models.SMDEVEntities20 db = new Models.SMDEVEntities20();
                             var dhabientes = (from a in db.DHABIENTES
@@ -2654,6 +2654,7 @@ namespace UanlSISM.Controllers
 
         public JsonResult FinalizarSOAP(string numemp, bool interCheck, bool urgenciaCheck, string referido, string ref_exp, bool urgenciaCheck2, string referido2, string ref_exp2, bool urgenciaCheck3, string referido3, string ref_exp3, string subreferido, string medicoreferido, string subreferido2, string medicoreferido2, string subreferido3, string medicoreferido3)
         {
+            
 
             //System.Diagnostics.Debug.WriteLine(ref_exp);
             //System.Diagnostics.Debug.WriteLine(ref_exp2);
@@ -2669,6 +2670,25 @@ namespace UanlSISM.Controllers
 
             var username = User.Identity.GetUserName();
 
+            //LINEAS DEL TRIAGE -MILTON------------------------------------------------------------------------
+            SMDEVTriage TRIAGE = new SMDEVTriage();
+
+            var UsuTriage = (from a in TRIAGE.TblTriage
+                             where a.Expediente == numemp
+                             where a.MedicoLlama == username
+                             where a.Fecha >= fecha_correcta
+                             select a).FirstOrDefault();
+
+            if(UsuTriage != null)
+            {
+                if(UsuTriage.PasarASoap == null)
+                {
+                    UsuTriage.PasarASoap = "1";
+                    TRIAGE.SaveChanges();
+                }
+            }
+
+            //--------------------------------------------------------------------------------------------------
 
             Models.SMDEVEntities33 db = new Models.SMDEVEntities33();
 

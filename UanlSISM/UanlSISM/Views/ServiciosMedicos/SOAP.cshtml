@@ -1017,6 +1017,18 @@
     </div>
 </div>
 
+@if (User.IsInRole("Triage"))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <button title="Regresar al Triage" id="RegresarTriage" class="btn btn-primary fa fa-reply" style="float: right;" data-toggle="modal">
+                <a href="@Url.Action("MedicoUrgenciasT2", "RecepcionTriage")">Regresar al Triage</a>
+            </button>
+
+        </div>
+    </div>
+}
+
 
 <div class="row">
     <div class="col-12 text-center">
@@ -1208,6 +1220,74 @@
             </div>
             <div class="tab-pane fade show active" id="custom-content-below-3" role="tabpanel" aria-labelledby="custom-content-below-3-tab">
                 <div class="row" id="formSoap">
+
+                    @if (HttpContext.Current.User.IsInRole("Triage"))
+                    {
+                        <div class="col-9 m-auto pt-5 text-center">
+                            <h2><strong>Triage</strong></h2>
+                            <div class="row m-0 form-inline">
+                                <div class="row m-0">
+                                    <div class="col-3">
+                                        <div class="input-group mb-3" style="width:170px;">
+                                            <span class="input-group-text" style="height:20px;">P.A. Sis</span>
+                                            <input type="text" class="form-control triageinput" id="PAsistolica" name="Sistolica" style="height:20px;" readonly>
+                                        </div>
+                                        <div class="input-group mb-3" style="width:170px;">
+                                            <span class="input-group-text" style="height:20px;">P.A. Dia</span>
+                                            <input type="text" class="form-control triageinput" id="PAdiastolica" name="Diastolica" style="height:20px;" readonly>
+                                        </div>
+                                        <div class="input-group mb-3" style="width:170px;">
+                                            <span class="input-group-text" style="height:20px;">F. Car</span>
+                                            <input type="text" class="form-control triageinput" id="FC" name="FrecuenciaCardiaca" style="height:20px;" readonly>
+                                        </div>
+                                        <div class="input-group mb-3" style="width:170px;">
+                                            <span class="input-group-text" style="height:20px;">F. Res</span>
+                                            <input type="text" class="form-control triageinput" id="FR" name="FrecuenciaRespiratoria" style="height:20px;" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="input-group mb-3" style="width:170px;">
+                                            <span class="input-group-text" style="height:20px;">Temp</span>
+                                            <input type="text" class="form-control triageinput" id="Temperatura" name="Temperatura" style="height:20px;" readonly>
+                                        </div>
+                                        <div class="input-group mb-3" style="width:170px;">
+                                            <span class="input-group-text" style="height:20px;">SO₂</span>
+                                            <input type="text" class="form-control triageinput" id="SO2" name="SO2" style="height:20px;" readonly>
+                                        </div>
+                                        <div class="input-group mb-3" style="width:170px;">
+                                            <span class="input-group-text" style="height:20px;">Glucosa</span>
+                                            <input type="text" class="form-control triageinput" id="Glucosa" name="Glucosa" style="height:20px;" readonly>
+                                        </div>
+                                        <div class="input-group mb-3" style="width:170px;">
+                                            <span class="input-group-text" style="height:20px;">Glasgow</span>
+                                            <input type="text" class="form-control triageinput" id="Glasgow" name="Glasgow" style="height:20px;" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="input-group mb-3" style="width:170px;">
+                                            <span class="input-group-text" style="height:20px;">Peso</span>
+                                            <input type="text" class="form-control triageinput" id="Peso" name="Peso" style="height:20px;" readonly>
+                                        </div>
+                                        <div class="input-group mb-3" style="width:170px;">
+                                            <span class="input-group-text" style="height:20px;">Talla</span>
+                                            <input type="text" class="form-control triageinput" id="Talla" name="Talla" style="height:20px;" readonly>
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <button type="button" class="btn btn-outline-primary" id="btnColorRecomendado" style="width:170px;height:20px;"></button>
+                                        </div>
+                                        <div class="input-group mb-3" style="width:300px;">
+                                            <span class="input-group-text" style="height:20px;">C. Esp</span>
+                                            <input type="text" class="form-control triageinput" id="ConsultaE" name="ConsultaE" style="height:20px;" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <textarea class="text-center" id="TXTdescripcion" name="Descripcion" rows="3" cols="40" style="width: 200px; height: 100px;" readonly></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
                     <div class="col-9 m-auto pt-5 text-center">
                         <h2><strong>Signos Vitales</strong></h2>
                         <p>Llena correctamente la información</p>
@@ -1788,6 +1868,56 @@
         });
     });
     */
+
+    $(document).ready(function () {
+        Triage();
+    });
+
+    function Triage() {
+        var Exp = $("#numemp").val()
+        $.ajax({
+            url: '@Url.Action("TriageSoap", "RecepcionTriage")',
+            dataType: "json",
+            data: {
+                Paciente: Exp
+            },
+            success: function (data) {
+                $('#PAsistolica').val(data[0].SV_PAsistolica);
+                $('#PAdiastolica').val(data[0].SV_PAdiastolica);
+                $('#FC').val(data[0].SV_FC);
+                $('#FR').val(data[0].SV_FR);
+                $('#Temperatura').val(data[0].SV_Temperatura);
+                $('#SO2').val(data[0].SV_SO2);
+                $('#Glucosa').val(data[0].SV_Glucosa);
+                $('#Glasgow').val(data[0].SV_Glasgow);
+                $('#Peso').val(data[0].SV_Peso);
+                $('#Talla').val(data[0].SV_Talla);
+                $('#ConsultaE').val(data[0].ConsultaEspecial);
+                $('#TXTdescripcion').html(data[0].Descripcion);
+                var color = data[0].ColorConsulta
+
+                if (color == "Rojo") {
+                    $("#btnColorRecomendado").css("background", "red")
+                } else {
+                    if (color == "Naranja") {
+                        $("#btnColorRecomendado").css("background", "orange")
+                    }
+                    else if (color == "Amarrillo") {
+                        $("#btnColorRecomendado").css("background", "yellow")
+                    }
+                    else if (color == "Verde") {
+                        $("#btnColorRecomendado").css("background", "green")
+                    }
+                    else if (color == "Azul") {
+                        $("#btnColorRecomendado").css("background", "blue")
+                    }
+                }
+            },
+            error: function (xhr, status, error) {
+                alert('error');
+            }
+        });
+    }
 
     $.ajax({
         url: '@Url.Action("EspecialidadesSoap", "ServiciosMedicos")',
@@ -3518,7 +3648,7 @@
 
                 if (data.medicoreferido != null) {
 
-                    
+
 
                     $('#medicoreferido').empty();
                     $("#medicoreferido").val($("#medicoreferido option:first").val());
