@@ -915,7 +915,7 @@ namespace UanlSISM.Controllers
                     if (item.ColorConsulta == "Naranja")
                         color = "#FF5733";
                     if (item.ColorConsulta == "Amarrillo")
-                        color = "#FFFF00";
+                        color = "#E1BB0F";
                     if (item.ColorConsulta == "Verde")
                         color = "#008000";
                     if (item.ColorConsulta == "Azul")
@@ -935,7 +935,7 @@ namespace UanlSISM.Controllers
                     if (item.ColorConsulta == "Naranja")
                         color = "#FF5733";
                     if (item.ColorConsulta == "Amarrillo")
-                        color = "#FFFF00";
+                        color = "#E1BB0F";
                     if (item.ColorConsulta == "Verde")
                         color = "#008000";
                     if (item.ColorConsulta == "Azul")
