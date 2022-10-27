@@ -514,7 +514,7 @@
       <DependentUpon>Inventario.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DetalleReq.cs">
-      <DependentUpon>Inventario.tt</DependentUpon>
+      <DependentUpon>Req.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Detalle_VE.cs">
       <DependentUpon>Inventario.tt</DependentUpon>
@@ -1390,7 +1390,13 @@
     <Compile Include="Models\SISM_CODIGOBARRAS.cs">
       <DependentUpon>BorradorRequisicion.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SISM_COTIZACIONES.cs">
+      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SISM_DETALLE_BORRADOR_REQUI.cs">
+      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SISM_DETALLE_REQ_FARMACIA.cs">
       <DependentUpon>BorradorRequisicion.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_DET_REQUISICION.cs">
@@ -1406,6 +1412,9 @@
       <DependentUpon>BorradorRequisicion.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_REQUISICION.cs">
+      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SISM_REQUISICION_FARMACIA.cs">
       <DependentUpon>BorradorRequisicion.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_VALE_ENTRADA.cs">
@@ -1785,7 +1794,7 @@
       <DependentUpon>Dhabientes.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Usuario.cs">
-      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
+      <DependentUpon>Req.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ValeEntrada.cs">
       <DependentUpon>Inventario.tt</DependentUpon>

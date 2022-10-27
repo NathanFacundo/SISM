@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SERVMEDModel6.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SERVMEDModel6.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Cotizaciones">
           <Key>
             <PropertyRef Name="Id" />
@@ -26,6 +26,7 @@
           <Property Name="FechaMod" Type="datetime" />
           <Property Name="Id_Usuario" Type="int" />
           <Property Name="Cuadro" Type="int" />
+          <Property Name="UserId" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="DetalleReq">
           <Key>
@@ -89,8 +90,7 @@
             <End Role="DetalleReq" EntitySet="DetalleReq" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SERVMEDModel6" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -115,6 +115,7 @@
           <Property Name="FechaMod" Type="DateTime" Precision="3" />
           <Property Name="Id_Usuario" Type="Int32" />
           <Property Name="Cuadro" Type="Int32" />
+          <Property Name="UserId" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="DetalleReq">
           <Key>
@@ -189,6 +190,7 @@
           <EntitySetMapping Name="Cotizaciones">
             <EntityTypeMapping TypeName="SERVMEDModel6.Cotizaciones">
               <MappingFragment StoreEntitySet="Cotizaciones">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Id_Sustancia" ColumnName="Id_Sustancia" />
                 <ScalarProperty Name="Id_Requisicion" ColumnName="Id_Requisicion" />

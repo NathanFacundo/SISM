@@ -12,28 +12,22 @@ namespace UanlSISM.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SISM_REQUISICION
+    public partial class SISM_REQUISICION_FARMACIA
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public SISM_REQUISICION()
+        public SISM_REQUISICION_FARMACIA()
         {
-            this.SISM_DET_REQUISICION = new HashSet<SISM_DET_REQUISICION>();
-            this.SISM_COTIZACIONES = new HashSet<SISM_COTIZACIONES>();
+            this.SISM_DETALLE_REQ_FARMACIA = new HashSet<SISM_DETALLE_REQ_FARMACIA>();
         }
     
-        public int Id_Requicision { get; set; }
-        public string Clave { get; set; }
+        public int Id_Requisicion_Farm { get; set; }
         public Nullable<System.DateTime> Fecha { get; set; }
-        public string Id_User { get; set; }
-        public string IP_User { get; set; }
-        public Nullable<decimal> Total { get; set; }
-        public Nullable<int> Estatus { get; set; }
-        public string claveOLD { get; set; }
+        public string UsuarioRegistra { get; set; }
+        public string Estatus { get; set; }
+        public string ip_realiza { get; set; }
         public string EstatusContrato { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SISM_DET_REQUISICION> SISM_DET_REQUISICION { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SISM_COTIZACIONES> SISM_COTIZACIONES { get; set; }
+        public virtual ICollection<SISM_DETALLE_REQ_FARMACIA> SISM_DETALLE_REQ_FARMACIA { get; set; }
     }
 }

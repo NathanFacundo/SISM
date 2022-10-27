@@ -18,6 +18,11 @@
         <AssociationConnector Association="SISM_SIST_MEDModel.FK__SISM_DET___Id_Co__3B75D760" ManuallyRouted="false" />
         <AssociationConnector Association="SISM_SIST_MEDModel.FK__SISM_DET___Id_Re__45F365D3" ManuallyRouted="false" />
         <AssociationConnector Association="SISM_SIST_MEDModel.FK__SISM_DET___Id_Va__3A81B327" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SISM_SIST_MEDModel.SISM_COTIZACIONES" Width="1.5" PointX="5" PointY="9.375" />
+        <AssociationConnector Association="SISM_SIST_MEDModel.FK__SISM_COTI__Id_Re__5CD6CB2B" />
+        <EntityTypeShape EntityType="SISM_SIST_MEDModel.SISM_DETALLE_REQ_FARMACIA" Width="2" PointX="12.625" PointY="1" />
+        <EntityTypeShape EntityType="SISM_SIST_MEDModel.SISM_REQUISICION_FARMACIA" Width="2" PointX="10.375" PointY="1" />
+        <AssociationConnector Association="SISM_SIST_MEDModel.FK__SISM_DETA__Id_Re__619B8048" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

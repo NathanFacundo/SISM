@@ -264,6 +264,7 @@ namespace UanlSISM.Controllers
             var fechaDT = DateTime.Parse(fecha);
             var ip_realiza = Request.UserHostAddress;
             var ff = string.Format("{0:ddMMyy}", fechaDT);
+            var IdUsuarioCifrado = User.Identity.GetUserId();
 
             try
             {
@@ -335,104 +336,132 @@ namespace UanlSISM.Controllers
                     ConBD.SaveChanges();
                 }
 
-
-                //--------------------------------------------------------------------------------------------------------------------------------
-                /*  GUARDAR LA REQUISICION Y SU DETALLE EN LAS TABLAS DE REQUISICION Y DETALLE REQUISICION  */
-                Requisicion_1 Req = new Requisicion_1();
-                Req.Id_Tipo = 2;
-                Req.Fecha = fechaDT;
-                Req.Status = true;
-                Req.cerrado = false;
-
-                var IdUsuarioCifrado = User.Identity.GetUserId();
-                Req.UserId = IdUsuarioCifrado;
-
                 //Obtenemos el Usuario que se logueó para hacer el join (buscarlo) en la tabla Usuario y así obtener el Id de esa tabla
                 var UsuarioOld = User.Identity.GetUserName();
                 var UsuarioOLD = (from a in RequisicionDB.Usuario
                                   where a.Usu_User == UsuarioOld
                                   select a).FirstOrDefault();
 
-                //Guardamos el Id del usuario de la tabla Usuario en el campo 'UsuarioId' en la tabla Requisiciones
-                if (UsuarioOLD == null)
-                {
-
-                }
-                else
-                {
-                    if (UsuarioOLD.Usu_User == null)
-                    {
-
-                    }
-                    else
-                    {
-                        Req.Id_Usuario = UsuarioOLD.UsuarioId;
-                    }
-                }
-
-
-                Req.clave = Convert.ToString(ClaveNueva);
-                Req.EstatusContrato = Borrador.EstatusContrato;
-
-                RequisicionDB.Requisicion.Add(Req);
-                RequisicionDB.SaveChanges();
-
-                var ID = (from a in RequisicionDB.Requisicion
-                          where a.Fecha == fechaDT
-                          where a.Id_Tipo == 2
-                          select a).OrderByDescending(u => u.id).FirstOrDefault();
-
+                //Volvemos a recorrer la lista (detalle de la requi) ahora para guardar en la tabla Cotizaciones     
                 foreach (var item in ListaSustanciasBorrador)
                 {
-                    DetalleReq detRequi = new DetalleReq();
-                    detRequi.Id_Requisicion = ID.id;
-                    detRequi.Id_Sustancia = (int)item.Id_Sustancia;
-                    detRequi.C_Recibida = 0;
-                    detRequi.Status = false;
-                    //detRequi.C_Solicitada = (int)item.Cantidad;
+                    SISM_COTIZACIONES Cotizacion = new SISM_COTIZACIONES();
+                    Cotizacion.Id_Sustancia = (int)item.Id_Sustancia;
+                    Cotizacion.Id_Requicision = IdRequisicion.Id_Requicision;
+                    Cotizacion.Id_Prov_1 = 0;
+                    Cotizacion.Cant_Asig_1 = 0;
+                    Cotizacion.CostoUnit_1 = 0;
+                    Cotizacion.Id_Prov_2 = 0;
+                    Cotizacion.Cant_Asig_2 = 0;
+                    Cotizacion.CostoUnit_2 = 0;
+                    Cotizacion.Id_Prov_3 = 0;
+                    Cotizacion.Cant_Asig_3 = 0;
+                    Cotizacion.CostoUnit_3 = 0;
+                    Cotizacion.Status = false;
+                    Cotizacion.FechaCrea = fechaDT;
+                    Cotizacion.FechaMod = fechaDT;
+                    Cotizacion.Id_Usuario = UsuarioOLD.UsuarioId;
+                    Cotizacion.Cuadro = 0;
+                    Cotizacion.UserId = IdUsuarioCifrado;
 
-                    if (item.CANTIDAD_NUEVA > 0)
-                    {
-                        if (item.CANTIDAD_NUEVA > item.Cantidad || item.CANTIDAD_NUEVA == item.Cantidad)
-                            detRequi.C_Solicitada = (int)item.Cantidad + item.CANTIDAD_NUEVA;
-
-                        if (item.CANTIDAD_NUEVA < item.Cantidad)
-                            detRequi.C_Solicitada = (int)item.Cantidad - item.CANTIDAD_NUEVA;
-                    }
-                    else
-                    {
-                        detRequi.C_Solicitada = (int)item.Cantidad;
-                    }
-
-                    RequisicionDB.DetalleReq.Add(detRequi);
-                    RequisicionDB.SaveChanges();
+                    ConBD.SISM_COTIZACIONES.Add(Cotizacion);
+                    ConBD.SaveChanges();
                 }
 
-                foreach (var item in ListaSustanciasBorrador)
-                {
-                    Cotizaciones Coti = new Cotizaciones();
-                    Coti.Id_Sustancia = (int)item.Id_Sustancia;
-                    Coti.Id_Requisicion = ID.id;
-                    Coti.Id_Prov_1 = 0;
-                    Coti.Cant_Asig_1 = 0;
-                    Coti.CostoUnit_1 = 0;
-                    Coti.Id_Prov_2 = 0;
-                    Coti.Cant_Asig_2 = 0;
-                    Coti.CostoUnit_2 = 0;
-                    Coti.Id_Prov_3 = 0;
-                    Coti.Cant_Asig_3 = 0;
-                    Coti.CostoUnit_3 = 0;
-                    Coti.Status = false;
-                    Coti.FechaCrea = ID.Fecha;
-                    Coti.FechaMod = ID.Fecha;
-                    Coti.Id_Usuario = ID.Id_Usuario;
-                    Coti.Cuadro = 0;
 
-                    RequisicionDB.Cotizaciones.Add(Coti);
-                    RequisicionDB.SaveChanges();
-                }
                 //--------------------------------------------------------------------------------------------------------------------------------
+                /*  GUARDAR LA REQUISICION Y SU DETALLE EN LAS TABLAS DE REQUISICION Y DETALLE REQUISICION  */
+                //Requisicion_1 Req = new Requisicion_1();
+                //Req.Id_Tipo = 2;
+                //Req.Fecha = fechaDT;
+                //Req.Status = true;
+                //Req.cerrado = false;
 
+                //Req.UserId = IdUsuarioCifrado;
+
+                ////Obtenemos el Usuario que se logueó para hacer el join (buscarlo) en la tabla Usuario y así obtener el Id de esa tabla
+                ////var UsuarioOld = User.Identity.GetUserName();
+                ////var UsuarioOLD = (from a in RequisicionDB.Usuario
+                ////                  where a.Usu_User == UsuarioOld
+                ////                  select a).FirstOrDefault();
+
+                ////Guardamos el Id del usuario de la tabla Usuario en el campo 'UsuarioId' en la tabla Requisiciones
+                //if (UsuarioOLD == null)
+                //{
+                //}
+                //else
+                //{
+                //    if (UsuarioOLD.Usu_User == null)
+                //    {
+                //    }
+                //    else
+                //    {
+                //        Req.Id_Usuario = UsuarioOLD.UsuarioId;
+                //    }
+                //}
+
+                //Req.clave = Convert.ToString(ClaveNueva);
+                //Req.EstatusContrato = Borrador.EstatusContrato;
+
+                //RequisicionDB.Requisicion.Add(Req);
+                //RequisicionDB.SaveChanges();
+
+                //var ID = (from a in RequisicionDB.Requisicion
+                //          where a.Fecha == fechaDT
+                //          where a.Id_Tipo == 2
+                //          select a).OrderByDescending(u => u.id).FirstOrDefault();
+
+                //foreach (var item in ListaSustanciasBorrador)
+                //{
+                //    DetalleReq detRequi = new DetalleReq();
+                //    detRequi.Id_Requisicion = ID.id;
+                //    detRequi.Id_Sustancia = (int)item.Id_Sustancia;
+                //    detRequi.C_Recibida = 0;
+                //    detRequi.Status = false;
+                //    //detRequi.C_Solicitada = (int)item.Cantidad;
+
+                //    if (item.CANTIDAD_NUEVA > 0)
+                //    {
+                //        if (item.CANTIDAD_NUEVA > item.Cantidad || item.CANTIDAD_NUEVA == item.Cantidad)
+                //            detRequi.C_Solicitada = (int)item.Cantidad + item.CANTIDAD_NUEVA;
+
+                //        if (item.CANTIDAD_NUEVA < item.Cantidad)
+                //            detRequi.C_Solicitada = (int)item.Cantidad - item.CANTIDAD_NUEVA;
+                //    }
+                //    else
+                //    {
+                //        detRequi.C_Solicitada = (int)item.Cantidad;
+                //    }
+
+                //    RequisicionDB.DetalleReq.Add(detRequi);
+                //    RequisicionDB.SaveChanges();
+                //}
+
+                //foreach (var item in ListaSustanciasBorrador)
+                //{
+                //    Cotizaciones Coti = new Cotizaciones();
+                //    Coti.Id_Sustancia = (int)item.Id_Sustancia;
+                //    Coti.Id_Requisicion = ID.id;
+                //    Coti.Id_Prov_1 = 0;
+                //    Coti.Cant_Asig_1 = 0;
+                //    Coti.CostoUnit_1 = 0;
+                //    Coti.Id_Prov_2 = 0;
+                //    Coti.Cant_Asig_2 = 0;
+                //    Coti.CostoUnit_2 = 0;
+                //    Coti.Id_Prov_3 = 0;
+                //    Coti.Cant_Asig_3 = 0;
+                //    Coti.CostoUnit_3 = 0;
+                //    Coti.Status = false;
+                //    Coti.FechaCrea = ID.Fecha;
+                //    Coti.FechaMod = ID.Fecha;
+                //    Coti.Id_Usuario = ID.Id_Usuario;
+                //    Coti.Cuadro = 0;
+                //    Coti.UserId = IdUsuarioCifrado;
+
+                //    RequisicionDB.Cotizaciones.Add(Coti);
+                //    RequisicionDB.SaveChanges();
+                //}
+                //--------------------------------------------------------------------------------------------------------------------------------
 
                 return Json(new { MENSAJE = "Succe: Se generó con éxito la Requisición" }, JsonRequestBehavior.AllowGet);
             }
@@ -602,6 +631,8 @@ namespace UanlSISM.Controllers
             //var ff = string.Format("{0:d/M/yy}", fechaDT);
             var ff = string.Format("{0:ddMMyy}", fechaDT);
 
+            var IdUsuarioCifrado = User.Identity.GetUserId();
+
             try
             {
                 //obtener la ultima 'clave' de tipo 2 y se le agrega uno (1) para que inserte un nuevo registro (consecutivo de la clave)
@@ -651,8 +682,39 @@ namespace UanlSISM.Controllers
                     ConBD.SaveChanges();
                 }
 
+                //Obtenemos el Usuario que se logueó para hacer el join (buscarlo) en la tabla Usuario y así obtener el Id de esa tabla
+                var UsuarioOld = User.Identity.GetUserName();
+                var UsuarioOLD = (from a in RequisicionDB.Usuario
+                                  where a.Usu_User == UsuarioOld
+                                  select a).FirstOrDefault();
 
-                //--------------------------------------------------------------------------------------------------------------------------------
+                //Volvemos a recorrer la lista (detalle de la requi) ahora para guardar en la tabla Cotizaciones     
+                foreach (var item in ListaSustanciasRequiDirecta)
+                {
+                    SISM_COTIZACIONES Cotizacion = new SISM_COTIZACIONES();
+                    Cotizacion.Id_Sustancia = item.Id;
+                    Cotizacion.Id_Requicision = IdRequi.Id_Requicision;
+                    Cotizacion.Id_Prov_1 = 0;
+                    Cotizacion.Cant_Asig_1 = 0;
+                    Cotizacion.CostoUnit_1 = 0;
+                    Cotizacion.Id_Prov_2 = 0;
+                    Cotizacion.Cant_Asig_2 = 0;
+                    Cotizacion.CostoUnit_2 = 0;
+                    Cotizacion.Id_Prov_3 = 0;
+                    Cotizacion.Cant_Asig_3 = 0;
+                    Cotizacion.CostoUnit_3 = 0;
+                    Cotizacion.Status = false;
+                    Cotizacion.FechaCrea = fechaDT;
+                    Cotizacion.FechaMod = fechaDT;
+                    Cotizacion.Id_Usuario = UsuarioOLD.UsuarioId;
+                    Cotizacion.Cuadro = 0;
+                    Cotizacion.UserId = IdUsuarioCifrado;
+
+                    ConBD.SISM_COTIZACIONES.Add(Cotizacion);
+                    ConBD.SaveChanges();
+                }
+
+                //--------------------------------------------------------------------------------------------------------------------------------  TABLAS VIEJAS
                 /*  GUARDAR LA REQUISICION Y SU DETALLE EN LAS TABLAS DE REQUISICION Y DETALLE REQUISICION  */
                 Requisicion_1 Req = new Requisicion_1();
                 Req.Id_Tipo = 2;
@@ -660,14 +722,8 @@ namespace UanlSISM.Controllers
                 Req.Status = true;
                 Req.cerrado = false;
 
-                var IdUsuarioCifrado = User.Identity.GetUserId();
-                Req.UserId = IdUsuarioCifrado;
 
-                //Obtenemos el Usuario que se logueó para hacer el join (buscarlo) en la tabla Usuario y así obtener el Id de esa tabla
-                var UsuarioOld = User.Identity.GetUserName();
-                var UsuarioOLD = (from a in RequisicionDB.Usuario
-                                  where a.Usu_User == UsuarioOld
-                                  select a).FirstOrDefault();
+                Req.UserId = IdUsuarioCifrado;
 
                 //Guardamos el Id del usuario de la tabla Usuario en el campo 'UsuarioId' en la tabla Requisiciones
                 if (UsuarioOLD == null)
@@ -686,14 +742,13 @@ namespace UanlSISM.Controllers
                     }
                 }
 
-
-
                 Req.clave = Convert.ToString(ClaveNueva);
                 Req.EstatusContrato = StatusContrato;
 
                 RequisicionDB.Requisicion.Add(Req);
                 RequisicionDB.SaveChanges();
 
+                //Obtener Requisición recién generada en las tablas viejas
                 var ID = (from a in RequisicionDB.Requisicion
                           where a.Fecha == fechaDT
                           where a.Id_Tipo == 2
@@ -731,11 +786,13 @@ namespace UanlSISM.Controllers
                     Coti.FechaMod = ID.Fecha;
                     Coti.Id_Usuario = ID.Id_Usuario;
                     Coti.Cuadro = 0;
+                    Coti.UserId = IdUsuarioCifrado;
 
                     RequisicionDB.Cotizaciones.Add(Coti);
                     RequisicionDB.SaveChanges();
                 }
                 //--------------------------------------------------------------------------------------------------------------------------------
+
 
 
                 return Json(new { MENSAJE = "Succe: Se generó la Requisición" }, JsonRequestBehavior.AllowGet);

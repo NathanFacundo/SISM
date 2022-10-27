@@ -12,11 +12,10 @@ namespace UanlSISM.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Cotizaciones
+    public partial class SISM_COTIZACIONES
     {
         public int Id { get; set; }
         public int Id_Sustancia { get; set; }
-        public int Id_Requisicion { get; set; }
         public Nullable<int> Id_Prov_1 { get; set; }
         public Nullable<int> Cant_Asig_1 { get; set; }
         public Nullable<double> CostoUnit_1 { get; set; }
@@ -31,6 +30,9 @@ namespace UanlSISM.Models
         public Nullable<System.DateTime> FechaMod { get; set; }
         public Nullable<int> Id_Usuario { get; set; }
         public Nullable<int> Cuadro { get; set; }
+        public int Id_Requicision { get; set; }
         public string UserId { get; set; }
+    
+        public virtual SISM_REQUISICION SISM_REQUISICION { get; set; }
     }
 }

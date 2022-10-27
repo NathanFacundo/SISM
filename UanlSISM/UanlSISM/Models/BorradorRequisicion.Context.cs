@@ -34,5 +34,8 @@ namespace UanlSISM.Models
         public virtual DbSet<SISM_MOV_INV> SISM_MOV_INV { get; set; }
         public virtual DbSet<SISM_REQUISICION> SISM_REQUISICION { get; set; }
         public virtual DbSet<SISM_VALE_ENTRADA> SISM_VALE_ENTRADA { get; set; }
+        public virtual DbSet<SISM_COTIZACIONES> SISM_COTIZACIONES { get; set; }
+        public virtual DbSet<SISM_DETALLE_REQ_FARMACIA> SISM_DETALLE_REQ_FARMACIA { get; set; }
+        public virtual DbSet<SISM_REQUISICION_FARMACIA> SISM_REQUISICION_FARMACIA { get; set; }
     }
 }
