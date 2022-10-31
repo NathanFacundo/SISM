@@ -16,10 +16,14 @@
 @*SWAL FIRE*@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<h5>REQUISICIONES (A CC)</h5>
+<h5>REQUISICIONES A CC</h5>
 <br />
 
 <style>
+    table.dataTable {
+        width: 100% !important;
+    }
+
     .uanl-logo {
         width: 10vw;
         margin-top: 0vw;
@@ -37,6 +41,16 @@
     table.dataTable {
         width: 100% !important;
     }
+
+    #NuevaRequiModal .modal-dialog {
+        height: 100vh;
+        margin-top: 0px;
+    }
+
+    /*#NuevaRequiModal .modal-content {
+        height: 100vh;
+    }*/
+
 </style>
 
 <div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
@@ -65,12 +79,12 @@
 </div>
 
 <div class="modal fade" id="NuevaRequiModal" tabindex="-1" role="dialog" aria-labelledby="NuevaRequiModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-body">
 
                 <div class="row" id="contenido">
-                    <h5 class="text-center" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Agregar a Requisición</h5>
+                    <h5 class="text-center m-0" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Medicamentos</h5>
                 </div>
 
                 <div class="row">
@@ -120,7 +134,8 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="row">
+
+                            @*<div class="row">
                                 <div class="col-4">
                                     <button type="button" id="btnGenerarRequi" class="btn btn-success btn-space">Generar Requisición</button>
                                 </div>
@@ -130,7 +145,16 @@
                                 <div class="col-4">
                                     <button type="button" id="Cancelar" class="btn btn-secondary">Cancelar</button>
                                 </div>
+                            </div>*@
+
+                            <div class="row">
+                                <div class="btn-toolbar">
+                                    <button type="button" id="btnGenerarRequi" class="btn btn-success btn-space">Generar Requisición</button>
+                                    <button type="button" id="btnGenerarBorrador" class="btn btn-primary btn-space">Generar Borrador</button>
+                                    <button type="button" id="Cancelar" class="btn btn-secondary">Cancelar</button>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -198,20 +222,18 @@
                             <tr>
                                 <th>
                                     <h10 style="color:green">Folio:  </h10><br />
-                                    <a style="font-size:15px" id="NoRequi"></a>
+                                    <a style="font-size:13px" id="NoRequi"></a>
                                 </th>
                                 <th>
                                     <h10 style="color:green">Fecha: </h10><br />
-                                    <a style="font-size:15px" id="FechaRequi"></a>
+                                    <a style="font-size:13px" id="FechaRequi"></a>
                                 </th>
                                 <th>
                                     <h10 style="color:green">Fecha Impresión: </h10><br />
-                                    <a style="font-size:15px" id="Fecha"></a>
-                                </th>
-                                <th>
-                                    <h8 style="color:black"> <em><b id="EstContrato"></b></em></h8>
+                                    <a style="font-size:13px" id="Fecha"></a>
                                 </th>
                                 <th></th>
+                                <th><h8 style="color:black"> <em><b id="EstContrato"></b></em></h8></th>
                             </tr>
 
                             <tr>
@@ -451,7 +473,7 @@
             deferRender: true,
             scroller: true,
             scrollColapse: true,
-            scrollY: 100,
+            scrollY: 200,
             lengthChange: false,
             language: {
                 "zeroRecords": " ",
@@ -544,14 +566,16 @@
         var tablePermisos = $('#tblGenerarRequi').DataTable();
         tablePermisos.destroy();
         tablePermisos = $('#tblGenerarRequi').DataTable({
-
-            responsive: true,
+            //responsive: true,
+            //searching: false,
+            //info: true,
+            //deferRender: true,
+            //scroller: true,
+            //scrollColapse: true,
+            //scrollY: 200,
+            //lengthChange: false,
             searching: false,
-            info: true,
-            deferRender: true,
-            scroller: true,
-            scrollColapse: true,
-            scrollY: 180,
+            responsive: true,
             lengthChange: false,
             data: ListaSustancias,
             language: {
@@ -898,26 +922,9 @@
 </script>
 
 <style>
-    color
     .modal-backdrop {
         background-color: rgba(0,0,0,0.4) !important;
     }
-
-    .modal-content {
-        margin-top: 6vw;
-        padding-bottom: 2vw;
-    }
-
-    .modal-header {
-        text-align: center;
-    }
-
-        .modal-header .close {
-            margin: 0 !important;
-            position: absolute;
-            right: 0;
-            top: 0;
-        }
 
     .imprimirUanl img {
         width: 65%;
@@ -936,6 +943,7 @@
     }
 
     @@media print {
+
         .btn-editar {
             display: none;
         }

@@ -15,9 +15,14 @@
     .btn-space {
         margin-right: 5px;
     }
+
+    .modal-dialog {
+        height: 100vh;
+        margin-top: 0px;
+    }
 </style>
 
-<h5>BORRADOR DE REQUISICIÓN</h5>
+<h5>BORRADORES DE REQUISICIÓN</h5>
 <br />
 
 <div class="row">
@@ -53,6 +58,27 @@
                 </div>
 
                 <div class="row" id="contenido">
+                    <h5 class="text-center m-0" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Medicamentos</h5>
+                </div>
+
+                <div class="row">
+                    <table class="table table-striped table-hover" id="tblGenerarRequi2">
+                        <thead>
+                            <tr>
+                                <th>Clave</th>
+                                <th>Descripción</th>
+                                <th>Compendio</th>
+                                <th>Existencia</th>
+                                <th>Agregar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+
+                <br />
+                <div class="row" id="contenido">
                     <h5 class="text-center" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Borrador</h5>
                 </div>
 
@@ -74,46 +100,20 @@
                 </div>
 
                 <div class="row">
-                    @*<div class="col-6">
-                            <button type="button" id="btnConsultar" class="btn btn-success" >Generar Requisición</button>
-                        </div>
-                        <div class="col-6">
-                            <button type="button" id="btnEliminarBorrador" class="btn btn-danger">Eliminar Borrador</button>
-                        </div>*@
                     <div class="btn-toolbar">
                         <button type="button" id="btnConsultar" class="btn btn-success btn-space">Generar Requisición</button>
-                        <button type="button" id="btnEliminarBorrador" class="btn btn-danger">Eliminar Borrador</button>
+                        <button type="button" id="btnEliminarBorrador" class="btn btn-danger btn-space">Eliminar Borrador</button>
+                        <button type="button" id="Cancelar" class="btn btn-secondary">Cancelar</button>
                     </div>
                 </div>
 
-                <br />
-                <div class="row" id="contenido">
-                    <h5 class="text-center" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Agregar a Borrador</h5>
-                </div>
-
-                <div class="row">
-                    <table class="table table-striped table-hover" id="tblGenerarRequi2">
-                        <thead>
-                            <tr>
-                                <th>Clave</th>
-                                <th>Descripción</th>
-                                <th>Compendio</th>
-                                <th>Existencia</th>
-                                <th>Agregar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="row">
+                @*<div class="row">
                     <div class="col-6">
                         <button type="button" id="Cancelar" class="btn btn-secondary">Cancelar</button>
                     </div>
                     <div class="col-6">
                     </div>
-                </div>
+                </div>*@
 
             </div>
         </div>
@@ -179,26 +179,12 @@
             }
         });
 
-        //$('#tblGenerarRequi').DataTable({
-        //    responsive: true,
-        //    searching: false,
-        //    info: true,
-        //    deferRender: true,
-        //    scroller: true,
-        //    scrollColapse: true,
-        //    lengthChange: false,
-        //    language: {
-        //        "zeroRecords": " ",
-        //        "info": "",
-        //        "infoEmpty": "",
-        //        "paginate": {
-        //            "first": "",
-        //            "last": "",
-        //            "next": "",
-        //            "previous": "",
-        //        }
-        //    }
-        //});
+        $('#tblGenerarRequi').DataTable({
+            scrollY: 180,
+            searching: false,
+            responsive: true,
+            lengthChange: false,
+        });
 
         Llena();
     });
@@ -332,8 +318,6 @@
 
     });*@
 
-
-
     $('#example tbody').on('click', '#VerDetalle', function () {
         $('#NuevaRequiModal').modal("show");
 
@@ -387,9 +371,6 @@
         });
     }
 
-
-
-
     $('#NuevaRequiModal').on('shown.bs.modal', function () {
         LlenaSustanciaModal();
     })
@@ -431,7 +412,7 @@
             deferRender: true,
             scroller: true,
             scrollColapse: true,
-            scrollY: 100,
+            scrollY: 200,
             lengthChange: false,
             language: {
                 "zeroRecords": " ",
@@ -565,6 +546,7 @@
             //scrollY: 180,
             //lengthChange: false,
 
+            //scrollY: 180,
             searching: false,
             responsive: true,
             lengthChange: false,
