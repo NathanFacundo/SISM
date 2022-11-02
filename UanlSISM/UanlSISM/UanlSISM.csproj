@@ -290,6 +290,7 @@
     <Compile Include="Controllers\MedicinaLaboralController.cs" />
     <Compile Include="Controllers\NotaOperatoriaController.cs" />
     <Compile Include="Controllers\NotaPreoperatoriaController.cs" />
+    <Compile Include="Controllers\OrdenCompraController.cs" />
     <Compile Include="Controllers\RecepcionTriageController.cs" />
     <Compile Include="Controllers\RegistroCodBarController.cs" />
     <Compile Include="Controllers\ReporteActividadesSemanalController.cs" />
@@ -1975,6 +1976,7 @@
     <Content Include="Imagenes\mesa-cirugia.png" />
     <Content Include="Imagenes\notamedica.png" />
     <Content Include="Imagenes\no_contesto.png" />
+    <Content Include="Imagenes\OC.png" />
     <Content Include="Imagenes\PANTALLA SISM2.png" />
     <Content Include="Imagenes\PASE DE INTERNAMIENTO 3.png" />
     <Content Include="Imagenes\pasta.png" />
@@ -3723,6 +3725,7 @@
     <Content Include="Views\ServiciosMedicos\RecetasPruebas.cshtml" />
     <Content Include="Views\Requisicion\BorradorRequisicion.cshtml" />
     <Content Include="Views\Requisicion\Requisicion.cshtml" />
+    <Content Include="Views\OrdenCompra\OrdenCompra.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
