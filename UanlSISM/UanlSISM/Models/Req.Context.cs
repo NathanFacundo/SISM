@@ -29,5 +29,6 @@ namespace UanlSISM.Models
         public virtual DbSet<DetalleReq> DetalleReq { get; set; }
         public virtual DbSet<Requisicion_1> Requisicion { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
+        public virtual DbSet<Proveedor> Proveedor { get; set; }
     }
 }

@@ -39,6 +39,19 @@
           <Property Name="C_Recibida" Type="int" />
           <Property Name="Status" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Proveedor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Prov_Nombre" Type="varchar" MaxLength="200" />
+          <Property Name="Prov_Direccion" Type="varchar" MaxLength="50" />
+          <Property Name="Prov_Telefono" Type="varchar" MaxLength="20" />
+          <Property Name="Prov_Contacto" Type="varchar" MaxLength="30" />
+          <Property Name="Prov_Email" Type="varchar" MaxLength="30" />
+          <Property Name="Prov_uanl" Type="varchar" MaxLength="10" />
+          <Property Name="EstatusContrato" Type="varchar" MaxLength="20" />
+        </EntityType>
         <EntityType Name="Requisicion">
           <Key>
             <PropertyRef Name="id" />
@@ -83,6 +96,7 @@
         <EntityContainer Name="SERVMEDModel6StoreContainer">
           <EntitySet Name="Cotizaciones" EntityType="Self.Cotizaciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetalleReq" EntityType="Self.DetalleReq" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Proveedor" EntityType="Self.Proveedor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Requisicion" EntityType="Self.Requisicion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_DetalleReq_Requisicion" Association="Self.FK_DetalleReq_Requisicion">
@@ -180,7 +194,21 @@
             <End Role="Requisicion" EntitySet="Requisicion" />
             <End Role="DetalleReq" EntitySet="DetalleReq" />
           </AssociationSet>
+          <EntitySet Name="Proveedor" EntityType="SERVMEDModel6.Proveedor" />
         </EntityContainer>
+        <EntityType Name="Proveedor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Prov_Nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Prov_Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Prov_Telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Prov_Contacto" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Prov_Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Prov_uanl" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EstatusContrato" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -249,6 +277,20 @@
                 <ScalarProperty Name="RolId" ColumnName="RolId" />
                 <ScalarProperty Name="Usu_Status" ColumnName="Usu_Status" />
                 <ScalarProperty Name="Baja" ColumnName="Baja" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proveedor">
+            <EntityTypeMapping TypeName="SERVMEDModel6.Proveedor">
+              <MappingFragment StoreEntitySet="Proveedor">
+                <ScalarProperty Name="EstatusContrato" ColumnName="EstatusContrato" />
+                <ScalarProperty Name="Prov_uanl" ColumnName="Prov_uanl" />
+                <ScalarProperty Name="Prov_Email" ColumnName="Prov_Email" />
+                <ScalarProperty Name="Prov_Contacto" ColumnName="Prov_Contacto" />
+                <ScalarProperty Name="Prov_Telefono" ColumnName="Prov_Telefono" />
+                <ScalarProperty Name="Prov_Direccion" ColumnName="Prov_Direccion" />
+                <ScalarProperty Name="Prov_Nombre" ColumnName="Prov_Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

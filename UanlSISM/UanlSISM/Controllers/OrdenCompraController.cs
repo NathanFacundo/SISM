@@ -16,6 +16,9 @@ namespace UanlSISM.Controllers
         [Authorize]
         public ActionResult OrdenCompra()
         {
+            ViewBag.PROVEEDORES = new SelectList(db.Proveedor.ToList(), "Id", "Prov_Nombre" );
+            //ViewBag.PROVEEDORES = new SelectList(db.usuario.Include(ñ => ñ.rol).Where(u => u.rol.Nombre == "Cliente").ToList(), "Id", "Nombre");
+
             return View();
         }
 

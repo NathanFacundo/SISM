@@ -1155,7 +1155,7 @@
     </Compile>
     <Compile Include="Models\ProcAmbulatorios.cs" />
     <Compile Include="Models\Proveedor.cs">
-      <DependentUpon>Inventario.tt</DependentUpon>
+      <DependentUpon>Req.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\proveedor_subservicio.cs">
       <DependentUpon>Dhabientes.tt</DependentUpon>

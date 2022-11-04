@@ -10,6 +10,7 @@
         <EntityTypeShape EntityType="SERVMEDModel6.Requisicion_1" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="SERVMEDModel6.Usuario" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
         <AssociationConnector Association="SERVMEDModel6.FK_DetalleReq_Requisicion" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SERVMEDModel6.Proveedor" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
