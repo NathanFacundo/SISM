@@ -94,6 +94,7 @@
                                 <th>Clave</th>
                                 <th>Descripción</th>
                                 <th>Existencia</th>
+                                <th>Licitación</th>
                                 <th>Compendio</th>
                                 <th>Agregar</th>
                             </tr>
@@ -232,8 +233,8 @@
                                     <h10 style="color:green">Fecha Impresión: </h10><br />
                                     <a style="font-size:13px" id="Fecha"></a>
                                 </th>
-                                <th></th>
-                                <th><h8 style="color:black"> <em><b id="EstContrato"></b></em></h8></th>
+                                @*<th></th>*@
+                                <th COLSPAN="2"><h8 style="color:black"> <em><b id="EstContrato"></b></em></h8></th>
                             </tr>
 
                             <tr>
@@ -306,7 +307,7 @@
     </div>
 </div>
 
-<script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
+<script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.1/dist/jquery.table2excel.min.js"></script>
 
 <script>
     $("#Xcel2").click(function () {
@@ -354,13 +355,13 @@
 
         $('#example').DataTable({
             responsive: true,
-            searching: false,
+            searching: true,
             info: true,
             lengthChange: false,
             pageLength: 20,
             language: {
                 "zeroRecords": " ",
-                "info": "_TOTAL_  Derechohabientes",
+                "info": "_TOTAL_  Requisiciones",
                 "infoEmpty": "",
                 "paginate": {
                     "first": "Primero",
@@ -384,7 +385,7 @@
             lengthChange: false,
             language: {
                 "zeroRecords": " ",
-                "search": "Buscar Medicamento por Clave/Descipción:",
+                "search": "Buscar:",
                 "info": "",
                 "infoEmpty": "",
                 "paginate": {
@@ -477,7 +478,7 @@
             lengthChange: false,
             language: {
                 "zeroRecords": " ",
-                "search": "Buscar Medicamento por Clave/Descipción:",
+                "search": "Buscar:",
                 "info": "_TOTAL_  Sustancias",
                 "infoEmpty": "",
                 "paginate": {
@@ -495,7 +496,9 @@
                 { 'data': 'Clave', className: "text-center" },
                 { 'data': 'Descripcion', className: "text-center" },
                 { 'data': 'Existencia', className: "text-center" },
-                { 'data': 'Compendio', className: "text-center" },
+                { "data": "Licitacion", className: "text-center", render: function (data) { return (data == 1 ? '<h8 style="color:black; ">' + "LICITADO" + '</h8>' : '<h8 style="color:black; ">' + "NO LICITADO" + '</h8>'); } },
+                //{ 'data': 'Compendio', className: "text-center" },
+                { "data": "Compendio", className: "text-center", render: function (data) { return (data == null ? '<h8 style="color:black; ">' + "SIN COMPENDIO" + '</h8>' : '<a>' + data + '</a>'); } },
                 {
                     "className": 'text-center',
                     "orderable": false,
@@ -595,7 +598,8 @@
             columns: [
                 { 'data': 'Clave', className: "text-center" },
                 { 'data': 'descripcion_21', className: "text-center" },
-                { 'data': 'Compendio', className: "text-center" },
+                //{ 'data': 'Compendio', className: "text-center" },
+                { "data": "Compendio", className: "text-center", render: function (data) { return (data == null ? '<h8 style="color:black; ">' + "SIN COMPENDIO" + '</h8>' : '<a>' + data + '</a>'); } },
                 { 'data': 'CANTIDAD', className: "text-center", render: function (data) { return "<input id='InputCantidad' style='width:70px; border:0; border-bottom:1px solid;  background: transparent;' type='number' min='1' max='2000' value='" + data + "'></input>" } },
                 {
                     "className": 'text-center',
@@ -637,7 +641,7 @@
 
                 var EstatusContrato = "";
                 if (document.getElementById('cb1').checked) {
-                    EstatusContrato = "Contrato 1001";
+                    EstatusContrato = "UANL-DGA-DA-022/08/2022";
                 } else {
                     EstatusContrato = "Sin Contrato";
                 }
@@ -726,7 +730,7 @@
 
         table = $('#example').DataTable({
             responsive: true,
-            searching: false,
+            searching: true,
             info: true,
             deferRender: true,
             scroller: true,
@@ -735,6 +739,7 @@
             lengthChange: false,
             language: {
                 "zeroRecords": " ",
+                "search": "Buscar:",
                 "info": "_TOTAL_  Requisiciones",
                 "infoEmpty": "",
                 "paginate": {
@@ -753,7 +758,8 @@
                 { 'data': 'Clave', className: "text-center" },
                 { 'data': 'Fecha', className: "text-center" },
                 { 'data': 'Id_User', className: "text-center" },
-                { 'data': 'EstatusContrato', className: "text-center" },
+                //{ 'data': 'EstatusContrato', className: "text-center" },
+                { "data": "EstatusContrato", className: "text-center", render: function (data) { return (data === 'UANL-DGA-DA-022/08/2022' ? '<h8 style="color:black; ">' + "SI" + '</h8>' : '<h8 style="color:black; ">' + "NO" + '</h8>'); } },
                 {
                     "className": 'text-center',
                     "orderable": false,
@@ -837,7 +843,8 @@
                             return (row.ORDEN = meta.row + meta.settings._iDisplayStart + 1);
                         }
                     },
-                    { "data": "Compendio", className: "text-center" },
+                    //{ "data": "Compendio", className: "text-center" },
+                    { "data": "Compendio", className: "text-center", render: function (data) { return (data == null ? '<h8 style="color:black; ">' + "SIN COMPENDIO" + '</h8>' : '<a>' + data + '</a>'); } },
                     { "data": "Clave", className: "text-center" },
                     { "data": "Descripcion", className: "text-center" },
                     { "data": "Cantidad", className: "text-center" },
@@ -865,7 +872,7 @@
 
                 var EstatusContrato = "";
                 if (document.getElementById('cb1').checked) {
-                    EstatusContrato = "Contrato 1001";
+                    EstatusContrato = "UANL-DGA-DA-022/08/2022";
                 } else {
                     EstatusContrato = "Sin Contrato";
                 }

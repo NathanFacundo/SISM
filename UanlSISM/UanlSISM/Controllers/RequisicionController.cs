@@ -107,6 +107,7 @@ namespace UanlSISM.Controllers
             public string Descripcion { get; set; }
             public int Existencia { get; set; }
             public string Compendio { get; set; }
+            public int Licitacion { get; set; }
         }
 
         Models.SERVMEDEntities4 DAM = new Models.SERVMEDEntities4();
@@ -116,7 +117,7 @@ namespace UanlSISM.Controllers
             try
             {
                 //var query = db.SP_ObtenerSustancias_Milton();
-                string query = "SELECT Sus.Clave AS Clave, Sus.descripcion_21 AS Descripcion, Inv.ManejoDisponible AS Existencia, Sus.Compendio As Compendio " +
+                string query = "SELECT Sus.Clave AS Clave, Sus.descripcion_21 AS Descripcion, Inv.ManejoDisponible AS Existencia, Sus.Compendio As Compendio, Sus.LicitacionStatus As Licitacion " +
                                "FROM Sustancia AS Sus " +
                                "INNER JOIN InvAlmFarm AS Inv ON Sus.Id = Inv.Id_Sustancia " +
                                "WHERE(Sus.descripcion_21 IS NOT NULL) " +

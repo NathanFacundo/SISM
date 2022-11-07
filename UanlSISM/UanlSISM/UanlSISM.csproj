@@ -1795,7 +1795,7 @@
       <DependentUpon>Dhabientes.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Usuario.cs">
-      <DependentUpon>Req.tt</DependentUpon>
+      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ValeEntrada.cs">
       <DependentUpon>Inventario.tt</DependentUpon>
