@@ -101,10 +101,10 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-12">
                             <div class="input-group" id="LABEL">
-                                <span style="height:30px" class="input-group-text">Proveedor:</span>
-                                <label style="height:30px" type="text" class="form-control" id="PROV" name="PROV" />
+                                <span style="height:30px;" class="input-group-text">Proveedor:</span>
+                                <label style="height:30px;" type="text" class="form-control" id="PROV" name="PROV" />
                             </div>
                         </div>
                     </div>
@@ -296,7 +296,6 @@
             var selected = combo.options[combo.selectedIndex].text;
             document.getElementById('PROV').textContent = selected;
         });
-        
 
         function LlenDetalle(Lista) {
             var table12 = $('#tblDetalleRequi').DataTable({
@@ -335,6 +334,10 @@
                 ]
             });
         }
+
+        $('#DetalleRequiModal').on('hidden.bs.modal', function () {
+            location.reload();
+        })
     });
 
 
