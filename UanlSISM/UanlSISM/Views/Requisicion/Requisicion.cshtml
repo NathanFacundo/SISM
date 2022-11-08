@@ -234,7 +234,10 @@
                                     <a style="font-size:13px" id="Fecha"></a>
                                 </th>
                                 @*<th></th>*@
-                                <th COLSPAN="2"><h8 style="color:black"> <em><b id="EstContrato"></b></em></h8></th>
+                            <th COLSPAN="2">
+                                <h10 id="Contrato" style="color:green">Con Contrato </h10><br />
+                                <a style="font-size: 13px" id="EstContrato"></a>
+                            </th>
                             </tr>
 
                             <tr>
@@ -792,8 +795,10 @@
 
             if (response[0].EstatusContrato == "Sin Contrato") {
                 $('#EstContrato').hide();
+                $('#Contrato').hide();
             } else {
                 $('#EstContrato').show();
+                $('#Contrato').show();
             }
 
             $('#UsRequi').html(response[0].Usuario);
