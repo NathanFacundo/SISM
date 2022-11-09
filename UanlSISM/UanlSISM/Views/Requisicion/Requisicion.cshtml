@@ -358,7 +358,7 @@
 
         $('#example').DataTable({
             responsive: true,
-            searching: true,
+            searching: false,
             info: true,
             lengthChange: false,
             pageLength: 20,
@@ -524,7 +524,7 @@
             if (keycode == 13) {
 
                 if (count = 1)
-                AgregarALista(value)
+                    AgregarALista(value)
             }
         });
 
@@ -733,7 +733,7 @@
 
         table = $('#example').DataTable({
             responsive: true,
-            searching: true,
+            searching: false,
             info: true,
             deferRender: true,
             scroller: true,
