@@ -37,5 +37,6 @@ namespace UanlSISM.Models
         public virtual DbSet<SISM_COTIZACIONES> SISM_COTIZACIONES { get; set; }
         public virtual DbSet<SISM_DETALLE_REQ_FARMACIA> SISM_DETALLE_REQ_FARMACIA { get; set; }
         public virtual DbSet<SISM_REQUISICION_FARMACIA> SISM_REQUISICION_FARMACIA { get; set; }
+        public virtual DbSet<SISM_COSTEO_LICITACION> SISM_COSTEO_LICITACION { get; set; }
     }
 }

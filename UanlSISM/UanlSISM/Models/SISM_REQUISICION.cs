@@ -30,6 +30,7 @@ namespace UanlSISM.Models
         public Nullable<int> Estatus { get; set; }
         public string claveOLD { get; set; }
         public string EstatusContrato { get; set; }
+        public string EstatusOC { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SISM_DET_REQUISICION> SISM_DET_REQUISICION { get; set; }

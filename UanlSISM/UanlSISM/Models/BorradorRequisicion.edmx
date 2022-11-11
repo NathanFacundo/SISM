@@ -28,6 +28,15 @@
           <Property Name="CostoAnterior" Type="money" />
           <Property Name="CostoActual" Type="money" />
         </EntityType>
+        <EntityType Name="SISM_COSTEO_LICITACION">
+          <Key>
+            <PropertyRef Name="Id_CosteoL" />
+          </Key>
+          <Property Name="Id_CosteoL" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Sustancia" Type="int" />
+          <Property Name="Clave" Type="int" />
+          <Property Name="PrecioUnitario" Type="float" />
+        </EntityType>
         <EntityType Name="SISM_COTIZACIONES">
           <Key>
             <PropertyRef Name="Id" />
@@ -135,6 +144,7 @@
           <Property Name="Estatus" Type="int" />
           <Property Name="claveOLD" Type="varchar" MaxLength="30" />
           <Property Name="EstatusContrato" Type="varchar" MaxLength="30" />
+          <Property Name="EstatusOC" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="SISM_REQUISICION_FARMACIA">
           <Key>
@@ -235,6 +245,7 @@
         <EntityContainer Name="SISM_SIST_MEDModelStoreContainer">
           <EntitySet Name="SISM_BORRADOR_REQUI" EntityType="Self.SISM_BORRADOR_REQUI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SISM_CODIGOBARRAS" EntityType="Self.SISM_CODIGOBARRAS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SISM_COSTEO_LICITACION" EntityType="Self.SISM_COSTEO_LICITACION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SISM_COTIZACIONES" EntityType="Self.SISM_COTIZACIONES" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SISM_DET_REQUISICION" EntityType="Self.SISM_DET_REQUISICION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SISM_DET_VALE_ENTRADA" EntityType="Self.SISM_DET_VALE_ENTRADA" Schema="dbo" store:Type="Tables" />
@@ -377,6 +388,7 @@
           <Property Name="EstatusContrato" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="SISM_DET_REQUISICION" Relationship="Self.FK__SISM_DET___Id_Re__45F365D3" FromRole="SISM_REQUISICION" ToRole="SISM_DET_REQUISICION" />
           <NavigationProperty Name="SISM_COTIZACIONES" Relationship="SISM_SIST_MEDModel.FK__SISM_COTI__Id_Re__5CD6CB2B" FromRole="SISM_REQUISICION" ToRole="SISM_COTIZACIONES" />
+          <Property Name="EstatusOC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="SISM_VALE_ENTRADA">
           <Key>
@@ -477,6 +489,7 @@
             <End Role="SISM_REQUISICION_FARMACIA" EntitySet="SISM_REQUISICION_FARMACIA" />
             <End Role="SISM_DETALLE_REQ_FARMACIA" EntitySet="SISM_DETALLE_REQ_FARMACIA" />
           </AssociationSet>
+          <EntitySet Name="SISM_COSTEO_LICITACION" EntityType="SISM_SIST_MEDModel.SISM_COSTEO_LICITACION" />
         </EntityContainer>
         <EntityType Name="SISM_COTIZACIONES">
           <Key>
@@ -551,6 +564,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SISM_COSTEO_LICITACION">
+          <Key>
+            <PropertyRef Name="Id_CosteoL" />
+          </Key>
+          <Property Name="Id_CosteoL" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Sustancia" Type="Int32" />
+          <Property Name="Clave" Type="Int32" />
+          <Property Name="PrecioUnitario" Type="Double" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -649,6 +671,7 @@
           <EntitySetMapping Name="SISM_REQUISICION">
             <EntityTypeMapping TypeName="SISM_SIST_MEDModel.SISM_REQUISICION">
               <MappingFragment StoreEntitySet="SISM_REQUISICION">
+                <ScalarProperty Name="EstatusOC" ColumnName="EstatusOC" />
                 <ScalarProperty Name="Id_Requicision" ColumnName="Id_Requicision" />
                 <ScalarProperty Name="Clave" ColumnName="Clave" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
@@ -721,6 +744,16 @@
                 <ScalarProperty Name="UsuarioRegistra" ColumnName="UsuarioRegistra" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Id_Requisicion_Farm" ColumnName="Id_Requisicion_Farm" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SISM_COSTEO_LICITACION">
+            <EntityTypeMapping TypeName="SISM_SIST_MEDModel.SISM_COSTEO_LICITACION">
+              <MappingFragment StoreEntitySet="SISM_COSTEO_LICITACION">
+                <ScalarProperty Name="PrecioUnitario" ColumnName="PrecioUnitario" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Id_Sustancia" ColumnName="Id_Sustancia" />
+                <ScalarProperty Name="Id_CosteoL" ColumnName="Id_CosteoL" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -50,6 +50,7 @@ namespace UanlSISM.Controllers
             try
             {
                 var query = (from a in ConBD.SISM_REQUISICION
+                             where a.EstatusOC == "0"
                              select a).ToList();
 
                 var results1 = new List<ListCampos>();

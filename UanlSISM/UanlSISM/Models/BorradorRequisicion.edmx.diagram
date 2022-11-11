@@ -23,6 +23,7 @@
         <EntityTypeShape EntityType="SISM_SIST_MEDModel.SISM_DETALLE_REQ_FARMACIA" Width="2.5" PointX="13.625" PointY="0.5" />
         <EntityTypeShape EntityType="SISM_SIST_MEDModel.SISM_REQUISICION_FARMACIA" Width="2.625" PointX="10.625" PointY="0.5" />
         <AssociationConnector Association="SISM_SIST_MEDModel.FK__SISM_DETA__Id_Re__619B8048" />
+        <EntityTypeShape EntityType="SISM_SIST_MEDModel.SISM_COSTEO_LICITACION" Width="1.5" PointX="0.75" PointY="7.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

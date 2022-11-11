@@ -1391,6 +1391,9 @@
     <Compile Include="Models\SISM_CODIGOBARRAS.cs">
       <DependentUpon>BorradorRequisicion.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SISM_COSTEO_LICITACION.cs">
+      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SISM_COTIZACIONES.cs">
       <DependentUpon>BorradorRequisicion.tt</DependentUpon>
     </Compile>

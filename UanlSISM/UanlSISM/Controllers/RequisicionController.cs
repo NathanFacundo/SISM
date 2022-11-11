@@ -295,7 +295,7 @@ namespace UanlSISM.Controllers
                                 select a).FirstOrDefault();
 
                 Requisicion.EstatusContrato = Borrador.EstatusContrato;
-
+                Requisicion.EstatusOC = "0";
                 ConBD.SISM_REQUISICION.Add(Requisicion);
                 ConBD.SaveChanges();
                 //-----------
@@ -654,6 +654,7 @@ namespace UanlSISM.Controllers
                 //NuevaRequi.Estatus = "Re";
                 NuevaRequi.claveOLD = Convert.ToString(ClaveNueva);
                 NuevaRequi.EstatusContrato = StatusContrato;
+                NuevaRequi.EstatusOC = "0";
 
                 ConBD.SISM_REQUISICION.Add(NuevaRequi);
                 ConBD.SaveChanges();
@@ -797,6 +798,74 @@ namespace UanlSISM.Controllers
 
 
                 return Json(new { MENSAJE = "Succe: Se generó la Requisición" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        //BORRADOR DEL BORRADOR
+        public JsonResult GenerarBorradorX2(List<SISM_DETALLE_BORRADOR_REQUI> ListaSustanciasBorrador, int Id_FolioBorrador)
+        {
+            
+            var UsuarioRegistra = User.Identity.GetUserName();
+            var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
+            var fechaDT = DateTime.Parse(fecha);
+            var ip_realiza = Request.UserHostAddress;
+            try
+            {
+                //Buscamos el borrador (este) para cambiarle el estatus y que ya no aparesca ya que se hará borrador del borrador
+                var Borrador = (from a in ConBD.SISM_BORRADOR_REQUI
+                                where a.Id_BorradorRequi == Id_FolioBorrador
+                                select a).FirstOrDefault();
+
+                Borrador.Estatus = "Borrador del Borrador";
+                ConBD.SaveChanges();
+
+                //Creamos borrador del borrador (nuevo borrador)
+                SISM_BORRADOR_REQUI BorradorRequi = new SISM_BORRADOR_REQUI();
+                BorradorRequi.Fecha = fechaDT;
+                BorradorRequi.UsuarioRegistra = UsuarioRegistra;
+                BorradorRequi.Estatus = "Borrador Generado";
+                BorradorRequi.ip_realiza = ip_realiza;
+                BorradorRequi.EstatusContrato = Borrador.EstatusContrato;
+                ConBD.SISM_BORRADOR_REQUI.Add(BorradorRequi);
+                ConBD.SaveChanges();
+
+                var IdBorrador = (from a in ConBD.SISM_BORRADOR_REQUI
+                                  where a.UsuarioRegistra == UsuarioRegistra
+                                  select a).OrderByDescending(u => u.Id_BorradorRequi).FirstOrDefault();
+
+                foreach (var item in ListaSustanciasBorrador)
+                {
+                    SISM_DETALLE_BORRADOR_REQUI nuevoDetalle = new SISM_DETALLE_BORRADOR_REQUI();
+                    //nuevoDetalle.Cantidad = item.CANTIDAD;
+
+                    if (item.CANTIDAD_NUEVA > 0)
+                    {
+                        if (item.CANTIDAD_NUEVA > item.Cantidad || item.CANTIDAD_NUEVA == item.Cantidad)
+                            nuevoDetalle.Cantidad = item.Cantidad + item.CANTIDAD_NUEVA;
+
+                        if (item.CANTIDAD_NUEVA < item.Cantidad)
+                            nuevoDetalle.Cantidad = item.Cantidad - item.CANTIDAD_NUEVA;
+                    }
+                    else
+                    {
+                        nuevoDetalle.Cantidad = item.Cantidad;
+                    }
+
+                    nuevoDetalle.Clave = item.Clave;
+                    nuevoDetalle.Id_Sustancia = item.Id_Sustancia;
+                    nuevoDetalle.Id_BorradorRequi = IdBorrador.Id_BorradorRequi;
+                    nuevoDetalle.Descripcion = item.Descripcion;
+                    nuevoDetalle.Compendio = item.Compendio;
+
+                    ConBD.SISM_DETALLE_BORRADOR_REQUI.Add(nuevoDetalle);
+                    ConBD.SaveChanges();
+                }
+
+                return Json(new { MENSAJE = "Succe: Se guardó con éxito el Borrador" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
