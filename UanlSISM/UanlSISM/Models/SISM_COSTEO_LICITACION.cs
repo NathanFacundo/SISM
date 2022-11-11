@@ -16,7 +16,7 @@ namespace UanlSISM.Models
     {
         public int Id_CosteoL { get; set; }
         public Nullable<int> Id_Sustancia { get; set; }
-        public Nullable<int> Clave { get; set; }
+        public string Clave { get; set; }
         public Nullable<double> PrecioUnitario { get; set; }
     }
 }

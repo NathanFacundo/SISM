@@ -21,6 +21,8 @@ namespace UanlSISM.Models
         public string Clave { get; set; }
         public string Descripcion { get; set; }
         public string Compendio { get; set; }
+        public Nullable<double> PrecioUnitario { get; set; }
+        public Nullable<double> Total { get; set; }
     
         public virtual SISM_REQUISICION SISM_REQUISICION { get; set; }
     }

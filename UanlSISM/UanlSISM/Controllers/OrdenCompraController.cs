@@ -43,6 +43,10 @@ namespace UanlSISM.Controllers
             public int? Existencia { get; set; }
             
             public string Compendio { get; set; }
+
+            public double PrecioUnit { get; set; }
+
+            public double Total { get; set; }
         }
 
         public ActionResult ObtenerRequisInicio()
@@ -107,7 +111,9 @@ namespace UanlSISM.Controllers
                                  a.Fecha,
                                  a.Id_User,
                                  EstatusContrato = a.EstatusContrato,
-                                 det.Compendio
+                                 det.Compendio,
+                                 det.PrecioUnitario,
+                                 det.Total
                              }).ToList();
 
                 var results1 = new List<ListCampos>();
@@ -136,7 +142,9 @@ namespace UanlSISM.Controllers
                             Usuario = q.Id_User,
                             Fecha1 = string.Format("{0:d/M/yy hh:mm tt}", fechaDT),
                             EstatusContrato = q.EstatusContrato,
-                            Compendio = q.Compendio
+                            Compendio = q.Compendio,
+                            PrecioUnit = (double)q.PrecioUnitario,
+                            Total = (double)q.Total
                         };
                         results1.Add(resultado);
                     }

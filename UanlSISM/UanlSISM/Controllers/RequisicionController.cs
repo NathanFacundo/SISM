@@ -673,12 +673,31 @@ namespace UanlSISM.Controllers
                 foreach (var item in ListaSustanciasRequiDirecta)
                 {
                     SISM_DET_REQUISICION nuevoDetalle = new SISM_DET_REQUISICION();
+
                     nuevoDetalle.Id_Requicision = IdRequi.Id_Requicision;
                     nuevoDetalle.Id_Sustancia = item.Id;
                     nuevoDetalle.Cantidad = item.CANTIDAD;
                     nuevoDetalle.Clave = item.Clave;
                     nuevoDetalle.Descripcion = item.descripcion_21;
                     nuevoDetalle.Compendio = item.Compendio;
+
+                    if (StatusContrato != "Sin Contrato")
+                    {
+                        var ARTICULO = (from a in ConBD.SISM_COSTEO_LICITACION
+                                        where a.Id_Sustancia == item.Id
+                                        select a).FirstOrDefault();
+
+                        if (ARTICULO != null)
+                        {
+                            nuevoDetalle.PrecioUnitario = ARTICULO.PrecioUnitario;
+
+                            //nuevoDetalle.Total = nuevoDetalle.PrecioUnitario * nuevoDetalle.Cantidad;
+                            nuevoDetalle.Total = (double?)decimal.Round((decimal)(nuevoDetalle.Cantidad * nuevoDetalle.PrecioUnitario), 2);
+                        }
+                        else
+                        {
+                        }
+                    }
 
                     ConBD.SISM_DET_REQUISICION.Add(nuevoDetalle);
                     ConBD.SaveChanges();

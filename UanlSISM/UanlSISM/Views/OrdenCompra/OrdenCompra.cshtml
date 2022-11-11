@@ -29,16 +29,17 @@
         margin-bottom: 1vw;
     }
 
-    table.dataTable {
-        width: 100% !important;
-    }
-
     #Id {
         color: black;
     }
 
     .btn-space {
         margin-right: 5px;
+    }
+
+    #DetalleRequiModal .modal-dialog {
+        height: 100vh;
+        margin-top: 0px;
     }
 </style>
 
@@ -71,7 +72,7 @@
 </div>
 
 <div class="modal fade" id="DetalleRequiModal" tabindex="-1" role="dialog" aria-labelledby="DetalleRequiModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-body imprimir-content">
 
@@ -136,7 +137,7 @@
                         <thead>
 
                             <tr>
-                                <th COLSPAN="5">
+                                <th COLSPAN="7">
                                     <div class="input-group" id="LABEL">
                                         <span style="height:30px;" class="input-group-text">Proveedor:</span>
                                         <label style="height:30px;" type="text" class="form-control" id="PROV" name="PROV" />
@@ -149,17 +150,18 @@
                                     <h10 style="color:green">Folio Req:  </h10><br />
                                     <a style="font-size:13px" id="NoRequi"></a>
                                 </th>
-                                <th>
+                                <th COLSPAN="2">
                                     <h10 style="color:green">Fecha Req: </h10><br />
                                     <a style="font-size:13px" id="FechaRequi"></a>
                                 </th>
-                                <th>
+                                <th COLSPAN="2">
                                     <h10 style="color:green">Fecha O.C: </h10><br />
                                     <a style="font-size:13px" id="FechaOC"></a>
                                 </th>
+                                
                                 @*<th>
-                                        <h8 style="color:black"> <em><b id="EstContrato"></b></em></h8>
-                                    </th>*@
+            <h8 style="color:black"> <em><b id="EstContrato"></b></em></h8>
+        </th>*@
                                 <th COLSPAN="2">
                                     <h10 id="Contrato" style="color:green">Con Contrato </h10><br />
                                     <a style="font-size: 13px" id="EstContrato"></a>
@@ -169,8 +171,10 @@
                                 <th style="width:10px"></th>
                                 <th>Clave Med.</th>
                                 <th>Descripción</th>
-                                <th>Cant. Solicitada</th>
                                 <th>Compendio</th>
+                                <th>Cant. Solicitada</th>
+                                <th>Precio U.</th>
+                                <th>Total</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -444,8 +448,10 @@
                     },
                     { "data": "Clave", className: "text-center" },
                     { "data": "Descripcion", className: "text-center" },
-                    { "data": "Cantidad", className: "text-center" },
                     { "data": "Compendio", className: "text-center" },
+                    { "data": "Cantidad", className: "text-center" },
+                    { "data": "PrecioUnit", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                    { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') }
                 ]
             });
         }
