@@ -12,18 +12,18 @@ namespace UanlSISM.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class DetalleOC
+    public partial class SISM_DETALLE_OC
     {
         public int Id { get; set; }
         public int Id_OrdenCompra { get; set; }
-        public int Id_CodigoBarras { get; set; }
-        public int Cantidad { get; set; }
-        public double PreUnit { get; set; }
+        public Nullable<int> Id_CodigoBarrar { get; set; }
+        public Nullable<int> Cantidad { get; set; }
+        public Nullable<double> PreUnit { get; set; }
         public Nullable<int> Obsequio { get; set; }
         public Nullable<bool> Status { get; set; }
-        public Nullable<int> Id_Sustancia { get; set; }
+        public Nullable<int> Id_Sustencia { get; set; }
         public Nullable<int> Pendiente { get; set; }
     
-        public virtual OrdenCompra OrdenCompra { get; set; }
+        public virtual SISM_ORDEN_COMPRA SISM_ORDEN_COMPRA { get; set; }
     }
 }

@@ -97,6 +97,20 @@
           <Property Name="Descripcion" Type="varchar" MaxLength="300" />
           <Property Name="Compendio" Type="varchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="SISM_DETALLE_OC">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_OrdenCompra" Type="int" Nullable="false" />
+          <Property Name="Id_CodigoBarrar" Type="int" />
+          <Property Name="Cantidad" Type="int" />
+          <Property Name="PreUnit" Type="float" />
+          <Property Name="Obsequio" Type="int" />
+          <Property Name="Status" Type="bit" />
+          <Property Name="Id_Sustencia" Type="int" />
+          <Property Name="Pendiente" Type="int" />
+        </EntityType>
         <EntityType Name="SISM_DETALLE_REQ_FARMACIA">
           <Key>
             <PropertyRef Name="Id_Detalle_ReqFarm" />
@@ -132,6 +146,23 @@
           <Property Name="Fecha_Mov" Type="datetime" />
           <Property Name="Id_User" Type="varchar(max)" />
           <Property Name="IP_User" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="SISM_ORDEN_COMPRA">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Clave" Type="varchar" MaxLength="15" />
+          <Property Name="Id_Requisicion" Type="int" />
+          <Property Name="Id_Proveedor" Type="int" />
+          <Property Name="Fecha" Type="datetime" />
+          <Property Name="FechaMod" Type="datetime" />
+          <Property Name="Forma_Pago" Type="varchar" MaxLength="50" />
+          <Property Name="Folio" Type="varchar" MaxLength="50" />
+          <Property Name="Status" Type="bit" />
+          <Property Name="UsuarioId" Type="int" />
+          <Property Name="Cerrado" Type="bit" />
+          <Property Name="Cuadro" Type="int" />
         </EntityType>
         <EntityType Name="SISM_REQUISICION">
           <Key>
@@ -244,6 +275,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__SISM_DETA__Pendi__68487DD7">
+          <End Role="SISM_ORDEN_COMPRA" Type="Self.SISM_ORDEN_COMPRA" Multiplicity="1" />
+          <End Role="SISM_DETALLE_OC" Type="Self.SISM_DETALLE_OC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SISM_ORDEN_COMPRA">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SISM_DETALLE_OC">
+              <PropertyRef Name="Id_OrdenCompra" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="SISM_SIST_MEDModelStoreContainer">
           <EntitySet Name="SISM_BORRADOR_REQUI" EntityType="Self.SISM_BORRADOR_REQUI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SISM_CODIGOBARRAS" EntityType="Self.SISM_CODIGOBARRAS" Schema="dbo" store:Type="Tables" />
@@ -252,9 +295,11 @@
           <EntitySet Name="SISM_DET_REQUISICION" EntityType="Self.SISM_DET_REQUISICION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SISM_DET_VALE_ENTRADA" EntityType="Self.SISM_DET_VALE_ENTRADA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SISM_DETALLE_BORRADOR_REQUI" EntityType="Self.SISM_DETALLE_BORRADOR_REQUI" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SISM_DETALLE_OC" EntityType="Self.SISM_DETALLE_OC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SISM_DETALLE_REQ_FARMACIA" EntityType="Self.SISM_DETALLE_REQ_FARMACIA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SISM_INV_MED" EntityType="Self.SISM_INV_MED" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SISM_MOV_INV" EntityType="Self.SISM_MOV_INV" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SISM_ORDEN_COMPRA" EntityType="Self.SISM_ORDEN_COMPRA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SISM_REQUISICION" EntityType="Self.SISM_REQUISICION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SISM_REQUISICION_FARMACIA" EntityType="Self.SISM_REQUISICION_FARMACIA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SISM_VALE_ENTRADA" EntityType="Self.SISM_VALE_ENTRADA" Schema="dbo" store:Type="Tables" />
@@ -281,6 +326,10 @@
           <AssociationSet Name="FK__SISM_DETA__Id_Re__619B8048" Association="Self.FK__SISM_DETA__Id_Re__619B8048">
             <End Role="SISM_REQUISICION_FARMACIA" EntitySet="SISM_REQUISICION_FARMACIA" />
             <End Role="SISM_DETALLE_REQ_FARMACIA" EntitySet="SISM_DETALLE_REQ_FARMACIA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SISM_DETA__Pendi__68487DD7" Association="Self.FK__SISM_DETA__Pendi__68487DD7">
+            <End Role="SISM_ORDEN_COMPRA" EntitySet="SISM_ORDEN_COMPRA" />
+            <End Role="SISM_DETALLE_OC" EntitySet="SISM_DETALLE_OC" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -494,6 +543,12 @@
             <End Role="SISM_DETALLE_REQ_FARMACIA" EntitySet="SISM_DETALLE_REQ_FARMACIA" />
           </AssociationSet>
           <EntitySet Name="SISM_COSTEO_LICITACION" EntityType="SISM_SIST_MEDModel.SISM_COSTEO_LICITACION" />
+          <EntitySet Name="SISM_DETALLE_OC" EntityType="SISM_SIST_MEDModel.SISM_DETALLE_OC" />
+          <EntitySet Name="SISM_ORDEN_COMPRA" EntityType="SISM_SIST_MEDModel.SISM_ORDEN_COMPRA" />
+          <AssociationSet Name="FK__SISM_DETA__Pendi__68487DD7" Association="SISM_SIST_MEDModel.FK__SISM_DETA__Pendi__68487DD7">
+            <End Role="SISM_ORDEN_COMPRA" EntitySet="SISM_ORDEN_COMPRA" />
+            <End Role="SISM_DETALLE_OC" EntitySet="SISM_DETALLE_OC" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="SISM_COTIZACIONES">
           <Key>
@@ -574,9 +629,54 @@
           </Key>
           <Property Name="Id_CosteoL" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Id_Sustancia" Type="Int32" />
-          <Property Name="Clave" Type="String" />
+          <Property Name="Clave" Type="String" MaxLength="15" Unicode="false" FixedLength="false" />
           <Property Name="PrecioUnitario" Type="Double" />
         </EntityType>
+        <EntityType Name="SISM_DETALLE_OC">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_OrdenCompra" Type="Int32" Nullable="false" />
+          <Property Name="Id_CodigoBarrar" Type="Int32" />
+          <Property Name="Cantidad" Type="Int32" />
+          <Property Name="PreUnit" Type="Double" />
+          <Property Name="Obsequio" Type="Int32" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="Id_Sustencia" Type="Int32" />
+          <Property Name="Pendiente" Type="Int32" />
+          <NavigationProperty Name="SISM_ORDEN_COMPRA" Relationship="SISM_SIST_MEDModel.FK__SISM_DETA__Pendi__68487DD7" FromRole="SISM_DETALLE_OC" ToRole="SISM_ORDEN_COMPRA" />
+        </EntityType>
+        <EntityType Name="SISM_ORDEN_COMPRA">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Clave" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Id_Requisicion" Type="Int32" />
+          <Property Name="Id_Proveedor" Type="Int32" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="FechaMod" Type="DateTime" Precision="3" />
+          <Property Name="Forma_Pago" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Folio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="UsuarioId" Type="Int32" />
+          <Property Name="Cerrado" Type="Boolean" />
+          <Property Name="Cuadro" Type="Int32" />
+          <NavigationProperty Name="SISM_DETALLE_OC" Relationship="SISM_SIST_MEDModel.FK__SISM_DETA__Pendi__68487DD7" FromRole="SISM_ORDEN_COMPRA" ToRole="SISM_DETALLE_OC" />
+        </EntityType>
+        <Association Name="FK__SISM_DETA__Pendi__68487DD7">
+          <End Type="SISM_SIST_MEDModel.SISM_ORDEN_COMPRA" Role="SISM_ORDEN_COMPRA" Multiplicity="1" />
+          <End Type="SISM_SIST_MEDModel.SISM_DETALLE_OC" Role="SISM_DETALLE_OC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SISM_ORDEN_COMPRA">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SISM_DETALLE_OC">
+              <PropertyRef Name="Id_OrdenCompra" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -760,6 +860,39 @@
                 <ScalarProperty Name="Clave" ColumnName="Clave" />
                 <ScalarProperty Name="Id_Sustancia" ColumnName="Id_Sustancia" />
                 <ScalarProperty Name="Id_CosteoL" ColumnName="Id_CosteoL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SISM_DETALLE_OC">
+            <EntityTypeMapping TypeName="SISM_SIST_MEDModel.SISM_DETALLE_OC">
+              <MappingFragment StoreEntitySet="SISM_DETALLE_OC">
+                <ScalarProperty Name="Pendiente" ColumnName="Pendiente" />
+                <ScalarProperty Name="Id_Sustencia" ColumnName="Id_Sustencia" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Obsequio" ColumnName="Obsequio" />
+                <ScalarProperty Name="PreUnit" ColumnName="PreUnit" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Id_CodigoBarrar" ColumnName="Id_CodigoBarrar" />
+                <ScalarProperty Name="Id_OrdenCompra" ColumnName="Id_OrdenCompra" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SISM_ORDEN_COMPRA">
+            <EntityTypeMapping TypeName="SISM_SIST_MEDModel.SISM_ORDEN_COMPRA">
+              <MappingFragment StoreEntitySet="SISM_ORDEN_COMPRA">
+                <ScalarProperty Name="Cuadro" ColumnName="Cuadro" />
+                <ScalarProperty Name="Cerrado" ColumnName="Cerrado" />
+                <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Folio" ColumnName="Folio" />
+                <ScalarProperty Name="Forma_Pago" ColumnName="Forma_Pago" />
+                <ScalarProperty Name="FechaMod" ColumnName="FechaMod" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Id_Proveedor" ColumnName="Id_Proveedor" />
+                <ScalarProperty Name="Id_Requisicion" ColumnName="Id_Requisicion" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

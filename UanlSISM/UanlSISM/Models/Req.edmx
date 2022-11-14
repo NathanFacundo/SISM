@@ -28,6 +28,20 @@
           <Property Name="Cuadro" Type="int" />
           <Property Name="UserId" Type="varchar(max)" />
         </EntityType>
+        <EntityType Name="DetalleOC">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_OrdenCompra" Type="int" Nullable="false" />
+          <Property Name="Id_CodigoBarras" Type="int" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="PreUnit" Type="float" Nullable="false" />
+          <Property Name="Obsequio" Type="int" />
+          <Property Name="Status" Type="bit" />
+          <Property Name="Id_Sustancia" Type="int" />
+          <Property Name="Pendiente" Type="int" />
+        </EntityType>
         <EntityType Name="DetalleReq">
           <Key>
             <PropertyRef Name="Id" />
@@ -38,6 +52,23 @@
           <Property Name="C_Solicitada" Type="int" Nullable="false" />
           <Property Name="C_Recibida" Type="int" />
           <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrdenCompra">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="clave" Type="char" MaxLength="7" Nullable="false" />
+          <Property Name="Id_Requisicion" Type="int" />
+          <Property Name="Id_Proveedor" Type="int" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" />
+          <Property Name="FecMod" Type="datetime" />
+          <Property Name="Forma_Pago" Type="varchar" MaxLength="50" />
+          <Property Name="Folio" Type="varchar" MaxLength="50" />
+          <Property Name="Status" Type="bit" />
+          <Property Name="UsuarioId" Type="int" />
+          <Property Name="Cerrado" Type="bit" Nullable="false" />
+          <Property Name="Cuadro" Type="int" />
         </EntityType>
         <EntityType Name="Proveedor">
           <Key>
@@ -79,6 +110,20 @@
           <Property Name="Usu_Status" Type="bit" Nullable="false" />
           <Property Name="Baja" Type="bit" Nullable="false" />
         </EntityType>
+        <Association Name="FK_DetalleOC_OrdenCompra">
+          <End Role="OrdenCompra" Type="Self.OrdenCompra" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DetalleOC" Type="Self.DetalleOC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrdenCompra">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetalleOC">
+              <PropertyRef Name="Id_OrdenCompra" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DetalleReq_Requisicion">
           <End Role="Requisicion" Type="Self.Requisicion" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -93,15 +138,37 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_OrdenCompra_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="OrdenCompra" Type="Self.OrdenCompra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="UsuarioId" />
+            </Principal>
+            <Dependent Role="OrdenCompra">
+              <PropertyRef Name="UsuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="SERVMEDModel6StoreContainer">
           <EntitySet Name="Cotizaciones" EntityType="Self.Cotizaciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DetalleOC" EntityType="Self.DetalleOC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetalleReq" EntityType="Self.DetalleReq" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrdenCompra" EntityType="Self.OrdenCompra" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proveedor" EntityType="Self.Proveedor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Requisicion" EntityType="Self.Requisicion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DetalleOC_OrdenCompra" Association="Self.FK_DetalleOC_OrdenCompra">
+            <End Role="OrdenCompra" EntitySet="OrdenCompra" />
+            <End Role="DetalleOC" EntitySet="DetalleOC" />
+          </AssociationSet>
           <AssociationSet Name="FK_DetalleReq_Requisicion" Association="Self.FK_DetalleReq_Requisicion">
             <End Role="Requisicion" EntitySet="Requisicion" />
             <End Role="DetalleReq" EntitySet="DetalleReq" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdenCompra_Usuario" Association="Self.FK_OrdenCompra_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="OrdenCompra" EntitySet="OrdenCompra" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -170,6 +237,7 @@
           <Property Name="RolId" Type="Byte" />
           <Property Name="Usu_Status" Type="Boolean" Nullable="false" />
           <Property Name="Baja" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="OrdenCompra" Relationship="SERVMEDModel6.FK_OrdenCompra_Usuario" FromRole="Usuario" ToRole="OrdenCompra" />
         </EntityType>
         <Association Name="FK_DetalleReq_Requisicion">
           <End Role="Requisicion" Type="SERVMEDModel6.Requisicion_1" Multiplicity="1">
@@ -195,6 +263,16 @@
             <End Role="DetalleReq" EntitySet="DetalleReq" />
           </AssociationSet>
           <EntitySet Name="Proveedor" EntityType="SERVMEDModel6.Proveedor" />
+          <EntitySet Name="DetalleOC" EntityType="SERVMEDModel6.DetalleOC" />
+          <EntitySet Name="OrdenCompra" EntityType="SERVMEDModel6.OrdenCompra" />
+          <AssociationSet Name="FK_DetalleOC_OrdenCompra" Association="SERVMEDModel6.FK_DetalleOC_OrdenCompra">
+            <End Role="OrdenCompra" EntitySet="OrdenCompra" />
+            <End Role="DetalleOC" EntitySet="DetalleOC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdenCompra_Usuario" Association="SERVMEDModel6.FK_OrdenCompra_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="OrdenCompra" EntitySet="OrdenCompra" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Proveedor">
           <Key>
@@ -209,6 +287,66 @@
           <Property Name="Prov_uanl" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="EstatusContrato" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="DetalleOC">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_OrdenCompra" Type="Int32" Nullable="false" />
+          <Property Name="Id_CodigoBarras" Type="Int32" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="PreUnit" Type="Double" Nullable="false" />
+          <Property Name="Obsequio" Type="Int32" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="Id_Sustancia" Type="Int32" />
+          <Property Name="Pendiente" Type="Int32" />
+          <NavigationProperty Name="OrdenCompra" Relationship="SERVMEDModel6.FK_DetalleOC_OrdenCompra" FromRole="DetalleOC" ToRole="OrdenCompra" />
+        </EntityType>
+        <EntityType Name="OrdenCompra">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="clave" Type="String" Nullable="false" MaxLength="7" FixedLength="true" Unicode="false" />
+          <Property Name="Id_Requisicion" Type="Int32" />
+          <Property Name="Id_Proveedor" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="FecMod" Type="DateTime" Precision="3" />
+          <Property Name="Forma_Pago" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Folio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="UsuarioId" Type="Int32" />
+          <Property Name="Cerrado" Type="Boolean" Nullable="false" />
+          <Property Name="Cuadro" Type="Int32" />
+          <NavigationProperty Name="DetalleOC" Relationship="SERVMEDModel6.FK_DetalleOC_OrdenCompra" FromRole="OrdenCompra" ToRole="DetalleOC" />
+          <NavigationProperty Name="Usuario" Relationship="SERVMEDModel6.FK_OrdenCompra_Usuario" FromRole="OrdenCompra" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="FK_DetalleOC_OrdenCompra">
+          <End Type="SERVMEDModel6.OrdenCompra" Role="OrdenCompra" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="SERVMEDModel6.DetalleOC" Role="DetalleOC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrdenCompra">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetalleOC">
+              <PropertyRef Name="Id_OrdenCompra" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdenCompra_Usuario">
+          <End Type="SERVMEDModel6.Usuario" Role="Usuario" Multiplicity="0..1" />
+          <End Type="SERVMEDModel6.OrdenCompra" Role="OrdenCompra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="UsuarioId" />
+            </Principal>
+            <Dependent Role="OrdenCompra">
+              <PropertyRef Name="UsuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -290,6 +428,39 @@
                 <ScalarProperty Name="Prov_Telefono" ColumnName="Prov_Telefono" />
                 <ScalarProperty Name="Prov_Direccion" ColumnName="Prov_Direccion" />
                 <ScalarProperty Name="Prov_Nombre" ColumnName="Prov_Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DetalleOC">
+            <EntityTypeMapping TypeName="SERVMEDModel6.DetalleOC">
+              <MappingFragment StoreEntitySet="DetalleOC">
+                <ScalarProperty Name="Pendiente" ColumnName="Pendiente" />
+                <ScalarProperty Name="Id_Sustancia" ColumnName="Id_Sustancia" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Obsequio" ColumnName="Obsequio" />
+                <ScalarProperty Name="PreUnit" ColumnName="PreUnit" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Id_CodigoBarras" ColumnName="Id_CodigoBarras" />
+                <ScalarProperty Name="Id_OrdenCompra" ColumnName="Id_OrdenCompra" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrdenCompra">
+            <EntityTypeMapping TypeName="SERVMEDModel6.OrdenCompra">
+              <MappingFragment StoreEntitySet="OrdenCompra">
+                <ScalarProperty Name="Cuadro" ColumnName="Cuadro" />
+                <ScalarProperty Name="Cerrado" ColumnName="Cerrado" />
+                <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Folio" ColumnName="Folio" />
+                <ScalarProperty Name="Forma_Pago" ColumnName="Forma_Pago" />
+                <ScalarProperty Name="FecMod" ColumnName="FecMod" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Id_Proveedor" ColumnName="Id_Proveedor" />
+                <ScalarProperty Name="Id_Requisicion" ColumnName="Id_Requisicion" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

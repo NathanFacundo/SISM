@@ -11,6 +11,10 @@
         <EntityTypeShape EntityType="SERVMEDModel6.Usuario" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
         <AssociationConnector Association="SERVMEDModel6.FK_DetalleReq_Requisicion" ManuallyRouted="false" />
         <EntityTypeShape EntityType="SERVMEDModel6.Proveedor" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SERVMEDModel6.DetalleOC" Width="1.5" PointX="7.25" PointY="5.625" />
+        <EntityTypeShape EntityType="SERVMEDModel6.OrdenCompra" Width="1.5" PointX="5" PointY="5.25" />
+        <AssociationConnector Association="SERVMEDModel6.FK_DetalleOC_OrdenCompra" />
+        <AssociationConnector Association="SERVMEDModel6.FK_OrdenCompra_Usuario" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

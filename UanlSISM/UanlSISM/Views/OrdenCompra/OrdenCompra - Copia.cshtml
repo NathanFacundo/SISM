@@ -90,11 +90,11 @@
                         <div style="        border: 0.5px solid rgb(217, 220, 217);"></div>
                         <h5>SERVICIOS MÉDICOS</h5>
 
-                        @*<div class="col-12 m-auto">
+                        <div class="col-12 m-auto">
                             <p style="font-size:10px;" class="m-0"><b>U.A.N.L. SERVICIOS MÉDICOS</b></p>
                             <p style="font-size:10px;" class="m-0"><b>GONZALITOS Y HAITI S/N COL. MITRAS CENTRO</b></p>
                             <p style="font-size:10px;" class="m-0"><b>MONTERREY NUEVO LEÓN C.P. 66460 TEL.8113404860</b></p>
-                        </div>*@
+                        </div>
 
                     </div>
                     <div class="col-2 m-auto imprimirLogo">
@@ -104,11 +104,11 @@
 
                 <br />
                 <div class="row" id="contenido">
-                    <h5 class="text-center imprimirTitulo" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Generar Orden de Compra</h5>
+                    <h5 class="text-center imprimirTitulo" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Orden de Compra</h5>
                 </div>
                 <br />
 
-                @*<div class="row" id="imprimir">
+                <div class="row" id="imprimir">
                     <div class="col-md-9">
                         <button type="button" style="width:100%; background-color:rgba(0,74,143,1);" class="btn btn-success imprimir">Imprimir</button>
                     </div>
@@ -117,7 +117,7 @@
                             <a class="btn btn-success text-white" id="Xcel2">Descargar Excel</a>
                         </div>
                     </div>
-                </div>*@
+                </div>
 
                 <div class="row mt-1 mb-1">
 
@@ -152,7 +152,7 @@
 
                             <tr>
                                 <th>
-                                    <h10 style="color:green">Folio Req: </h10><br />
+                                    <h10 style="color:green">Folio Req: @ViewBag.Folio </h10><br />
                                     <a style="font-size:13px" id="NoRequi"></a>
                                 </th>
                                 <th COLSPAN="2">
@@ -195,7 +195,7 @@
 
                 </div>
 
-                @*<div class="row m-0 pt-2 text-center" id="pie" style=" border-collapse: collapse; border-spacing: 0;">
+                <div class="row m-0 pt-2 text-center" id="pie" style=" border-collapse: collapse; border-spacing: 0;">
 
                     <table id="firmas" align="center" BORDER="1">
                         <tbody>
@@ -253,7 +253,7 @@
                         </tbody>
                     </table>
 
-                </div>*@
+                </div>
 
             </div>
         </div>
@@ -389,7 +389,7 @@
         var array = { Id_Requi: Id };
         var url = '@Url.Action("ObtenerDetalleRequi", "OrdenCompra")';
         $.post(url, array).done(function (response) {
-            $('#NoRequi').html(response[0].Folio);
+            //$('#NoRequi').html(response[0].Folio);
             $('#FechaRequi').html(response[0].Fecha);
             $('#FechaOC').html(response[0].Fecha1);
             $('#EstContrato').html(response[0].EstatusContrato);

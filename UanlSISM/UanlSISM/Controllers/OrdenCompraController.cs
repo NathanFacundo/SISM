@@ -98,7 +98,15 @@ namespace UanlSISM.Controllers
             {
                 var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
                 var fechaDT = DateTime.Parse(fecha);
-                
+
+                //Obtener el último folio de la OC para sumar uno (será el nuevo folio de la nueva OC)
+                //var FolioOC = (from a in db.OrdenCompra
+                //               select a).OrderByDescending(u => u.clave).FirstOrDefault();
+
+                //int FolioOC_Nuevo = Convert.ToInt32(FolioOC.clave) + 1;
+                //ViewBag.Folio = FolioOC_Nuevo;
+                //----------------
+
                 var query = (from a in ConBD.SISM_REQUISICION
                              join det in ConBD.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
                              where a.claveOLD == Id_Requi
@@ -157,6 +165,12 @@ namespace UanlSISM.Controllers
             {
                 return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        [Authorize]
+        public ActionResult OrdenesCompra()
+        {
+            return View();
         }
     }
 }

@@ -14,6 +14,12 @@ namespace UanlSISM.Models
     
     public partial class Usuario
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Usuario()
+        {
+            this.OrdenCompra = new HashSet<OrdenCompra>();
+        }
+    
         public int UsuarioId { get; set; }
         public string Usu_User { get; set; }
         public string Usu_Pass { get; set; }
@@ -22,5 +28,8 @@ namespace UanlSISM.Models
         public Nullable<byte> RolId { get; set; }
         public bool Usu_Status { get; set; }
         public bool Baja { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrdenCompra> OrdenCompra { get; set; }
     }
 }

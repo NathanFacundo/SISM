@@ -512,7 +512,7 @@
       <DependentUpon>Derechohabientes.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\DetalleOC.cs">
-      <DependentUpon>Inventario.tt</DependentUpon>
+      <DependentUpon>Req.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DetalleReq.cs">
       <DependentUpon>Req.tt</DependentUpon>
@@ -1104,7 +1104,7 @@
       <DependentUpon>Afiliados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OrdenCompra.cs">
-      <DependentUpon>Inventario.tt</DependentUpon>
+      <DependentUpon>Req.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OrdenesInternamientos.cs" />
     <Compile Include="Models\OrdenInternamiento.Context.cs">
@@ -1400,6 +1400,9 @@
     <Compile Include="Models\SISM_DETALLE_BORRADOR_REQUI.cs">
       <DependentUpon>BorradorRequisicion.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SISM_DETALLE_OC.cs">
+      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SISM_DETALLE_REQ_FARMACIA.cs">
       <DependentUpon>BorradorRequisicion.tt</DependentUpon>
     </Compile>
@@ -1413,6 +1416,9 @@
       <DependentUpon>BorradorRequisicion.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_MOV_INV.cs">
+      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SISM_ORDEN_COMPRA.cs">
       <DependentUpon>BorradorRequisicion.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_REQUISICION.cs">
@@ -1798,7 +1804,7 @@
       <DependentUpon>Dhabientes.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Usuario.cs">
-      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
+      <DependentUpon>Req.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ValeEntrada.cs">
       <DependentUpon>Inventario.tt</DependentUpon>
@@ -3729,6 +3735,8 @@
     <Content Include="Views\Requisicion\BorradorRequisicion.cshtml" />
     <Content Include="Views\Requisicion\Requisicion.cshtml" />
     <Content Include="Views\OrdenCompra\OrdenCompra.cshtml" />
+    <Content Include="Views\OrdenCompra\OrdenesCompra.cshtml" />
+    <Content Include="Views\OrdenCompra\OrdenCompra - Copia.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
