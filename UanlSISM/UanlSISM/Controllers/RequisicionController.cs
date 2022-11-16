@@ -122,7 +122,8 @@ namespace UanlSISM.Controllers
                                "INNER JOIN InvAlmFarm AS Inv ON Sus.Id = Inv.Id_Sustancia " +
                                "WHERE(Sus.descripcion_21 IS NOT NULL) " +
                                "AND(Sus.descripcion_21 <> '') " +
-                               "AND(Inv.InvAlmId = 76) ";
+                               "AND(Inv.InvAlmId = 76) " +
+                               "AND(Sus.LicitacionStatus IS NOT NULL) ";
 
                 var result = DAM.Database.SqlQuery<LstInv1>(query);
                 var res = result.ToList();

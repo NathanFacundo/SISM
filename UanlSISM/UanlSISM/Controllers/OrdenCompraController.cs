@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -171,6 +172,26 @@ namespace UanlSISM.Controllers
         public ActionResult OrdenesCompra()
         {
             return View();
+        }
+
+        public JsonResult GenerarOC(List<SISM_DET_REQUISICION> ListaOC)
+        {
+            var UsuarioRegistra = User.Identity.GetUserName();
+            var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
+            var fechaDT = DateTime.Parse(fecha);
+            var ip_realiza = Request.UserHostAddress;
+            var IdUsuarioCifrado = User.Identity.GetUserId();
+
+            try
+            {
+               
+
+                return Json(new { MENSAJE = "Succe: Se generó la O.C" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

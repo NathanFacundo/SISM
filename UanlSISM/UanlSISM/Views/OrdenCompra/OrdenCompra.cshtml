@@ -160,8 +160,8 @@
                                     <a style="font-size:13px" id="FechaRequi"></a>
                                 </th>
                                 <th COLSPAN="2">
-                                    <h10 style="color:green">Fecha O.C: </h10><br />
-                                    <a style="font-size:13px" id="FechaOC"></a>
+                                    @*<h10 style="color:green">Fecha O.C: </h10><br />
+                                    <a style="font-size:13px" id="FechaOC"></a>*@
                                 </th>
                                 
                                 @*<th>
@@ -260,26 +260,10 @@
     </div>
 </div>
 
-<script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.1/dist/jquery.table2excel.min.js"></script>
 
 <script>
-    $("#Xcel2").click(function () {
-        $("#tblDetalleRequi").table2excel({
-            exclude: ".xls",
-            filename: 'OrdenDeCompra.xls'
-        });
-    });
-</script>
 
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jQuery.print/1.3.3/jQuery.print.min.js'></script>
-
-<script>
-    $('.imprimir').on('click', function () {
-        $.print(".imprimir-content");
-    });
-</script>
-
-<script>
+    var DetRequi = [];
 
     $(document).ready(function () {
 
@@ -334,7 +318,7 @@
         });
     }
 
-    function LlenaTablaRequis(ListaRequis) {
+    function LlenaTablaRequis(DetRequi) {
         var table = $('#Requis').DataTable();
         table.destroy();
 
@@ -361,7 +345,7 @@
                     "rows": " %d filas seleccionadas"
                 },
             },
-            data: ListaRequis,
+            data: DetRequi,
             order: [[1, 'desc']],
             columns: [
                 { 'data': 'Clave', className: "text-center" },
@@ -391,7 +375,7 @@
         $.post(url, array).done(function (response) {
             $('#NoRequi').html(response[0].Folio);
             $('#FechaRequi').html(response[0].Fecha);
-            $('#FechaOC').html(response[0].Fecha1);
+            //$('#FechaOC').html(response[0].Fecha1);
             $('#EstContrato').html(response[0].EstatusContrato);
 
             if (response[0].EstatusContrato == "Sin Contrato") {
@@ -406,7 +390,22 @@
             }
 
             $('#UsRequi').html(response[0].Usuario);
-            LlenDetalle(response);
+
+            //LlenDetalle(response);
+
+            $.grep(response, function (item) {
+                var Insertar = true;
+                $.grep(DetRequi, function (itemEnLista) {
+                    if (item.Clave == itemEnLista.Clave) {
+                        //Insertar = false;
+                    };
+                });
+                if (Insertar) {
+                    //item.CANTIDAD = 1;
+                    DetRequi.push(item);
+                }
+                LlenDetalle(DetRequi);
+            });
 
         }).fail(function (response) {
             Swal.fire({
@@ -421,14 +420,14 @@
             document.getElementById('PROV').textContent = selected;
         });
 
-        function LlenDetalle(Lista) {
+        function LlenDetalle(DetRequi) {
             var table12 = $('#tblDetalleRequi').DataTable({
                 destroy: true,
                 searching: false,
                 responsive: true,
                 lengthChange: false,
                 paging: false,
-                data: Lista,
+                data: DetRequi,
                 language: {
                     "zeroRecords": " ",
                     "search": "",
@@ -468,40 +467,64 @@
 
     $('#btnGenerarOC').on('click', function () {
 
-        $.ajax({
-            url: '@Url.Action("GenerarRequisiciondirecta", "Requisicion")',
-            method: 'POST',
-            dataType: 'json',
-            data: { ListaSustanciasRequiDirecta: ListaSustancias, StatusContrato : EstatusContrato },
-            success: function (data) {
-                if (data.MENSAJE.substring(0, 6) == "Error:") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops... ¡Error!',
-                        text: data.MENSAJE.substring(7)
-                    });
-                }
-                else {
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Éxito!',
-                        text: data.MENSAJE.substring(7),
-                        willClose: () => {
-                            location.reload();
+        if (DetRequi.length > 0) {
+            TablaValida = true;
+
+            $.grep(DetRequi, function (itemEnLista) {
+
+            });
+
+            if (TablaValida) {
+
+                $.ajax({
+                    url: '@Url.Action("GenerarOC", "OrdenCompra")',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: { ListaOC: DetRequi },
+                    success: function (data) {
+                        if (data.MENSAJE.substring(0, 6) == "Error:") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops... ¡Error!',
+                                text: data.MENSAJE.substring(7)
+                            });
                         }
-                    })
-                }
-            },
-            error: function (ex) {
+                        else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '¡Éxito!',
+                                text: data.MENSAJE.substring(7),
+                                willClose: () => {
+                                    location.reload();
+                                }
+                            })
+                        }
+                    },
+                    error: function (ex) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '¡Error!',
+                            text: 'Orden de Compra no generada'
+                        });
+                        location.reload();
+                    }
+
+                });
+
+            } else
                 Swal.fire({
                     icon: 'error',
                     title: '¡Error!',
-                    text: 'Requisición no generada'
+                    //text: 'No puede haber cantidades en cero'
                 });
-                location.reload();
-            }
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'No hay detalle de la Requisición'
+            });
+        }
 
-        });
 
     });
 
