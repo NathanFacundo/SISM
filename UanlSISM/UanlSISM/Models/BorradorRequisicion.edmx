@@ -163,6 +163,8 @@
           <Property Name="UsuarioId" Type="int" />
           <Property Name="Cerrado" Type="bit" />
           <Property Name="Cuadro" Type="int" />
+          <Property Name="UsuarioNuevo" Type="varchar" MaxLength="30" />
+          <Property Name="IP_User" Type="varchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="SISM_REQUISICION">
           <Key>
@@ -664,6 +666,8 @@
           <Property Name="Cerrado" Type="Boolean" />
           <Property Name="Cuadro" Type="Int32" />
           <NavigationProperty Name="SISM_DETALLE_OC" Relationship="SISM_SIST_MEDModel.FK__SISM_DETA__Pendi__68487DD7" FromRole="SISM_ORDEN_COMPRA" ToRole="SISM_DETALLE_OC" />
+          <Property Name="UsuarioNuevo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="IP_User" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK__SISM_DETA__Pendi__68487DD7">
           <End Type="SISM_SIST_MEDModel.SISM_ORDEN_COMPRA" Role="SISM_ORDEN_COMPRA" Multiplicity="1" />
@@ -881,6 +885,8 @@
           <EntitySetMapping Name="SISM_ORDEN_COMPRA">
             <EntityTypeMapping TypeName="SISM_SIST_MEDModel.SISM_ORDEN_COMPRA">
               <MappingFragment StoreEntitySet="SISM_ORDEN_COMPRA">
+                <ScalarProperty Name="IP_User" ColumnName="IP_User" />
+                <ScalarProperty Name="UsuarioNuevo" ColumnName="UsuarioNuevo" />
                 <ScalarProperty Name="Cuadro" ColumnName="Cuadro" />
                 <ScalarProperty Name="Cerrado" ColumnName="Cerrado" />
                 <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />

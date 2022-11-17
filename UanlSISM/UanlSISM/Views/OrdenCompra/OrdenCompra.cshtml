@@ -363,6 +363,8 @@
         });
     }
 
+    var Folio = "";
+    var Proveedor = ""; 
     $('#Requis tbody').on('click', '#VerDetalle', function () {
         var tr = $(this).closest('tr');
         var row = $('#Requis').DataTable().row(tr);
@@ -385,13 +387,16 @@
                 $('#EstContrato').show();
                 $('#IDD').hide();
                 //$('#IDD').prop('disabled', true);
-                document.getElementById('PROV').textContent = 'Medicazen S.A de C.V';
+                document.getElementById('PROV').textContent = 'MEDICAZEN S.A. DE C.V.';
                 $('#Contrato').show();
             }
 
             $('#UsRequi').html(response[0].Usuario);
 
             //LlenDetalle(response);
+
+            Folio = $('#NoRequi').val(response[0].Folio);
+            //Proveedor = document.getElementById('PROV').textContent;
 
             $.grep(response, function (item) {
                 var Insertar = true;
@@ -463,9 +468,17 @@
         $('#DetalleRequiModal').on('hidden.bs.modal', function () {
             location.reload();
         })
+
+        
     });
 
     $('#btnGenerarOC').on('click', function () {
+
+        Folio = $("#NoRequi").val();
+        Proveedor = document.getElementById('PROV').textContent;
+
+        //alert(Folio)
+        //alert(Proveedor)
 
         if (DetRequi.length > 0) {
             TablaValida = true;
@@ -480,7 +493,7 @@
                     url: '@Url.Action("GenerarOC", "OrdenCompra")',
                     method: 'POST',
                     dataType: 'json',
-                    data: { ListaOC: DetRequi },
+                    data: { ListaOC: DetRequi, FolioRequi: Folio, ProveedorReq: Proveedor },
                     success: function (data) {
                         if (data.MENSAJE.substring(0, 6) == "Error:") {
                             Swal.fire({
@@ -514,8 +527,7 @@
             } else
                 Swal.fire({
                     icon: 'error',
-                    title: '¡Error!',
-                    //text: 'No puede haber cantidades en cero'
+                    title: '¡Error!'
                 });
         } else {
             Swal.fire({

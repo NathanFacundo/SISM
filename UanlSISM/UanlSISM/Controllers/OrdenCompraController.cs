@@ -13,6 +13,7 @@ namespace UanlSISM.Controllers
         SISM_SIST_MEDEntities ConBD = new SISM_SIST_MEDEntities();
         SERVMEDEntities4 DAM = new SERVMEDEntities4();
         SERVMEDEntities8 db = new SERVMEDEntities8();
+        SERVMEDEntities5 SISMFarmacia = new SERVMEDEntities5();
 
         [Authorize]
         public ActionResult OrdenCompra()
@@ -174,7 +175,7 @@ namespace UanlSISM.Controllers
             return View();
         }
 
-        public JsonResult GenerarOC(List<SISM_DET_REQUISICION> ListaOC)
+        public JsonResult GenerarOC(List<SISM_DET_REQUISICION> ListaOC, int FolioRequi, string ProveedorReq)
         {
             var UsuarioRegistra = User.Identity.GetUserName();
             var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
@@ -184,7 +185,61 @@ namespace UanlSISM.Controllers
 
             try
             {
-               
+                //PROVEEDOR de la Requi(Orden)
+                var Prov = (from a in db.Proveedor
+                            where a.Prov_Nombre == ProveedorReq
+                            select a
+                            ).FirstOrDefault();
+
+                //REQUI que se hará Orden
+                var Requi = (from a in ConBD.SISM_REQUISICION
+                            where a.claveOLD == FolioRequi.ToString()
+                             select a
+                            ).FirstOrDefault();
+
+                //DETALLE DE LA REQUI -lista-
+                var DetalleRequi = (from a in ConBD.SISM_DET_REQUISICION
+                             where a.Id_Requicision == Requi.Id_Requicision
+                                    select a
+                            ).ToList();
+
+                //Obtenemos el Usuario que se logueó para hacer el join (buscarlo) en la tabla Usuario y así obtener el Id de esa tabla
+                var UsuarioOld = User.Identity.GetUserName();
+                var UsuarioOLD = (from a in db.Usuario
+                                  where a.Usu_User == UsuarioOld
+                                  select a).FirstOrDefault();
+
+                //CREAR ORDEN NUEVA a partir de una Requi
+                SISM_ORDEN_COMPRA OC = new SISM_ORDEN_COMPRA();
+                OC.Clave = Requi.Clave;
+                OC.Id_Requisicion = Requi.Id_Requicision;
+                OC.Id_Proveedor = Prov.Id;
+                OC.Fecha = fechaDT;
+                OC.FechaMod = fechaDT;
+                OC.Forma_Pago = "";
+                OC.Folio = "";
+                OC.Status = true;
+                OC.UsuarioId = UsuarioOLD.UsuarioId;
+                OC.Cerrado = false;
+                OC.Cuadro = 1;
+                OC.UsuarioNuevo = UsuarioRegistra;
+                OC.IP_User = ip_realiza;
+
+                //Obtenemos la ultima ORDEN guardada(que es esta) para guardar su detalle
+                var IdOC = (from a in ConBD.SISM_ORDEN_COMPRA
+                               where a.UsuarioNuevo == UsuarioRegistra
+                               where a.Fecha == fechaDT
+                               select a).OrderByDescending(u => u.Id).FirstOrDefault();
+
+                //RECORREMOS DETALLE DE LA REQUI para guardar en la tabla DETALLE ORDEN
+                foreach (var item in DetalleRequi)
+                {
+                    //CREAR EL DETALLE DE LA NUEVA ORDEN
+                    SISM_DETALLE_OC DetalleOC = new SISM_DETALLE_OC();
+                    DetalleOC.Id_OrdenCompra = IdOC.Id;
+                    //DetalleOC.I
+
+                }
 
                 return Json(new { MENSAJE = "Succe: Se generó la O.C" }, JsonRequestBehavior.AllowGet);
             }
