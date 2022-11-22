@@ -6,6 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="ec0f7fe0ec7d443dafc97915a0baad0e" Name="Diagram1">
         <EntityTypeShape EntityType="SERVMEDNivel2.ReporteInventarios" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVMEDNivel2.CodigoBarras" Width="1.5" PointX="3.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -28,6 +28,7 @@ namespace UanlSISM.Models
         }
     
         public virtual DbSet<ReporteInventarios> ReporteInventarios { get; set; }
+        public virtual DbSet<CodigoBarras> CodigoBarras { get; set; }
     
         public virtual ObjectResult<SP_MedicamentosTemporales_Result> SP_MedicamentosTemporales(Nullable<int> idUnidad)
         {

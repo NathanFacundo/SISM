@@ -14,6 +14,7 @@ namespace UanlSISM.Controllers
         SERVMEDEntities4 DAM = new SERVMEDEntities4();
         SERVMEDEntities8 db = new SERVMEDEntities8();
         SERVMEDEntities5 SISMFarmacia = new SERVMEDEntities5();
+        //SERVMEDEntities5 db2 = new SERVMEDEntities5();
 
         [Authorize]
         public ActionResult OrdenCompra()
@@ -218,12 +219,15 @@ namespace UanlSISM.Controllers
                 OC.FechaMod = fechaDT;
                 OC.Forma_Pago = "";
                 OC.Folio = "";
-                OC.Status = true;
+                OC.Status = false;
                 OC.UsuarioId = UsuarioOLD.UsuarioId;
                 OC.Cerrado = false;
                 OC.Cuadro = 1;
                 OC.UsuarioNuevo = UsuarioRegistra;
                 OC.IP_User = ip_realiza;
+
+                ConBD.SISM_ORDEN_COMPRA.Add(OC);
+                ConBD.SaveChanges();
 
                 //Obtenemos la ultima ORDEN guardada(que es esta) para guardar su detalle
                 var IdOC = (from a in ConBD.SISM_ORDEN_COMPRA
@@ -236,9 +240,25 @@ namespace UanlSISM.Controllers
                 {
                     //CREAR EL DETALLE DE LA NUEVA ORDEN
                     SISM_DETALLE_OC DetalleOC = new SISM_DETALLE_OC();
-                    DetalleOC.Id_OrdenCompra = IdOC.Id;
-                    //DetalleOC.I
 
+                    //BUSCAMOS EN LA TABLA "CodigoBarras" el Id del Codigo de Barras, buscando por el Id de la Sustancia
+                    var CodigoBarras = (from a in SISMFarmacia.CodigoBarras
+                                        where a.Id_Sustancia == item.Id_Sustancia
+                                      select a).FirstOrDefault();
+
+                    DetalleOC.Id_OrdenCompra = IdOC.Id;
+                    DetalleOC.Id_CodigoBarras = CodigoBarras.Id;
+                    DetalleOC.Cantidad = item.Cantidad;
+                    DetalleOC.PreUnit = item.PrecioUnitario;
+                    DetalleOC.Obsequio = 0;
+                    DetalleOC.Status = false;
+                    DetalleOC.Id_Sustencia = item.Id_Sustancia;
+                    //NOTA: Columna de Vic (pendiente) es el mismo dato que CANTIDAD
+                    DetalleOC.Pendiente = item.Cantidad;
+
+
+                    ConBD.SISM_DETALLE_OC.Add(DetalleOC);
+                    ConBD.SaveChanges();
                 }
 
                 return Json(new { MENSAJE = "Succe: Se generó la O.C" }, JsonRequestBehavior.AllowGet);

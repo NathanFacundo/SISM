@@ -423,7 +423,7 @@
       <DependentUpon>Dhabientes.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CodigoBarras.cs">
-      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ColoniaPrueba.Context.cs">
       <AutoGen>True</AutoGen>
@@ -1273,7 +1273,7 @@
     <Compile Include="Models\ReporteConsumo.cs" />
     <Compile Include="Models\ReportedeActividades.cs" />
     <Compile Include="Models\ReporteInventarios.cs">
-      <DependentUpon>SERVMEDMedNivel2.tt</DependentUpon>
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Req.Context.cs">
       <AutoGen>True</AutoGen>
@@ -1600,7 +1600,7 @@
       <DependentUpon>SISM-RH.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_MedicamentosTemporales_Result.cs">
-      <DependentUpon>SERVMEDMedNivel2.tt</DependentUpon>
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_MedNuevos_Result.cs">
       <DependentUpon>SISM-Farmacia.tt</DependentUpon>
@@ -1633,7 +1633,7 @@
       <DependentUpon>SISM-RH.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_Temporales_Result.cs">
-      <DependentUpon>SERVMEDMedNivel2.tt</DependentUpon>
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_ViewCodBar2022_Result.cs">
       <DependentUpon>SISM-Farmacia.tt</DependentUpon>

@@ -556,7 +556,16 @@
                         item.CANTIDAD = 1;
                         ListaSustancias.push(item);
                     }
-                    Llena2(ListaSustancias);
+                     Llena2(ListaSustancias);
+
+                     Swal.fire({
+                         position: 'top-end',
+                         icon: 'success',
+                         title: 'SE AGREGÓ EL MEDICAMENTO',
+                         showConfirmButton: false,
+                         timer: 1500
+                     })
+
                 });
             },
             error: function (ex) {
@@ -580,12 +589,16 @@
             //scrollColapse: true,
             //scrollY: 200,
             //lengthChange: false,
+
+            paging: false,
+            ordering: false,
+
             searching: false,
             responsive: true,
             lengthChange: false,
             data: ListaSustancias,
             language: {
-                "zeroRecords": "Lista vacía",
+                "zeroRecords": "",
                 "info": "_TOTAL_  Sustancias",
                 "infoEmpty": "",
                 "paginate": {
@@ -628,6 +641,15 @@
         ListaSustancias.splice(ListaSustancias.indexOf(row.data()), 1);
 
         Llena2(ListaSustancias);
+
+        Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'SE ELIMINÓ EL MEDICAMENTO',
+            showConfirmButton: false,
+            timer: 1500
+        })
+
     });
 
     $('#btnGenerarBorrador').on('click', function () {

@@ -103,7 +103,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Id_OrdenCompra" Type="int" Nullable="false" />
-          <Property Name="Id_CodigoBarrar" Type="int" />
+          <Property Name="Id_CodigoBarras" Type="int" />
           <Property Name="Cantidad" Type="int" />
           <Property Name="PreUnit" Type="float" />
           <Property Name="Obsequio" Type="int" />
@@ -640,7 +640,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Id_OrdenCompra" Type="Int32" Nullable="false" />
-          <Property Name="Id_CodigoBarrar" Type="Int32" />
+          <Property Name="Id_CodigoBarras" Type="Int32" />
           <Property Name="Cantidad" Type="Int32" />
           <Property Name="PreUnit" Type="Double" />
           <Property Name="Obsequio" Type="Int32" />
@@ -876,7 +876,6 @@
                 <ScalarProperty Name="Obsequio" ColumnName="Obsequio" />
                 <ScalarProperty Name="PreUnit" ColumnName="PreUnit" />
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="Id_CodigoBarrar" ColumnName="Id_CodigoBarrar" />
                 <ScalarProperty Name="Id_OrdenCompra" ColumnName="Id_OrdenCompra" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

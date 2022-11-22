@@ -16,7 +16,7 @@ namespace UanlSISM.Models
     {
         public int Id { get; set; }
         public int Id_OrdenCompra { get; set; }
-        public Nullable<int> Id_CodigoBarrar { get; set; }
+        public Nullable<int> Id_CodigoBarras { get; set; }
         public Nullable<int> Cantidad { get; set; }
         public Nullable<double> PreUnit { get; set; }
         public Nullable<int> Obsequio { get; set; }

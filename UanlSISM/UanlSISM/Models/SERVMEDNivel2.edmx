@@ -5,6 +5,20 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="SERVMEDNivel2.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CodigoBarras">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Sustancia" Type="int" Nullable="false" />
+          <Property Name="Nombre_Comercial" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Codigo_Barra" Type="varchar" MaxLength="20" />
+          <Property Name="Contenido" Type="smallint" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="contenido_anterior" Type="int" />
+          <Property Name="codigobarra_anterior" Type="nchar" MaxLength="50" />
+        </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ReporteInventarios">
@@ -42,6 +56,7 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
           <Parameter Name="idUnidad" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="SERVMEDNivel2StoreContainer">
+          <EntitySet Name="CodigoBarras" EntityType="Self.CodigoBarras" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReporteInventarios" EntityType="Self.ReporteInventarios" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ReporteInventarios].[Id] AS [Id], 
@@ -101,8 +116,9 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
           <Parameter Name="idUnidad" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Temporales" ReturnType="Collection(SERVMEDNivel2.SP_Temporales_Result)">
-            <Parameter Name="idUnidad" Mode="In" Type="Int32" />
+          <Parameter Name="idUnidad" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="CodigoBarras" EntityType="SERVMEDNivel2.CodigoBarras" />
         </EntityContainer>
         <ComplexType Name="SP_MedicamentosTemporales_Result">
           <Property Type="String" Name="Clave" Nullable="false" MaxLength="6" />
@@ -114,6 +130,20 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
           <Property Type="String" Name="descripcion_21" Nullable="true" MaxLength="200" />
           <Property Type="Decimal" Name="c_actual" Nullable="true" Precision="18" Scale="0" />
         </ComplexType>
+        <EntityType Name="CodigoBarras">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Sustancia" Type="Int32" Nullable="false" />
+          <Property Name="Nombre_Comercial" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Codigo_Barra" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Contenido" Type="Int16" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="contenido_anterior" Type="Int32" />
+          <Property Name="codigobarra_anterior" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -160,6 +190,21 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="CodigoBarras">
+            <EntityTypeMapping TypeName="SERVMEDNivel2.CodigoBarras">
+              <MappingFragment StoreEntitySet="CodigoBarras">
+                <ScalarProperty Name="codigobarra_anterior" ColumnName="codigobarra_anterior" />
+                <ScalarProperty Name="contenido_anterior" ColumnName="contenido_anterior" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Contenido" ColumnName="Contenido" />
+                <ScalarProperty Name="Codigo_Barra" ColumnName="Codigo_Barra" />
+                <ScalarProperty Name="Nombre_Comercial" ColumnName="Nombre_Comercial" />
+                <ScalarProperty Name="Id_Sustancia" ColumnName="Id_Sustancia" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
