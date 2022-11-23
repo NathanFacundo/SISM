@@ -457,7 +457,8 @@
                     },
                     { "data": "Clave", className: "text-center" },
                     { "data": "Descripcion", className: "text-center" },
-                    { "data": "Compendio", className: "text-center" },
+                    //{ "data": "Compendio", className: "text-center" },
+                    { "data": "Compendio", className: "text-center", render: function (data) { return (data == null ? '<h8 style="color:black; ">' + "SIN COMPENDIO" + '</h8>' : '<a>' + data + '</a>'); } },
                     { "data": "Cantidad", className: "text-center" },
                     { "data": "PrecioUnit", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                     { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') }

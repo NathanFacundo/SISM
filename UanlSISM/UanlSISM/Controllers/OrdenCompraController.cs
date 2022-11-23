@@ -57,7 +57,7 @@ namespace UanlSISM.Controllers
             try
             {
                 var query = (from a in ConBD.SISM_REQUISICION
-                             where a.EstatusOC == "0"
+                             where a.EstatusOC == "0" || a.EstatusOC == null
                              select a).ToList();
 
                 var results1 = new List<ListCampos>();
@@ -247,7 +247,7 @@ namespace UanlSISM.Controllers
                                       select a).FirstOrDefault();
 
                     DetalleOC.Id_OrdenCompra = IdOC.Id;
-                    DetalleOC.Id_CodigoBarras = CodigoBarras.Id;
+                    DetalleOC.Id_CodigoBarrar = CodigoBarras.Id;
                     DetalleOC.Cantidad = item.Cantidad;
                     DetalleOC.PreUnit = item.PrecioUnitario;
                     DetalleOC.Obsequio = 0;
