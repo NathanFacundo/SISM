@@ -393,6 +393,21 @@
     <Compile Include="Models\AspNetUsers.cs">
       <DependentUpon>Dhabientes.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\BD_Almacen.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BD_Almacen.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BD_Almacen.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BD_Almacen.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BD_Almacen.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\BorradorRequisicion.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1386,49 +1401,49 @@
       <DependentUpon>SISM-RH.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_BORRADOR_REQUI.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_CODIGOBARRAS.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_COSTEO_LICITACION.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_COTIZACIONES.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_DETALLE_BORRADOR_REQUI.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_DETALLE_OC.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_DETALLE_REQ_FARMACIA.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_DET_REQUISICION.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_DET_VALE_ENTRADA.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_INV_MED.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_MOV_INV.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_ORDEN_COMPRA.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_REQUISICION.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_REQUISICION_FARMACIA.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_VALE_ENTRADA.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sis_areas.cs">
       <DependentUpon>Incidente.tt</DependentUpon>
@@ -2060,6 +2075,16 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>AfiliadosPrueba.edmx</DependentUpon>
       <LastGenOutput>AfiliadosPrueba.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\BD_Almacen.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BD_Almacen.edmx</DependentUpon>
+      <LastGenOutput>BD_Almacen.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\BD_Almacen.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BD_Almacen.edmx</DependentUpon>
+      <LastGenOutput>BD_Almacen.cs</LastGenOutput>
     </Content>
     <Content Include="Models\BorradorRequisicion.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -3196,6 +3221,13 @@
     </EntityDeploy>
     <Content Include="Models\SERVMEDMedNivel2.edmx.diagram">
       <DependentUpon>SERVMEDMedNivel2.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\BD_Almacen.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BD_Almacen.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\BD_Almacen.edmx.diagram">
+      <DependentUpon>BD_Almacen.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.bundle.js" />

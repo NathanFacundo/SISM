@@ -11,6 +11,8 @@ namespace UanlSISM.Controllers
 {
     public class RequisicionController : Controller
     {
+        SISM_SIST_MEDEntities ConBD2 = new SISM_SIST_MEDEntities();
+
 
         [Authorize]
         public ActionResult Requisicion()

@@ -17,8 +17,8 @@ namespace UanlSISM.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SISM_REQUISICION()
         {
-            this.SISM_DET_REQUISICION = new HashSet<SISM_DET_REQUISICION>();
             this.SISM_COTIZACIONES = new HashSet<SISM_COTIZACIONES>();
+            this.SISM_DET_REQUISICION = new HashSet<SISM_DET_REQUISICION>();
         }
     
         public int Id_Requicision { get; set; }
@@ -33,8 +33,8 @@ namespace UanlSISM.Models
         public string EstatusOC { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SISM_DET_REQUISICION> SISM_DET_REQUISICION { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SISM_COTIZACIONES> SISM_COTIZACIONES { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SISM_DET_REQUISICION> SISM_DET_REQUISICION { get; set; }
     }
 }
