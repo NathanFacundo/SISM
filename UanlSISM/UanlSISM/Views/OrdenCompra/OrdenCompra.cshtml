@@ -66,6 +66,7 @@
                     <th>Folio Req.</th>
                     <th>Fecha Req.</th>
                     <th>Estatus Contrato</th>
+                    <th>Usuario</th>
                     <th>Detalle</th>
                 </tr>
             </thead>
@@ -173,10 +174,10 @@
                                 </th>
                             </tr>
                             <tr>
-                                <th style="width:10px"></th>
+                                <th></th>
                                 <th>Clave Med.</th>
                                 <th>Descripción</th>
-                                <th>Compendio</th>
+                                @*<th>Compendio</th>*@
                                 <th>Cant. Solicitada</th>
                                 <th>Precio U.</th>
                                 <th>Total</th>
@@ -346,12 +347,13 @@
                 },
             },
             data: DetRequi,
-            order: [[1, 'desc']],
+            order: [[2, 'desc']],
             columns: [
                 { 'data': 'Clave', className: "text-center" },
                 { 'data': 'Fecha', className: "text-center" },
                 //{ 'data': 'EstatusContrato', className: "text-center" },
                 { "data": "EstatusContrato", className: "text-center", render: function (data) { return (data === 'UANL-DGA-DA-022/08/2022' ? '<h8 style="color:black; ">' + "SI" + '</h8>' : '<h8 style="color:black; ">' + "NO" + '</h8>'); } },
+                { 'data': 'Id_User', className: "text-center" },
                 {
                     "className": 'text-center',
                     "orderable": false,
@@ -371,7 +373,7 @@
         var Id = row.data().Clave;
         var Requi_ConContrato = row.data().EstatusContrato;
 
-        if (Requi_ConContrato != null) {
+        //if (Requi_ConContrato != null) {
 
             $('#DetalleRequiModal').modal("show");
 
@@ -461,7 +463,7 @@
                         { "data": "Clave", className: "text-center" },
                         { "data": "Descripcion", className: "text-center" },
                         //{ "data": "Compendio", className: "text-center" },
-                        { "data": "Compendio", className: "text-center", render: function (data) { return (data == null ? '<h8 style="color:black; ">' + "SIN COMPENDIO" + '</h8>' : '<a>' + data + '</a>'); } },
+                        //{ "data": "Compendio", className: "text-center", render: function (data) { return (data == null ? '<h8 style="color:black; ">' + "SIN COMPENDIO" + '</h8>' : '<a>' + data + '</a>'); } },
                         { "data": "Cantidad", className: "text-center" },
                         { "data": "PrecioUnit", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                         { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') }
@@ -469,9 +471,9 @@
                 });
             }
 
-        } else {
+        //} else {
 
-        }
+        //}
 
         $('#DetalleRequiModal').on('hidden.bs.modal', function () {
             location.reload();

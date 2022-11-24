@@ -11,6 +11,8 @@ namespace UanlSISM.Controllers
     public class OrdenCompraController : Controller
     {
         SISM_SIST_MEDEntities ConBD = new SISM_SIST_MEDEntities();
+        BD_Almacen ConBD2 = new BD_Almacen();
+
         SERVMEDEntities4 DAM = new SERVMEDEntities4();
         SERVMEDEntities8 db = new SERVMEDEntities8();
         SERVMEDEntities5 SISMFarmacia = new SERVMEDEntities5();
@@ -56,7 +58,7 @@ namespace UanlSISM.Controllers
         {
             try
             {
-                var query = (from a in ConBD.SISM_REQUISICION
+                var query = (from a in ConBD2.SISM_REQUISICION
                              where a.EstatusOC == "0" || a.EstatusOC == null
                              select a).ToList();
 
@@ -68,7 +70,8 @@ namespace UanlSISM.Controllers
                     {
                         Clave = q.claveOLD,
                         Fecha = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha),
-                        EstatusContrato = q.EstatusContrato
+                        EstatusContrato = q.EstatusContrato,
+                        Id_User = q.Id_User
                     };
                     results1.Add(resultado);
                 }
@@ -110,8 +113,8 @@ namespace UanlSISM.Controllers
                 //ViewBag.Folio = FolioOC_Nuevo;
                 //----------------
 
-                var query = (from a in ConBD.SISM_REQUISICION
-                             join det in ConBD.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
+                var query = (from a in ConBD2.SISM_REQUISICION
+                             join det in ConBD2.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
                              where a.claveOLD == Id_Requi
                              select new
                              {
@@ -192,12 +195,12 @@ namespace UanlSISM.Controllers
                             select a
                             ).FirstOrDefault();
                 //REQUI que se hará Orden
-                var Requi = (from a in ConBD.SISM_REQUISICION
+                var Requi = (from a in ConBD2.SISM_REQUISICION
                             where a.claveOLD == FolioRequi.ToString()
                              select a
                             ).FirstOrDefault();
                 //DETALLE DE LA REQUI -lista-
-                var DetalleRequi = (from a in ConBD.SISM_DET_REQUISICION
+                var DetalleRequi = (from a in ConBD2.SISM_DET_REQUISICION
                              where a.Id_Requicision == Requi.Id_Requicision
                                     select a
                             ).ToList();
@@ -224,8 +227,11 @@ namespace UanlSISM.Controllers
                 OC.UsuarioNuevo = UsuarioRegistra;
                 OC.IP_User = ip_realiza;
 
-                ConBD.SISM_ORDEN_COMPRA.Add(OC);
-                ConBD.SaveChanges();
+                ConBD2.SISM_ORDEN_COMPRA.Add(OC);
+                ConBD2.SaveChanges();
+
+                //ACTUALIZAMOS LA REQUI EN SU COLUMNA 'EstatusOC' poniendo 1 ya que esa requi se hará O.C
+                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET EstatusOC = '1' WHERE Id_Requicision='" + Requi.Id_Requicision + "';");
 
                 //-----------
                 //obtener la ultima 'clave' para que inserte un nuevo registro (consecutivo de la clave)
@@ -241,13 +247,13 @@ namespace UanlSISM.Controllers
                 var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
 
                 //Obtenemos la ultima requi guardada(que es esta) para guardar su detalle
-                var IdOC = (from a in ConBD.SISM_ORDEN_COMPRA
+                var IdOC = (from a in ConBD2.SISM_ORDEN_COMPRA
                             where a.UsuarioNuevo == UsuarioRegistra
                                where a.Fecha == fechaDT
                                select a).OrderByDescending(u => u.Id).FirstOrDefault();
 
                 //ACTUALIZAMOS LA CLAVE DE LA O'C 
-                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Clave = '" + AñoMes_Actual + ConsecutivoNuevo + "' WHERE Id='" + IdOC.Id + "';");
+                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Clave = '" + AñoMes_Actual + ConsecutivoNuevo + "' WHERE Id='" + IdOC.Id + "';");
                 //-----------
 
                 //RECORREMOS DETALLE DE LA REQUI para guardar en la tabla DETALLE ORDEN
@@ -272,11 +278,48 @@ namespace UanlSISM.Controllers
                     DetalleOC.Pendiente = item.Cantidad;
 
 
-                    ConBD.SISM_DETALLE_OC.Add(DetalleOC);
-                    ConBD.SaveChanges();
+                    ConBD2.SISM_DETALLE_OC.Add(DetalleOC);
+                    ConBD2.SaveChanges();
                 }
 
                 return Json(new { MENSAJE = "Succe: Se generó la O.C" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        //LISTADO DE LAS ORDENES DE COMPRA GENERADAS
+        public ActionResult ObtenerOCInicio()
+        {
+            try
+            {
+                var query = (from a in ConBD2.SISM_ORDEN_COMPRA
+                             join req in ConBD2.SISM_REQUISICION on a.Id_Requisicion equals req.Id_Requicision
+                             select new { 
+                             a.Clave,
+                             a.Fecha,
+                             a.UsuarioNuevo,
+                             IdReq = req.claveOLD,
+                             FReq = req.Fecha
+                             }).ToList();
+
+                var results1 = new List<ListCampos>();
+
+                foreach (var q in query)
+                {
+                    var resultado = new ListCampos
+                    {
+                        Clave = q.Clave,
+                        Fecha = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha),
+                        Id_User = q.UsuarioNuevo,
+                        Id_Requisicion = Convert.ToInt32(q.IdReq),
+                        Fecha1 = string.Format("{0:d/M/yyyy hh:mm tt}", q.FReq)
+                    };
+                    results1.Add(resultado);
+                }
+                return Json(new { MENSAJE = "FOUND", OCS = results1 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
