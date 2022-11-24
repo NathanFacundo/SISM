@@ -183,7 +183,7 @@ namespace UanlSISM.Controllers
             var fechaDT = DateTime.Parse(fecha);
             var ip_realiza = Request.UserHostAddress;
             var IdUsuarioCifrado = User.Identity.GetUserId();
-
+            
             try
             {
                 //PROVEEDOR de la Requi(Orden)
@@ -191,28 +191,26 @@ namespace UanlSISM.Controllers
                             where a.Prov_Nombre == ProveedorReq
                             select a
                             ).FirstOrDefault();
-
                 //REQUI que se hará Orden
                 var Requi = (from a in ConBD.SISM_REQUISICION
                             where a.claveOLD == FolioRequi.ToString()
                              select a
                             ).FirstOrDefault();
-
                 //DETALLE DE LA REQUI -lista-
                 var DetalleRequi = (from a in ConBD.SISM_DET_REQUISICION
                              where a.Id_Requicision == Requi.Id_Requicision
                                     select a
                             ).ToList();
-
                 //Obtenemos el Usuario que se logueó para hacer el join (buscarlo) en la tabla Usuario y así obtener el Id de esa tabla
                 var UsuarioOld = User.Identity.GetUserName();
                 var UsuarioOLD = (from a in db.Usuario
                                   where a.Usu_User == UsuarioOld
                                   select a).FirstOrDefault();
+                
 
                 //CREAR ORDEN NUEVA a partir de una Requi
                 SISM_ORDEN_COMPRA OC = new SISM_ORDEN_COMPRA();
-                OC.Clave = Requi.Clave;
+                //OC.Clave = CLAVE.ToString();
                 OC.Id_Requisicion = Requi.Id_Requicision;
                 OC.Id_Proveedor = Prov.Id;
                 OC.Fecha = fechaDT;
@@ -229,11 +227,28 @@ namespace UanlSISM.Controllers
                 ConBD.SISM_ORDEN_COMPRA.Add(OC);
                 ConBD.SaveChanges();
 
-                //Obtenemos la ultima ORDEN guardada(que es esta) para guardar su detalle
+                //-----------
+                //obtener la ultima 'clave' para que inserte un nuevo registro (consecutivo de la clave)
+                var Clave = (from a in db.OrdenCompra
+                             select new
+                             {
+                                 clave = a.clave
+                             }).OrderByDescending(u => u.clave).FirstOrDefault();
+
+                var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
+                var UltimoConsecutivo_Clave = Convert.ToInt32(Clave.clave.Substring(4));
+                //var CLAVE = Convert.ToInt32(AñoMes_Actual) + ((UltimoConsecutivo_Clave) + 1);
+                var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
+
+                //Obtenemos la ultima requi guardada(que es esta) para guardar su detalle
                 var IdOC = (from a in ConBD.SISM_ORDEN_COMPRA
-                               where a.UsuarioNuevo == UsuarioRegistra
+                            where a.UsuarioNuevo == UsuarioRegistra
                                where a.Fecha == fechaDT
                                select a).OrderByDescending(u => u.Id).FirstOrDefault();
+
+                //ACTUALIZAMOS LA CLAVE DE LA O'C 
+                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Clave = '" + AñoMes_Actual + ConsecutivoNuevo + "' WHERE Id='" + IdOC.Id + "';");
+                //-----------
 
                 //RECORREMOS DETALLE DE LA REQUI para guardar en la tabla DETALLE ORDEN
                 foreach (var item in DetalleRequi)

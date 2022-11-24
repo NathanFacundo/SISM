@@ -364,113 +364,119 @@
     }
 
     var Folio = "";
-    var Proveedor = ""; 
+    var Proveedor = "";
     $('#Requis tbody').on('click', '#VerDetalle', function () {
         var tr = $(this).closest('tr');
         var row = $('#Requis').DataTable().row(tr);
         var Id = row.data().Clave;
+        var Requi_ConContrato = row.data().EstatusContrato;
 
-        $('#DetalleRequiModal').modal("show");
+        if (Requi_ConContrato != null) {
 
-        var array = { Id_Requi: Id };
-        var url = '@Url.Action("ObtenerDetalleRequi", "OrdenCompra")';
-        $.post(url, array).done(function (response) {
-            $('#NoRequi').html(response[0].Folio);
-            $('#FechaRequi').html(response[0].Fecha);
-            //$('#FechaOC').html(response[0].Fecha1);
-            $('#EstContrato').html(response[0].EstatusContrato);
+            $('#DetalleRequiModal').modal("show");
 
-            if (response[0].EstatusContrato == "Sin Contrato") {
-                $('#EstContrato').hide();
-                $('#Contrato').hide();
-            } else {
-                $('#EstContrato').show();
-                $('#IDD').hide();
-                //$('#IDD').prop('disabled', true);
-                document.getElementById('PROV').textContent = 'MEDICAZEN S.A. DE C.V.';
-                $('#Contrato').show();
+            var array = { Id_Requi: Id };
+            var url = '@Url.Action("ObtenerDetalleRequi", "OrdenCompra")';
+            $.post(url, array).done(function (response) {
+                $('#NoRequi').html(response[0].Folio);
+                $('#FechaRequi').html(response[0].Fecha);
+                //$('#FechaOC').html(response[0].Fecha1);
+                $('#EstContrato').html(response[0].EstatusContrato);
+
+                if (response[0].EstatusContrato == "Sin Contrato") {
+                    $('#EstContrato').hide();
+                    $('#Contrato').hide();
+                } else {
+                    $('#EstContrato').show();
+                    $('#IDD').hide();
+                    //$('#IDD').prop('disabled', true);
+                    document.getElementById('PROV').textContent = 'MEDICAZEN S.A. DE C.V.';
+                    $('#Contrato').show();
+                }
+
+                $('#UsRequi').html(response[0].Usuario);
+
+                //LlenDetalle(response);
+
+                Folio = $('#NoRequi').val(response[0].Folio);
+                //Proveedor = document.getElementById('PROV').textContent;
+
+                $.grep(response, function (item) {
+                    var Insertar = true;
+                    $.grep(DetRequi, function (itemEnLista) {
+                        if (item.Clave == itemEnLista.Clave) {
+                            //Insertar = false;
+                        };
+                    });
+                    if (Insertar) {
+                        //item.CANTIDAD = 1;
+                        DetRequi.push(item);
+                    }
+                    LlenDetalle(DetRequi);
+                });
+
+            }).fail(function (response) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                });
+            });
+
+            $("#IDD").change(function () {
+                var combo = document.getElementById("IDD");
+                var selected = combo.options[combo.selectedIndex].text;
+                document.getElementById('PROV').textContent = selected;
+            });
+
+            function LlenDetalle(DetRequi) {
+                var table12 = $('#tblDetalleRequi').DataTable({
+                    destroy: true,
+                    searching: false,
+                    responsive: true,
+                    lengthChange: false,
+                    paging: false,
+                    data: DetRequi,
+                    language: {
+                        "zeroRecords": " ",
+                        "search": "",
+                        "info": "",
+                        "infoEmpty": "",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Último",
+                            "next": "Siguiente",
+                            "previous": "Anterior",
+                        },
+                        "select": {
+                            "rows": " %d filas seleccionadas"
+                        },
+                    },
+                    columns: [
+                        {
+                            'data': 'ORDEN', className: "text-center",
+                            render: function (data, type, row, meta) {
+                                return (row.ORDEN = meta.row + meta.settings._iDisplayStart + 1);
+                            }
+                        },
+                        { "data": "Clave", className: "text-center" },
+                        { "data": "Descripcion", className: "text-center" },
+                        //{ "data": "Compendio", className: "text-center" },
+                        { "data": "Compendio", className: "text-center", render: function (data) { return (data == null ? '<h8 style="color:black; ">' + "SIN COMPENDIO" + '</h8>' : '<a>' + data + '</a>'); } },
+                        { "data": "Cantidad", className: "text-center" },
+                        { "data": "PrecioUnit", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                        { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') }
+                    ]
+                });
             }
 
-            $('#UsRequi').html(response[0].Usuario);
+        } else {
 
-            //LlenDetalle(response);
-
-            Folio = $('#NoRequi').val(response[0].Folio);
-            //Proveedor = document.getElementById('PROV').textContent;
-
-            $.grep(response, function (item) {
-                var Insertar = true;
-                $.grep(DetRequi, function (itemEnLista) {
-                    if (item.Clave == itemEnLista.Clave) {
-                        //Insertar = false;
-                    };
-                });
-                if (Insertar) {
-                    //item.CANTIDAD = 1;
-                    DetRequi.push(item);
-                }
-                LlenDetalle(DetRequi);
-            });
-
-        }).fail(function (response) {
-            Swal.fire({
-                icon: 'error',
-                title: '¡Error!',
-            });
-        });
-
-        $("#IDD").change(function () {
-            var combo = document.getElementById("IDD");
-            var selected = combo.options[combo.selectedIndex].text;
-            document.getElementById('PROV').textContent = selected;
-        });
-
-        function LlenDetalle(DetRequi) {
-            var table12 = $('#tblDetalleRequi').DataTable({
-                destroy: true,
-                searching: false,
-                responsive: true,
-                lengthChange: false,
-                paging: false,
-                data: DetRequi,
-                language: {
-                    "zeroRecords": " ",
-                    "search": "",
-                    "info": "",
-                    "infoEmpty": "",
-                    "paginate": {
-                        "first": "Primero",
-                        "last": "Último",
-                        "next": "Siguiente",
-                        "previous": "Anterior",
-                    },
-                    "select": {
-                        "rows": " %d filas seleccionadas"
-                    },
-                },
-                columns: [
-                    {
-                        'data': 'ORDEN', className: "text-center",
-                        render: function (data, type, row, meta) {
-                            return (row.ORDEN = meta.row + meta.settings._iDisplayStart + 1);
-                        }
-                    },
-                    { "data": "Clave", className: "text-center" },
-                    { "data": "Descripcion", className: "text-center" },
-                    //{ "data": "Compendio", className: "text-center" },
-                    { "data": "Compendio", className: "text-center", render: function (data) { return (data == null ? '<h8 style="color:black; ">' + "SIN COMPENDIO" + '</h8>' : '<a>' + data + '</a>'); } },
-                    { "data": "Cantidad", className: "text-center" },
-                    { "data": "PrecioUnit", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
-                    { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') }
-                ]
-            });
         }
 
         $('#DetalleRequiModal').on('hidden.bs.modal', function () {
             location.reload();
         })
 
-        
     });
 
     $('#btnGenerarOC').on('click', function () {
