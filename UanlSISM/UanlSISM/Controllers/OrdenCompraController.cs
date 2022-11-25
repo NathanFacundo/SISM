@@ -262,15 +262,25 @@ namespace UanlSISM.Controllers
                                         where a.Id_Sustancia == item.Id_Sustancia
                                       select a).FirstOrDefault();
 
+                    //BUSCAMOS EN LA TABLA "Sustancia" 
+                    var Sustancia = (from a in SISMFarmacia.Sustancia
+                                                where a.Id == item.Id_Sustancia
+                                        select a).FirstOrDefault();
+
                     DetalleOC.Id_OrdenCompra = IdOC.Id;
                     DetalleOC.Id_CodigoBarrar = CodigoBarras.Id;
                     DetalleOC.Cantidad = item.Cantidad;
                     DetalleOC.PreUnit = item.PrecioUnitario;
+
+                    DetalleOC.Total = (double?)decimal.Round((decimal)(DetalleOC.Cantidad * DetalleOC.PreUnit), 2);
+
                     DetalleOC.Obsequio = 0;
                     DetalleOC.Status = false;
                     DetalleOC.Id_Sustencia = item.Id_Sustancia;
                     //NOTA: Columna de Vic (pendiente) es el mismo dato que CANTIDAD
                     DetalleOC.Pendiente = item.Cantidad;
+                    DetalleOC.Descripcion = Sustancia.descripcion_21;
+                    DetalleOC.ClaveMedicamento = Sustancia.Clave;
 
 
                     ConBD2.SISM_DETALLE_OC.Add(DetalleOC);
@@ -343,10 +353,7 @@ namespace UanlSISM.Controllers
 
                 var query = (from a in ConBD2.SISM_ORDEN_COMPRA
                              join DetOC in ConBD2.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
-                             join Req in ConBD2.SISM_REQUISICION on a.Id_Requisicion equals IdRequi.Id_Requicision
-                             join DetReq in ConBD2.SISM_DET_REQUISICION on IdRequi.Id_Requicision equals DetReq.Id_Requicision
-                             where a.Clave == FolioOC.ToString() && DetOC.Id_OrdenCompra == IdOC.Id
-                             where Req.Id_Requicision == IdRequi.Id_Requicision && DetReq.Id_Requicision == IdRequi.Id_Requicision
+                             where a.Clave == FolioOC.ToString()
                              select new
                              {
                                  Folio = a.Clave,
@@ -354,10 +361,10 @@ namespace UanlSISM.Controllers
                                  Usuario = a.UsuarioNuevo,
                                  Cantidad = DetOC.Cantidad,
                                  Precio = DetOC.PreUnit,
-                                 Descripcion = DetReq.Descripcion,
-                                 ClaveMed = DetReq.Clave,
-                                 PU = DetReq.PrecioUnitario,
-                                 Total = DetReq.Total
+                                 Descripcion = DetOC.Descripcion,
+                                 ClaveMed = DetOC.ClaveMedicamento,
+                                 PU = DetOC.PreUnit,
+                                 Total = DetOC.Total
                              }).ToList();
 
                 var results1 = new List<ListCampos>();
