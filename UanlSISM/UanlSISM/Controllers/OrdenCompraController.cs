@@ -37,20 +37,15 @@ namespace UanlSISM.Controllers
             public string FechaRequisicion { get; set; }
             public string Id_User { get; set; }
             public string EstatusContrato { get; set; }
-            //--------------------------------------------
-            
             public string Descripcion { get; set; }
             public int Cantidad { get; set; }
             public string Folio { get; set; }
-            
+            public string FolioRequisicion { get; set; }
             public string Fecha1 { get; set; }
             public string Usuario { get; set; }
             public int? Existencia { get; set; }
-            
             public string Compendio { get; set; }
-
             public double PrecioUnit { get; set; }
-
             public double Total { get; set; }
         }
 
@@ -320,6 +315,72 @@ namespace UanlSISM.Controllers
                     results1.Add(resultado);
                 }
                 return Json(new { MENSAJE = "FOUND", OCS = results1 }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult ObtenerDetalleOC_Generada(int FolioOC, int FolioRequi)
+        {
+            try
+            {
+                var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
+                var fechaDT = DateTime.Parse(fecha);
+
+                var IdRequi = (from a in ConBD2.SISM_REQUISICION
+                               where a.claveOLD == FolioRequi.ToString()
+                               select new { 
+                               a.Id_Requicision
+                               }).FirstOrDefault();
+                var IdOC = (from a in ConBD2.SISM_ORDEN_COMPRA
+                               where a.Clave == FolioOC.ToString()
+                               select new
+                               {
+                                   a.Id
+                               }).FirstOrDefault();
+
+                var query = (from a in ConBD2.SISM_ORDEN_COMPRA
+                             join DetOC in ConBD2.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
+                             join Req in ConBD2.SISM_REQUISICION on a.Id_Requisicion equals IdRequi.Id_Requicision
+                             join DetReq in ConBD2.SISM_DET_REQUISICION on IdRequi.Id_Requicision equals DetReq.Id_Requicision
+                             where a.Clave == FolioOC.ToString() && DetOC.Id_OrdenCompra == IdOC.Id
+                             where Req.Id_Requicision == IdRequi.Id_Requicision && DetReq.Id_Requicision == IdRequi.Id_Requicision
+                             select new
+                             {
+                                 Folio = a.Clave,
+                                 Fecha = a.Fecha,
+                                 Usuario = a.UsuarioNuevo,
+                                 Cantidad = DetOC.Cantidad,
+                                 Precio = DetOC.PreUnit,
+                                 Descripcion = DetReq.Descripcion,
+                                 ClaveMed = DetReq.Clave,
+                                 PU = DetReq.PrecioUnitario,
+                                 Total = DetReq.Total
+                             }).ToList();
+
+                var results1 = new List<ListCampos>();
+                //LISTA DE LA O.C Y SU DETALLE
+                foreach (var q in query)
+                {
+                    var resultado = new ListCampos
+                    {
+                        Folio = q.Folio,
+                        Fecha = string.Format("{0:d/M/yy hh:mm tt}", q.Fecha),
+                        Fecha1 = string.Format("{0:d/M/yy hh:mm tt}", fechaDT),
+                        Usuario = q.Usuario,
+                        Descripcion = q.Descripcion,
+                        Clave = q.ClaveMed,
+                        Cantidad = (int)q.Cantidad,
+                        PrecioUnit = (double)q.PU,
+                        Total = (double)q.Total
+                        
+                    };
+                    results1.Add(resultado);
+                }
+                
+                return new JsonResult { Data = results1, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
             catch (Exception ex)
             {
