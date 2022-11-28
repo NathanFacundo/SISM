@@ -288,9 +288,25 @@ namespace UanlSISM.Controllers
                                    a.clave
                                }).OrderByDescending(u => u.clave).FirstOrDefault();
 
-                int ClaveNueva = Convert.ToInt32(ClaveID.clave) + 1;
+                //int ClaveNueva = Convert.ToInt32(ClaveID.clave) + 1;
 
-                Requisicion.claveOLD = Convert.ToString(ClaveNueva);
+                //Requisicion.claveOLD = Convert.ToString(ClaveNueva);
+
+                var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
+                var UltimoConsecutivo_Clave = Convert.ToInt32(ClaveID.clave.Substring(4));
+
+                var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
+
+                var ConsecutivoNuevoTxt = "";
+
+                if (ConsecutivoNuevo < 100)
+                {
+                    ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
+                }
+                else
+                {
+                    ConsecutivoNuevoTxt = "" + ConsecutivoNuevo;
+                }
 
                 //Obtenemos el borrador que se convertirá a Requi para cambiarle su Estatus y que ya no aparezca en Borradores
                 var Borrador = (from a in ConBD2.SISM_BORRADOR_REQUI
@@ -309,6 +325,9 @@ namespace UanlSISM.Controllers
                 var IdRequisicion = (from a in ConBD2.SISM_REQUISICION
                                   where a.Id_User == UsuarioRegistra
                                   select a).OrderByDescending(u => u.Id_Requicision).FirstOrDefault();
+
+                // ACTUALIZAMOS LA CLAVE DE LA
+                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequisicion.Id_Requicision + "';");
 
                 //ACTUALIZAMOS LA CLAVE DE LA REQUI PARA CONCATENARLA LA NOMENCLATURA Y ASÍ GUARDAR EL FOLIO
                 ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC-" + ff + "-" + IdRequisicion.Id_Requicision + "' WHERE Id_Requicision='" + IdRequisicion.Id_Requicision + "';");
@@ -404,7 +423,11 @@ namespace UanlSISM.Controllers
                 //    }
                 //}
 
-                //Req.clave = Convert.ToString(ClaveNueva);
+                ////Req.clave = Convert.ToString(ClaveNueva);
+
+                //var ClaveNueva = AñoMes_Actual + ConsecutivoNuevoTxt;
+                //Req.clave = ClaveNueva;
+
                 //Req.EstatusContrato = Borrador.EstatusContrato;
 
                 //RequisicionDB.Requisicion.Add(Req);
@@ -647,15 +670,32 @@ namespace UanlSISM.Controllers
                                    a.clave
                                }).OrderByDescending(u => u.clave).FirstOrDefault();
 
-                int ClaveNueva = Convert.ToInt32(ClaveID.clave) + 1;
+                //int ClaveNueva = Convert.ToInt32(ClaveID.clave) + 1;
 
                 //Creamos una nueva Requi
                 SISM_REQUISICION NuevaRequi = new SISM_REQUISICION();
                 NuevaRequi.Fecha = fechaDT;
                 NuevaRequi.Id_User = UsuarioRegistra;
                 NuevaRequi.IP_User = ip_realiza;
-                //NuevaRequi.Estatus = "Re";
-                NuevaRequi.claveOLD = Convert.ToString(ClaveNueva);
+                
+                //NuevaRequi.claveOLD = Convert.ToString(ClaveNueva);
+
+                var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
+                var UltimoConsecutivo_Clave = Convert.ToInt32(ClaveID.clave.Substring(4));
+
+                var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
+
+                var ConsecutivoNuevoTxt = "";
+
+                if (ConsecutivoNuevo < 100)
+                {
+                    ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
+                }
+                else
+                {
+                    ConsecutivoNuevoTxt =  ""+ConsecutivoNuevo;
+                }
+
                 NuevaRequi.EstatusContrato = StatusContrato;
                 NuevaRequi.EstatusOC = "0";
 
@@ -667,6 +707,9 @@ namespace UanlSISM.Controllers
                                where a.Id_User == UsuarioRegistra
                                where a.Fecha == fechaDT
                                select a).OrderByDescending(u => u.Id_Requicision).FirstOrDefault();
+
+                //ACTUALIZAMOS LA CLAVE DE LA 
+                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
 
                 //ACTUALIZAMOS EL ID DE LA REQUI PARA CONCATENARLA LA NOMENCLATURA Y ASÍ GUARDAR EL FOLIO
                 //ConBD.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC-" + IdRequi.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
@@ -771,7 +814,11 @@ namespace UanlSISM.Controllers
                 //    }
                 //}
 
-                //Req.clave = Convert.ToString(ClaveNueva);
+                ////Req.clave = Convert.ToString(ClaveNueva);
+
+                //var ClaveNueva = AñoMes_Actual + ConsecutivoNuevoTxt;
+                //Req.clave = ClaveNueva;
+
                 //Req.EstatusContrato = StatusContrato;
 
                 //RequisicionDB.Requisicion.Add(Req);
