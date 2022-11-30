@@ -351,6 +351,31 @@ namespace UanlSISM.Controllers
                         detalleRequisicion.Cantidad = item.Cantidad;
                     }
 
+                    //-------------------
+                    if (Borrador.EstatusContrato != "Sin Contrato")
+                    {
+                        var ARTICULO = (from a in ConBD2.SISM_COSTEO_LICITACION
+                                        where a.Id_Sustancia == item.Id_Sustancia
+                                        select a).FirstOrDefault();
+
+                        if (ARTICULO != null)
+                        {
+                            detalleRequisicion.PrecioUnitario = ARTICULO.PrecioUnitario;
+
+                            //nuevoDetalle.Total = nuevoDetalle.PrecioUnitario * nuevoDetalle.Cantidad;
+                            detalleRequisicion.Total = (double?)decimal.Round((decimal)(detalleRequisicion.Cantidad * detalleRequisicion.PrecioUnitario), 2);
+                        }
+                        else
+                        {
+                        }
+                    }
+                    else
+                    {
+                        detalleRequisicion.PrecioUnitario = 0;
+                        detalleRequisicion.Total = 0;
+                    }
+                    //-------------------
+
                     detalleRequisicion.Clave = item.Clave;
                     detalleRequisicion.Descripcion = item.Descripcion;
                     detalleRequisicion.Compendio = item.Compendio;
@@ -394,7 +419,7 @@ namespace UanlSISM.Controllers
 
                 //--------------------------------------------------------------------------------------------------------------------------------
                 /*  GUARDAR LA REQUISICION Y SU DETALLE EN LAS TABLAS DE REQUISICION Y DETALLE REQUISICION  */
-                //Requisicion_1 Req = new Requisicion_1();
+                Requisicion_1 Req = new Requisicion_1();
                 //Req.Id_Tipo = 2;
                 //Req.Fecha = fechaDT;
                 //Req.Status = true;
@@ -868,8 +893,6 @@ namespace UanlSISM.Controllers
                 //    RequisicionDB.SaveChanges();
                 //}
                 //--------------------------------------------------------------------------------------------------------------------------------
-
-
 
                 return Json(new { MENSAJE = "Succe: Se generó la Requisición" }, JsonRequestBehavior.AllowGet);
             }

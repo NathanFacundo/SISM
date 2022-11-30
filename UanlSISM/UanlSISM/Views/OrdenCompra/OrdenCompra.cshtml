@@ -143,7 +143,7 @@
                         <thead>
 
                             <tr>
-                                <th COLSPAN="7">
+                                <th COLSPAN="8">
                                     <div class="input-group" id="LABEL">
                                         <span style="height:30px;" class="input-group-text">Proveedor:</span>
                                         <label style="height:30px;" type="text" class="form-control" id="PROV" name="PROV" />
@@ -164,10 +164,10 @@
                                     @*<h10 style="color:green">Fecha O.C: </h10><br />
                                     <a style="font-size:13px" id="FechaOC"></a>*@
                                 </th>
-                                
                                 @*<th>
-            <h8 style="color:black"> <em><b id="EstContrato"></b></em></h8>
-        </th>*@
+                                    <h8 style="color:black"> <em><b id="EstContrato"></b></em></h8>
+                                </th>*@
+                                <th></th>
                                 <th COLSPAN="2">
                                     <h10 id="Contrato" style="color:green">Con Contrato </h10><br />
                                     <a style="font-size: 13px" id="EstContrato"></a>
@@ -175,12 +175,14 @@
                             </tr>
                             <tr>
                                 <th></th>
-                                <th>Clave Med.</th>
+                                <th>Clave</th>
                                 <th>Descripción</th>
                                 @*<th>Compendio</th>*@
                                 <th>Cant. Solicitada</th>
                                 <th>Precio U.</th>
                                 <th>Total</th>
+                                <th>Cant. Nueva</th>
+                                <th>P. U. Nuevo</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -411,7 +413,8 @@
                         };
                     });
                     if (Insertar) {
-                        //item.CANTIDAD = 1;
+                        item.CANTIDAD_NUEVA = 0;
+                        item.PREUNIT_NUEVA = 0;
                         DetRequi.push(item);
                     }
                     LlenDetalle(DetRequi);
@@ -465,11 +468,25 @@
                         //{ "data": "Compendio", className: "text-center" },
                         //{ "data": "Compendio", className: "text-center", render: function (data) { return (data == null ? '<h8 style="color:black; ">' + "SIN COMPENDIO" + '</h8>' : '<a>' + data + '</a>'); } },
                         { "data": "Cantidad", className: "text-center" },
-                        { "data": "PrecioUnit", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
-                        { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') }
+                        { "data": "PrecioUnitario", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                        { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                        { 'data': 'CANTIDAD_NUEVA', className: "text-center", render: function (data) { return "<input id='InputCantidad' style='width:70px; border:0; border-bottom:1px solid;  background: transparent;' type='number' min='1' max='' value='" + data + "'></input>" } },
+                        { 'data': 'PREUNIT_NUEVA', className: "text-center", render: function (data) { return "<input id='InputPU' style='width:70px; border:0; border-bottom:1px solid;  background: transparent;' type='number' min='1' max='' value='" + data + "'></input>" } }
                     ]
                 });
             }
+
+        $('#tblDetalleRequi tbody').on('change', '#InputCantidad', function () {
+            var tr = $(this).closest('tr');
+            var row = $('#tblDetalleRequi').DataTable().row(tr);
+            row.data().CANTIDAD_NUEVA = $(this).val();
+        }).change();
+
+        $('#tblDetalleRequi tbody').on('change', '#InputPU', function () {
+            var tr = $(this).closest('tr');
+            var row = $('#tblDetalleRequi').DataTable().row(tr);
+            row.data().PREUNIT_NUEVA = $(this).val();
+        }).change();
 
         //} else {
 
@@ -525,10 +542,10 @@
                     error: function (ex) {
                         Swal.fire({
                             icon: 'error',
-                            title: '¡Error!',
-                            text: 'Orden de Compra no generada'
+                            title: 'Orden de Compra no generada',
+                    
                         });
-                        location.reload();
+                        //location.reload();
                     }
 
                 });

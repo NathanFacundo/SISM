@@ -1182,6 +1182,7 @@
       <DependentUpon>Dhabientes.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\P_BorradorRequisicion.cs" />
+    <Compile Include="Models\P_OrdenCompra.cs" />
     <Compile Include="Models\P_Sustancia.cs" />
     <Compile Include="Models\RayosX.Context.cs">
       <AutoGen>True</AutoGen>

@@ -340,6 +340,8 @@
             $('#NoOC').html(response[0].Clave);
             $('#FechaOC').html(response[0].Fecha);
             $('#Fecha').html(response[0].Fecha1);
+
+            @*$('#PROV').html(@ViewBag.NombreProvedor);*@
             
             $('#UsElaboro').html(response[0].Usuario);
             LlenDetalle(response);
@@ -384,7 +386,7 @@
                     { "data": "Clave", className: "text-center" },
                     { "data": "Descripcion", className: "text-center" },
                     { "data": "Cantidad", className: "text-center" },
-                    { "data": "PrecioUnit", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                    { "data": "PrecioUnitario", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                     { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') }
                 ]
             });

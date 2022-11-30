@@ -45,7 +45,7 @@ namespace UanlSISM.Controllers
             public string Usuario { get; set; }
             public int? Existencia { get; set; }
             public string Compendio { get; set; }
-            public double PrecioUnit { get; set; }
+            public double PrecioUnitario { get; set; }
             public double Total { get; set; }
         }
 
@@ -152,7 +152,7 @@ namespace UanlSISM.Controllers
                             Fecha1 = string.Format("{0:d/M/yy hh:mm tt}", fechaDT),
                             EstatusContrato = q.EstatusContrato,
                             Compendio = q.Compendio,
-                            PrecioUnit = (double)q.PrecioUnitario,
+                            PrecioUnitario = (double)q.PrecioUnitario,
                             Total = (double)q.Total
                         };
                         results1.Add(resultado);
@@ -181,7 +181,9 @@ namespace UanlSISM.Controllers
             var fechaDT = DateTime.Parse(fecha);
             var ip_realiza = Request.UserHostAddress;
             var IdUsuarioCifrado = User.Identity.GetUserId();
-            
+
+            //return null;
+
             try
             {
                 //PROVEEDOR de la Requi(Orden)
@@ -191,12 +193,12 @@ namespace UanlSISM.Controllers
                             ).FirstOrDefault();
                 //REQUI que se hará Orden
                 var Requi = (from a in ConBD2.SISM_REQUISICION
-                            where a.claveOLD == FolioRequi.ToString()
+                             where a.claveOLD == FolioRequi.ToString()
                              select a
                             ).FirstOrDefault();
                 //DETALLE DE LA REQUI -lista-
                 var DetalleRequi = (from a in ConBD2.SISM_DET_REQUISICION
-                             where a.Id_Requicision == Requi.Id_Requicision
+                                    where a.Id_Requicision == Requi.Id_Requicision
                                     select a
                             ).ToList();
                 //Obtenemos el Usuario que se logueó para hacer el join (buscarlo) en la tabla Usuario y así obtener el Id de esa tabla
@@ -204,7 +206,6 @@ namespace UanlSISM.Controllers
                 var UsuarioOLD = (from a in db.Usuario
                                   where a.Usu_User == UsuarioOld
                                   select a).FirstOrDefault();
-                
 
                 //CREAR ORDEN NUEVA a partir de una Requi
                 SISM_ORDEN_COMPRA OC = new SISM_ORDEN_COMPRA();
@@ -228,8 +229,7 @@ namespace UanlSISM.Controllers
                 //ACTUALIZAMOS LA REQUI EN SU COLUMNA 'EstatusOC' poniendo 1 ya que esa requi se hará O.C
                 ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET EstatusOC = '1' WHERE Id_Requicision='" + Requi.Id_Requicision + "';");
 
-                //-----------
-                //obtener la ultima 'clave' para que inserte un nuevo registro (consecutivo de la clave)
+                //obtener la ultima 'clave' de la tabla OrdenCompra actualBD vieja) para que inserte un nuevo registro en la nueva BD CONSECUTIVO de la clave
                 var Clave = (from a in db.OrdenCompra
                              select new
                              {
@@ -238,18 +238,26 @@ namespace UanlSISM.Controllers
 
                 var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
                 var UltimoConsecutivo_Clave = Convert.ToInt32(Clave.clave.Substring(4));
-                //var CLAVE = Convert.ToInt32(AñoMes_Actual) + ((UltimoConsecutivo_Clave) + 1);
                 var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
+                var ConsecutivoNuevoTxt = "";
 
-                //Obtenemos la ultima requi guardada(que es esta) para guardar su detalle
+                if (ConsecutivoNuevo < 100)
+                {
+                    ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
+                }
+                else
+                {
+                    ConsecutivoNuevoTxt = "" + ConsecutivoNuevo;
+                }
+
+                //Obtenemos la ultima O.C guardada(que es esta) para guardar su detalle
                 var IdOC = (from a in ConBD2.SISM_ORDEN_COMPRA
                             where a.UsuarioNuevo == UsuarioRegistra
-                               where a.Fecha == fechaDT
-                               select a).OrderByDescending(u => u.Id).FirstOrDefault();
+                            where a.Fecha == fechaDT
+                            select a).OrderByDescending(u => u.Id).FirstOrDefault();
 
                 //ACTUALIZAMOS LA CLAVE DE LA O'C 
-                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Clave = '" + AñoMes_Actual + ConsecutivoNuevo + "' WHERE Id='" + IdOC.Id + "';");
-                //-----------
+                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Clave = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id='" + IdOC.Id + "';");
 
                 //RECORREMOS DETALLE DE LA REQUI para guardar en la tabla DETALLE ORDEN
                 foreach (var item in DetalleRequi)
@@ -260,33 +268,30 @@ namespace UanlSISM.Controllers
                     //BUSCAMOS EN LA TABLA "CodigoBarras" el Id del Codigo de Barras, buscando por el Id de la Sustancia
                     var CodigoBarras = (from a in SISMFarmacia.CodigoBarras
                                         where a.Id_Sustancia == item.Id_Sustancia
-                                      select a).FirstOrDefault();
-
-                    //BUSCAMOS EN LA TABLA "Sustancia" 
-                    var Sustancia = (from a in SISMFarmacia.Sustancia
-                                                where a.Id == item.Id_Sustancia
                                         select a).FirstOrDefault();
+
+                    //BUSCAMOS EN LA TABLA "Sustancia" la SUSTANCIA
+                    var Sustancia = (from a in SISMFarmacia.Sustancia
+                                     where a.Id == item.Id_Sustancia
+                                     select a).FirstOrDefault();
 
                     DetalleOC.Id_OrdenCompra = IdOC.Id;
                     DetalleOC.Id_CodigoBarrar = CodigoBarras.Id;
-                    DetalleOC.Cantidad = item.Cantidad;
-                    DetalleOC.PreUnit = item.PrecioUnitario;
-
-                    DetalleOC.Total = (double?)decimal.Round((decimal)(DetalleOC.Cantidad * DetalleOC.PreUnit), 2);
-
                     DetalleOC.Obsequio = 0;
                     DetalleOC.Status = false;
                     DetalleOC.Id_Sustencia = item.Id_Sustancia;
-                    //NOTA: Columna de Vic (pendiente) es el mismo dato que CANTIDAD
-                    DetalleOC.Pendiente = item.Cantidad;
                     DetalleOC.Descripcion = Sustancia.descripcion_21;
                     DetalleOC.ClaveMedicamento = Sustancia.Clave;
 
+                    DetalleOC.Pendiente = item.Cantidad;//NOTA: Columna de Vic (pendiente) es el mismo dato que CANTIDAD
+                    DetalleOC.Cantidad = item.Cantidad;
+                    DetalleOC.PreUnit = item.PrecioUnitario;
+                    DetalleOC.Total = (double?)decimal.Round((decimal)(DetalleOC.Cantidad * DetalleOC.PreUnit), 2);
+                    
 
                     ConBD2.SISM_DETALLE_OC.Add(DetalleOC);
                     ConBD2.SaveChanges();
                 }
-
                 return Json(new { MENSAJE = "Succe: Se generó la O.C" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -346,10 +351,13 @@ namespace UanlSISM.Controllers
                                }).FirstOrDefault();
                 var IdOC = (from a in ConBD2.SISM_ORDEN_COMPRA
                                where a.Clave == FolioOC.ToString()
-                               select new
-                               {
-                                   a.Id
-                               }).FirstOrDefault();
+                               select a
+                               ).FirstOrDefault();
+                //PROVEEDOR de la Requi(Orden)
+                var Prov = (from a in db.Proveedor
+                            where a.Id == IdOC.Id_Proveedor
+                            select a
+                            ).FirstOrDefault();
 
                 var query = (from a in ConBD2.SISM_ORDEN_COMPRA
                              join DetOC in ConBD2.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
@@ -367,6 +375,8 @@ namespace UanlSISM.Controllers
                                  Total = DetOC.Total
                              }).ToList();
 
+                ViewBag.NombreProvedor = Prov.Prov_Nombre;
+
                 var results1 = new List<ListCampos>();
                 //LISTA DE LA O.C Y SU DETALLE
                 foreach (var q in query)
@@ -380,7 +390,7 @@ namespace UanlSISM.Controllers
                         Descripcion = q.Descripcion,
                         Clave = q.ClaveMed,
                         Cantidad = (int)q.Cantidad,
-                        PrecioUnit = (double)q.PU,
+                        PrecioUnitario = (double)q.PU,
                         Total = (double)q.Total
                         
                     };

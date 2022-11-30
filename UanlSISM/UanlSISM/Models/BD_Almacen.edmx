@@ -110,10 +110,12 @@
           <Property Name="Status" Type="bit" />
           <Property Name="Id_Sustencia" Type="int" />
           <Property Name="Pendiente" Type="int" />
-          <Property Name="CantidadNueva" Type="int" />
+          <Property Name="Cantidad_Nueva" Type="int" />
           <Property Name="Total" Type="float" />
           <Property Name="Descripcion" Type="varchar" MaxLength="300" />
           <Property Name="ClaveMedicamento" Type="varchar" MaxLength="15" />
+          <Property Name="PreUnit_Nueva" Type="float" />
+          <Property Name="Total_Nueva" Type="float" />
         </EntityType>
         <EntityType Name="SISM_DETALLE_REQ_FARMACIA">
           <Key>
@@ -455,10 +457,12 @@
           <Property Name="Id_Sustencia" Type="Int32" />
           <Property Name="Pendiente" Type="Int32" />
           <NavigationProperty Name="SISM_ORDEN_COMPRA" Relationship="Self.FK__SISM_DETA__Id_Or__440B1D61" FromRole="SISM_DETALLE_OC" ToRole="SISM_ORDEN_COMPRA" />
-          <Property Name="CantidadNueva" Type="Int32" />
           <Property Name="Total" Type="Double" />
           <Property Name="Descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="ClaveMedicamento" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Cantidad_Nueva" Type="Int32" />
+          <Property Name="PreUnit_Nueva" Type="Double" />
+          <Property Name="Total_Nueva" Type="Double" />
         </EntityType>
         <EntityType Name="SISM_DETALLE_REQ_FARMACIA">
           <Key>
@@ -797,10 +801,12 @@
           <EntitySetMapping Name="SISM_DETALLE_OC">
             <EntityTypeMapping TypeName="SISM_SIST_MED_MILTONModel.SISM_DETALLE_OC">
               <MappingFragment StoreEntitySet="SISM_DETALLE_OC">
+                <ScalarProperty Name="Total_Nueva" ColumnName="Total_Nueva" />
+                <ScalarProperty Name="PreUnit_Nueva" ColumnName="PreUnit_Nueva" />
+                <ScalarProperty Name="Cantidad_Nueva" ColumnName="Cantidad_Nueva" />
                 <ScalarProperty Name="ClaveMedicamento" ColumnName="ClaveMedicamento" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="CantidadNueva" ColumnName="CantidadNueva" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Id_OrdenCompra" ColumnName="Id_OrdenCompra" />
                 <ScalarProperty Name="Id_CodigoBarrar" ColumnName="Id_CodigoBarrar" />

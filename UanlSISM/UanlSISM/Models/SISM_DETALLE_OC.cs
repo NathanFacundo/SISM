@@ -23,10 +23,12 @@ namespace UanlSISM.Models
         public Nullable<bool> Status { get; set; }
         public Nullable<int> Id_Sustencia { get; set; }
         public Nullable<int> Pendiente { get; set; }
-        public Nullable<int> CantidadNueva { get; set; }
         public Nullable<double> Total { get; set; }
         public string Descripcion { get; set; }
         public string ClaveMedicamento { get; set; }
+        public Nullable<int> Cantidad_Nueva { get; set; }
+        public Nullable<double> PreUnit_Nueva { get; set; }
+        public Nullable<double> Total_Nueva { get; set; }
     
         public virtual SISM_ORDEN_COMPRA SISM_ORDEN_COMPRA { get; set; }
     }
