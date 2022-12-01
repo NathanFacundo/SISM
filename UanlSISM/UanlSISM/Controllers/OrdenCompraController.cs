@@ -47,6 +47,7 @@ namespace UanlSISM.Controllers
             public string Compendio { get; set; }
             public double PrecioUnitario { get; set; }
             public double Total { get; set; }
+            public int Id_Sustancia { get; set; }
         }
 
         public ActionResult ObtenerRequisInicio()
@@ -122,7 +123,8 @@ namespace UanlSISM.Controllers
                                  EstatusContrato = a.EstatusContrato,
                                  det.Compendio,
                                  det.PrecioUnitario,
-                                 det.Total
+                                 det.Total,
+                                 det.Id_Sustancia
                              }).ToList();
 
                 var results1 = new List<ListCampos>();
@@ -153,7 +155,8 @@ namespace UanlSISM.Controllers
                             EstatusContrato = q.EstatusContrato,
                             Compendio = q.Compendio,
                             PrecioUnitario = (double)q.PrecioUnitario,
-                            Total = (double)q.Total
+                            Total = (double)q.Total,
+                            Id_Sustancia = q.Id_Sustancia
                         };
                         results1.Add(resultado);
                     }
@@ -181,9 +184,7 @@ namespace UanlSISM.Controllers
             var fechaDT = DateTime.Parse(fecha);
             var ip_realiza = Request.UserHostAddress;
             var IdUsuarioCifrado = User.Identity.GetUserId();
-
             //return null;
-
             try
             {
                 //PROVEEDOR de la Requi(Orden)
@@ -206,7 +207,6 @@ namespace UanlSISM.Controllers
                 var UsuarioOLD = (from a in db.Usuario
                                   where a.Usu_User == UsuarioOld
                                   select a).FirstOrDefault();
-
                 //CREAR ORDEN NUEVA a partir de una Requi
                 SISM_ORDEN_COMPRA OC = new SISM_ORDEN_COMPRA();
                 //OC.Clave = CLAVE.ToString();
@@ -222,25 +222,20 @@ namespace UanlSISM.Controllers
                 OC.Cuadro = 1;
                 OC.UsuarioNuevo = UsuarioRegistra;
                 OC.IP_User = ip_realiza;
-
                 ConBD2.SISM_ORDEN_COMPRA.Add(OC);
                 ConBD2.SaveChanges();
-
                 //ACTUALIZAMOS LA REQUI EN SU COLUMNA 'EstatusOC' poniendo 1 ya que esa requi se hará O.C
                 ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET EstatusOC = '1' WHERE Id_Requicision='" + Requi.Id_Requicision + "';");
-
                 //obtener la ultima 'clave' de la tabla OrdenCompra actualBD vieja) para que inserte un nuevo registro en la nueva BD CONSECUTIVO de la clave
                 var Clave = (from a in db.OrdenCompra
                              select new
                              {
                                  clave = a.clave
                              }).OrderByDescending(u => u.clave).FirstOrDefault();
-
                 var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
                 var UltimoConsecutivo_Clave = Convert.ToInt32(Clave.clave.Substring(4));
                 var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
                 var ConsecutivoNuevoTxt = "";
-
                 if (ConsecutivoNuevo < 100)
                 {
                     ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
@@ -249,46 +244,92 @@ namespace UanlSISM.Controllers
                 {
                     ConsecutivoNuevoTxt = "" + ConsecutivoNuevo;
                 }
-
                 //Obtenemos la ultima O.C guardada(que es esta) para guardar su detalle
                 var IdOC = (from a in ConBD2.SISM_ORDEN_COMPRA
                             where a.UsuarioNuevo == UsuarioRegistra
                             where a.Fecha == fechaDT
                             select a).OrderByDescending(u => u.Id).FirstOrDefault();
-
                 //ACTUALIZAMOS LA CLAVE DE LA O'C 
                 ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Clave = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id='" + IdOC.Id + "';");
-
-                //RECORREMOS DETALLE DE LA REQUI para guardar en la tabla DETALLE ORDEN
-                foreach (var item in DetalleRequi)
+                //RECORREMOS  para guardar en la tabla DETALLE ORDEN
+                foreach (var item in ListaOC)
                 {
                     //CREAR EL DETALLE DE LA NUEVA ORDEN
                     SISM_DETALLE_OC DetalleOC = new SISM_DETALLE_OC();
-
                     //BUSCAMOS EN LA TABLA "CodigoBarras" el Id del Codigo de Barras, buscando por el Id de la Sustancia
                     var CodigoBarras = (from a in SISMFarmacia.CodigoBarras
                                         where a.Id_Sustancia == item.Id_Sustancia
                                         select a).FirstOrDefault();
-
-                    //BUSCAMOS EN LA TABLA "Sustancia" la SUSTANCIA
-                    var Sustancia = (from a in SISMFarmacia.Sustancia
-                                     where a.Id == item.Id_Sustancia
+                    //Obtenemos la info de SUSTANCIA de la tabla Detalle_Requi
+                    var Sustancia = (from a in ConBD2.SISM_DET_REQUISICION
+                                     where a.Clave == item.Clave
                                      select a).FirstOrDefault();
-
                     DetalleOC.Id_OrdenCompra = IdOC.Id;
                     DetalleOC.Id_CodigoBarrar = CodigoBarras.Id;
                     DetalleOC.Obsequio = 0;
                     DetalleOC.Status = false;
                     DetalleOC.Id_Sustencia = item.Id_Sustancia;
-                    DetalleOC.Descripcion = Sustancia.descripcion_21;
+                    DetalleOC.Descripcion = Sustancia.Descripcion;
                     DetalleOC.ClaveMedicamento = Sustancia.Clave;
+                    //Se valida si la CANTIDAD de cada item se modificó
+                    if (item.CANTIDAD_NUEVA > 0)
+                    {
+                        if (item.CANTIDAD_NUEVA > item.Cantidad || item.CANTIDAD_NUEVA == item.Cantidad)
+                        {
+                            DetalleOC.Cantidad_Nueva = item.CANTIDAD_NUEVA;
+                        }
+                        if (item.CANTIDAD_NUEVA < item.Cantidad)
+                        {
+                            DetalleOC.Cantidad_Nueva = item.Cantidad - item.CANTIDAD_NUEVA;
+                        }
+                        DetalleOC.Pendiente = DetalleOC.Cantidad_Nueva;
+                    }
+                    else
+                    {
+                        DetalleOC.Cantidad = item.Cantidad;
+                        DetalleOC.Pendiente = DetalleOC.Cantidad;
+                    }
+                    //Se valida si el PRECIO UNITARIO se modificó
+                    if (item.PREUNIT_NUEVA > 0)
+                    {
+                        if (item.PREUNIT_NUEVA > item.PrecioUnitario || item.PREUNIT_NUEVA == item.PrecioUnitario)
+                        {
+                            DetalleOC.PreUnit_Nueva = item.PREUNIT_NUEVA;
+                        }
+                        if (item.PREUNIT_NUEVA < item.PrecioUnitario)
+                        {
+                            DetalleOC.PreUnit_Nueva = item.PrecioUnitario - item.PREUNIT_NUEVA;
+                        }
+                    }
+                    else
+                    {
+                        DetalleOC.PreUnit = item.PrecioUnitario;
+                    }
+                    //Se valida si se ingresó una NUEVA CANTIDAD o un NUEVO PRECIO UNITARIO     $$TOTAL$$ Y $$TOTAL_NUEVA$$
+                    if (item.CANTIDAD_NUEVA > 0 || item.PREUNIT_NUEVA > 0)
+                    {
+                        if (item.CANTIDAD_NUEVA > 0 && item.PREUNIT_NUEVA > 0)
+                        {
+                            DetalleOC.Total_Nueva = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PREUNIT_NUEVA), 2);
+                        }
+                        if (item.CANTIDAD_NUEVA > 0)
+                        {
+                            DetalleOC.Total_Nueva = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PrecioUnitario), 2);
+                        }
+                        if (item.PREUNIT_NUEVA > 0)
+                        {
+                            DetalleOC.Total_Nueva = (double?)decimal.Round((decimal)(item.Cantidad * item.PREUNIT_NUEVA), 2);
+                        }
+                    }
+                    else
+                    {
+                        DetalleOC.Total = (double?)decimal.Round((decimal)(DetalleOC.Cantidad * DetalleOC.PreUnit), 2);
+                    }
 
-                    DetalleOC.Pendiente = item.Cantidad;//NOTA: Columna de Vic (pendiente) es el mismo dato que CANTIDAD
-                    DetalleOC.Cantidad = item.Cantidad;
-                    DetalleOC.PreUnit = item.PrecioUnitario;
-                    DetalleOC.Total = (double?)decimal.Round((decimal)(DetalleOC.Cantidad * DetalleOC.PreUnit), 2);
-                    
-
+                    //DetalleOC.Pendiente = item.Cantidad;//NOTA: Columna de Vic (pendiente) es el mismo dato que CANTIDAD
+                    //DetalleOC.Cantidad = item.Cantidad;
+                    //DetalleOC.PreUnit = item.PrecioUnitario;
+                    //DetalleOC.Total = (double?)decimal.Round((decimal)(DetalleOC.Cantidad * DetalleOC.PreUnit), 2);
                     ConBD2.SISM_DETALLE_OC.Add(DetalleOC);
                     ConBD2.SaveChanges();
                 }
