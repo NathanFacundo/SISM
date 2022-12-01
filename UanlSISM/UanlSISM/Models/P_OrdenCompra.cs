@@ -10,6 +10,6 @@ namespace UanlSISM.Models
         //public short CANTIDAD { get; set; }
         public short CANTIDAD_NUEVA { get; set; }
         //public short PREUNIT { get; set; }
-        public short PREUNIT_NUEVA { get; set; }
+        public float PREUNIT_NUEVA { get; set; }
     }
 }

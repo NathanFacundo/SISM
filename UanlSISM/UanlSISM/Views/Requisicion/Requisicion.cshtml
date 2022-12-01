@@ -71,6 +71,7 @@
                 <th>Usuario Elaboró</th>
                 <th>Estatus Contrato</th>
                 <th>Detalle</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -760,7 +761,7 @@
             deferRender: true,
             scroller: true,
             scrollColapse: true,
-            scrollY: 280,
+            scrollY: 420,
             lengthChange: false,
             language: {
                 "zeroRecords": " ",
@@ -778,7 +779,7 @@
                 },
             },
             data: ListaRequis,
-            order: [[2, 'desc']],
+            "order": [[5, 'desc']],
             columns: [
                 { 'data': 'Clave', className: "text-center" },
                 { 'data': 'Fecha', className: "text-center" },
@@ -791,7 +792,11 @@
                     "data": null,
                     "defaultContent": '<button title="Ver Detalle" id="VerDetalle" class="btn btn-primary fa fa-book " data-toggle="modal" ></button>',
                     "target": -2
-                }
+                },
+                { "data": "FechaRequisicion" }
+            ],
+            columnDefs: [
+                { "visible": false, "targets": 5 },
             ]
         });
     }

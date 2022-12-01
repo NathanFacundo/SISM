@@ -110,12 +110,9 @@
           <Property Name="Status" Type="bit" />
           <Property Name="Id_Sustencia" Type="int" />
           <Property Name="Pendiente" Type="int" />
-          <Property Name="Cantidad_Nueva" Type="int" />
           <Property Name="Total" Type="float" />
           <Property Name="Descripcion" Type="varchar" MaxLength="300" />
           <Property Name="ClaveMedicamento" Type="varchar" MaxLength="15" />
-          <Property Name="PreUnit_Nueva" Type="float" />
-          <Property Name="Total_Nueva" Type="float" />
         </EntityType>
         <EntityType Name="SISM_DETALLE_REQ_FARMACIA">
           <Key>
@@ -460,10 +457,7 @@
           <Property Name="Total" Type="Double" />
           <Property Name="Descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="ClaveMedicamento" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="Cantidad_Nueva" Type="Int32" />
-          <Property Name="PreUnit_Nueva" Type="Double" />
-          <Property Name="Total_Nueva" Type="Double" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="SISM_DETALLE_REQ_FARMACIA">
           <Key>
             <PropertyRef Name="Id_Detalle_ReqFarm" />
@@ -801,9 +795,6 @@
           <EntitySetMapping Name="SISM_DETALLE_OC">
             <EntityTypeMapping TypeName="SISM_SIST_MED_MILTONModel.SISM_DETALLE_OC">
               <MappingFragment StoreEntitySet="SISM_DETALLE_OC">
-                <ScalarProperty Name="Total_Nueva" ColumnName="Total_Nueva" />
-                <ScalarProperty Name="PreUnit_Nueva" ColumnName="PreUnit_Nueva" />
-                <ScalarProperty Name="Cantidad_Nueva" ColumnName="Cantidad_Nueva" />
                 <ScalarProperty Name="ClaveMedicamento" ColumnName="ClaveMedicamento" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="Total" ColumnName="Total" />

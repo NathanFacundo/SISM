@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -101,7 +102,7 @@ namespace UanlSISM.Controllers
 
         SERVMEDEntities8 db = new SERVMEDEntities8();
         //SERVMEDEntities12 SPM = new SERVMEDEntities12();
-        
+
 
         public class LstInv1
         {
@@ -142,7 +143,7 @@ namespace UanlSISM.Controllers
         public JsonResult GenerarBorradorRequi(List<Sustancia> ListaSustanciasBorrador, string StatusContrato)
         {
             //return null;
-           
+
             var UsuarioRegistra = User.Identity.GetUserName();
             var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
             var fechaDT = DateTime.Parse(fecha);
@@ -301,7 +302,15 @@ namespace UanlSISM.Controllers
 
                 if (ConsecutivoNuevo < 100)
                 {
-                    ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
+                    if (ConsecutivoNuevo < 9)
+                    {
+                        ConsecutivoNuevoTxt = "00" + ConsecutivoNuevo;
+                    }
+                    else
+                    {
+                        ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
+                    }
+
                 }
                 else
                 {
@@ -323,8 +332,8 @@ namespace UanlSISM.Controllers
 
                 //Obtenemos al usuario que generó la Requi para despúes en la tabla Detalle obtener y guardar el Id de la Requi
                 var IdRequisicion = (from a in ConBD2.SISM_REQUISICION
-                                  where a.Id_User == UsuarioRegistra
-                                  select a).OrderByDescending(u => u.Id_Requicision).FirstOrDefault();
+                                     where a.Id_User == UsuarioRegistra
+                                     select a).OrderByDescending(u => u.Id_Requicision).FirstOrDefault();
 
                 // ACTUALIZAMOS LA CLAVE DE LA
                 ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequisicion.Id_Requicision + "';");
@@ -342,8 +351,8 @@ namespace UanlSISM.Controllers
                     {
                         if (item.CANTIDAD_NUEVA > item.Cantidad || item.CANTIDAD_NUEVA == item.Cantidad)
                             detalleRequisicion.Cantidad = item.Cantidad + item.CANTIDAD_NUEVA;
-                        
-                        if(item.CANTIDAD_NUEVA < item.Cantidad)
+
+                        if (item.CANTIDAD_NUEVA < item.Cantidad)
                             detalleRequisicion.Cantidad = item.Cantidad - item.CANTIDAD_NUEVA;
                     }
                     else
@@ -379,7 +388,7 @@ namespace UanlSISM.Controllers
                     detalleRequisicion.Clave = item.Clave;
                     detalleRequisicion.Descripcion = item.Descripcion;
                     detalleRequisicion.Compendio = item.Compendio;
-                                        
+
                     ConBD2.SISM_DET_REQUISICION.Add(detalleRequisicion);
                     ConBD2.SaveChanges();
                 }
@@ -419,7 +428,7 @@ namespace UanlSISM.Controllers
 
                 //--------------------------------------------------------------------------------------------------------------------------------
                 /*  GUARDAR LA REQUISICION Y SU DETALLE EN LAS TABLAS DE REQUISICION Y DETALLE REQUISICION  */
-                Requisicion_1 Req = new Requisicion_1();
+                //Requisicion_1 Req = new Requisicion_1();
                 //Req.Id_Tipo = 2;
                 //Req.Fecha = fechaDT;
                 //Req.Status = true;
@@ -541,7 +550,8 @@ namespace UanlSISM.Controllers
                         Clave = q.claveOLD,
                         Fecha = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha),
                         Id_User = q.Id_User,
-                        EstatusContrato = q.EstatusContrato
+                        EstatusContrato = q.EstatusContrato,
+                        FechaRequisicion = string.Format("{0:yyyy/M/d hh:mm tt}", q.Fecha, new CultureInfo("es-ES"))
                     };
                     results1.Add(resultado);
                 }
@@ -598,12 +608,12 @@ namespace UanlSISM.Controllers
 
                 foreach (var q in query)
                 {
-                    
+
                     var sus = (from a in DAM.Sustancia
-                                    where a.Clave == q.Clave
-                                    select a).FirstOrDefault();
-                    
-                    if(sus != null)
+                               where a.Clave == q.Clave
+                               select a).FirstOrDefault();
+
+                    if (sus != null)
                     {
                         string query2 = "select ManejoDisponible as ManejoDisponible from InvAlmFarm WHERE Id_Sustancia = " + sus.Id + " and InvAlmId = 76";
                         var result2 = db.Database.SqlQuery<InvAlmFarm>(query2);
@@ -624,7 +634,7 @@ namespace UanlSISM.Controllers
                         };
                         results1.Add(resultado);
                     }
-                    
+
                 }
 
                 //return Json(new { MENSAJE = "FOUND", REQUIS = query }, JsonRequestBehavior.AllowGet);
@@ -650,9 +660,9 @@ namespace UanlSISM.Controllers
             public string Compendio { get; set; }
         }
 
-        public JsonResult EliminarBorrador( int Id_FolioBorrador)
+        public JsonResult EliminarBorrador(int Id_FolioBorrador)
         {
-            
+
             try
             {
                 var Borrador = (from a in ConBD2.SISM_BORRADOR_REQUI
@@ -662,7 +672,7 @@ namespace UanlSISM.Controllers
                 Borrador.Estatus = "Borrador Cancelado";
 
                 ConBD2.SaveChanges();
-                
+
                 return Json(new { MENSAJE = "Succe: Se eliminó el Borrador" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -673,7 +683,7 @@ namespace UanlSISM.Controllers
         }
 
         SERVMEDEntities8 RequisicionDB = new SERVMEDEntities8();
-        
+
         public JsonResult GenerarRequisiciondirecta(List<Sustancia> ListaSustanciasRequiDirecta, string StatusContrato)
         {
             var UsuarioRegistra = User.Identity.GetUserName();
@@ -702,7 +712,7 @@ namespace UanlSISM.Controllers
                 NuevaRequi.Fecha = fechaDT;
                 NuevaRequi.Id_User = UsuarioRegistra;
                 NuevaRequi.IP_User = ip_realiza;
-                
+
                 //NuevaRequi.claveOLD = Convert.ToString(ClaveNueva);
 
                 var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
@@ -714,11 +724,19 @@ namespace UanlSISM.Controllers
 
                 if (ConsecutivoNuevo < 100)
                 {
-                    ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
+                    if (ConsecutivoNuevo < 9)
+                    {
+                        ConsecutivoNuevoTxt = "00" + ConsecutivoNuevo;
+                    }
+                    else
+                    {
+                        ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
+                    }
+
                 }
                 else
                 {
-                    ConsecutivoNuevoTxt =  ""+ConsecutivoNuevo;
+                    ConsecutivoNuevoTxt = "" + ConsecutivoNuevo;
                 }
 
                 NuevaRequi.EstatusContrato = StatusContrato;
@@ -737,7 +755,7 @@ namespace UanlSISM.Controllers
                 ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
 
                 //ACTUALIZAMOS EL ID DE LA REQUI PARA CONCATENARLA LA NOMENCLATURA Y ASÍ GUARDAR EL FOLIO
-                //ConBD.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC-" + IdRequi.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
+                //ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC-" + IdRequi.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
                 ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC-" + ff + "-" + IdRequi.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
 
                 //Recorremos que lista que recibimos como parámetro para guardar el detalle en la Requi
@@ -905,7 +923,7 @@ namespace UanlSISM.Controllers
         //BORRADOR DEL BORRADOR
         public JsonResult GenerarBorradorX2(List<SISM_DETALLE_BORRADOR_REQUI> ListaSustanciasBorrador, int Id_FolioBorrador)
         {
-            
+
             var UsuarioRegistra = User.Identity.GetUserName();
             var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
             var fechaDT = DateTime.Parse(fecha);

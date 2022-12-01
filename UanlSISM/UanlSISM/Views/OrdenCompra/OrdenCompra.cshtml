@@ -68,6 +68,7 @@
                     <th>Estatus Contrato</th>
                     <th>Usuario</th>
                     <th>Detalle</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -349,7 +350,7 @@
                 },
             },
             data: DetRequi,
-            order: [[2, 'desc']],
+            "order": [[5, 'desc']],
             columns: [
                 { 'data': 'Clave', className: "text-center" },
                 { 'data': 'Fecha', className: "text-center" },
@@ -362,7 +363,11 @@
                     "data": null,
                     "defaultContent": '<button title="Ver Detalle" id="VerDetalle" class="btn btn-primary fa fa-book " data-toggle="modal" ></button>',
                     "target": -2
-                }
+                },
+                { "data": "FechaRequisicion" }
+            ],
+            columnDefs: [
+                { "visible": false, "targets": 5 },
             ]
         });
     }
@@ -471,7 +476,8 @@
                         { "data": "PrecioUnitario", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                         { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                         { 'data': 'CANTIDAD_NUEVA', className: "text-center", render: function (data) { return "<input id='InputCantidad' style='width:70px; border:0; border-bottom:1px solid;  background: transparent;' type='number' min='1' max='' value='" + data + "'></input>" } },
-                        { 'data': 'PREUNIT_NUEVA', className: "text-center", render: function (data) { return "<input id='InputPU' style='width:70px; border:0; border-bottom:1px solid;  background: transparent;' type='number' min='1' max='' value='" + data + "'></input>" } }
+                        //{ 'data': 'PREUNIT_NUEVA', className: "text-center", render: function (data) { return "<input id='InputPU' style='width:70px; border:0; border-bottom:1px solid;  background: transparent;' type='number' min='1' max='' value='" + data + "'></input>" } },
+                        { 'data': 'PREUNIT_NUEVA', className: "text-center", render: function (data) { return (row.data().EstatusContrato != 'Sin Contrato' ? "" : "<input id='InputPU' style='width: 70px; border: 0; border-bottom: 1px solid; background: transparent; ' type='number' min='1' max='' value='" + data + "'></input>"); } }
                     ]
                 });
             }
@@ -481,17 +487,13 @@
             var row = $('#tblDetalleRequi').DataTable().row(tr);
             row.data().CANTIDAD_NUEVA = $(this).val();
         }).change();
-
         $('#tblDetalleRequi tbody').on('change', '#InputPU', function () {
             var tr = $(this).closest('tr');
             var row = $('#tblDetalleRequi').DataTable().row(tr);
             row.data().PREUNIT_NUEVA = $(this).val();
         }).change();
-
         //} else {
-
         //}
-
         $('#DetalleRequiModal').on('hidden.bs.modal', function () {
             location.reload();
         })
@@ -499,22 +501,16 @@
     });
 
     $('#btnGenerarOC').on('click', function () {
-
         Folio = $("#NoRequi").val();
         Proveedor = document.getElementById('PROV').textContent;
-
-        //alert(Folio)
-        //alert(Proveedor)
 
         if (DetRequi.length > 0) {
             TablaValida = true;
 
-            $.grep(DetRequi, function (itemEnLista) {
-
-            });
+            //$.grep(DetRequi, function (itemEnLista) {
+            //});
 
             if (TablaValida) {
-
                 $.ajax({
                     url: '@Url.Action("GenerarOC", "OrdenCompra")',
                     method: 'POST',
@@ -543,13 +539,11 @@
                         Swal.fire({
                             icon: 'error',
                             title: 'Orden de Compra no generada',
-                    
+
                         });
                         //location.reload();
                     }
-
                 });
-
             } else
                 Swal.fire({
                     icon: 'error',
@@ -562,8 +556,6 @@
                 text: 'No hay detalle de la Requisición'
             });
         }
-
-
     });
 
     $('#Cancelar').on('click', function () {

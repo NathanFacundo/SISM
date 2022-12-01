@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -67,7 +68,8 @@ namespace UanlSISM.Controllers
                         Clave = q.claveOLD,
                         Fecha = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha),
                         EstatusContrato = q.EstatusContrato,
-                        Id_User = q.Id_User
+                        Id_User = q.Id_User,
+                        FechaRequisicion = string.Format("{0:yyyy/M/d hh:mm tt}", q.Fecha, new CultureInfo("es-ES"))
                     };
                     results1.Add(resultado);
                 }
@@ -207,6 +209,8 @@ namespace UanlSISM.Controllers
                 var UsuarioOLD = (from a in db.Usuario
                                   where a.Usu_User == UsuarioOld
                                   select a).FirstOrDefault();
+
+                #region TODA LA ACCION
                 //CREAR ORDEN NUEVA a partir de una Requi
                 SISM_ORDEN_COMPRA OC = new SISM_ORDEN_COMPRA();
                 //OC.Clave = CLAVE.ToString();
@@ -274,15 +278,8 @@ namespace UanlSISM.Controllers
                     //Se valida si la CANTIDAD de cada item se modificó
                     if (item.CANTIDAD_NUEVA > 0)
                     {
-                        if (item.CANTIDAD_NUEVA > item.Cantidad || item.CANTIDAD_NUEVA == item.Cantidad)
-                        {
-                            DetalleOC.Cantidad_Nueva = item.CANTIDAD_NUEVA;
-                        }
-                        if (item.CANTIDAD_NUEVA < item.Cantidad)
-                        {
-                            DetalleOC.Cantidad_Nueva = item.Cantidad - item.CANTIDAD_NUEVA;
-                        }
-                        DetalleOC.Pendiente = DetalleOC.Cantidad_Nueva;
+                        DetalleOC.Cantidad = item.CANTIDAD_NUEVA;
+                        DetalleOC.Pendiente = DetalleOC.Cantidad;
                     }
                     else
                     {
@@ -292,40 +289,35 @@ namespace UanlSISM.Controllers
                     //Se valida si el PRECIO UNITARIO se modificó
                     if (item.PREUNIT_NUEVA > 0)
                     {
-                        if (item.PREUNIT_NUEVA > item.PrecioUnitario || item.PREUNIT_NUEVA == item.PrecioUnitario)
-                        {
-                            DetalleOC.PreUnit_Nueva = item.PREUNIT_NUEVA;
-                        }
-                        if (item.PREUNIT_NUEVA < item.PrecioUnitario)
-                        {
-                            DetalleOC.PreUnit_Nueva = item.PrecioUnitario - item.PREUNIT_NUEVA;
-                        }
+                        DetalleOC.PreUnit = item.PREUNIT_NUEVA;
                     }
                     else
                     {
                         DetalleOC.PreUnit = item.PrecioUnitario;
                     }
-                    //Se valida si se ingresó una NUEVA CANTIDAD o un NUEVO PRECIO UNITARIO     $$TOTAL$$ Y $$TOTAL_NUEVA$$
+                    //Se valida si se ingresó una NUEVA CANTIDAD o un NUEVO PRECIO UNITARIO     $$TOTAL$$ 
                     if (item.CANTIDAD_NUEVA > 0 || item.PREUNIT_NUEVA > 0)
                     {
                         if (item.CANTIDAD_NUEVA > 0 && item.PREUNIT_NUEVA > 0)
                         {
-                            DetalleOC.Total_Nueva = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PREUNIT_NUEVA), 2);
+                            DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PREUNIT_NUEVA), 2);
                         }
-                        if (item.CANTIDAD_NUEVA > 0)
+                        else
                         {
-                            DetalleOC.Total_Nueva = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PrecioUnitario), 2);
-                        }
-                        if (item.PREUNIT_NUEVA > 0)
-                        {
-                            DetalleOC.Total_Nueva = (double?)decimal.Round((decimal)(item.Cantidad * item.PREUNIT_NUEVA), 2);
+                            if (item.CANTIDAD_NUEVA > 0)
+                            {
+                                DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PrecioUnitario), 2);
+                            }
+                            if (item.PREUNIT_NUEVA > 0)
+                            {
+                                DetalleOC.Total = (double?)decimal.Round((decimal)(item.Cantidad * item.PREUNIT_NUEVA), 2);
+                            }
                         }
                     }
                     else
                     {
                         DetalleOC.Total = (double?)decimal.Round((decimal)(DetalleOC.Cantidad * DetalleOC.PreUnit), 2);
                     }
-
                     //DetalleOC.Pendiente = item.Cantidad;//NOTA: Columna de Vic (pendiente) es el mismo dato que CANTIDAD
                     //DetalleOC.Cantidad = item.Cantidad;
                     //DetalleOC.PreUnit = item.PrecioUnitario;
@@ -334,6 +326,8 @@ namespace UanlSISM.Controllers
                     ConBD2.SaveChanges();
                 }
                 return Json(new { MENSAJE = "Succe: Se generó la O.C" }, JsonRequestBehavior.AllowGet);
+                #endregion
+
             }
             catch (Exception ex)
             {
