@@ -337,12 +337,10 @@
         var array = { FolioOC: ClaveOC, FolioRequi: ClaveRequi  };
         var url = '@Url.Action("ObtenerDetalleOC_Generada", "OrdenCompra")';
         $.post(url, array).done(function (response) {
-            $('#NoOC').html(response[0].Clave);
+            $('#NoOC').html(response[0].Folio);
             $('#FechaOC').html(response[0].Fecha);
             $('#Fecha').html(response[0].Fecha1);
-
-            @*$('#PROV').html(@ViewBag.NombreProvedor);*@
-            
+            $('#PROV').html(response[0].NombreProveedor);
             $('#UsElaboro').html(response[0].Usuario);
             LlenDetalle(response);
 

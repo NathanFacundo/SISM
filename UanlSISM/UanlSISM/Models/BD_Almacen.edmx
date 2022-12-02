@@ -168,6 +168,7 @@
           <Property Name="Cuadro" Type="int" />
           <Property Name="UsuarioNuevo" Type="varchar" MaxLength="30" />
           <Property Name="IP_User" Type="varchar" MaxLength="30" />
+          <Property Name="NombreProveedor" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="SISM_REQUISICION">
           <Key>
@@ -514,6 +515,7 @@
           <Property Name="UsuarioNuevo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="IP_User" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="SISM_DETALLE_OC" Relationship="Self.FK__SISM_DETA__Id_Or__440B1D61" FromRole="SISM_ORDEN_COMPRA" ToRole="SISM_DETALLE_OC" />
+          <Property Name="NombreProveedor" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="SISM_REQUISICION">
           <Key>
@@ -852,6 +854,7 @@
           <EntitySetMapping Name="SISM_ORDEN_COMPRA">
             <EntityTypeMapping TypeName="SISM_SIST_MED_MILTONModel.SISM_ORDEN_COMPRA">
               <MappingFragment StoreEntitySet="SISM_ORDEN_COMPRA">
+                <ScalarProperty Name="NombreProveedor" ColumnName="NombreProveedor" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Clave" ColumnName="Clave" />
                 <ScalarProperty Name="Id_Requisicion" ColumnName="Id_Requisicion" />

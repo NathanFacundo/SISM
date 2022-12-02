@@ -144,7 +144,7 @@
                         <thead>
 
                             <tr>
-                                <th COLSPAN="8">
+                                <th COLSPAN="9">
                                     <div class="input-group" id="LABEL">
                                         <span style="height:30px;" class="input-group-text">Proveedor:</span>
                                         <label style="height:30px;" type="text" class="form-control" id="PROV" name="PROV" />
@@ -161,14 +161,8 @@
                                     <h10 style="color:green">Fecha Req: </h10><br />
                                     <a style="font-size:13px" id="FechaRequi"></a>
                                 </th>
-                                <th COLSPAN="2">
-                                    @*<h10 style="color:green">Fecha O.C: </h10><br />
-                                        <a style="font-size:13px" id="FechaOC"></a>*@
+                                <th COLSPAN="4">
                                 </th>
-                                @*<th>
-                                        <h8 style="color:black"> <em><b id="EstContrato"></b></em></h8>
-                                    </th>*@
-                                <th></th>
                                 <th COLSPAN="2">
                                     <h10 id="Contrato" style="color:green">Con Contrato </h10><br />
                                     <a style="font-size: 13px" id="EstContrato"></a>
@@ -184,6 +178,7 @@
                                 <th>Total</th>
                                 <th>Cant. Nueva</th>
                                 <th>P. U. Nuevo</th>
+                                <th>Eliminar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -476,7 +471,14 @@
                         { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                         { 'data': 'CANTIDAD_NUEVA', className: "text-center", render: function (data) { return "<input id='InputCantidad' style='width:70px; border:0; border-bottom:1px solid;  background: transparent;' type='number' min='1' max='' value='" + data + "'></input>" } },
                         //{ 'data': 'PREUNIT_NUEVA', className: "text-center", render: function (data) { return "<input id='InputPU' style='width:70px; border:0; border-bottom:1px solid;  background: transparent;' type='number' min='1' max='' value='" + data + "'></input>" } },
-                        { 'data': 'PREUNIT_NUEVA', className: "text-center", render: function (data) { return (row.data().EstatusContrato != 'Sin Contrato' ? "" : "<input id='InputPU' style='width: 70px; border: 0; border-bottom: 1px solid; background: transparent; ' type='number' min='1' max='' value='" + data + "'></input>"); } }
+                        { 'data': 'PREUNIT_NUEVA', className: "text-center", render: function (data) { return (row.data().EstatusContrato != 'Sin Contrato' ? "" : "<input id='InputPU' style='width: 70px; border: 0; border-bottom: 1px solid; background: transparent; ' type='number' min='1' max='' value='" + data + "'></input>"); } },
+                        {
+                            "className": 'text-center',
+                            "orderable": false,
+                            "data": null,
+                            "defaultContent": '<button title="Eliminar" id="botonDelete" class="btn btn-danger btn-sm fa fa-times" data-toggle="modal"></button>',
+                            "target": -2
+                        }
                     ]
                 });
             }
@@ -496,7 +498,26 @@
             location.reload();
         })
 
+        $('#tblDetalleRequi tbody').on('click', '#botonDelete', function () {
+            var tr = $(this).closest('tr');
+            var row = $('#tblDetalleRequi').DataTable().row(tr);
+
+            DetRequi.splice(DetRequi.indexOf(row.data()), 1);
+
+            LlenDetalle(DetRequi);
+
+            Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: 'SE ELIMINÓ EL MEDICAMENTO',
+                showConfirmButton: false,
+                timer: 1500
+            })
+
+        });
     });
+
+    
 
     $('#btnGenerarOC').on('click', function () {
         Folio = $("#NoRequi").val();
@@ -512,9 +533,7 @@
 
             $.grep(DetRequi, function (itemEnLista) {
                 if (EsConContrato === "Sin Contrato") {
-                    if ((itemEnLista.CANTIDAD_NUEVA <= 0 || itemEnLista.CANTIDAD_NUEVA == "" || itemEnLista.CANTIDAD_NUEVA == "0") &&
-                        (itemEnLista.PREUNIT_NUEVA <= 0 || itemEnLista.PREUNIT_NUEVA == "" || itemEnLista.PREUNIT_NUEVA == "0") ||
-                        (Proveedor = null || Proveedor === "")) {
+                    if (itemEnLista.PREUNIT_NUEVA <= 0 || itemEnLista.PREUNIT_NUEVA == "" || itemEnLista.PREUNIT_NUEVA == "0" || Proveedor == "") {
                         TablaValida = false;
                     }
                 } else {

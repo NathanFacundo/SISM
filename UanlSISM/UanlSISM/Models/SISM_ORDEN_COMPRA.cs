@@ -34,6 +34,7 @@ namespace UanlSISM.Models
         public Nullable<int> Cuadro { get; set; }
         public string UsuarioNuevo { get; set; }
         public string IP_User { get; set; }
+        public string NombreProveedor { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SISM_DETALLE_OC> SISM_DETALLE_OC { get; set; }

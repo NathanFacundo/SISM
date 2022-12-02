@@ -953,61 +953,62 @@
     }
 
 
-    @if (HttpContext.Current.User.IsInRole("Coordinador"))
-    {
-        <div class="col-lg-3 col-md-6 item text-center">
-            <a href="@Url.Action("CuadroBasico", "CuadroBasico")">
-                <div class="card item-card card-block">
-                    <center><img class="icons" src="~/Imagenes/Med2.jpeg" /></center>
-                    <h5 class="item-card-title mt-3 mb-3">Cuadro Básico</h5>
-                    <p class="card-text">
-                        Medicamentos
-                    </p>
-                    <button class="card-link">Ver más</button>
-                </div>
-            </a>
-        </div>
-    }
-
-
-    @if (HttpContext.Current.User.IsInRole("Almacen"))
-    {
-        <div class="col-lg-3 col-md-6 item text-center">
-            <a href="@Url.Action("Requisicion", "Requisicion")">
-                <div class="card item-card card-block">
-                    <center><img class="icons" src="~/Imagenes/requi.png" /></center>
-                    <h5 class="item-card-title mt-3 mb-3">REQUISICIÓN</h5>
-                    <p class="card-text">
-                        Ver y generar Requisiciones y Borradores
-                    </p>
-                    <button class="card-link">Ver más</button>
-                </div>
-            </a>
-        </div>
-    }
-
-    @if (HttpContext.Current.User.IsInRole("Almacen"))
-    {
-        <div class="col-lg-3 col-md-6 item text-center">
-            <a href="@Url.Action("OrdenCompra", "OrdenCompra")">
-                <div class="card item-card card-block">
-                    <center><img class="icons" src="~/Imagenes/OC.png" /></center>
-                    <h5 class="item-card-title mt-3 mb-3">Orden de Compra</h5>
-                    <p class="card-text">
-                        Generar O.C a partir de una Requisición
-                    </p>
-                    <button class="card-link">Ver más</button>
-                </div>
-            </a>
-        </div>
-    }
-
-    <script>
-        function imprimiExcel() {
-            window.open('/Manage/RpExcel/', '_blank');
-
+    
+        @if (HttpContext.Current.User.IsInRole("Consultas") || HttpContext.Current.User.IsInRole("Coordinador"))
+        {
+            <div class="col-lg-3 col-md-6 item text-center">
+                <a href="@Url.Action("CuadroBasico", "CuadroBasico")">
+                    <div class="card item-card card-block">
+                        <center><img class="icons" src="~/Imagenes/Med2.jpeg" /></center>
+                        <h5 class="item-card-title mt-3 mb-3">Cuadro Básico</h5>
+                        <p class="card-text">
+                            Medicamentos
+                        </p>
+                        <button class="card-link">Ver más</button>
+                    </div>
+                </a>
+            </div>
         }
-    </script>
 
-</div>
+
+        @if (HttpContext.Current.User.IsInRole("Almacen"))
+        {
+            <div class="col-lg-3 col-md-6 item text-center">
+                <a href="@Url.Action("Requisicion", "Requisicion")">
+                    <div class="card item-card card-block">
+                        <center><img class="icons" src="~/Imagenes/requi.png" /></center>
+                        <h5 class="item-card-title mt-3 mb-3">REQUISICIÓN</h5>
+                        <p class="card-text">
+                            Ver y generar Requisiciones y Borradores
+                        </p>
+                        <button class="card-link">Ver más</button>
+                    </div>
+                </a>
+            </div>
+        }
+
+        @if (HttpContext.Current.User.IsInRole("Almacen"))
+        {
+            <div class="col-lg-3 col-md-6 item text-center">
+                <a href="@Url.Action("OrdenCompra", "OrdenCompra")">
+                    <div class="card item-card card-block">
+                        <center><img class="icons" src="~/Imagenes/OC.png" /></center>
+                        <h5 class="item-card-title mt-3 mb-3">Orden de Compra</h5>
+                        <p class="card-text">
+                            Generar O.C a partir de una Requisición
+                        </p>
+                        <button class="card-link">Ver más</button>
+                    </div>
+                </a>
+            </div>
+        }
+
+        <script>
+            function imprimiExcel() {
+                window.open('/Manage/RpExcel/', '_blank');
+
+            }
+        </script>
+
+    </div>
 

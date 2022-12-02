@@ -49,6 +49,7 @@ namespace UanlSISM.Controllers
             public double PrecioUnitario { get; set; }
             public double Total { get; set; }
             public int Id_Sustancia { get; set; }
+            public string NombreProveedor { get; set; }
         }
 
         public ActionResult ObtenerRequisInicio()
@@ -226,6 +227,7 @@ namespace UanlSISM.Controllers
                 OC.Cuadro = 1;
                 OC.UsuarioNuevo = UsuarioRegistra;
                 OC.IP_User = ip_realiza;
+                OC.NombreProveedor = Prov.Prov_Nombre;
                 ConBD2.SISM_ORDEN_COMPRA.Add(OC);
                 ConBD2.SaveChanges();
                 //ACTUALIZAMOS LA REQUI EN SU COLUMNA 'EstatusOC' poniendo 1 ya que esa requi se hará O.C
@@ -327,7 +329,6 @@ namespace UanlSISM.Controllers
                 }
                 return Json(new { MENSAJE = "Succe: Se generó la O.C" }, JsonRequestBehavior.AllowGet);
                 #endregion
-
             }
             catch (Exception ex)
             {
@@ -407,10 +408,11 @@ namespace UanlSISM.Controllers
                                  Descripcion = DetOC.Descripcion,
                                  ClaveMed = DetOC.ClaveMedicamento,
                                  PU = DetOC.PreUnit,
-                                 Total = DetOC.Total
+                                 Total = DetOC.Total,
+                                 NombreProveedor = a.NombreProveedor
                              }).ToList();
 
-                ViewBag.NombreProvedor = Prov.Prov_Nombre;
+                //ViewBag.NombreProvedor = Prov.Prov_Nombre;
 
                 var results1 = new List<ListCampos>();
                 //LISTA DE LA O.C Y SU DETALLE
@@ -426,8 +428,8 @@ namespace UanlSISM.Controllers
                         Clave = q.ClaveMed,
                         Cantidad = (int)q.Cantidad,
                         PrecioUnitario = (double)q.PU,
-                        Total = (double)q.Total
-                        
+                        Total = (double)q.Total,
+                        NombreProveedor = q.NombreProveedor
                     };
                     results1.Add(resultado);
                 }
