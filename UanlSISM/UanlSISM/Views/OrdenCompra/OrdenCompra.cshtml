@@ -55,7 +55,7 @@
 <div>
     <div class="row">
         <div class="col-12" style="text-align:center">
-            <h5 class="font-weight-bold" style="color:blue; ">Requisiciones</h5>
+            <h5 class="font-weight-bold" style="color:blue; ">Requisiciones a O.C</h5>
         </div>
     </div>
 
@@ -323,7 +323,7 @@
 
         table = $('#Requis').DataTable({
             responsive: true,
-            searching: false,
+            searching: true,
             info: true,
             deferRender: true,
             scroller: true,
@@ -333,6 +333,7 @@
             language: {
                 "zeroRecords": " ",
                 "info": "_TOTAL_  Requisiciones",
+                "search": "Buscar:",
                 "infoEmpty": "",
                 "paginate": {
                     "first": "Primero",

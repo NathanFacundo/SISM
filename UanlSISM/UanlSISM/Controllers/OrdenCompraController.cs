@@ -50,6 +50,7 @@ namespace UanlSISM.Controllers
             public double Total { get; set; }
             public int Id_Sustancia { get; set; }
             public string NombreProveedor { get; set; }
+            public double Total_OC { get; set; }
         }
 
         public ActionResult ObtenerRequisInicio()
@@ -180,6 +181,7 @@ namespace UanlSISM.Controllers
             return View();
         }
 
+        decimal? SubTotal_OC = 0.00m;
         public JsonResult GenerarOC(List<SISM_DET_REQUISICION> ListaOC, int FolioRequi, string ProveedorReq)
         {
             var UsuarioRegistra = User.Identity.GetUserName();
@@ -221,9 +223,9 @@ namespace UanlSISM.Controllers
                 OC.FechaMod = fechaDT;
                 OC.Forma_Pago = "";
                 OC.Folio = "";
-                OC.Status = false;
+                OC.Status = true;
                 OC.UsuarioId = UsuarioOLD.UsuarioId;
-                OC.Cerrado = false;
+                OC.Cerrado = true;
                 OC.Cuadro = 1;
                 OC.UsuarioNuevo = UsuarioRegistra;
                 OC.IP_User = ip_realiza;
@@ -273,7 +275,7 @@ namespace UanlSISM.Controllers
                     DetalleOC.Id_OrdenCompra = IdOC.Id;
                     DetalleOC.Id_CodigoBarrar = CodigoBarras.Id;
                     DetalleOC.Obsequio = 0;
-                    DetalleOC.Status = false;
+                    DetalleOC.Status = true;
                     DetalleOC.Id_Sustencia = item.Id_Sustancia;
                     DetalleOC.Descripcion = Sustancia.Descripcion;
                     DetalleOC.ClaveMedicamento = Sustancia.Clave;
@@ -326,6 +328,10 @@ namespace UanlSISM.Controllers
                     //DetalleOC.Total = (double?)decimal.Round((decimal)(DetalleOC.Cantidad * DetalleOC.PreUnit), 2);
                     ConBD2.SISM_DETALLE_OC.Add(DetalleOC);
                     ConBD2.SaveChanges();
+
+                    SubTotal_OC += Decimal.Round((decimal)(DetalleOC.Total), 2);
+                    OC.Total_OC = (double?)SubTotal_OC;
+                    ConBD2.SaveChanges();
                 }
                 return Json(new { MENSAJE = "Succe: Se generó la O.C" }, JsonRequestBehavior.AllowGet);
                 #endregion
@@ -343,12 +349,14 @@ namespace UanlSISM.Controllers
             {
                 var query = (from a in ConBD2.SISM_ORDEN_COMPRA
                              join req in ConBD2.SISM_REQUISICION on a.Id_Requisicion equals req.Id_Requicision
+                             where a.Status == true
                              select new { 
                              a.Clave,
                              a.Fecha,
                              a.UsuarioNuevo,
                              IdReq = req.claveOLD,
-                             FReq = req.Fecha
+                             FReq = req.Fecha,
+                             Cont = req.EstatusContrato
                              }).ToList();
 
                 var results1 = new List<ListCampos>();
@@ -361,7 +369,8 @@ namespace UanlSISM.Controllers
                         Fecha = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha),
                         Id_User = q.UsuarioNuevo,
                         Id_Requisicion = Convert.ToInt32(q.IdReq),
-                        Fecha1 = string.Format("{0:d/M/yyyy hh:mm tt}", q.FReq)
+                        Fecha1 = string.Format("{0:d/M/yyyy hh:mm tt}", q.FReq),
+                        EstatusContrato = q.Cont
                     };
                     results1.Add(resultado);
                 }
@@ -409,7 +418,8 @@ namespace UanlSISM.Controllers
                                  ClaveMed = DetOC.ClaveMedicamento,
                                  PU = DetOC.PreUnit,
                                  Total = DetOC.Total,
-                                 NombreProveedor = a.NombreProveedor
+                                 NombreProveedor = a.NombreProveedor,
+                                 a.Total_OC
                              }).ToList();
 
                 //ViewBag.NombreProvedor = Prov.Prov_Nombre;
@@ -429,7 +439,8 @@ namespace UanlSISM.Controllers
                         Cantidad = (int)q.Cantidad,
                         PrecioUnitario = (double)q.PU,
                         Total = (double)q.Total,
-                        NombreProveedor = q.NombreProveedor
+                        NombreProveedor = q.NombreProveedor,
+                        Total_OC = (double)q.Total_OC
                     };
                     results1.Add(resultado);
                 }

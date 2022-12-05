@@ -54,11 +54,12 @@
     <table class="table table-striped table-hover" id="tbl_OCgeneradas">
         <thead>
             <tr>
-                <th>Folio Req.</th>
-                <th>Fecha Req.</th>
                 <th>Folio O.C</th>
                 <th>Fecha O.C</th>
+                <th>Folio Req.</th>
+                <th>Fecha Req.</th>
                 <th>Usuario O.C</th>
+                <th>Estatus Contrato</th>
                 <th>Detalle</th>
             </tr>
         </thead>
@@ -106,7 +107,6 @@
                 <div>
                     <table id="tblDetalleOC" class="table table-striped table-hover">
                         <thead>
-
                             <tr>
                                 <th COLSPAN="7">
                                     <div class="input-group" id="LABEL">
@@ -115,7 +115,6 @@
                                     </div>
                                 </th>
                             </tr>
-
                             <tr>
                                 <th>
                                     <h10 style="color:green">Folio O.C: </h10><br />
@@ -129,8 +128,11 @@
                                     <h10 style="color:green">Fecha Impresión: </h10><br />
                                     <a style="font-size:13px" id="Fecha"></a>
                                 </th>
+                                @*<th COLSPAN="2" hidden>
+                                </th>*@
                                 <th COLSPAN="2">
-                                    
+                                    <h10 style="color:green" hidden>Total: $</h10><br />
+                                    <a style="font-size:13px; display:inline-block;" id="Total_OC1" hidden></a>
                                 </th>
                             </tr>
                             <tr>
@@ -145,9 +147,15 @@
                         <tbody>
                         </tbody>
                     </table>
-
+                    <div class="row">
+                        <div class="col-md-12" style="text-align:right;">
+                            <strong>
+                                <a style="font-size:20px; display:inline-block; margin-right:10px;">Total: $</a>
+                                <a style="font-size:20px; display:inline-block;" id="Total_OC"></a>
+                            </strong>
+                        </div>
+                    </div>
                 </div>
-
                 <div class="row m-0 pt-2 text-center" id="pie" style=" border-collapse: collapse; border-spacing: 0;">
                     <table id="firmas" align="center" BORDER="1">
                         <tbody>
@@ -157,7 +165,7 @@
                                     <br />
                                     <br />
                                     <strong>
-                                        <a><em>Elaboró.</em></a><br />
+                                        <a><em>Usuario.</em></a><br />
                                         <a id="UsElaboro"></a>
                                         <br />
                                         <br />
@@ -195,7 +203,6 @@
                     </table>
 
                 </div>
-
             </div>
         </div>
     </div>
@@ -285,7 +292,7 @@
 
         table = $('#tbl_OCgeneradas').DataTable({
             responsive: true,
-            searching: false,
+            searching: true,
             info: true,
             deferRender: true,
             scroller: true,
@@ -294,7 +301,7 @@
             lengthChange: false,
             language: {
                 "zeroRecords": " ",
-                //"search": "Buscar:",
+                "search": "Buscar:",
                 "info": "_TOTAL_  Borradores",
                 "infoEmpty": "",
                 "paginate": {
@@ -310,11 +317,12 @@
             data: ListaOCS,
             order: [[1, 'desc']],
             columns: [
-                { 'data': 'Id_Requisicion', className: "text-center" },
-                { 'data': 'Fecha1', className: "text-center" },
                 { 'data': 'Clave', className: "text-center" },
                 { 'data': 'Fecha', className: "text-center" },
+                { 'data': 'Id_Requisicion', className: "text-center" },
+                { 'data': 'Fecha1', className: "text-center" },
                 { 'data': 'Id_User', className: "text-center" },
+                { "data": "EstatusContrato", className: "text-center", render: function (data) { return (data === 'UANL-DGA-DA-022/08/2022' ? '<h8 style="color:black; ">' + "SI" + '</h8>' : '<h8 style="color:black; ">' + "NO" + '</h8>'); } },
                 {
                     "className": 'text-center',
                     "orderable": false,
@@ -342,6 +350,8 @@
             $('#Fecha').html(response[0].Fecha1);
             $('#PROV').html(response[0].NombreProveedor);
             $('#UsElaboro').html(response[0].Usuario);
+            $('#Total_OC1').html(response[0].Total_OC);
+            $('#Total_OC').html(response[0].Total_OC);
             LlenDetalle(response);
 
         }).fail(function (response) {
@@ -389,6 +399,10 @@
                 ]
             });
         }
+
+        $('#DetalleOCModal').on('hidden.bs.modal', function () {
+            location.reload();
+        })
     });
 
     function Regresar() {
