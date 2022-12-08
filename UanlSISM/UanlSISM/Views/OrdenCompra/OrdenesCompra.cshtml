@@ -61,6 +61,7 @@
                 <th>Usuario O.C</th>
                 <th>Estatus Contrato</th>
                 <th>Detalle</th>
+                <th>Eliminar</th>
             </tr>
         </thead>
         <tbody>
@@ -329,6 +330,13 @@
                     "data": null,
                     "defaultContent": '<button title="Ver Detalle" id="VerDetalle" class="btn btn-primary fa fa-book" data-toggle="modal"></button>',
                     "target": -2
+                },
+                {
+                    "className": 'text-center',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": '<button title="Eliminar O.C" id="botonDelete" class="btn btn-danger btn-sm fa fa-times" data-toggle="modal"></button>',
+                    "target": -2
                 }
             ]
         });
@@ -403,6 +411,45 @@
         $('#DetalleOCModal').on('hidden.bs.modal', function () {
             location.reload();
         })
+    });
+
+    $('#tbl_OCgeneradas tbody').on('click', '#botonDelete', function () {
+        var tr = $(this).closest('tr');
+        var row = $('#tbl_OCgeneradas').DataTable().row(tr);
+        var Id = row.data().Id_OC;
+
+        $.ajax({
+            url: '@Url.Action("EliminarOC", "OrdenCompra")',
+            method: 'POST',
+            dataType: 'json',
+            data: { Id_OC: Id },
+            success: function (data) {
+                if (data.MENSAJE.substring(0, 6) == "Succe:") {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: data.MENSAJE.substring(7),
+                        willClose: () => {
+                            location.reload();
+                        }
+                    });
+                }
+                if (data.MENSAJE.substring(0, 6) == "Error:") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops... ¡Error!',
+                        text: data.MENSAJE.substring(7),
+                    });
+                }
+            },
+            error: function (ex) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                });
+            }
+        });
+
     });
 
     function Regresar() {

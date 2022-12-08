@@ -51,6 +51,7 @@ namespace UanlSISM.Controllers
             public int Id_Sustancia { get; set; }
             public string NombreProveedor { get; set; }
             public double Total_OC { get; set; }
+            public int Id_OC { get; set; }
         }
 
         public ActionResult ObtenerRequisInicio()
@@ -351,6 +352,7 @@ namespace UanlSISM.Controllers
                              join req in ConBD2.SISM_REQUISICION on a.Id_Requisicion equals req.Id_Requicision
                              where a.Status == true
                              select new { 
+                             a.Id,
                              a.Clave,
                              a.Fecha,
                              a.UsuarioNuevo,
@@ -365,6 +367,7 @@ namespace UanlSISM.Controllers
                 {
                     var resultado = new ListCampos
                     {
+                        Id_OC = q.Id,
                         Clave = q.Clave,
                         Fecha = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha),
                         Id_User = q.UsuarioNuevo,
@@ -446,6 +449,25 @@ namespace UanlSISM.Controllers
                 }
                 
                 return new JsonResult { Data = results1, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult EliminarOC(int Id_OC)
+        {
+            try
+            {
+                var IdRequi = (from a in ConBD2.SISM_ORDEN_COMPRA
+                               where a.Id == Id_OC
+                               select a).FirstOrDefault();
+
+                IdRequi.Status = false;
+                ConBD2.SaveChanges();
+
+                return Json(new { MENSAJE = "Succe: Se eliminó la O.C" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
