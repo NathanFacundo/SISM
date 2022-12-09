@@ -11,5 +11,6 @@ namespace UanlSISM.Models
         public short CANTIDAD_NUEVA { get; set; }
         //public short PREUNIT { get; set; }
         public float PREUNIT_NUEVA { get; set; }
+        public float TOTAL_NUEVA { get; set; }
     }
 }

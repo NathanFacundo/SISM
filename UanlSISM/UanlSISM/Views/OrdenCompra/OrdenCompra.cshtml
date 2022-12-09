@@ -182,12 +182,12 @@
                                 <th></th>
                                 <th>Clave</th>
                                 <th>Descripción</th>
-                                @*<th>Compendio</th>*@
                                 <th>Cant. Solicitada</th>
-                                <th>Precio U.</th>
+                                <th>P. U.</th>
                                 <th>Total</th>
                                 <th>Cant. Nueva</th>
                                 <th>P. U. Nuevo</th>
+                                <th>Total Nuevo</th>
                                 <th>Eliminar</th>
                             </tr>
                         </thead>
@@ -203,66 +203,6 @@
                     </div>
 
                 </div>
-
-                @*<div class="row m-0 pt-2 text-center" id="pie" style=" border-collapse: collapse; border-spacing: 0;">
-
-                        <table id="firmas" align="center" BORDER="1">
-                            <tbody>
-                                <tr>
-                                    <td align="center">
-                                        <br />
-                                        <br />
-                                        <br />
-                                        <strong>
-                                            <a><em>Elaboró.</em></a><br />
-                                            <a id="UsRequi"></a>
-                                            <br />
-                                            <br />
-                                        </strong>
-                                    </td>
-                                    <td align="center">
-                                        <br />
-                                        <br />
-                                        <br />
-                                        <strong>
-                                            <a><em>Almacén Farmacia.</em></a><br />
-                                            <a>Evelin Ramírez<br /> Lozano</a>
-                                        </strong>
-                                    </td>
-                                    <td align="center">
-                                        <br />
-                                        <br />
-                                        <br />
-                                        <strong>
-                                            <a><em>Adquisiciones.</em></a><br />
-                                            <a>Marcela Valdez<br /> Flores</a><br />
-                                        </strong>
-                                    </td>
-                                    <td align="center">
-                                        <br />
-                                        <br />
-                                        <br />
-                                        <strong>
-                                            <a><em>Dirección.</em></a><br />
-                                            <a>Raúl Gabino<br /> Salazar Montalvo</a>
-                                        </strong>
-                                    </td>
-                                    <td align="center">
-                                        <br />
-                                        <br />
-                                        <br />
-                                        <strong>
-                                            <a><em>Recibió.</em></a><br />
-                                            <br />
-                                            <br />
-                                        </strong>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-
-                    </div>*@
 
             </div>
         </div>
@@ -387,7 +327,7 @@
         var Id = row.data().Clave;
         var Requi_ConContrato = row.data().EstatusContrato;
 
-            $('#DetalleRequiModal').modal("show");
+        $('#DetalleRequiModal').modal("show");
 
             var array = { Id_Requi: Id };
             var url = '@Url.Action("ObtenerDetalleRequi", "OrdenCompra")';
@@ -412,9 +352,7 @@
                 //LlenDetalle(response);
                 Folio = $('#NoRequi').val(response[0].Folio);
                 EsConContrato = $("#EstContrato").val(response[0].EstatusContrato);
-                
                 //Proveedor = document.getElementById('PROV').textContent;
-
                 $.grep(response, function (item) {
                     var Insertar = true;
                     $.grep(DetRequi, function (itemEnLista) {
@@ -425,11 +363,11 @@
                     if (Insertar) {
                         item.CANTIDAD_NUEVA = 0;
                         item.PREUNIT_NUEVA = 0;
+                        item.TOTAL_NUEVA = 0;
                         DetRequi.push(item);
                     }
                     LlenDetalle(DetRequi);
                 });
-
             }).fail(function (response) {
                 Swal.fire({
                     icon: 'error',
@@ -443,65 +381,58 @@
                 document.getElementById('PROV').textContent = selected;
             });
 
-            function LlenDetalle(DetRequi) {
-                $('#tblDetalleRequi').DataTable({
-                    destroy: true,
-                    searching: false,
-                    responsive: true,
-                    lengthChange: false,
-                    paging: false,
-                    data: DetRequi,
-                    language: {
-                        "zeroRecords": " ",
-                        "search": "",
-                        "info": "",
-                        "infoEmpty": "",
-                        "paginate": {
-                            "first": "Primero",
-                            "last": "Último",
-                            "next": "Siguiente",
-                            "previous": "Anterior",
-                        },
-                        "select": {
-                            "rows": " %d filas seleccionadas"
-                        },
+        function LlenDetalle(DetRequi) {
+            var tableP = $('#tblDetalleRequi').DataTable();
+
+            tableP.destroy();
+            tableP = $('#tblDetalleRequi').DataTable({
+                destroy: true,
+                searching: false,
+                responsive: true,
+                lengthChange: false,
+                paging: false,
+                data: DetRequi,
+                language: {
+                    "zeroRecords": " ",
+                    "search": "",
+                    "info": "",
+                    "infoEmpty": "",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Último",
+                        "next": "Siguiente",
+                        "previous": "Anterior",
                     },
-                    columns: [
-                        {
-                            'data': 'ORDEN', className: "text-center",
-                            render: function (data, type, row, meta) {
-                                return (row.ORDEN = meta.row + meta.settings._iDisplayStart + 1);
-                            }
-                        },
-                        { "data": "Clave", className: "text-center" },
-                        { "data": "Descripcion", className: "text-center" },
-                        { "data": "Cantidad", className: "text-center" },
-                        { "data": "PrecioUnitario", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
-                        { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
-
-                        { 'data': 'CANTIDAD_NUEVA', className: "text-center", render: function (data) { return "<input class='input' id='InputCantidad' type='number' style='width:70px; border:0; border-bottom:1px solid; background:transparent;' type='number' min='0' max='' value='" + data + "'></input>" } },
-
-                        { 'data': 'PREUNIT_NUEVA', className: "text-center", render: function (data) { return (row.data().EstatusContrato != 'Sin Contrato' ? "" : "<input id='InputPU' style='width: 70px; border: 0; border-bottom: 1px solid; background: transparent; ' type='number' min='1' max='' value='" + data + "'></input>"); } },
-                        {
-                            "className": 'text-center',
-                            "orderable": false,
-                            "data": null,
-                            "defaultContent": '<button title="Eliminar" id="botonDelete" class="btn btn-danger btn-sm fa fa-times" data-toggle="modal"></button>',
-                            "target": -2
+                    "select": {
+                        "rows": " %d filas seleccionadas"
+                    },
+                },
+                columns: [
+                    {
+                        'data': 'ORDEN', className: "text-center",
+                        render: function (data, type, row, meta) {
+                            return (row.ORDEN = meta.row + meta.settings._iDisplayStart + 1);
                         }
-                    ]
-                });
-            }
-
-        $('#tblDetalleRequi tbody').on('change', '#InputPU', function () {
-            var tr = $(this).closest('tr');
-            var row = $('#tblDetalleRequi').DataTable().row(tr);
-            row.data().PREUNIT_NUEVA = $(this).val();
-        }).change();
-
-        $('#DetalleRequiModal').on('hidden.bs.modal', function () {
-            location.reload();
-        })
+                    },
+                    { "data": "Clave", className: "text-center" },
+                    { "data": "Descripcion", className: "text-center" },
+                    { "data": "Cantidad", className: "text-center" },
+                    { "data": "PrecioUnitario", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                    { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                    { 'data': 'CANTIDAD_NUEVA', className: "text-center", render: function (data) { return "<input class='input' id='InputCantidad' type='number' style='width:70px; border:0; border-bottom:1px solid; background:transparent;' type='number' min='0' max='' value='" + data + "'></input>" } },
+                    //{ 'data': 'PREUNIT_NUEVA', className: "text-center", render: function (data) { return (row.data().EstatusContrato != 'Sin Contrato' ? "" : "<input id='InputPU' style='width: 70px; border: 0; border-bottom: 1px solid; background: transparent; ' type='number' min='1' max='' value='" + data + "'></input>"); } },
+                    { 'data': 'PREUNIT_NUEVA', className: "text-center", render: function (data) { return (row.data().EstatusContrato != 'Sin Contrato' ? "<a>N.A</a>" : "<input class='InputPU' id='InputPU' style='width: 70px; border: 0; border-bottom: 1px solid; background: transparent; ' type='number' min='1' max='' value='" + data + "'></input>"); } },
+                    { 'data': 'TOTAL_NUEVA', className: "text-center", render: function (data) { return ("<input id='TotalN' style='width: 70px; border: 0; border-bottom: 1px solid; background: transparent; ' type='number' min='0' max='' value='" + data + "'></input>"); } },
+                    {
+                        "className": 'text-center',
+                        "orderable": false,
+                        "data": null,
+                        "defaultContent": '<button title="Eliminar" id="botonDelete" class="btn btn-danger btn-sm fa fa-times" data-toggle="modal"></button>',
+                        "target": -2
+                    }
+                ]
+            });
+        }
 
         $('#tblDetalleRequi tbody').on('click', '#botonDelete', function () {
             var tr = $(this).closest('tr');
@@ -518,99 +449,139 @@
                 showConfirmButton: false,
                 timer: 1500
             })
-
         });
     });
 
-    $('#DetalleRequiModal').on('shown.bs.modal', function () {
-
-        $(".input").keyup(function () {
+    $('#tblDetalleRequi tbody').on('change', '#InputPU', function () {
             var tr = $(this).closest('tr');
             var row = $('#tblDetalleRequi').DataTable().row(tr);
-            var valor = $(this).val();
+            row.data().PREUNIT_NUEVA = $(this).val();
+    }).change();
 
-            if (valor > row.data().Cantidad) {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'error',
-                    title: 'La Cantidad Nueva no puede ser mayor a la Cantidad Solicitada',
-                    showConfirmButton: false,
-                    timer: 1600
-                })
-                row.data().CANTIDAD_NUEVA = $(this).val('0');
-            } else {
-                row.data().CANTIDAD_NUEVA = valor;
-            }
-        });
+         $('#DetalleRequiModal').on('shown.bs.modal', function () {
 
-    })
-
-    $('#btnGenerarOC').on('click', function () {
-        Folio = $("#NoRequi").val();
-        Proveedor = document.getElementById('PROV').textContent.trim();
-        EsConContrato = $("#EstContrato").val();
-        
-        if (DetRequi.length > 0) {
-            TablaValida = true;
-
-            $.grep(DetRequi, function (itemEnLista) {
-                if (EsConContrato === "Sin Contrato") {
-                    if (itemEnLista.PREUNIT_NUEVA <= 0 || itemEnLista.PREUNIT_NUEVA == "" || itemEnLista.PREUNIT_NUEVA == "0" || Proveedor == "") {
-                        TablaValida = false;
-                    }
+            $(".input").keyup(function () {
+                var tr = $(this).closest('tr');
+                var row = $('#tblDetalleRequi').DataTable().row(tr);
+                var valor = $(this).val();
+                
+                //Validar si la CANTIDAD_NUEVA es mayor a la Cantidad Solicitada
+                if (valor > row.data().Cantidad) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: 'La Cantidad Nueva no puede ser mayor a la Cantidad Solicitada',
+                        showConfirmButton: false,
+                        timer: 1600
+                    })
+                    row.data().CANTIDAD_NUEVA = $(this).val("0");
                 } else {
-                    TablaValida = true;
+                    row.data().CANTIDAD_NUEVA = valor;
+                    var TotalNuevo = valor * row.data().PrecioUnitario;
+                    $("#TotalN").val(TotalNuevo);
+
+                    //if (row.data().EstatusContrato != 'Sin Contrato') {
+                    //    var TotalNuevo = valor * row.data().PrecioUnitario;
+                    //    $("#TotalN").val(TotalNuevo);
+                    //} else {
+                    //    var TotalNuevo = valor * row.data().PREUNIT_NUEVA;
+                    //    $("#TotalN").val(TotalNuevo);
+                    //}
                 }
             });
 
-            if (TablaValida) {
+             //Input de PRECIO UNITARIO_NUEVO   Para O.C sin Contrato
+             $(".InputPU").keyup(function () {
+                 var tr = $(this).closest('tr');
+                 var row = $('#tblDetalleRequi').DataTable().row(tr);
+                 var PU_Nuevo = $(this).val();
 
-                $.ajax({
-                    url: '@Url.Action("GenerarOC", "OrdenCompra")',
-                    method: 'POST',
-                    dataType: 'json',
-                    data: { ListaOC: DetRequi, FolioRequi: Folio, ProveedorReq: Proveedor },
-                    success: function (data) {
-                        if (data.MENSAJE.substring(0, 6) == "Error:") {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops... ¡Error!',
-                                text: data.MENSAJE.substring(7)
-                            });
+                 if (row.data().CANTIDAD_NUEVA == "" || row.data().CANTIDAD_NUEVA == "0") {
+                     Swal.fire({
+                         position: 'top-end',
+                         icon: 'error',
+                         title: 'La Cantidad Nueva no puede estar en cero o vacía',
+                         showConfirmButton: false,
+                         timer: 1700
+                     })
+                 } else {
+                     var TotalNuevo = row.data().CANTIDAD_NUEVA * PU_Nuevo;
+                     $("#TotalN").val(TotalNuevo);
+                 }
+                 //alert(row.data().CANTIDAD_NUEVA);
+             });
+         })
+
+        $('#btnGenerarOC').on('click', function () {
+            Folio = $("#NoRequi").val();
+            Proveedor = document.getElementById('PROV').textContent.trim();
+            EsConContrato = $("#EstContrato").val();
+
+            if (DetRequi.length > 0) {
+                TablaValida = true;
+
+                $.grep(DetRequi, function (itemEnLista) {
+                    if (EsConContrato === "Sin Contrato") {
+                        if (itemEnLista.PREUNIT_NUEVA <= 0 || itemEnLista.PREUNIT_NUEVA == "" || itemEnLista.PREUNIT_NUEVA == "0" || Proveedor == "") {
+                            TablaValida = false;
                         }
-                        else {
-                            Swal.fire({
-                                icon: 'success',
-                                title: '¡Éxito!',
-                                text: data.MENSAJE.substring(7),
-                                willClose: () => {
-                                    location.reload();
-                                }
-                            })
-                        }
-                    },
-                    error: function (ex) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Orden de Compra no generada',
-                        });
-                        //location.reload();
+                    } else {
+                        TablaValida = true;
                     }
                 });
-            } else
+
+                if (TablaValida) {
+
+                    $.ajax({
+                        url: '@Url.Action("GenerarOC", "OrdenCompra")',
+                        method: 'POST',
+                        dataType: 'json',
+                        data: { ListaOC: DetRequi, FolioRequi: Folio, ProveedorReq: Proveedor },
+                        success: function (data) {
+                            if (data.MENSAJE.substring(0, 6) == "Error:") {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops... ¡Error!',
+                                    text: data.MENSAJE.substring(7)
+                                });
+                            }
+                            else {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '¡Éxito!',
+                                    text: data.MENSAJE.substring(7),
+                                    willClose: () => {
+                                        location.reload();
+                                    }
+                                })
+                            }
+                        },
+                        error: function (ex) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Orden de Compra no generada',
+                            });
+                            //location.reload();
+                        }
+                    });
+                } else
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'No puede haber cantidades en cero y/o falta asignar proveedor'
+                    });
+            } else {
                 Swal.fire({
                     icon: 'error',
                     title: '¡Error!',
-                    text: 'No puede haber cantidades en cero y/o falta asignar proveedor'
+                    text: 'No hay datos para la Orden de Compra'
                 });
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: '¡Error!',
-                text: 'No hay datos para la Orden de Compra'
-            });
-        }
-    });
+            }
+        });
+
+    $('#DetalleRequiModal').on('hidden.bs.modal', function () {
+        location.reload();
+    })
 
     $('#Cancelar').on('click', function () {
         location.reload();
@@ -619,7 +590,6 @@
     function OCS() {
         window.location.href = '../OrdenCompra/OrdenesCompra'
     }
-
 
 </script>
 
