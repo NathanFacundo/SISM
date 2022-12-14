@@ -10,5 +10,6 @@ namespace UanlSISM.Models
         public short CANTIDAD { get; set; }
         public short CANTIDAD_NUEVA { get; set; }
         public short ORDEN { get; set; }
+
     }
 }

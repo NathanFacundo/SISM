@@ -1,4 +1,4 @@
-﻿@*@{
+﻿﻿@*@{
         ViewBag.Title = "OrdenCompra";
     }*@
 
@@ -420,10 +420,9 @@
                     { "data": "PrecioUnitario", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                     { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                     { 'data': 'CANTIDAD_NUEVA', className: "text-center", render: function (data) { return "<input class='input' id='InputCantidad' type='number' style='width:70px; border:0; border-bottom:1px solid; background:transparent;' type='number' min='0' max='' value='" + data + "'></input>" } },
-                    //{ 'data': 'PREUNIT_NUEVA', className: "text-center", render: function (data) { return (row.data().EstatusContrato != 'Sin Contrato' ? "" : "<input id='InputPU' style='width: 70px; border: 0; border-bottom: 1px solid; background: transparent; ' type='number' min='1' max='' value='" + data + "'></input>"); } },
                     { 'data': 'PREUNIT_NUEVA', className: "text-center", render: function (data) { return (row.data().EstatusContrato != 'Sin Contrato' ? "<a>N.A</a>" : "<input class='InputPU' id='InputPU' style='width: 70px; border: 0; border-bottom: 1px solid; background: transparent; ' type='number' min='1' max='' value='" + data + "'></input>"); } },
-                    //{ 'data': 'TOTAL_NUEVA', className: "text-center", render: function (data) { return "<input class='inputT' id='InputTotal' type='number' style='width:70px; border:0; border-bottom:1px solid; background:transparent;' type='number' min='0' max='' value='" + data + "'></input>" } },
-                    { 'data': 'TOTAL_NUEVA', className: "text-center", render: function (data) { return "<input class='inputT' id='InputTotal' type='number' style='width:70px; border:0; border-bottom:1px solid; background:transparent;' type='number' min='0' max='' value='" + data + "'></input>" } },
+                    //{ 'data': 'TOTAL_NUEVA', className: "text-center", render: function (data) { return "<input class='inputT' type='number' style='width:70px; border:0; border-bottom:1px solid; background:transparent;' min='0' max='' value='" + data + "'></input>" } },
+                    { 'data': 'TOTAL_NUEVA', className: "text-center", render: function (data) { return ("<a id='CAN'></a>"); } },
                     {
                         "className": 'text-center',
                         "orderable": false,
@@ -453,78 +452,63 @@
         });
     });
 
-    $('#tblDetalleRequi tbody').on('change', '#InputPU', function () {
+    $('#DetalleRequiModal').on('shown.bs.modal', function () {
+
+        var EC = "";
+        var TotalNuevo = 0;
+
+        $(".input").keyup(function () {
+            var tr = $(this).closest('tr');
+            var row = $('#tblDetalleRequi').DataTable().row(tr);
+            var valor = $(this).val();
+            //var TotalNuevo = valor * row.data().PrecioUnitario;
+
+            //Validar si la CANTIDAD_NUEVA es mayor a la Cantidad Solicitada
+            if (valor > row.data().Cantidad) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'La Cantidad Nueva no puede ser mayor a la Cantidad Solicitada',
+                    showConfirmButton: false,
+                    timer: 1600
+                })
+                row.data().CANTIDAD_NUEVA = $(this).val("0");
+            } else {
+                row.data().CANTIDAD_NUEVA = valor;
+                //$("#InputTotal").val(TotalNuevo);
+                //row.data().TOTAL_NUEVA = TotalNuevo;
+
+                TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PrecioUnitario;
+                row.data().TOTAL_NUEVA = TotalNuevo;
+                $('#CAN').html(TotalNuevo);
+            }
+        });
+
+        $('#tblDetalleRequi tbody').on('change', '#InputPU', function () {
             var tr = $(this).closest('tr');
             var row = $('#tblDetalleRequi').DataTable().row(tr);
             row.data().PREUNIT_NUEVA = $(this).val();
-    }).change();
+        }).change();
 
-         $('#DetalleRequiModal').on('shown.bs.modal', function () {
+        
+        //$(".inputT").on('click', function () {
+        //    var tr = $(this).closest('tr');
+        //    var row = $('#tblDetalleRequi').DataTable().row(tr);
+        //    EC = row.data().EstatusContrato;
 
-            $(".input").keyup(function () {
-                var tr = $(this).closest('tr');
-                var row = $('#tblDetalleRequi').DataTable().row(tr);
-                var valor = $(this).val();
-                var TotalNuevo = valor * row.data().PrecioUnitario;
-                
-                
-                //Validar si la CANTIDAD_NUEVA es mayor a la Cantidad Solicitada
-                if (valor > row.data().Cantidad) {
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: 'La Cantidad Nueva no puede ser mayor a la Cantidad Solicitada',
-                        showConfirmButton: false,
-                        timer: 1600
-                    })
-                    row.data().CANTIDAD_NUEVA = $(this).val("0");
-                } else {
-                    row.data().CANTIDAD_NUEVA = valor;
-                    //$("#InputTotal").val(TotalNuevo);
-                    //row.data().TOTAL_NUEVA = TotalNuevo;
-                    
-                }
-            });
+        //    if (EC != "Sin Contrato") {
+        //        TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PrecioUnitario;
+        //        //row.data().TOTAL_NUEVA = $(this).val(TotalNuevo.toFixed(2));
+        //    } else {
+        //        TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PREUNIT_NUEVA;
+        //        //row.data().TOTAL_NUEVA = $(this).val(TotalCon_PU.toFixed(2));
+        //    }
+        //    row.data().TOTAL_NUEVA = TotalNuevo;
+        //});
 
-             //$(".inputT").keyup(function () {
-             //    var tr = $(this).closest('tr');
-             //    var row = $('#tblDetalleRequi').DataTable().row(tr);
-             //    var TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PrecioUnitario;
+    })
 
-             //    row.data().TOTAL_NUEVA = $(this).val(TotalNuevo);
-             //});
-
-             $(".inputT").on('click', function () {
-                 var tr = $(this).closest('tr');
-                 var row = $('#tblDetalleRequi').DataTable().row(tr);
-                 var TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PrecioUnitario;
-
-                 row.data().TOTAL_NUEVA = $(this).val(TotalNuevo);
-             });
-
-             //Input de PRECIO UNITARIO_NUEVO   Para O.C sin Contrato
-             $(".InputPU").keyup(function () {
-                 var tr = $(this).closest('tr');
-                 var row = $('#tblDetalleRequi').DataTable().row(tr);
-                 var PU_Nuevo = $(this).val();
-
-                 if (row.data().CANTIDAD_NUEVA == "" || row.data().CANTIDAD_NUEVA == "0") {
-                     Swal.fire({
-                         position: 'top-end',
-                         icon: 'error',
-                         title: 'La Cantidad Nueva no puede estar en cero o vacía',
-                         showConfirmButton: false,
-                         timer: 1800
-                     })
-                 } else {
-                     var TotalNuevo = row.data().CANTIDAD_NUEVA * PU_Nuevo;
-                     $("#TotalN").val(TotalNuevo);
-                 }
-                 //alert(row.data().CANTIDAD_NUEVA);
-             });
-         })
-
-        $('#btnGenerarOC').on('click', function () {
+    $('#btnGenerarOC').on('click', function () {
             Folio = $("#NoRequi").val();
             Proveedor = document.getElementById('PROV').textContent.trim();
             EsConContrato = $("#EstContrato").val();
