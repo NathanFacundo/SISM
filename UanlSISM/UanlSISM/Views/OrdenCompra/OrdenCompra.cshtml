@@ -421,8 +421,18 @@
                     { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                     { 'data': 'CANTIDAD_NUEVA', className: "text-center", render: function (data) { return "<input class='input' id='InputCantidad' type='number' style='width:70px; border:0; border-bottom:1px solid; background:transparent;' type='number' min='0' max='' value='" + data + "'></input>" } },
                     { 'data': 'PREUNIT_NUEVA', className: "text-center", render: function (data) { return (row.data().EstatusContrato != 'Sin Contrato' ? "<a>N.A</a>" : "<input class='InputPU' id='InputPU' style='width: 70px; border: 0; border-bottom: 1px solid; background: transparent; ' type='number' min='1' max='' value='" + data + "'></input>"); } },
+
                     //{ 'data': 'TOTAL_NUEVA', className: "text-center", render: function (data) { return "<input class='inputT' type='number' style='width:70px; border:0; border-bottom:1px solid; background:transparent;' min='0' max='' value='" + data + "'></input>" } },
-                    { 'data': 'TOTAL_NUEVA', className: "text-center", render: function (data) { return ("<a id='CAN'></a>"); } },
+                    //{ 'data': 'TOTAL_NUEVA', className: "text-center", render: function (data) { return ("<a id='" + row.data().ORDEN + "' ></a>"); } },
+                    {
+                        "data": 'TOTAL_NUEVA',
+                        render: function (data, type, row, meta) {
+                            return '<input style="width:70px; border:0; border-bottom:1px solid; background:transparent;" id="ORDEN' + row.ORDEN + '" type="text" value="' + data + '" readonly/>';
+                        },
+                        "searchable": false,
+                        className: "text-center"
+                    },
+
                     {
                         "className": 'text-center',
                         "orderable": false,
@@ -461,8 +471,8 @@
             var tr = $(this).closest('tr');
             var row = $('#tblDetalleRequi').DataTable().row(tr);
             var valor = $(this).val();
-            //var TotalNuevo = valor * row.data().PrecioUnitario;
-
+            EC = row.data().EstatusContrato;
+            
             //Validar si la CANTIDAD_NUEVA es mayor a la Cantidad Solicitada
             if (valor > row.data().Cantidad) {
                 Swal.fire({
@@ -475,36 +485,51 @@
                 row.data().CANTIDAD_NUEVA = $(this).val("0");
             } else {
                 row.data().CANTIDAD_NUEVA = valor;
-                //$("#InputTotal").val(TotalNuevo);
-                //row.data().TOTAL_NUEVA = TotalNuevo;
 
-                TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PrecioUnitario;
-                row.data().TOTAL_NUEVA = TotalNuevo;
-                $('#CAN').html(TotalNuevo);
+                if (EC != "Sin Contrato") {
+                    TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PrecioUnitario;
+                    row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
+                    //$('#CAN').html(TotalNuevo.toFixed(2));
+                    $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
+                    //row.data().TOTAL_NUEVA = $(this).val(TotalNuevo.toFixed(2));
+                } 
             }
         });
 
-        $('#tblDetalleRequi tbody').on('change', '#InputPU', function () {
+        $("#InputPU").keyup(function () {
             var tr = $(this).closest('tr');
             var row = $('#tblDetalleRequi').DataTable().row(tr);
             row.data().PREUNIT_NUEVA = $(this).val();
-        }).change();
 
-        
-        //$(".inputT").on('click', function () {
+            var valor = $(this).val();
+            TotalNuevo = row.data().CANTIDAD_NUEVA * valor;
+            row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
+            $('#CAN').html(TotalNuevo.toFixed(2));
+
+        });
+
+        //$('#tblDetalleRequi tbody').on('change', '#InputPU', function () {
         //    var tr = $(this).closest('tr');
         //    var row = $('#tblDetalleRequi').DataTable().row(tr);
-        //    EC = row.data().EstatusContrato;
+        //    row.data().PREUNIT_NUEVA = $(this).val();
 
-        //    if (EC != "Sin Contrato") {
-        //        TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PrecioUnitario;
-        //        //row.data().TOTAL_NUEVA = $(this).val(TotalNuevo.toFixed(2));
-        //    } else {
-        //        TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PREUNIT_NUEVA;
-        //        //row.data().TOTAL_NUEVA = $(this).val(TotalCon_PU.toFixed(2));
-        //    }
-        //    row.data().TOTAL_NUEVA = TotalNuevo;
-        //});
+        //}).change();
+
+        
+        $(".inputT").on('click', function () {
+            var tr = $(this).closest('tr');
+            var row = $('#tblDetalleRequi').DataTable().row(tr);
+            EC = row.data().EstatusContrato;
+
+            if (EC != "Sin Contrato") {
+                TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PrecioUnitario;
+                
+            } else {
+                TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PREUNIT_NUEVA;
+                
+            }
+            row.data().TOTAL_NUEVA = $(this).val(TotalNuevo);
+        });
 
     })
 
