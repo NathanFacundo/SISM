@@ -3770,6 +3770,7 @@
     <Content Include="Views\OrdenCompra\OrdenCompra.cshtml" />
     <Content Include="Views\OrdenCompra\OrdenesCompra.cshtml" />
     <Content Include="Views\OrdenCompra\OrdenCompra - Copia.cshtml" />
+    <Content Include="Views\OrdenCompra\OrdenCompraPorValidar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

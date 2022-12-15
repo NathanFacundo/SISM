@@ -58,8 +58,8 @@
 </div>
 
 <div class="btn-toolbar">
-    <button type="button" class="btn btn-primary btn-space" onclick="OCS()">ORDENES DE COMPRA GENERADAS</button>
-
+    <button type="button" class="btn btn-primary btn-space" onclick="OCS()">O.C GENERADAS</button>
+    <button type="button" class="btn btn-outline-primary" onclick="OCS_Validar()">O.C POR VALIDAR</button>
 </div>
 
 <div>
@@ -489,9 +489,7 @@
                 if (EC != "Sin Contrato") {
                     TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PrecioUnitario;
                     row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
-                    //$('#CAN').html(TotalNuevo.toFixed(2));
                     $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
-                    //row.data().TOTAL_NUEVA = $(this).val(TotalNuevo.toFixed(2));
                 } 
             }
         });
@@ -501,34 +499,23 @@
             var row = $('#tblDetalleRequi').DataTable().row(tr);
             row.data().PREUNIT_NUEVA = $(this).val();
 
-            var valor = $(this).val();
-            TotalNuevo = row.data().CANTIDAD_NUEVA * valor;
-            row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
-            $('#CAN').html(TotalNuevo.toFixed(2));
-
-        });
-
-        //$('#tblDetalleRequi tbody').on('change', '#InputPU', function () {
-        //    var tr = $(this).closest('tr');
-        //    var row = $('#tblDetalleRequi').DataTable().row(tr);
-        //    row.data().PREUNIT_NUEVA = $(this).val();
-
-        //}).change();
-
-        
-        $(".inputT").on('click', function () {
-            var tr = $(this).closest('tr');
-            var row = $('#tblDetalleRequi').DataTable().row(tr);
-            EC = row.data().EstatusContrato;
-
-            if (EC != "Sin Contrato") {
-                TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PrecioUnitario;
-                
-            } else {
+            //Swal.fire({
+            //    position: 'top-end',
+            //    icon: 'error',
+            //    title: 'La Cantidad debe ser mayor a cero',
+            //    showConfirmButton: false,
+            //    timer: 1600
+            //})
+            if (row.data().CANTIDAD_NUEVA > "0") {
                 TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PREUNIT_NUEVA;
-                
+                row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
+                $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
             }
-            row.data().TOTAL_NUEVA = $(this).val(TotalNuevo);
+            else {
+                TotalNuevo = row.data().Cantidad * row.data().PREUNIT_NUEVA;
+                row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
+                $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
+            }
         });
 
     })
@@ -610,6 +597,10 @@
 
     function OCS() {
         window.location.href = '../OrdenCompra/OrdenesCompra'
+    }
+
+    function OCS_Validar() {
+        window.location.href = '../OrdenCompra/OrdenCompraPorValidar'
     }
 
 </script>

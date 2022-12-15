@@ -36,6 +36,7 @@ namespace UanlSISM.Models
         public string IP_User { get; set; }
         public string NombreProveedor { get; set; }
         public Nullable<double> Total_OC { get; set; }
+        public string OC_PorValidar { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SISM_DETALLE_OC> SISM_DETALLE_OC { get; set; }

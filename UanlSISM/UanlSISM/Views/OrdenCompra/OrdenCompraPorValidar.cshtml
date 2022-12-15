@@ -1,8 +1,4 @@
-﻿@*@{
-        ViewBag.Title = "OrdenCompra";
-    }*@
-
-@*DATATABLES*@
+﻿
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />
 <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
@@ -15,7 +11,7 @@
 @*SWAL FIRE*@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<h5>O.C VALIDADAS Y POR VALIDAR</h5>
+<h5>O.C POR VALIDAR</h5>
 <br />
 
 <style>
@@ -29,13 +25,27 @@
         margin-bottom: 1vw;
     }
 
+    #Id {
+        color: black;
+    }
+
     .btn-space {
         margin-right: 5px;
     }
 
-    #DetalleOCModal .modal-dialog {
+    #DetalleRequiModal .modal-dialog {
         height: 100vh;
         margin-top: 0px;
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
     }
 </style>
 
@@ -51,29 +61,36 @@
 </div>
 
 <div>
-    <table class="table table-striped table-hover" id="tbl_OCgeneradas">
-        <thead>
-            <tr>
-                <th>Folio O.C</th>
-                <th>Fecha O.C</th>
-                <th>Folio Req.</th>
-                <th>Fecha Req.</th>
-                <th>Usuario O.C</th>
-                <th>Estatus Contrato</th>
-                <th>Estatus O.C</th>
-                <th>Detalle</th>
-                <th>Eliminar</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+
+    <div class="row">
+        <table class="table table-striped table-hover" id="OC_Generada">
+            <thead>
+                <tr>
+                    <th>Folio O.C</th>
+                    <th>Fecha O.C</th>
+                    <th>Folio Req.</th>
+                    <th>Fecha Req.</th>
+                    <th>Usuario O.C</th>
+                    <th>Estatus Contrato</th>
+                    <th>Detalle</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
 </div>
 
 <div class="modal fade" id="DetalleOCModal" tabindex="-1" role="dialog" aria-labelledby="NuevaRequiModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-body imprimir-content">
+
+                <div class="row">
+                    <input id="folio" name="Folio" value="" style="display: none;" />
+                </div>
+
                 <div class="row m-0 text-center pt-4">
                     <div class="col-2 m-auto imprimirUanl">
                         <img src="~/Imagenes/uanl.png" />
@@ -131,7 +148,7 @@
                                     <a style="font-size:13px" id="Fecha"></a>
                                 </th>
                                 @*<th COLSPAN="2" hidden>
-                                </th>*@
+                        </th>*@
                                 <th COLSPAN="2">
                                     <h10 style="color:green" hidden>Total: $</h10><br />
                                     <a style="font-size:13px; display:inline-block;" id="Total_OC1" hidden></a>
@@ -150,7 +167,12 @@
                         </tbody>
                     </table>
                     <div class="row">
-                        <div class="col-md-12" style="text-align:right;">
+                        <div class="col-md-6" style="text-align:left;">
+                            <div class="btn-toolbar">
+                                <button type="button" id="btnValidar_OC" class="btn btn-success btn-space">VALIDAR O.C</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="text-align:right;">
                             <strong>
                                 <a style="font-size:20px; display:inline-block; margin-right:10px;">Total: $</a>
                                 <a style="font-size:20px; display:inline-block;" id="Total_OC"></a>
@@ -158,53 +180,7 @@
                         </div>
                     </div>
                 </div>
-                @*<div class="row m-0 pt-2 text-center" id="pie" style=" border-collapse: collapse; border-spacing: 0;">
-                    <table id="firmas" align="center" BORDER="1">
-                        <tbody>
-                            <tr>
-                                <td align="center">
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <strong>
-                                        <a><em>Usuario.</em></a><br />
-                                        <a id="UsElaboro"></a>
-                                        <br />
-                                        <br />
-                                    </strong>
-                                </td>
-                                <td align="center">
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <strong>
-                                        <a><em>Almacén Farmacia.</em></a><br />
-                                        <a>Evelin Ramírez<br /> Lozano</a>
-                                    </strong>
-                                </td>
-                                <td align="center">
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <strong>
-                                        <a><em>Adquisiciones.</em></a><br />
-                                        <a>Marcela Valdez<br /> Flores</a><br />
-                                    </strong>
-                                </td>
-                                <td align="center">
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <strong>
-                                        <a><em>Dirección.</em></a><br />
-                                        <a>Raúl Gabino<br /> Salazar Montalvo</a>
-                                    </strong>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
 
-                </div>*@
             </div>
         </div>
     </div>
@@ -233,7 +209,7 @@
 
     $(document).ready(function () {
 
-        $('#tbl_OCgeneradas').DataTable({
+        $('#OC_Generada').DataTable({
             responsive: true,
             searching: false,
             info: true,
@@ -264,7 +240,7 @@
 
     function LlenaOC() {
         $.ajax({
-            url: '@Url.Action("ObtenerOCInicio", "OrdenCompra")',
+            url: '@Url.Action("ObtenerOC_PorValidar", "OrdenCompra")',
             method: 'POST',
             dataType: 'json',
             success: function (data) {
@@ -289,10 +265,10 @@
     }
 
     function LlenaTablaOC(ListaOCS) {
-        var table = $('#tbl_OCgeneradas').DataTable();
+        var table = $('#OC_Generada').DataTable();
         table.destroy();
 
-        table = $('#tbl_OCgeneradas').DataTable({
+        table = $('#OC_Generada').DataTable({
             responsive: true,
             searching: true,
             info: true,
@@ -325,43 +301,24 @@
                 { 'data': 'Fecha1', className: "text-center" },
                 { 'data': 'Id_User', className: "text-center" },
                 { "data": "EstatusContrato", className: "text-center", render: function (data) { return (data === 'UANL-DGA-DA-022/08/2022' ? '<h8 style="color:black; ">' + "SI" + '</h8>' : '<h8 style="color:black; ">' + "NO" + '</h8>'); } },
-                //{ "data": "Validar", className: "text-center", render: function (data) { return (data === '1' ? '<h8 style="color:black; ">' + "POR VALIDAR" + '</h8>' : '<h8 style="color:black; ">' + "VALIDADA" + '</h8>'); } },
-                {
-                    "data": "Validar", className: "text-center", render: function (data) {
-                        if (data == '1') {
-                            return '<h8 style="color:black; ">' + "POR VALIDAR" + '</h8>';
-                        } else {
-                            if (data == '2') {
-                                return '<h8 style="color:black; ">' + "VALIDADA" + '</h8>';
-                            } else {
-                                return '<h8 style="color:black; ">' + "HECHA/GENERADA" + '</h8>';
-                            }
-                        }
-                    }
-                },
                 {
                     "className": 'text-center',
                     "orderable": false,
                     "data": null,
                     "defaultContent": '<button title="Ver Detalle" id="VerDetalle" class="btn btn-primary fa fa-book" data-toggle="modal"></button>',
                     "target": -2
-                },
-                {
-                    "className": 'text-center',
-                    "orderable": false,
-                    "data": null,
-                    "defaultContent": '<button title="Eliminar O.C" id="botonDelete" class="btn btn-danger btn-sm fa fa-times" data-toggle="modal"></button>',
-                    "target": -2
                 }
             ]
         });
     }
 
-    $('#tbl_OCgeneradas tbody').on('click', '#VerDetalle', function () {
+    $('#OC_Generada tbody').on('click', '#VerDetalle', function () {
         var tr = $(this).closest('tr');
-        var row = $('#tbl_OCgeneradas').DataTable().row(tr);
+        var row = $('#OC_Generada').DataTable().row(tr);
         var ClaveOC = row.data().Clave;
         var ClaveRequi = row.data().Id_Requisicion;
+
+        $('#folio').val(ClaveOC);
 
         $('#DetalleOCModal').modal("show");
 
@@ -428,16 +385,14 @@
         })
     });
 
-    $('#tbl_OCgeneradas tbody').on('click', '#botonDelete', function () {
-        var tr = $(this).closest('tr');
-        var row = $('#tbl_OCgeneradas').DataTable().row(tr);
-        var Id = row.data().Id_OC;
-
+    $('#btnValidar_OC').on('click', function () {
+        var ClaveOC = $("#folio").val();
+        //alert(FolioOC)
         $.ajax({
-            url: '@Url.Action("EliminarOC", "OrdenCompra")',
+            url: '@Url.Action("ValidarOC", "OrdenCompra")',
             method: 'POST',
             dataType: 'json',
-            data: { Id_OC: Id },
+            data: { Clave_OC: ClaveOC },
             success: function (data) {
                 if (data.MENSAJE.substring(0, 6) == "Succe:") {
                     Swal.fire({
@@ -464,7 +419,6 @@
                 });
             }
         });
-
     });
 
     function Regresar() {
