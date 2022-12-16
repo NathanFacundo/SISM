@@ -116,7 +116,7 @@
 
                 <br />
                 <div class="row" id="contenido">
-                    <h5 class="text-center imprimirTitulo" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Generar Orden de Compra</h5>
+                    <h5 class="text-center imprimirTitulo" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Solicitar Orden de Compra</h5>
                 </div>
                 <br />
 
@@ -154,7 +154,7 @@
                         <thead>
 
                             <tr>
-                                <th COLSPAN="9">
+                                <th COLSPAN="10">
                                     <div class="input-group" id="LABEL">
                                         <span style="height:30px;" class="input-group-text">Proveedor:</span>
                                         <label style="height:30px;" type="text" class="form-control" id="PROV" name="PROV" />
@@ -163,17 +163,17 @@
                             </tr>
 
                             <tr>
-                                <th>
+                                <th COLSPAN="3">
                                     <h10 style="color:green">Folio Req: </h10><br />
                                     <a style="font-size:13px" id="NoRequi"></a>
                                 </th>
-                                <th COLSPAN="2">
+                                <th COLSPAN="3">
                                     <h10 style="color:green">Fecha Req: </h10><br />
                                     <a style="font-size:13px" id="FechaRequi"></a>
                                 </th>
-                                <th COLSPAN="5">
-                                </th>
-                                <th COLSPAN="2">
+                                @*<th COLSPAN="5">
+                                </th>*@
+                                <th COLSPAN="4">
                                     <h10 id="Contrato" style="color:green">Con Contrato </h10><br />
                                     <a style="font-size: 13px" id="EstContrato"></a>
                                 </th>
@@ -197,7 +197,7 @@
 
                     <div class="row">
                         <div class="btn-toolbar">
-                            <button type="button" id="btnGenerarOC" class="btn btn-success btn-space">Generar O.C</button>
+                            <button type="button" id="btnGenerarOC" class="btn btn-success btn-space">Solicitar O.C</button>
                             <button type="button" id="Cancelar" class="btn btn-secondary">Cancelar</button>
                         </div>
                     </div>

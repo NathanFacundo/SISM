@@ -74,6 +74,11 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-body imprimir-content">
+
+                <div class="row">
+                    <input id="folio" name="Folio" value="" style="display: none;" />
+                </div>
+
                 <div class="row m-0 text-center pt-4">
                     <div class="col-2 m-auto imprimirUanl">
                         <img src="~/Imagenes/uanl.png" />
@@ -131,7 +136,7 @@
                                     <a style="font-size:13px" id="Fecha"></a>
                                 </th>
                                 @*<th COLSPAN="2" hidden>
-                                </th>*@
+                        </th>*@
                                 <th COLSPAN="2">
                                     <h10 style="color:green" hidden>Total: $</h10><br />
                                     <a style="font-size:13px; display:inline-block;" id="Total_OC1" hidden></a>
@@ -150,7 +155,12 @@
                         </tbody>
                     </table>
                     <div class="row">
-                        <div class="col-md-12" style="text-align:right;">
+                        <div class="col-md-6" style="text-align:left;">
+                            <div class="btn-toolbar">
+                                <button type="button" id="btnGenerar_OC" class="btn btn-success btn-space">GENERAR/HACER O.C</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="text-align:right;">
                             <strong>
                                 <a style="font-size:20px; display:inline-block; margin-right:10px;">Total: $</a>
                                 <a style="font-size:20px; display:inline-block;" id="Total_OC"></a>
@@ -159,52 +169,52 @@
                     </div>
                 </div>
                 @*<div class="row m-0 pt-2 text-center" id="pie" style=" border-collapse: collapse; border-spacing: 0;">
-                    <table id="firmas" align="center" BORDER="1">
-                        <tbody>
-                            <tr>
-                                <td align="center">
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <strong>
-                                        <a><em>Usuario.</em></a><br />
-                                        <a id="UsElaboro"></a>
-                                        <br />
-                                        <br />
-                                    </strong>
-                                </td>
-                                <td align="center">
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <strong>
-                                        <a><em>Almacén Farmacia.</em></a><br />
-                                        <a>Evelin Ramírez<br /> Lozano</a>
-                                    </strong>
-                                </td>
-                                <td align="center">
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <strong>
-                                        <a><em>Adquisiciones.</em></a><br />
-                                        <a>Marcela Valdez<br /> Flores</a><br />
-                                    </strong>
-                                </td>
-                                <td align="center">
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <strong>
-                                        <a><em>Dirección.</em></a><br />
-                                        <a>Raúl Gabino<br /> Salazar Montalvo</a>
-                                    </strong>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <table id="firmas" align="center" BORDER="1">
+                <tbody>
+                    <tr>
+                        <td align="center">
+                            <br />
+                            <br />
+                            <br />
+                            <strong>
+                                <a><em>Usuario.</em></a><br />
+                                <a id="UsElaboro"></a>
+                                <br />
+                                <br />
+                            </strong>
+                        </td>
+                        <td align="center">
+                            <br />
+                            <br />
+                            <br />
+                            <strong>
+                                <a><em>Almacén Farmacia.</em></a><br />
+                                <a>Evelin Ramírez<br /> Lozano</a>
+                            </strong>
+                        </td>
+                        <td align="center">
+                            <br />
+                            <br />
+                            <br />
+                            <strong>
+                                <a><em>Adquisiciones.</em></a><br />
+                                <a>Marcela Valdez<br /> Flores</a><br />
+                            </strong>
+                        </td>
+                        <td align="center">
+                            <br />
+                            <br />
+                            <br />
+                            <strong>
+                                <a><em>Dirección.</em></a><br />
+                                <a>Raúl Gabino<br /> Salazar Montalvo</a>
+                            </strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-                </div>*@
+        </div>*@
             </div>
         </div>
     </div>
@@ -363,6 +373,14 @@
         var ClaveOC = row.data().Clave;
         var ClaveRequi = row.data().Id_Requisicion;
 
+        if (row.data().Validar == "2") {
+            document.getElementById("btnGenerar_OC").disabled = false;
+        } else {
+            document.getElementById("btnGenerar_OC").disabled = true;
+        }
+
+        $('#folio').val(ClaveOC);
+
         $('#DetalleOCModal').modal("show");
 
         var array = { FolioOC: ClaveOC, FolioRequi: ClaveRequi  };
@@ -465,6 +483,42 @@
             }
         });
 
+    });
+
+    $('#btnGenerar_OC').on('click', function () {
+        var ClaveOC = $("#folio").val();
+       
+        $.ajax({
+            url: '@Url.Action("HACER_OC", "OrdenCompra")',
+            method: 'POST',
+            dataType: 'json',
+            data: { Clave_OC: ClaveOC },
+            success: function (data) {
+                if (data.MENSAJE.substring(0, 6) == "Succe:") {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: data.MENSAJE.substring(7),
+                        willClose: () => {
+                            location.reload();
+                        }
+                    });
+                }
+                if (data.MENSAJE.substring(0, 6) == "Error:") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops... ¡Error!',
+                        text: data.MENSAJE.substring(7),
+                    });
+                }
+            },
+            error: function (ex) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                });
+            }
+        });
     });
 
     function Regresar() {
