@@ -171,6 +171,7 @@
           <Property Name="NombreProveedor" Type="varchar" MaxLength="500" />
           <Property Name="Total_OC" Type="float" />
           <Property Name="OC_PorValidar" Type="varchar" MaxLength="10" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="SISM_REQUISICION">
           <Key>
@@ -520,6 +521,7 @@
           <Property Name="NombreProveedor" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="Total_OC" Type="Double" />
           <Property Name="OC_PorValidar" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="SISM_REQUISICION">
           <Key>
@@ -858,6 +860,7 @@
           <EntitySetMapping Name="SISM_ORDEN_COMPRA">
             <EntityTypeMapping TypeName="SISM_SIST_MED_MILTONModel.SISM_ORDEN_COMPRA">
               <MappingFragment StoreEntitySet="SISM_ORDEN_COMPRA">
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="OC_PorValidar" ColumnName="OC_PorValidar" />
                 <ScalarProperty Name="Total_OC" ColumnName="Total_OC" />
                 <ScalarProperty Name="NombreProveedor" ColumnName="NombreProveedor" />

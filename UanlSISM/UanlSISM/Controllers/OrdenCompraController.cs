@@ -53,6 +53,7 @@ namespace UanlSISM.Controllers
             public double Total_OC { get; set; }
             public int Id_OC { get; set; }
             public string Validar { get; set; }
+            public string DescripcionOC { get; set; }
         }
 
         public ActionResult ObtenerRequisInicio()
@@ -434,7 +435,8 @@ namespace UanlSISM.Controllers
                                  PU = DetOC.PreUnit,
                                  Total = DetOC.Total,
                                  NombreProveedor = a.NombreProveedor,
-                                 a.Total_OC
+                                 a.Total_OC,
+                                 Desc = a.Descripcion
                              }).ToList();
 
                 //ViewBag.NombreProvedor = Prov.Prov_Nombre;
@@ -455,7 +457,8 @@ namespace UanlSISM.Controllers
                         PrecioUnitario = (double)q.PU,
                         Total = (double)q.Total,
                         NombreProveedor = q.NombreProveedor,
-                        Total_OC = (double)q.Total_OC
+                        Total_OC = (double)q.Total_OC,
+                        DescripcionOC = q.Desc
                     };
                     results1.Add(resultado);
                 }
@@ -499,7 +502,7 @@ namespace UanlSISM.Controllers
             {
                 var query = (from a in ConBD2.SISM_ORDEN_COMPRA
                              join req in ConBD2.SISM_REQUISICION on a.Id_Requisicion equals req.Id_Requicision
-                             where a.OC_PorValidar == "1"
+                             where a.OC_PorValidar == "1" || a.OC_PorValidar == "4"
                              select new
                              {
                                  a.Id,
@@ -508,7 +511,9 @@ namespace UanlSISM.Controllers
                                  a.UsuarioNuevo,
                                  IdReq = req.claveOLD,
                                  FReq = req.Fecha,
-                                 Cont = req.EstatusContrato
+                                 Cont = req.EstatusContrato,
+                                 Val = a.OC_PorValidar,
+                                 Desc = a.Descripcion
                              }).ToList();
 
                 var results1 = new List<ListCampos>();
@@ -523,7 +528,9 @@ namespace UanlSISM.Controllers
                         Id_User = q.UsuarioNuevo,
                         Id_Requisicion = Convert.ToInt32(q.IdReq),
                         Fecha1 = string.Format("{0:d/M/yyyy hh:mm tt}", q.FReq),
-                        EstatusContrato = q.Cont
+                        EstatusContrato = q.Cont,
+                        Validar = q.Val,
+                        DescripcionOC = q.Desc
                     };
                     results1.Add(resultado);
                 }
@@ -535,7 +542,7 @@ namespace UanlSISM.Controllers
             }
         }
 
-        public JsonResult ValidarOC(int Clave_OC)
+        public JsonResult ValidarOC(int Clave_OC, string DescripcionOC)
         {
             try
             {
@@ -544,9 +551,63 @@ namespace UanlSISM.Controllers
                                select a).FirstOrDefault();
 
                 OC.OC_PorValidar = "2";// 2 Quiere decir que se Validó la O.C porque la OC nace como 1 (Generada) al validarla (2) el usuario de Compras puede Aprobarla/Generarla y el Status en BD cambia a True y OC_PorValidar puede cambiar a 3
+                OC.Descripcion = DescripcionOC;
                 ConBD2.SaveChanges();
 
                 return Json(new { MENSAJE = "Succe: Se autorizó la O.C" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult HACER_OC(int Clave_OC)
+        {
+            try
+            {
+                //ORDEN DE COMPRA
+                var OC = (from a in ConBD2.SISM_ORDEN_COMPRA
+                          where a.Clave == Clave_OC.ToString()
+                          select a).FirstOrDefault();
+
+                OC.Status = true;
+                OC.OC_PorValidar = "3";// el usuario de Compras puede Aprobarla/Generarla y el Status en BD cambia a True y OC_PorValidar puede cambiar a 3
+                ConBD2.SaveChanges();
+
+                //DETALLE DE LA O.C
+                var DetalleOC = (from a in ConBD2.SISM_DETALLE_OC
+                                    where a.Id_OrdenCompra == OC.Id
+                                    select a
+                            ).ToList();
+
+                foreach (var q in DetalleOC)
+                {
+                    q.Status = true;
+                    ConBD2.SaveChanges();
+                }
+
+                return Json(new { MENSAJE = "Succe: Se generó la O.C" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult CancelarOC(int Clave_OC, string DescripcionOC)
+        {
+            try
+            {
+                var OC = (from a in ConBD2.SISM_ORDEN_COMPRA
+                          where a.Clave == Clave_OC.ToString()
+                          select a).FirstOrDefault();
+
+                OC.OC_PorValidar = "4";// 4 Quiere decir que se Canceló la O.C 
+                OC.Descripcion = DescripcionOC;
+                ConBD2.SaveChanges();
+
+                return Json(new { MENSAJE = "Succe: Se canceló la O.C" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

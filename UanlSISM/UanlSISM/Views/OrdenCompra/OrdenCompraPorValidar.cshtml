@@ -72,6 +72,7 @@
                     <th>Fecha Req.</th>
                     <th>Usuario O.C</th>
                     <th>Estatus Contrato</th>
+                    <th>Estatus OC</th>
                     <th>Detalle</th>
                 </tr>
             </thead>
@@ -148,7 +149,7 @@
                                     <a style="font-size:13px" id="Fecha"></a>
                                 </th>
                                 @*<th COLSPAN="2" hidden>
-                        </th>*@
+                    </th>*@
                                 <th COLSPAN="2">
                                     <h10 style="color:green" hidden>Total: $</h10><br />
                                     <a style="font-size:13px; display:inline-block;" id="Total_OC1" hidden></a>
@@ -166,11 +167,12 @@
                         <tbody>
                         </tbody>
                     </table>
-                    <div class="row">
+                    <div class="row btnss">
                         <div class="col-md-6" style="text-align:left;">
                             <div class="btn-toolbar">
                                 <button type="button" id="btnValidar_OC" class="btn btn-success btn-space">AUTORIZAR O.C</button>
-                                <button type="button" id="Cancelar" class="btn btn-secondary">Cancelar</button>
+                                <button type="button" id="btnCancelar_OC" class="btn btn-danger btn-space">CANCELAR O.C</button>
+                                <button type="button" id="Cancelar" class="btn btn-secondary">Salir</button>
                             </div>
                         </div>
                         <div class="col-md-6" style="text-align:right;">
@@ -179,6 +181,9 @@
                                 <a style="font-size:20px; display:inline-block;" id="Total_OC"></a>
                             </strong>
                         </div>
+                    </div>
+                    <div class="row mt-1 btnss">
+                        <textarea class="text-center" id="TXTdescripcion" name="Descripcion" placeholder="Descripción (opcional)" rows="3" cols="40"></textarea>
                     </div>
                 </div>
 
@@ -303,6 +308,16 @@
                 { 'data': 'Id_User', className: "text-center" },
                 { "data": "EstatusContrato", className: "text-center", render: function (data) { return (data === 'UANL-DGA-DA-022/08/2022' ? '<h8 style="color:black; ">' + "SI" + '</h8>' : '<h8 style="color:black; ">' + "NO" + '</h8>'); } },
                 {
+                    "data": "Validar", className: "text-center", render: function (data) {
+                        if (data == '1') {
+                            return '<h8 style="color:black; ">' + "POR AUTORIZAR" + '</h8>';
+                        }
+                        if (data == '4') {
+                            return '<h8 style="color:black; ">' + "CANCELADA" + '</h8>';
+                        }
+                    }
+                },
+                {
                     "className": 'text-center',
                     "orderable": false,
                     "data": null,
@@ -333,6 +348,7 @@
             $('#UsElaboro').html(response[0].Usuario);
             $('#Total_OC1').html(response[0].Total_OC);
             $('#Total_OC').html(response[0].Total_OC);
+            $('#TXTdescripcion').html(response[0].DescripcionOC);
             LlenDetalle(response);
 
         }).fail(function (response) {
@@ -388,12 +404,50 @@
 
     $('#btnValidar_OC').on('click', function () {
         var ClaveOC = $("#folio").val();
+        var Descripcion = $("#TXTdescripcion").val();
         //alert(FolioOC)
         $.ajax({
             url: '@Url.Action("ValidarOC", "OrdenCompra")',
             method: 'POST',
             dataType: 'json',
-            data: { Clave_OC: ClaveOC },
+            data: { Clave_OC: ClaveOC, DescripcionOC: Descripcion },
+            success: function (data) {
+                if (data.MENSAJE.substring(0, 6) == "Succe:") {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: data.MENSAJE.substring(7),
+                        willClose: () => {
+                            location.reload();
+                        }
+                    });
+                }
+                if (data.MENSAJE.substring(0, 6) == "Error:") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops... ¡Error!',
+                        text: data.MENSAJE.substring(7),
+                    });
+                }
+            },
+            error: function (ex) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                });
+            }
+        });
+    });
+
+    $('#btnCancelar_OC').on('click', function () {
+        var ClaveOC = $("#folio").val();
+        var Descripcion = $("#TXTdescripcion").val();
+        
+        $.ajax({
+            url: '@Url.Action("CancelarOC", "OrdenCompra")',
+            method: 'POST',
+            dataType: 'json',
+            data: { Clave_OC: ClaveOC, DescripcionOC: Descripcion },
             success: function (data) {
                 if (data.MENSAJE.substring(0, 6) == "Succe:") {
                     Swal.fire({
@@ -435,35 +489,31 @@
     .modal-backdrop {
         background-color: rgba(0,0,0,0.4) !important;
     }
-
     .imprimirUanl img {
         width: 65%;
     }
-
     .imprimirLogo img {
         width: 100%;
     }
-
     #pie {
         margin-top: 250px !important;
     }
-
     #firmas td {
         border: 1px solid black;
     }
 
     @@media print {
-
         .imprimir {
             display: none;
         }
-
         #Xcel2 {
             display: none;
         }
-
         #firmas td {
             border: 1px solid black;
+        }
+        .btnss {
+            display: none;
         }
     }
 </style>

@@ -129,7 +129,7 @@
                                     <a style="font-size:13px" id="Fecha"></a>
                                 </th>
                                 @*<th COLSPAN="2" hidden>
-                        </th>*@
+                    </th>*@
                                 <th COLSPAN="2">
                                     <h10 style="color:green" hidden>Total: $</h10><br />
                                     <a style="font-size:13px; display:inline-block;" id="Total_OC1" hidden></a>
@@ -159,6 +159,9 @@
                                 <a style="font-size:20px; display:inline-block;" id="Total_OC"></a>
                             </strong>
                         </div>
+                    </div>
+                    <div class="row mt-1 btnss">
+                        <textarea class="text-center" id="TXTdescripcion" name="Descripcion" rows="3" cols="40" readonly></textarea>
                     </div>
                 </div>
                 @*<div class="row m-0 pt-2 text-center" id="pie" style=" border-collapse: collapse; border-spacing: 0;">
@@ -328,18 +331,34 @@
                 { 'data': 'Fecha1', className: "text-center" },
                 { 'data': 'Id_User', className: "text-center" },
                 { "data": "EstatusContrato", className: "text-center", render: function (data) { return (data === 'UANL-DGA-DA-022/08/2022' ? '<h8 style="color:black; ">' + "SI" + '</h8>' : '<h8 style="color:black; ">' + "NO" + '</h8>'); } },
-                //{ "data": "Validar", className: "text-center", render: function (data) { return (data === '1' ? '<h8 style="color:black; ">' + "POR VALIDAR" + '</h8>' : '<h8 style="color:black; ">' + "VALIDADA" + '</h8>'); } },
+                //{
+                //    "data": "Validar", className: "text-center", render: function (data) {
+                //        if (data == '1') {
+                //            return '<h8 style="color:black; ">' + "POR AUTORIZAR" + '</h8>';
+                //        } else {
+                //            if (data == '2') {
+                //                return '<h8 style="color:black; ">' + "AUTORIZADA" + '</h8>';
+                //            } else {
+                //                return '<h8 style="color:black; ">' + "HECHA/GENERADA" + '</h8>';
+                //            }
+                //        }
+                //    }
+                //},
                 {
                     "data": "Validar", className: "text-center", render: function (data) {
-                        if (data == '1') {
+                        if (data == '1')
+                        {
                             return '<h8 style="color:black; ">' + "POR AUTORIZAR" + '</h8>';
-                        } else {
-                            if (data == '2') {
-                                return '<h8 style="color:black; ">' + "AUTORIZADA" + '</h8>';
-                            } else {
-                                return '<h8 style="color:black; ">' + "HECHA/GENERADA" + '</h8>';
-                            }
-                        }
+                        } 
+                        if (data == '2') {
+                            return '<h8 style="color:black; ">' + "AUTORIZADA" + '</h8>';
+                        } 
+                        if (data == '3') {
+                            return '<h8 style="color:black; ">' + "HECHA/GENERADA" + '</h8>';
+                        } 
+                        if (data == '4') {
+                            return '<h8 style="color:black; ">' + "CANCELADA" + '</h8>';
+                        } 
                     }
                 },
                 {
@@ -386,6 +405,7 @@
             $('#UsElaboro').html(response[0].Usuario);
             $('#Total_OC1').html(response[0].Total_OC);
             $('#Total_OC').html(response[0].Total_OC);
+            $('#TXTdescripcion').html(response[0].DescripcionOC);
             LlenDetalle(response);
 
         }).fail(function (response) {
