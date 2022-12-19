@@ -11,7 +11,7 @@
 @*SWAL FIRE*@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<h5>O.C POR VALIDAR</h5>
+<h5>O.C POR AUTORIZAR</h5>
 <br />
 
 <style>
@@ -169,7 +169,8 @@
                     <div class="row">
                         <div class="col-md-6" style="text-align:left;">
                             <div class="btn-toolbar">
-                                <button type="button" id="btnValidar_OC" class="btn btn-success btn-space">VALIDAR O.C</button>
+                                <button type="button" id="btnValidar_OC" class="btn btn-success btn-space">AUTORIZAR O.C</button>
+                                <button type="button" id="Cancelar" class="btn btn-secondary">Cancelar</button>
                             </div>
                         </div>
                         <div class="col-md-6" style="text-align:right;">
@@ -280,7 +281,7 @@
             language: {
                 "zeroRecords": " ",
                 "search": "Buscar:",
-                "info": "_TOTAL_  Borradores",
+                "info": "_TOTAL_  ",
                 "infoEmpty": "",
                 "paginate": {
                     "first": "Primero",
@@ -424,6 +425,10 @@
     function Regresar() {
         window.location = '@Url.Action("OrdenCompra")';
     }
+
+    $('#Cancelar').on('click', function () {
+        location.reload();
+    });
 </script>
 
 <style>

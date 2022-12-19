@@ -249,7 +249,15 @@ namespace UanlSISM.Controllers
                 var ConsecutivoNuevoTxt = "";
                 if (ConsecutivoNuevo < 100)
                 {
-                    ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
+                    if (ConsecutivoNuevo < 9)
+                    {
+                        ConsecutivoNuevoTxt = "00" + ConsecutivoNuevo;
+                    }
+                    else
+                    {
+                        ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
+                    }
+
                 }
                 else
                 {
@@ -538,7 +546,7 @@ namespace UanlSISM.Controllers
                 OC.OC_PorValidar = "2";// 2 Quiere decir que se Validó la O.C porque la OC nace como 1 (Generada) al validarla (2) el usuario de Compras puede Aprobarla/Generarla y el Status en BD cambia a True y OC_PorValidar puede cambiar a 3
                 ConBD2.SaveChanges();
 
-                return Json(new { MENSAJE = "Succe: Se validó la O.C" }, JsonRequestBehavior.AllowGet);
+                return Json(new { MENSAJE = "Succe: Se autorizó la O.C" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

@@ -1,7 +1,4 @@
-﻿@*@{
-        ViewBag.Title = "OrdenCompra";
-    }*@
-
+﻿
 @*DATATABLES*@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />
@@ -15,24 +12,21 @@
 @*SWAL FIRE*@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<h5>O.C VALIDADAS Y POR VALIDAR</h5>
+<h5>ORDENES DE COMPRA</h5>
 <br />
 
 <style>
     table.dataTable {
         width: 100% !important;
     }
-
     .uanl-logo {
         width: 10vw;
         margin-top: 0vw;
         margin-bottom: 1vw;
     }
-
     .btn-space {
         margin-right: 5px;
     }
-
     #DetalleOCModal .modal-dialog {
         height: 100vh;
         margin-top: 0px;
@@ -47,7 +41,6 @@
     <div class="col-6">
         <button type="button" class="btn btn-outline-primary" onclick="Regresar()">REGRESAR</button>
     </div>
-
 </div>
 
 <div>
@@ -156,7 +149,7 @@
                     </table>
                     <div class="row">
                         <div class="col-md-6" style="text-align:left;">
-                            <div class="btn-toolbar">
+                            <div class="btn-toolbar btnss">
                                 <button type="button" id="btnGenerar_OC" class="btn btn-success btn-space">GENERAR/HACER O.C</button>
                             </div>
                         </div>
@@ -314,7 +307,7 @@
             language: {
                 "zeroRecords": " ",
                 "search": "Buscar:",
-                "info": "_TOTAL_  Borradores",
+                "info": "_TOTAL_  ",
                 "infoEmpty": "",
                 "paginate": {
                     "first": "Primero",
@@ -339,10 +332,10 @@
                 {
                     "data": "Validar", className: "text-center", render: function (data) {
                         if (data == '1') {
-                            return '<h8 style="color:black; ">' + "POR VALIDAR" + '</h8>';
+                            return '<h8 style="color:black; ">' + "POR AUTORIZAR" + '</h8>';
                         } else {
                             if (data == '2') {
-                                return '<h8 style="color:black; ">' + "VALIDADA" + '</h8>';
+                                return '<h8 style="color:black; ">' + "AUTORIZADA" + '</h8>';
                             } else {
                                 return '<h8 style="color:black; ">' + "HECHA/GENERADA" + '</h8>';
                             }
@@ -530,35 +523,31 @@
     .modal-backdrop {
         background-color: rgba(0,0,0,0.4) !important;
     }
-
     .imprimirUanl img {
         width: 65%;
     }
-
     .imprimirLogo img {
         width: 100%;
     }
-
     #pie {
         margin-top: 250px !important;
     }
-
     #firmas td {
         border: 1px solid black;
     }
 
     @@media print {
-
         .imprimir {
             display: none;
         }
-
         #Xcel2 {
             display: none;
         }
-
         #firmas td {
             border: 1px solid black;
+        }
+        .btnss {
+            display: none;
         }
     }
 </style>
