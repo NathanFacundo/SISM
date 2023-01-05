@@ -667,7 +667,8 @@
 
                 var EstatusContrato = "";
                 if (document.getElementById('cb1').checked) {
-                    EstatusContrato = "UANL-DGA-DA-022/08/2022";
+                    //EstatusContrato = "UANL-DGA-DA-022/08/2022";
+                    EstatusContrato = "Con Contrato";
                 } else {
                     EstatusContrato = "Sin Contrato";
                 }
@@ -784,8 +785,16 @@
                 { 'data': 'Clave', className: "text-center" },
                 { 'data': 'Fecha', className: "text-center" },
                 { 'data': 'Id_User', className: "text-center" },
-                //{ 'data': 'EstatusContrato', className: "text-center" },
-                { "data": "EstatusContrato", className: "text-center", render: function (data) { return (data === 'UANL-DGA-DA-022/08/2022' ? '<h8 style="color:black; ">' + "SI" + '</h8>' : '<h8 style="color:black; ">' + "NO" + '</h8>'); } },
+                //{ "data": "EstatusContrato", className: "text-center", render: function (data) { return (data === 'UANL-DGA-DA-022/08/2022' ? '<h8 style="color:black; ">' + "SI" + '</h8>' : '<h8 style="color:black; ">' + "NO" + '</h8>'); } },
+                {
+                    "data": "EstatusContrato", className: "text-center", render: function (data) {
+                        if (data == 'Sin Contrato') {
+                            return '<h8 style="color:black; ">' + "NO" + '</h8>';
+                        } else {
+                            return '<h8 style="color:black; ">' + "SI" + '</h8>';
+                        }
+                    }
+                },
                 {
                     "className": 'text-center',
                     "orderable": false,
@@ -824,7 +833,7 @@
                 $('#EstContrato').hide();
                 $('#Contrato').hide();
             } else {
-                $('#EstContrato').show();
+                $('#EstContrato').hide();
                 $('#Contrato').show();
             }
 
@@ -904,7 +913,8 @@
 
                 var EstatusContrato = "";
                 if (document.getElementById('cb1').checked) {
-                    EstatusContrato = "UANL-DGA-DA-022/08/2022";
+                    //EstatusContrato = "UANL-DGA-DA-022/08/2022";
+                    EstatusContrato = "Con Contrato";
                 } else {
                     EstatusContrato = "Sin Contrato";
                 }

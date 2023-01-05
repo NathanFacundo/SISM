@@ -257,8 +257,16 @@
                 { 'data': 'Id_BorradorRequi', className: "text-center" },
                 { 'data': 'Fecha', className: "text-center" },
                 { 'data': 'UsuarioRegistra', className: "text-center" },
-                //{ 'data': 'EstatusContrato', className: "text-center" },
-                { "data": "EstatusContrato", className: "text-center", render: function (data) { return (data == 'UANL-DGA-DA-022/08/2022' ? '<h8 style="color:black; ">' + "SI" + '</h8>' : '<h8 style="color:black; ">' + "NO" + '</h8>'); } },
+                //{ "data": "EstatusContrato", className: "text-center", render: function (data) { return (data == 'UANL-DGA-DA-022/08/2022' ? '<h8 style="color:black; ">' + "SI" + '</h8>' : '<h8 style="color:black; ">' + "NO" + '</h8>'); } },
+                {
+                    "data": "EstatusContrato", className: "text-center", render: function (data) {
+                        if (data == 'Sin Contrato') {
+                            return '<h8 style="color:black; ">' + "NO" + '</h8>';
+                        } else {
+                            return '<h8 style="color:black; ">' + "SI" + '</h8>';
+                        }
+                    }
+                },
                 {
                     "className": 'text-center',
                     "orderable": false,
