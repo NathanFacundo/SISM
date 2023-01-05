@@ -113,6 +113,7 @@
           <Property Name="Total" Type="float" />
           <Property Name="Descripcion" Type="varchar" MaxLength="300" />
           <Property Name="ClaveMedicamento" Type="varchar" MaxLength="15" />
+          <Property Name="CantidadOC" Type="int" />
         </EntityType>
         <EntityType Name="SISM_DETALLE_REQ_FARMACIA">
           <Key>
@@ -461,6 +462,7 @@
           <Property Name="Total" Type="Double" />
           <Property Name="Descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="ClaveMedicamento" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CantidadOC" Type="Int32" />
           </EntityType>
         <EntityType Name="SISM_DETALLE_REQ_FARMACIA">
           <Key>
@@ -803,6 +805,7 @@
           <EntitySetMapping Name="SISM_DETALLE_OC">
             <EntityTypeMapping TypeName="SISM_SIST_MED_MILTONModel.SISM_DETALLE_OC">
               <MappingFragment StoreEntitySet="SISM_DETALLE_OC">
+                <ScalarProperty Name="CantidadOC" ColumnName="CantidadOC" />
                 <ScalarProperty Name="ClaveMedicamento" ColumnName="ClaveMedicamento" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="Total" ColumnName="Total" />

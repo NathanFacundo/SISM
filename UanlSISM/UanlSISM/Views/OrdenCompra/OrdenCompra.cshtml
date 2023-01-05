@@ -162,7 +162,7 @@
                                 <th>Cant. Nueva</th>
                                 <th>P. U. Nuevo</th>
                                 <th>Total Nuevo</th>
-                                <th>Eliminar</th>
+                                <th>Dejar Pendiente</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -430,18 +430,23 @@
                         "searchable": false,
                         className: "text-center"
                     },
-                    {
-                        "className": 'text-center',
-                        "orderable": false,
-                        "data": null,
-                        "defaultContent": '<button title="Eliminar" id="botonDelete" class="btn btn-danger btn-sm fa fa-times" data-toggle="modal"></button>',
-                        "target": -2
-                    }
+                    //{
+                    //    "className": 'text-center',
+                    //    "orderable": false,
+                    //    "data": null,
+                    //    "defaultContent": '<button title="Eliminar" id="botonDelete" class="btn btn-danger btn-sm fa fa-times" data-toggle="modal"></button>',
+                    //    "target": -2
+                    //}
+
+                    //{ 'data': 'CB_ELIMINAR', className: "text-center", render: function (data) { return "<label><input id='cbPendiente' type='checkbox'></input></label>" } }
+
+                    { 'data': 'CB_ELIMINAR', className: "text-center", render: function (data) { return "<input class='input3' id='input3' type='checkbox' ></input>" } },
+
                 ]
             });
 
             var sum = $('#tblDetalleRequi').DataTable().column(5).data().sum();
-            $('#Total_OC').html(sum);
+            $('#Total_OC').html(sum.toFixed(2));
         }
 
         $('#tblDetalleRequi tbody').on('click', '#botonDelete', function () {
@@ -467,6 +472,13 @@
         var EC = "";
         var TotalNuevo = 0;
 
+        $('.input3').change(function () {
+            var tr = $(this).closest('tr');
+            var row = $('#tblDetalleRequi').DataTable().row(tr);
+
+            row.data().CB_ELIMINAR = true;
+        });
+
         $(".input").keyup(function () {
             var tr = $(this).closest('tr');
             var row = $('#tblDetalleRequi').DataTable().row(tr);
@@ -491,11 +503,9 @@
                     row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
                     $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
                     var sum = $('#tblDetalleRequi').DataTable().column(8).data().sum();
-                    $('#Total_OC2').html(sum);
+                    $('#Total_OC2').html(sum.toFixed(2));
                 }
             }
-
-            
 
         });
 
@@ -583,7 +593,7 @@
                     text: 'No hay datos para la Orden de Compra'
                 });
             }
-        });
+    });
 
     $('#DetalleRequiModal').on('hidden.bs.modal', function () {
         location.reload();
@@ -607,23 +617,18 @@
     .modal-backdrop {
         background-color: rgba(0,0,0,0.4) !important;
     }
-
     .imprimirUanl img {
         width: 65%;
     }
-
     .imprimirLogo img {
         width: 100%;
     }
-
     #pie {
         margin-top: 250px !important;
     }
-
     #firmas td {
         border: 1px solid black;
     }
-
     @@media print {
         .imprimir {
             display: none;
@@ -634,11 +639,9 @@
         #firmas td {
             border: 1px solid black;
         }
-
         .imprimirCOMBO {
             display: none;
         }
-
         .btnss {
             display: none;
         }
