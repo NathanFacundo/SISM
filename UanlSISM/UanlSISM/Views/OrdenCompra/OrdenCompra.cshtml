@@ -506,11 +506,17 @@
                 TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PREUNIT_NUEVA;
                 row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
                 $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
+
+                var sum = $('#tblDetalleRequi').DataTable().column(8).data().sum();
+                $('#Total_OC2').html(sum.toFixed(2));
             }
             else {
                 TotalNuevo = row.data().Cantidad * row.data().PREUNIT_NUEVA;
                 row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
                 $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
+
+                var sum = $('#tblDetalleRequi').DataTable().column(8).data().sum();
+                $('#Total_OC2').html(sum.toFixed(2));
             }
         });
 

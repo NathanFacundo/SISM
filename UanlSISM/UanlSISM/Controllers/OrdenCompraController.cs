@@ -206,12 +206,7 @@ namespace UanlSISM.Controllers
                              where a.claveOLD == FolioRequi.ToString()
                              select a
                             ).FirstOrDefault();
-                //DETALLE DE LA REQUI -lista-
-                //var DetalleRequi = (from a in ConBD2.SISM_DET_REQUISICION
-                //                    where a.Id_Requicision == Requi.Id_Requicision
-                //                    select a
-                //            ).ToList();
-                //Obtenemos el Usuario que se logueó para hacer el join (buscarlo) en la tabla Usuario y así obtener el Id de esa tabla
+                
                 var UsuarioOld = User.Identity.GetUserName();
                 var UsuarioOLD = (from a in db.Usuario
                                   where a.Usu_User == UsuarioOld
@@ -291,19 +286,7 @@ namespace UanlSISM.Controllers
                     DetalleOC.Id_Sustencia = item.Id_Sustancia;
                     DetalleOC.Descripcion = Sustancia.Descripcion;
                     DetalleOC.ClaveMedicamento = Sustancia.Clave;
-                    //Se valida si la CANTIDAD de cada item se modificó
-                    //if (item.CANTIDAD_NUEVA > 0)
-                    //{
-                    //    DetalleOC.Cantidad = item.CANTIDAD_NUEVA;
-                    //    DetalleOC.Pendiente = DetalleOC.Cantidad;
-                    //}
-                    //else
-                    //{
-                    //    DetalleOC.Cantidad = item.Cantidad;
-                    //    DetalleOC.Pendiente = DetalleOC.Cantidad;
-                    //}
-
-
+                    //1 quiere decir que el item está pendiente, 0 quiere decir que si se surtió el item
                     DetalleOC.ItemPendiente = item.CB_ELIMINAR;
 
                     //En DetalleOC.Cantidad se guarda la Cantidad de pzas que pide Almacen siempre
@@ -327,11 +310,6 @@ namespace UanlSISM.Controllers
                         //Si no se modificó la CANTIDAD_NUEVA, la cantidad por default pasa a ser la oficial
                         DetalleOC.CantidadItema_OC = item.Cantidad;
                     }
-
-                    //1 quiere decir que el item está pendiente, 0 quiere decir que si se surtió el item
-                    //DetalleOC.ItemPendiente = item.CB_ELIMINAR;
-
-
 
                     //Se valida si el PRECIO UNITARIO se modificó
                     if (item.PREUNIT_NUEVA > 0)
@@ -365,15 +343,18 @@ namespace UanlSISM.Controllers
                     {
                         DetalleOC.Total = (double?)decimal.Round((decimal)(DetalleOC.Cantidad * DetalleOC.PreUnit), 2);
                     }
-                    //DetalleOC.Pendiente = item.Cantidad;//NOTA: Columna de Vic (pendiente) es el mismo dato que CANTIDAD
-                    //DetalleOC.Cantidad = item.Cantidad;
-                    //DetalleOC.PreUnit = item.PrecioUnitario;
-                    //DetalleOC.Total = (double?)decimal.Round((decimal)(DetalleOC.Cantidad * DetalleOC.PreUnit), 2);
+                    
                     ConBD2.SISM_DETALLE_OC.Add(DetalleOC);
                     ConBD2.SaveChanges();
 
-                    SubTotal_OC += Decimal.Round((decimal)(DetalleOC.Total), 2);
-                    OC.Total_OC = (double?)SubTotal_OC;
+                    if (item.CB_ELIMINAR == false)
+                    {
+                        SubTotal_OC += Decimal.Round((decimal)(DetalleOC.Total), 2);
+                        OC.Total_OC = (double?)SubTotal_OC;
+                    }
+                    
+
+
                     ConBD2.SaveChanges();
                 }
 
@@ -393,9 +374,6 @@ namespace UanlSISM.Controllers
                 }
                 ConBD2.SaveChanges();
 
-
-
-
                 return Json(new { MENSAJE = "Succe: Se generó la O.C" }, JsonRequestBehavior.AllowGet);
                 #endregion
             }
@@ -412,7 +390,6 @@ namespace UanlSISM.Controllers
             {
                 var query = (from a in ConBD2.SISM_ORDEN_COMPRA
                              join req in ConBD2.SISM_REQUISICION on a.Id_Requisicion equals req.Id_Requicision
-                             //where a.OC_PorValidar != ""
                              select new { 
                              a.Id,
                              a.Clave,
@@ -476,6 +453,7 @@ namespace UanlSISM.Controllers
                 var query = (from a in ConBD2.SISM_ORDEN_COMPRA
                              join DetOC in ConBD2.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
                              where a.Clave == FolioOC.ToString()
+                             where DetOC.ItemPendiente == false
                              select new
                              {
                                  Folio = a.Clave,
@@ -489,7 +467,8 @@ namespace UanlSISM.Controllers
                                  Total = DetOC.Total,
                                  NombreProveedor = a.NombreProveedor,
                                  a.Total_OC,
-                                 Desc = a.Descripcion
+                                 Desc = a.Descripcion,
+                                 Pendiente = DetOC.ItemPendiente
                              }).ToList();
 
                 //ViewBag.NombreProvedor = Prov.Prov_Nombre;
