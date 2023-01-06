@@ -114,6 +114,8 @@
           <Property Name="Descripcion" Type="varchar" MaxLength="300" />
           <Property Name="ClaveMedicamento" Type="varchar" MaxLength="15" />
           <Property Name="CantidadOC" Type="int" />
+          <Property Name="ItemPendiente" Type="bit" />
+          <Property Name="CantidadItema_OC" Type="int" />
         </EntityType>
         <EntityType Name="SISM_DETALLE_REQ_FARMACIA">
           <Key>
@@ -173,6 +175,7 @@
           <Property Name="Total_OC" Type="float" />
           <Property Name="OC_PorValidar" Type="varchar" MaxLength="10" />
           <Property Name="Descripcion" Type="varchar" MaxLength="500" />
+          <Property Name="Estatus_OC" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="SISM_REQUISICION">
           <Key>
@@ -463,6 +466,8 @@
           <Property Name="Descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="ClaveMedicamento" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="CantidadOC" Type="Int32" />
+          <Property Name="ItemPendiente" Type="Boolean" />
+          <Property Name="CantidadItema_OC" Type="Int32" />
           </EntityType>
         <EntityType Name="SISM_DETALLE_REQ_FARMACIA">
           <Key>
@@ -524,6 +529,7 @@
           <Property Name="Total_OC" Type="Double" />
           <Property Name="OC_PorValidar" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Estatus_OC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="SISM_REQUISICION">
           <Key>
@@ -805,6 +811,8 @@
           <EntitySetMapping Name="SISM_DETALLE_OC">
             <EntityTypeMapping TypeName="SISM_SIST_MED_MILTONModel.SISM_DETALLE_OC">
               <MappingFragment StoreEntitySet="SISM_DETALLE_OC">
+                <ScalarProperty Name="CantidadItema_OC" ColumnName="CantidadItema_OC" />
+                <ScalarProperty Name="ItemPendiente" ColumnName="ItemPendiente" />
                 <ScalarProperty Name="CantidadOC" ColumnName="CantidadOC" />
                 <ScalarProperty Name="ClaveMedicamento" ColumnName="ClaveMedicamento" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
@@ -863,6 +871,7 @@
           <EntitySetMapping Name="SISM_ORDEN_COMPRA">
             <EntityTypeMapping TypeName="SISM_SIST_MED_MILTONModel.SISM_ORDEN_COMPRA">
               <MappingFragment StoreEntitySet="SISM_ORDEN_COMPRA">
+                <ScalarProperty Name="Estatus_OC" ColumnName="Estatus_OC" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="OC_PorValidar" ColumnName="OC_PorValidar" />
                 <ScalarProperty Name="Total_OC" ColumnName="Total_OC" />
