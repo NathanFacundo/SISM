@@ -374,6 +374,8 @@ namespace UanlSISM.Controllers
                 }
                 ConBD2.SaveChanges();
 
+                
+                //, INFO = FolioNuevo_Oc.Clave
                 return Json(new { MENSAJE = "Succe: Se generó la O.C" }, JsonRequestBehavior.AllowGet);
                 #endregion
             }
@@ -452,6 +454,7 @@ namespace UanlSISM.Controllers
 
                 var query = (from a in ConBD2.SISM_ORDEN_COMPRA
                              join DetOC in ConBD2.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
+                             join Requi in ConBD2.SISM_REQUISICION on a.Id_Requisicion equals Requi.Id_Requicision
                              where a.Clave == FolioOC.ToString()
                              where DetOC.ItemPendiente == false
                              select new
@@ -468,7 +471,8 @@ namespace UanlSISM.Controllers
                                  NombreProveedor = a.NombreProveedor,
                                  a.Total_OC,
                                  Desc = a.Descripcion,
-                                 Pendiente = DetOC.ItemPendiente
+                                 Pendiente = DetOC.ItemPendiente,
+                                 FolioR = Requi.claveOLD
                              }).ToList();
 
                 //ViewBag.NombreProvedor = Prov.Prov_Nombre;
@@ -490,7 +494,8 @@ namespace UanlSISM.Controllers
                         Total = (double)q.Total,
                         NombreProveedor = q.NombreProveedor,
                         Total_OC = (double)q.Total_OC,
-                        DescripcionOC = q.Desc
+                        DescripcionOC = q.Desc,
+                        FolioRequisicion = q.FolioR
                     };
                     results1.Add(resultado);
                 }
@@ -646,5 +651,108 @@ namespace UanlSISM.Controllers
                 return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        //------------------                            PARCIALES       ----------------------
+        [Authorize]
+        public ActionResult OrdenCompraParcial()
+        {
+            ViewBag.PROVEEDORES = new SelectList(db.Proveedor.ToList(), "Id", "Prov_Nombre");
+
+            return View();
+        }
+
+        //LISTADO DE LAS ORDENES DE COMPRA **PARCIALES**    PANTALLA INICIO
+        public ActionResult ObtenerOCInicio_Parciales()
+        {
+            try
+            {
+                var query = (from a in ConBD2.SISM_ORDEN_COMPRA
+                             join req in ConBD2.SISM_REQUISICION on a.Id_Requisicion equals req.Id_Requicision
+                             where a.Estatus_OC == "OC Parcial"
+                             select new
+                             {
+                                 a.Id,
+                                 a.Clave,
+                                 a.Fecha,
+                                 a.UsuarioNuevo
+                             }).ToList();
+
+                var results1 = new List<ListCampos>();
+
+                foreach (var q in query)
+                {
+                    var resultado = new ListCampos
+                    {
+                        Id_OC = q.Id,
+                        Clave = q.Clave,
+                        Fecha = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha),
+                        Id_User = q.UsuarioNuevo
+                    };
+                    results1.Add(resultado);
+                }
+                return Json(new { MENSAJE = "FOUND", OCS = results1 }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult ObtenerDetalleParcial(string Id_OC)
+        {
+            try
+            {
+                var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
+                var fechaDT = DateTime.Parse(fecha);
+
+                var query = (from a in ConBD2.SISM_ORDEN_COMPRA
+                             join DetOC in ConBD2.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
+                             where a.Clave == Id_OC
+                             where DetOC.ItemPendiente == true
+                             select new
+                             {
+                                 Folio = a.Clave,
+                                 Fecha = a.Fecha,
+                                 Usuario = a.UsuarioNuevo,
+                                 Cantidad = DetOC.CantidadItema_OC,
+                                 Precio = DetOC.PreUnit,
+                                 Descripcion = DetOC.Descripcion,
+                                 ClaveMed = DetOC.ClaveMedicamento,
+                                 PU = DetOC.PreUnit,
+                                 Total = DetOC.Total,
+                                 NombreProveedor = a.NombreProveedor,
+                                 a.Total_OC,
+                                 Pendiente = DetOC.ItemPendiente
+                             }).ToList();
+
+                var results1 = new List<ListCampos>();
+                //LISTA DE LA O.C Y SU DETALLE
+                foreach (var q in query)
+                {
+                    var resultado = new ListCampos
+                    {
+                        Folio = q.Folio,
+                        Fecha = string.Format("{0:d/M/yy hh:mm tt}", q.Fecha),
+                        Fecha1 = string.Format("{0:d/M/yy hh:mm tt}", fechaDT),
+                        Usuario = q.Usuario,
+                        Descripcion = q.Descripcion,
+                        Clave = q.ClaveMed,
+                        Cantidad = (int)q.Cantidad,
+                        PrecioUnitario = (double)q.PU,
+                        Total = (double)q.Total,
+                        NombreProveedor = q.NombreProveedor,
+                        Total_OC = (double)q.Total_OC
+                    };
+                    results1.Add(resultado);
+                }
+
+                return new JsonResult { Data = results1, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }

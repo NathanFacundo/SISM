@@ -140,9 +140,13 @@
                                     <h10 style="color:green">Folio O.C: </h10><br />
                                     <a style="font-size:13px" id="NoOC"></a>
                                 </th>
-                                <th COLSPAN="2">
+                                <th>
                                     <h10 style="color:green">Fecha O.C: </h10><br />
                                     <a style="font-size:13px" id="FechaOC"></a>
+                                </th>
+                                <th>
+                                    <h10 style="color:green">Folio Requi: </h10><br />
+                                    <a style="font-size:13px" id="FRequi"></a>
                                 </th>
                                 <th COLSPAN="2">
                                     <h10 style="color:green">Fecha Impresión: </h10><br />
@@ -306,7 +310,16 @@
                 { 'data': 'Id_Requisicion', className: "text-center" },
                 { 'data': 'Fecha1', className: "text-center" },
                 { 'data': 'Id_User', className: "text-center" },
-                { "data": "EstatusContrato", className: "text-center", render: function (data) { return (data === 'UANL-DGA-DA-022/08/2022' ? '<h8 style="color:black; ">' + "SI" + '</h8>' : '<h8 style="color:black; ">' + "NO" + '</h8>'); } },
+                //{ "data": "EstatusContrato", className: "text-center", render: function (data) { return (data === 'UANL-DGA-DA-022/08/2022' ? '<h8 style="color:black; ">' + "SI" + '</h8>' : '<h8 style="color:black; ">' + "NO" + '</h8>'); } },
+                {
+                    "data": "EstatusContrato", className: "text-center", render: function (data) {
+                        if (data == 'Sin Contrato') {
+                            return '<h8 style="color:black; ">' + "NO" + '</h8>';
+                        } else {
+                            return '<h8 style="color:black; ">' + "SI" + '</h8>';
+                        }
+                    }
+                },
                 {
                     "data": "Validar", className: "text-center", render: function (data) {
                         if (data == '1') {
@@ -349,6 +362,9 @@
             $('#Total_OC1').html(response[0].Total_OC);
             $('#Total_OC').html(response[0].Total_OC);
             $('#TXTdescripcion').html(response[0].DescripcionOC);
+
+            $('#FRequi').html(response[0].FolioRequisicion);
+
             LlenDetalle(response);
 
         }).fail(function (response) {
