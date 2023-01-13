@@ -428,7 +428,7 @@
                     { "data": "PrecioUnitario", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                     { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                     { 'data': 'CANTIDAD_NUEVA', className: "text-center", render: function (data) { return "<input class='input' id='InputCantidad' type='number' style='width:70px; border:0; border-bottom:1px solid; background:transparent;' type='number' min='0' max='' value='" + data + "'></input>" } },
-                    { 'data': 'PREUNIT_NUEVA', className: "text-center", render: function (data) { return (row.data().EstatusContrato != 'Sin Contrato' ? "<a>N.A</a>" : "<input class='InputPU' id='InputPU' style='width: 70px; border: 0; border-bottom: 1px solid; background: transparent;' type='number' min='' max='' value='" + data + "'></input>"); } },
+                    { 'data': 'PREUNIT_NUEVA', className: "text-center", render: function (data) { return (row.data().EstatusContrato != 'Sin Contrato' ? "<a>N.A</a>" : "<input class='InputPU' id='InputPU' style='width: 70px; border: 0; border-bottom: 1px solid; background: transparent; ' type='number' min='1' max='' value='" + data + "'></input>"); } },
                     {
                         "data": 'TOTAL_NUEVA',
                         render: function (data, type, row, meta) {
@@ -468,12 +468,12 @@
         var EC = "";
         var TotalNuevo = 0;
 
-        //$('.input3').change(function () {
-        //    var tr = $(this).closest('tr');
-        //    var row = $('#tblDetalleRequi').DataTable().row(tr);
+        $('.input3').change(function () {
+            var tr = $(this).closest('tr');
+            var row = $('#tblDetalleRequi').DataTable().row(tr);
 
-        //    row.data().CB_ELIMINAR = true;
-        //});
+            row.data().CB_ELIMINAR = true;
+        });
 
         $(".input").keyup(function () {
             var tr = $(this).closest('tr');
@@ -505,28 +505,27 @@
 
         });
 
-        $("#InputPU").keyup(function () {
-            //var tr = $(this).closest('tr');
-            //var row = $('#tblDetalleRequi').DataTable().row(tr);
-            //row.data().PREUNIT_NUEVA = $(this).val();
+        $(".InputPU").keyup(function () {
+            var tr = $(this).closest('tr');
+            var row = $('#tblDetalleRequi').DataTable().row(tr);
+            row.data().PREUNIT_NUEVA = $(this).val();
 
-            //if (row.data().CANTIDAD_NUEVA > "0") {
-            //    TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PREUNIT_NUEVA;
-            //    row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
-            //    $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
+            if (row.data().CANTIDAD_NUEVA > "0") {
+                TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PREUNIT_NUEVA;
+                row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
+                $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
 
-            //    var sum = $('#tblDetalleRequi').DataTable().column(8).data().sum();
-            //    $('#Total_OC2').html(sum.toFixed(2));
-            //}
-            //else {
-            //    TotalNuevo = row.data().Cantidad * row.data().PREUNIT_NUEVA;
-            //    row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
-            //    $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
+                var sum = $('#tblDetalleRequi').DataTable().column(8).data().sum();
+                $('#Total_OC2').html(sum.toFixed(2));
+            }
+            else {
+                TotalNuevo = row.data().Cantidad * row.data().PREUNIT_NUEVA;
+                row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
+                $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
 
-            //    var sum = $('#tblDetalleRequi').DataTable().column(8).data().sum();
-            //    $('#Total_OC2').html(sum.toFixed(2));
-            //}
-            alert('hola')
+                var sum = $('#tblDetalleRequi').DataTable().column(8).data().sum();
+                $('#Total_OC2').html(sum.toFixed(2));
+            }
         });
 
     })
