@@ -315,6 +315,10 @@
         });
     }
 
+    var Folio = "";
+    var Proveedor = "";
+    var EsConContrato = "";
+
     $('#tbl_OCparciales tbody').on('click', '#VerDetalle', function () {
         var tr = $(this).closest('tr');
         var row = $('#tbl_OCparciales').DataTable().row(tr);
@@ -340,6 +344,8 @@
                 document.getElementById('PROV').textContent = 'MEDICAZEN S.A. DE C.V.';
                 $('#Contrato').show();
             }
+            Folio = $('#NoOC').val(response[0].Folio);
+            EsConContrato = $("#EstContrato").val(response[0].EstatusContrato);
 
             $.grep(response, function (item) {
                 var Insertar = true;
@@ -495,16 +501,16 @@
     })
 
     $('#btnGenerarOC').on('click', function () {
-            //Folio = $("#NoRequi").val();
-            //Proveedor = document.getElementById('PROV').textContent.trim();
-            //EsConContrato = $("#EstContrato").val();
+        Folio = $("#NoOC").val();
+        //Proveedor = document.getElementById('PROV').textContent.trim();
+        Contrato = $("#Contrato").val();
 
         if (DetOC_Parcial.length > 0) {
             $.ajax({
-                url: '@Url.Action("GenerarOC", "OrdenCompra")',
+                url: '@Url.Action("GenerarOC_Parcial", "OrdenCompra")',
                 method: 'POST',
                 dataType: 'json',
-                data: { ListaOC: DetRequi, FolioRequi: Folio, ProveedorReq: Proveedor },
+                data: { ListaOC: DetOC_Parcial, FolioOC: Folio/*, ProveedorReq: Proveedor*/ },
                 success: function (data) {
                     if (data.MENSAJE.substring(0, 6) == "Error:") {
                         Swal.fire({
