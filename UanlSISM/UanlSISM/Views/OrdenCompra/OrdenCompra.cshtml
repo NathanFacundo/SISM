@@ -564,14 +564,41 @@
                                 });
                             }
                             else {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: '¡Éxito!',
-                                    text: data.MENSAJE.substring(7),
-                                    willClose: () => {
-                                        location.reload();
+                                //Swal.fire({
+                                //    icon: 'success',
+                                //    title: '¡Éxito!',
+                                //    text: data.MENSAJE.substring(7),
+                                //    willClose: () => {
+                                //        location.reload();
+                                //    }
+                                //});
+
+                                var url = '@Url.Action("ObtenerUltima_OC", "OrdenCompra")';
+                                $.post(url).done(function (response) {
+                                    if (response.MENSAJE.substring(0, 7) == "Succe: ") {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'El folio de la O.C generada es: ',
+                                            text: response.CLAVE,
+                                            willClose: () => {
+                                                location.reload();
+                                            }
+                                        });
                                     }
-                                })
+                                    if (response.MENSAJE.substring(0, 7) == "Error: ") {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops... ¡Error!',
+                                            text: response.MENSAJE.substring(7)
+                                        });
+                                    }
+                                }).fail(function (response) {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: '¡Error!'
+                                    });
+                                });
+
                             }
                         },
                         error: function (ex) {

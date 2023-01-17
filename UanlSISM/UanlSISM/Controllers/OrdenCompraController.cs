@@ -390,6 +390,30 @@ namespace UanlSISM.Controllers
             }
         }
 
+        public ActionResult ObtenerUltima_OC()
+        {
+            try
+            {
+                var UsuarioRegistra = User.Identity.GetUserName();
+                var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm");
+                var fechaDT = DateTime.Parse(fecha);
+
+                var IdOC = (from a in ConBD2.SISM_ORDEN_COMPRA
+                            where a.UsuarioNuevo == UsuarioRegistra
+                            where a.Fecha >= fechaDT
+                            select a).OrderByDescending(u => u.Id).FirstOrDefault();
+
+                db.SaveChanges();
+                
+                return Json(new { MENSAJE = "Succe: ", CLAVE = IdOC.Clave }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+            //return Respuesta;
+        }
+
         //LISTADO DE LAS ORDENES DE COMPRA GENERADAS
         public ActionResult ObtenerOCInicio()
         {
