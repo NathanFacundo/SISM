@@ -757,12 +757,13 @@
 
         table = $('#example').DataTable({
             responsive: true,
-            searching: false,
+            searching: true,
+            paging: false,
             info: true,
             deferRender: true,
-            scroller: true,
+            scroller: false,
             scrollColapse: true,
-            scrollY: 420,
+            //scrollY: 420,
             lengthChange: false,
             language: {
                 "zeroRecords": " ",
