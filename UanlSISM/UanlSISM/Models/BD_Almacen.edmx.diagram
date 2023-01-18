@@ -12,7 +12,6 @@
         <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_DET_REQUISICION" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
         <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_DET_VALE_ENTRADA" Width="1.5" PointX="8" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_DETALLE_BORRADOR_REQUI" Width="1.5" PointX="13" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_DETALLE_OC" Width="2" PointX="8" PointY="9.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_DETALLE_REQ_FARMACIA" Width="1.5" PointX="10" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_INV_MED" Width="1.5" PointX="2.75" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_MOV_INV" Width="1.5" PointX="10.75" PointY="8.75" IsExpanded="true" />
@@ -25,8 +24,9 @@
         <AssociationConnector Association="SISM_SIST_MED_MILTONModel.FK__SISM_COTI__Id_Re__3F466844" ManuallyRouted="false" />
         <AssociationConnector Association="SISM_SIST_MED_MILTONModel.FK__SISM_DET___Id_Re__403A8C7D" ManuallyRouted="false" />
         <AssociationConnector Association="SISM_SIST_MED_MILTONModel.FK__SISM_DET___Id_Va__4222D4EF" ManuallyRouted="false" />
-        <AssociationConnector Association="SISM_SIST_MED_MILTONModel.FK__SISM_DETA__Id_Or__440B1D61" ManuallyRouted="false" />
         <AssociationConnector Association="SISM_SIST_MED_MILTONModel.FK__SISM_DETA__Id_Re__44FF419A" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_DETALLE_OC" Width="1.5" PointX="8" PointY="9.5" />
+        <AssociationConnector Association="SISM_SIST_MED_MILTONModel.FK__SISM_DETA__Id_Or__440B1D61" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -28,7 +28,7 @@ namespace UanlSISM.Models
         public string ClaveMedicamento { get; set; }
         public Nullable<int> CantidadOC { get; set; }
         public Nullable<bool> ItemPendiente { get; set; }
-        public Nullable<int> CantidadItema_OC { get; set; }
+        public Nullable<int> CantidadPendiente { get; set; }
     
         public virtual SISM_ORDEN_COMPRA SISM_ORDEN_COMPRA { get; set; }
     }

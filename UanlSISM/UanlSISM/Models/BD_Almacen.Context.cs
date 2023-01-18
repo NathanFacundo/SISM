@@ -32,7 +32,6 @@ namespace UanlSISM.Models
         public virtual DbSet<SISM_DET_REQUISICION> SISM_DET_REQUISICION { get; set; }
         public virtual DbSet<SISM_DET_VALE_ENTRADA> SISM_DET_VALE_ENTRADA { get; set; }
         public virtual DbSet<SISM_DETALLE_BORRADOR_REQUI> SISM_DETALLE_BORRADOR_REQUI { get; set; }
-        public virtual DbSet<SISM_DETALLE_OC> SISM_DETALLE_OC { get; set; }
         public virtual DbSet<SISM_DETALLE_REQ_FARMACIA> SISM_DETALLE_REQ_FARMACIA { get; set; }
         public virtual DbSet<SISM_INV_MED> SISM_INV_MED { get; set; }
         public virtual DbSet<SISM_MOV_INV> SISM_MOV_INV { get; set; }
@@ -40,5 +39,6 @@ namespace UanlSISM.Models
         public virtual DbSet<SISM_REQUISICION> SISM_REQUISICION { get; set; }
         public virtual DbSet<SISM_REQUISICION_FARMACIA> SISM_REQUISICION_FARMACIA { get; set; }
         public virtual DbSet<SISM_VALE_ENTRADA> SISM_VALE_ENTRADA { get; set; }
+        public virtual DbSet<SISM_DETALLE_OC> SISM_DETALLE_OC { get; set; }
     }
 }

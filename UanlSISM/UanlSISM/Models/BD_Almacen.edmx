@@ -115,7 +115,7 @@
           <Property Name="ClaveMedicamento" Type="varchar" MaxLength="15" />
           <Property Name="CantidadOC" Type="int" />
           <Property Name="ItemPendiente" Type="bit" />
-          <Property Name="CantidadItema_OC" Type="int" />
+          <Property Name="CantidadPendiente" Type="int" />
         </EntityType>
         <EntityType Name="SISM_DETALLE_REQ_FARMACIA">
           <Key>
@@ -449,27 +449,6 @@
           <Property Name="Compendio" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="SISM_BORRADOR_REQUI" Relationship="Self.FK__SISM_DETA__Id_Bo__4316F928" FromRole="SISM_DETALLE_BORRADOR_REQUI" ToRole="SISM_BORRADOR_REQUI" />
         </EntityType>
-        <EntityType Name="SISM_DETALLE_OC">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Id_OrdenCompra" Type="Int32" Nullable="false" />
-          <Property Name="Id_CodigoBarrar" Type="Int32" />
-          <Property Name="Cantidad" Type="Int32" />
-          <Property Name="PreUnit" Type="Double" />
-          <Property Name="Obsequio" Type="Int32" />
-          <Property Name="Status" Type="Boolean" />
-          <Property Name="Id_Sustencia" Type="Int32" />
-          <Property Name="Pendiente" Type="Int32" />
-          <NavigationProperty Name="SISM_ORDEN_COMPRA" Relationship="Self.FK__SISM_DETA__Id_Or__440B1D61" FromRole="SISM_DETALLE_OC" ToRole="SISM_ORDEN_COMPRA" />
-          <Property Name="Total" Type="Double" />
-          <Property Name="Descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
-          <Property Name="ClaveMedicamento" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="CantidadOC" Type="Int32" />
-          <Property Name="ItemPendiente" Type="Boolean" />
-          <Property Name="CantidadItema_OC" Type="Int32" />
-          </EntityType>
         <EntityType Name="SISM_DETALLE_REQ_FARMACIA">
           <Key>
             <PropertyRef Name="Id_Detalle_ReqFarm" />
@@ -525,13 +504,13 @@
           <Property Name="Cuadro" Type="Int32" />
           <Property Name="UsuarioNuevo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="IP_User" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="SISM_DETALLE_OC" Relationship="Self.FK__SISM_DETA__Id_Or__440B1D61" FromRole="SISM_ORDEN_COMPRA" ToRole="SISM_DETALLE_OC" />
           <Property Name="NombreProveedor" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="Total_OC" Type="Double" />
           <Property Name="OC_PorValidar" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="Estatus_OC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="EsParcial_IdOC" Type="Int32" />
+          <NavigationProperty Name="SISM_DETALLE_OC" Relationship="SISM_SIST_MED_MILTONModel.FK__SISM_DETA__Id_Or__440B1D61" FromRole="SISM_ORDEN_COMPRA" ToRole="SISM_DETALLE_OC" />
         </EntityType>
         <EntityType Name="SISM_REQUISICION">
           <Key>
@@ -636,18 +615,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SISM_DETA__Id_Or__440B1D61">
-          <End Role="SISM_ORDEN_COMPRA" Type="Self.SISM_ORDEN_COMPRA" Multiplicity="1" />
-          <End Role="SISM_DETALLE_OC" Type="Self.SISM_DETALLE_OC" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SISM_ORDEN_COMPRA">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SISM_DETALLE_OC">
-              <PropertyRef Name="Id_OrdenCompra" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__SISM_DETA__Id_Re__44FF419A">
           <End Role="SISM_REQUISICION_FARMACIA" Type="Self.SISM_REQUISICION_FARMACIA" Multiplicity="1" />
           <End Role="SISM_DETALLE_REQ_FARMACIA" Type="Self.SISM_DETALLE_REQ_FARMACIA" Multiplicity="*" />
@@ -668,7 +635,6 @@
           <EntitySet Name="SISM_DET_REQUISICION" EntityType="Self.SISM_DET_REQUISICION" />
           <EntitySet Name="SISM_DET_VALE_ENTRADA" EntityType="Self.SISM_DET_VALE_ENTRADA" />
           <EntitySet Name="SISM_DETALLE_BORRADOR_REQUI" EntityType="Self.SISM_DETALLE_BORRADOR_REQUI" />
-          <EntitySet Name="SISM_DETALLE_OC" EntityType="Self.SISM_DETALLE_OC" />
           <EntitySet Name="SISM_DETALLE_REQ_FARMACIA" EntityType="Self.SISM_DETALLE_REQ_FARMACIA" />
           <EntitySet Name="SISM_INV_MED" EntityType="Self.SISM_INV_MED" />
           <EntitySet Name="SISM_MOV_INV" EntityType="Self.SISM_MOV_INV" />
@@ -696,15 +662,49 @@
             <End Role="SISM_VALE_ENTRADA" EntitySet="SISM_VALE_ENTRADA" />
             <End Role="SISM_DET_VALE_ENTRADA" EntitySet="SISM_DET_VALE_ENTRADA" />
           </AssociationSet>
-          <AssociationSet Name="FK__SISM_DETA__Id_Or__440B1D61" Association="Self.FK__SISM_DETA__Id_Or__440B1D61">
-            <End Role="SISM_ORDEN_COMPRA" EntitySet="SISM_ORDEN_COMPRA" />
-            <End Role="SISM_DETALLE_OC" EntitySet="SISM_DETALLE_OC" />
-          </AssociationSet>
           <AssociationSet Name="FK__SISM_DETA__Id_Re__44FF419A" Association="Self.FK__SISM_DETA__Id_Re__44FF419A">
             <End Role="SISM_REQUISICION_FARMACIA" EntitySet="SISM_REQUISICION_FARMACIA" />
             <End Role="SISM_DETALLE_REQ_FARMACIA" EntitySet="SISM_DETALLE_REQ_FARMACIA" />
           </AssociationSet>
+          <EntitySet Name="SISM_DETALLE_OC" EntityType="SISM_SIST_MED_MILTONModel.SISM_DETALLE_OC" />
+          <AssociationSet Name="FK__SISM_DETA__Id_Or__440B1D61" Association="SISM_SIST_MED_MILTONModel.FK__SISM_DETA__Id_Or__440B1D61">
+            <End Role="SISM_ORDEN_COMPRA" EntitySet="SISM_ORDEN_COMPRA" />
+            <End Role="SISM_DETALLE_OC" EntitySet="SISM_DETALLE_OC" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="SISM_DETALLE_OC">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_OrdenCompra" Type="Int32" Nullable="false" />
+          <Property Name="Id_CodigoBarrar" Type="Int32" />
+          <Property Name="Cantidad" Type="Int32" />
+          <Property Name="PreUnit" Type="Double" />
+          <Property Name="Obsequio" Type="Int32" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="Id_Sustencia" Type="Int32" />
+          <Property Name="Pendiente" Type="Int32" />
+          <Property Name="Total" Type="Double" />
+          <Property Name="Descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="ClaveMedicamento" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CantidadOC" Type="Int32" />
+          <Property Name="ItemPendiente" Type="Boolean" />
+          <Property Name="CantidadPendiente" Type="Int32" />
+          <NavigationProperty Name="SISM_ORDEN_COMPRA" Relationship="SISM_SIST_MED_MILTONModel.FK__SISM_DETA__Id_Or__440B1D61" FromRole="SISM_DETALLE_OC" ToRole="SISM_ORDEN_COMPRA" />
+        </EntityType>
+        <Association Name="FK__SISM_DETA__Id_Or__440B1D61">
+          <End Type="SISM_SIST_MED_MILTONModel.SISM_ORDEN_COMPRA" Role="SISM_ORDEN_COMPRA" Multiplicity="1" />
+          <End Type="SISM_SIST_MED_MILTONModel.SISM_DETALLE_OC" Role="SISM_DETALLE_OC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SISM_ORDEN_COMPRA">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SISM_DETALLE_OC">
+              <PropertyRef Name="Id_OrdenCompra" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -807,27 +807,6 @@
                 <ScalarProperty Name="Clave" ColumnName="Clave" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="Compendio" ColumnName="Compendio" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SISM_DETALLE_OC">
-            <EntityTypeMapping TypeName="SISM_SIST_MED_MILTONModel.SISM_DETALLE_OC">
-              <MappingFragment StoreEntitySet="SISM_DETALLE_OC">
-                <ScalarProperty Name="CantidadItema_OC" ColumnName="CantidadItema_OC" />
-                <ScalarProperty Name="ItemPendiente" ColumnName="ItemPendiente" />
-                <ScalarProperty Name="CantidadOC" ColumnName="CantidadOC" />
-                <ScalarProperty Name="ClaveMedicamento" ColumnName="ClaveMedicamento" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Id_OrdenCompra" ColumnName="Id_OrdenCompra" />
-                <ScalarProperty Name="Id_CodigoBarrar" ColumnName="Id_CodigoBarrar" />
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="PreUnit" ColumnName="PreUnit" />
-                <ScalarProperty Name="Obsequio" ColumnName="Obsequio" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Id_Sustencia" ColumnName="Id_Sustencia" />
-                <ScalarProperty Name="Pendiente" ColumnName="Pendiente" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -935,6 +914,27 @@
                 <ScalarProperty Name="IP_User" ColumnName="IP_User" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SISM_DETALLE_OC">
+            <EntityTypeMapping TypeName="SISM_SIST_MED_MILTONModel.SISM_DETALLE_OC">
+              <MappingFragment StoreEntitySet="SISM_DETALLE_OC">
+                <ScalarProperty Name="CantidadPendiente" ColumnName="CantidadPendiente" />
+                <ScalarProperty Name="ItemPendiente" ColumnName="ItemPendiente" />
+                <ScalarProperty Name="CantidadOC" ColumnName="CantidadOC" />
+                <ScalarProperty Name="ClaveMedicamento" ColumnName="ClaveMedicamento" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Pendiente" ColumnName="Pendiente" />
+                <ScalarProperty Name="Id_Sustencia" ColumnName="Id_Sustencia" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Obsequio" ColumnName="Obsequio" />
+                <ScalarProperty Name="PreUnit" ColumnName="PreUnit" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Id_CodigoBarrar" ColumnName="Id_CodigoBarrar" />
+                <ScalarProperty Name="Id_OrdenCompra" ColumnName="Id_OrdenCompra" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

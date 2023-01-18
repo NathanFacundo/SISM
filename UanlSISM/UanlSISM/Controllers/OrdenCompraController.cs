@@ -293,27 +293,23 @@ namespace UanlSISM.Controllers
                     DetalleOC.ClaveMedicamento = Sustancia.Clave;
                     //1 quiere decir que el item está pendiente, 0 quiere decir que si se surtió el item
                     DetalleOC.ItemPendiente = item.CB_ELIMINAR;
-
                     //En DetalleOC.Cantidad se guarda la Cantidad de pzas que pide Almacen siempre
                     DetalleOC.Cantidad = item.Cantidad;
 
                     if (item.CANTIDAD_NUEVA > 0)
                     {
-                        //Aqui se guardan las pzas que modificó Compras 
-                        DetalleOC.CantidadOC = item.CANTIDAD_NUEVA;
-                        //Se guarda la cantidad de items total (al modificarse la cantidad esa nueva cantidad pasa a ser la oficial)
-                        DetalleOC.CantidadItema_OC = item.CANTIDAD_NUEVA;
-
+                        //DetalleOC.CantidadOC = item.CANTIDAD_NUEVA;
+                        //DetalleOC.CantidadItema_OC = item.CANTIDAD_NUEVA;
                         if (item.CANTIDAD_NUEVA < item.Cantidad)
                         {
                             DetalleOC.ItemPendiente = true;
-                            //OC.Estatus_OC = "OC Parcial";
+                            DetalleOC.CantidadPendiente = item.Cantidad - item.CANTIDAD_NUEVA;
+                            DetalleOC.CantidadOC = item.CANTIDAD_NUEVA;
                         }
                     }
                     else
                     {
-                        //Si no se modificó la CANTIDAD_NUEVA, la cantidad por default pasa a ser la oficial
-                        DetalleOC.CantidadItema_OC = item.Cantidad;
+                        DetalleOC.CantidadOC = item.Cantidad;
                     }
 
                     //Se valida si el PRECIO UNITARIO se modificó
@@ -491,7 +487,7 @@ namespace UanlSISM.Controllers
                                  Folio = a.Clave,
                                  Fecha = a.Fecha,
                                  Usuario = a.UsuarioNuevo,
-                                 Cantidad = DetOC.CantidadItema_OC,
+                                 Cantidad = DetOC.CantidadOC,
                                  Precio = DetOC.PreUnit,
                                  Descripcion = DetOC.Descripcion,
                                  ClaveMed = DetOC.ClaveMedicamento,
@@ -744,7 +740,7 @@ namespace UanlSISM.Controllers
                                  Folio =        a.Clave,
                                  Fecha =        a.Fecha,
                                  Usuario =      a.UsuarioNuevo,
-                                 Cantidad =     DetOC.CantidadItema_OC,
+                                 Cantidad =     DetOC.CantidadPendiente,
                                  Precio =       DetOC.PreUnit,
                                  Descripcion =  DetOC.Descripcion,
                                  ClaveMed =     DetOC.ClaveMedicamento,
@@ -912,24 +908,24 @@ namespace UanlSISM.Controllers
                     //En DetalleOC.Cantidad se guarda la Cantidad de pzas que pide Almacen siempre
                     DetalleOC.Cantidad = item.Cantidad;
 
-                    if (item.CANTIDAD_NUEVA > 0)
-                    {
-                        //Aqui se guardan las pzas que modificó Compras 
-                        DetalleOC.CantidadOC = item.CANTIDAD_NUEVA;
-                        //Se guarda la cantidad de items total (al modificarse la cantidad esa nueva cantidad pasa a ser la oficial)
-                        DetalleOC.CantidadItema_OC = item.CANTIDAD_NUEVA;
+                    //if (item.CANTIDAD_NUEVA > 0)
+                    //{
+                    //    //Aqui se guardan las pzas que modificó Compras 
+                    //    DetalleOC.CantidadOC = item.CANTIDAD_NUEVA;
+                    //    //Se guarda la cantidad de items total (al modificarse la cantidad esa nueva cantidad pasa a ser la oficial)
+                    //    DetalleOC.CantidadItema_OC = item.CANTIDAD_NUEVA;
 
-                        if (item.CANTIDAD_NUEVA < item.Cantidad)
-                        {
-                            DetalleOC.ItemPendiente = true;
-                            //OC.Estatus_OC = "OC Parcial";
-                        }
-                    }
-                    else
-                    {
-                        //Si no se modificó la CANTIDAD_NUEVA, la cantidad por default pasa a ser la oficial
-                        DetalleOC.CantidadItema_OC = item.Cantidad;
-                    }
+                    //    if (item.CANTIDAD_NUEVA < item.Cantidad)
+                    //    {
+                    //        DetalleOC.ItemPendiente = true;
+                    //        //OC.Estatus_OC = "OC Parcial";
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    //Si no se modificó la CANTIDAD_NUEVA, la cantidad por default pasa a ser la oficial
+                    //    DetalleOC.CantidadItema_OC = item.Cantidad;
+                    //}
 
                     //Se valida si el PRECIO UNITARIO se modificó
                     if (item.PREUNIT_NUEVA > 0)
