@@ -176,6 +176,7 @@
           <Property Name="OC_PorValidar" Type="varchar" MaxLength="10" />
           <Property Name="Descripcion" Type="varchar" MaxLength="500" />
           <Property Name="Estatus_OC" Type="varchar" MaxLength="100" />
+          <Property Name="EsParcial_IdOC" Type="int" />
         </EntityType>
         <EntityType Name="SISM_REQUISICION">
           <Key>
@@ -530,6 +531,7 @@
           <Property Name="OC_PorValidar" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="Estatus_OC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EsParcial_IdOC" Type="Int32" />
         </EntityType>
         <EntityType Name="SISM_REQUISICION">
           <Key>
@@ -871,6 +873,7 @@
           <EntitySetMapping Name="SISM_ORDEN_COMPRA">
             <EntityTypeMapping TypeName="SISM_SIST_MED_MILTONModel.SISM_ORDEN_COMPRA">
               <MappingFragment StoreEntitySet="SISM_ORDEN_COMPRA">
+                <ScalarProperty Name="EsParcial_IdOC" ColumnName="EsParcial_IdOC" />
                 <ScalarProperty Name="Estatus_OC" ColumnName="Estatus_OC" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="OC_PorValidar" ColumnName="OC_PorValidar" />

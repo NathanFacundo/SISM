@@ -320,10 +320,26 @@
                         }
                     }
                 },
+                //{
+                //    "data": "Validar", className: "text-center", render: function (data) {
+                //        if (data == '1') {
+                //            return '<h8 style="color:black; ">' + "POR AUTORIZAR" + '</h8>';
+                //        }
+                //        if (data == '4') {
+                //            return '<h8 style="color:black; ">' + "CANCELADA" + '</h8>';
+                //        }
+                //    }
+                //},
                 {
                     "data": "Validar", className: "text-center", render: function (data) {
                         if (data == '1') {
                             return '<h8 style="color:black; ">' + "POR AUTORIZAR" + '</h8>';
+                        }
+                        if (data == '2') {
+                            return '<h8 style="color:black; ">' + "AUTORIZADA" + '</h8>';
+                        }
+                        if (data == '3') {
+                            return '<h8 style="color:black; ">' + "HECHA/GENERADA" + '</h8>';
                         }
                         if (data == '4') {
                             return '<h8 style="color:black; ">' + "CANCELADA" + '</h8>';

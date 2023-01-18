@@ -134,7 +134,8 @@
                                     <a style="font-size:13px" id="FechaOC"></a>
                                 </th>
                                 <th COLSPAN="2">
-                                    
+                                    <h10 style="color:green">Folio Requi: </h10><br />
+                                    <a style="font-size:13px" id="Requi"></a>
                                 </th>
                                 <th COLSPAN="4">
                                     <h10 id="Contrato" style="color:green">Con Contrato </h10><br />
@@ -318,6 +319,7 @@
     var Folio = "";
     var Proveedor = "";
     var EsConContrato = "";
+    var FolioRequi = "";
 
     $('#tbl_OCparciales tbody').on('click', '#VerDetalle', function () {
         var tr = $(this).closest('tr');
@@ -331,7 +333,7 @@
         $.post(url, array).done(function (response) {
             $('#NoOC').html(response[0].Folio);
             $('#FechaOC').html(response[0].Fecha);
-
+            $('#Requi').html(response[0].FolioRequisicion);
             $('#EstContrato').html(response[0].EstatusContrato);
 
             if (response[0].EstatusContrato == "Sin Contrato") {
@@ -346,6 +348,7 @@
             }
             Folio = $('#NoOC').val(response[0].Folio);
             EsConContrato = $("#EstContrato").val(response[0].EstatusContrato);
+            FolioRequi = $('#Requi').val(response[0].FolioRequisicion);
 
             $.grep(response, function (item) {
                 var Insertar = true;
@@ -504,13 +507,14 @@
         Folio = $("#NoOC").val();
         //Proveedor = document.getElementById('PROV').textContent.trim();
         Contrato = $("#Contrato").val();
+        FolioRequi = $('#Requi').val();
 
         if (DetOC_Parcial.length > 0) {
             $.ajax({
                 url: '@Url.Action("GenerarOC_Parcial", "OrdenCompra")',
                 method: 'POST',
                 dataType: 'json',
-                data: { ListaOC: DetOC_Parcial, FolioOC: Folio/*, ProveedorReq: Proveedor*/ },
+                data: { ListaOC: DetOC_Parcial, FolioOC: Folio/*, ProveedorReq: Proveedor*/, FolioRequi: FolioRequi },
                 success: function (data) {
                     if (data.MENSAJE.substring(0, 6) == "Error:") {
                         Swal.fire({
