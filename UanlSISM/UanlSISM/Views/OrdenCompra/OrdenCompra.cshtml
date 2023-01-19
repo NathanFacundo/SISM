@@ -490,7 +490,8 @@
                     showConfirmButton: false,
                     timer: 1600
                 })
-                row.data().CANTIDAD_NUEVA = $(this).val("0");
+                row.data().CANTIDAD_NUEVA = "";
+                //row.data().CANTIDAD_NUEVA = $(this).val(0);
             } else {
                 row.data().CANTIDAD_NUEVA = valor;
 

@@ -291,9 +291,13 @@ namespace UanlSISM.Controllers
                     DetalleOC.Id_Sustencia = item.Id_Sustancia;
                     DetalleOC.Descripcion = Sustancia.Descripcion;
                     DetalleOC.ClaveMedicamento = Sustancia.Clave;
+
+
                     //1 quiere decir que el item está pendiente, 0 quiere decir que si se surtió el item
                     DetalleOC.ItemPendiente = item.CB_ELIMINAR;
                     //En DetalleOC.Cantidad se guarda la Cantidad de pzas que pide Almacen siempre
+
+
                     DetalleOC.Cantidad = item.Cantidad;
 
                     if (item.CANTIDAD_NUEVA > 0)
@@ -348,13 +352,12 @@ namespace UanlSISM.Controllers
                     ConBD2.SISM_DETALLE_OC.Add(DetalleOC);
                     ConBD2.SaveChanges();
 
+                    //if (DetalleOC.ItemPendiente == false)
                     if (item.CB_ELIMINAR == false)
                     {
                         SubTotal_OC += Decimal.Round((decimal)(DetalleOC.Total), 2);
                         OC.Total_OC = (double?)SubTotal_OC;
                     }
-
-
 
                     ConBD2.SaveChanges();
                 }
@@ -374,7 +377,6 @@ namespace UanlSISM.Controllers
                     OC.Estatus_OC = "OC Completa";
                 }
                 ConBD2.SaveChanges();
-
 
                 //, INFO = FolioNuevo_Oc.Clave
                 return Json(new { MENSAJE = "Succe: Se generó la O.C" }, JsonRequestBehavior.AllowGet);
@@ -481,7 +483,7 @@ namespace UanlSISM.Controllers
                              join DetOC in ConBD2.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
                              join Requi in ConBD2.SISM_REQUISICION on a.Id_Requisicion equals Requi.Id_Requicision
                              where a.Clave == FolioOC.ToString()
-                             where DetOC.ItemPendiente == false
+                             //where DetOC.ItemPendiente == false
                              select new
                              {
                                  Folio = a.Clave,
@@ -926,6 +928,21 @@ namespace UanlSISM.Controllers
                     //    //Si no se modificó la CANTIDAD_NUEVA, la cantidad por default pasa a ser la oficial
                     //    DetalleOC.CantidadItema_OC = item.Cantidad;
                     //}
+
+                    if (item.CANTIDAD_NUEVA > 0)
+                    {
+                        if (item.CANTIDAD_NUEVA < item.Cantidad)
+                        {
+                            DetalleOC.ItemPendiente = true;
+                            DetalleOC.CantidadPendiente = item.Cantidad - item.CANTIDAD_NUEVA;
+                            DetalleOC.CantidadOC = item.CANTIDAD_NUEVA;
+                        }
+                    }
+                    else
+                    {
+                        DetalleOC.CantidadOC = item.Cantidad;
+                    }
+
 
                     //Se valida si el PRECIO UNITARIO se modificó
                     if (item.PREUNIT_NUEVA > 0)
