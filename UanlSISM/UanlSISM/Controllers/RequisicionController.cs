@@ -14,7 +14,6 @@ namespace UanlSISM.Controllers
     {
         BD_Almacen ConBD2 = new BD_Almacen();
 
-
         [Authorize]
         public ActionResult Requisicion()
         {
@@ -103,7 +102,6 @@ namespace UanlSISM.Controllers
         SERVMEDEntities8 db = new SERVMEDEntities8();
         //SERVMEDEntities12 SPM = new SERVMEDEntities12();
 
-
         public class LstInv1
         {
             public string Clave { get; set; }
@@ -140,6 +138,7 @@ namespace UanlSISM.Controllers
         }
 
         SISM_SIST_MEDEntities ConBD = new SISM_SIST_MEDEntities();
+
         public JsonResult GenerarBorradorRequi(List<Sustancia> ListaSustanciasBorrador, string StatusContrato)
         {
             //return null;
@@ -211,7 +210,8 @@ namespace UanlSISM.Controllers
                         Id_BorradorRequi = q.Id_BorradorRequi,
                         Fecha = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha),
                         UsuarioRegistra = q.UsuarioRegistra,
-                        EstatusContrato = q.EstatusContrato
+                        EstatusContrato = q.EstatusContrato,
+                        FechaRequisicion = string.Format("{0:yyyy/M/d hh:mm tt}", q.Fecha, new CultureInfo("es-ES"))
                     };
                     results1.Add(resultado);
                 }
@@ -249,7 +249,8 @@ namespace UanlSISM.Controllers
                                  Clave = det.Clave,
                                  Descripcion = det.Descripcion,
                                  det.Id_Detalle_BorradorRequi,
-                                 Compendio = det.Compendio
+                                 Compendio = det.Compendio,
+                                 Contrato = a.EstatusContrato
                              }
                              ).ToList();
 
@@ -262,7 +263,7 @@ namespace UanlSISM.Controllers
             }
         }
 
-        public JsonResult GenerarRequi(List<SISM_DETALLE_BORRADOR_REQUI> ListaSustanciasBorrador, int Id_FolioBorrador)
+        public JsonResult GenerarRequi(List<SISM_DETALLE_BORRADOR_REQUI> ListaSustanciasBorrador, int Id_FolioBorrador, string StatusContrato)
         {
             var UsuarioRegistra = User.Identity.GetUserName();
             var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
@@ -290,14 +291,11 @@ namespace UanlSISM.Controllers
                                }).OrderByDescending(u => u.clave).FirstOrDefault();
 
                 //int ClaveNueva = Convert.ToInt32(ClaveID.clave) + 1;
-
                 //Requisicion.claveOLD = Convert.ToString(ClaveNueva);
 
                 var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
                 var UltimoConsecutivo_Clave = Convert.ToInt32(ClaveID.clave.Substring(4));
-
                 var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
-
                 var ConsecutivoNuevoTxt = "";
 
                 if (ConsecutivoNuevo < 100)
@@ -310,7 +308,6 @@ namespace UanlSISM.Controllers
                     {
                         ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
                     }
-
                 }
                 else
                 {
@@ -322,7 +319,18 @@ namespace UanlSISM.Controllers
                                 where a.Id_BorradorRequi == Id_FolioBorrador
                                 select a).FirstOrDefault();
 
-                Requisicion.EstatusContrato = Borrador.EstatusContrato;
+                //Requisicion.EstatusContrato = Borrador.EstatusContrato;
+
+                if (Borrador.EstatusContrato == StatusContrato)
+                {
+                    Requisicion.EstatusContrato = Borrador.EstatusContrato;
+                }
+                else
+                {
+                    Requisicion.EstatusContrato = StatusContrato;
+                }
+
+
                 Requisicion.EstatusOC = "0";
                 ConBD2.SISM_REQUISICION.Add(Requisicion);
                 ConBD2.SaveChanges();
@@ -551,7 +559,7 @@ namespace UanlSISM.Controllers
                         Fecha = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha),
                         Id_User = q.Id_User,
                         EstatusContrato = q.EstatusContrato,
-                        FechaRequisicion = string.Format("{0:yyyy/M/d hh:mm tt}", q.Fecha, new CultureInfo("es-ES"))
+                        FechaRequisicion = string.Format("{0:yyyy/MM/dd hh:mm tt}", q.Fecha, new CultureInfo("es-ES"))
                     };
                     results1.Add(resultado);
                 }
@@ -577,7 +585,6 @@ namespace UanlSISM.Controllers
             public int ManejoDisponible { get; set; }
             public string Usuario_Registra { get; set; }
         }
-
 
         public JsonResult ObtenerDetalleRequi(string Id_Requi)
         {
@@ -921,7 +928,7 @@ namespace UanlSISM.Controllers
         }
 
         //BORRADOR DEL BORRADOR
-        public JsonResult GenerarBorradorX2(List<SISM_DETALLE_BORRADOR_REQUI> ListaSustanciasBorrador, int Id_FolioBorrador)
+        public JsonResult GenerarBorradorX2(List<SISM_DETALLE_BORRADOR_REQUI> ListaSustanciasBorrador, int Id_FolioBorrador, string StatusContrato)
         {
 
             var UsuarioRegistra = User.Identity.GetUserName();
@@ -944,7 +951,19 @@ namespace UanlSISM.Controllers
                 BorradorRequi.UsuarioRegistra = UsuarioRegistra;
                 BorradorRequi.Estatus = "Borrador Generado";
                 BorradorRequi.ip_realiza = ip_realiza;
-                BorradorRequi.EstatusContrato = Borrador.EstatusContrato;
+
+                //BorradorRequi.EstatusContrato = Borrador.EstatusContrato;
+
+                if (Borrador.EstatusContrato == StatusContrato)
+                {
+                    BorradorRequi.EstatusContrato = Borrador.EstatusContrato;
+                }
+                else
+                {
+                    BorradorRequi.EstatusContrato = StatusContrato;
+                }
+
+
                 ConBD2.SISM_BORRADOR_REQUI.Add(BorradorRequi);
                 ConBD2.SaveChanges();
 

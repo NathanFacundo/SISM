@@ -23,27 +23,34 @@
     table.dataTable {
         width: 100% !important;
     }
+
     .uanl-logo {
         width: 10vw;
         margin-top: 0vw;
         margin-bottom: 1vw;
     }
+
     #contenido {
         margin: 0px,0px;
     }
+
     .btn-space {
         margin-right: 5px;
     }
+
     table.dataTable {
         width: 100% !important;
     }
+
     #NuevaRequiModal .modal-dialog {
         height: 100vh;
         margin-top: 0px;
     }
+
     /*#NuevaRequiModal .modal-content {
         height: 100vh;
     }*/
+
 </style>
 
 <div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
@@ -132,16 +139,16 @@
                             </div>
 
                             @*<div class="row">
-                                    <div class="col-4">
-                                        <button type="button" id="btnGenerarRequi" class="btn btn-success btn-space">Generar Requisición</button>
-                                    </div>
-                                    <div class="col-4">
-                                        <button type="button" id="btnGenerarBorrador" class="btn btn-primary btn-space">Generar Borrador</button>
-                                    </div>
-                                    <div class="col-4">
-                                        <button type="button" id="Cancelar" class="btn btn-secondary">Cancelar</button>
-                                    </div>
-                                </div>*@
+                                <div class="col-4">
+                                    <button type="button" id="btnGenerarRequi" class="btn btn-success btn-space">Generar Requisición</button>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" id="btnGenerarBorrador" class="btn btn-primary btn-space">Generar Borrador</button>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" id="Cancelar" class="btn btn-secondary">Cancelar</button>
+                                </div>
+                            </div>*@
 
                             <div class="row">
                                 <div class="btn-toolbar">
@@ -377,6 +384,7 @@
         //    }
         //});
 
+
         $('#example thead tr')
             .clone(true)
             .addClass('filters')
@@ -435,6 +443,8 @@
                     });
             },
         });
+
+
 
         $('#tblGenerarRequi2').DataTable({
             responsive: true,
@@ -569,8 +579,6 @@
                 }
             ]
         });
-
-        var allData = tableVenta.rows().data();
 
         $('.dataTables_filter input').on('keyup', function (e) {
             var value = $('.dataTables_filter input').val();
@@ -726,8 +734,8 @@
 
                 var EstatusContrato = "";
                 if (document.getElementById('cb1').checked) {
-                    EstatusContrato = "UANL-DGA-DA-022/08/2022";
-                    //EstatusContrato = "Con Contrato";
+                    //EstatusContrato = "UANL-DGA-DA-022/08/2022";
+                    EstatusContrato = "Con Contrato";
                 } else {
                     EstatusContrato = "Sin Contrato";
                 }
@@ -816,7 +824,7 @@
 
         table = $('#example').DataTable({
             responsive: true,
-            searching: true,
+            searching: false,
             paging: false,
             info: true,
             deferRender: true,
@@ -826,7 +834,7 @@
             lengthChange: false,
             language: {
                 "zeroRecords": " ",
-                "search": "",
+                "search": "Buscar:",
                 "info": "_TOTAL_  Requisiciones",
                 "infoEmpty": "",
                 "paginate": {
@@ -867,6 +875,7 @@
             columnDefs: [
                 { "visible": false, "targets": 5 },
             ],
+
             orderCellsTop: true,
             fixedHeader: true,
             initComplete: function () {
@@ -918,7 +927,7 @@
                             });
                     });
             },
-
+        
 
         });
     }
@@ -989,6 +998,7 @@
                         "rows": " %d filas seleccionadas"
                     },
                 },
+
                 columns: [
                     {
                         'data': 'ORDEN', className: "text-center",
@@ -1025,8 +1035,8 @@
 
                 var EstatusContrato = "";
                 if (document.getElementById('cb1').checked) {
-                    EstatusContrato = "UANL-DGA-DA-022/08/2022";
-                    //EstatusContrato = "Con Contrato";
+                    //EstatusContrato = "UANL-DGA-DA-022/08/2022";
+                    EstatusContrato = "Con Contrato";
                 } else {
                     EstatusContrato = "Sin Contrato";
                 }
@@ -1086,25 +1096,33 @@
     .modal-backdrop {
         background-color: rgba(0,0,0,0.4) !important;
     }
+
     .imprimirUanl img {
         width: 65%;
     }
+
     .imprimirLogo img {
         width: 100%;
     }
+
     #pie {
         margin-top: 250px !important;
     }
+
     #firmas td {
         border: 1px solid black;
     }
+
     @@media print {
+
         .btn-editar {
             display: none;
         }
+
         .btn-eliminar {
             display: none;
         }
+
         .imprimir {
             display: none;
         }
@@ -1114,18 +1132,23 @@
         #Xcel2 {
             display: none;
         }
+
         .agregarotro {
             display: none;
         }
+
         .terminar {
             display: none;
         }
+
         #barcode {
             margin-left: 0vw !important;
         }
+
         .paqpreoperatorio {
             display: none;
         }
+
         #firmas td {
             border: 1px solid black;
         }

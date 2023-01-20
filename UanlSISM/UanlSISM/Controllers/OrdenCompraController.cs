@@ -483,7 +483,7 @@ namespace UanlSISM.Controllers
                              join DetOC in ConBD2.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
                              join Requi in ConBD2.SISM_REQUISICION on a.Id_Requisicion equals Requi.Id_Requicision
                              where a.Clave == FolioOC.ToString()
-                             //where DetOC.ItemPendiente == false
+                             where DetOC.ItemPendiente == false
                              select new
                              {
                                  Folio = a.Clave,

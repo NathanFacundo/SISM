@@ -11,9 +11,11 @@
     table.dataTable {
         width: 100% !important;
     }
+
     .btn-space {
         margin-right: 5px;
     }
+
     .modal-dialog {
         height: 100vh;
         margin-top: 0px;
@@ -39,7 +41,6 @@
                 <th>Usuario Elaboró</th>
                 <th>Estatus Contrato</th>
                 <th>Detalle</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -99,38 +100,22 @@
                     </table>
                 </div>
 
-                @*<div class="row">
+                <div class="row">
                     <div class="btn-toolbar">
                         <button type="button" id="btnConsultar" class="btn btn-success btn-space">Generar Requisición</button>
                         <button type="button" id="btnEliminarBorrador" class="btn btn-danger btn-space">Eliminar Borrador</button>
                         <button type="button" id="btnBorradorX2" class="btn btn-primary btn-space">Guardar Borrador</button>
                         <button type="button" id="Cancelar" class="btn btn-secondary">Cancelar</button>
                     </div>
-                </div>*@
-
-                <div class="row m-0 form-inline">
-                    <div class="row m-0">
-                        <div class="row btn-toolbar">
-                            <div class="row">
-                                <div class="form-check">
-                                    <label>
-                                        <input type="checkbox" id="cb1" name="ConContrato"> Con Contrato
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="btn-toolbar">
-                                    <button type="button" id="btnConsultar" class="btn btn-success btn-space">Generar Requisición</button>
-                                    <button type="button" id="btnEliminarBorrador" class="btn btn-danger btn-space">Eliminar Borrador</button>
-                                    <button type="button" id="btnBorradorX2" class="btn btn-primary btn-space">Guardar Borrador</button>
-                                    <button type="button" id="Cancelar" class="btn btn-secondary">Cancelar</button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
                 </div>
+
+                @*<div class="row">
+                    <div class="col-6">
+                        <button type="button" id="Cancelar" class="btn btn-secondary">Cancelar</button>
+                    </div>
+                    <div class="col-6">
+                    </div>
+                </div>*@
 
             </div>
         </div>
@@ -267,7 +252,7 @@
                 },
             },
             data: ListaBorradores,
-            "order": [[5, 'desc']],
+            order: [[1, 'desc']],
             columns: [
                 { 'data': 'Id_BorradorRequi', className: "text-center" },
                 { 'data': 'Fecha', className: "text-center" },
@@ -288,12 +273,8 @@
                     "data": null,
                     "defaultContent": '<button title="Ver Detalle" id="VerDetalle" class="btn btn-primary fa fa-book" data-toggle="modal"></button>',
                     "target": -2
-                },
-                { "data": "FechaRequisicion" }
-            ],
-            columnDefs: [
-                { "visible": false, "targets": 5 },
-            ],
+                }
+            ]
         });
     }
 
@@ -315,7 +296,7 @@
             dataType: 'json',
             data: { Id_Borrador: Id },
             success: function (data) {
-                
+
                 if (data.MENSAJE.substring(0, 6) == "Error:") {
                     Swal.fire({
                         icon: 'error',
@@ -327,7 +308,6 @@
                     //Llena2(data.DETALLES);
                     $.grep(data.DETALLES, function (item) {
                         var Insertar = true;
-
                         $.grep(ListaSustancias, function (itemEnLista) {
                             if (item.Clave == itemEnLista.Clave) {
                                 Insertar = false;
@@ -337,17 +317,8 @@
                             item.CANTIDAD_NUEVA = 0;
                             //item.Id_BorradorRequi = Id;
                             ListaSustancias.push(item);
-
                         }
                         Llena2(ListaSustancias);
-
-                        //alert(item.Contrato);
-                        if (item.Contrato == "Sin Contrato") {
-                            document.getElementById("cb1").checked = false;
-                        } else {
-                            document.getElementById("cb1").checked = true;
-                        }
-
                     });
                 }
             },
@@ -362,10 +333,6 @@
 
     $('#NuevaRequiModal').on('shown.bs.modal', function () {
         LlenaSustanciaModal();
-    })
-
-    $('#NuevaRequiModal').on('hidden.bs.modal', function () {
-        location.reload();
     })
 
     function LlenaSustanciaModal() {
@@ -523,6 +490,7 @@
                          showConfirmButton: false,
                          timer: 1500
                      })
+
                  });
                  //Llena2(data.SUSTANCIAS);
             },
@@ -616,20 +584,12 @@
     $('#btnConsultar').on('click', function () {
         if (ListaSustancias.length > 0) {
 
-            var EstatusContrato = "";
-            if (document.getElementById('cb1').checked) {
-                EstatusContrato = "UANL-DGA-DA-022/08/2022";
-                //EstatusContrato = "Con Contrato";
-            } else {
-                EstatusContrato = "Sin Contrato";
-            }
-
             var Folio = $("#folio").val();
                 $.ajax({
                     url: '@Url.Action("GenerarRequi", "Requisicion")',
                     method: 'POST',
                     dataType: 'json',
-                    data: { ListaSustanciasBorrador: ListaSustancias, Id_FolioBorrador: Folio, StatusContrato: EstatusContrato },
+                    data: { ListaSustanciasBorrador: ListaSustancias, Id_FolioBorrador: Folio },
                     success: function (data) {
                         if (data.MENSAJE.substring(0, 6) == "Error:") {
                             Swal.fire({
@@ -710,20 +670,12 @@
     $('#btnBorradorX2').on('click', function () {
         if (ListaSustancias.length > 0) {
 
-            var EstatusContrato = "";
-            if (document.getElementById('cb1').checked) {
-                EstatusContrato = "UANL-DGA-DA-022/08/2022";
-                //EstatusContrato = "Con Contrato";
-            } else {
-                EstatusContrato = "Sin Contrato";
-            }
-
             var Folio = $("#folio").val();
                 $.ajax({
                     url: '@Url.Action("GenerarBorradorX2", "Requisicion")',
                     method: 'POST',
                     dataType: 'json',
-                    data: { ListaSustanciasBorrador: ListaSustancias, Id_FolioBorrador: Folio, StatusContrato: EstatusContrato },
+                    data: { ListaSustanciasBorrador: ListaSustancias, Id_FolioBorrador: Folio },
                     success: function (data) {
                         if (data.MENSAJE.substring(0, 6) == "Error:") {
                             Swal.fire({
