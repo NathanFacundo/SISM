@@ -31,6 +31,7 @@ namespace UanlSISM.Models
         public string claveOLD { get; set; }
         public string EstatusContrato { get; set; }
         public string EstatusOC { get; set; }
+        public string Estatus_OC_Parcial { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SISM_COTIZACIONES> SISM_COTIZACIONES { get; set; }

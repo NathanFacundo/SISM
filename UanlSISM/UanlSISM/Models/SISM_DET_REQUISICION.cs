@@ -23,6 +23,9 @@ namespace UanlSISM.Models
         public string Compendio { get; set; }
         public Nullable<double> PrecioUnitario { get; set; }
         public Nullable<double> Total { get; set; }
+        public Nullable<int> Cantidad_OC { get; set; }
+        public Nullable<int> CantidadPendiente_OC { get; set; }
+        public Nullable<bool> PartidaPendiente_OC { get; set; }
     
         public virtual SISM_REQUISICION SISM_REQUISICION { get; set; }
     }

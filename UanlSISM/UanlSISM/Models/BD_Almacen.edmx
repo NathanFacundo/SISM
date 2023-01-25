@@ -73,6 +73,9 @@
           <Property Name="Compendio" Type="varchar" MaxLength="100" />
           <Property Name="PrecioUnitario" Type="float" />
           <Property Name="Total" Type="float" />
+          <Property Name="Cantidad_OC" Type="int" />
+          <Property Name="CantidadPendiente_OC" Type="int" />
+          <Property Name="PartidaPendiente_OC" Type="bit" />
         </EntityType>
         <EntityType Name="SISM_DET_VALE_ENTRADA">
           <Key>
@@ -192,6 +195,7 @@
           <Property Name="claveOLD" Type="varchar" MaxLength="30" />
           <Property Name="EstatusContrato" Type="varchar" MaxLength="30" />
           <Property Name="EstatusOC" Type="varchar" MaxLength="20" />
+          <Property Name="Estatus_OC_Parcial" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="SISM_REQUISICION_FARMACIA">
           <Key>
@@ -422,6 +426,9 @@
           <Property Name="PrecioUnitario" Type="Double" />
           <Property Name="Total" Type="Double" />
           <NavigationProperty Name="SISM_REQUISICION" Relationship="Self.FK__SISM_DET___Id_Re__403A8C7D" FromRole="SISM_DET_REQUISICION" ToRole="SISM_REQUISICION" />
+          <Property Name="Cantidad_OC" Type="Int32" />
+          <Property Name="CantidadPendiente_OC" Type="Int32" />
+          <Property Name="PartidaPendiente_OC" Type="Boolean" />
         </EntityType>
         <EntityType Name="SISM_DET_VALE_ENTRADA">
           <Key>
@@ -528,6 +535,7 @@
           <Property Name="EstatusOC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="SISM_COTIZACIONES" Relationship="Self.FK__SISM_COTI__Id_Re__3F466844" FromRole="SISM_REQUISICION" ToRole="SISM_COTIZACIONES" />
           <NavigationProperty Name="SISM_DET_REQUISICION" Relationship="Self.FK__SISM_DET___Id_Re__403A8C7D" FromRole="SISM_REQUISICION" ToRole="SISM_DET_REQUISICION" />
+          <Property Name="Estatus_OC_Parcial" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="SISM_REQUISICION_FARMACIA">
           <Key>
@@ -773,6 +781,9 @@
           <EntitySetMapping Name="SISM_DET_REQUISICION">
             <EntityTypeMapping TypeName="SISM_SIST_MED_MILTONModel.SISM_DET_REQUISICION">
               <MappingFragment StoreEntitySet="SISM_DET_REQUISICION">
+                <ScalarProperty Name="PartidaPendiente_OC" ColumnName="PartidaPendiente_OC" />
+                <ScalarProperty Name="CantidadPendiente_OC" ColumnName="CantidadPendiente_OC" />
+                <ScalarProperty Name="Cantidad_OC" ColumnName="Cantidad_OC" />
                 <ScalarProperty Name="Id_Detalle_Req" ColumnName="Id_Detalle_Req" />
                 <ScalarProperty Name="Id_Requicision" ColumnName="Id_Requicision" />
                 <ScalarProperty Name="Id_Sustancia" ColumnName="Id_Sustancia" />
@@ -878,6 +889,7 @@
           <EntitySetMapping Name="SISM_REQUISICION">
             <EntityTypeMapping TypeName="SISM_SIST_MED_MILTONModel.SISM_REQUISICION">
               <MappingFragment StoreEntitySet="SISM_REQUISICION">
+                <ScalarProperty Name="Estatus_OC_Parcial" ColumnName="Estatus_OC_Parcial" />
                 <ScalarProperty Name="Id_Requicision" ColumnName="Id_Requicision" />
                 <ScalarProperty Name="Clave" ColumnName="Clave" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />

@@ -163,7 +163,7 @@
                                 <th>Cant. Nueva</th>
                                 <th>P. U. Nuevo</th>
                                 <th>Total Nuevo</th>
-                                <th>Dejar Pendiente</th>
+                                <th>Incluir en OC</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -539,13 +539,28 @@
             if (DetRequi.length > 0) {
                 TablaValida = true;
 
+                //$.grep(DetRequi, function (itemEnLista) {
+                //    if (EsConContrato === "Sin Contrato") {
+                //        if (itemEnLista.PREUNIT_NUEVA <= 0 || itemEnLista.PREUNIT_NUEVA == "" || itemEnLista.PREUNIT_NUEVA == "0" || Proveedor == "") {
+                //            TablaValida = false;
+                //        }
+                //    } else {
+                //        TablaValida = true;
+                //    }
+                //});
+
                 $.grep(DetRequi, function (itemEnLista) {
                     if (EsConContrato === "Sin Contrato") {
-                        if (itemEnLista.PREUNIT_NUEVA <= 0 || itemEnLista.PREUNIT_NUEVA == "" || itemEnLista.PREUNIT_NUEVA == "0" || Proveedor == "") {
+                        if ((Proveedor == "" || Proveedor == "Catalogo Proveedores") || (itemEnLista.PREUNIT_NUEVA <= 0 && itemEnLista.CB_ELIMINAR == true)) {
                             TablaValida = false;
                         }
-                    } else {
-                        TablaValida = true;
+                        //if (itemEnLista.PREUNIT_NUEVA <= 0 && itemEnLista.CB_ELIMINAR == true) {
+                        //    TablaValida = false;
+                        //}
+                        //if (itemEnLista.CB_ELIMINAR == false || itemEnLista.CBarra == null) {
+                        //    TablaValida = false;
+                        //}
+                        
                     }
                 });
 
