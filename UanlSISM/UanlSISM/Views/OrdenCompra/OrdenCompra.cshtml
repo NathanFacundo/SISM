@@ -71,6 +71,7 @@
                     <th>Fecha Req.</th>
                     <th>Estatus Contrato</th>
                     <th>Usuario</th>
+                    <th>Estatus Requi</th>
                     <th>Detalle</th>
                     <th></th>
                 </tr>
@@ -296,7 +297,7 @@
                 },
             },
             data: DetRequi,
-            "order": [[5, 'desc']],
+            "order": [[6, 'desc']],
             columns: [
                 { 'data': 'Clave', className: "text-center" },
                 { 'data': 'Fecha', className: "text-center" },
@@ -312,6 +313,19 @@
                 },
                 { 'data': 'Id_User', className: "text-center" },
                 {
+                    "data": "Estatus_OC", className: "text-center", render: function (data) {
+                        if (data == null) {
+                            return '<h8 style="color:black; ">' + "PENDIENTE" + '</h8>';
+                        } 
+                        if (data == "Incompleta") {
+                            return '<h8 style="color:black; ">' + "INCOMPLETA" + '</h8>';
+                        } 
+                        if (data == "Completa") {
+                            return '<h8 style="color:black; ">' + "COMPLETA" + '</h8>';
+                        } 
+                    }
+                },
+                {
                     "className": 'text-center',
                     "orderable": false,
                     "data": null,
@@ -321,7 +335,7 @@
                 { "data": "FechaRequisicion" }
             ],
             columnDefs: [
-                { "visible": false, "targets": 5 },
+                { "visible": false, "targets": 6 },
             ]
         });
     }
