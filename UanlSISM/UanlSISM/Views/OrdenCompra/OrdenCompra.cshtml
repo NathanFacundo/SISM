@@ -130,7 +130,7 @@
                         <thead>
 
                             <tr>
-                                <th COLSPAN="10">
+                                <th COLSPAN="11">
                                     <div class="input-group" id="LABEL">
                                         <span style="height:30px;" class="input-group-text">Proveedor:</span>
                                         <label style="height:30px;" type="text" class="form-control" id="PROV" name="PROV" />
@@ -149,7 +149,7 @@
                                 </th>
                                 @*<th COLSPAN="5">
                                     </th>*@
-                                <th COLSPAN="4">
+                                <th COLSPAN="5">
                                     <h10 id="Contrato" style="color:green">Con Contrato </h10><br />
                                     <a style="font-size: 13px" id="EstContrato"></a>
                                 </th>
@@ -159,6 +159,7 @@
                                 <th>Clave</th>
                                 <th>Descripción</th>
                                 <th>Cant. Solicitada</th>
+                                <th>Cant. Pendiente</th>
                                 <th>P. U.</th>
                                 <th>Total</th>
                                 <th>Cant. Nueva</th>
@@ -439,6 +440,18 @@
                     { "data": "Clave", className: "text-center" },
                     { "data": "Descripcion", className: "text-center" },
                     { "data": "Cantidad", className: "text-center" },
+                    //{ "data": "Can", className: "text-center" },
+
+                    {
+                        "data": "Can", className: "text-center", render: function (data, type, row) {
+                            if (data == null || data == 0) {
+                                return '<h8 style="color:black; ">' + row.Cantidad + '</h8>';
+                            } else {
+                                return '<h8 style="color:black; ">' + data + '</h8>';
+                            }
+                        }
+                    },
+
                     { "data": "PrecioUnitario", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                     { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                     { 'data': 'CANTIDAD_NUEVA', className: "text-center", render: function (data) { return "<input class='input' id='InputCantidad' type='number' style='width:70px; border:0; border-bottom:1px solid; background:transparent;' type='number' min='0' max='' value='" + data + "'></input>" } },
@@ -643,7 +656,7 @@
                     Swal.fire({
                         icon: 'error',
                         title: '¡Error!',
-                        text: 'No puede haber cantidades en cero y/o falta asignar proveedor'
+                        text: 'No puede haber cantidades en cero de la partida seleccionada y/o falta seleccionar proveedor'
                     });
             } else {
                 Swal.fire({

@@ -143,7 +143,8 @@ namespace UanlSISM.Controllers
                                  det.Total,
                                  det.Id_Sustancia,
                                  a.Id_Requicision,
-                                 det.Id_Detalle_Req
+                                 det.Id_Detalle_Req,
+                                 det.CantidadPendiente_OC
                              }).ToList();
 
                 var results1 = new List<ListCampos>();
@@ -177,8 +178,8 @@ namespace UanlSISM.Controllers
                             Total = (double)q.Total,
                             Id_Sustancia = q.Id_Sustancia,
                             Id_Requicision = q.Id_Requicision,
-                            Id_Detalle_Req = q.Id_Detalle_Req
-                            
+                            Id_Detalle_Req = q.Id_Detalle_Req,
+                            Can = q.CantidadPendiente_OC
                         };
                         results1.Add(resultado);
                     }
