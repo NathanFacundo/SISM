@@ -232,24 +232,57 @@ namespace UanlSISM.Controllers
                 {
                     if (DetRequi.CANTIDAD_NUEVA < DetRequi.Cantidad)
                     {
-                        //RequiDetalle_Actualizar.Cantidad_OC = DetRequi.CANTIDAD_NUEVA;
                         var CantidadPendiente = DetRequi.Cantidad - DetRequi.CANTIDAD_NUEVA;
-                        //RequiDetalle_Actualizar.CantidadPendiente_OC = CantidadPendiente;
                         ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.CANTIDAD_NUEVA + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                         ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + CantidadPendiente + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                     }
+
+                    //if (DetRequi.CANTIDAD_NUEVA < DetRequi.Cantidad)
+                    //{
+                    //    var CantidadPendiente = DetRequi.Cantidad - DetRequi.CANTIDAD_NUEVA;
+                    //    if (DetRequi.CB_ELIMINAR == true)
+                    //    {
+                    //        ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.CANTIDAD_NUEVA + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                    //        ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + CantidadPendiente + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                    //    }
+
+                    //}
+
+                    //if (DetRequi.CB_ELIMINAR == true)
+                    //{
+                    //    if (DetRequi.CANTIDAD_NUEVA == DetRequi.CantidadPendiente_OC)
+                    //    {
+                    //        ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.CANTIDAD_NUEVA + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                    //        ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + 0 + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                    //    }
+                    //}
+
+
+
+
+
                 }
                 else
                 {
-                    //RequiDetalle_Actualizar.Cantidad_OC = DetRequi.Cantidad;
-                    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.Cantidad + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
-                    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + 0 + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                    if (DetRequi.CB_ELIMINAR == true)
+                    {
+                        ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.Cantidad + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                        ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + 0 + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                    }
+                    
                 }
+
+
+
 
                 //                                  DETALLE REQUI =>    PRECIO UNITARIO
                 if (DetRequi.PREUNIT_NUEVA > 0)
                 {
-                    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PrecioUnitario = '" + DetRequi.PREUNIT_NUEVA + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                    if (DetRequi.CB_ELIMINAR == true)
+                    {
+                        ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PrecioUnitario = '" + DetRequi.PREUNIT_NUEVA + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                    }
+                    
                 }
 
                 //                                  DETALLE REQUI =>             NUEVA CANTIDAD y/o NUEVO PRECIO UNITARIO     $$TOTAL$$ 
@@ -258,26 +291,42 @@ namespace UanlSISM.Controllers
                     if (DetRequi.CANTIDAD_NUEVA > 0 && DetRequi.PREUNIT_NUEVA > 0)
                     {
                         var Total = (double?)decimal.Round((decimal)(DetRequi.CANTIDAD_NUEVA * DetRequi.PREUNIT_NUEVA), 2);
-                        ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                        if (DetRequi.CB_ELIMINAR == true)
+                        {
+                            ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                        }
+                        
                     }
                     else
                     {
                         if (DetRequi.CANTIDAD_NUEVA > 0)
                         {
                             var Total = (double?)decimal.Round((decimal)(DetRequi.CANTIDAD_NUEVA * DetRequi.PrecioUnitario), 2);
-                            ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                            if (DetRequi.CB_ELIMINAR == true)
+                            {
+                                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                            }
+                            
                         }
                         if (DetRequi.PREUNIT_NUEVA > 0)
                         {
                             var Total = (double?)decimal.Round((decimal)(DetRequi.Cantidad * DetRequi.PREUNIT_NUEVA), 2);
-                            ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                            if (DetRequi.CB_ELIMINAR == true)
+                            {
+                                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                            }
+                            
                         }
                     }
                 }
                 else
                 {
                     var Total = (double?)decimal.Round((decimal)(DetRequi.Cantidad * DetRequi.PrecioUnitario), 2);
-                    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                    if (DetRequi.CB_ELIMINAR == true)
+                    {
+                        ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                    }
+                    
                 }
 
                 // SE OBTIENE LA REQUI Y SU DETALLE CON EL QUE SE ESTÁ TRABAJANDO AHORA CON LOS NUEVOS DATOS QUE SE HAN IDO ACTUALIZANDO EN ESTA MISMA FUNCIÓN
@@ -297,7 +346,7 @@ namespace UanlSISM.Controllers
 
                 //                                  DETALLE REQUI =>    PARTIDA PENDIENTE
                 //Si "CantidadPendiente_OC" es mayor a 0 quiere decir que esa partida o item aún tiene Cantidades por surtir entonces esa Requi sigue siendo una        REQUI PARCIAL
-                if (RequiDetalle_Nueva.CantidadPendiente_OC > 0)
+                if (RequiDetalle_Nueva.CantidadPendiente_OC > 0 || RequiDetalle_Nueva.CantidadPendiente_OC == null)
                 {
                     ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + false + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                 }
@@ -305,7 +354,6 @@ namespace UanlSISM.Controllers
                 {
                     ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + true + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                 }
-
             }
 
             //  **NOTA => EN CAMPO 'PartidaPendiente_OC' DE LA TABLA DetalleRequi, EL '1' QUIERE DECIR QUE ESE ITEM SE AGREGÓ A LA O'C (O SE COMPLETO) Y SE IRÁ EN LA O'C. 
@@ -317,27 +365,27 @@ namespace UanlSISM.Controllers
                                          select a).FirstOrDefault();
 
             //BUSCAMOS LOS 'DETALLES' QUE *NO* SE INCLUIRÁN EN LA OC: CHECKBOX EN FALSE (SI ES QUE HAY) PARA PONER 'false' EN SU CAMPO 'PartidaPendiente_OC' 
-            foreach (var DetRequi in ListaOC)
-            {
-                var RequiDetalle = (from a in ConBD2.SISM_REQUISICION
-                                               join det in ConBD2.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
-                                               where det.Id_Detalle_Req == DetRequi.Id_Detalle_Req
-                                               select new
-                                               {
-                                                   det.Id_Detalle_Req,
-                                                   det.Cantidad,
-                                                   det.PrecioUnitario,
-                                                   det.Total,
-                                                   det.Cantidad_OC,
-                                                   det.CantidadPendiente_OC,
-                                                   det.PartidaPendiente_OC
-                                               }).FirstOrDefault();
+            //foreach (var DetRequi in ListaOC)
+            //{
+            //    var RequiDetalle = (from a in ConBD2.SISM_REQUISICION
+            //                                   join det in ConBD2.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
+            //                                   where det.Id_Detalle_Req == DetRequi.Id_Detalle_Req
+            //                                   select new
+            //                                   {
+            //                                       det.Id_Detalle_Req,
+            //                                       det.Cantidad,
+            //                                       det.PrecioUnitario,
+            //                                       det.Total,
+            //                                       det.Cantidad_OC,
+            //                                       det.CantidadPendiente_OC,
+            //                                       det.PartidaPendiente_OC
+            //                                   }).FirstOrDefault();
 
-                if (DetRequi.CB_ELIMINAR == false)
-                {
-                    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + false + "' WHERE Id_Detalle_Req='" + RequiDetalle.Id_Detalle_Req + "';");
-                }
-            }
+            //    if (DetRequi.CB_ELIMINAR == false)
+            //    {
+            //        ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + false + "' WHERE Id_Detalle_Req='" + RequiDetalle.Id_Detalle_Req + "';");
+            //    }
+            //}
 
             //BUSCAMOS SI HAY 'DETALLES' CON 'False' EN EL CAMPO 'PartidaPendiente_OC' O SEA: PARTIDAS PENDIENTES
             var Registro = (from a in ConBD2.SISM_REQUISICION
