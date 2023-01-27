@@ -31,9 +31,27 @@
         margin-right: 5px;
     }
 
+    .modal {
+        padding: 0 !important;
+    }
+
     #DetalleRequiModal .modal-dialog {
-        height: 100vh;
-        margin-top: 0px;
+        /*height: 100vh;
+        margin-top: 0px;*/
+        width: 100%;
+        max-width: none;
+        height: 100%;
+        margin: 0;
+    }
+
+    #DetalleRequiModal .modal-content {
+        height: 100%;
+        border: 0;
+        border-radius: 0;
+    }
+
+    #DetalleRequiModal .modal-body {
+        overflow-y: auto;
     }
 
     input[type=number]::-webkit-inner-spin-button,
@@ -45,6 +63,8 @@
     input[type=number] {
         -moz-appearance: textfield;
     }
+
+
 </style>
 
 <div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
@@ -540,6 +560,15 @@
                         $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
                         var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
                         $('#Total_OC2').html(sum.toFixed(2));
+                    }
+                    else {
+                        if (row.data().PREUNIT_NUEVA > 0) {
+                            TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PREUNIT_NUEVA;
+                            row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
+                            $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
+                            var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
+                            $('#Total_OC2').html(sum.toFixed(2));
+                        }
                     }
                 }
 
