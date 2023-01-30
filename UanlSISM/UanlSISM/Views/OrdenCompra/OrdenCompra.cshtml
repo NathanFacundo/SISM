@@ -255,6 +255,32 @@
             }
         });
 
+        $('#tblDetalleRequi').DataTable({
+            destroy: true,
+            searching: false,
+            responsive: true,
+            lengthChange: false,
+            paging: false,
+            language: {
+                "zeroRecords": " ",
+                "zeroRecords": "No se encontró registro",
+                "search": "",
+                "info": "",
+                "infoEmpty": "",
+                decimal: ',',
+                thousands: '.',
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior",
+                },
+                "select": {
+                    "rows": " %d filas seleccionadas"
+                },
+            }
+        });
+
         ObtenerRequis();
     });
 
@@ -383,7 +409,6 @@
             $.post(url, array).done(function (response) {
                 $('#NoRequi').html(response[0].Folio);
                 $('#FechaRequi').html(response[0].Fecha);
-                //$('#FechaOC').html(response[0].Fecha1);
                 $('#EstContrato').html(response[0].EstatusContrato);
 
                 if (response[0].EstatusContrato == "Sin Contrato") {
@@ -392,16 +417,13 @@
                 } else {
                     $('#EstContrato').show();
                     $('#IDD').hide();
-                    //$('#IDD').prop('disabled', true);
                     document.getElementById('PROV').textContent = 'MEDICAZEN S.A. DE C.V.';
                     $('#Contrato').show();
                 }
 
                 $('#UsRequi').html(response[0].Usuario);
-                //LlenDetalle(response);
                 Folio = $('#NoRequi').val(response[0].Folio);
                 EsConContrato = $("#EstContrato").val(response[0].EstatusContrato);
-                //Proveedor = document.getElementById('PROV').textContent;
                 $.grep(response, function (item) {
                     var Insertar = true;
                     $.grep(DetRequi, function (itemEnLista) {
@@ -443,6 +465,7 @@
                 data: DetRequi,
                 language: {
                     "zeroRecords": " ",
+                    "zeroRecords": "No se encontró registro",
                     "search": "",
                     "info": "",
                     "infoEmpty": "",
@@ -468,7 +491,6 @@
                     { "data": "Clave", className: "text-center" },
                     { "data": "Descripcion", className: "text-center" },
                     { "data": "Cantidad", className: "text-center" },
-                    //{ "data": "Can", className: "text-center" },
                     {
                         "data": "CantidadPendiente_OC", className: "text-center", render: function (data, type, row) {
                             if (data == null || data == 0) {
@@ -478,7 +500,6 @@
                             }
                         }
                     },
-                    //{ "data": "PrecioUnitario", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                     {
                         "data": "PrecioUnitario", className: "text-center", render: function (data, type, row) {
                             if (row.EstatusContrato == 'Sin Contrato') {
@@ -488,7 +509,6 @@
                             }
                         }
                     },
-                    //{ "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                     {
                         "data": "Total", className: "text-center", render: function (data, type, row) {
                             if (row.EstatusContrato == 'Sin Contrato') {
