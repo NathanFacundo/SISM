@@ -18,21 +18,24 @@
     table.dataTable {
         width: 100% !important;
     }
+
     .uanl-logo {
         width: 10vw;
         margin-top: 0vw;
         margin-bottom: 1vw;
     }
+
     .btn-space {
         margin-right: 5px;
     }
+
     .modal {
         padding: 0 !important;
     }
+
     #DetalleRequiModal .modal-dialog {
         /*height: 100vh;
         margin-top: 0px;*/
-
         width: 100%;
         max-width: none;
         height: 100%;
@@ -51,6 +54,7 @@
         -webkit-appearance: none;
         margin: 0;
     }
+
     input[type=number] {
         -moz-appearance: textfield;
     }
@@ -63,13 +67,13 @@
 <div class="btn-toolbar">
     <button type="button" class="btn btn-primary btn-space" onclick="OCS()">VER ORDENES DE COMPRA</button>
     <button type="button" class="btn btn-outline-primary btn-space" onclick="OCS_Validar()">O.C POR AUTORIZAR</button>
-    <button type="button" class="btn btn-outline-primary" onclick="OCS_Parciales()">O.C PARCIALES (PENDIENTES)</button>
+    @*<button type="button" class="btn btn-outline-primary" onclick="OCS_Parciales()">O.C PARCIALES (PENDIENTES)</button>*@
 </div>
 
 <div>
     <div class="row">
         <div class="col-12" style="text-align:center">
-            <h5 class="font-weight-bold" style="color:blue; ">Lista de Requisiciones a O.C</h5>
+            <h5 class="font-weight-bold" style="color:blue; ">Requisiciones</h5>
         </div>
     </div>
     <div class="row">
@@ -79,9 +83,9 @@
                     <th>Folio Req.</th>
                     <th>Fecha Req.</th>
                     <th>Estatus Contrato</th>
-                    <th>Usuario</th>
-                    <th>Estatus Requi</th>
-                    <th>Detalle</th>
+                    <th>Usuario Req.</th>
+                    <th>Estatus Req.</th>
+                    <th>Detalle Req.</th>
                     <th></th>
                 </tr>
             </thead>
@@ -124,10 +128,10 @@
                         <button type="button" style="width:100%; background-color:rgba(0,74,143,1);" class="btn btn-success imprimir">Imprimir</button>
                     </div>
                     @*<div class="col-md-3">
-                    <div>
-                        <a class="btn btn-success text-white" id="Xcel2">Descargar Excel</a>
-                    </div>
-                </div>*@
+                            <div>
+                                <a class="btn btn-success text-white" id="Xcel2">Descargar Excel</a>
+                            </div>
+                        </div>*@
                 </div>
 
                 <div class="row mt-1 mb-1">
@@ -355,7 +359,6 @@
     var Folio = "";
     var Proveedor = "";
     var EsConContrato = "";
-
     var row = "";
     var Id = "";
 
@@ -370,7 +373,6 @@
 
 
     function VerDetalleRequi_Modal(row, Id) {
-
         var Id = Id;
         var row = row;
 
@@ -509,7 +511,6 @@
                     { 'data': 'CB_ELIMINAR', className: "text-center", render: function (data) { return "<input class='input3' id='input3' type='checkbox' ></input>" } }
                 ]
             });
-
             var sum = $('#tblDetalleRequi').DataTable().column(5).data().sum();
             $('#Total_OC').html(sum.toFixed(2));
         }
@@ -519,7 +520,6 @@
             var row = $('#tblDetalleRequi').DataTable().row(tr);
 
             DetRequi.splice(DetRequi.indexOf(row.data()), 1);
-
             LlenDetalle(DetRequi);
 
             Swal.fire({
@@ -532,7 +532,6 @@
         });
 
         $('#DetalleRequiModal').on('shown.bs.modal', function () {
-
             var EC = "";
             var TotalNuevo = 0;
 
@@ -609,10 +608,6 @@
         })
     }
 
-
-
-    
-
     $('#btnGenerarOC').on('click', function () {
             Folio = $("#NoRequi").val();
             Proveedor = document.getElementById('PROV').textContent.trim();
@@ -621,28 +616,11 @@
             if (DetRequi.length > 0) {
                 TablaValida = true;
 
-                //$.grep(DetRequi, function (itemEnLista) {
-                //    if (EsConContrato === "Sin Contrato") {
-                //        if (itemEnLista.PREUNIT_NUEVA <= 0 || itemEnLista.PREUNIT_NUEVA == "" || itemEnLista.PREUNIT_NUEVA == "0" || Proveedor == "") {
-                //            TablaValida = false;
-                //        }
-                //    } else {
-                //        TablaValida = true;
-                //    }
-                //});
-
                 $.grep(DetRequi, function (itemEnLista) {
                     if (EsConContrato === "Sin Contrato") {
                         if ((Proveedor == "" || Proveedor == "Catalogo Proveedores") || (itemEnLista.PREUNIT_NUEVA <= 0 && itemEnLista.CB_ELIMINAR == true)) {
                             TablaValida = false;
                         }
-                        //if (itemEnLista.PREUNIT_NUEVA <= 0 && itemEnLista.CB_ELIMINAR == true) {
-                        //    TablaValida = false;
-                        //}
-                        //if (itemEnLista.CB_ELIMINAR == false || itemEnLista.CBarra == null) {
-                        //    TablaValida = false;
-                        //}
-
                     }
                 });
 
@@ -670,7 +648,6 @@
                                 //        location.reload();
                                 //    }
                                 //});
-
                                 var url = '@Url.Action("ObtenerUltima_OC", "OrdenCompra")';
                                 $.post(url).done(function (response) {
                                     if (response.MENSAJE.substring(0, 7) == "Succe: ") {
@@ -696,7 +673,6 @@
                                         title: '¡Error!'
                                     });
                                 });
-
                             }
                         },
                         error: function (ex) {
@@ -751,18 +727,23 @@
     .modal-backdrop {
         background-color: rgba(0,0,0,0.4) !important;
     }
+
     .imprimirUanl img {
         width: 65%;
     }
+
     .imprimirLogo img {
         width: 100%;
     }
+
     #pie {
         margin-top: 250px !important;
     }
+
     #firmas td {
         border: 1px solid black;
     }
+
     @@media print {
         .imprimir {
             display: none;
@@ -773,9 +754,11 @@
         #firmas td {
             border: 1px solid black;
         }
+
         .imprimirCOMBO {
             display: none;
         }
+
         .btnss {
             display: none;
         }
