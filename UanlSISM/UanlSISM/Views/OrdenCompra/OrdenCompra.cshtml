@@ -18,53 +18,42 @@
     table.dataTable {
         width: 100% !important;
     }
-
     .uanl-logo {
         width: 10vw;
         margin-top: 0vw;
         margin-bottom: 1vw;
     }
-    /*#Id {
-        color: black;
-    }*/
     .btn-space {
         margin-right: 5px;
     }
-
     .modal {
         padding: 0 !important;
     }
-
     #DetalleRequiModal .modal-dialog {
         /*height: 100vh;
         margin-top: 0px;*/
+
         width: 100%;
         max-width: none;
         height: 100%;
         margin: 0;
     }
-
-    #DetalleRequiModal .modal-content {
+    /*#DetalleRequiModal .modal-content {
         height: 100%;
         border: 0;
         border-radius: 0;
     }
-
     #DetalleRequiModal .modal-body {
         overflow-y: auto;
-    }
-
+    }*/
     input[type=number]::-webkit-inner-spin-button,
     input[type=number]::-webkit-outer-spin-button {
         -webkit-appearance: none;
         margin: 0;
     }
-
     input[type=number] {
         -moz-appearance: textfield;
     }
-
-
 </style>
 
 <div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
@@ -105,11 +94,16 @@
 <div class="modal fade" id="DetalleRequiModal" tabindex="-1" role="dialog" aria-labelledby="DetalleRequiModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             <div class="modal-body imprimir-content">
 
                 <div class="row text-center pt-4">
                     <div class="col-2 mb-0 imprimirUanl">
-                        <img src="~/Imagenes/uanl.png" />
+                        <img src="~/Imagenes/uanl.png" style="width:130px; height:110px" />
                     </div>
                     <div class="col-8 m-0 imprimirTitulo">
                         <h5>UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</h5>
@@ -120,21 +114,20 @@
                         <img src="~/Imagenes/Servicios Medicos_Mesa de trabajo 1.png" style="width:130px; height:66px" /><br />
                     </div>
                 </div>
-
-                <br />
+                @*<br />*@
                 <div class="row" id="contenido">
                     <h5 class="text-center imprimirTitulo" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Solicitar Orden de Compra</h5>
                 </div>
-                
+
                 <div class="row" id="imprimir">
                     <div class="col-md-9">
                         <button type="button" style="width:100%; background-color:rgba(0,74,143,1);" class="btn btn-success imprimir">Imprimir</button>
                     </div>
                     @*<div class="col-md-3">
-                            <div>
-                                <a class="btn btn-success text-white" id="Xcel2">Descargar Excel</a>
-                            </div>
-                        </div>*@
+                    <div>
+                        <a class="btn btn-success text-white" id="Xcel2">Descargar Excel</a>
+                    </div>
+                </div>*@
                 </div>
 
                 <div class="row mt-1 mb-1">
@@ -167,8 +160,6 @@
                                     <h10 style="color:green">Fecha Req: </h10><br />
                                     <a style="font-size:13px" id="FechaRequi"></a>
                                 </th>
-                                @*<th COLSPAN="5">
-                                    </th>*@
                                 <th COLSPAN="5">
                                     <h10 id="Contrato" style="color:green">Con Contrato </h10><br />
                                     <a style="font-size: 13px" id="EstContrato"></a>
@@ -453,6 +444,8 @@
                     "search": "",
                     "info": "",
                     "infoEmpty": "",
+                    decimal: ',',
+                    thousands: '.',
                     "paginate": {
                         "first": "Primero",
                         "last": "Último",
@@ -474,7 +467,6 @@
                     { "data": "Descripcion", className: "text-center" },
                     { "data": "Cantidad", className: "text-center" },
                     //{ "data": "Can", className: "text-center" },
-
                     {
                         "data": "CantidadPendiente_OC", className: "text-center", render: function (data, type, row) {
                             if (data == null || data == 0) {
@@ -484,9 +476,26 @@
                             }
                         }
                     },
-
-                    { "data": "PrecioUnitario", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
-                    { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                    //{ "data": "PrecioUnitario", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                    {
+                        "data": "PrecioUnitario", className: "text-center", render: function (data, type, row) {
+                            if (row.EstatusContrato == 'Sin Contrato') {
+                                return '<a>N.A</a>';
+                            } else {
+                                return '<h8 style="color:black; ">' + data + '</h8>';
+                            }
+                        }
+                    },
+                    //{ "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                    {
+                        "data": "Total", className: "text-center", render: function (data, type, row) {
+                            if (row.EstatusContrato == 'Sin Contrato') {
+                                return '<a>N.A</a>';
+                            } else {
+                                return '<h8 style="color:black; ">' + data + '</h8>';
+                            }
+                        }
+                    },
                     { 'data': 'CANTIDAD_NUEVA', className: "text-center", render: function (data) { return "<input class='input' id='InputCantidad' type='number' style='width:70px; border:0; border-bottom:1px solid; background:transparent;' type='number' min='0' max='' value='" + data + "'></input>" } },
                     { 'data': 'PREUNIT_NUEVA', className: "text-center", render: function (data) { return (row.data().EstatusContrato != 'Sin Contrato' ? "<a>N.A</a>" : "<input class='InputPU' id='InputPU' style='width: 70px; border: 0; border-bottom: 1px solid; background: transparent; ' type='number' min='1' max='' value='" + data + "'></input>"); } },
                     {
