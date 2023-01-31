@@ -237,13 +237,6 @@ namespace UanlSISM.Controllers
                 //                                  DETALLE REQUI =>    CANTIDADES
                 if (DetRequi.CANTIDAD_NUEVA > 0)
                 {
-                    //if (DetRequi.CANTIDAD_NUEVA < DetRequi.Cantidad)
-                    //{
-                    //    var CantidadPendiente = DetRequi.Cantidad - DetRequi.CANTIDAD_NUEVA;
-                    //    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.CANTIDAD_NUEVA + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
-                    //    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + CantidadPendiente + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
-                    //}
-
                     if (DetRequi.CB_ELIMINAR == true)
                     {
                         if (DetRequi.CANTIDAD_NUEVA < DetRequi.Cantidad)
@@ -274,36 +267,13 @@ namespace UanlSISM.Controllers
                             ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.CANTIDAD_NUEVA + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                             ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + CantidadPendiente + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                         }
-                        //if (DetRequi.CANTIDAD_NUEVA == 0 && DetRequi.Cantidad != DetRequi.CantidadPendiente_OC)
-                        //{
-                        //    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.CantidadPendiente_OC + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
-                        //    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + 0 + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
-                        //}
-
-                        //if (DetRequi.CANTIDAD_NUEVA < DetRequi.Cantidad && DetRequi.CantidadPendiente_OC == 0 || DetRequi.CantidadPendiente_OC == null)
-                        //{
-                        //    var CantidadPendiente = DetRequi.Cantidad - DetRequi.CANTIDAD_NUEVA;
-                        //    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.CANTIDAD_NUEVA + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
-                        //    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + CantidadPendiente + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
-                        //}
-                        //else if (DetRequi.CANTIDAD_NUEVA == DetRequi.CantidadPendiente_OC)
-                        //{
-                        //    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.CANTIDAD_NUEVA + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
-                        //    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + 0 + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
-                        //}
-                        //else if (DetRequi.CANTIDAD_NUEVA < DetRequi.CantidadPendiente_OC)
-                        //{
-                        //    var CantidadPendiente = DetRequi.CantidadPendiente_OC - DetRequi.CANTIDAD_NUEVA;
-                        //    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.CANTIDAD_NUEVA + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
-                        //    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + CantidadPendiente + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
-                        //}
                     }
                 }
                 else
                 {
                     if (DetRequi.CB_ELIMINAR == true)
                     {
-                        if (DetRequi.CANTIDAD_NUEVA == 0 && DetRequi.Cantidad != DetRequi.CantidadPendiente_OC)
+                        if (DetRequi.CANTIDAD_NUEVA == 0 && DetRequi.CantidadPendiente_OC >0)
                         {
                             ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.CantidadPendiente_OC + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                             ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + 0 + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
@@ -348,11 +318,27 @@ namespace UanlSISM.Controllers
                         }
                         if (DetRequi.PREUNIT_NUEVA > 0)
                         {
-                            var Total = (double?)decimal.Round((decimal)(DetRequi.Cantidad * DetRequi.PREUNIT_NUEVA), 2);
-                            if (DetRequi.CB_ELIMINAR == true)
+                            if (DetRequi.CantidadPendiente_OC > 0)
                             {
-                                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                                var Total = (double?)decimal.Round((decimal)(DetRequi.CantidadPendiente_OC * DetRequi.PREUNIT_NUEVA), 2);
+                                if (DetRequi.CB_ELIMINAR == true)
+                                {
+                                    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                                }
                             }
+                            else
+                            {
+                                var Total = (double?)decimal.Round((decimal)(DetRequi.Cantidad * DetRequi.PREUNIT_NUEVA), 2);
+                                if (DetRequi.CB_ELIMINAR == true)
+                                {
+                                    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                                }
+                            }
+                            //var Total = (double?)decimal.Round((decimal)(DetRequi.Cantidad * DetRequi.PREUNIT_NUEVA), 2);
+                            //if (DetRequi.CB_ELIMINAR == true)
+                            //{
+                            //    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                            //}
                         }
                     }
                 }
@@ -363,7 +349,6 @@ namespace UanlSISM.Controllers
                     {
                         ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                     }
-                    
                 }
 
                 // SE OBTIENE LA REQUI Y SU DETALLE CON EL QUE SE ESTÁ TRABAJANDO AHORA CON LOS NUEVOS DATOS QUE SE HAN IDO ACTUALIZANDO EN ESTA MISMA FUNCIÓN
@@ -426,182 +411,189 @@ namespace UanlSISM.Controllers
 
             //---------------------------------------------     Crear nueva ORDEN DE COMPRA     ---------------------------------   INICIO  ----------------------------------------------------------------------
 
-            //try
-            //{
-            //    //PROVEEDOR de la Requi(Orden)
-            //    var Prov = (from a in db.Proveedor
-            //                where a.Prov_Nombre == ProveedorReq
-            //                select a
-            //                ).FirstOrDefault();
-            //    //REQUI que se hará Orden
-            //    var Requi = (from a in ConBD2.SISM_REQUISICION
-            //                 where a.claveOLD == FolioRequi.ToString()
-            //                 select a
-            //                ).FirstOrDefault();
+            try
+            {
+                //PROVEEDOR de la Requi(Orden)
+                var Prov = (from a in db.Proveedor
+                            where a.Prov_Nombre == ProveedorReq
+                            select a
+                            ).FirstOrDefault();
+                //REQUI que se hará Orden
+                var Requi = (from a in ConBD2.SISM_REQUISICION
+                             where a.claveOLD == FolioRequi.ToString()
+                             select a
+                            ).FirstOrDefault();
 
-            //    var UsuarioOld = User.Identity.GetUserName();
-            //    var UsuarioOLD = (from a in db.Usuario
-            //                      where a.Usu_User == UsuarioOld
-            //                      select a).FirstOrDefault();
+                var UsuarioOld = User.Identity.GetUserName();
+                var UsuarioOLD = (from a in db.Usuario
+                                  where a.Usu_User == UsuarioOld
+                                  select a).FirstOrDefault();
 
-                
-            //    //CREAR ORDEN NUEVA a partir de una Requi
-            //    SISM_ORDEN_COMPRA OC = new SISM_ORDEN_COMPRA();
-            //    OC.Id_Requisicion = Requi.Id_Requicision;
-            //    OC.Id_Proveedor = Prov.Id;
-            //    OC.Fecha = fechaDT;
-            //    OC.FechaMod = fechaDT;
-            //    OC.Forma_Pago = "";
-            //    OC.Folio = "";
-            //    OC.Status = false;
-            //    OC.UsuarioId = UsuarioOLD.UsuarioId;
-            //    OC.Cerrado = true;
-            //    OC.Cuadro = 1;
-            //    OC.UsuarioNuevo = UsuarioRegistra;
-            //    OC.IP_User = ip_realiza;
-            //    OC.NombreProveedor = Prov.Prov_Nombre;
-            //    OC.OC_PorValidar = "1"; //LA OC nace en 1, tiene que validarse para pasar a 2 (validada) despues tiene que Generarse la OC y pasa a 3, el Status cambiará a True
-            //    ConBD2.SISM_ORDEN_COMPRA.Add(OC);
-            //    ConBD2.SaveChanges();
 
-            //    //ACTUALIZAMOS LA REQUI EN SU COLUMNA 'EstatusOC' poniendo 1 ya que esa requi se hará O.C
-            //    //ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET EstatusOC = '1' WHERE Id_Requicision='" + Requi.Id_Requicision + "';");
+                //CREAR ORDEN NUEVA a partir de una Requi
+                SISM_ORDEN_COMPRA OC = new SISM_ORDEN_COMPRA();
+                OC.Id_Requisicion = Requi.Id_Requicision;
+                OC.Id_Proveedor = Prov.Id;
+                OC.Fecha = fechaDT;
+                OC.FechaMod = fechaDT;
+                OC.Forma_Pago = "";
+                OC.Folio = "";
+                OC.Status = false;
+                OC.UsuarioId = UsuarioOLD.UsuarioId;
+                OC.Cerrado = true;
+                OC.Cuadro = 1;
+                OC.UsuarioNuevo = UsuarioRegistra;
+                OC.IP_User = ip_realiza;
+                OC.NombreProveedor = Prov.Prov_Nombre;
+                OC.OC_PorValidar = "1"; //LA OC nace en 1, tiene que validarse para pasar a 2 (validada) despues tiene que Generarse la OC y pasa a 3, el Status cambiará a True
+                ConBD2.SISM_ORDEN_COMPRA.Add(OC);
+                ConBD2.SaveChanges();
 
-            //    //obtener la ultima 'clave' de la tabla OrdenCompra actual BD (vieja) para que inserte un nuevo registro en la nueva BD CONSECUTIVO de la clave
-            //    var Clave = (from a in db.OrdenCompra
-            //                 select new
-            //                 {
-            //                     clave = a.clave
-            //                 }).OrderByDescending(u => u.clave).FirstOrDefault();
-            //    var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
-            //    var UltimoConsecutivo_Clave = Convert.ToInt32(Clave.clave.Substring(4));
-            //    var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
-            //    var ConsecutivoNuevoTxt = "";
-            //    if (ConsecutivoNuevo < 100)
-            //    {
-            //        if (ConsecutivoNuevo < 9)
-            //        {
-            //            ConsecutivoNuevoTxt = "00" + ConsecutivoNuevo;
-            //        }
-            //        else
-            //        {
-            //            ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        ConsecutivoNuevoTxt = "" + ConsecutivoNuevo;
-            //    }
+                //ACTUALIZAMOS LA REQUI EN SU COLUMNA 'EstatusOC' poniendo 1 ya que esa requi se hará O.C
+                //ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET EstatusOC = '1' WHERE Id_Requicision='" + Requi.Id_Requicision + "';");
 
-            //    //Obtenemos la ultima O.C guardada(que es esta) para guardar su detalle
-            //    var IdOC = (from a in ConBD2.SISM_ORDEN_COMPRA
-            //                where a.UsuarioNuevo == UsuarioRegistra
-            //                where a.Fecha == fechaDT
-            //                select a).OrderByDescending(u => u.Id).FirstOrDefault();
+                //obtener la ultima 'clave' de la tabla OrdenCompra actual BD (vieja) para que inserte un nuevo registro en la nueva BD CONSECUTIVO de la clave
+                var Clave = (from a in db.OrdenCompra
+                             select new
+                             {
+                                 clave = a.clave
+                             }).OrderByDescending(u => u.clave).FirstOrDefault();
+                var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
+                var UltimoConsecutivo_Clave = Convert.ToInt32(Clave.clave.Substring(4));
+                var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
+                var ConsecutivoNuevoTxt = "";
+                if (ConsecutivoNuevo < 100)
+                {
+                    if (ConsecutivoNuevo < 9)
+                    {
+                        ConsecutivoNuevoTxt = "00" + ConsecutivoNuevo;
+                    }
+                    else
+                    {
+                        ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
+                    }
+                }
+                else
+                {
+                    ConsecutivoNuevoTxt = "" + ConsecutivoNuevo;
+                }
 
-            //    //ACTUALIZAMOS LA 'CLAVE' DE LA O'C 
-            //    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Clave = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id='" + IdOC.Id + "';");
+                //Obtenemos la ultima O.C guardada(que es esta) para guardar su detalle
+                var IdOC = (from a in ConBD2.SISM_ORDEN_COMPRA
+                            where a.UsuarioNuevo == UsuarioRegistra
+                            where a.Fecha == fechaDT
+                            select a).OrderByDescending(u => u.Id).FirstOrDefault();
 
-            //    //RECORREMOS  para guardar en la tabla DETALLE ORDEN        **DETALLE ORDEN DE COMPRA**
-            //    foreach (var item in ListaOC)
-            //    {
-            //        //CREAR EL DETALLE DE LA NUEVA ORDEN
-            //        SISM_DETALLE_OC DetalleOC = new SISM_DETALLE_OC();
+                //ACTUALIZAMOS LA 'CLAVE' DE LA O'C 
+                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Clave = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id='" + IdOC.Id + "';");
 
-            //        //BUSCAMOS EN LA TABLA "CodigoBarras" el Id del Codigo de Barras, buscando por el Id de la Sustancia
-            //        var CodigoBarras = (from a in SISMFarmacia.CodigoBarras
-            //                            where a.Id_Sustancia == item.Id_Sustancia
-            //                            select a).FirstOrDefault();
+                //RECORREMOS  para guardar en la tabla DETALLE ORDEN        **DETALLE ORDEN DE COMPRA**
+                foreach (var item in ListaOC)
+                {
+                    //CREAR EL DETALLE DE LA NUEVA ORDEN
+                    SISM_DETALLE_OC DetalleOC = new SISM_DETALLE_OC();
 
-            //        //Obtenemos la info de SUSTANCIA de la tabla Detalle_Requi
-            //        var Sustancia = (from a in ConBD2.SISM_DET_REQUISICION
-            //                         where a.Clave == item.Clave
-            //                         select a).FirstOrDefault();
-            //        if (item.CB_ELIMINAR == true)
-            //        {
+                    //BUSCAMOS EN LA TABLA "CodigoBarras" el Id del Codigo de Barras, buscando por el Id de la Sustancia
+                    var CodigoBarras = (from a in SISMFarmacia.CodigoBarras
+                                        where a.Id_Sustancia == item.Id_Sustancia
+                                        select a).FirstOrDefault();
 
-            //            DetalleOC.Id_OrdenCompra = IdOC.Id;
-            //            DetalleOC.Id_CodigoBarrar = CodigoBarras.Id;
-            //            DetalleOC.Obsequio = 0;
-            //            DetalleOC.Status = false;
-            //            DetalleOC.Id_Sustencia = item.Id_Sustancia;
-            //            DetalleOC.Descripcion = Sustancia.Descripcion;
-            //            DetalleOC.ClaveMedicamento = Sustancia.Clave;
+                    //Obtenemos la info de SUSTANCIA de la tabla Detalle_Requi
+                    var Sustancia = (from a in ConBD2.SISM_DET_REQUISICION
+                                     where a.Clave == item.Clave
+                                     select a).FirstOrDefault();
+                    if (item.CB_ELIMINAR == true)
+                    {
 
-            //            //                                              *CANTIDAD*
-            //            if (item.CANTIDAD_NUEVA > 0)
-            //            {
-            //                DetalleOC.Cantidad = item.CANTIDAD_NUEVA;
-            //            }
-            //            else
-            //            {
-            //                if (item.CANTIDAD_NUEVA == 0 && item.Cantidad != item.CantidadPendiente_OC)
-            //                {
-            //                    DetalleOC.Cantidad = item.CantidadPendiente_OC;
-            //                }
-            //                else
-            //                {
-            //                    DetalleOC.Cantidad = item.Cantidad;
-            //                }
-            //            }
+                        DetalleOC.Id_OrdenCompra = IdOC.Id;
+                        DetalleOC.Id_CodigoBarrar = CodigoBarras.Id;
+                        DetalleOC.Obsequio = 0;
+                        DetalleOC.Status = false;
+                        DetalleOC.Id_Sustencia = item.Id_Sustancia;
+                        DetalleOC.Descripcion = Sustancia.Descripcion;
+                        DetalleOC.ClaveMedicamento = Sustancia.Clave;
 
-            //            //Se valida si el PRECIO UNITARIO se modificó   *PRECIO UNITARIO*
-            //            if (item.PREUNIT_NUEVA > 0)
-            //            {
-            //                DetalleOC.PreUnit = item.PREUNIT_NUEVA;
-            //            }
-            //            else
-            //            {
-            //                DetalleOC.PreUnit = item.PrecioUnitario;
-            //            }
+                        //                                              *CANTIDAD*
+                        if (item.CANTIDAD_NUEVA > 0)
+                        {
+                            DetalleOC.Cantidad = item.CANTIDAD_NUEVA;
+                        }
+                        else
+                        {
+                            if (item.CANTIDAD_NUEVA == 0 && item.Cantidad != item.CantidadPendiente_OC)
+                            {
+                                DetalleOC.Cantidad = item.CantidadPendiente_OC;
+                            }
+                            else
+                            {
+                                DetalleOC.Cantidad = item.Cantidad;
+                            }
+                        }
 
-            //            //Se valida si se ingresó una NUEVA CANTIDAD o un NUEVO PRECIO UNITARIO     *$TOTAL$*
-            //            if (item.CANTIDAD_NUEVA > 0 || item.PREUNIT_NUEVA > 0)
-            //            {
-            //                if (item.CANTIDAD_NUEVA > 0 && item.PREUNIT_NUEVA > 0)
-            //                {
-            //                    DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PREUNIT_NUEVA), 2);
-            //                }
-            //                else
-            //                {
-            //                    if (item.CANTIDAD_NUEVA > 0)
-            //                    {
-            //                        DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PrecioUnitario), 2);
-            //                    }
-            //                    if (item.PREUNIT_NUEVA > 0)
-            //                    {
-            //                        DetalleOC.Total = (double?)decimal.Round((decimal)(item.Cantidad * item.PREUNIT_NUEVA), 2);
-            //                    }
-            //                }
-            //            }
-            //            else
-            //            {
-            //                DetalleOC.Total = (double?)decimal.Round((decimal)(DetalleOC.Cantidad * DetalleOC.PreUnit), 2);
-            //            }
+                        //Se valida si el PRECIO UNITARIO se modificó   *PRECIO UNITARIO*
+                        if (item.PREUNIT_NUEVA > 0)
+                        {
+                            DetalleOC.PreUnit = item.PREUNIT_NUEVA;
+                        }
+                        else
+                        {
+                            DetalleOC.PreUnit = item.PrecioUnitario;
+                        }
 
-            //            ConBD2.SISM_DETALLE_OC.Add(DetalleOC);
-            //            ConBD2.SaveChanges();
+                        //Se valida si se ingresó una NUEVA CANTIDAD o un NUEVO PRECIO UNITARIO     *$TOTAL$*
+                        if (item.CANTIDAD_NUEVA > 0 || item.PREUNIT_NUEVA > 0)
+                        {
+                            if (item.CANTIDAD_NUEVA > 0 && item.PREUNIT_NUEVA > 0)
+                            {
+                                DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PREUNIT_NUEVA), 2);
+                            }
+                            else
+                            {
+                                if (item.CANTIDAD_NUEVA > 0)
+                                {
+                                    DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PrecioUnitario), 2);
+                                }
+                                if (item.PREUNIT_NUEVA > 0)
+                                {
+                                    if (item.CantidadPendiente_OC > 0)
+                                    {
+                                        DetalleOC.Total = (double?)decimal.Round((decimal)(item.CantidadPendiente_OC * item.PREUNIT_NUEVA), 2);
+                                    }
+                                    else
+                                    {
+                                        DetalleOC.Total = (double?)decimal.Round((decimal)(item.Cantidad * item.PREUNIT_NUEVA), 2);
+                                    }
+                                    //DetalleOC.Total = (double?)decimal.Round((decimal)(item.Cantidad * item.PREUNIT_NUEVA), 2);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            DetalleOC.Total = (double?)decimal.Round((decimal)(DetalleOC.Cantidad * DetalleOC.PreUnit), 2);
+                        }
 
-            //            //                                                              *$TOTAL$ TBL O'C*
-            //            SubTotal_OC += Decimal.Round((decimal)(DetalleOC.Total), 2);
-            //            OC.Total_OC = (double?)SubTotal_OC;
+                        ConBD2.SISM_DETALLE_OC.Add(DetalleOC);
+                        ConBD2.SaveChanges();
 
-            //            ConBD2.SaveChanges();
+                        //                                                              *$TOTAL$ TBL O'C*
+                        SubTotal_OC += Decimal.Round((decimal)(DetalleOC.Total), 2);
+                        OC.Total_OC = (double?)SubTotal_OC;
 
-            //        }
+                        ConBD2.SaveChanges();
 
-                    
-            //    }
+                    }
 
-            //    return Json(new { MENSAJE = "Succe: Se generó la O.C" }, JsonRequestBehavior.AllowGet);
-                
-            //}
-            //catch (Exception ex)
-            //{
-            //    return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
-            //}
+                }
 
-            return null;
+                return Json(new { MENSAJE = "Succe: Se generó la O.C" }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+
+            //return null;
         }
 
         public ActionResult ObtenerUltima_OC()
@@ -699,7 +691,7 @@ namespace UanlSISM.Controllers
                              join DetOC in ConBD2.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
                              join Requi in ConBD2.SISM_REQUISICION on a.Id_Requisicion equals Requi.Id_Requicision
                              where a.Clave == FolioOC.ToString()
-                             where DetOC.ItemPendiente == false
+                             //where DetOC.ItemPendiente == false
                              select new
                              {
                                  Folio = a.Clave,
