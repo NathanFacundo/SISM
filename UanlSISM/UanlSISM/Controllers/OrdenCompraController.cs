@@ -213,6 +213,9 @@ namespace UanlSISM.Controllers
             var ip_realiza = Request.UserHostAddress;
             var IdUsuarioCifrado = User.Identity.GetUserId();
 
+            //---------------------------------------------  Editar tablas de REQUIS    (parcialidades)       --------------------  INICIO  --------------------------------------
+            #region REQUIS
+
             //RECORREMOS EL DETALLE DE LA REQUI QUE RECIBIMOS(LOS NUEVOS DATOS) PARA BUSCAR ESE DETALLE EN LAS TABLAS Y ACTUALIZARLO CON LOS NUEVOS DATOS RECIBIDOS
             foreach (var DetRequi in ListaOC)
             {
@@ -253,9 +256,7 @@ namespace UanlSISM.Controllers
                             }
                             else
                             {
-                                
                             }
-                            
                         }
                         if (DetRequi.CANTIDAD_NUEVA == DetRequi.Cantidad)
                         {
@@ -297,13 +298,6 @@ namespace UanlSISM.Controllers
                         //    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + CantidadPendiente + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                         //}
                     }
-
-                    
-
-
-
-
-
                 }
                 else
                 {
@@ -319,13 +313,8 @@ namespace UanlSISM.Controllers
                             ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.Cantidad + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                             ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + 0 + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                         }
-                        
                     }
-                    
                 }
-
-
-
 
                 //                                  DETALLE REQUI =>    PRECIO UNITARIO
                 if (DetRequi.PREUNIT_NUEVA > 0)
@@ -334,7 +323,6 @@ namespace UanlSISM.Controllers
                     {
                         ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PrecioUnitario = '" + DetRequi.PREUNIT_NUEVA + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                     }
-                    
                 }
 
                 //                                  DETALLE REQUI =>             NUEVA CANTIDAD y/o NUEVO PRECIO UNITARIO     $$TOTAL$$ 
@@ -347,7 +335,6 @@ namespace UanlSISM.Controllers
                         {
                             ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                         }
-                        
                     }
                     else
                     {
@@ -358,7 +345,6 @@ namespace UanlSISM.Controllers
                             {
                                 ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                             }
-                            
                         }
                         if (DetRequi.PREUNIT_NUEVA > 0)
                         {
@@ -367,7 +353,6 @@ namespace UanlSISM.Controllers
                             {
                                 ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                             }
-                            
                         }
                     }
                 }
@@ -416,29 +401,6 @@ namespace UanlSISM.Controllers
                                          where a.claveOLD == FolioRequi.ToString()
                                          select a).FirstOrDefault();
 
-            //BUSCAMOS LOS 'DETALLES' QUE *NO* SE INCLUIRÁN EN LA OC: CHECKBOX EN FALSE (SI ES QUE HAY) PARA PONER 'false' EN SU CAMPO 'PartidaPendiente_OC' 
-            //foreach (var DetRequi in ListaOC)
-            //{
-            //    var RequiDetalle = (from a in ConBD2.SISM_REQUISICION
-            //                                   join det in ConBD2.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
-            //                                   where det.Id_Detalle_Req == DetRequi.Id_Detalle_Req
-            //                                   select new
-            //                                   {
-            //                                       det.Id_Detalle_Req,
-            //                                       det.Cantidad,
-            //                                       det.PrecioUnitario,
-            //                                       det.Total,
-            //                                       det.Cantidad_OC,
-            //                                       det.CantidadPendiente_OC,
-            //                                       det.PartidaPendiente_OC
-            //                                   }).FirstOrDefault();
-
-            //    if (DetRequi.CB_ELIMINAR == false)
-            //    {
-            //        ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + false + "' WHERE Id_Detalle_Req='" + RequiDetalle.Id_Detalle_Req + "';");
-            //    }
-            //}
-
             //BUSCAMOS SI HAY 'DETALLES' CON 'False' EN EL CAMPO 'PartidaPendiente_OC' O SEA: PARTIDAS PENDIENTES
             var Registro = (from a in ConBD2.SISM_REQUISICION
                                   join det in ConBD2.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
@@ -458,14 +420,11 @@ namespace UanlSISM.Controllers
                 ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Estatus_OC_Parcial = '" + Completa + "' WHERE Id_Requicision='" + RequiDetalle_Nueva_X2.Id_Requicision + "';");
             }
 
+            #endregion 
+            //---------------------------------------------  Editar tablas de REQUIS    (parcialidades)       --------------------  FIN     --------------------------------------
 
 
-
-
-
-
-
-            //----------------------------------------------------------------------------------------------------------------------------------------------------
+            //---------------------------------------------     Crear nueva ORDEN DE COMPRA     ---------------------------------   INICIO  ----------------------------------------------------------------------
 
             //try
             //{
