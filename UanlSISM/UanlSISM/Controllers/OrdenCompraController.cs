@@ -520,7 +520,7 @@ namespace UanlSISM.Controllers
                         }
                         else
                         {
-                            if (item.CANTIDAD_NUEVA == 0 && item.Cantidad != item.CantidadPendiente_OC)
+                            if (item.CANTIDAD_NUEVA == 0 && item.CantidadPendiente_OC > 0)
                             {
                                 DetalleOC.Cantidad = item.CantidadPendiente_OC;
                             }
@@ -697,7 +697,8 @@ namespace UanlSISM.Controllers
                                  Folio = a.Clave,
                                  Fecha = a.Fecha,
                                  Usuario = a.UsuarioNuevo,
-                                 Cantidad = DetOC.CantidadOC,
+                                 //Cantidad = DetOC.CantidadOC,
+                                 Cantidad = DetOC.Cantidad,
                                  Precio = DetOC.PreUnit,
                                  Descripcion = DetOC.Descripcion,
                                  ClaveMed = DetOC.ClaveMedicamento,
@@ -706,7 +707,7 @@ namespace UanlSISM.Controllers
                                  NombreProveedor = a.NombreProveedor,
                                  a.Total_OC,
                                  Desc = a.Descripcion,
-                                 Pendiente = DetOC.ItemPendiente,
+                                 //Pendiente = DetOC.ItemPendiente,
                                  FolioR = Requi.claveOLD
                              }).ToList();
 
