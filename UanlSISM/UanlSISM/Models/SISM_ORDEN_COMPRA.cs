@@ -38,8 +38,6 @@ namespace UanlSISM.Models
         public Nullable<double> Total_OC { get; set; }
         public string OC_PorValidar { get; set; }
         public string Descripcion { get; set; }
-        public string Estatus_OC { get; set; }
-        public Nullable<int> EsParcial_IdOC { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SISM_DETALLE_OC> SISM_DETALLE_OC { get; set; }
