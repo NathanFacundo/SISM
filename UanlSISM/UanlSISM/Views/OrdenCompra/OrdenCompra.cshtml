@@ -11,7 +11,26 @@
 @*SWAL FIRE*@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<h5>SOLICITAR ORDENES DE COMPRA</h5>
+<row class="row m-0">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                @*<td><a href="@Url.Action("Index", "Tickets")"><b>Sistema de Tickets</b></a></td>*@
+            </tr>
+        </table>
+    </div>
+</row>
+
+<row class="row m-0">
+    <div class="col-md-12">
+        <h5 style="text-align:center">SOLICITAR ORDEN DE COMPRA</h5>
+    </div>
+</row>
+
 <br />
 
 <style>
@@ -60,20 +79,21 @@
     }
 </style>
 
-<div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
+@*<div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
     <img src="~/Imagenes/Servicios Medicos_Mesa de trabajo 1.png" class="uanl-logo" />
-</div>
+</div>*@
 
 <div class="btn-toolbar">
     <button type="button" class="btn btn-primary btn-space" onclick="OCS()">VER ORDENES DE COMPRA</button>
-    <button type="button" class="btn btn-outline-primary btn-space" onclick="OCS_Validar()">O.C POR AUTORIZAR</button>
+    <button type="button" class="btn btn-primary btn-space" onclick="OCS_Validar()">ORDENES DE COMPRA POR AUTORIZAR</button>
     @*<button type="button" class="btn btn-outline-primary" onclick="OCS_Parciales()">O.C PARCIALES (PENDIENTES)</button>*@
 </div>
 
 <div>
     <div class="row">
         <div class="col-12" style="text-align:center">
-            <h5 class="font-weight-bold" style="color:blue; ">Requisiciones</h5>
+            <br />
+            <h5 class="font-weight-bold" style="color:blue; ">Requisiciones Elaboradas X Almacén</h5>
         </div>
     </div>
     <div class="row">
@@ -82,10 +102,10 @@
                 <tr>
                     <th>Folio Req.</th>
                     <th>Fecha Req.</th>
-                    <th>Estatus Contrato</th>
                     <th>Usuario Req.</th>
-                    <th>Estatus Req.</th>
-                    <th>Detalle Req.</th>
+                    <th>Contrato Req.</th>
+                    <th>Estatus Req. X Compras</th>
+                    <th>Ver Detalle Req.</th>
                     <th></th>
                 </tr>
             </thead>
@@ -234,6 +254,8 @@
     $(document).ready(function () {
 
         $('#Requis').DataTable({
+            paging: false,
+            scroller:false,
             responsive: true,
             searching: false,
             info: true,
@@ -319,9 +341,10 @@
             searching: true,
             info: true,
             deferRender: true,
-            scroller: true,
+            scroller: false,
             scrollColapse: true,
-            scrollY: 280,
+            //scrollY: 280,
+            paging:false,
             lengthChange: false,
             language: {
                 "zeroRecords": " ",
@@ -344,6 +367,7 @@
                 { 'data': 'Clave', className: "text-center" },
                 { 'data': 'Fecha', className: "text-center" },
                 //{ "data": "EstatusContrato", className: "text-center", render: function (data) { return (data === 'UANL-DGA-DA-022/08/2022' ? '<h8 style="color:black; ">' + "SI" + '</h8>' : '<h8 style="color:black; ">' + "NO" + '</h8>'); } },
+                { 'data': 'Id_User', className: "text-center" },
                 {
                     "data": "EstatusContrato", className: "text-center", render: function (data) {
                         if (data == 'Sin Contrato') {
@@ -353,7 +377,6 @@
                         }
                     }
                 },
-                { 'data': 'Id_User', className: "text-center" },
                 {
                     "data": "Estatus_OC", className: "text-center", render: function (data) {
                         if (data == null) {
