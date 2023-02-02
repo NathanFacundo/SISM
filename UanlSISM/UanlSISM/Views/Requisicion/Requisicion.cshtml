@@ -615,7 +615,11 @@
                     if (Insertar) {
                         item.CANTIDAD = 1;
                         ListaSustancias.push(item);
-                    }
+                        
+                     }
+                     
+                     ListaSustancias.sort((a, b) => a.value - b.value);
+                     //console.log(ListaSustancias);
                      Llena2(ListaSustancias);
 
                      Swal.fire({
