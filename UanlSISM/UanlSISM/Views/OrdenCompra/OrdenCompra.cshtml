@@ -601,10 +601,9 @@
                         timer: 1600
                     })
                     row.data().CANTIDAD_NUEVA = "";
-                    //row.data().CANTIDAD_NUEVA = $(this).val(0);
-                } else {
+                }
+                else if (row.data().CantidadPendiente_OC == null) {
                     row.data().CANTIDAD_NUEVA = valor;
-
                     if (EC != "Sin Contrato") {
                         TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PrecioUnitario;
                         row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
@@ -621,8 +620,37 @@
                             $('#Total_OC2').html(sum.toFixed(2));
                         }
                     }
+                } else {
+                    if (valor > row.data().CantidadPendiente_OC) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: 'La Cantidad Nueva no puede ser mayor a la Cantidad Solicitada',
+                            showConfirmButton: false,
+                            timer: 1600
+                        })
+                        row.data().CANTIDAD_NUEVA = "";
+                    } else {
+                        row.data().CANTIDAD_NUEVA = valor;
+                        if (EC != "Sin Contrato") {
+                            TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PrecioUnitario;
+                            row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
+                            $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
+                            var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
+                            $('#Total_OC2').html(sum.toFixed(2));
+                        }
+                        else {
+                            if (row.data().PREUNIT_NUEVA > 0) {
+                                TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PREUNIT_NUEVA;
+                                row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
+                                $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
+                                var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
+                                $('#Total_OC2').html(sum.toFixed(2));
+                            }
+                        }
+                    }
                 }
-
+                
             });
 
             $(".InputPU").keyup(function () {
@@ -639,12 +667,32 @@
                     $('#Total_OC2').html(sum.toFixed(2));
                 }
                 else {
-                    TotalNuevo = row.data().Cantidad * row.data().PREUNIT_NUEVA;
-                    row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
-                    $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
+                    //TotalNuevo = row.data().Cantidad * row.data().PREUNIT_NUEVA;
+                    //row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
+                    //$('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
 
-                    var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
-                    $('#Total_OC2').html(sum.toFixed(2));
+                    //var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
+                    //$('#Total_OC2').html(sum.toFixed(2));
+
+                    if (row.data().CantidadPendiente_OC != row.data().Cantidad) {
+
+                        TotalNuevo = row.data().CantidadPendiente_OC * row.data().PREUNIT_NUEVA;
+                        row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
+                        $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
+
+                        var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
+                        $('#Total_OC2').html(sum.toFixed(2));
+
+                    } else {
+
+                        TotalNuevo = row.data().Cantidad * row.data().PREUNIT_NUEVA;
+                        row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
+                        $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
+
+                        var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
+                        $('#Total_OC2').html(sum.toFixed(2));
+
+                    }
                 }
             });
 
@@ -664,7 +712,12 @@
                         if ((Proveedor == "" || Proveedor == "Catalogo Proveedores") || (itemEnLista.PREUNIT_NUEVA <= 0 && itemEnLista.CB_ELIMINAR == true)) {
                             TablaValida = false;
                         }
+
+                        //if (itemEnLista.PREUNIT_NUEVA <= 0) {
+                        //    TablaValida = false;
+                        //}
                     }
+
                 });
 
                 if (TablaValida) {
