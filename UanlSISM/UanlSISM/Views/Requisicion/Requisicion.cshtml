@@ -108,6 +108,7 @@
                     <table class="table table-striped table-hover" id="tblGenerarRequi">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>Clave</th>
                                 <th>Descripción</th>
                                 <th>Compendio</th>
@@ -606,20 +607,19 @@
             data: { Clave: Clave },
              success: function (data) {
                  $.grep(data.SUSTANCIAS, function (item) {
-                    var Insertar = true;
+                     var Insertar = true;
+
                     $.grep(ListaSustancias, function (itemEnLista) {
                         if (item.Clave == itemEnLista.Clave) {
                             Insertar = false;
                         };
                     });
                     if (Insertar) {
-                        item.CANTIDAD = 1;
-                        ListaSustancias.push(item);
+                        //item.CANTIDAD = 1;
                         
+                        ListaSustancias.push(item);
                      }
                      
-                     ListaSustancias.sort((a, b) => a.value - b.value);
-                     //console.log(ListaSustancias);
                      Llena2(ListaSustancias);
 
                      Swal.fire({
@@ -655,12 +655,13 @@
             //lengthChange: false,
 
             paging: false,
-            ordering: false,
+            //ordering: false,
 
             searching: false,
             responsive: true,
             lengthChange: false,
             data: ListaSustancias,
+            order: [[0, 'desc']],
             language: {
                 "zeroRecords": "",
                 "info": "_TOTAL_  Sustancias",
@@ -676,6 +677,12 @@
                 },
             },
             columns: [
+                {
+                    'data': 'Orden', className: "text-center",
+                    render: function (data, type, row, meta) {
+                        return (row.Orden = meta.row + meta.settings._iDisplayStart + 1);
+                    }
+                },
                 { 'data': 'Clave', className: "text-center" },
                 { 'data': 'descripcion_21', className: "text-center" },
                 //{ 'data': 'Compendio', className: "text-center" },
