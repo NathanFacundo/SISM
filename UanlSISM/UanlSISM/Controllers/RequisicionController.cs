@@ -331,7 +331,7 @@ namespace UanlSISM.Controllers
                 }
 
 
-                Requisicion.EstatusOC = "0";
+                //Requisicion.EstatusOC = "0";
                 ConBD2.SISM_REQUISICION.Add(Requisicion);
                 ConBD2.SaveChanges();
                 //-----------
@@ -747,7 +747,7 @@ namespace UanlSISM.Controllers
                 }
 
                 NuevaRequi.EstatusContrato = StatusContrato;
-                NuevaRequi.EstatusOC = "0";
+                //NuevaRequi.EstatusOC = "0";
 
                 ConBD2.SISM_REQUISICION.Add(NuevaRequi);
                 ConBD2.SaveChanges();

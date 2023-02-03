@@ -753,6 +753,7 @@ namespace UanlSISM.Controllers
                                select a).FirstOrDefault();
 
                 IdRequi.Status = false;
+                IdRequi.OC_PorValidar = "4";
                 ConBD2.SaveChanges();
 
                 return Json(new { MENSAJE = "Succe: Se eliminó la O.C" }, JsonRequestBehavior.AllowGet);
@@ -876,6 +877,7 @@ namespace UanlSISM.Controllers
                           where a.Clave == Clave_OC.ToString()
                           select a).FirstOrDefault();
 
+                OC.Status = false;
                 OC.OC_PorValidar = "4";// 4 Quiere decir que se Canceló la O.C 
                 OC.Descripcion = DescripcionOC;
                 ConBD2.SaveChanges();

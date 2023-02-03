@@ -11,7 +11,24 @@
 @*SWAL FIRE*@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<h5>O.C POR AUTORIZAR</h5>
+<row class="row m-0">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+            </tr>
+        </table>
+    </div>
+</row>
+
+<row class="row m-0">
+    <div class="col-md-12">
+        <h5 style="text-align:center">ORDENES DE COMPRA</h5>
+    </div>
+</row>
 <br />
 
 <style>
@@ -49,15 +66,12 @@
     }
 </style>
 
-<div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
+@*<div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
     <img src="~/Imagenes/Servicios Medicos_Mesa de trabajo 1.png" class="uanl-logo" />
-</div>
+</div>*@
 
-<div class="row">
-    <div class="col-6">
-        <button type="button" class="btn btn-outline-primary" onclick="Regresar()">REGRESAR</button>
-    </div>
-
+<div class="btn-toolbar">
+    <button type="button" class="btn btn-primary btn-space" onclick="Regresar()">REQUISICIONES</button>
 </div>
 
 <div>
@@ -153,7 +167,7 @@
                                     <a style="font-size:13px" id="Fecha"></a>
                                 </th>
                                 @*<th COLSPAN="2" hidden>
-                    </th>*@
+                                    </th>*@
                                 <th COLSPAN="2">
                                     <h10 style="color:green" hidden>Total: $</h10><br />
                                     <a style="font-size:13px; display:inline-block;" id="Total_OC1" hidden></a>
@@ -333,16 +347,16 @@
                 {
                     "data": "Validar", className: "text-center", render: function (data) {
                         if (data == '1') {
-                            return '<h8 style="color:black; ">' + "POR AUTORIZAR" + '</h8>';
+                            return '<h8 style="color:white; background-color:red; font-family:Arial; font-size:14px">' + "POR AUTORIZAR" + '</h8>';
                         }
                         if (data == '2') {
-                            return '<h8 style="color:black; ">' + "AUTORIZADA" + '</h8>';
+                            return '<h8 style="color:white; background-color:blue; font-family:Arial; font-size:14px">' + "AUTORIZADA" + '</h8>';
                         }
                         if (data == '3') {
-                            return '<h8 style="color:black; ">' + "HECHA/GENERADA" + '</h8>';
+                            return '<h8 style="color:white; background-color:green; font-family:Arial; font-size:14px">' + "HECHA/GENERADA" + '</h8>';
                         }
                         if (data == '4') {
-                            return '<h8 style="color:black; ">' + "CANCELADA" + '</h8>';
+                            return '<h8 style="color:white; background-color:red; font-family:Arial; font-size:14px">' + "CANCELADA" + '</h8>';
                         }
                     }
                 },
@@ -474,7 +488,7 @@
     $('#btnCancelar_OC').on('click', function () {
         var ClaveOC = $("#folio").val();
         var Descripcion = $("#TXTdescripcion").val();
-        
+
         $.ajax({
             url: '@Url.Action("CancelarOC", "OrdenCompra")',
             method: 'POST',
@@ -521,15 +535,19 @@
     .modal-backdrop {
         background-color: rgba(0,0,0,0.4) !important;
     }
+
     .imprimirUanl img {
         width: 65%;
     }
+
     .imprimirLogo img {
         width: 100%;
     }
+
     #pie {
         margin-top: 250px !important;
     }
+
     #firmas td {
         border: 1px solid black;
     }
@@ -538,12 +556,15 @@
         .imprimir {
             display: none;
         }
+
         #Xcel2 {
             display: none;
         }
+
         #firmas td {
             border: 1px solid black;
         }
+
         .btnss {
             display: none;
         }
