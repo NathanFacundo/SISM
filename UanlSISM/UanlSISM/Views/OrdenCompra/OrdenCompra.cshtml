@@ -216,14 +216,14 @@
                         <div class="col-md-6" style="text-align:right;">
                             <div class="row">
                                 <strong>
-                                    <a style="font-size:20px; display:inline-block; margin-right:10px;">Total: $</a>
-                                    <a style="font-size:20px; display:inline-block;" id="Total_OC"></a>
+                                    <a style="font-size:16px; display:inline-block; margin-right:10px;">Total: $</a>
+                                    <a style="font-size:16px; display:inline-block;" id="Total_OC"></a>
                                 </strong>
                             </div>
                             <div class="row">
                                 <strong>
-                                    <a style="font-size:20px; display:inline-block; margin-right:10px;">Total Nuevo: $</a>
-                                    <a style="font-size:20px; display:inline-block;" id="Total_OC2"></a>
+                                    <a style="font-size:16px; display:inline-block; margin-right:10px;">Total Cant. Autorizada: $</a>
+                                    <a style="font-size:16px; display:inline-block;" id="Total_OC2"></a>
                                 </strong>
                             </div>
                         </div>
@@ -261,8 +261,8 @@
             lengthChange: false,
             pageLength: 20,
             language: {
-                "zeroRecords": " ",
-                "info": "_TOTAL_  ",
+                "zeroRecords": "No se encontraron Requisiciones disponibles",
+                "info": "_TOTAL_ Requisiciones",
                 "infoEmpty": "",
                 "paginate": {
                     "first": "Primero",
@@ -283,7 +283,6 @@
             lengthChange: false,
             paging: false,
             language: {
-                "zeroRecords": " ",
                 "zeroRecords": "No se encontró registro",
                 "search": "",
                 "info": "",
@@ -346,7 +345,7 @@
             paging:false,
             lengthChange: false,
             language: {
-                "zeroRecords": " ",
+                "zeroRecords": "No se encontraron Requisiciones disponibles",
                 "info": "_TOTAL_  Requisiciones",
                 "search": "Buscar:",
                 "infoEmpty": "",
@@ -379,13 +378,13 @@
                 {
                     "data": "Estatus_OC", className: "text-center", render: function (data) {
                         if (data == null) {
-                            return '<h8 style="color:black; ">' + "PENDIENTE" + '</h8>';
+                            return '<h8 style="color:white; background-color:red; font-family:Arial; font-size:14px">' + "PENDIENTE" + '</h8>';
                         }
                         if (data == "Incompleta") {
-                            return '<h8 style="color:black; ">' + "INCOMPLETA" + '</h8>';
+                            return '<h8 style="color:black; background-color:yellow; font-family:Arial; font-size:14px">' + "INCOMPLETA" + '</h8>';
                         }
                         if (data == "Completa") {
-                            return '<h8 style="color:black; ">' + "COMPLETA" + '</h8>';
+                            return '<h8 style="color:white; background-color:green; font-family:Arial; font-size:14px">' + "COMPLETA" + '</h8>';
                         }
                     }
                 },
@@ -553,8 +552,15 @@
                     { 'data': 'CB_ELIMINAR', className: "text-center", render: function (data) { return "<input class='input3' id='input3' type='checkbox' ></input>" } }
                 ]
             });
-            var sum = $('#tblDetalleRequi').DataTable().column(5).data().sum();
-            $('#Total_OC').html(sum.toFixed(2));
+
+            EsConContrato = $("#EstContrato").val();
+            if (EsConContrato === "Sin Contrato") {
+
+            } else {
+                var sum = $('#tblDetalleRequi').DataTable().column(5).data().sum();
+                $('#Total_OC').html(sum.toFixed(2));
+            }
+            
         }
 
         $('#tblDetalleRequi tbody').on('click', '#botonDelete', function () {
@@ -673,7 +679,7 @@
                     //var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
                     //$('#Total_OC2').html(sum.toFixed(2));
 
-                    if (row.data().CantidadPendiente_OC != row.data().Cantidad) {
+                    if (row.data().CantidadPendiente_OC > 0 && row.data().CantidadPendiente_OC != row.data().Cantidad) {
 
                         TotalNuevo = row.data().CantidadPendiente_OC * row.data().PREUNIT_NUEVA;
                         row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);

@@ -411,6 +411,9 @@ namespace UanlSISM.Controllers
 
             //---------------------------------------------     Crear nueva ORDEN DE COMPRA     ---------------------------------   INICIO  ----------------------------------------------------------------------
 
+            
+            
+
             try
             {
                 //PROVEEDOR de la Requi(Orden)
@@ -446,6 +449,15 @@ namespace UanlSISM.Controllers
                 OC.IP_User = ip_realiza;
                 OC.NombreProveedor = Prov.Prov_Nombre;
                 OC.OC_PorValidar = "1"; //LA OC nace en 1, tiene que validarse para pasar a 2 (validada) despues tiene que Generarse la OC y pasa a 3, el Status cambiará a True
+
+                //foreach (var DetRequi2 in ListaOC)
+                //{
+                //    if (DetRequi2.CB_ELIMINAR == true)
+                //    {
+                //        ConBD2.SISM_ORDEN_COMPRA.Add(OC);
+                //    }
+                //}
+
                 ConBD2.SISM_ORDEN_COMPRA.Add(OC);
                 ConBD2.SaveChanges();
 
