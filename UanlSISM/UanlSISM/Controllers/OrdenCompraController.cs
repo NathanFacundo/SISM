@@ -63,6 +63,7 @@ namespace UanlSISM.Controllers
             public int Id_Detalle_Req { get; internal set; }
             public int? CantidadPendiente_OC { get; internal set; }
             public int? Cantidad_OC { get; internal set; }
+            public string Estatus_OC_Parcial { get; internal set; }
         }
 
         public ActionResult ObtenerRequisInicio()
@@ -147,7 +148,8 @@ namespace UanlSISM.Controllers
                                  a.Id_Requicision,
                                  det.Id_Detalle_Req,
                                  det.CantidadPendiente_OC,
-                                 det.Cantidad_OC
+                                 det.Cantidad_OC,
+                                 a.Estatus_OC_Parcial
                              }).ToList();
 
                 var results1 = new List<ListCampos>();
@@ -183,7 +185,8 @@ namespace UanlSISM.Controllers
                             Id_Requicision = q.Id_Requicision,
                             Id_Detalle_Req = q.Id_Detalle_Req,
                             CantidadPendiente_OC = q.CantidadPendiente_OC,
-                            Cantidad_OC = q.Cantidad_OC
+                            Cantidad_OC = q.Cantidad_OC,
+                            Estatus_OC_Parcial = q.Estatus_OC_Parcial
                         };
                         results1.Add(resultado);
                     }

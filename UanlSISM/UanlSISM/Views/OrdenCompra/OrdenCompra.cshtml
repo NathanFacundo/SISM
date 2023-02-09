@@ -79,8 +79,8 @@
 </style>
 
 @*<div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
-    <img src="~/Imagenes/Servicios Medicos_Mesa de trabajo 1.png" class="uanl-logo" />
-</div>*@
+        <img src="~/Imagenes/Servicios Medicos_Mesa de trabajo 1.png" class="uanl-logo" />
+    </div>*@
 
 <div class="btn-toolbar">
     <button type="button" class="btn btn-primary btn-space" onclick="OCS()">ORDENES DE COMPRA (DPTO. COMPRAS)</button>
@@ -118,11 +118,15 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body imprimir-content">
+
+                @*<div class="row m-0">
+                    <input id="Estatus_OC_Parcial" name="Estatus_OC_Parcial" value="" style="display: none;" />
+                </div>*@
 
                 <div class="row text-center pt-4">
                     <div class="col-2 mb-0 imprimirUanl">
@@ -183,9 +187,12 @@
                                     <h10 style="color:green">Fecha Req: </h10><br />
                                     <a style="font-size:13px" id="FechaRequi"></a>
                                 </th>
-                                <th COLSPAN="5">
+                                <th COLSPAN="4">
                                     <h10 id="Contrato" style="color:green">Con Contrato </h10><br />
                                     <a style="font-size: 13px" id="EstContrato"></a>
+                                </th>
+                                <th>
+                                    <a style="font-size: 13px; display: none;" id="Estatus_OC_Parcial"></a>
                                 </th>
                             </tr>
                             <tr>
@@ -194,7 +201,7 @@
                                 <th>Descripción<br />Med.</th>
                                 <th>Cant.<br />Solicitada</th>
                                 <th>Cant.<br />Pendiente</th>
-                                <th>P.U.</th>
+                                <th>Precio<br />Unitario</th>
                                 <th>Total</th>
                                 <th>Cant.<br />Autorizada</th>
                                 <th>Precio</th>
@@ -216,13 +223,13 @@
                         <div class="col-md-6" style="text-align:right;">
                             <div class="row">
                                 <strong>
-                                    <a style="font-size:16px; display:inline-block; margin-right:10px;">Total: $</a>
+                                    @*<a style="font-size:16px; display:inline-block; margin-right:10px;">Total: $</a>*@
                                     <a style="font-size:16px; display:inline-block;" id="Total_OC"></a>
                                 </strong>
                             </div>
                             <div class="row">
                                 <strong>
-                                    <a style="font-size:16px; display:inline-block; margin-right:10px;">Total Cant. Autorizada: $</a>
+                                    @*<a style="font-size:16px; display:inline-block; margin-right:10px;">Total Cant. Autorizada: $</a>*@
                                     <a style="font-size:16px; display:inline-block;" id="Total_OC2"></a>
                                 </strong>
                             </div>
@@ -408,6 +415,8 @@
     var EsConContrato = "";
     var row = "";
     var Id = "";
+    var Estatus_OC_P = "";
+    var tableP = "";
 
     $('#Requis tbody').on('click', '#VerDetalle', function () {
         var tr = $(this).closest('tr');
@@ -431,6 +440,7 @@
                 $('#NoRequi').html(response[0].Folio);
                 $('#FechaRequi').html(response[0].Fecha);
                 $('#EstContrato').html(response[0].EstatusContrato);
+                $('#Estatus_OC_Parcial').html(response[0].Estatus_OC_Parcial);
 
                 if (response[0].EstatusContrato == "Sin Contrato") {
                     $('#EstContrato').hide();
@@ -445,6 +455,8 @@
                 $('#UsRequi').html(response[0].Usuario);
                 Folio = $('#NoRequi').val(response[0].Folio);
                 EsConContrato = $("#EstContrato").val(response[0].EstatusContrato);
+                Estatus_OC_P = $("#Estatus_OC_Parcial").val(response[0].Estatus_OC_Parcial);
+
                 $.grep(response, function (item) {
                     var Insertar = true;
                     $.grep(DetRequi, function (itemEnLista) {
@@ -474,7 +486,7 @@
             });
 
         function LlenDetalle(DetRequi) {
-            var tableP = $('#tblDetalleRequi').DataTable();
+            tableP = $('#tblDetalleRequi').DataTable();
 
             tableP.destroy();
             tableP = $('#tblDetalleRequi').DataTable({
@@ -553,14 +565,22 @@
                 ]
             });
 
+            //var sum = $('#tblDetalleRequi').DataTable().column(6).data().sum();
+            //$('#Total_OC').html(sum.toFixed(2));
+
             EsConContrato = $("#EstContrato").val();
+            Estatus_OC_P = $("#Estatus_OC_Parcial").val();
             if (EsConContrato === "Sin Contrato") {
 
             } else {
-                var sum = $('#tblDetalleRequi').DataTable().column(5).data().sum();
-                $('#Total_OC').html(sum.toFixed(2));
+                var sum = $('#tblDetalleRequi').DataTable().column(6).data().sum();
+                if (Estatus_OC_P === "Incompleta") {
+
+                } else {
+                    document.getElementById("Total_OC").innerHTML = "Total pzas. Almacén $" + sum.toFixed(2);
+                }
             }
-            
+
         }
 
         $('#tblDetalleRequi tbody').on('click', '#botonDelete', function () {
@@ -607,26 +627,34 @@
                     })
                     row.data().CANTIDAD_NUEVA = "";
                 }
-                else if (row.data().CantidadPendiente_OC == null) {
+                else
+                if (row.data().CantidadPendiente_OC == null)
+                {
                     row.data().CANTIDAD_NUEVA = valor;
-                    if (EC != "Sin Contrato") {
+                    if (EC != "Sin Contrato")
+                    {
                         TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PrecioUnitario;
                         row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
                         $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
                         var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
-                        $('#Total_OC2').html(sum.toFixed(2));
+                        //$('#Total_OC2').html(sum.toFixed(2));
+                        document.getElementById("Total_OC2").innerHTML = "Total pzas. Autorizadas $" + sum.toFixed(2);
                     }
-                    else {
+                    else
+                    {
                         if (row.data().PREUNIT_NUEVA > 0) {
                             TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PREUNIT_NUEVA;
                             row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
                             $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
                             var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
-                            $('#Total_OC2').html(sum.toFixed(2));
+                            //$('#Total_OC2').html(sum.toFixed(2));
+                            document.getElementById("Total_OC2").innerHTML = "Total pzas. Autorizadas $" + sum.toFixed(2);
                         }
                     }
-                } else {
-                    if (valor > row.data().CantidadPendiente_OC) {
+                } else
+                {
+                    if (valor > row.data().CantidadPendiente_OC)
+                    {
                         Swal.fire({
                             position: 'top-end',
                             icon: 'error',
@@ -635,27 +663,33 @@
                             timer: 1600
                         })
                         row.data().CANTIDAD_NUEVA = "";
-                    } else {
+                    } else
+                    {
                         row.data().CANTIDAD_NUEVA = valor;
-                        if (EC != "Sin Contrato") {
+                        if (EC != "Sin Contrato")
+                        {
                             TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PrecioUnitario;
                             row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
                             $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
                             var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
-                            $('#Total_OC2').html(sum.toFixed(2));
+                            //$('#Total_OC2').html(sum.toFixed(2));
+                            document.getElementById("Total_OC2").innerHTML = "Total pzas. Autorizadas $" + sum.toFixed(2);
                         }
-                        else {
-                            if (row.data().PREUNIT_NUEVA > 0) {
+                        else
+                        {
+                            if (row.data().PREUNIT_NUEVA > 0)
+                            {
                                 TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PREUNIT_NUEVA;
                                 row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
                                 $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
                                 var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
-                                $('#Total_OC2').html(sum.toFixed(2));
+                                //$('#Total_OC2').html(sum.toFixed(2));
+                                document.getElementById("Total_OC2").innerHTML = "Total pzas. Autorizadas $" + sum.toFixed(2);
                             }
                         }
                     }
                 }
-                
+
             });
 
             $(".InputPU").keyup(function () {
@@ -669,7 +703,8 @@
                     $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
 
                     var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
-                    $('#Total_OC2').html(sum.toFixed(2));
+                    //$('#Total_OC2').html(sum.toFixed(2));
+                    document.getElementById("Total_OC2").innerHTML = "Total pzas. Autorizadas $" + sum.toFixed(2);
                 }
                 else {
                     //TotalNuevo = row.data().Cantidad * row.data().PREUNIT_NUEVA;
@@ -686,7 +721,8 @@
                         $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
 
                         var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
-                        $('#Total_OC2').html(sum.toFixed(2));
+                        //$('#Total_OC2').html(sum.toFixed(2));
+                        document.getElementById("Total_OC2").innerHTML = "Total pzas. Autorizadas $" + sum.toFixed(2);
 
                     } else {
 
@@ -695,7 +731,8 @@
                         $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
 
                         var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
-                        $('#Total_OC2').html(sum.toFixed(2));
+                        //$('#Total_OC2').html(sum.toFixed(2));
+                        document.getElementById("Total_OC2").innerHTML = "Total pzas. Autorizadas $" + sum.toFixed(2);
 
                     }
                 }
@@ -707,7 +744,8 @@
     $('#btnGenerarOC').on('click', function () {
             Folio = $("#NoRequi").val();
             Proveedor = document.getElementById('PROV').textContent.trim();
-            EsConContrato = $("#EstContrato").val();
+        EsConContrato = $("#EstContrato").val();
+        //tableP = $('#tblDetalleRequi').DataTable();
 
             if (DetRequi.length > 0) {
                 TablaValida = true;
@@ -717,16 +755,10 @@
                         if ((Proveedor == "" || Proveedor == "Catalogo Proveedores") || (itemEnLista.PREUNIT_NUEVA <= 0 && itemEnLista.CB_ELIMINAR == true)) {
                             TablaValida = false;
                         }
-
-                        //if (itemEnLista.PREUNIT_NUEVA <= 0) {
-                        //    TablaValida = false;
-                        //}
                     }
-
                 });
 
                 if (TablaValida) {
-
                     $.ajax({
                         url: '@Url.Action("GenerarOC", "OrdenCompra")',
                         method: 'POST',
@@ -757,7 +789,9 @@
                                             title: 'El folio de la O.C generada es: ',
                                             text: response.CLAVE,
                                             willClose: () => {
-                                                location.reload();
+                                                //location.reload();
+                                                $('#tblDetalleRequi').DataTable().destroy();
+                                                VerDetalleRequi_Modal(row, Folio);
                                             }
                                         });
                                     }
