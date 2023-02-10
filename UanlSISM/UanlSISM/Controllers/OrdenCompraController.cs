@@ -408,15 +408,14 @@ namespace UanlSISM.Controllers
                 ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Estatus_OC_Parcial = '" + Completa + "' WHERE Id_Requicision='" + RequiDetalle_Nueva_X2.Id_Requicision + "';");
             }
 
-            #endregion 
+            #endregion
             //---------------------------------------------  Editar tablas de REQUIS    (parcialidades)       --------------------  FIN     --------------------------------------
 
 
             //---------------------------------------------     Crear nueva ORDEN DE COMPRA     ---------------------------------   INICIO  ----------------------------------------------------------------------
 
-            
-            
 
+            #region CREAR ORDEN DE COMPRA
             try
             {
                 //PROVEEDOR de la Requi(Orden)
@@ -607,6 +606,8 @@ namespace UanlSISM.Controllers
             {
                 return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
+            #endregion
+
 
             //return null;
         }

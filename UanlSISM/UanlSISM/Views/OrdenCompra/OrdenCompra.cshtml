@@ -125,8 +125,8 @@
             <div class="modal-body imprimir-content">
 
                 @*<div class="row m-0">
-                    <input id="Estatus_OC_Parcial" name="Estatus_OC_Parcial" value="" style="display: none;" />
-                </div>*@
+                        <input id="Estatus_OC_Parcial" name="Estatus_OC_Parcial" value="" style="display: none;" />
+                    </div>*@
 
                 <div class="row text-center pt-4">
                     <div class="col-2 mb-0 imprimirUanl">
@@ -486,6 +486,7 @@
             });
 
         function LlenDetalle(DetRequi) {
+
             tableP = $('#tblDetalleRequi').DataTable();
 
             tableP.destroy();
@@ -583,6 +584,7 @@
 
         }
 
+        //BTN Delete
         $('#tblDetalleRequi tbody').on('click', '#botonDelete', function () {
             var tr = $(this).closest('tr');
             var row = $('#tblDetalleRequi').DataTable().row(tr);
@@ -599,6 +601,7 @@
             })
         });
 
+        //Cantidades y P.U
         $('#DetalleRequiModal').on('shown.bs.modal', function () {
             var EC = "";
             var TotalNuevo = 0;
@@ -742,12 +745,100 @@
     }
 
     $('#btnGenerarOC').on('click', function () {
-            Folio = $("#NoRequi").val();
-            Proveedor = document.getElementById('PROV').textContent.trim();
+        Folio = $("#NoRequi").val();
+        Proveedor = document.getElementById('PROV').textContent.trim();
         EsConContrato = $("#EstContrato").val();
         //tableP = $('#tblDetalleRequi').DataTable();
 
-            if (DetRequi.length > 0) {
+        if (DetRequi.length > 0) {
+
+            TablaValida = true;
+            $.grep(DetRequi, function (itemEnLista) {
+                if (EsConContrato === "Sin Contrato") {
+                    if ((Proveedor == "" || Proveedor == "Catalogo Proveedores") || (itemEnLista.PREUNIT_NUEVA <= 0 && itemEnLista.CB_ELIMINAR == true)) {
+                        TablaValida = false;
+                    }
+                }
+            });
+
+            if (TablaValida) {
+                    $.ajax({
+                        url: '@Url.Action("GenerarOC", "OrdenCompra")',
+                        method: 'POST',
+                        dataType: 'json',
+                        data: { ListaOC: DetRequi, FolioRequi: Folio, ProveedorReq: Proveedor },
+                        success: function (data) {
+                            if (data.MENSAJE.substring(0, 6) == "Error:") {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops... ¡Error!',
+                                    text: data.MENSAJE.substring(7)
+                                });
+                            }
+                            else {
+                                //Swal.fire({
+                                //    icon: 'success',
+                                //    title: '¡Éxito!',
+                                //    text: data.MENSAJE.substring(7),
+                                //    willClose: () => {
+                                //        location.reload();
+                                //    }
+                                //});
+                                var url = '@Url.Action("ObtenerUltima_OC", "OrdenCompra")';
+                                $.post(url).done(function (response) {
+                                    if (response.MENSAJE.substring(0, 7) == "Succe: ") {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'El folio de la O.C generada es: ',
+                                            text: response.CLAVE,
+                                            willClose: () => {
+                                                location.reload();
+                                                //$('#tblDetalleRequi').DataTable().destroy();
+                                                //VerDetalleRequi_Modal(row, Folio);
+                                            }
+                                        });
+                                    }
+                                    if (response.MENSAJE.substring(0, 7) == "Error: ") {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops... ¡Error!',
+                                            text: response.MENSAJE.substring(7)
+                                        });
+                                    }
+                                }).fail(function (response) {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: '¡Error!'
+                                    });
+                                });
+                            }
+                        },
+                        error: function (ex) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Orden de Compra no generada',
+                                //willClose: () => {
+                                //    VerDetalleRequi_Modal(row, Id);
+                                //}
+                            });
+                            //location.reload();
+                        }
+                    });
+            } else
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    text: 'No puede haber cantidades en cero de la partida seleccionada y/o falta seleccionar proveedor'
+                });        
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'No hay datos para la Orden de Compra'
+            });
+        }
+
+            @*if (DetRequi.length > 0) {
                 TablaValida = true;
 
                 $.grep(DetRequi, function (itemEnLista) {
@@ -790,8 +881,8 @@
                                             text: response.CLAVE,
                                             willClose: () => {
                                                 //location.reload();
-                                                $('#tblDetalleRequi').DataTable().destroy();
-                                                VerDetalleRequi_Modal(row, Folio);
+                                                //$('#tblDetalleRequi').DataTable().destroy();
+                                                //VerDetalleRequi_Modal(row, Folio);
                                             }
                                         });
                                     }
@@ -833,7 +924,7 @@
                     title: '¡Error!',
                     text: 'No hay datos para la Orden de Compra'
                 });
-            }
+            }*@
     });
 
     $('#DetalleRequiModal').on('hidden.bs.modal', function () {
