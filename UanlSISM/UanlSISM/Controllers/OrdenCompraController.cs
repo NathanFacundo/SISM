@@ -412,9 +412,7 @@ namespace UanlSISM.Controllers
             //---------------------------------------------  Editar tablas de REQUIS    (parcialidades)       --------------------  FIN     --------------------------------------
 
 
-            //---------------------------------------------     Crear nueva ORDEN DE COMPRA     ---------------------------------   INICIO  ----------------------------------------------------------------------
-
-
+            //---------------------------------------------     Crear nueva ORDEN DE COMPRA     ---------------------------------   INICIO  -----------------------------------
             #region CREAR ORDEN DE COMPRA
             try
             {
@@ -607,7 +605,7 @@ namespace UanlSISM.Controllers
                 return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
             #endregion
-
+            //---------------------------------------------     Crear nueva ORDEN DE COMPRA     ---------------------------------   FIN  -----------------------------------
 
             //return null;
         }
@@ -856,26 +854,86 @@ namespace UanlSISM.Controllers
         {
             try
             {
-                //ORDEN DE COMPRA
-                var OC = (from a in ConBD2.SISM_ORDEN_COMPRA
-                          where a.Clave == Clave_OC.ToString()
-                          select a).FirstOrDefault();
+                ////ORDEN DE COMPRA
+                //var OC = (from a in ConBD2.SISM_ORDEN_COMPRA
+                //          where a.Clave == Clave_OC.ToString()
+                //          select a).FirstOrDefault();
 
-                OC.Status = true;
-                OC.OC_PorValidar = "3";// el usuario de Compras puede Aprobarla/Generarla y el Status en BD cambia a True y OC_PorValidar puede cambiar a 3
-                ConBD2.SaveChanges();
+                //OC.Status = true;
+                //OC.OC_PorValidar = "3";// el usuario de Compras puede Aprobarla/Generarla y el Status en BD cambia a True y OC_PorValidar puede cambiar a 3
+                //ConBD2.SaveChanges();
 
-                //DETALLE DE LA O.C
-                var DetalleOC = (from a in ConBD2.SISM_DETALLE_OC
-                                    where a.Id_OrdenCompra == OC.Id
-                                    select a
-                            ).ToList();
+                ////DETALLE DE LA O.C
+                //var DetalleOC = (from a in ConBD2.SISM_DETALLE_OC
+                //                    where a.Id_OrdenCompra == OC.Id
+                //                    select a
+                //            ).ToList();
 
-                foreach (var q in DetalleOC)
+                //foreach (var q in DetalleOC)
+                //{
+                //    q.Status = true;
+                //    ConBD2.SaveChanges();
+                //}
+
+
+
+                //---------------------------------------------     Aztualizar tbl COTIZACIONES     --------------------------------    INICIO  -------------
+                #region ACTUALIZAR TBL COTIZACIONES
+
+                //CONSULTAR LA TBL COTIZACIONES CON LA OC QUE SE ESTÁ TRABAJANDO 
+                var DetalleCotizacion = (from Cot in ConBD2.SISM_COTIZACIONES
+                                         join Oc in ConBD2.SISM_ORDEN_COMPRA on Cot.Id_Requicision equals Oc.Id_Requisicion
+                                         join DetOc in ConBD2.SISM_DETALLE_OC on Oc.Id equals DetOc.Id_OrdenCompra
+                                         where Oc.Clave == Clave_OC.ToString()
+                                         where DetOc.Id_Sustencia == Cot.Id_Sustancia
+                                         select new
+                                         {
+                                             IdCot = Cot.Id,
+                                             IdSus = Cot.Id_Sustancia,
+                                             IdProv = Cot.Id_Prov_1,
+                                             CantAsig = Cot.Cant_Asig_1,
+                                             CostUnit = Cot.CostoUnit_1,
+                                             Status = Cot.Status,
+                                             FechaCrea = Cot.FechaCrea,
+                                             FechaMod = Cot.FechaMod,
+                                             Usu = Cot.Id_Usuario,
+                                             Cuadro = Cot.Cuadro,
+                                             IdReq = Cot.Id_Requicision,
+                                             IdDetReq = DetOc.Id
+                                         }).ToList();
+
+                //RECORREMOS LAS COTIZACIONES PARA ACTUALIZARLAS
+                foreach (var DetCotizacion in DetalleCotizacion)
                 {
-                    q.Status = true;
-                    ConBD2.SaveChanges();
+                    //Obtenemos el Detalle de la OC con el que se actualizará el item de la tbl Cotizaciones
+                    var OC_Detalle = (from Oc in ConBD2.SISM_ORDEN_COMPRA
+                                      join Det_Oc in ConBD2.SISM_DETALLE_OC on Oc.Id equals Det_Oc.Id_OrdenCompra
+                                      where Oc.Clave == Clave_OC.ToString()
+                                      where Det_Oc.Id == DetCotizacion.IdDetReq
+                                      select new
+                                        {
+                                            IdOc = Oc.Id,
+                                            ClaveOC = Oc.Clave,
+                                            IdReq = Oc.Id_Requisicion,
+                                            IdProv = Oc.Id_Proveedor,
+                                            FechaOC = Oc.Fecha,
+                                            UsuIdOC = Oc.UsuarioId,
+                                            IdDetR = Det_Oc.Id,
+                                            IdCB = Det_Oc.Id_CodigoBarrar,
+                                            Cantidad = Det_Oc.Cantidad,
+                                            PU = Det_Oc.PreUnit,
+                                            IdSus = Det_Oc.Id_Sustencia
+                                        }).FirstOrDefault();
+
+                    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Id_Prov_1 = '" + OC_Detalle.IdProv + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Cant_Asig_1 = '" + OC_Detalle.Cantidad + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET CostoUnit_1 = '" + OC_Detalle.PU + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+
                 }
+
+                #endregion
+                //---------------------------------------------     Aztualizar tbl COTIZACIONES     --------------------------------    FIN  -----------------------------------
+
 
                 return Json(new { MENSAJE = "Succe: Se generó la O.C" }, JsonRequestBehavior.AllowGet);
             }
