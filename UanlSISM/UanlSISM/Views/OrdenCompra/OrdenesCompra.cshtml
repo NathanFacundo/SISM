@@ -100,12 +100,12 @@
                         <h5>SERVICIOS MÉDICOS</h5>
                         <div class="col-12 m-auto">
                             <p style="font-size:10px;" class="m-0"><b>U.A.N.L. SERVICIOS MÉDICOS</b></p>
-                            <p style="font-size:10px;" class="m-0"><b>GONZALITOS Y HAITI S/N COL. MITRAS CENTRO</b></p>
-                            <p style="font-size:10px;" class="m-0"><b>MONTERREY NUEVO LEÓN C.P. 66460 TEL.8113404860</b></p>
+                            <p style="font-size:10px;" class="m-0"><b>GONZALITOS Y HAITI, COLONIA VISTA HERMOSA</b></p>
+                            <p style="font-size:10px;" class="m-0"><b>MONTERREY NUEVO LEÓN</b></p>
                         </div>
                     </div>
                     <div class="col-2 m-auto imprimirLogo">
-                        <img src="~/Imagenes/Servicios Medicos_Mesa de trabajo 1.png" style="width:130px; height:66px" /><br />
+                        <img src="~/Imagenes/Servicios Medicos_Mesa de trabajo 1.png" style="width:150px; height:66px" /><br />
                     </div>
                 </div>
                 <div class="row" id="contenido">
@@ -135,23 +135,21 @@
                             </tr>
                             <tr>
                                 <th>
-                                    <h10 style="color:green">Folio O.C: </h10><br />
+                                    <h10 style="color:green">Folio<br />Orden Compra</h10><br />
                                     <a style="font-size:13px" id="NoOC"></a>
                                 </th>
                                 <th>
-                                    <h10 style="color:green">Fecha O.C: </h10><br />
+                                    <h10 style="color:green">Fecha<br />Orden Compra</h10><br />
                                     <a style="font-size:13px" id="FechaOC"></a>
                                 </th>
                                 <th>
-                                    <h10 style="color:green">Folio Requi: </h10><br />
+                                    <h10 style="color:green">Folio<br />Requisición</h10><br />
                                     <a style="font-size:13px" id="FRequi"></a>
                                 </th>
                                 <th COLSPAN="2">
-                                    <h10 style="color:green">Fecha Impresión: </h10><br />
+                                    <h10 style="color:green">Fecha<br />Impresión</h10><br />
                                     <a style="font-size:13px" id="Fecha"></a>
                                 </th>
-                                @*<th COLSPAN="2" hidden>
-                                    </th>*@
                                 <th COLSPAN="2">
                                     <h10 style="color:green" hidden>Total: $</h10><br />
                                     <a style="font-size:13px; display:inline-block;" id="Total_OC1" hidden></a>
@@ -159,11 +157,11 @@
                             </tr>
                             <tr>
                                 <th></th>
-                                <th>Clave Med.</th>
-                                <th>Descripción</th>
-                                <th>Cant. Solicitada</th>
-                                <th>Precio U.</th>
-                                <th>Total</th>
+                                <th>CÓDIGO</th>
+                                <th>DESCRIPCIÓN</th>
+                                <th>CANTIDAD</th>
+                                <th>COSTO<br />UNITARIO</th>
+                                <th>COSTO<br />TOTAL</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -186,53 +184,53 @@
                         <textarea class="text-center" id="TXTdescripcion" name="Descripcion" rows="3" cols="40" readonly></textarea>
                     </div>
                 </div>
-                @*<div class="row m-0 pt-2 text-center" id="pie" style=" border-collapse: collapse; border-spacing: 0;">
-                        <table id="firmas" align="center" BORDER="1">
-                            <tbody>
-                                <tr>
-                                    <td align="center">
+                <div class="row m-0 pt-2 text-center" id="pie" style=" border-collapse: collapse; border-spacing: 0;">
+                    <table id="firmas" align="center" BORDER="1">
+                        <tbody>
+                            <tr>
+                                <td align="center">
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <strong>
+                                        <a><em>DEPTO. ALMACÉN</em></a><br />
+                                        <a>Evelin Ramírez<br /> Lozano</a>
+                                    </strong>
+                                </td>
+                                <td align="center">
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <strong>
+                                        <a><em>DIRECTOR</em></a><br />
+                                        <a>Raúl Gabino<br /> Salazar Montalvo</a>
+                                    </strong>
+                                </td>
+                                <td align="center">
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <strong>
+                                        <a><em>COMPRAS</em></a><br />
+                                        <a id="UsElaboro"></a>
                                         <br />
                                         <br />
-                                        <br />
-                                        <strong>
-                                            <a><em>Usuario.</em></a><br />
-                                            <a id="UsElaboro"></a>
-                                            <br />
-                                            <br />
-                                        </strong>
-                                    </td>
-                                    <td align="center">
-                                        <br />
-                                        <br />
-                                        <br />
-                                        <strong>
-                                            <a><em>Almacén Farmacia.</em></a><br />
-                                            <a>Evelin Ramírez<br /> Lozano</a>
-                                        </strong>
-                                    </td>
-                                    <td align="center">
-                                        <br />
-                                        <br />
-                                        <br />
-                                        <strong>
-                                            <a><em>Adquisiciones.</em></a><br />
-                                            <a>Marcela Valdez<br /> Flores</a><br />
-                                        </strong>
-                                    </td>
-                                    <td align="center">
-                                        <br />
-                                        <br />
-                                        <br />
-                                        <strong>
-                                            <a><em>Dirección.</em></a><br />
-                                            <a>Raúl Gabino<br /> Salazar Montalvo</a>
-                                        </strong>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                    </strong>
+                                </td>
+                                <td align="center">
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <strong>
+                                        <a><em>ADQUISICIONES</em></a><br />
+                                        <a>Marcela Valdéz<br /> Flores</a><br />
+                                    </strong>
+                                </td>
 
-                    </div>*@
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

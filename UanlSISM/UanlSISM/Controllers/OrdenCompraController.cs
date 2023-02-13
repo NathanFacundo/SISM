@@ -216,6 +216,20 @@ namespace UanlSISM.Controllers
             var ip_realiza = Request.UserHostAddress;
             var IdUsuarioCifrado = User.Identity.GetUserId();
 
+            //Si la CANTIDAD_NUEVA es mayor a cero (0) el Checkbox se pondrá en True (eso quiere decir que esos itemas o partidas se incluirán en la O.C) ya que solo se harán los 
+            //Updates solo si el CB_ELIMINAR es True.
+            foreach (var Partida in ListaOC)
+            {
+                if (Partida.CANTIDAD_NUEVA > 0)
+                {
+                    Partida.CB_ELIMINAR = true;
+                }
+                else
+                {
+                    Partida.CB_ELIMINAR = false;
+                }
+            }
+
             //---------------------------------------------  Editar tablas de REQUIS    (parcialidades)       --------------------  INICIO  --------------------------------------
             #region REQUIS
 
@@ -276,7 +290,7 @@ namespace UanlSISM.Controllers
                 {
                     if (DetRequi.CB_ELIMINAR == true)
                     {
-                        if (DetRequi.CANTIDAD_NUEVA == 0 && DetRequi.CantidadPendiente_OC >0)
+                        if (DetRequi.CANTIDAD_NUEVA == 0 && DetRequi.CantidadPendiente_OC > 0)
                         {
                             ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.CantidadPendiente_OC + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                             ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + 0 + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
@@ -391,15 +405,15 @@ namespace UanlSISM.Controllers
 
             //BUSCAMOS SI HAY 'DETALLES' CON 'False' EN EL CAMPO 'PartidaPendiente_OC' O SEA: PARTIDAS PENDIENTES
             var Registro = (from a in ConBD2.SISM_REQUISICION
-                                  join det in ConBD2.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
-                                  where a.claveOLD == FolioRequi.ToString()
-                                  where det.PartidaPendiente_OC == false
-                                  select a).FirstOrDefault();
+                            join det in ConBD2.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
+                            where a.claveOLD == FolioRequi.ToString()
+                            where det.PartidaPendiente_OC == false
+                            select a).FirstOrDefault();
 
             //SI HAY PARTIDAS PENDIENTES, LA REQUI SE PONDRÁ COMO "Incompleta" EN EL CAMPO 'Estatus_OC_Parcial' EN TBL Requisicion
             if (Registro != null)
             {
-                var Incompleta = "Incompleta";
+                var Incompleta = "Parcial";
                 ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Estatus_OC_Parcial = '" + Incompleta + "' WHERE Id_Requicision='" + RequiDetalle_Nueva_X2.Id_Requicision + "';");
             }
             else //SI NO HAY PARTIDAS PENDIENTES QUIERE DECIR QUE LA OC SE HIZO COMPLETA
@@ -854,28 +868,26 @@ namespace UanlSISM.Controllers
         {
             try
             {
-                ////ORDEN DE COMPRA
-                //var OC = (from a in ConBD2.SISM_ORDEN_COMPRA
-                //          where a.Clave == Clave_OC.ToString()
-                //          select a).FirstOrDefault();
+                //ORDEN DE COMPRA
+                var OC = (from a in ConBD2.SISM_ORDEN_COMPRA
+                          where a.Clave == Clave_OC.ToString()
+                          select a).FirstOrDefault();
 
-                //OC.Status = true;
-                //OC.OC_PorValidar = "3";// el usuario de Compras puede Aprobarla/Generarla y el Status en BD cambia a True y OC_PorValidar puede cambiar a 3
-                //ConBD2.SaveChanges();
+                OC.Status = true;
+                OC.OC_PorValidar = "3";// el usuario de Compras puede Aprobarla/Generarla y el Status en BD cambia a True y OC_PorValidar puede cambiar a 3
+                ConBD2.SaveChanges();
 
-                ////DETALLE DE LA O.C
-                //var DetalleOC = (from a in ConBD2.SISM_DETALLE_OC
-                //                    where a.Id_OrdenCompra == OC.Id
-                //                    select a
-                //            ).ToList();
+                //DETALLE DE LA O.C
+                var DetalleOC = (from a in ConBD2.SISM_DETALLE_OC
+                                 where a.Id_OrdenCompra == OC.Id
+                                 select a
+                            ).ToList();
 
-                //foreach (var q in DetalleOC)
-                //{
-                //    q.Status = true;
-                //    ConBD2.SaveChanges();
-                //}
-
-
+                foreach (var q in DetalleOC)
+                {
+                    q.Status = true;
+                    ConBD2.SaveChanges();
+                }
 
                 //---------------------------------------------     Aztualizar tbl COTIZACIONES     --------------------------------    INICIO  -------------
                 #region ACTUALIZAR TBL COTIZACIONES
@@ -928,6 +940,7 @@ namespace UanlSISM.Controllers
                     ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Id_Prov_1 = '" + OC_Detalle.IdProv + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
                     ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Cant_Asig_1 = '" + OC_Detalle.Cantidad + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
                     ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET CostoUnit_1 = '" + OC_Detalle.PU + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Status = '" + true + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
 
                 }
 

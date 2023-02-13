@@ -387,8 +387,8 @@
                         if (data == null) {
                             return '<h8 style="color:white; background-color:red; font-family:Arial; font-size:14px">' + "PENDIENTE" + '</h8>';
                         }
-                        if (data == "Incompleta") {
-                            return '<h8 style="color:black; background-color:yellow; font-family:Arial; font-size:14px">' + "INCOMPLETA" + '</h8>';
+                        if (data == "Parcial") {
+                            return '<h8 style="color:black; background-color:yellow; font-family:Arial; font-size:14px">' + "PARCIAL" + '</h8>';
                         }
                         if (data == "Completa") {
                             return '<h8 style="color:white; background-color:green; font-family:Arial; font-size:14px">' + "COMPLETA" + '</h8>';
@@ -416,7 +416,7 @@
     var row = "";
     var Id = "";
     var Estatus_OC_P = "";
-    var tableP = "";
+    //var tableP = "";
 
     $('#Requis tbody').on('click', '#VerDetalle', function () {
         var tr = $(this).closest('tr');
@@ -486,8 +486,7 @@
             });
 
         function LlenDetalle(DetRequi) {
-
-            tableP = $('#tblDetalleRequi').DataTable();
+            var tableP = $('#tblDetalleRequi').DataTable();
 
             tableP.destroy();
             tableP = $('#tblDetalleRequi').DataTable({
@@ -561,8 +560,12 @@
                         },
                         "searchable": false,
                         className: "text-center"
-                    },
+                    }
+                    ,
                     { 'data': 'CB_ELIMINAR', className: "text-center", render: function (data) { return "<input class='input3' id='input3' type='checkbox' ></input>" } }
+                ],
+                columnDefs: [
+                    { "visible": false, "targets": 10 },
                 ]
             });
 
@@ -575,7 +578,7 @@
 
             } else {
                 var sum = $('#tblDetalleRequi').DataTable().column(6).data().sum();
-                if (Estatus_OC_P === "Incompleta") {
+                if (Estatus_OC_P === "Parcial") {
 
                 } else {
                     document.getElementById("Total_OC").innerHTML = "Total pzas. Almacén $" + sum.toFixed(2);
@@ -606,12 +609,12 @@
             var EC = "";
             var TotalNuevo = 0;
 
-            $('.input3').change(function () {
-                var tr = $(this).closest('tr');
-                var row = $('#tblDetalleRequi').DataTable().row(tr);
+            //$('.input3').change(function () {
+            //    var tr = $(this).closest('tr');
+            //    var row = $('#tblDetalleRequi').DataTable().row(tr);
 
-                row.data().CB_ELIMINAR = true;
-            });
+            //    row.data().CB_ELIMINAR = true;
+            //});
 
             $(".input").keyup(function () {
                 var tr = $(this).closest('tr');
@@ -755,7 +758,8 @@
             TablaValida = true;
             $.grep(DetRequi, function (itemEnLista) {
                 if (EsConContrato === "Sin Contrato") {
-                    if ((Proveedor == "" || Proveedor == "Catalogo Proveedores") || (itemEnLista.PREUNIT_NUEVA <= 0 && itemEnLista.CB_ELIMINAR == true)) {
+                    //if ((Proveedor == "" || Proveedor == "Catalogo Proveedores") || (itemEnLista.PREUNIT_NUEVA <= 0 && itemEnLista.CB_ELIMINAR == true)) {
+                    if ((Proveedor == "" || Proveedor == "Catalogo Proveedores") ) {
                         TablaValida = false;
                     }
                 }
