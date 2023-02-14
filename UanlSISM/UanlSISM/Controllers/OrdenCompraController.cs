@@ -665,7 +665,7 @@ namespace UanlSISM.Controllers
                              join req in ConBD2.SISM_REQUISICION on a.Id_Requisicion equals req.Id_Requicision
                              select new { 
                              a.Id,
-                             //a.Clave,
+                             a.Clave,
                              a.Fecha,
                              a.UsuarioNuevo,
                              IdReq = req.claveOLD,
@@ -682,7 +682,7 @@ namespace UanlSISM.Controllers
                     var resultado = new ListCampos
                     {
                         Id_OC = q.Id,
-                        //Clave = q.Clave,
+                        Clave = q.Clave,
                         Fecha = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha),
                         Id_User = q.UsuarioNuevo,
                         Id_Requisicion = Convert.ToInt32(q.IdReq),
@@ -876,6 +876,10 @@ namespace UanlSISM.Controllers
 
         public JsonResult HACER_OC(int Id_OC)
         {
+            var UsuarioRegistra = User.Identity.GetUserName();
+            var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
+            var fechaDT = DateTime.Parse(fecha);
+            
             try
             {
                 //ORDEN DE COMPRA
@@ -898,6 +902,37 @@ namespace UanlSISM.Controllers
                     q.Status = true;
                     ConBD2.SaveChanges();
                 }
+
+                //-----------------------------------------     FOLIO/CLAVE O'C     ----------------------------------------------------------------------------    INICIO  ----------
+                //obtener la ultima 'clave' de la tabla OrdenCompra actual BD (vieja) para que inserte un nuevo registro en la nueva BD CONSECUTIVO de la clave
+                var Clave = (from a in db.OrdenCompra
+                             select new
+                             {
+                                 clave = a.clave
+                             }).OrderByDescending(u => u.clave).FirstOrDefault();
+                var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
+                var UltimoConsecutivo_Clave = Convert.ToInt32(Clave.clave.Substring(4));
+                var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
+                var ConsecutivoNuevoTxt = "";
+                if (ConsecutivoNuevo < 100)
+                {
+                    if (ConsecutivoNuevo < 9)
+                    {
+                        ConsecutivoNuevoTxt = "00" + ConsecutivoNuevo;
+                    }
+                    else
+                    {
+                        ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
+                    }
+                }
+                else
+                {
+                    ConsecutivoNuevoTxt = "" + ConsecutivoNuevo;
+                }
+
+                //ACTUALIZAMOS LA 'CLAVE' DE LA O'C 
+                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Clave = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id='" + OC.Id + "';");
+                //-----------------------------------------     FOLIO/CLAVE O'C     ----------------------------------------------------------------------------    FIN  ----------
 
                 //---------------------------------------------     Aztualizar tbl COTIZACIONES     --------------------------------    INICIO  -------------
                 #region ACTUALIZAR TBL COTIZACIONES

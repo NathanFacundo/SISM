@@ -65,14 +65,14 @@
         <thead>
             <tr>
                 <th>Identificador<br /> O.C</th>
+                <th>Folio<br />O.C</th>
                 <th>Fecha<br /> O.C</th>
                 <th>Usu. Elaboró<br />O.C</th>
                 <th>Estatus<br /> O.C</th>
                 <th>Folio<br /> Req.</th>
                 <th>Fecha<br /> Req.</th>
                 <th>Contrato<br /> Req.</th>
-                @*<th>Tipo O.C</th>*@
-                <th>Ver Detalle<br /> O.C</th>
+                                <th>Ver Detalle<br /> O.C</th>
                 <th>Eliminar<br />O.C</th>
             </tr>
         </thead>
@@ -347,6 +347,7 @@
             order: [[1, 'desc']],
             columns: [
                 { 'data': 'Id_OC', className: "text-center" },
+                { 'data': 'Clave', className: "text-center" },
                 { 'data': 'Fecha', className: "text-center" },
                 { 'data': 'Id_User', className: "text-center" },
                 {
@@ -556,6 +557,7 @@
     function Regresar() {
         window.location = '@Url.Action("OrdenCompra")';
     }
+
 </script>
 
 <style>

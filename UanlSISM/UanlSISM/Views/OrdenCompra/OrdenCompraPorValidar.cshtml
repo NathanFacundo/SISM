@@ -81,6 +81,7 @@
             <thead>
                 <tr>
                     <th>Identificador<br /> O.C</th>
+                    <th>Folio<br />O.C</th>
                     <th>Fecha<br /> O.C</th>
                     <th>Folio<br /> Req.</th>
                     <th>Fecha<br /> Req.</th>
@@ -321,6 +322,7 @@
             order: [[1, 'desc']],
             columns: [
                 { 'data': 'Id_OC', className: "text-center" },
+                { 'data': 'Clave', className: "text-center" },
                 { 'data': 'Fecha', className: "text-center" },
                 { 'data': 'Id_Requisicion', className: "text-center" },
                 { 'data': 'Fecha1', className: "text-center" },
@@ -532,6 +534,7 @@
     $('#Cancelar').on('click', function () {
         location.reload();
     });
+
 </script>
 
 <style>
