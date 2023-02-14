@@ -665,7 +665,7 @@ namespace UanlSISM.Controllers
                              join req in ConBD2.SISM_REQUISICION on a.Id_Requisicion equals req.Id_Requicision
                              select new { 
                              a.Id,
-                             a.Clave,
+                             //a.Clave,
                              a.Fecha,
                              a.UsuarioNuevo,
                              IdReq = req.claveOLD,
@@ -682,7 +682,7 @@ namespace UanlSISM.Controllers
                     var resultado = new ListCampos
                     {
                         Id_OC = q.Id,
-                        Clave = q.Clave,
+                        //Clave = q.Clave,
                         Fecha = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha),
                         Id_User = q.UsuarioNuevo,
                         Id_Requisicion = Convert.ToInt32(q.IdReq),
@@ -701,7 +701,7 @@ namespace UanlSISM.Controllers
             }
         }
 
-        public JsonResult ObtenerDetalleOC_Generada(int FolioOC, int FolioRequi)
+        public JsonResult ObtenerDetalleOC_Generada(int Id_OC, int FolioRequi)
         {
             try
             {
@@ -713,24 +713,25 @@ namespace UanlSISM.Controllers
                                select new { 
                                a.Id_Requicision
                                }).FirstOrDefault();
-                var IdOC = (from a in ConBD2.SISM_ORDEN_COMPRA
-                               where a.Clave == FolioOC.ToString()
-                               select a
-                               ).FirstOrDefault();
+                //var IdOC = (from a in ConBD2.SISM_ORDEN_COMPRA
+                //               where a.Clave == FolioOC.ToString()
+                //               select a
+                //               ).FirstOrDefault();
                 //PROVEEDOR de la Requi(Orden)
-                var Prov = (from a in db.Proveedor
-                            where a.Id == IdOC.Id_Proveedor
-                            select a
-                            ).FirstOrDefault();
+                //var Prov = (from a in db.Proveedor
+                //            where a.Id == IdOC.Id_Proveedor
+                //            select a
+                //            ).FirstOrDefault();
 
                 var query = (from a in ConBD2.SISM_ORDEN_COMPRA
                              join DetOC in ConBD2.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
                              join Requi in ConBD2.SISM_REQUISICION on a.Id_Requisicion equals Requi.Id_Requicision
-                             where a.Clave == FolioOC.ToString()
+                             where a.Id == Id_OC
                              //where DetOC.ItemPendiente == false
                              select new
                              {
-                                 Folio = a.Clave,
+                                 //Folio = a.Clave,
+                                 Id_OC = a.Id,
                                  Fecha = a.Fecha,
                                  Usuario = a.UsuarioNuevo,
                                  //Cantidad = DetOC.CantidadOC,
@@ -755,7 +756,8 @@ namespace UanlSISM.Controllers
                 {
                     var resultado = new ListCampos
                     {
-                        Folio = q.Folio,
+                        //Folio = q.Folio,
+                        Id_OC = q.Id_OC,
                         Fecha = string.Format("{0:d/M/yy hh:mm tt}", q.Fecha),
                         Fecha1 = string.Format("{0:d/M/yy hh:mm tt}", fechaDT),
                         Usuario = q.Usuario,
@@ -852,12 +854,12 @@ namespace UanlSISM.Controllers
             }
         }
 
-        public JsonResult ValidarOC(int Clave_OC, string DescripcionOC)
+        public JsonResult ValidarOC(int Id_OC, string DescripcionOC)
         {
             try
             {
                 var OC = (from a in ConBD2.SISM_ORDEN_COMPRA
-                               where a.Clave == Clave_OC.ToString()
+                               where a.Id == Id_OC
                                select a).FirstOrDefault();
 
                 OC.OC_PorValidar = "2";// 2 Quiere decir que se Validó la O.C porque la OC nace como 1 (Generada) al validarla (2) el usuario de Compras puede Aprobarla/Generarla y el Status en BD cambia a True y OC_PorValidar puede cambiar a 3
@@ -872,13 +874,13 @@ namespace UanlSISM.Controllers
             }
         }
 
-        public JsonResult HACER_OC(int Clave_OC)
+        public JsonResult HACER_OC(int Id_OC)
         {
             try
             {
                 //ORDEN DE COMPRA
                 var OC = (from a in ConBD2.SISM_ORDEN_COMPRA
-                          where a.Clave == Clave_OC.ToString()
+                          where a.Id == Id_OC
                           select a).FirstOrDefault();
 
                 OC.Status = true;
@@ -904,7 +906,7 @@ namespace UanlSISM.Controllers
                 var DetalleCotizacion = (from Cot in ConBD2.SISM_COTIZACIONES
                                          join Oc in ConBD2.SISM_ORDEN_COMPRA on Cot.Id_Requicision equals Oc.Id_Requisicion
                                          join DetOc in ConBD2.SISM_DETALLE_OC on Oc.Id equals DetOc.Id_OrdenCompra
-                                         where Oc.Clave == Clave_OC.ToString()
+                                         where Oc.Id == Id_OC
                                          where DetOc.Id_Sustencia == Cot.Id_Sustancia
                                          select new
                                          {
@@ -928,7 +930,7 @@ namespace UanlSISM.Controllers
                     //Obtenemos el Detalle de la OC con el que se actualizará el item de la tbl Cotizaciones
                     var OC_Detalle = (from Oc in ConBD2.SISM_ORDEN_COMPRA
                                       join Det_Oc in ConBD2.SISM_DETALLE_OC on Oc.Id equals Det_Oc.Id_OrdenCompra
-                                      where Oc.Clave == Clave_OC.ToString()
+                                      where Oc.Id == Id_OC
                                       where Det_Oc.Id == DetCotizacion.IdDetReq
                                       select new
                                         {
@@ -964,12 +966,12 @@ namespace UanlSISM.Controllers
             }
         }
 
-        public JsonResult CancelarOC(int Clave_OC, string DescripcionOC)
+        public JsonResult CancelarOC(int Id_OC, string DescripcionOC)
         {
             try
             {
                 var OC = (from a in ConBD2.SISM_ORDEN_COMPRA
-                          where a.Clave == Clave_OC.ToString()
+                          where a.Id == Id_OC
                           select a).FirstOrDefault();
 
                 OC.Status = false;

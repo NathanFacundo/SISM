@@ -80,13 +80,13 @@
         <table class="table table-striped table-hover" id="OC_Generada">
             <thead>
                 <tr>
-                    <th>Folio O.C</th>
-                    <th>Fecha O.C</th>
-                    <th>Folio Req.</th>
-                    <th>Fecha Req.</th>
-                    <th>Usuario O.C</th>
-                    <th>Estatus Contrato</th>
-                    <th>Estatus OC</th>
+                    <th>Identificador<br /> O.C</th>
+                    <th>Fecha<br /> O.C</th>
+                    <th>Folio<br /> Req.</th>
+                    <th>Fecha<br /> Req.</th>
+                    <th>Usuario<br /> O.C</th>
+                    <th>Estatus<br /> Contrato</th>
+                    <th>Estatus<br /> OC</th>
                     <th>Detalle</th>
                 </tr>
             </thead>
@@ -103,7 +103,7 @@
             <div class="modal-body imprimir-content">
 
                 <div class="row">
-                    <input id="folio" name="Folio" value="" style="display: none;" />
+                    <input id="Id_OC" name="Id_OC" value="" style="display: none;" />
                 </div>
 
                 <div class="row m-0 text-center pt-4">
@@ -150,10 +150,10 @@
                                 </th>
                             </tr>
                             <tr>
-                                <th>
+                                @*<th>
                                     <h10 style="color:green">Folio O.C: </h10><br />
                                     <a style="font-size:13px" id="NoOC"></a>
-                                </th>
+                                </th>*@
                                 <th>
                                     <h10 style="color:green">Fecha O.C: </h10><br />
                                     <a style="font-size:13px" id="FechaOC"></a>
@@ -320,7 +320,7 @@
             data: ListaOCS,
             order: [[1, 'desc']],
             columns: [
-                { 'data': 'Clave', className: "text-center" },
+                { 'data': 'Id_OC', className: "text-center" },
                 { 'data': 'Fecha', className: "text-center" },
                 { 'data': 'Id_Requisicion', className: "text-center" },
                 { 'data': 'Fecha1', className: "text-center" },
@@ -375,17 +375,18 @@
     $('#OC_Generada tbody').on('click', '#VerDetalle', function () {
         var tr = $(this).closest('tr');
         var row = $('#OC_Generada').DataTable().row(tr);
-        var ClaveOC = row.data().Clave;
+        //var ClaveOC = row.data().Clave;
+        var IdOC = row.data().Id_OC;
         var ClaveRequi = row.data().Id_Requisicion;
 
-        $('#folio').val(ClaveOC);
+        $('#Id_OC').val(IdOC);
 
         $('#DetalleOCModal').modal("show");
 
-        var array = { FolioOC: ClaveOC, FolioRequi: ClaveRequi  };
+        var array = { Id_OC: IdOC, FolioRequi: ClaveRequi  };
         var url = '@Url.Action("ObtenerDetalleOC_Generada", "OrdenCompra")';
         $.post(url, array).done(function (response) {
-            $('#NoOC').html(response[0].Folio);
+            //$('#NoOC').html(response[0].Folio);
             $('#FechaOC').html(response[0].Fecha);
             $('#Fecha').html(response[0].Fecha1);
             $('#PROV').html(response[0].NombreProveedor);
@@ -450,14 +451,14 @@
     });
 
     $('#btnValidar_OC').on('click', function () {
-        var ClaveOC = $("#folio").val();
+        var Id_OC = $("#Id_OC").val();
         var Descripcion = $("#TXTdescripcion").val();
         //alert(FolioOC)
         $.ajax({
             url: '@Url.Action("ValidarOC", "OrdenCompra")',
             method: 'POST',
             dataType: 'json',
-            data: { Clave_OC: ClaveOC, DescripcionOC: Descripcion },
+            data: { Id_OC: Id_OC, DescripcionOC: Descripcion },
             success: function (data) {
                 if (data.MENSAJE.substring(0, 6) == "Succe:") {
                     Swal.fire({
@@ -487,14 +488,15 @@
     });
 
     $('#btnCancelar_OC').on('click', function () {
-        var ClaveOC = $("#folio").val();
+        //var ClaveOC = $("#folio").val();
+        var Id_OC = $("#Id_OC").val();
         var Descripcion = $("#TXTdescripcion").val();
 
         $.ajax({
             url: '@Url.Action("CancelarOC", "OrdenCompra")',
             method: 'POST',
             dataType: 'json',
-            data: { Clave_OC: ClaveOC, DescripcionOC: Descripcion },
+            data: { Id_OC: Id_OC, DescripcionOC: Descripcion },
             success: function (data) {
                 if (data.MENSAJE.substring(0, 6) == "Succe:") {
                     Swal.fire({

@@ -64,7 +64,7 @@
     <table class="table table-striped table-hover" id="tbl_OCgeneradas">
         <thead>
             <tr>
-                <th>Folio<br /> O.C</th>
+                <th>Identificador<br /> O.C</th>
                 <th>Fecha<br /> O.C</th>
                 <th>Usu. Elaboró<br />O.C</th>
                 <th>Estatus<br /> O.C</th>
@@ -87,7 +87,7 @@
             <div class="modal-body imprimir-content">
 
                 <div class="row">
-                    <input id="folio" name="Folio" value="" style="display: none;" />
+                    <input id="Id_OC" name="Id_OC" value="" style="display: none;" />
                 </div>
 
                 <div class="row m-0 text-center pt-4">
@@ -134,10 +134,10 @@
                                 </th>
                             </tr>
                             <tr>
-                                <th>
-                                    <h10 style="color:green">Folio<br />Orden Compra</h10><br />
-                                    <a style="font-size:13px" id="NoOC"></a>
-                                </th>
+                                @*<th>
+                                    <h10 style="color:green">Identificador<br />Orden Compra</h10><br />
+                                    <a style="font-size:13px" id="Id_OC"></a>
+                                </th>*@
                                 <th>
                                     <h10 style="color:green">Fecha<br />Orden Compra</h10><br />
                                     <a style="font-size:13px" id="FechaOC"></a>
@@ -346,7 +346,7 @@
             data: ListaOCS,
             order: [[1, 'desc']],
             columns: [
-                { 'data': 'Clave', className: "text-center" },
+                { 'data': 'Id_OC', className: "text-center" },
                 { 'data': 'Fecha', className: "text-center" },
                 { 'data': 'Id_User', className: "text-center" },
                 {
@@ -399,7 +399,8 @@
     $('#tbl_OCgeneradas tbody').on('click', '#VerDetalle', function () {
         var tr = $(this).closest('tr');
         var row = $('#tbl_OCgeneradas').DataTable().row(tr);
-        var ClaveOC = row.data().Clave;
+        //var ClaveOC = row.data().Clave;
+        var IdOC = row.data().Id_OC;
         var ClaveRequi = row.data().Id_Requisicion;
 
         if (row.data().Validar == "2") {
@@ -408,14 +409,14 @@
             document.getElementById("btnGenerar_OC").disabled = true;
         }
 
-        $('#folio').val(ClaveOC);
+        $('#Id_OC').val(IdOC);
 
         $('#DetalleOCModal').modal("show");
 
-        var array = { FolioOC: ClaveOC, FolioRequi: ClaveRequi  };
+        var array = { Id_OC: IdOC, FolioRequi: ClaveRequi  };
         var url = '@Url.Action("ObtenerDetalleOC_Generada", "OrdenCompra")';
         $.post(url, array).done(function (response) {
-            $('#NoOC').html(response[0].Folio);
+            //$('#NoOC').html(response[0].Folio);
             $('#FechaOC').html(response[0].Fecha);
             $('#Fecha').html(response[0].Fecha1);
             $('#PROV').html(response[0].NombreProveedor);
@@ -517,13 +518,13 @@
     });
 
     $('#btnGenerar_OC').on('click', function () {
-        var ClaveOC = $("#folio").val();
+        var Id_OC = $("#Id_OC").val();
 
         $.ajax({
             url: '@Url.Action("HACER_OC", "OrdenCompra")',
             method: 'POST',
             dataType: 'json',
-            data: { Clave_OC: ClaveOC },
+            data: { Id_OC: Id_OC },
             success: function (data) {
                 if (data.MENSAJE.substring(0, 6) == "Succe:") {
                     Swal.fire({
