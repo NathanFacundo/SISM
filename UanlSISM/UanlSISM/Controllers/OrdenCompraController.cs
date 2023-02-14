@@ -478,40 +478,48 @@ namespace UanlSISM.Controllers
                 //ACTUALIZAMOS LA REQUI EN SU COLUMNA 'EstatusOC' poniendo 1 ya que esa requi se hará O.C
                 //ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET EstatusOC = '1' WHERE Id_Requicision='" + Requi.Id_Requicision + "';");
 
-                //obtener la ultima 'clave' de la tabla OrdenCompra actual BD (vieja) para que inserte un nuevo registro en la nueva BD CONSECUTIVO de la clave
-                var Clave = (from a in db.OrdenCompra
-                             select new
-                             {
-                                 clave = a.clave
-                             }).OrderByDescending(u => u.clave).FirstOrDefault();
-                var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
-                var UltimoConsecutivo_Clave = Convert.ToInt32(Clave.clave.Substring(4));
-                var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
-                var ConsecutivoNuevoTxt = "";
-                if (ConsecutivoNuevo < 100)
-                {
-                    if (ConsecutivoNuevo < 9)
-                    {
-                        ConsecutivoNuevoTxt = "00" + ConsecutivoNuevo;
-                    }
-                    else
-                    {
-                        ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
-                    }
-                }
-                else
-                {
-                    ConsecutivoNuevoTxt = "" + ConsecutivoNuevo;
-                }
+                ////-----------------------------------------     FOLIO/CLAVE O'C     ----------------------------------------------------------------------------    INICIO  ----------
+                ////obtener la ultima 'clave' de la tabla OrdenCompra actual BD (vieja) para que inserte un nuevo registro en la nueva BD CONSECUTIVO de la clave
+                //var Clave = (from a in db.OrdenCompra
+                //             select new
+                //             {
+                //                 clave = a.clave
+                //             }).OrderByDescending(u => u.clave).FirstOrDefault();
+                //var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
+                //var UltimoConsecutivo_Clave = Convert.ToInt32(Clave.clave.Substring(4));
+                //var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
+                //var ConsecutivoNuevoTxt = "";
+                //if (ConsecutivoNuevo < 100)
+                //{
+                //    if (ConsecutivoNuevo < 9)
+                //    {
+                //        ConsecutivoNuevoTxt = "00" + ConsecutivoNuevo;
+                //    }
+                //    else
+                //    {
+                //        ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
+                //    }
+                //}
+                //else
+                //{
+                //    ConsecutivoNuevoTxt = "" + ConsecutivoNuevo;
+                //}
 
+                ////Obtenemos la ultima O.C guardada(que es esta) para guardar su detalle
+                //var IdOC = (from a in ConBD2.SISM_ORDEN_COMPRA
+                //            where a.UsuarioNuevo == UsuarioRegistra
+                //            where a.Fecha == fechaDT
+                //            select a).OrderByDescending(u => u.Id).FirstOrDefault();
+
+                ////ACTUALIZAMOS LA 'CLAVE' DE LA O'C 
+                //ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Clave = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id='" + IdOC.Id + "';");
+                ////-----------------------------------------     FOLIO/CLAVE O'C     ----------------------------------------------------------------------------    FIN  ----------
                 //Obtenemos la ultima O.C guardada(que es esta) para guardar su detalle
                 var IdOC = (from a in ConBD2.SISM_ORDEN_COMPRA
                             where a.UsuarioNuevo == UsuarioRegistra
                             where a.Fecha == fechaDT
                             select a).OrderByDescending(u => u.Id).FirstOrDefault();
 
-                //ACTUALIZAMOS LA 'CLAVE' DE LA O'C 
-                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Clave = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id='" + IdOC.Id + "';");
 
                 //RECORREMOS  para guardar en la tabla DETALLE ORDEN        **DETALLE ORDEN DE COMPRA**
                 foreach (var item in ListaOC)
@@ -624,29 +632,29 @@ namespace UanlSISM.Controllers
             //return null;
         }
 
-        public ActionResult ObtenerUltima_OC()
-        {
-            try
-            {
-                var UsuarioRegistra = User.Identity.GetUserName();
-                var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm");
-                var fechaDT = DateTime.Parse(fecha);
+        //public ActionResult ObtenerUltima_OC()
+        //{
+        //    try
+        //    {
+        //        var UsuarioRegistra = User.Identity.GetUserName();
+        //        var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm");
+        //        var fechaDT = DateTime.Parse(fecha);
 
-                var IdOC = (from a in ConBD2.SISM_ORDEN_COMPRA
-                            where a.UsuarioNuevo == UsuarioRegistra
-                            where a.Fecha >= fechaDT
-                            select a).OrderByDescending(u => u.Id).FirstOrDefault();
+        //        var IdOC = (from a in ConBD2.SISM_ORDEN_COMPRA
+        //                    where a.UsuarioNuevo == UsuarioRegistra
+        //                    where a.Fecha >= fechaDT
+        //                    select a).OrderByDescending(u => u.Id).FirstOrDefault();
 
-                db.SaveChanges();
+        //        db.SaveChanges();
                 
-                return Json(new { MENSAJE = "Succe: ", CLAVE = IdOC.Clave }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-            //return Respuesta;
-        }
+        //        return Json(new { MENSAJE = "Succe: ", CLAVE = IdOC.Clave }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    //return Respuesta;
+        //}
 
         //LISTADO DE LAS ORDENES DE COMPRA GENERADAS
         public ActionResult ObtenerOCInicio()
