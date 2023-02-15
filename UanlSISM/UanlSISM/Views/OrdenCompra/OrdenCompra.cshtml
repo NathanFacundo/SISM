@@ -19,7 +19,6 @@
                 <td> <span class="material-icons">keyboard_arrow_right</span></td>
                 <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
                 <td> <span class="material-icons">keyboard_arrow_right</span></td>
-                @*<td><a href="@Url.Action("Index", "Tickets")"><b>Sistema de Tickets</b></a></td>*@
             </tr>
         </table>
     </div>
@@ -27,7 +26,7 @@
 
 <row class="row m-0">
     <div class="col-md-12">
-        <h5 style="text-align:center">SOLICITAR ORDEN DE COMPRA</h5>
+        <h5 style="text-align:center">PRE-ORDEN DE COMPRA</h5>
     </div>
 </row>
 <br />
@@ -59,14 +58,7 @@
         height: 100%;
         margin: 0;
     }
-    /*#DetalleRequiModal .modal-content {
-        height: 100%;
-        border: 0;
-        border-radius: 0;
-    }
-    #DetalleRequiModal .modal-body {
-        overflow-y: auto;
-    }*/
+    
     input[type=number]::-webkit-inner-spin-button,
     input[type=number]::-webkit-outer-spin-button {
         -webkit-appearance: none;
@@ -78,21 +70,16 @@
     }
 </style>
 
-@*<div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
-        <img src="~/Imagenes/Servicios Medicos_Mesa de trabajo 1.png" class="uanl-logo" />
-    </div>*@
-
 <div class="btn-toolbar">
-    <button type="button" class="btn btn-primary btn-space" onclick="OCS()">ORDENES DE COMPRA (DPTO. COMPRAS)</button>
-    <button type="button" class="btn btn-primary btn-space" onclick="OCS_Validar()">ORDENES DE COMPRA (COORDINACIÓN)</button>
-    @*<button type="button" class="btn btn-outline-primary" onclick="OCS_Parciales()">O.C PARCIALES (PENDIENTES)</button>*@
+    <button type="button" class="btn btn-primary btn-space" onclick="OCS()">ORDENES DE COMPRA <em>(Dpto. Compras)</em></button>
+    <button type="button" class="btn btn-primary btn-space" onclick="OCS_Validar()">ORDENES DE COMPRA <em>(Cordinación)</em></button>
 </div>
 
 <div>
     <div class="row">
         <div class="col-12" style="text-align:center">
             <br />
-            <h5 class="font-weight-bold" style="color:blue; ">Requisiciones Elaboradas X Almacén</h5>
+            <h5 class="font-weight-bold" style="color:blue; ">Requisiciones Elaboradas Por Almacén</h5>
         </div>
     </div>
     <div class="row">
@@ -124,24 +111,6 @@
             </div>
             <div class="modal-body imprimir-content">
 
-                @*<div class="row m-0">
-                        <input id="Estatus_OC_Parcial" name="Estatus_OC_Parcial" value="" style="display: none;" />
-                    </div>*@
-
-                @*<div class="row text-center pt-4">
-                    <div class="col-2 mb-0 imprimirUanl">
-                        <img src="~/Imagenes/uanl.png" style="width:130px; height:110px" />
-                    </div>
-                    <div class="col-8 m-0 imprimirTitulo">
-                        <h5>UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</h5>
-                        <div style="        border: 0.5px solid rgb(217, 220, 217);"></div>
-                        <h5>SERVICIOS MÉDICOS</h5>
-                    </div>
-                    <div class="col-2 imprimirLogo">
-                        <img src="~/Imagenes/Servicios Medicos_Mesa de trabajo 1.png" style="width:130px; height:66px" /><br />
-                    </div>
-                </div>*@
-                @*<br />*@
                 <div class="row" id="contenido">
                     <h5 class="text-center imprimirTitulo" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">PreOrden de Compra</h5>
                 </div>
@@ -153,24 +122,7 @@
                     <div class="col-md-9">
                         <button type="button" style="width:100%; background-color:rgba(0,74,143,1);" class="btn btn-success imprimir">Imprimir</button>
                     </div>
-
-                    @*<div class="col-md-9">
-                        <button type="button" style="width:100%; background-color:rgba(0,74,143,1);" class="btn btn-success imprimir">Imprimir</button>
-                    </div>*@
-                                @*<div class="col-md-3">
-                        <div>
-                            <a class="btn btn-success text-white" id="Xcel2">Descargar Excel</a>
-                        </div>
-                    </div>*@
                 </div>
-
-                @*<div class="row mt-1 mb-1">
-                    <div class="row">
-                        <div class="col-6 imprimirCOMBO">
-                            @Html.DropDownList("Prov_Nombre", (IEnumerable<SelectListItem>)ViewBag.PROVEEDORES, "Catálogo Proveedores", htmlAttributes: new { @class = "dropdown-content", id = "IDD" })
-                        </div>
-                    </div>
-                </div>*@
 
                 <div>
                     <table id="tblDetalleRequi" class="table table-striped table-hover">
@@ -355,7 +307,6 @@
             deferRender: true,
             scroller: false,
             scrollColapse: true,
-            //scrollY: 280,
             paging:false,
             lengthChange: false,
             language: {
@@ -378,7 +329,6 @@
             columns: [
                 { 'data': 'Clave', className: "text-center" },
                 { 'data': 'Fecha', className: "text-center" },
-                //{ "data": "EstatusContrato", className: "text-center", render: function (data) { return (data === 'UANL-DGA-DA-022/08/2022' ? '<h8 style="color:black; ">' + "SI" + '</h8>' : '<h8 style="color:black; ">' + "NO" + '</h8>'); } },
                 { 'data': 'Id_User', className: "text-center" },
                 {
                     "data": "EstatusContrato", className: "text-center", render: function (data) {
@@ -423,8 +373,7 @@
     var row = "";
     var Id = "";
     var Estatus_OC_P = "";
-    //var tableP = "";
-
+    
     $('#Requis tbody').on('click', '#VerDetalle', function () {
         var tr = $(this).closest('tr');
         row = $('#Requis').DataTable().row(tr);
@@ -575,9 +524,6 @@
                     { "visible": false, "targets": 10 },
                 ]
             });
-
-            //var sum = $('#tblDetalleRequi').DataTable().column(6).data().sum();
-            //$('#Total_OC').html(sum.toFixed(2));
 
             EsConContrato = $("#EstContrato").val();
             Estatus_OC_P = $("#Estatus_OC_Parcial").val();
@@ -758,8 +704,7 @@
         Folio = $("#NoRequi").val();
         Proveedor = document.getElementById('PROV').textContent.trim();
         EsConContrato = $("#EstContrato").val();
-        //tableP = $('#tblDetalleRequi').DataTable();
-
+        
         if (DetRequi.length > 0) {
 
             TablaValida = true;
@@ -796,44 +741,14 @@
                                     }
                                 });
 
-                                @*var url = '@Url.Action("ObtenerUltima_OC", "OrdenCompra")';
-                                $.post(url).done(function (response) {
-                                    if (response.MENSAJE.substring(0, 7) == "Succe: ") {
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'El folio de la O.C generada es: ',
-                                            text: response.CLAVE,
-                                            willClose: () => {
-                                                location.reload();
-                                                //$('#tblDetalleRequi').DataTable().destroy();
-                                                //VerDetalleRequi_Modal(row, Folio);
-                                            }
-                                        });
-                                    }
-                                    if (response.MENSAJE.substring(0, 7) == "Error: ") {
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Oops... ¡Error!',
-                                            text: response.MENSAJE.substring(7)
-                                        });
-                                    }
-                                }).fail(function (response) {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: '¡Error!'
-                                    });
-                                });*@
                             }
                         },
                         error: function (ex) {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Orden de Compra no generada',
-                                //willClose: () => {
-                                //    VerDetalleRequi_Modal(row, Id);
-                                //}
                             });
-                            //location.reload();
+                            
                         }
                     });
             } else
@@ -850,93 +765,6 @@
             });
         }
 
-            @*if (DetRequi.length > 0) {
-                TablaValida = true;
-
-                $.grep(DetRequi, function (itemEnLista) {
-                    if (EsConContrato === "Sin Contrato") {
-                        if ((Proveedor == "" || Proveedor == "Catalogo Proveedores") || (itemEnLista.PREUNIT_NUEVA <= 0 && itemEnLista.CB_ELIMINAR == true)) {
-                            TablaValida = false;
-                        }
-                    }
-                });
-
-                if (TablaValida) {
-                    $.ajax({
-                        url: '@Url.Action("GenerarOC", "OrdenCompra")',
-                        method: 'POST',
-                        dataType: 'json',
-                        data: { ListaOC: DetRequi, FolioRequi: Folio, ProveedorReq: Proveedor },
-                        success: function (data) {
-                            if (data.MENSAJE.substring(0, 6) == "Error:") {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops... ¡Error!',
-                                    text: data.MENSAJE.substring(7)
-                                });
-                            }
-                            else {
-                                //Swal.fire({
-                                //    icon: 'success',
-                                //    title: '¡Éxito!',
-                                //    text: data.MENSAJE.substring(7),
-                                //    willClose: () => {
-                                //        location.reload();
-                                //    }
-                                //});
-                                var url = '@Url.Action("ObtenerUltima_OC", "OrdenCompra")';
-                                $.post(url).done(function (response) {
-                                    if (response.MENSAJE.substring(0, 7) == "Succe: ") {
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'El folio de la O.C generada es: ',
-                                            text: response.CLAVE,
-                                            willClose: () => {
-                                                //location.reload();
-                                                //$('#tblDetalleRequi').DataTable().destroy();
-                                                //VerDetalleRequi_Modal(row, Folio);
-                                            }
-                                        });
-                                    }
-                                    if (response.MENSAJE.substring(0, 7) == "Error: ") {
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Oops... ¡Error!',
-                                            text: response.MENSAJE.substring(7)
-                                        });
-                                    }
-                                }).fail(function (response) {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: '¡Error!'
-                                    });
-                                });
-                            }
-                        },
-                        error: function (ex) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Orden de Compra no generada',
-                                //willClose: () => {
-                                //    VerDetalleRequi_Modal(row, Id);
-                                //}
-                            });
-                            //location.reload();
-                        }
-                    });
-                } else
-                    Swal.fire({
-                        icon: 'error',
-                        title: '¡Error!',
-                        text: 'No puede haber cantidades en cero de la partida seleccionada y/o falta seleccionar proveedor'
-                    });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: '¡Error!',
-                    text: 'No hay datos para la Orden de Compra'
-                });
-            }*@
     });
 
     $('#DetalleRequiModal').on('hidden.bs.modal', function () {

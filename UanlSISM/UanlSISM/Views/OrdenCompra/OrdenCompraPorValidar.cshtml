@@ -26,7 +26,12 @@
 
 <row class="row m-0">
     <div class="col-md-12">
-        <h5 style="text-align:center">ORDENES DE COMPRA</h5>
+        <div class="row">
+            <h5 style="text-align:center">ORDENES DE COMPRA</h5>
+        </div>
+        <div class="row">
+            <h6 style="text-align:center"><em>Coordinación</em></h6>
+        </div>
     </div>
 </row>
 <br />
@@ -66,12 +71,8 @@
     }
 </style>
 
-@*<div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
-    <img src="~/Imagenes/Servicios Medicos_Mesa de trabajo 1.png" class="uanl-logo" />
-</div>*@
-
 <div class="btn-toolbar">
-    <button type="button" class="btn btn-primary btn-space" onclick="Regresar()">REQUISICIONES</button>
+    <button type="button" class="btn btn-primary btn-space" onclick="Regresar()">REQUISICIONES (INICIO)</button>
 </div>
 
 <div>
@@ -301,7 +302,6 @@
             deferRender: true,
             scroller: true,
             scrollColapse: true,
-            //scrollY: 280,
             paging: false,
             lengthChange: false,
             language: {
@@ -328,7 +328,6 @@
                 { 'data': 'Id_Requisicion', className: "text-center" },
                 { 'data': 'Fecha1', className: "text-center" },
                 { 'data': 'Id_User', className: "text-center" },
-                //{ "data": "EstatusContrato", className: "text-center", render: function (data) { return (data === 'UANL-DGA-DA-022/08/2022' ? '<h8 style="color:black; ">' + "SI" + '</h8>' : '<h8 style="color:black; ">' + "NO" + '</h8>'); } },
                 {
                     "data": "EstatusContrato", className: "text-center", render: function (data) {
                         if (data == 'Sin Contrato') {
@@ -338,16 +337,6 @@
                         }
                     }
                 },
-                //{
-                //    "data": "Validar", className: "text-center", render: function (data) {
-                //        if (data == '1') {
-                //            return '<h8 style="color:black; ">' + "POR AUTORIZAR" + '</h8>';
-                //        }
-                //        if (data == '4') {
-                //            return '<h8 style="color:black; ">' + "CANCELADA" + '</h8>';
-                //        }
-                //    }
-                //},
                 {
                     "data": "Validar", className: "text-center", render: function (data) {
                         if (data == '1') {
@@ -460,7 +449,6 @@
     $('#btnValidar_OC').on('click', function () {
         var Id_OC = $("#Id_OC").val();
         var Descripcion = $("#TXTdescripcion").val();
-        //alert(FolioOC)
         $.ajax({
             url: '@Url.Action("ValidarOC", "OrdenCompra")',
             method: 'POST',
@@ -495,7 +483,6 @@
     });
 
     $('#btnCancelar_OC').on('click', function () {
-        //var ClaveOC = $("#folio").val();
         var Id_OC = $("#Id_OC").val();
         var Descripcion = $("#TXTdescripcion").val();
 
