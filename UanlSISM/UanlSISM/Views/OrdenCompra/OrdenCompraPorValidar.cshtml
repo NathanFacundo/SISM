@@ -89,6 +89,7 @@
                     <th>Estatus<br /> Contrato</th>
                     <th>Estatus<br /> OC</th>
                     <th>Detalle</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -319,7 +320,7 @@
                 },
             },
             data: ListaOCS,
-            order: [[1, 'desc']],
+            "order": [[9, 'desc']],
             columns: [
                 { 'data': 'Id_OC', className: "text-center" },
                 { 'data': 'Clave', className: "text-center" },
@@ -369,7 +370,11 @@
                     "data": null,
                     "defaultContent": '<button title="Ver Detalle" id="VerDetalle" class="btn btn-primary fa fa-book" data-toggle="modal"></button>',
                     "target": -2
-                }
+                },
+                { "data": "FechaRequisicion" }
+            ],
+            columnDefs: [
+                { "visible": false, "targets": 9 },
             ]
         });
     }

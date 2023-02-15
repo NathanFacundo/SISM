@@ -72,8 +72,9 @@
                 <th>Folio<br /> Req.</th>
                 <th>Fecha<br /> Req.</th>
                 <th>Contrato<br /> Req.</th>
-                                <th>Ver Detalle<br /> O.C</th>
+                <th>Ver Detalle<br /> O.C</th>
                 <th>Eliminar<br />O.C</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -344,7 +345,7 @@
                 },
             },
             data: ListaOCS,
-            order: [[1, 'desc']],
+            "order": [[10, 'desc']],
             columns: [
                 { 'data': 'Id_OC', className: "text-center" },
                 { 'data': 'Clave', className: "text-center" },
@@ -392,7 +393,11 @@
                     "data": null,
                     "defaultContent": '<button title="Eliminar O.C" id="botonDelete" class="btn btn-danger btn-sm fa fa-times" data-toggle="modal"></button>',
                     "target": -2
-                }
+                },
+                { "data": "FechaRequisicion" }
+            ],
+            columnDefs: [
+                { "visible": false, "targets": 10 },
             ]
         });
     }

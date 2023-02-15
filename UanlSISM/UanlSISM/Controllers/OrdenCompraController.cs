@@ -690,6 +690,7 @@ namespace UanlSISM.Controllers
                         EstatusContrato = q.Cont,
                         Validar = q.OC_PorValidar,
                         //Estatus_OC = q.Estatus_OC
+                        FechaRequisicion = string.Format("{0:yyyy/M/d hh:mm tt}", q.Fecha, new CultureInfo("es-ES"))
                     };
                     results1.Add(resultado);
                 }
@@ -842,7 +843,8 @@ namespace UanlSISM.Controllers
                         Fecha1 = string.Format("{0:d/M/yyyy hh:mm tt}", q.FReq),
                         EstatusContrato = q.Cont,
                         Validar = q.Val,
-                        DescripcionOC = q.Desc
+                        DescripcionOC = q.Desc,
+                        FechaRequisicion = string.Format("{0:yyyy/M/d hh:mm tt}", q.Fecha, new CultureInfo("es-ES"))
                     };
                     results1.Add(resultado);
                 }
