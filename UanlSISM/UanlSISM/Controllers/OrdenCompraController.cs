@@ -64,6 +64,7 @@ namespace UanlSISM.Controllers
             public int? CantidadPendiente_OC { get; internal set; }
             public int? Cantidad_OC { get; internal set; }
             public string Estatus_OC_Parcial { get; internal set; }
+            public string FechaAcuse { get; internal set; }
         }
 
         public ActionResult ObtenerRequisInicio()
@@ -457,7 +458,7 @@ namespace UanlSISM.Controllers
                 OC.Folio = "";
                 OC.Status = false;
                 OC.UsuarioId = UsuarioOLD.UsuarioId;
-                OC.Cerrado = true;
+                OC.Cerrado = false;
                 OC.Cuadro = 1;
                 OC.UsuarioNuevo = UsuarioRegistra;
                 OC.IP_User = ip_realiza;
@@ -563,6 +564,8 @@ namespace UanlSISM.Controllers
                                 DetalleOC.Cantidad = item.Cantidad;
                             }
                         }
+
+                        DetalleOC.Pendiente = DetalleOC.Cantidad;
 
                         //Se valida si el PRECIO UNITARIO se modificó   *PRECIO UNITARIO*
                         if (item.PREUNIT_NUEVA > 0)
@@ -748,7 +751,8 @@ namespace UanlSISM.Controllers
                                  a.Total_OC,
                                  Desc = a.Descripcion,
                                  //Pendiente = DetOC.ItemPendiente,
-                                 FolioR = Requi.claveOLD
+                                 FolioR = Requi.claveOLD,
+                                 FechaAcuse = a.Fecha_Acuse
                              }).ToList();
 
                 //ViewBag.NombreProvedor = Prov.Prov_Nombre;
@@ -772,7 +776,8 @@ namespace UanlSISM.Controllers
                         NombreProveedor = q.NombreProveedor,
                         Total_OC = (double)q.Total_OC,
                         DescripcionOC = q.Desc,
-                        FolioRequisicion = q.FolioR
+                        FolioRequisicion = q.FolioR,
+                        FechaAcuse = string.Format("{0:d/M/yy hh:mm tt}", q.FechaAcuse),
                     };
                     results1.Add(resultado);
                 }
@@ -1026,17 +1031,17 @@ namespace UanlSISM.Controllers
             }
         }
 
-        public JsonResult GuardarFecha_Compendio(int Id_OC, string FechaCompendio)
+        public JsonResult GuardarFecha_Acuse(int Id_OC, string FechaAcuse)
         {
             try
             {
-                var fechaDT = DateTime.Parse(FechaCompendio);
+                var fechaDT = DateTime.Parse(FechaAcuse);
 
                 var OC = (from a in ConBD2.SISM_ORDEN_COMPRA
                           where a.Id == Id_OC
                           select a).FirstOrDefault();
 
-                OC.Fecha_Compendio = fechaDT;
+                OC.Fecha_Acuse = fechaDT;
                 ConBD2.SaveChanges();
 
                 return Json(new { MENSAJE = "Succe: Se guardó la fecha" }, JsonRequestBehavior.AllowGet);
