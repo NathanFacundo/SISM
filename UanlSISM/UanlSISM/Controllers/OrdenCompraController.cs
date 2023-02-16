@@ -632,6 +632,7 @@ namespace UanlSISM.Controllers
             //return null;
         }
 
+        #region ObtenerUltima_OC
         //public ActionResult ObtenerUltima_OC()
         //{
         //    try
@@ -646,7 +647,7 @@ namespace UanlSISM.Controllers
         //                    select a).OrderByDescending(u => u.Id).FirstOrDefault();
 
         //        db.SaveChanges();
-                
+
         //        return Json(new { MENSAJE = "Succe: ", CLAVE = IdOC.Clave }, JsonRequestBehavior.AllowGet);
         //    }
         //    catch (Exception ex)
@@ -655,6 +656,7 @@ namespace UanlSISM.Controllers
         //    }
         //    //return Respuesta;
         //}
+        #endregion
 
         //LISTADO DE LAS ORDENES DE COMPRA GENERADAS
         public ActionResult ObtenerOCInicio()
@@ -1024,7 +1026,6 @@ namespace UanlSISM.Controllers
             }
         }
 
-        //------------------                            PARCIALES      INICIO ----------------------
         #region PARCIALES VIEJAS
         
         [Authorize]
@@ -1366,6 +1367,6 @@ namespace UanlSISM.Controllers
         //}
 
         #endregion
-        //------------------                            PARCIALES      FIN ----------------------
+        
     }
 }

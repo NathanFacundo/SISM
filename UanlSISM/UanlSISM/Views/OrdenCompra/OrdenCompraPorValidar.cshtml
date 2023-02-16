@@ -34,7 +34,7 @@
         </div>
     </div>
 </row>
-<br />
+@*<br />*@
 
 <style>
     table.dataTable {
@@ -374,6 +374,18 @@
         //var ClaveOC = row.data().Clave;
         var IdOC = row.data().Id_OC;
         var ClaveRequi = row.data().Id_Requisicion;
+
+        if (row.data().Validar == "1" /*|| row.data().Validar == "3" || row.data().Validar == "4"*/) {
+            document.getElementById("btnValidar_OC").disabled = false;
+        } else {
+            document.getElementById("btnValidar_OC").disabled = true;
+        }
+
+        if (row.data().Validar == "3" || row.data().Validar == "4") {
+            document.getElementById("btnCancelar_OC").disabled = true;
+        } else {
+            document.getElementById("btnCancelar_OC").disabled = false;
+        }
 
         $('#Id_OC').val(IdOC);
 

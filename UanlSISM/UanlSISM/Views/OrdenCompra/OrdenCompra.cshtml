@@ -29,7 +29,7 @@
         <h5 style="text-align:center">PRE-ORDEN DE COMPRA</h5>
     </div>
 </row>
-<br />
+@*<br />*@
 
 <style>
     table.dataTable {
@@ -78,8 +78,8 @@
 <div>
     <div class="row">
         <div class="col-12" style="text-align:center">
-            <br />
-            <h5 class="font-weight-bold" style="color:blue; ">Requisiciones Elaboradas Por Almacén</h5>
+            @*<br />*@
+            <h5 class="font-weight-bold" style="color:blue; ">Requisiciones de Almacén</h5>
         </div>
     </div>
     <div class="row">
@@ -711,7 +711,7 @@
             $.grep(DetRequi, function (itemEnLista) {
                 if (EsConContrato === "Sin Contrato") {
                     //if ((Proveedor == "" || Proveedor == "Catalogo Proveedores") || (itemEnLista.PREUNIT_NUEVA <= 0 && itemEnLista.CB_ELIMINAR == true)) {
-                    if ((Proveedor == "" || Proveedor == "Catálogo Proveedores") ) {
+                    if ((Proveedor == "" || Proveedor == "Catálogo Proveedores") || (itemEnLista.CANTIDAD_NUEVA <= 0 || itemEnLista.CANTIDAD_NUEVA == null)) {
                         TablaValida = false;
                     }
                 }
