@@ -1026,8 +1026,29 @@ namespace UanlSISM.Controllers
             }
         }
 
+        public JsonResult GuardarFecha_Compendio(int Id_OC, string FechaCompendio)
+        {
+            try
+            {
+                var fechaDT = DateTime.Parse(FechaCompendio);
+
+                var OC = (from a in ConBD2.SISM_ORDEN_COMPRA
+                          where a.Id == Id_OC
+                          select a).FirstOrDefault();
+
+                OC.Fecha_Compendio = fechaDT;
+                ConBD2.SaveChanges();
+
+                return Json(new { MENSAJE = "Succe: Se guardó la fecha" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         #region PARCIALES VIEJAS
-        
+
         [Authorize]
         public ActionResult OrdenCompraParcial()
         {

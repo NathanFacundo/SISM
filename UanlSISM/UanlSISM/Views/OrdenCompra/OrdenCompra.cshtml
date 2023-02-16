@@ -711,9 +711,12 @@
             $.grep(DetRequi, function (itemEnLista) {
                 if (EsConContrato === "Sin Contrato") {
                     //if ((Proveedor == "" || Proveedor == "Catalogo Proveedores") || (itemEnLista.PREUNIT_NUEVA <= 0 && itemEnLista.CB_ELIMINAR == true)) {
-                    if ((Proveedor == "" || Proveedor == "Catálogo Proveedores") || (itemEnLista.CANTIDAD_NUEVA <= 0 || itemEnLista.CANTIDAD_NUEVA == null)) {
+                    if ((Proveedor == "" || Proveedor == "Catálogo Proveedores")) {
                         TablaValida = false;
                     }
+                    //else {
+                    //    TablaValida = true;
+                    //}
                 }
             });
 
