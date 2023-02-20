@@ -11,14 +11,28 @@
     table.dataTable {
         width: 100% !important;
     }
+
     .btn-space {
         margin-right: 5px;
     }
+
     .modal-dialog {
         height: 100vh;
         margin-top: 0px;
     }
 </style>
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
 
 <h5>BORRADORES DE REQUISICIÓN</h5>
 <br />
@@ -101,13 +115,13 @@
                 </div>
 
                 @*<div class="row">
-                    <div class="btn-toolbar">
-                        <button type="button" id="btnConsultar" class="btn btn-success btn-space">Generar Requisición</button>
-                        <button type="button" id="btnEliminarBorrador" class="btn btn-danger btn-space">Eliminar Borrador</button>
-                        <button type="button" id="btnBorradorX2" class="btn btn-primary btn-space">Guardar Borrador</button>
-                        <button type="button" id="Cancelar" class="btn btn-secondary">Cancelar</button>
-                    </div>
-                </div>*@
+                        <div class="btn-toolbar">
+                            <button type="button" id="btnConsultar" class="btn btn-success btn-space">Generar Requisición</button>
+                            <button type="button" id="btnEliminarBorrador" class="btn btn-danger btn-space">Eliminar Borrador</button>
+                            <button type="button" id="btnBorradorX2" class="btn btn-primary btn-space">Guardar Borrador</button>
+                            <button type="button" id="Cancelar" class="btn btn-secondary">Cancelar</button>
+                        </div>
+                    </div>*@
 
                 <div class="row m-0 form-inline">
                     <div class="row m-0">
@@ -316,7 +330,7 @@
             dataType: 'json',
             data: { Id_Borrador: Id },
             success: function (data) {
-                
+
                 if (data.MENSAJE.substring(0, 6) == "Error:") {
                     Swal.fire({
                         icon: 'error',

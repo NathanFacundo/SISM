@@ -16,6 +16,18 @@
 @*SWAL FIRE*@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
 <h5>REQUISICIONES A CC</h5>
 <br />
 
@@ -23,20 +35,25 @@
     table.dataTable {
         width: 100% !important;
     }
+
     .uanl-logo {
         width: 10vw;
         margin-top: 0vw;
         margin-bottom: 1vw;
     }
+
     #contenido {
         margin: 0px,0px;
     }
+
     .btn-space {
         margin-right: 5px;
     }
+
     table.dataTable {
         width: 100% !important;
     }
+
     #NuevaRequiModal .modal-dialog {
         height: 100vh;
         margin-top: 0px;
@@ -44,6 +61,20 @@
     /*#NuevaRequiModal .modal-content {
         height: 100vh;
     }*/
+
+    .modal {
+        padding: 0 !important;
+    }
+
+    #DetalleRequiModal .modal-dialog {
+        /*height: 100vh;
+        margin-top: 0px;*/
+        width: 100%;
+        max-width: none;
+        height: 100%;
+        margin: 0;
+    }
+
 </style>
 
 <div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
@@ -162,8 +193,13 @@
 </div>
 
 <div class="modal fade" id="DetalleRequiModal" tabindex="-1" role="dialog" aria-labelledby="NuevaRequiModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             <div class="modal-body imprimir-content">
 
                 <div class="row m-0 text-center pt-4">
@@ -197,10 +233,10 @@
                     <div class="col-md-3">
 
                         @*<button type="button" class="btn btn-success" id="btnExcel1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
-                                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z" />
-                                </svg> Generar Excel
-                            </button>*@
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
+                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z" />
+                        </svg> Generar Excel
+                    </button>*@
 
                         <div>
                             <a class="btn btn-success text-white" id="Xcel2">Descargar Excel</a>
@@ -616,10 +652,10 @@
                     });
                     if (Insertar) {
                         //item.CANTIDAD = 1;
-                        
+
                         ListaSustancias.push(item);
                      }
-                     
+
                      Llena2(ListaSustancias);
 
                      Swal.fire({
@@ -1097,25 +1133,32 @@
     .modal-backdrop {
         background-color: rgba(0,0,0,0.4) !important;
     }
+
     .imprimirUanl img {
         width: 65%;
     }
+
     .imprimirLogo img {
         width: 100%;
     }
+
     #pie {
         margin-top: 250px !important;
     }
+
     #firmas td {
         border: 1px solid black;
     }
+
     @@media print {
         .btn-editar {
             display: none;
         }
+
         .btn-eliminar {
             display: none;
         }
+
         .imprimir {
             display: none;
         }
@@ -1125,18 +1168,23 @@
         #Xcel2 {
             display: none;
         }
+
         .agregarotro {
             display: none;
         }
+
         .terminar {
             display: none;
         }
+
         #barcode {
             margin-left: 0vw !important;
         }
+
         .paqpreoperatorio {
             display: none;
         }
+
         #firmas td {
             border: 1px solid black;
         }
