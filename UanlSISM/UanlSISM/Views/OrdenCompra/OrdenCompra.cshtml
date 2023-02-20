@@ -163,8 +163,8 @@
                                 <th>Precio<br />Unitario</th>
                                 <th>Total</th>
                                 <th>Cant.<br />Autorizada</th>
-                                <th>Precio</th>
-                                <th>Total</th>
+                                <th>Precio<br />Autorizado</th>
+                                <th>Sub -<br />Total</th>
                                 <th>Incluir<br />en la OC</th>
                             </tr>
                         </thead>
@@ -528,7 +528,10 @@
             EsConContrato = $("#EstContrato").val();
             Estatus_OC_P = $("#Estatus_OC_Parcial").val();
             if (EsConContrato === "Sin Contrato") {
-
+                var dt = $('#tblDetalleRequi').DataTable();
+                //hide the first column
+                dt.column([5]).visible(false);
+                dt.column([6]).visible(false);
             } else {
                 var sum = $('#tblDetalleRequi').DataTable().column(6).data().sum();
                 if (Estatus_OC_P === "Parcial") {
@@ -561,6 +564,7 @@
         $('#DetalleRequiModal').on('shown.bs.modal', function () {
             var EC = "";
             var TotalNuevo = 0;
+            var TextoTotal = "Gran Total $";
 
             //$('.input3').change(function () {
             //    var tr = $(this).closest('tr');
@@ -597,7 +601,7 @@
                         $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
                         var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
                         //$('#Total_OC2').html(sum.toFixed(2));
-                        document.getElementById("Total_OC2").innerHTML = "Total pzas. Autorizadas $" + sum.toFixed(2);
+                        document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
                     }
                     else
                     {
@@ -607,7 +611,7 @@
                             $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
                             var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
                             //$('#Total_OC2').html(sum.toFixed(2));
-                            document.getElementById("Total_OC2").innerHTML = "Total pzas. Autorizadas $" + sum.toFixed(2);
+                            document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
                         }
                     }
                 } else
@@ -632,7 +636,7 @@
                             $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
                             var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
                             //$('#Total_OC2').html(sum.toFixed(2));
-                            document.getElementById("Total_OC2").innerHTML = "Total pzas. Autorizadas $" + sum.toFixed(2);
+                            document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
                         }
                         else
                         {
@@ -643,7 +647,7 @@
                                 $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
                                 var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
                                 //$('#Total_OC2').html(sum.toFixed(2));
-                                document.getElementById("Total_OC2").innerHTML = "Total pzas. Autorizadas $" + sum.toFixed(2);
+                                document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
                             }
                         }
                     }
@@ -663,7 +667,7 @@
 
                     var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
                     //$('#Total_OC2').html(sum.toFixed(2));
-                    document.getElementById("Total_OC2").innerHTML = "Total pzas. Autorizadas $" + sum.toFixed(2);
+                    document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
                 }
                 else {
                     //TotalNuevo = row.data().Cantidad * row.data().PREUNIT_NUEVA;
@@ -681,7 +685,7 @@
 
                         var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
                         //$('#Total_OC2').html(sum.toFixed(2));
-                        document.getElementById("Total_OC2").innerHTML = "Total pzas. Autorizadas $" + sum.toFixed(2);
+                        document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
 
                     } else {
 
@@ -691,7 +695,7 @@
 
                         var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
                         //$('#Total_OC2').html(sum.toFixed(2));
-                        document.getElementById("Total_OC2").innerHTML = "Total pzas. Autorizadas $" + sum.toFixed(2);
+                        document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
 
                     }
                 }
@@ -711,7 +715,7 @@
             $.grep(DetRequi, function (itemEnLista) {
                 if (EsConContrato === "Sin Contrato") {
                     //if ((Proveedor == "" || Proveedor == "Catalogo Proveedores") || (itemEnLista.PREUNIT_NUEVA <= 0 && itemEnLista.CB_ELIMINAR == true)) {
-                    if ((Proveedor == "" || Proveedor == "Catálogo Proveedores")) {
+                    if ((Proveedor == "" || Proveedor == "Catálogo Proveedores") || (itemEnLista.CANTIDAD_NUEVA > 0 && itemEnLista.PREUNIT_NUEVA <= 0)) {
                         TablaValida = false;
                     }
                     //else {

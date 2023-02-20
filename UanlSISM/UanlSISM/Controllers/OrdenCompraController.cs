@@ -83,11 +83,11 @@ namespace UanlSISM.Controllers
                     var resultado = new ListCampos
                     {
                         Clave = q.claveOLD,
-                        Fecha = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha),
+                        Fecha = string.Format("{0:d/M/yyyy HH:mm tt}", q.Fecha),
                         EstatusContrato = q.EstatusContrato,
                         Id_User = q.Id_User,
                         Estatus_OC = q.Estatus_OC_Parcial,
-                        FechaRequisicion = string.Format("{0:yyyy/M/d hh:mm tt}", q.Fecha, new CultureInfo("es-ES"))
+                        FechaRequisicion = string.Format("{0:yyyy/M/d HH:mm tt}", q.Fecha, new CultureInfo("es-ES"))
                     };
                     results1.Add(resultado);
                 }
@@ -172,7 +172,7 @@ namespace UanlSISM.Controllers
                         {
                             Clave = q.Clave,
                             Existencia = res2.ManejoDisponible,
-                            Descripcion = q.Descripcion,
+                            Descripcion = q.Descripcion.Trim(),
                             Cantidad = (int)q.Cantidad,
                             Folio = q.Folio,
                             Fecha = string.Format("{0:d/M/yy hh:mm tt}", q.Fecha),
