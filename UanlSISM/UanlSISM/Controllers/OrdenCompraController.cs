@@ -19,15 +19,6 @@ namespace UanlSISM.Controllers
         SERVMEDEntities5 SISMFarmacia = new SERVMEDEntities5();
         //SERVMEDEntities5 db2 = new SERVMEDEntities5();
 
-        [Authorize]
-        public ActionResult OrdenCompra()
-        {
-            ViewBag.PROVEEDORES = new SelectList(db.Proveedor.ToList(), "Id", "Prov_Nombre" );
-            //ViewBag.PROVEEDORES = new SelectList(db.usuario.Include(ñ => ñ.rol).Where(u => u.rol.Nombre == "Cliente").ToList(), "Id", "Nombre");
-
-            return View();
-        }
-
         public class ListCampos
         {
             public int Id_BorradorRequi { get; set; }
@@ -55,7 +46,7 @@ namespace UanlSISM.Controllers
             public string Validar { get; set; }
             public string DescripcionOC { get; set; }
             public string Estatus_OC { get; set; }
-            
+
             public string DescO { get; internal set; }
             public int? CBarra { get; internal set; }
             public int? Can { get; internal set; }
@@ -65,6 +56,16 @@ namespace UanlSISM.Controllers
             public int? Cantidad_OC { get; internal set; }
             public string Estatus_OC_Parcial { get; internal set; }
             public string FechaAcuse { get; internal set; }
+        }
+
+        //----------------------------------------------------- Pantalla ORDEN COMPRA   --------------  INICIO
+        [Authorize]
+        public ActionResult OrdenCompra()
+        {
+            ViewBag.PROVEEDORES = new SelectList(db.Proveedor.ToList(), "Id", "Prov_Nombre" );
+            //ViewBag.PROVEEDORES = new SelectList(db.usuario.Include(ñ => ñ.rol).Where(u => u.rol.Nombre == "Cliente").ToList(), "Id", "Nombre");
+
+            return View();
         }
 
         public ActionResult ObtenerRequisInicio()
@@ -200,12 +201,6 @@ namespace UanlSISM.Controllers
             {
                 return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
-        }
-
-        [Authorize]
-        public ActionResult OrdenesCompra()
-        {
-            return View();
         }
 
         decimal? SubTotal_OC = 0.00m;
@@ -635,31 +630,15 @@ namespace UanlSISM.Controllers
             //return null;
         }
 
-        #region ObtenerUltima_OC
-        //public ActionResult ObtenerUltima_OC()
-        //{
-        //    try
-        //    {
-        //        var UsuarioRegistra = User.Identity.GetUserName();
-        //        var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm");
-        //        var fechaDT = DateTime.Parse(fecha);
+        //----------------------------------------------------- Pantalla ORDEN COMPRA   --------------  FIN
 
-        //        var IdOC = (from a in ConBD2.SISM_ORDEN_COMPRA
-        //                    where a.UsuarioNuevo == UsuarioRegistra
-        //                    where a.Fecha >= fechaDT
-        //                    select a).OrderByDescending(u => u.Id).FirstOrDefault();
+        //-------------------------------------------------------------------- Pantalla ORDENES COMPRA   --------------  INICIO
 
-        //        db.SaveChanges();
-
-        //        return Json(new { MENSAJE = "Succe: ", CLAVE = IdOC.Clave }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    //return Respuesta;
-        //}
-        #endregion
+        [Authorize]
+        public ActionResult OrdenesCompra()
+        {
+            return View();
+        }
 
         //LISTADO DE LAS ORDENES DE COMPRA GENERADAS
         public ActionResult ObtenerOCInicio()
@@ -790,105 +769,12 @@ namespace UanlSISM.Controllers
             }
         }
 
-        public JsonResult EliminarOC(int Id_OC)
-        {
-            try
-            {
-                var IdRequi = (from a in ConBD2.SISM_ORDEN_COMPRA
-                               where a.Id == Id_OC
-                               select a).FirstOrDefault();
-
-                IdRequi.Status = false;
-                IdRequi.OC_PorValidar = "4";
-                ConBD2.SaveChanges();
-
-                return Json(new { MENSAJE = "Succe: Se eliminó la O.C" }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        [Authorize]
-        public ActionResult OrdenCompraPorValidar()
-        {
-            return View();
-        }
-
-        public ActionResult ObtenerOC_PorValidar()
-        {
-            try
-            {
-                var query = (from a in ConBD2.SISM_ORDEN_COMPRA
-                             join req in ConBD2.SISM_REQUISICION on a.Id_Requisicion equals req.Id_Requicision
-                             //where a.OC_PorValidar == "1" || a.OC_PorValidar == "4"
-                             select new
-                             {
-                                 a.Id,
-                                 a.Clave,
-                                 a.Fecha,
-                                 a.UsuarioNuevo,
-                                 IdReq = req.claveOLD,
-                                 FReq = req.Fecha,
-                                 Cont = req.EstatusContrato,
-                                 Val = a.OC_PorValidar,
-                                 Desc = a.Descripcion
-                             }).ToList();
-
-                var results1 = new List<ListCampos>();
-
-                foreach (var q in query)
-                {
-                    var resultado = new ListCampos
-                    {
-                        Id_OC = q.Id,
-                        Clave = q.Clave,
-                        Fecha = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha),
-                        Id_User = q.UsuarioNuevo,
-                        Id_Requisicion = Convert.ToInt32(q.IdReq),
-                        Fecha1 = string.Format("{0:d/M/yyyy hh:mm tt}", q.FReq),
-                        EstatusContrato = q.Cont,
-                        Validar = q.Val,
-                        DescripcionOC = q.Desc,
-                        FechaRequisicion = string.Format("{0:yyyy/M/d hh:mm tt}", q.Fecha, new CultureInfo("es-ES"))
-                    };
-                    results1.Add(resultado);
-                }
-                return Json(new { MENSAJE = "FOUND", OCS = results1 }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        public JsonResult ValidarOC(int Id_OC, string DescripcionOC)
-        {
-            try
-            {
-                var OC = (from a in ConBD2.SISM_ORDEN_COMPRA
-                               where a.Id == Id_OC
-                               select a).FirstOrDefault();
-
-                OC.OC_PorValidar = "2";// 2 Quiere decir que se Validó la O.C porque la OC nace como 1 (Generada) al validarla (2) el usuario de Compras puede Aprobarla/Generarla y el Status en BD cambia a True y OC_PorValidar puede cambiar a 3
-                OC.Descripcion = DescripcionOC;
-                ConBD2.SaveChanges();
-
-                return Json(new { MENSAJE = "Succe: Se autorizó la O.C" }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
         public JsonResult HACER_OC(int Id_OC)
         {
             var UsuarioRegistra = User.Identity.GetUserName();
             var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
             var fechaDT = DateTime.Parse(fecha);
-            
+
             try
             {
                 //ORDEN DE COMPRA
@@ -977,19 +863,19 @@ namespace UanlSISM.Controllers
                                       where Oc.Id == Id_OC
                                       where Det_Oc.Id == DetCotizacion.IdDetReq
                                       select new
-                                        {
-                                            IdOc = Oc.Id,
-                                            ClaveOC = Oc.Clave,
-                                            IdReq = Oc.Id_Requisicion,
-                                            IdProv = Oc.Id_Proveedor,
-                                            FechaOC = Oc.Fecha,
-                                            UsuIdOC = Oc.UsuarioId,
-                                            IdDetR = Det_Oc.Id,
-                                            IdCB = Det_Oc.Id_CodigoBarrar,
-                                            Cantidad = Det_Oc.Cantidad,
-                                            PU = Det_Oc.PreUnit,
-                                            IdSus = Det_Oc.Id_Sustencia
-                                        }).FirstOrDefault();
+                                      {
+                                          IdOc = Oc.Id,
+                                          ClaveOC = Oc.Clave,
+                                          IdReq = Oc.Id_Requisicion,
+                                          IdProv = Oc.Id_Proveedor,
+                                          FechaOC = Oc.Fecha,
+                                          UsuIdOC = Oc.UsuarioId,
+                                          IdDetR = Det_Oc.Id,
+                                          IdCB = Det_Oc.Id_CodigoBarrar,
+                                          Cantidad = Det_Oc.Cantidad,
+                                          PU = Det_Oc.PreUnit,
+                                          IdSus = Det_Oc.Id_Sustencia
+                                      }).FirstOrDefault();
 
                     ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Id_Prov_1 = '" + OC_Detalle.IdProv + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
                     ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Cant_Asig_1 = '" + OC_Detalle.Cantidad + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
@@ -1003,6 +889,124 @@ namespace UanlSISM.Controllers
 
 
                 return Json(new { MENSAJE = "Succe: Se generó la O.C" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult EliminarOC(int Id_OC)
+        {
+            try
+            {
+                var IdRequi = (from a in ConBD2.SISM_ORDEN_COMPRA
+                               where a.Id == Id_OC
+                               select a).FirstOrDefault();
+
+                IdRequi.Status = false;
+                IdRequi.OC_PorValidar = "4";
+                ConBD2.SaveChanges();
+
+                return Json(new { MENSAJE = "Succe: Se eliminó la O.C" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult GuardarFecha_Acuse(int Id_OC, string FechaAcuse)
+        {
+            try
+            {
+                var fechaDT = DateTime.Parse(FechaAcuse);
+
+                var OC = (from a in ConBD2.SISM_ORDEN_COMPRA
+                          where a.Id == Id_OC
+                          select a).FirstOrDefault();
+
+                OC.Fecha_Acuse = fechaDT;
+                ConBD2.SaveChanges();
+
+                return Json(new { MENSAJE = "Succe: Se guardó la fecha" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        //-------------------------------------------------------------------- Pantalla ORDENES COMPRA   --------------  FIN
+
+        //----------------------------------------------------------------------------------- Pantalla ORDENES COMPRA POR VALIDAR   --------------  INICIO
+
+        [Authorize]
+        public ActionResult OrdenCompraPorValidar()
+        {
+            return View();
+        }
+
+        public ActionResult ObtenerOC_PorValidar()
+        {
+            try
+            {
+                var query = (from a in ConBD2.SISM_ORDEN_COMPRA
+                             join req in ConBD2.SISM_REQUISICION on a.Id_Requisicion equals req.Id_Requicision
+                             //where a.OC_PorValidar == "1" || a.OC_PorValidar == "4"
+                             select new
+                             {
+                                 a.Id,
+                                 a.Clave,
+                                 a.Fecha,
+                                 a.UsuarioNuevo,
+                                 IdReq = req.claveOLD,
+                                 FReq = req.Fecha,
+                                 Cont = req.EstatusContrato,
+                                 Val = a.OC_PorValidar,
+                                 Desc = a.Descripcion
+                             }).ToList();
+
+                var results1 = new List<ListCampos>();
+
+                foreach (var q in query)
+                {
+                    var resultado = new ListCampos
+                    {
+                        Id_OC = q.Id,
+                        Clave = q.Clave,
+                        Fecha = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha),
+                        Id_User = q.UsuarioNuevo,
+                        Id_Requisicion = Convert.ToInt32(q.IdReq),
+                        Fecha1 = string.Format("{0:d/M/yyyy hh:mm tt}", q.FReq),
+                        EstatusContrato = q.Cont,
+                        Validar = q.Val,
+                        DescripcionOC = q.Desc,
+                        FechaRequisicion = string.Format("{0:yyyy/M/d hh:mm tt}", q.Fecha, new CultureInfo("es-ES"))
+                    };
+                    results1.Add(resultado);
+                }
+                return Json(new { MENSAJE = "FOUND", OCS = results1 }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult ValidarOC(int Id_OC, string DescripcionOC)
+        {
+            try
+            {
+                var OC = (from a in ConBD2.SISM_ORDEN_COMPRA
+                               where a.Id == Id_OC
+                               select a).FirstOrDefault();
+
+                OC.OC_PorValidar = "2";// 2 Quiere decir que se Validó la O.C porque la OC nace como 1 (Generada) al validarla (2) el usuario de Compras puede Aprobarla/Generarla y el Status en BD cambia a True y OC_PorValidar puede cambiar a 3
+                OC.Descripcion = DescripcionOC;
+                ConBD2.SaveChanges();
+
+                return Json(new { MENSAJE = "Succe: Se autorizó la O.C" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -1031,26 +1035,7 @@ namespace UanlSISM.Controllers
             }
         }
 
-        public JsonResult GuardarFecha_Acuse(int Id_OC, string FechaAcuse)
-        {
-            try
-            {
-                var fechaDT = DateTime.Parse(FechaAcuse);
-
-                var OC = (from a in ConBD2.SISM_ORDEN_COMPRA
-                          where a.Id == Id_OC
-                          select a).FirstOrDefault();
-
-                OC.Fecha_Acuse = fechaDT;
-                ConBD2.SaveChanges();
-
-                return Json(new { MENSAJE = "Succe: Se guardó la fecha" }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //----------------------------------------------------------------------------------- Pantalla ORDENES COMPRA POR VALIDAR   --------------  FIN
 
         #region PARCIALES VIEJAS
 
@@ -1393,6 +1378,32 @@ namespace UanlSISM.Controllers
         //}
 
         #endregion
-        
+
+        #region ObtenerUltima_OC
+        //public ActionResult ObtenerUltima_OC()
+        //{
+        //    try
+        //    {
+        //        var UsuarioRegistra = User.Identity.GetUserName();
+        //        var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm");
+        //        var fechaDT = DateTime.Parse(fecha);
+
+        //        var IdOC = (from a in ConBD2.SISM_ORDEN_COMPRA
+        //                    where a.UsuarioNuevo == UsuarioRegistra
+        //                    where a.Fecha >= fechaDT
+        //                    select a).OrderByDescending(u => u.Id).FirstOrDefault();
+
+        //        db.SaveChanges();
+
+        //        return Json(new { MENSAJE = "Succe: ", CLAVE = IdOC.Clave }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    //return Respuesta;
+        //}
+        #endregion
+
     }
 }

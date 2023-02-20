@@ -53,10 +53,23 @@
         margin-right: 5px;
     }
 
-    #DetalleOCModal .modal-dialog {
+    /*#DetalleOCModal .modal-dialog {
         height: 100vh;
         margin-top: 0px;
+    }*/
+    .modal {
+        padding: 0 !important;
     }
+
+    #DetalleOCModal .modal-dialog {
+        /*height: 100vh;
+        margin-top: 0px;*/
+        width: 100%;
+        max-width: none;
+        height: 100%;
+        margin: 0;
+    }
+
 </style>
 
 <div class="btn-toolbar">
@@ -88,15 +101,18 @@
 <div class="modal fade" id="DetalleOCModal" tabindex="-1" role="dialog" aria-labelledby="NuevaRequiModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             <div class="modal-body imprimir-content">
-
                 <div class="row">
                     <input id="Id_OC" name="Id_OC" value="" style="display: none;" />
                 </div>
-
                 <div class="row m-0 text-center pt-4">
                     <div class="col-2 m-auto imprimirUanl">
-                        <img src="~/Imagenes/uanl.png" />
+                        <img src="~/Imagenes/uanl.png" style="width:90px; height:90px" />
                     </div>
                     <div class="col-8 m-auto imprimirTitulo">
                         <h5>UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</h5>
@@ -109,7 +125,7 @@
                         </div>
                     </div>
                     <div class="col-2 m-auto imprimirLogo">
-                        <img src="~/Imagenes/Servicios Medicos_Mesa de trabajo 1.png" style="width:150px; height:66px" /><br />
+                        <img src="~/Imagenes/Servicios Medicos_Mesa de trabajo 1.png" style="width:145px; height:75px" /><br />
                     </div>
                 </div>
                 <div class="row" id="contenido">
@@ -139,10 +155,9 @@
                             </div>
                         </div>
                         @*<div class="row">
-                            <h10 id="InputFC1" style="color:green">Fecha Compendio</h10><br />
-                            <a style="font-size:13px" id="InputFC"></a>
-                        </div>*@
-                        
+                        <h10 id="InputFC1" style="color:green">Fecha Compendio</h10><br />
+                        <a style="font-size:13px" id="InputFC"></a>
+                    </div>*@
                     </div>
                 </div>
                 <div>
@@ -158,9 +173,9 @@
                             </tr>
                             <tr>
                                 @*<th>
-                                    <h10 style="color:green">Identificador<br />Orden Compra</h10><br />
-                                    <a style="font-size:13px" id="Id_OC"></a>
-                                </th>*@
+                                <h10 style="color:green">Identificador<br />Orden Compra</h10><br />
+                                <a style="font-size:13px" id="Id_OC"></a>
+                            </th>*@
                                 <th>
                                     <h10 style="color:green">Fecha<br />Orden Compra</h10><br />
                                     <a style="font-size:13px" id="FechaOC"></a>
@@ -173,12 +188,10 @@
                                     <h10 style="color:green">Fecha<br />Impresión</h10><br />
                                     <a style="font-size:13px" id="Fecha"></a>
                                 </th>
-
                                 <th>
                                     <h10 id="InputFA1" style="color:green">Fecha Acuse</h10><br />
                                     <a style="font-size:13px" id="InputFA"></a>
                                 </th>
-
                                 <th COLSPAN="2">
                                     <h10 style="color:green" hidden>Total: $</h10><br />
                                     <a style="font-size:13px; display:inline-block;" id="Total_OC1" hidden></a>
@@ -717,6 +730,10 @@ crossorigin="anonymous"></script>*@
         }
 
         .btnss {
+            display: none;
+        }
+
+        #divAcuse {
             display: none;
         }
     }
