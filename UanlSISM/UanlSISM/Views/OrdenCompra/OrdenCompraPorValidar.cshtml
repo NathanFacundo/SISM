@@ -192,7 +192,7 @@
                         <div class="col-md-6" style="text-align:left;">
                             <div class="btn-toolbar">
                                 <button type="button" id="btnValidar_OC" class="btn btn-success btn-space">AUTORIZAR O.C</button>
-                                <button type="button" id="btnCancelar_OC" class="btn btn-danger btn-space">CANCELAR O.C</button>
+                                @*<button type="button" id="btnCancelar_OC" class="btn btn-danger btn-space">CANCELAR O.C</button>*@
                                 <button type="button" id="Cancelar" class="btn btn-secondary">Salir</button>
                             </div>
                         </div>
@@ -381,11 +381,11 @@
             document.getElementById("btnValidar_OC").disabled = true;
         }
 
-        if (row.data().Validar == "3" || row.data().Validar == "4") {
-            document.getElementById("btnCancelar_OC").disabled = true;
-        } else {
-            document.getElementById("btnCancelar_OC").disabled = false;
-        }
+        //if (row.data().Validar == "3" || row.data().Validar == "4") {
+        //    document.getElementById("btnCancelar_OC").disabled = true;
+        //} else {
+        //    document.getElementById("btnCancelar_OC").disabled = false;
+        //}
 
         $('#Id_OC').val(IdOC);
 
@@ -494,7 +494,7 @@
         });
     });
 
-    $('#btnCancelar_OC').on('click', function () {
+    @*$('#btnCancelar_OC').on('click', function () {
         var Id_OC = $("#Id_OC").val();
         var Descripcion = $("#TXTdescripcion").val();
 
@@ -529,7 +529,7 @@
                 });
             }
         });
-    });
+    });*@
 
     function Regresar() {
         window.location = '@Url.Action("OrdenCompra")';

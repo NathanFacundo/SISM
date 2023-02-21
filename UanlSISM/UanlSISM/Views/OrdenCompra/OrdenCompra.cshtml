@@ -527,17 +527,17 @@
 
             EsConContrato = $("#EstContrato").val();
             Estatus_OC_P = $("#Estatus_OC_Parcial").val();
+            var dt = $('#tblDetalleRequi').DataTable();
             if (EsConContrato === "Sin Contrato") {
-                var dt = $('#tblDetalleRequi').DataTable();
-                //hide the first column
                 dt.column([5]).visible(false);
                 dt.column([6]).visible(false);
             } else {
+                dt.column([8]).visible(false);
                 var sum = $('#tblDetalleRequi').DataTable().column(6).data().sum();
                 if (Estatus_OC_P === "Parcial") {
 
                 } else {
-                    document.getElementById("Total_OC").innerHTML = "Total pzas. Almacén $" + sum.toFixed(2);
+                    document.getElementById("Total_OC").innerHTML = "Total Almacén $" + sum.toFixed(2);
                 }
             }
 
