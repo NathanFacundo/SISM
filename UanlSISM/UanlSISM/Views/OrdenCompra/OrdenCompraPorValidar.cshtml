@@ -153,25 +153,27 @@
                                 </th>
                             </tr>
                             <tr>
-                                @*<th>
-                                    <h10 style="color:green">Folio O.C: </h10><br />
-                                    <a style="font-size:13px" id="NoOC"></a>
-                                </th>*@
                                 <th>
-                                    <h10 style="color:green">Fecha O.C: </h10><br />
+                                    <h10 style="color:green" id="ClaveOC1">Folio<br />O.C</h10><br />
+                                    <a style="font-size:13px" id="ClaveOC"></a>
+                                </th>
+                                <th>
+                                    <h10 style="color:green">Fecha<br /> O.C: </h10><br />
                                     <a style="font-size:13px" id="FechaOC"></a>
                                 </th>
                                 <th>
-                                    <h10 style="color:green">Folio Requi: </h10><br />
+                                    <h10 style="color:green">Folio<br /> Requi: </h10><br />
                                     <a style="font-size:13px" id="FRequi"></a>
                                 </th>
-                                <th COLSPAN="2">
-                                    <h10 style="color:green">Fecha Impresión: </h10><br />
+                                <th>
+                                    <h10 style="color:green">Fecha<br /> Impresión: </h10><br />
                                     <a style="font-size:13px" id="Fecha"></a>
                                 </th>
-                                @*<th COLSPAN="2" hidden>
-                                    </th>*@
-                                <th COLSPAN="2">
+                                <th>
+                                    <h10 id="InputFA1" style="color:green">Fecha Acuse</h10><br />
+                                    <a style="font-size:13px" id="InputFA"></a>
+                                </th>
+                                <th @*COLSPAN="2"*@>
                                     <h10 style="color:green" hidden>Total: $</h10><br />
                                     <a style="font-size:13px; display:inline-block;" id="Total_OC1" hidden></a>
                                 </th>
@@ -395,6 +397,17 @@
         var url = '@Url.Action("ObtenerDetalleOC_Generada", "OrdenCompra")';
         $.post(url, array).done(function (response) {
             //$('#NoOC').html(response[0].Folio);
+
+            var FolioOC = response[0].Folio;
+            if (FolioOC == null || FolioOC == '') {
+                //$("#ClaveOC1").hide();
+                document.getElementById("ClaveOC1").innerHTML = "Identificador";
+                $('#ClaveOC').html(response[0].Id_OC);
+            } else {
+                $("#ClaveOC1").show();
+                $('#ClaveOC').html(response[0].Folio);
+            }
+
             $('#FechaOC').html(response[0].Fecha);
             $('#Fecha').html(response[0].Fecha1);
             $('#PROV').html(response[0].NombreProveedor);
@@ -404,6 +417,19 @@
             $('#TXTdescripcion').html(response[0].DescripcionOC);
 
             $('#FRequi').html(response[0].FolioRequisicion);
+
+            var FA = response[0].FechaAcuse;
+
+            if (FA == null || FA == "") {
+                $("#InputFA1").hide();
+
+                $("#divAcuse").show();
+            } else {
+                $("#InputFA1").show();
+                $('#InputFA').html(FA);
+
+                $("#divAcuse").hide();
+            }
 
             LlenDetalle(response);
 

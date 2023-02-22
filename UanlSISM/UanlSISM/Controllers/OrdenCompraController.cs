@@ -18,6 +18,8 @@ namespace UanlSISM.Controllers
         SERVMEDEntities8 db = new SERVMEDEntities8();
         SERVMEDEntities5 SISMFarmacia = new SERVMEDEntities5();
         //SERVMEDEntities5 db2 = new SERVMEDEntities5();
+        //BD TABLAS viejas
+        SERVMEDEntities8 RequisicionDB = new SERVMEDEntities8();
 
         public class ListCampos
         {
@@ -56,6 +58,10 @@ namespace UanlSISM.Controllers
             public int? Cantidad_OC { get; internal set; }
             public string Estatus_OC_Parcial { get; internal set; }
             public string FechaAcuse { get; internal set; }
+            public string DirProv { get; internal set; }
+            public string TelProv { get; internal set; }
+            public string UanlProv { get; internal set; }
+            public string NombreUsu { get; internal set; }
         }
 
         //----------------------------------------------------- Pantalla ORDEN COMPRA   --------------  INICIO
@@ -698,15 +704,19 @@ namespace UanlSISM.Controllers
                                select new { 
                                a.Id_Requicision
                                }).FirstOrDefault();
-                //var IdOC = (from a in ConBD2.SISM_ORDEN_COMPRA
-                //               where a.Clave == FolioOC.ToString()
-                //               select a
-                //               ).FirstOrDefault();
-                //PROVEEDOR de la Requi(Orden)
-                //var Prov = (from a in db.Proveedor
-                //            where a.Id == IdOC.Id_Proveedor
-                //            select a
-                //            ).FirstOrDefault();
+                var IdOC = (from a in ConBD2.SISM_ORDEN_COMPRA
+                            where a.Id == Id_OC
+                            select a
+                               ).FirstOrDefault();
+                //PROVEEDOR de Orden
+                var Prov = (from a in db.Proveedor
+                            where a.Id == IdOC.Id_Proveedor
+                            select a
+                            ).FirstOrDefault();
+                var Usuario = (from a in db.Usuario
+                            where a.UsuarioId == IdOC.UsuarioId
+                            select a
+                            ).FirstOrDefault();
 
                 var query = (from a in ConBD2.SISM_ORDEN_COMPRA
                              join DetOC in ConBD2.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
@@ -715,7 +725,7 @@ namespace UanlSISM.Controllers
                              //where DetOC.ItemPendiente == false
                              select new
                              {
-                                 //Folio = a.Clave,
+                                 Folio = a.Clave,
                                  Id_OC = a.Id,
                                  Fecha = a.Fecha,
                                  Usuario = a.UsuarioNuevo,
@@ -742,7 +752,7 @@ namespace UanlSISM.Controllers
                 {
                     var resultado = new ListCampos
                     {
-                        //Folio = q.Folio,
+                        Folio = q.Folio,
                         Id_OC = q.Id_OC,
                         Fecha = string.Format("{0:d/M/yy hh:mm tt}", q.Fecha),
                         Fecha1 = string.Format("{0:d/M/yy hh:mm tt}", fechaDT),
@@ -757,6 +767,10 @@ namespace UanlSISM.Controllers
                         DescripcionOC = q.Desc,
                         FolioRequisicion = q.FolioR,
                         FechaAcuse = string.Format("{0:d/M/yy hh:mm tt}", q.FechaAcuse),
+                        DirProv = Prov.Prov_Direccion,
+                        TelProv = Prov.Prov_Telefono,
+                        UanlProv = Prov.Prov_uanl,
+                        NombreUsu = Usuario.Usu_Nombre
                     };
                     results1.Add(resultado);
                 }
@@ -769,8 +783,6 @@ namespace UanlSISM.Controllers
             }
         }
 
-        //BD7TABLAS viejas
-        SERVMEDEntities8 RequisicionDB = new SERVMEDEntities8();
         public JsonResult HACER_OC(int Id_OC)
         {
             var UsuarioRegistra = User.Identity.GetUserName();
