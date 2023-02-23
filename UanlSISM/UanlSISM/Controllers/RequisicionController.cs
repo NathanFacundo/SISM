@@ -368,29 +368,30 @@ namespace UanlSISM.Controllers
                         detalleRequisicion.Cantidad = item.Cantidad;
                     }
 
+                    //***************************************************      ESTE BLOQUE SE COMENTA PARA QUE SE PUEDA HACER UNA O.C DIRECTA A PARTIR DE UNA REQUI CON CONTRATO
                     //-------------------
-                    if (Borrador.EstatusContrato != "Sin Contrato")
-                    {
-                        var ARTICULO = (from a in ConBD2.SISM_COSTEO_LICITACION
-                                        where a.Id_Sustancia == item.Id_Sustancia
-                                        select a).FirstOrDefault();
+                    //if (Borrador.EstatusContrato != "Sin Contrato")
+                    //{
+                    //    var ARTICULO = (from a in ConBD2.SISM_COSTEO_LICITACION
+                    //                    where a.Id_Sustancia == item.Id_Sustancia
+                    //                    select a).FirstOrDefault();
 
-                        if (ARTICULO != null)
-                        {
-                            detalleRequisicion.PrecioUnitario = ARTICULO.PrecioUnitario;
+                    //    if (ARTICULO != null)
+                    //    {
+                    //        detalleRequisicion.PrecioUnitario = ARTICULO.PrecioUnitario;
 
-                            //nuevoDetalle.Total = nuevoDetalle.PrecioUnitario * nuevoDetalle.Cantidad;
-                            detalleRequisicion.Total = (double?)decimal.Round((decimal)(detalleRequisicion.Cantidad * detalleRequisicion.PrecioUnitario), 2);
-                        }
-                        else
-                        {
-                        }
-                    }
-                    else
-                    {
+                    //        //nuevoDetalle.Total = nuevoDetalle.PrecioUnitario * nuevoDetalle.Cantidad;
+                    //        detalleRequisicion.Total = (double?)decimal.Round((decimal)(detalleRequisicion.Cantidad * detalleRequisicion.PrecioUnitario), 2);
+                    //    }
+                    //    else
+                    //    {
+                    //    }
+                    //}
+                    //else
+                    //{
                         detalleRequisicion.PrecioUnitario = 0;
                         detalleRequisicion.Total = 0;
-                    }
+                    //}
                     //-------------------
 
                     detalleRequisicion.Clave = item.Clave;
@@ -777,28 +778,29 @@ namespace UanlSISM.Controllers
                     nuevoDetalle.Descripcion = item.descripcion_21;
                     nuevoDetalle.Compendio = item.Compendio;
 
-                    if (StatusContrato != "Sin Contrato")
-                    {
-                        var ARTICULO = (from a in ConBD2.SISM_COSTEO_LICITACION
-                                        where a.Id_Sustancia == item.Id
-                                        select a).FirstOrDefault();
+                    //***************************************************      ESTE BLOQUE SE COMENTA PARA QUE SE PUEDA HACER UNA O.C DIRECTA A PARTIR DE UNA REQUI CON CONTRATO
+                    //if (StatusContrato != "Sin Contrato")
+                    //{
+                    //    var ARTICULO = (from a in ConBD2.SISM_COSTEO_LICITACION
+                    //                    where a.Id_Sustancia == item.Id
+                    //                    select a).FirstOrDefault();
 
-                        if (ARTICULO != null)
-                        {
-                            nuevoDetalle.PrecioUnitario = ARTICULO.PrecioUnitario;
+                    //    if (ARTICULO != null)
+                    //    {
+                    //        nuevoDetalle.PrecioUnitario = ARTICULO.PrecioUnitario;
 
-                            //nuevoDetalle.Total = nuevoDetalle.PrecioUnitario * nuevoDetalle.Cantidad;
-                            nuevoDetalle.Total = (double?)decimal.Round((decimal)(nuevoDetalle.Cantidad * nuevoDetalle.PrecioUnitario), 2);
-                        }
-                        else
-                        {
-                        }
-                    }
-                    else
-                    {
+                    //        //nuevoDetalle.Total = nuevoDetalle.PrecioUnitario * nuevoDetalle.Cantidad;
+                    //        nuevoDetalle.Total = (double?)decimal.Round((decimal)(nuevoDetalle.Cantidad * nuevoDetalle.PrecioUnitario), 2);
+                    //    }
+                    //    else
+                    //    {
+                    //    }
+                    //}
+                    //else
+                    //{
                         nuevoDetalle.PrecioUnitario = 0;
                         nuevoDetalle.Total = 0;
-                    }
+                    //}
 
                     ConBD2.SISM_DET_REQUISICION.Add(nuevoDetalle);
                     ConBD2.SaveChanges();
