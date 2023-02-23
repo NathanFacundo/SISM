@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 <div class="row" id="contenido">
-                    <h5 class="text-center imprimirTitulo" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Orden de Compra</h5>
+                    <h5 id="TitutloModal" class="text-center imprimirTitulo" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;"></h5>
                 </div>
                 
                 <div class="row" id="imprimir">
@@ -227,7 +227,7 @@
                                     <a style="font-size:13px" id="InputFA"></a>
                                 </th>
                                 <th>
-                                    <h10 style="color:green" hidden>Total: $</h10><br />
+                                    <h10 style="color:green" hidden>Gran Total: $</h10><br />
                                     <a style="font-size:13px; display:inline-block;" id="Total_OC1" hidden></a>
                                 </th>
                             </tr>
@@ -251,7 +251,7 @@
                         </div>
                         <div class="col-md-6" style="text-align:right;">
                             <strong>
-                                <a style="font-size:20px; display:inline-block; margin-right:10px;">Total: $</a>
+                                <a style="font-size:20px; display:inline-block; margin-right:10px;">Gran Total: $</a>
                                 <a style="font-size:20px; display:inline-block;" id="Total_OC"></a>
                             </strong>
                         </div>
@@ -507,9 +507,11 @@ crossorigin="anonymous"></script>*@
             if (FolioOC == null || FolioOC == '') {
                 document.getElementById("ClaveOC1").innerHTML = "Identificador";
                 $('#ClaveOC').html(response[0].Id_OC);
+                document.getElementById("TitutloModal").innerHTML = "Pre-Orden de Compra";
             } else {
                 $("#ClaveOC1").show();
                 $('#ClaveOC').html(response[0].Folio);
+                document.getElementById("TitutloModal").innerHTML = "Orden de Compra";
             }
 
             $('#FechaOC').html(response[0].Fecha);
