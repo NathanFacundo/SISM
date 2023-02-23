@@ -29,7 +29,6 @@
         <h5 style="text-align:center">PRE-ORDEN DE COMPRA</h5>
     </div>
 </row>
-@*<br />*@
 
 <style>
     table.dataTable {
@@ -51,9 +50,6 @@
     }
 
     #DetalleRequiModal .modal-dialog {
-        /*height: 100vh;
-        margin-top: 0px;*/
-        width: 100%;
         max-width: none;
         height: 100%;
         margin: 0;
@@ -78,7 +74,6 @@
 <div>
     <div class="row">
         <div class="col-12" style="text-align:center">
-            @*<br />*@
             <h5 class="font-weight-bold" style="color:blue; ">Requisiciones de Almacén</h5>
         </div>
     </div>
@@ -182,13 +177,11 @@
                         <div class="col-md-6" style="text-align:right;">
                             <div class="row">
                                 <strong>
-                                    @*<a style="font-size:16px; display:inline-block; margin-right:10px;">Total: $</a>*@
                                     <a style="font-size:16px; display:inline-block;" id="Total_OC"></a>
                                 </strong>
                             </div>
                             <div class="row">
                                 <strong>
-                                    @*<a style="font-size:16px; display:inline-block; margin-right:10px;">Total Cant. Autorizada: $</a>*@
                                     <a style="font-size:16px; display:inline-block;" id="Total_OC2"></a>
                                 </strong>
                             </div>
@@ -566,13 +559,6 @@
             var TotalNuevo = 0;
             var TextoTotal = "Gran Total $";
 
-            //$('.input3').change(function () {
-            //    var tr = $(this).closest('tr');
-            //    var row = $('#tblDetalleRequi').DataTable().row(tr);
-
-            //    row.data().CB_ELIMINAR = true;
-            //});
-
             $(".input").keyup(function () {
                 var tr = $(this).closest('tr');
                 var row = $('#tblDetalleRequi').DataTable().row(tr);
@@ -600,7 +586,6 @@
                         row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
                         $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
                         var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
-                        //$('#Total_OC2').html(sum.toFixed(2));
                         document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
                     }
                     else
@@ -610,7 +595,6 @@
                             row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
                             $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
                             var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
-                            //$('#Total_OC2').html(sum.toFixed(2));
                             document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
                         }
                     }
@@ -635,7 +619,6 @@
                             row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
                             $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
                             var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
-                            //$('#Total_OC2').html(sum.toFixed(2));
                             document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
                         }
                         else
@@ -646,7 +629,6 @@
                                 row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
                                 $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
                                 var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
-                                //$('#Total_OC2').html(sum.toFixed(2));
                                 document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
                             }
                         }
@@ -666,17 +648,9 @@
                     $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
 
                     var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
-                    //$('#Total_OC2').html(sum.toFixed(2));
                     document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
                 }
                 else {
-                    //TotalNuevo = row.data().Cantidad * row.data().PREUNIT_NUEVA;
-                    //row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
-                    //$('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
-
-                    //var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
-                    //$('#Total_OC2').html(sum.toFixed(2));
-
                     if (row.data().CantidadPendiente_OC > 0 && row.data().CantidadPendiente_OC != row.data().Cantidad) {
 
                         TotalNuevo = row.data().CantidadPendiente_OC * row.data().PREUNIT_NUEVA;
@@ -684,7 +658,6 @@
                         $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
 
                         var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
-                        //$('#Total_OC2').html(sum.toFixed(2));
                         document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
 
                     } else {
@@ -694,7 +667,6 @@
                         $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
 
                         var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
-                        //$('#Total_OC2').html(sum.toFixed(2));
                         document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
 
                     }
@@ -718,9 +690,6 @@
                     if ((Proveedor == "" || Proveedor == "Catálogo Proveedores") || (itemEnLista.CANTIDAD_NUEVA > 0 && itemEnLista.PREUNIT_NUEVA <= 0)) {
                         TablaValida = false;
                     }
-                    //else {
-                    //    TablaValida = true;
-                    //}
                 }
             });
 

@@ -34,7 +34,6 @@
         </div>
     </div>
 </row>
-@*<br />*@
 
 <style>
     table.dataTable {
@@ -76,7 +75,6 @@
 </div>
 
 <div>
-
     <div class="row">
         <table class="table table-striped table-hover" id="OC_Generada">
             <thead>
@@ -97,7 +95,6 @@
             </tbody>
         </table>
     </div>
-
 </div>
 
 <div class="modal fade" id="DetalleOCModal" tabindex="-1" role="dialog" aria-labelledby="NuevaRequiModalLabel" aria-hidden="true">
@@ -194,7 +191,6 @@
                         <div class="col-md-6" style="text-align:left;">
                             <div class="btn-toolbar">
                                 <button type="button" id="btnValidar_OC" class="btn btn-success btn-space">AUTORIZAR O.C</button>
-                                @*<button type="button" id="btnCancelar_OC" class="btn btn-danger btn-space">CANCELAR O.C</button>*@
                                 <button type="button" id="Cancelar" class="btn btn-secondary">Salir</button>
                             </div>
                         </div>
@@ -373,7 +369,6 @@
     $('#OC_Generada tbody').on('click', '#VerDetalle', function () {
         var tr = $(this).closest('tr');
         var row = $('#OC_Generada').DataTable().row(tr);
-        //var ClaveOC = row.data().Clave;
         var IdOC = row.data().Id_OC;
         var ClaveRequi = row.data().Id_Requisicion;
 
@@ -383,12 +378,6 @@
             document.getElementById("btnValidar_OC").disabled = true;
         }
 
-        //if (row.data().Validar == "3" || row.data().Validar == "4") {
-        //    document.getElementById("btnCancelar_OC").disabled = true;
-        //} else {
-        //    document.getElementById("btnCancelar_OC").disabled = false;
-        //}
-
         $('#Id_OC').val(IdOC);
 
         $('#DetalleOCModal').modal("show");
@@ -396,11 +385,9 @@
         var array = { Id_OC: IdOC, FolioRequi: ClaveRequi  };
         var url = '@Url.Action("ObtenerDetalleOC_Generada", "OrdenCompra")';
         $.post(url, array).done(function (response) {
-            //$('#NoOC').html(response[0].Folio);
-
+            
             var FolioOC = response[0].Folio;
             if (FolioOC == null || FolioOC == '') {
-                //$("#ClaveOC1").hide();
                 document.getElementById("ClaveOC1").innerHTML = "Identificador";
                 $('#ClaveOC').html(response[0].Id_OC);
             } else {

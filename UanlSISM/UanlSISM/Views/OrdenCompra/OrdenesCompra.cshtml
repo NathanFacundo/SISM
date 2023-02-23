@@ -36,7 +36,6 @@
         </div>
     </div>
 </row>
-@*<br />*@
 
 <style>
     table.dataTable {
@@ -60,10 +59,6 @@
     #DetalleOCModal .modal-dialog {
         height: 100vh;
         margin-top: 0px;
-       /* width: 100%;
-        max-width: none;
-        height: 100%;
-        margin: 0;*/
     }
 
     p {
@@ -133,8 +128,7 @@
                 <div class="row" id="contenido">
                     <h5 class="text-center imprimirTitulo" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Orden de Compra</h5>
                 </div>
-                @*<br />*@
-
+                
                 <div class="row" id="imprimir">
                     <div class="col-md-8">
                         <button type="button" style="width:100%; background-color:rgba(0,74,143,1);" class="btn btn-success imprimir">Imprimir</button>
@@ -157,10 +151,6 @@
                                 </span>
                             </div>
                         </div>
-                        @*<div class="row">
-                        <h10 id="InputFC1" style="color:green">Fecha Compendio</h10><br />
-                        <a style="font-size:13px" id="InputFC"></a>
-                    </div>*@
                     </div>
                 </div>
 
@@ -169,7 +159,6 @@
 
                     <div class="col-4">
                         <div class="alt-features-item align-center">
-
                             <h6 class="text-center" style="font-weight:400">Datos del Proveedor</h6>
                             <p class="text" style="text-align:center;">
                                 @*<h10 style="color:green" id="ClaveOC1">Folio<br />O.C</h10><br />*@
@@ -178,7 +167,6 @@
                                 <a style="font-size:13px; ">FACTURAR A UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</a><br />
                                 <a style="font-size:13px; ">SERVICIOS MÉDICOS RFC:UANL691126MK2</a>
                             </p>
-
                         </div>
                     </div>
 
@@ -203,7 +191,6 @@
 
                         </div>
                     </div>
-
                 </div>
 
 
@@ -239,7 +226,7 @@
                                     <h10 id="InputFA1" style="color:green">Fecha Acuse</h10><br />
                                     <a style="font-size:13px" id="InputFA"></a>
                                 </th>
-                                <th @*COLSPAN="2"*@>
+                                <th>
                                     <h10 style="color:green" hidden>Total: $</h10><br />
                                     <a style="font-size:13px; display:inline-block;" id="Total_OC1" hidden></a>
                                 </th>
@@ -499,7 +486,6 @@ crossorigin="anonymous"></script>*@
     $('#tbl_OCgeneradas tbody').on('click', '#VerDetalle', function () {
         var tr = $(this).closest('tr');
         var row = $('#tbl_OCgeneradas').DataTable().row(tr);
-        //var ClaveOC = row.data().Clave;
         var IdOC = row.data().Id_OC;
         var ClaveRequi = row.data().Id_Requisicion;
 
@@ -519,7 +505,6 @@ crossorigin="anonymous"></script>*@
 
             var FolioOC = response[0].Folio;
             if (FolioOC == null || FolioOC == '') {
-                //$("#ClaveOC1").hide();
                 document.getElementById("ClaveOC1").innerHTML = "Identificador";
                 $('#ClaveOC').html(response[0].Id_OC);
             } else {
@@ -527,17 +512,14 @@ crossorigin="anonymous"></script>*@
                 $('#ClaveOC').html(response[0].Folio);
             }
 
-            //$('#ClaveOC').html(response[0].Folio);
             $('#FechaOC').html(response[0].Fecha);
             $('#Fecha').html(response[0].Fecha1);
             $('#PROV').html(response[0].NombreProveedor);
-            //$('#UsElaboro').html(response[0].Usuario);
             $('#UsElaboro').html(response[0].NombreUsu);
             $('#Total_OC1').html(response[0].Total_OC);
             $('#Total_OC').html(response[0].Total_OC);
             $('#TXTdescripcion').html(response[0].DescripcionOC);
             $('#FRequi').html(response[0].FolioRequisicion);
-
             $('#ProvNom').html(response[0].NombreProveedor);
             $('#ProvDir').html(response[0].DirProv);
             $('#ProvTel').html(response[0].TelProv);
@@ -703,8 +685,7 @@ crossorigin="anonymous"></script>*@
         s = (s < 10) ? ("0" + s) : s;
 
         FechaAcuse = FechaAcuse + " " + h + ":" + m + ":" + s;
-        //alert(FechaCompendio);
-
+        
         Swal.fire({
             title: '¿Desea guardar la Fecha de Acuse?',
             text: FechaAcuse,
