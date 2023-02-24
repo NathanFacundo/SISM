@@ -28,7 +28,7 @@
     <div class="col-md-12">
         <div class="col-md-12">
             <div class="row">
-                <h5 style="text-align:center">ORDENES DE COMPRA</h5>
+                <h5 style="text-align:center">ÓRDENES DE COMPRA</h5>
             </div>
             <div class="row">
                 <h6 style="text-align:center"><em>Compras</em></h6>
@@ -68,7 +68,7 @@
 </style>
 
 <div class="btn-toolbar">
-    <button type="button" class="btn btn-primary btn-space" onclick="Regresar()">REQUISICIONES (INICIO)</button>
+    <button type="button" class="btn btn-primary btn-space" onclick="Regresar()">REQUISICIONES (regresar)</button>
 </div>
 
 <div class="row">
@@ -77,13 +77,14 @@
             <tr>
                 <th>Identificador<br /> O.C</th>
                 <th>Folio<br />O.C</th>
-                <th>Fecha<br /> O.C</th>
-                <th>Usu. Elaboró<br />O.C</th>
+                <th>Fecha<br />O.C</th>
+                <th>Fecha<br />Pre-O.C</th>
+                <th>Elaboró<br />O.C</th>
                 <th>Estatus<br /> O.C</th>
                 <th>Folio<br /> Req.</th>
                 <th>Fecha<br /> Req.</th>
                 <th>Contrato<br /> Req.</th>
-                <th>Ver Detalle<br /> O.C</th>
+                <th>Detalle<br /> O.C</th>
                 <th>Eliminar<br />O.C</th>
                 <th></th>
             </tr>
@@ -128,7 +129,6 @@
                 <div class="row" id="contenido">
                     <h5 id="TitutloModal" class="text-center imprimirTitulo" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;"></h5>
                 </div>
-                
                 <div class="row" id="imprimir">
                     <div class="col-md-8">
                         <button type="button" style="width:100%; background-color:rgba(0,74,143,1);" class="btn btn-success imprimir">Imprimir</button>
@@ -153,10 +153,7 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="row">
-
                     <div class="col-4">
                         <div class="alt-features-item align-center">
                             <h6 class="text-center" style="font-weight:400">Datos del Proveedor</h6>
@@ -169,7 +166,6 @@
                             </p>
                         </div>
                     </div>
-
                     <div class="col-4">
                         <div class="alt-features-item align-center">
 
@@ -180,20 +176,15 @@
 
                         </div>
                     </div>
-
                     <div class="col-4">
                         <div class="alt-features-item align-center">
-
                             @*<h4 class="text-center" style="font-weight:400">CONFIANZA</h4>
                             <p class="text" style="text-align:center; font-family: Roboto, Helvetica, Arial, sans-serif; font-weight: 400;font-style: normal;color: #000000;">
                                 Contamos con <b>personal </b>
                             </p>*@
-
                         </div>
                     </div>
                 </div>
-
-
                 <div>
                     <table id="tblDetalleOC" class="table table-striped table-hover">
                         <thead>
@@ -211,7 +202,7 @@
                                     <a style="font-size:13px" id="ClaveOC"></a>
                                 </th>
                                 <th>
-                                    <h10 style="color:green">Fecha<br />O.C</h10><br />
+                                    <h10 style="color:green">Fecha<br />Pre-O.C</h10><br />
                                     <a style="font-size:13px" id="FechaOC"></a>
                                 </th>
                                 <th>
@@ -264,7 +255,7 @@
                     <table id="firmas" align="center" BORDER="1">
                         <tbody>
                             <tr>
-                                <td align="center">
+                                @*<td align="center">
                                     <br />
                                     <br />
                                     <br />
@@ -272,7 +263,7 @@
                                         <a><em>DEPTO. ALMACÉN</em></a><br />
                                         <a>Evelin Ramírez<br /> Lozano</a>
                                     </strong>
-                                </td>
+                                </td>*@
                                 <td align="center">
                                     <br />
                                     <br />
@@ -288,9 +279,10 @@
                                     <br />
                                     <strong>
                                         <a><em>COMPRAS</em></a><br />
+                                        <a id="Us"></a><br />
                                         <a id="UsElaboro"></a>
-                                        <br />
-                                        <br />
+                                        @*<br />
+                                        <br />*@
                                     </strong>
                                 </td>
                                 <td align="center">
@@ -298,8 +290,9 @@
                                     <br />
                                     <br />
                                     <strong>
-                                        <a><em>ADQUISICIONES</em></a><br />
-                                        <a>Marcela Valdéz<br /> Flores</a><br />
+                                        <a><em>AUTORIZÓ PRE-ORDEN</em></a><br />
+                                        <a id="UsuAutoriza"></a><br />
+                                        <a id="FechaAutoriza"></a><br />
                                     </strong>
                                 </td>
 
@@ -414,7 +407,7 @@ crossorigin="anonymous"></script>*@
             lengthChange: false,
             language: {
                 "zeroRecords": "No se encontraron O.C disponibles",
-                "search": "Buscar:",
+                "search": "Buscador",
                 "info": "_TOTAL_ Ordenes de Compra ",
                 "infoEmpty": "",
                 "paginate": {
@@ -428,10 +421,11 @@ crossorigin="anonymous"></script>*@
                 },
             },
             data: ListaOCS,
-            "order": [[10, 'desc']],
+            "order": [[11, 'desc']],
             columns: [
                 { 'data': 'Id_OC', className: "text-center" },
                 { 'data': 'Clave', className: "text-center" },
+                { 'data': 'Fecha_OC', className: "text-center" },
                 { 'data': 'Fecha', className: "text-center" },
                 { 'data': 'Id_User', className: "text-center" },
                 {
@@ -478,7 +472,7 @@ crossorigin="anonymous"></script>*@
                 { "data": "FechaRequisicion" }
             ],
             columnDefs: [
-                { "visible": false, "targets": 10 },
+                { "visible": false, "targets": 11 },
             ]
         });
     }
@@ -518,6 +512,7 @@ crossorigin="anonymous"></script>*@
             $('#Fecha').html(response[0].Fecha1);
             $('#PROV').html(response[0].NombreProveedor);
             $('#UsElaboro').html(response[0].NombreUsu);
+            $('#Us').html(response[0].Usuario);
             $('#Total_OC1').html(response[0].Total_OC);
             $('#Total_OC').html(response[0].Total_OC);
             $('#TXTdescripcion').html(response[0].DescripcionOC);
@@ -539,6 +534,9 @@ crossorigin="anonymous"></script>*@
 
                 $("#divAcuse").hide();
             }
+
+            $('#FechaAutoriza').html(response[0].FechaAutorizaOC);
+            $('#UsuAutoriza').html(response[0].UsuarioAutorizaOC);
             
             LlenDetalle(response);
 

@@ -5,27 +5,27 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="05a63c4ae15c4a75a2bc7835a083b40d" Name="Diagram1">
-        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_BORRADOR_REQUI" Width="1.5" PointX="10.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_CODIGOBARRAS" Width="1.5" PointX="5.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_COSTEO_LICITACION" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_COTIZACIONES" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_DET_REQUISICION" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_DET_VALE_ENTRADA" Width="1.5" PointX="8" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_DETALLE_BORRADOR_REQUI" Width="1.5" PointX="13" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_DETALLE_REQ_FARMACIA" Width="1.5" PointX="10" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_INV_MED" Width="1.5" PointX="2.75" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_MOV_INV" Width="1.5" PointX="10.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_ORDEN_COMPRA" Width="1.5" PointX="5.75" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_REQUISICION" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_REQUISICION_FARMACIA" Width="1.5" PointX="7.75" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_VALE_ENTRADA" Width="1.5" PointX="5.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_BORRADOR_REQUI" Width="1.5" PointX="4.75" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_CODIGOBARRAS" Width="1.5" PointX="4.625" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_COSTEO_LICITACION" Width="1.5" PointX="2.5" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_COTIZACIONES" Width="1.5" PointX="0.5" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_DET_REQUISICION" Width="1.5" PointX="2.75" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_DET_VALE_ENTRADA" Width="1.5" PointX="4.5" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_DETALLE_BORRADOR_REQUI" Width="1.5" PointX="6.75" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_DETALLE_REQ_FARMACIA" Width="1.5" PointX="15.375" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_INV_MED" Width="1.5" PointX="2.5" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_MOV_INV" Width="1.5" PointX="2.5" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_ORDEN_COMPRA" Width="1.5" PointX="8.75" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_REQUISICION" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_REQUISICION_FARMACIA" Width="1.5" PointX="13.125" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_VALE_ENTRADA" Width="1.5" PointX="6.75" PointY="4.5" IsExpanded="true" />
         <AssociationConnector Association="SISM_SIST_MED_MILTONModel.FK__SISM_DETA__Id_Bo__4316F928" ManuallyRouted="false" />
         <AssociationConnector Association="SISM_SIST_MED_MILTONModel.FK__SISM_DET___Id_Co__412EB0B6" ManuallyRouted="false" />
         <AssociationConnector Association="SISM_SIST_MED_MILTONModel.FK__SISM_COTI__Id_Re__3F466844" ManuallyRouted="false" />
         <AssociationConnector Association="SISM_SIST_MED_MILTONModel.FK__SISM_DET___Id_Re__403A8C7D" ManuallyRouted="false" />
         <AssociationConnector Association="SISM_SIST_MED_MILTONModel.FK__SISM_DET___Id_Va__4222D4EF" ManuallyRouted="false" />
         <AssociationConnector Association="SISM_SIST_MED_MILTONModel.FK__SISM_DETA__Id_Re__44FF419A" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_DETALLE_OC" Width="1.5" PointX="8" PointY="9.5" />
+        <EntityTypeShape EntityType="SISM_SIST_MED_MILTONModel.SISM_DETALLE_OC" Width="1.5" PointX="10.875" PointY="0.5" />
         <AssociationConnector Association="SISM_SIST_MED_MILTONModel.FK__SISM_DETA__Id_Or__440B1D61" />
       </Diagram>
     </edmx:Diagrams>

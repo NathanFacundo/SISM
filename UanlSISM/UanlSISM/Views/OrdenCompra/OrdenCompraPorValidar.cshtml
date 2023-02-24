@@ -27,7 +27,7 @@
 <row class="row m-0">
     <div class="col-md-12">
         <div class="row">
-            <h5 style="text-align:center">ORDENES DE COMPRA</h5>
+            <h5 style="text-align:center">ÓRDENES DE COMPRA</h5>
         </div>
         <div class="row">
             <h6 style="text-align:center"><em>Coordinación</em></h6>
@@ -71,7 +71,7 @@
 </style>
 
 <div class="btn-toolbar">
-    <button type="button" class="btn btn-primary btn-space" onclick="Regresar()">REQUISICIONES (INICIO)</button>
+    <button type="button" class="btn btn-primary btn-space" onclick="Regresar()">REQUISICIONES (regresar)</button>
 </div>
 
 <div>
@@ -81,13 +81,14 @@
                 <tr>
                     <th>Identificador<br /> O.C</th>
                     <th>Folio<br />O.C</th>
-                    <th>Fecha<br /> O.C</th>
+                    <th>Fecha<br />O.C</th>
+                    <th>Fecha<br />Pre-O.C</th>
                     <th>Folio<br /> Req.</th>
                     <th>Fecha<br /> Req.</th>
-                    <th>Usuario<br /> O.C</th>
+                    <th>Elaboró<br /> O.C</th>
                     <th>Estatus<br /> Contrato</th>
-                    <th>Estatus<br /> OC</th>
-                    <th>Detalle</th>
+                    <th>Estatus<br /> O.C</th>
+                    <th>Detalle<br />O.C</th>
                     <th></th>
                 </tr>
             </thead>
@@ -155,7 +156,7 @@
                                     <a style="font-size:13px" id="ClaveOC"></a>
                                 </th>
                                 <th>
-                                    <h10 style="color:green">Fecha<br /> O.C: </h10><br />
+                                    <h10 style="color:green">Fecha<br />Pre-O.C: </h10><br />
                                     <a style="font-size:13px" id="FechaOC"></a>
                                 </th>
                                 <th>
@@ -190,7 +191,7 @@
                     <div class="row btnss">
                         <div class="col-md-6" style="text-align:left;">
                             <div class="btn-toolbar">
-                                <button type="button" id="btnValidar_OC" class="btn btn-success btn-space">AUTORIZAR O.C</button>
+                                <button type="button" id="btnValidar_OC" class="btn btn-success btn-space">AUTORIZAR PRE-O.C</button>
                                 <button type="button" id="Cancelar" class="btn btn-secondary">Salir</button>
                             </div>
                         </div>
@@ -304,7 +305,7 @@
             lengthChange: false,
             language: {
                 "zeroRecords": "No se encontraron O.C disponibles",
-                "search": "Buscar:",
+                "search": "Buscador",
                 "info": "_TOTAL_  Ordenes de Compra",
                 "infoEmpty": "",
                 "paginate": {
@@ -318,10 +319,11 @@
                 },
             },
             data: ListaOCS,
-            "order": [[9, 'desc']],
+            "order": [[10, 'desc']],
             columns: [
                 { 'data': 'Id_OC', className: "text-center" },
                 { 'data': 'Clave', className: "text-center" },
+                { 'data': 'Fecha_OC', className: "text-center" },
                 { 'data': 'Fecha', className: "text-center" },
                 { 'data': 'Id_Requisicion', className: "text-center" },
                 { 'data': 'Fecha1', className: "text-center" },
@@ -361,7 +363,7 @@
                 { "data": "FechaRequisicion" }
             ],
             columnDefs: [
-                { "visible": false, "targets": 9 },
+                { "visible": false, "targets": 10 },
             ]
         });
     }

@@ -62,6 +62,9 @@ namespace UanlSISM.Controllers
             public string TelProv { get; internal set; }
             public string UanlProv { get; internal set; }
             public string NombreUsu { get; internal set; }
+            public string FechaAutorizaOC { get; internal set; }
+            public string UsuarioAutorizaOC { get; internal set; }
+            public string Fecha_OC { get; internal set; }
         }
 
         //----------------------------------------------------- Pantalla ORDEN COMPRA   --------------  INICIO
@@ -663,6 +666,7 @@ namespace UanlSISM.Controllers
                              Cont = req.EstatusContrato,
                              a.OC_PorValidar,
                              //a.Estatus_OC
+                             a.Fecha_HacerOC
                              }).ToList();
 
                 var results1 = new List<ListCampos>();
@@ -680,7 +684,8 @@ namespace UanlSISM.Controllers
                         EstatusContrato = q.Cont,
                         Validar = q.OC_PorValidar,
                         //Estatus_OC = q.Estatus_OC
-                        FechaRequisicion = string.Format("{0:yyyy/M/d hh:mm tt}", q.Fecha, new CultureInfo("es-ES"))
+                        FechaRequisicion = string.Format("{0:yyyy/M/d hh:mm tt}", q.Fecha, new CultureInfo("es-ES")),
+                        Fecha_OC = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha_HacerOC),
                     };
                     results1.Add(resultado);
                 }
@@ -741,7 +746,9 @@ namespace UanlSISM.Controllers
                                  Desc = a.Descripcion,
                                  //Pendiente = DetOC.ItemPendiente,
                                  FolioR = Requi.claveOLD,
-                                 FechaAcuse = a.Fecha_Acuse
+                                 FechaAcuse = a.Fecha_Acuse,
+                                 FechaAutorizaOC = a.Fecha_AutorizaOC,
+                                 UsuarioAutorizaOC = a.Usuario_AutorizaOC
                              }).ToList();
 
                 //ViewBag.NombreProvedor = Prov.Prov_Nombre;
@@ -770,7 +777,9 @@ namespace UanlSISM.Controllers
                         DirProv = Prov.Prov_Direccion,
                         TelProv = Prov.Prov_Telefono,
                         UanlProv = Prov.Prov_uanl,
-                        NombreUsu = Usuario.Usu_Nombre
+                        NombreUsu = Usuario.Usu_Nombre,
+                        FechaAutorizaOC = string.Format("{0:d/M/yy hh:mm tt}", q.FechaAutorizaOC),
+                        UsuarioAutorizaOC = q.UsuarioAutorizaOC
                     };
                     results1.Add(resultado);
                 }
@@ -801,6 +810,7 @@ namespace UanlSISM.Controllers
 
                 OC.Status = true;
                 OC.OC_PorValidar = "3";// el usuario de Compras puede Aprobarla/Generarla y el Status en BD cambia a True y OC_PorValidar puede cambiar a 3
+                OC.Fecha_HacerOC = fechaDT;// Esta es la Fecha cuando Compras hace la OC una vez que la Autoriza Coordinacion
                 ConBD2.SaveChanges();
 
                 //DETALLE DE LA O.C
@@ -1074,7 +1084,8 @@ namespace UanlSISM.Controllers
                                  FReq = req.Fecha,
                                  Cont = req.EstatusContrato,
                                  Val = a.OC_PorValidar,
-                                 Desc = a.Descripcion
+                                 Desc = a.Descripcion,
+                                 a.Fecha_HacerOC
                              }).ToList();
 
                 var results1 = new List<ListCampos>();
@@ -1092,7 +1103,8 @@ namespace UanlSISM.Controllers
                         EstatusContrato = q.Cont,
                         Validar = q.Val,
                         DescripcionOC = q.Desc,
-                        FechaRequisicion = string.Format("{0:yyyy/M/d hh:mm tt}", q.Fecha, new CultureInfo("es-ES"))
+                        FechaRequisicion = string.Format("{0:yyyy/M/d hh:mm tt}", q.Fecha, new CultureInfo("es-ES")),
+                        Fecha_OC = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha_HacerOC),
                     };
                     results1.Add(resultado);
                 }
@@ -1108,15 +1120,21 @@ namespace UanlSISM.Controllers
         {
             try
             {
+                var UsuarioRegistra = User.Identity.GetUserName();
+                var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
+                var fechaDT = DateTime.Parse(fecha);
+
                 var OC = (from a in ConBD2.SISM_ORDEN_COMPRA
                                where a.Id == Id_OC
                                select a).FirstOrDefault();
 
                 OC.OC_PorValidar = "2";// 2 Quiere decir que se Validó la O.C porque la OC nace como 1 (Generada) al validarla (2) el usuario de Compras puede Aprobarla/Generarla y el Status en BD cambia a True y OC_PorValidar puede cambiar a 3
                 OC.Descripcion = DescripcionOC;
+                OC.Fecha_AutorizaOC = fechaDT;
+                OC.Usuario_AutorizaOC = UsuarioRegistra;
                 ConBD2.SaveChanges();
 
-                return Json(new { MENSAJE = "Succe: Se autorizó la O.C" }, JsonRequestBehavior.AllowGet);
+                return Json(new { MENSAJE = "Succe: Se autorizó la Pre-Orden de Compra" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
