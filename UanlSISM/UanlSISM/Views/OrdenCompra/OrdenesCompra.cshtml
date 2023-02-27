@@ -217,7 +217,7 @@
                                     <h10 id="InputFA1" style="color:green">Fecha Acuse</h10><br />
                                     <a style="font-size:13px" id="InputFA"></a>
                                 </th>
-                                <th>
+                                <th COLSPAN="2">
                                     <h10 style="color:green" hidden>Gran Total: $</h10><br />
                                     <a style="font-size:13px; display:inline-block;" id="Total_OC1" hidden></a>
                                 </th>
@@ -229,6 +229,7 @@
                                 <th>CANTIDAD</th>
                                 <th>COSTO<br />UNITARIO</th>
                                 <th>COSTO<br />TOTAL</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -523,7 +524,7 @@ crossorigin="anonymous"></script>*@
             $('#ProvUanl').html(response[0].UanlProv);
 
             var FA = response[0].FechaAcuse;
-            
+
             if (FA == null || FA == "") {
                 $("#InputFA1").hide();
 
@@ -537,7 +538,7 @@ crossorigin="anonymous"></script>*@
 
             $('#FechaAutoriza').html(response[0].FechaAutorizaOC);
             $('#UsuAutoriza').html(response[0].UsuarioAutorizaOC);
-            
+
             LlenDetalle(response);
 
         }).fail(function (response) {
@@ -581,7 +582,14 @@ crossorigin="anonymous"></script>*@
                     { "data": "Descripcion", className: "text-center" },
                     { "data": "Cantidad", className: "text-center" },
                     { "data": "PrecioUnitario", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
-                    { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') }
+                    { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                    {
+                        "className": 'text-center',
+                        "orderable": false,
+                        "data": null,
+                        "defaultContent": '<button title="Eliminar Partida" id="BtnDeletePartida" class="btn btn-danger btn-sm fa fa-times" data-toggle="modal"></button>',
+                        "target": -2
+                    }
                 ]
             });
         }
@@ -589,6 +597,48 @@ crossorigin="anonymous"></script>*@
         $('#DetalleOCModal').on('hidden.bs.modal', function () {
             location.reload();
         })
+    });
+
+    $('#tblDetalleOC tbody').on('click', '#BtnDeletePartida', function () {
+        var tr = $(this).closest('tr');
+        var row = $('#tblDetalleOC').DataTable().row(tr);
+        var Id_DetOc = row.data().IdDetOC;
+        var Id_OC = row.data().Id_OC;
+        //alert(Id_DetOc);
+        //alert(Id_OC);
+
+        $.ajax({
+            url: '@Url.Action("EliminarPartidaOC", "OrdenCompra")',
+            method: 'POST',
+            dataType: 'json',
+            data: { Id_OC: Id_OC, Id_DetOc: Id_DetOc },
+            success: function (data) {
+                if (data.MENSAJE.substring(0, 6) == "Succe:") {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: data.MENSAJE.substring(7),
+                        willClose: () => {
+                            location.reload();
+                        }
+                    });
+                }
+                if (data.MENSAJE.substring(0, 6) == "Error:") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops... ¡Error!',
+                        text: data.MENSAJE.substring(7),
+                    });
+                }
+            },
+            error: function (ex) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                });
+            }
+        });
+
     });
 
     $('#tbl_OCgeneradas tbody').on('click', '#botonDelete', function () {
@@ -685,7 +735,7 @@ crossorigin="anonymous"></script>*@
         s = (s < 10) ? ("0" + s) : s;
 
         FechaAcuse = FechaAcuse + " " + h + ":" + m + ":" + s;
-        
+
         Swal.fire({
             title: '¿Desea guardar la Fecha de Acuse?',
             text: FechaAcuse,

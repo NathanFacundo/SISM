@@ -65,6 +65,7 @@ namespace UanlSISM.Controllers
             public string FechaAutorizaOC { get; internal set; }
             public string UsuarioAutorizaOC { get; internal set; }
             public string Fecha_OC { get; internal set; }
+            public int IdDetOC { get; internal set; }
         }
 
         //----------------------------------------------------- Pantalla ORDEN COMPRA   --------------  INICIO
@@ -748,7 +749,8 @@ namespace UanlSISM.Controllers
                                  FolioR = Requi.claveOLD,
                                  FechaAcuse = a.Fecha_Acuse,
                                  FechaAutorizaOC = a.Fecha_AutorizaOC,
-                                 UsuarioAutorizaOC = a.Usuario_AutorizaOC
+                                 UsuarioAutorizaOC = a.Usuario_AutorizaOC,
+                                 IdDetOC = DetOC.Id
                              }).ToList();
 
                 //ViewBag.NombreProvedor = Prov.Prov_Nombre;
@@ -779,7 +781,8 @@ namespace UanlSISM.Controllers
                         UanlProv = Prov.Prov_uanl,
                         NombreUsu = Usuario.Usu_Nombre,
                         FechaAutorizaOC = string.Format("{0:d/M/yy hh:mm tt}", q.FechaAutorizaOC),
-                        UsuarioAutorizaOC = q.UsuarioAutorizaOC
+                        UsuarioAutorizaOC = q.UsuarioAutorizaOC,
+                        IdDetOC = q.IdDetOC
                     };
                     results1.Add(resultado);
                 }
@@ -1050,6 +1053,61 @@ namespace UanlSISM.Controllers
                 ConBD2.SaveChanges();
 
                 return Json(new { MENSAJE = "Succe: Se guardó la fecha" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult EliminarPartidaOC(int Id_OC, int Id_DetOc)
+        {
+            try
+            {
+                //Obtener OC y su Detalle de la Partida que se eliminará
+                var OC = (from a in ConBD2.SISM_ORDEN_COMPRA
+                          join DetOC in ConBD2.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
+                          where a.Id == Id_OC
+                          where DetOC.Id == Id_DetOc
+                          select new
+                          {
+                              Id_OC = a.Id,
+                              Total_OC = a.Total_OC,
+                              IdDet_OC = DetOC.Id,
+                              Sustancia_OC = DetOC.Id_Sustencia,
+                              SubTotal_OC = DetOC.Total,
+                          }).FirstOrDefault();
+
+                //Obtener REQUI y su Detalle de la Partida que se eliminará
+                var REQUI = (from Requi in ConBD2.SISM_REQUISICION 
+                          join DetRequi in ConBD2.SISM_DET_REQUISICION on Requi.Id_Requicision equals DetRequi.Id_Requicision
+                          where OC.Sustancia_OC == DetRequi.Id_Sustancia
+                          select new
+                          {
+                              Id_Requi = Requi.Id_Requicision,
+                              Estatus_Requi = Requi.Estatus_OC_Parcial,
+                              IdDet_Requi = DetRequi.Id_Detalle_Req,
+                              Sustancia_DetReq = DetRequi.Id_Sustancia,
+                              CantidadOC_DetReq = DetRequi.Cantidad_OC,
+                              CanPendienteOC_DetReq = DetRequi.CantidadPendiente_OC,
+                              PartidaPteOC_DetReq = DetRequi.PartidaPendiente_OC,
+                              Cantidad = DetRequi.Cantidad
+                          }).FirstOrDefault();
+
+                //  "VACIAR" Partida de la tbl DetalleRequisicion
+                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + null + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
+                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + REQUI.Cantidad + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
+                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + false + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
+                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Estatus_OC_Parcial = '" + "Parcial" + "' WHERE Id_Requicision='" + REQUI.Id_Requi + "';");
+                
+                //ELIMINAR Partida de la tbl DetalleOrdenCompra
+                ConBD2.Database.ExecuteSqlCommand("DELETE FROM SISM_DETALLE_OC WHERE Id= '" + Id_DetOc + "';");
+
+                //Volver a hacer el RECALCULO del GranTotal de la OrdenCompra
+                var NuevoGranTotal_OC = (double?)decimal.Round((decimal)(OC.Total_OC - OC.SubTotal_OC), 2);
+                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Total_OC = '" + NuevoGranTotal_OC + "' WHERE Id='" + Id_OC + "';");
+
+                return Json(new { MENSAJE = "Succe: Se eliminó la Partida de la O.C" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
