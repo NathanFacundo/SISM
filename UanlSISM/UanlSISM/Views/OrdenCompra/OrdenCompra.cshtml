@@ -480,13 +480,35 @@
                     },
                     { "data": "Clave", className: "text-center" },
                     { "data": "Descripcion", className: "text-center" },
-                    { "data": "Cantidad", className: "text-center" },
+                    //{ "data": "Cantidad", className: "text-center" },
                     {
-                        "data": "CantidadPendiente_OC", className: "text-center", render: function (data, type, row) {
-                            if (data == null || data == 0) {
-                                return '<h8 style="color:black; ">' + row.Cantidad + '</h8>';
+                        "data": "Cantidad", className: "text-center", render: function (data, type, row) {
+                            if (row.PartidaPendiente == 1 || row.PartidaPendiente == true) {
+                                return '<h8 style="color:white; background-color:green; font-family:Arial; font-size:14px">' + "PARTIDA LISTA" + '</h8>';
                             } else {
                                 return '<h8 style="color:black; ">' + data + '</h8>';
+                            }
+                        }
+                    },
+                    //{
+                    //    "data": "CantidadPendiente_OC", className: "text-center", render: function (data, type, row) {
+                    //        if (data == null || data == 0) {
+                    //            return '<h8 style="color:black; ">' + row.Cantidad + '</h8>';
+                    //        } else {
+                    //            return '<h8 style="color:black; ">' + data + '</h8>';
+                    //        }
+                    //    }
+                    //},
+                    {
+                        "data": "CantidadPendiente_OC", className: "text-center", render: function (data, type, row) {
+                            if (row.PartidaPendiente == 1 || row.PartidaPendiente == true) {
+                                return '';
+                            } else {
+                                if (data == null || data == 0) {
+                                    return '<h8 style="color:black; ">' + row.Cantidad + '</h8>';
+                                } else {
+                                    return '<h8 style="color:black; ">' + data + '</h8>';
+                                }
                             }
                         }
                     },
@@ -508,18 +530,43 @@
                             }
                         }
                     },
-                    { 'data': 'CANTIDAD_NUEVA', className: "text-center", render: function (data) { return "<input class='input' id='InputCantidad' type='number' style='width:70px; border:0; border-bottom:1px solid; background:transparent;' type='number' min='0' max='' value='" + data + "'></input>" } },
-                    //{ 'data': 'PREUNIT_NUEVA', className: "text-center", render: function (data) { return (row.data().EstatusContrato != 'Sin Contrato' ? "<a>N.A</a>" : "<input class='InputPU' id='InputPU' style='width: 70px; border: 0; border-bottom: 1px solid; background: transparent; ' type='number' min='1' max='' value='" + data + "'></input>"); } },
-                    { 'data': 'PREUNIT_NUEVA', className: "text-center", render: function (data) { return "<input class='InputPU' id='InputPU' style='width: 70px; border: 0; border-bottom: 1px solid; background: transparent; ' type='number' min='1' max='' value='" + data + "'></input>"} },
+                    //{ 'data': 'CANTIDAD_NUEVA', className: "text-center", render: function (data) { return "<input class='input' id='InputCantidad' type='number' style='width:70px; border:0; border-bottom:1px solid; background:transparent;' type='number' min='0' max='' value='" + data + "'></input>" } },
                     {
-                        "data": 'TOTAL_NUEVA',
-                        render: function (data, type, row, meta) {
-                            return '<input style="width:70px; border:0; border-bottom:1px solid; background:transparent;" id="ORDEN' + row.ORDEN + '" type="text" value="' + data + '" readonly/>';
-                        },
-                        "searchable": false,
-                        className: "text-center"
-                    }
-                    ,
+                        "data": "CANTIDAD_NUEVA", className: "text-center", render: function (data, type, row) {
+                            if (row.PartidaPendiente == 1 || row.PartidaPendiente == true) {
+                                return '';
+                            } else {
+                                return "<input class='input' id='InputCantidad' type='number' style='width:70px; border:0; border-bottom:1px solid; background:transparent;' type='number' min='0' max='' value='" + data + "'></input>";
+                            }
+                        }
+                    },
+                    //{ 'data': 'PREUNIT_NUEVA', className: "text-center", render: function (data) { return "<input class='InputPU' id='InputPU' style='width: 70px; border: 0; border-bottom: 1px solid; background: transparent; ' type='number' min='1' max='' value='" + data + "'></input>" } },
+                    {
+                        "data": "PREUNIT_NUEVA", className: "text-center", render: function (data, type, row) {
+                            if (row.PartidaPendiente == 1 || row.PartidaPendiente == true) {
+                                return '';
+                            } else {
+                                return "<input class='InputPU' id='InputPU' style='width: 70px; border: 0; border-bottom: 1px solid; background: transparent; ' type='number' min='1' max='' value='" + data + "'></input>";
+                            }
+                        }
+                    },
+                    //{
+                    //    "data": 'TOTAL_NUEVA',
+                    //    render: function (data, type, row, meta) {
+                    //        return '<input style="width:70px; border:0; border-bottom:1px solid; background:transparent;" id="ORDEN' + row.ORDEN + '" type="text" value="' + data + '" readonly/>';
+                    //    },
+                    //    "searchable": false,
+                    //    className: "text-center"
+                    //}
+                    {
+                        "data": "TOTAL_NUEVA", render: function (data, type, row) {
+                            if (row.PartidaPendiente == 1 || row.PartidaPendiente == true) {
+                                return '';
+                            } else {
+                                return '<input style="width: 70px; border: 0; border - bottom: 1px solid; background: transparent; " id="ORDEN' + row.ORDEN + '" type="text" value="' + data + '" readonly/>';
+                            }
+                        }
+                    },
                     { 'data': 'CB_ELIMINAR', className: "text-center", render: function (data) { return "<input class='input3' id='input3' type='checkbox' ></input>" } }
                 ],
                 columnDefs: [

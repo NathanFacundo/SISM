@@ -66,6 +66,7 @@ namespace UanlSISM.Controllers
             public string UsuarioAutorizaOC { get; internal set; }
             public string Fecha_OC { get; internal set; }
             public int IdDetOC { get; internal set; }
+            public bool? PartidaPendiente { get; internal set; }
         }
 
         //----------------------------------------------------- Pantalla ORDEN COMPRA   --------------  INICIO
@@ -143,7 +144,7 @@ namespace UanlSISM.Controllers
                 var query = (from a in ConBD2.SISM_REQUISICION
                              join det in ConBD2.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
                              where a.claveOLD == Id_Requi
-                             where det.PartidaPendiente_OC == false || det.PartidaPendiente_OC == null
+                             //where det.PartidaPendiente_OC == false || det.PartidaPendiente_OC == null
                              select new
                              {
                                  det.Clave,
@@ -161,7 +162,8 @@ namespace UanlSISM.Controllers
                                  det.Id_Detalle_Req,
                                  det.CantidadPendiente_OC,
                                  det.Cantidad_OC,
-                                 a.Estatus_OC_Parcial
+                                 a.Estatus_OC_Parcial,
+                                 det.PartidaPendiente_OC
                              }).ToList();
 
                 var results1 = new List<ListCampos>();
@@ -198,7 +200,8 @@ namespace UanlSISM.Controllers
                             Id_Detalle_Req = q.Id_Detalle_Req,
                             CantidadPendiente_OC = q.CantidadPendiente_OC,
                             Cantidad_OC = q.Cantidad_OC,
-                            Estatus_OC_Parcial = q.Estatus_OC_Parcial
+                            Estatus_OC_Parcial = q.Estatus_OC_Parcial,
+                            PartidaPendiente = q.PartidaPendiente_OC
                         };
                         results1.Add(resultado);
                     }
