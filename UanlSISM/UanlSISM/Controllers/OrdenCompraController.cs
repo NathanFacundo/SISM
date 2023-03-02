@@ -1026,14 +1026,6 @@ namespace UanlSISM.Controllers
         {
             try
             {
-                //var IdRequi = (from a in ConBD2.SISM_ORDEN_COMPRA
-                //               where a.Id == Id_OC
-                //               select a).FirstOrDefault();
-
-                //IdRequi.Status = false;
-                //IdRequi.OC_PorValidar = "4";
-                //ConBD2.SaveChanges();
-
                 //Obtener OC y su Detalle
                 var OC = (from a in ConBD2.SISM_ORDEN_COMPRA
                           join DetOC in ConBD2.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
@@ -1051,7 +1043,7 @@ namespace UanlSISM.Controllers
                 //Obtener REQUI y su Detalle
                 var REQUI = (from Requi in ConBD2.SISM_REQUISICION
                              join DetRequi in ConBD2.SISM_DET_REQUISICION on Requi.Id_Requicision equals DetRequi.Id_Requicision
-                             where OC.Sustancia_OC == DetRequi.Id_Sustancia
+                             where OC.Id_Requi == Requi.Id_Requicision
                              select new
                              {
                                  Id_Requi = Requi.Id_Requicision,
@@ -1076,18 +1068,60 @@ namespace UanlSISM.Controllers
                 //Poner el "Estatus_OC_Parcial = Parcial" 
                 ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Estatus_OC_Parcial = '" + "Parcial" + "' WHERE Id_Requicision='" + OC.Id_Requi + "';");
 
-                ////  "VACIAR" Partidas de la tbl Cotizaciones que Existen en la OC que se eliminará
-                // Aqui va el Query para buscar las Cotizaciones
-                //Si la Lista > 0 que lo haga, si no que se brinque esto
-                //foreach (var item in REQUI)
-                //{
-                    
-                //}
+                //  Obtener Cotizaciones que Existen de la OC que se eliminará
+                var DetalleCotizacion = (from Cot in ConBD2.SISM_COTIZACIONES
+                                         join Oc in ConBD2.SISM_ORDEN_COMPRA on Cot.Id_Requicision equals Oc.Id_Requisicion
+                                         join DetOc in ConBD2.SISM_DETALLE_OC on Oc.Id equals DetOc.Id_OrdenCompra
+                                         where Oc.Id == Id_OC
+                                         where DetOc.Id_Sustencia == Cot.Id_Sustancia
+                                         select new
+                                         {
+                                             IdCot = Cot.Id,
+                                             IdSus = Cot.Id_Sustancia,
+                                             IdProv = Cot.Id_Prov_1,
+                                             CantAsig = Cot.Cant_Asig_1,
+                                             CostUnit = Cot.CostoUnit_1,
+                                             Status = Cot.Status,
+                                             FechaCrea = Cot.FechaCrea,
+                                             FechaMod = Cot.FechaMod,
+                                             Usu = Cot.Id_Usuario,
+                                             Cuadro = Cot.Cuadro,
+                                             IdReq = Cot.Id_Requicision,
+                                             IdDetReq = DetOc.Id
+                                         }).ToList();
+
+                //  "VACIAR" Partidas de la tbl Cotizaciones que Existen en la OC que se eliminará
+                foreach (var item in DetalleCotizacion)
+                {
+                    //Obtenemos el Detalle de la OC 
+                    var OC_Detalle = (from Oc in ConBD2.SISM_ORDEN_COMPRA
+                                      join Det_Oc in ConBD2.SISM_DETALLE_OC on Oc.Id equals Det_Oc.Id_OrdenCompra
+                                      where Oc.Id == Id_OC
+                                      where Det_Oc.Id == item.IdDetReq
+                                      select new
+                                      {
+                                          IdOc = Oc.Id,
+                                          ClaveOC = Oc.Clave,
+                                          IdReq = Oc.Id_Requisicion,
+                                          IdProv = Oc.Id_Proveedor,
+                                          FechaOC = Oc.Fecha,
+                                          UsuIdOC = Oc.UsuarioId,
+                                          IdDetR = Det_Oc.Id,
+                                          IdCB = Det_Oc.Id_CodigoBarrar,
+                                          Cantidad = Det_Oc.Cantidad,
+                                          PU = Det_Oc.PreUnit,
+                                          IdSus = Det_Oc.Id_Sustencia
+                                      }).FirstOrDefault();
+
+                    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Id_Prov_1 = '" + 0 + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Cant_Asig_1 = '" + 0 + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET CostoUnit_1 = '" + 0 + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Status = '" + false + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                }
 
                 //ELIMINAR OC y su DETALLE
                 ConBD2.Database.ExecuteSqlCommand("DELETE FROM SISM_DETALLE_OC WHERE Id_OrdenCompra= '" + OC.Id_OC + "';");
                 ConBD2.Database.ExecuteSqlCommand("DELETE FROM SISM_ORDEN_COMPRA WHERE Id= '" + OC.Id_OC + "';");
-
 
                 return Json(new { MENSAJE = "Succe: Se eliminó la O.C" }, JsonRequestBehavior.AllowGet);
             }
