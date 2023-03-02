@@ -67,6 +67,8 @@ namespace UanlSISM.Controllers
             public string Fecha_OC { get; internal set; }
             public int IdDetOC { get; internal set; }
             public bool? PartidaPendiente { get; internal set; }
+            public string FechaOC { get; internal set; }
+            public string OC_PorValidar { get; internal set; }
         }
 
         //----------------------------------------------------- Pantalla ORDEN COMPRA   --------------  INICIO
@@ -753,7 +755,9 @@ namespace UanlSISM.Controllers
                                  FechaAcuse = a.Fecha_Acuse,
                                  FechaAutorizaOC = a.Fecha_AutorizaOC,
                                  UsuarioAutorizaOC = a.Usuario_AutorizaOC,
-                                 IdDetOC = DetOC.Id
+                                 IdDetOC = DetOC.Id,
+                                 FechaOC = a.Fecha_HacerOC,
+                                 PorValidar = a.OC_PorValidar
                              }).ToList();
 
                 //ViewBag.NombreProvedor = Prov.Prov_Nombre;
@@ -785,7 +789,9 @@ namespace UanlSISM.Controllers
                         NombreUsu = Usuario.Usu_Nombre,
                         FechaAutorizaOC = string.Format("{0:d/M/yy hh:mm tt}", q.FechaAutorizaOC),
                         UsuarioAutorizaOC = q.UsuarioAutorizaOC,
-                        IdDetOC = q.IdDetOC
+                        IdDetOC = q.IdDetOC,
+                        FechaOC = string.Format("{0:d/M/yy hh:mm tt}", q.FechaOC),
+                        OC_PorValidar = q.PorValidar
                     };
                     results1.Add(resultado);
                 }
