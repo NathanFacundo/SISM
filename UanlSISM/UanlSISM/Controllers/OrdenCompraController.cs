@@ -919,7 +919,6 @@ namespace UanlSISM.Controllers
                     ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Cant_Asig_1 = '" + OC_Detalle.Cantidad + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
                     ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET CostoUnit_1 = '" + OC_Detalle.PU + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
                     ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Status = '" + true + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
-
                 }
 
                 #endregion
@@ -928,27 +927,31 @@ namespace UanlSISM.Controllers
 
 
                 ////-----------------------------------------------------------  BASE DE DATOS VIEJA  -------------------------   INICIO  ------
-                ////  Se crea la NuevaO.C en la BD VIEJA, en la tabla OrdenCompra, DetalleOC y se busca la Requi en la tbl Cotizaciones (vieja bd) y se actualizarán sus datos
+                #region
 
-                ////Se crea una NUEVA O.C en la B.D VIEJA, en base a la O.C creada en la NUEVA B.D
-                //OrdenCompra NuevaOC_Vieja = new OrdenCompra();
-                //NuevaOC_Vieja.clave = AñoMes_Actual + ConsecutivoNuevoTxt;
-                //NuevaOC_Vieja.Id_Requisicion = OC.Id_Requisicion;
-                //NuevaOC_Vieja.Fecha = OC.Fecha;
-                //NuevaOC_Vieja.FecMod = OC.FechaMod;
-                //NuevaOC_Vieja.Forma_Pago = OC.Forma_Pago;
-                //NuevaOC_Vieja.Folio = OC.Folio;
-                //NuevaOC_Vieja.Status = true;
-                //NuevaOC_Vieja.UsuarioId = OC.UsuarioId;
-                //NuevaOC_Vieja.Cerrado = (bool)OC.Cerrado;
-                //NuevaOC_Vieja.Cuadro = OC.Cuadro;
-                //RequisicionDB.OrdenCompra.Add(NuevaOC_Vieja);
+                //  Se crea la NuevaO.C en la BD VIEJA, en la tabla OrdenCompra, DetalleOC y se busca la Requi en la tbl Cotizaciones (vieja bd) y se actualizarán sus datos
+
+                //Se crea una NUEVA O.C en la B.D VIEJA, en base a la O.C creada en la NUEVA B.D
+                //OrdenCompra NuevaOC_BDVieja = new OrdenCompra();
+                //NuevaOC_BDVieja.clave = AñoMes_Actual + ConsecutivoNuevoTxt;
+                //NuevaOC_BDVieja.Id_Requisicion = OC.Id_Requisicion;
+                //NuevaOC_BDVieja.Id_Proveedor = (int)OC.Id_Proveedor;
+                //NuevaOC_BDVieja.Fecha = OC.Fecha_HacerOC;
+                //NuevaOC_BDVieja.FecMod = OC.Fecha_HacerOC;
+                //NuevaOC_BDVieja.Forma_Pago = OC.Forma_Pago;
+                //NuevaOC_BDVieja.Folio = OC.Folio;
+                //NuevaOC_BDVieja.Status = true;
+                //NuevaOC_BDVieja.UsuarioId = OC.UsuarioId;
+                //NuevaOC_BDVieja.Cerrado = (bool)OC.Cerrado;
+                //NuevaOC_BDVieja.Cuadro = OC.Cuadro;
+                //RequisicionDB.OrdenCompra.Add(NuevaOC_BDVieja);
                 //RequisicionDB.SaveChanges();
 
                 ////Obtener la ultima OC en la BD VIEJA (que es esta OC)
                 //var OCvieja_Nueva = (from a in RequisicionDB.OrdenCompra
-                //                    where a.Fecha == OC.Fecha
-                //                    select a).OrderByDescending(u => u.Id).FirstOrDefault();
+                //                         //where a.Fecha == OC.Fecha
+                //                     where a.clave == NuevaOC_BDVieja.clave
+                //                     select a).OrderByDescending(u => u.Id).FirstOrDefault();
 
                 ////Se crea el nuevo DetalleOC en la BD VIEJA
                 //foreach (var NuevoDetalle in DetalleOC)
@@ -987,7 +990,7 @@ namespace UanlSISM.Controllers
                 //                              IdReq = Cot.Id_Requisicion,
                 //                              IdDetReq = DetOc.Id
                 //                          }).ToList();
-                                            
+
                 ////Se actualiza la tbl Vieja Cotizaciones con los datos de la Nueva OC
                 //foreach (var CotVieja in CotizacionesViejas)
                 //{
@@ -1015,9 +1018,8 @@ namespace UanlSISM.Controllers
                 //    RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Cant_Asig_1 = '" + OCDetalle_Nueva.Cantidad + "' WHERE Id_Sustancia='" + OCDetalle_Nueva.IdSus + "';");
                 //    RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET CostoUnit_1 = '" + OCDetalle_Nueva.PU + "' WHERE Id_Sustancia='" + OCDetalle_Nueva.IdSus + "';");
                 //    RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Status = '" + true + "' WHERE Id_Sustancia='" + OCDetalle_Nueva.IdSus + "';");
-
                 //}
-
+                #endregion
                 ////-----------------------------------------------------------  BASE DE DATOS VIEJA  -------------------------   FIN  ------
 
                 return Json(new { MENSAJE = "Succe: Se generó la O.C" }, JsonRequestBehavior.AllowGet);
@@ -1043,7 +1045,9 @@ namespace UanlSISM.Controllers
                               IdDet_OC = DetOC.Id,
                               Sustancia_OC = DetOC.Id_Sustencia,
                               SubTotal_OC = DetOC.Total,
-                              Id_Requi = a.Id_Requisicion
+                              Id_Requi = a.Id_Requisicion,
+                              FolioOC = a.Clave,
+                              FechaOC = a.Fecha
                           }).FirstOrDefault();
 
                 //Obtener REQUI y su Detalle
@@ -1074,7 +1078,7 @@ namespace UanlSISM.Controllers
                 //Poner el "Estatus_OC_Parcial = Parcial" 
                 ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Estatus_OC_Parcial = '" + "Parcial" + "' WHERE Id_Requicision='" + OC.Id_Requi + "';");
 
-                //  Obtener Cotizaciones que Existen de la OC que se eliminará
+                //  Obtener Cotizaciones que Existen de la OC que se eliminará en BD NUEVA
                 var DetalleCotizacion = (from Cot in ConBD2.SISM_COTIZACIONES
                                          join Oc in ConBD2.SISM_ORDEN_COMPRA on Cot.Id_Requicision equals Oc.Id_Requisicion
                                          join DetOc in ConBD2.SISM_DETALLE_OC on Oc.Id equals DetOc.Id_OrdenCompra
@@ -1128,6 +1132,79 @@ namespace UanlSISM.Controllers
                 //ELIMINAR OC y su DETALLE
                 ConBD2.Database.ExecuteSqlCommand("DELETE FROM SISM_DETALLE_OC WHERE Id_OrdenCompra= '" + OC.Id_OC + "';");
                 ConBD2.Database.ExecuteSqlCommand("DELETE FROM SISM_ORDEN_COMPRA WHERE Id= '" + OC.Id_OC + "';");
+
+                ////--------------------------------------------------------------------------  BASE DE DATOS VIEJA  -------------ELIMINAR O.C------------   INICIO  ------
+
+                //var OC_VIEJA = (from OC_V in RequisicionDB.OrdenCompra
+                //                where OC_V.clave == OC.FolioOC
+                //                select OC_V).FirstOrDefault();
+
+                ////  Obtener Cotizaciones que Existen de la OC que se eliminará de la BD VIEJA
+                //var DetalleCotizacion_BDvieja = (from Cot in RequisicionDB.Cotizaciones
+                //                         join Oc in RequisicionDB.OrdenCompra on Cot.Id_Requisicion equals Oc.Id_Requisicion
+                //                         join DetOc in RequisicionDB.DetalleOC on Oc.Id equals DetOc.Id_OrdenCompra
+                //                         where Oc.clave == OC_VIEJA.clave
+                //                         where DetOc.Id_Sustancia == Cot.Id_Sustancia
+                //                         select new
+                //                         {
+                //                             IdCot = Cot.Id,
+                //                             IdSus = Cot.Id_Sustancia,
+                //                             IdProv = Cot.Id_Prov_1,
+                //                             CantAsig = Cot.Cant_Asig_1,
+                //                             CostUnit = Cot.CostoUnit_1,
+                //                             Status = Cot.Status,
+                //                             FechaCrea = Cot.FechaCrea,
+                //                             FechaMod = Cot.FechaMod,
+                //                             Usu = Cot.Id_Usuario,
+                //                             Cuadro = Cot.Cuadro,
+                //                             IdReq = Cot.Id_Requisicion,
+                //                             IdDetReq = DetOc.Id
+                //                         }).ToList();
+
+                ////Si la OC tiene Folio(clave) quiere decir que el Usuario de Compras si generó la OC despues de haberla autorizado
+                ////por lo tanto si existe la OC en la BD VIEJA, entonces entraríamos para eliminarla tambien de la BDVIEJA
+                ////si no, entonces no entramos al IF y solo se eliminará de la BNUEVA ya que ahí se guarda la Pre-Orden y la Orden
+                //if (OC.FolioOC == null || OC.FolioOC == "")
+                //{
+                //}
+                //else
+                //{//Eliminar OC en la BD Vieja: tbls Cotizaciones, DetalleOC y OC
+
+                //    //  "VACIAR" Partidas de la tbl Cotizaciones que Existen en la OC que se eliminará BD VIEJA
+                //    foreach (var item in DetalleCotizacion_BDvieja)
+                //    {
+                //        //Obtenemos el Detalle de la OC 
+                //        var OC_Detalle = (from Oc in RequisicionDB.OrdenCompra
+                //                          join Det_Oc in RequisicionDB.DetalleOC on Oc.Id equals Det_Oc.Id_OrdenCompra
+                //                          where Oc.Id == Id_OC
+                //                          where Det_Oc.Id == item.IdDetReq
+                //                          select new
+                //                          {
+                //                              IdOc = Oc.Id,
+                //                              ClaveOC = Oc.clave,
+                //                              IdReq = Oc.Id_Requisicion,
+                //                              IdProv = Oc.Id_Proveedor,
+                //                              FechaOC = Oc.Fecha,
+                //                              UsuIdOC = Oc.UsuarioId,
+                //                              IdDetR = Det_Oc.Id,
+                //                              IdCB = Det_Oc.Id_CodigoBarras,
+                //                              Cantidad = Det_Oc.Cantidad,
+                //                              PU = Det_Oc.PreUnit,
+                //                              IdSus = Det_Oc.Id_Sustancia
+                //                          }).FirstOrDefault();
+
+                //        RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Id_Prov_1 = '" + 0 + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                //        RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Cant_Asig_1 = '" + 0 + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                //        RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET CostoUnit_1 = '" + 0 + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                //        RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Status = '" + false + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                //    }
+                //}
+
+                ////ELIMINAR OC y su DETALLE de la BD VIEJA
+                //RequisicionDB.Database.ExecuteSqlCommand("DELETE FROM DetalleOC WHERE Id_OrdenCompra= '" + OC_VIEJA.Id + "';");
+                //RequisicionDB.Database.ExecuteSqlCommand("DELETE FROM OrdenCompra WHERE Id= '" + OC_VIEJA.Id + "';");
+
+                ////--------------------------------------------------------------------------  BASE DE DATOS VIEJA  --------------ELIMINAR O.C-----------   FIN  ------
 
                 return Json(new { MENSAJE = "Succe: Se eliminó la O.C" }, JsonRequestBehavior.AllowGet);
             }
