@@ -11,11 +11,15 @@ namespace UanlSISM.Controllers
 {
     public class OrdenCompraController : Controller
     {
+        //BD NUEVA PRODUCTIVA
         SISM_SIST_MEDEntities ConBD = new SISM_SIST_MEDEntities();
+        //BD NUEVA PRUEBAS(mía)
         BD_Almacen ConBD2 = new BD_Almacen();
-
+        //TBL SUSTANCIAS
         SERVMEDEntities4 DAM = new SERVMEDEntities4();
+        //TBLS PROV,REQ,OC
         SERVMEDEntities8 db = new SERVMEDEntities8();
+        //TBL CODIGOBARRAS
         SERVMEDEntities5 SISMFarmacia = new SERVMEDEntities5();
         //SERVMEDEntities5 db2 = new SERVMEDEntities5();
         //BD TABLAS viejas
