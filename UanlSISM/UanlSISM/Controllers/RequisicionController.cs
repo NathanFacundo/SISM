@@ -12,7 +12,13 @@ namespace UanlSISM.Controllers
 {
     public class RequisicionController : Controller
     {
-        BD_Almacen ConBD2 = new BD_Almacen();
+        BD_Almacen ConBD2 = new BD_Almacen();                           //BD Nueva (Pruebas Milton)
+        SERVMEDEntities5 db2 = new SERVMEDEntities5();                  //TBL Sustancia (LinQ)
+        SERVMEDEntities8 db = new SERVMEDEntities8();                   //TBL InvAlmFarm (Manejo Disp)
+        //SERVMEDEntities12 SPM = new SERVMEDEntities12();
+        Models.SERVMEDEntities4 DAM = new Models.SERVMEDEntities4();    //TBL Sustancia (ExecuteSqlCommand)
+        SISM_SIST_MEDEntities ConBD = new SISM_SIST_MEDEntities();      //BD Nueva (Está en Productivo)
+        SERVMEDEntities8 RequisicionDB = new SERVMEDEntities8();        //TABLAS Requisicion Viejas (BD Viejita)
 
         [Authorize]
         public ActionResult Requisicion()
@@ -30,8 +36,6 @@ namespace UanlSISM.Controllers
         {
             return View();
         }
-
-        SERVMEDEntities5 db2 = new SERVMEDEntities5();
 
         public class LstInv
         {
@@ -99,9 +103,6 @@ namespace UanlSISM.Controllers
             return Json(new { SUSTANCIAS = SUSTANCIA }, JsonRequestBehavior.AllowGet);
         }
 
-        SERVMEDEntities8 db = new SERVMEDEntities8();
-        //SERVMEDEntities12 SPM = new SERVMEDEntities12();
-
         public class LstInv1
         {
             public string Clave { get; set; }
@@ -110,8 +111,6 @@ namespace UanlSISM.Controllers
             public string Compendio { get; set; }
             public int Licitacion { get; set; }
         }
-
-        Models.SERVMEDEntities4 DAM = new Models.SERVMEDEntities4();
 
         public ActionResult ObtenerSustanciasModal()
         {
@@ -136,8 +135,6 @@ namespace UanlSISM.Controllers
                 return Json(new { MENSAJE = "Error: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
-        SISM_SIST_MEDEntities ConBD = new SISM_SIST_MEDEntities();
 
         public JsonResult GenerarBorradorRequi(List<Sustancia> ListaSustanciasBorrador, string StatusContrato)
         {
@@ -437,100 +434,100 @@ namespace UanlSISM.Controllers
 
                 //--------------------------------------------------------------------------------------------------------------------------------
                 /*  GUARDAR LA REQUISICION Y SU DETALLE EN LAS TABLAS DE REQUISICION Y DETALLE REQUISICION  */
-                //Requisicion_1 Req = new Requisicion_1();
-                //Req.Id_Tipo = 2;
-                //Req.Fecha = fechaDT;
-                //Req.Status = true;
-                //Req.cerrado = false;
+                Requisicion_1 Req = new Requisicion_1();
+                Req.Id_Tipo = 2;
+                Req.Fecha = fechaDT;
+                Req.Status = true;
+                Req.cerrado = false;
 
-                //Req.UserId = IdUsuarioCifrado;
+                Req.UserId = IdUsuarioCifrado;
 
-                ////Obtenemos el Usuario que se logueó para hacer el join (buscarlo) en la tabla Usuario y así obtener el Id de esa tabla
-                ////var UsuarioOld = User.Identity.GetUserName();
-                ////var UsuarioOLD = (from a in RequisicionDB.Usuario
-                ////                  where a.Usu_User == UsuarioOld
-                ////                  select a).FirstOrDefault();
+                //Obtenemos el Usuario que se logueó para hacer el join (buscarlo) en la tabla Usuario y así obtener el Id de esa tabla
+                //var UsuarioOld = User.Identity.GetUserName();
+                //var UsuarioOLD = (from a in RequisicionDB.Usuario
+                //                  where a.Usu_User == UsuarioOld
+                //                  select a).FirstOrDefault();
 
-                ////Guardamos el Id del usuario de la tabla Usuario en el campo 'UsuarioId' en la tabla Requisiciones
-                //if (UsuarioOLD == null)
-                //{
-                //}
-                //else
-                //{
-                //    if (UsuarioOLD.Usu_User == null)
-                //    {
-                //    }
-                //    else
-                //    {
-                //        Req.Id_Usuario = UsuarioOLD.UsuarioId;
-                //    }
-                //}
+                //Guardamos el Id del usuario de la tabla Usuario en el campo 'UsuarioId' en la tabla Requisiciones
+                if (UsuarioOLD == null)
+                {
+                }
+                else
+                {
+                    if (UsuarioOLD.Usu_User == null)
+                    {
+                    }
+                    else
+                    {
+                        Req.Id_Usuario = UsuarioOLD.UsuarioId;
+                    }
+                }
 
-                ////Req.clave = Convert.ToString(ClaveNueva);
+                //Req.clave = Convert.ToString(ClaveNueva);
 
-                //var ClaveNueva = AñoMes_Actual + ConsecutivoNuevoTxt;
-                //Req.clave = ClaveNueva;
+                var ClaveNueva = AñoMes_Actual + ConsecutivoNuevoTxt;
+                Req.clave = ClaveNueva;
 
-                //Req.EstatusContrato = Borrador.EstatusContrato;
+                Req.EstatusContrato = Borrador.EstatusContrato;
 
-                //RequisicionDB.Requisicion.Add(Req);
-                //RequisicionDB.SaveChanges();
+                RequisicionDB.Requisicion.Add(Req);
+                RequisicionDB.SaveChanges();
 
-                //var ID = (from a in RequisicionDB.Requisicion
-                //          where a.Fecha == fechaDT
-                //          where a.Id_Tipo == 2
-                //          select a).OrderByDescending(u => u.id).FirstOrDefault();
+                var ID = (from a in RequisicionDB.Requisicion
+                          where a.Fecha == fechaDT
+                          where a.Id_Tipo == 2
+                          select a).OrderByDescending(u => u.id).FirstOrDefault();
 
-                //foreach (var item in ListaSustanciasBorrador)
-                //{
-                //    DetalleReq detRequi = new DetalleReq();
-                //    detRequi.Id_Requisicion = ID.id;
-                //    detRequi.Id_Sustancia = (int)item.Id_Sustancia;
-                //    detRequi.C_Recibida = 0;
-                //    detRequi.Status = false;
-                //    //detRequi.C_Solicitada = (int)item.Cantidad;
+                foreach (var item in ListaSustanciasBorrador)
+                {
+                    DetalleReq detRequi = new DetalleReq();
+                    detRequi.Id_Requisicion = ID.id;
+                    detRequi.Id_Sustancia = (int)item.Id_Sustancia;
+                    detRequi.C_Recibida = 0;
+                    detRequi.Status = false;
+                    //detRequi.C_Solicitada = (int)item.Cantidad;
 
-                //    if (item.CANTIDAD_NUEVA > 0)
-                //    {
-                //        if (item.CANTIDAD_NUEVA > item.Cantidad || item.CANTIDAD_NUEVA == item.Cantidad)
-                //            detRequi.C_Solicitada = (int)item.Cantidad + item.CANTIDAD_NUEVA;
+                    if (item.CANTIDAD_NUEVA > 0)
+                    {
+                        if (item.CANTIDAD_NUEVA > item.Cantidad || item.CANTIDAD_NUEVA == item.Cantidad)
+                            detRequi.C_Solicitada = (int)item.Cantidad + item.CANTIDAD_NUEVA;
 
-                //        if (item.CANTIDAD_NUEVA < item.Cantidad)
-                //            detRequi.C_Solicitada = (int)item.Cantidad - item.CANTIDAD_NUEVA;
-                //    }
-                //    else
-                //    {
-                //        detRequi.C_Solicitada = (int)item.Cantidad;
-                //    }
+                        if (item.CANTIDAD_NUEVA < item.Cantidad)
+                            detRequi.C_Solicitada = (int)item.Cantidad - item.CANTIDAD_NUEVA;
+                    }
+                    else
+                    {
+                        detRequi.C_Solicitada = (int)item.Cantidad;
+                    }
 
-                //    RequisicionDB.DetalleReq.Add(detRequi);
-                //    RequisicionDB.SaveChanges();
-                //}
+                    RequisicionDB.DetalleReq.Add(detRequi);
+                    RequisicionDB.SaveChanges();
+                }
 
-                //foreach (var item in ListaSustanciasBorrador)
-                //{
-                //    Cotizaciones Coti = new Cotizaciones();
-                //    Coti.Id_Sustancia = (int)item.Id_Sustancia;
-                //    Coti.Id_Requisicion = ID.id;
-                //    Coti.Id_Prov_1 = 0;
-                //    Coti.Cant_Asig_1 = 0;
-                //    Coti.CostoUnit_1 = 0;
-                //    Coti.Id_Prov_2 = 0;
-                //    Coti.Cant_Asig_2 = 0;
-                //    Coti.CostoUnit_2 = 0;
-                //    Coti.Id_Prov_3 = 0;
-                //    Coti.Cant_Asig_3 = 0;
-                //    Coti.CostoUnit_3 = 0;
-                //    Coti.Status = false;
-                //    Coti.FechaCrea = ID.Fecha;
-                //    Coti.FechaMod = ID.Fecha;
-                //    Coti.Id_Usuario = ID.Id_Usuario;
-                //    Coti.Cuadro = 0;
-                //    Coti.UserId = IdUsuarioCifrado;
+                foreach (var item in ListaSustanciasBorrador)
+                {
+                    Cotizaciones Coti = new Cotizaciones();
+                    Coti.Id_Sustancia = (int)item.Id_Sustancia;
+                    Coti.Id_Requisicion = ID.id;
+                    Coti.Id_Prov_1 = 0;
+                    Coti.Cant_Asig_1 = 0;
+                    Coti.CostoUnit_1 = 0;
+                    Coti.Id_Prov_2 = 0;
+                    Coti.Cant_Asig_2 = 0;
+                    Coti.CostoUnit_2 = 0;
+                    Coti.Id_Prov_3 = 0;
+                    Coti.Cant_Asig_3 = 0;
+                    Coti.CostoUnit_3 = 0;
+                    Coti.Status = false;
+                    Coti.FechaCrea = ID.Fecha;
+                    Coti.FechaMod = ID.Fecha;
+                    Coti.Id_Usuario = ID.Id_Usuario;
+                    Coti.Cuadro = 0;
+                    Coti.UserId = IdUsuarioCifrado;
 
-                //    RequisicionDB.Cotizaciones.Add(Coti);
-                //    RequisicionDB.SaveChanges();
-                //}
+                    RequisicionDB.Cotizaciones.Add(Coti);
+                    RequisicionDB.SaveChanges();
+                }
                 //--------------------------------------------------------------------------------------------------------------------------------
 
                 return Json(new { MENSAJE = "Succe: Se generó con éxito la Requisición" }, JsonRequestBehavior.AllowGet);
@@ -690,8 +687,6 @@ namespace UanlSISM.Controllers
 
         }
 
-        SERVMEDEntities8 RequisicionDB = new SERVMEDEntities8();
-
         public JsonResult GenerarRequisiciondirecta(List<Sustancia> ListaSustanciasRequiDirecta, string StatusContrato)
         {
             var UsuarioRegistra = User.Identity.GetUserName();
@@ -840,85 +835,85 @@ namespace UanlSISM.Controllers
 
                 //--------------------------------------------------------------------------------------------------------------------------------  TABLAS VIEJAS
                 /*  GUARDAR LA REQUISICION Y SU DETALLE EN LAS TABLAS DE REQUISICION Y DETALLE REQUISICION  */
-                //Requisicion_1 Req = new Requisicion_1();
-                //Req.Id_Tipo = 2;
-                //Req.Fecha = fechaDT;
-                //Req.Status = true;
-                //Req.cerrado = false;
+                Requisicion_1 Req = new Requisicion_1();
+                Req.Id_Tipo = 2;
+                Req.Fecha = fechaDT;
+                Req.Status = true;
+                Req.cerrado = false;
 
 
-                //Req.UserId = IdUsuarioCifrado;
+                Req.UserId = IdUsuarioCifrado;
 
-                ////Guardamos el Id del usuario de la tabla Usuario en el campo 'UsuarioId' en la tabla Requisiciones
-                //if (UsuarioOLD == null)
-                //{
+                //Guardamos el Id del usuario de la tabla Usuario en el campo 'UsuarioId' en la tabla Requisiciones
+                if (UsuarioOLD == null)
+                {
 
-                //}
-                //else
-                //{
-                //    if (UsuarioOLD.Usu_User == null)
-                //    {
+                }
+                else
+                {
+                    if (UsuarioOLD.Usu_User == null)
+                    {
 
-                //    }
-                //    else
-                //    {
-                //        Req.Id_Usuario = UsuarioOLD.UsuarioId;
-                //    }
-                //}
+                    }
+                    else
+                    {
+                        Req.Id_Usuario = UsuarioOLD.UsuarioId;
+                    }
+                }
 
-                ////Req.clave = Convert.ToString(ClaveNueva);
+                //Req.clave = Convert.ToString(ClaveNueva);
 
-                //var ClaveNueva = AñoMes_Actual + ConsecutivoNuevoTxt;
-                //Req.clave = ClaveNueva;
+                var ClaveNueva = AñoMes_Actual + ConsecutivoNuevoTxt;
+                Req.clave = ClaveNueva;
 
-                //Req.EstatusContrato = StatusContrato;
+                Req.EstatusContrato = StatusContrato;
 
-                //RequisicionDB.Requisicion.Add(Req);
-                //RequisicionDB.SaveChanges();
+                RequisicionDB.Requisicion.Add(Req);
+                RequisicionDB.SaveChanges();
 
-                ////Obtener Requisición recién generada en las tablas viejas
-                //var ID = (from a in RequisicionDB.Requisicion
-                //          where a.Fecha == fechaDT
-                //          where a.Id_Tipo == 2
-                //          select a).OrderByDescending(u => u.id).FirstOrDefault();
+                //Obtener Requisición recién generada en las tablas viejas
+                var ID = (from a in RequisicionDB.Requisicion
+                          where a.Fecha == fechaDT
+                          where a.Id_Tipo == 2
+                          select a).OrderByDescending(u => u.id).FirstOrDefault();
 
-                //foreach (var item in ListaSustanciasRequiDirecta)
-                //{
-                //    DetalleReq detRequi = new DetalleReq();
-                //    detRequi.Id_Requisicion = ID.id;
-                //    detRequi.Id_Sustancia = item.Id;
-                //    detRequi.C_Solicitada = (int)item.CANTIDAD;
-                //    detRequi.C_Recibida = 0;
-                //    detRequi.Status = false;
+                foreach (var item in ListaSustanciasRequiDirecta)
+                {
+                    DetalleReq detRequi = new DetalleReq();
+                    detRequi.Id_Requisicion = ID.id;
+                    detRequi.Id_Sustancia = item.Id;
+                    detRequi.C_Solicitada = (int)item.CANTIDAD;
+                    detRequi.C_Recibida = 0;
+                    detRequi.Status = false;
 
-                //    RequisicionDB.DetalleReq.Add(detRequi);
-                //    RequisicionDB.SaveChanges();
-                //}
+                    RequisicionDB.DetalleReq.Add(detRequi);
+                    RequisicionDB.SaveChanges();
+                }
 
-                //foreach (var item in ListaSustanciasRequiDirecta)
-                //{
-                //    Cotizaciones Coti = new Cotizaciones();
-                //    Coti.Id_Sustancia = item.Id;
-                //    Coti.Id_Requisicion = ID.id;
-                //    Coti.Id_Prov_1 = 0;
-                //    Coti.Cant_Asig_1 = 0;
-                //    Coti.CostoUnit_1 = 0;
-                //    Coti.Id_Prov_2 = 0;
-                //    Coti.Cant_Asig_2 = 0;
-                //    Coti.CostoUnit_2 = 0;
-                //    Coti.Id_Prov_3 = 0;
-                //    Coti.Cant_Asig_3 = 0;
-                //    Coti.CostoUnit_3 = 0;
-                //    Coti.Status = false;
-                //    Coti.FechaCrea = ID.Fecha;
-                //    Coti.FechaMod = ID.Fecha;
-                //    Coti.Id_Usuario = ID.Id_Usuario;
-                //    Coti.Cuadro = 0;
-                //    Coti.UserId = IdUsuarioCifrado;
+                foreach (var item in ListaSustanciasRequiDirecta)
+                {
+                    Cotizaciones Coti = new Cotizaciones();
+                    Coti.Id_Sustancia = item.Id;
+                    Coti.Id_Requisicion = ID.id;
+                    Coti.Id_Prov_1 = 0;
+                    Coti.Cant_Asig_1 = 0;
+                    Coti.CostoUnit_1 = 0;
+                    Coti.Id_Prov_2 = 0;
+                    Coti.Cant_Asig_2 = 0;
+                    Coti.CostoUnit_2 = 0;
+                    Coti.Id_Prov_3 = 0;
+                    Coti.Cant_Asig_3 = 0;
+                    Coti.CostoUnit_3 = 0;
+                    Coti.Status = false;
+                    Coti.FechaCrea = ID.Fecha;
+                    Coti.FechaMod = ID.Fecha;
+                    Coti.Id_Usuario = ID.Id_Usuario;
+                    Coti.Cuadro = 0;
+                    Coti.UserId = IdUsuarioCifrado;
 
-                //    RequisicionDB.Cotizaciones.Add(Coti);
-                //    RequisicionDB.SaveChanges();
-                //}
+                    RequisicionDB.Cotizaciones.Add(Coti);
+                    RequisicionDB.SaveChanges();
+                }
                 //--------------------------------------------------------------------------------------------------------------------------------
 
                 return Json(new { MENSAJE = "Succe: Se generó la Requisición" }, JsonRequestBehavior.AllowGet);
