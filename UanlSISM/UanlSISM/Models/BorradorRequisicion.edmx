@@ -4,23 +4,23 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Alias="Self" Namespace="SISM_SIST_MEDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012">
+    <Schema Namespace="SISM_SIST_MEDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="SISM_BORRADOR_REQUI">
           <Key>
             <PropertyRef Name="Id_BorradorRequi" />
           </Key>
-          <Property Name="Id_BorradorRequi" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="Id_BorradorRequi" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Fecha" Type="datetime" />
-          <Property Name="UsuarioRegistra" MaxLength="20" Type="varchar" />
-          <Property Name="Estatus" MaxLength="50" Type="varchar" />
-          <Property Name="ip_realiza" MaxLength="20" Type="varchar" />
-          <Property Name="EstatusContrato" MaxLength="30" Type="varchar" />
+          <Property Name="UsuarioRegistra" Type="varchar" MaxLength="20" />
+          <Property Name="Estatus" Type="varchar" MaxLength="50" />
+          <Property Name="ip_realiza" Type="varchar" MaxLength="20" />
+          <Property Name="EstatusContrato" Type="varchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="SISM_CODIGOBARRAS">
           <Key>
             <PropertyRef Name="Id_CodigoBarras" />
           </Key>
-          <Property Name="Id_CodigoBarras" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="Id_CodigoBarras" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CodigoBarras" Type="varchar(max)" />
           <Property Name="Id_Sustancia" Type="int" />
           <Property Name="Laboratorio" Type="varchar(max)" />
@@ -32,17 +32,17 @@
           <Key>
             <PropertyRef Name="Id_CosteoL" />
           </Key>
-          <Property Name="Id_CosteoL" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="Id_CosteoL" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Id_Sustancia" Type="int" />
-          <Property Name="Clave" MaxLength="15" Type="varchar" />
+          <Property Name="Clave" Type="varchar" MaxLength="15" />
           <Property Name="PrecioUnitario" Type="float" />
         </EntityType>
         <EntityType Name="SISM_COTIZACIONES">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="Id_Sustancia" Nullable="false" Type="int" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Sustancia" Type="int" Nullable="false" />
           <Property Name="Id_Prov_1" Type="int" />
           <Property Name="Cant_Asig_1" Type="int" />
           <Property Name="CostoUnit_1" Type="float" />
@@ -57,52 +57,55 @@
           <Property Name="FechaMod" Type="datetime" />
           <Property Name="Id_Usuario" Type="int" />
           <Property Name="Cuadro" Type="int" />
-          <Property Name="Id_Requicision" Nullable="false" Type="int" />
+          <Property Name="Id_Requicision" Type="int" Nullable="false" />
           <Property Name="UserId" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="SISM_DET_REQUISICION">
           <Key>
             <PropertyRef Name="Id_Detalle_Req" />
           </Key>
-          <Property Name="Id_Detalle_Req" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="Id_Requicision" Nullable="false" Type="int" />
-          <Property Name="Id_Sustancia" Nullable="false" Type="int" />
+          <Property Name="Id_Detalle_Req" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Requicision" Type="int" Nullable="false" />
+          <Property Name="Id_Sustancia" Type="int" Nullable="false" />
           <Property Name="Cantidad" Type="int" />
-          <Property Name="Clave" MaxLength="15" Type="varchar" />
-          <Property Name="Descripcion" MaxLength="300" Type="varchar" />
-          <Property Name="Compendio" MaxLength="100" Type="varchar" />
+          <Property Name="Clave" Type="varchar" MaxLength="15" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="300" />
+          <Property Name="Compendio" Type="varchar" MaxLength="100" />
           <Property Name="PrecioUnitario" Type="float" />
           <Property Name="Total" Type="float" />
+          <Property Name="Cantidad_OC" Type="int" />
+          <Property Name="CantidadPendiente_OC" Type="int" />
+          <Property Name="PartidaPendiente_OC" Type="bit" />
         </EntityType>
         <EntityType Name="SISM_DET_VALE_ENTRADA">
           <Key>
             <PropertyRef Name="Id_Detalle_VE" />
           </Key>
-          <Property Name="Id_Detalle_VE" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="Id_ValeEntrada" Nullable="false" Type="int" />
+          <Property Name="Id_Detalle_VE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_ValeEntrada" Type="int" Nullable="false" />
           <Property Name="Id_Sustancia" Type="int" />
           <Property Name="C_Entrada" Type="int" />
-          <Property Name="Id_CodigoBarras" Nullable="false" Type="int" />
+          <Property Name="Id_CodigoBarras" Type="int" Nullable="false" />
           <Property Name="Costo" Type="money" />
         </EntityType>
         <EntityType Name="SISM_DETALLE_BORRADOR_REQUI">
           <Key>
             <PropertyRef Name="Id_Detalle_BorradorRequi" />
           </Key>
-          <Property Name="Id_Detalle_BorradorRequi" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="Id_BorradorRequi" Nullable="false" Type="int" />
+          <Property Name="Id_Detalle_BorradorRequi" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_BorradorRequi" Type="int" Nullable="false" />
           <Property Name="Id_Sustancia" Type="int" />
           <Property Name="Cantidad" Type="int" />
-          <Property Name="Clave" MaxLength="15" Type="varchar" />
-          <Property Name="Descripcion" MaxLength="300" Type="varchar" />
-          <Property Name="Compendio" MaxLength="100" Type="varchar" />
+          <Property Name="Clave" Type="varchar" MaxLength="15" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="300" />
+          <Property Name="Compendio" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="SISM_DETALLE_OC">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="Id_OrdenCompra" Nullable="false" Type="int" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_OrdenCompra" Type="int" Nullable="false" />
           <Property Name="Id_CodigoBarrar" Type="int" />
           <Property Name="Cantidad" Type="int" />
           <Property Name="PreUnit" Type="float" />
@@ -110,24 +113,27 @@
           <Property Name="Status" Type="bit" />
           <Property Name="Id_Sustencia" Type="int" />
           <Property Name="Pendiente" Type="int" />
+          <Property Name="Total" Type="float" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="300" />
+          <Property Name="ClaveMedicamento" Type="varchar" MaxLength="15" />
         </EntityType>
         <EntityType Name="SISM_DETALLE_REQ_FARMACIA">
           <Key>
             <PropertyRef Name="Id_Detalle_ReqFarm" />
           </Key>
-          <Property Name="Id_Detalle_ReqFarm" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="Id_Detalle_ReqFarm" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Id_Sustancia" Type="int" />
           <Property Name="Cantidad" Type="int" />
-          <Property Name="Clave" MaxLength="15" Type="varchar" />
-          <Property Name="Descripcion" MaxLength="300" Type="varchar" />
-          <Property Name="Compendio" MaxLength="100" Type="varchar" />
-          <Property Name="Id_Requisicion_Farm" Nullable="false" Type="int" />
+          <Property Name="Clave" Type="varchar" MaxLength="15" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="300" />
+          <Property Name="Compendio" Type="varchar" MaxLength="100" />
+          <Property Name="Id_Requisicion_Farm" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="SISM_INV_MED">
           <Key>
             <PropertyRef Name="Id_Inv" />
           </Key>
-          <Property Name="Id_Inv" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="Id_Inv" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Id_Sustancia" Type="int" />
           <Property Name="C_Inicio" Type="int" />
           <Property Name="C_Entrada" Type="int" />
@@ -138,7 +144,7 @@
           <Key>
             <PropertyRef Name="Id_Mov_Inv" />
           </Key>
-          <Property Name="Id_Mov_Inv" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="Id_Mov_Inv" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Id_Sustancia" Type="int" />
           <Property Name="C_Anterior" Type="int" />
           <Property Name="C_Actual" Type="int" />
@@ -151,52 +157,61 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="Clave" MaxLength="15" Type="varchar" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Clave" Type="varchar" MaxLength="15" />
           <Property Name="Id_Requisicion" Type="int" />
           <Property Name="Id_Proveedor" Type="int" />
           <Property Name="Fecha" Type="datetime" />
           <Property Name="FechaMod" Type="datetime" />
-          <Property Name="Forma_Pago" MaxLength="50" Type="varchar" />
-          <Property Name="Folio" MaxLength="50" Type="varchar" />
+          <Property Name="Forma_Pago" Type="varchar" MaxLength="50" />
+          <Property Name="Folio" Type="varchar" MaxLength="50" />
           <Property Name="Status" Type="bit" />
           <Property Name="UsuarioId" Type="int" />
           <Property Name="Cerrado" Type="bit" />
           <Property Name="Cuadro" Type="int" />
-          <Property Name="UsuarioNuevo" MaxLength="30" Type="varchar" />
-          <Property Name="IP_User" MaxLength="30" Type="varchar" />
+          <Property Name="UsuarioNuevo" Type="varchar" MaxLength="30" />
+          <Property Name="IP_User" Type="varchar" MaxLength="30" />
+          <Property Name="NombreProveedor" Type="varchar" MaxLength="500" />
+          <Property Name="Total_OC" Type="float" />
+          <Property Name="OC_PorValidar" Type="varchar" MaxLength="10" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="500" />
+          <Property Name="Fecha_Acuse" Type="datetime" />
+          <Property Name="Fecha_AutorizaOC" Type="datetime" />
+          <Property Name="Usuario_AutorizaOC" Type="varchar" MaxLength="30" />
+          <Property Name="Fecha_HacerOC" Type="datetime" />
         </EntityType>
         <EntityType Name="SISM_REQUISICION">
           <Key>
             <PropertyRef Name="Id_Requicision" />
           </Key>
-          <Property Name="Id_Requicision" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="Id_Requicision" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Clave" Type="varchar(max)" />
           <Property Name="Fecha" Type="datetime" />
           <Property Name="Id_User" Type="varchar(max)" />
           <Property Name="IP_User" Type="varchar(max)" />
           <Property Name="Total" Type="money" />
           <Property Name="Estatus" Type="int" />
-          <Property Name="claveOLD" MaxLength="30" Type="varchar" />
-          <Property Name="EstatusContrato" MaxLength="30" Type="varchar" />
-          <Property Name="EstatusOC" MaxLength="20" Type="varchar" />
+          <Property Name="claveOLD" Type="varchar" MaxLength="30" />
+          <Property Name="EstatusContrato" Type="varchar" MaxLength="30" />
+          <Property Name="EstatusOC" Type="varchar" MaxLength="20" />
+          <Property Name="Estatus_OC_Parcial" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="SISM_REQUISICION_FARMACIA">
           <Key>
             <PropertyRef Name="Id_Requisicion_Farm" />
           </Key>
-          <Property Name="Id_Requisicion_Farm" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="Id_Requisicion_Farm" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Fecha" Type="datetime" />
-          <Property Name="UsuarioRegistra" MaxLength="20" Type="varchar" />
-          <Property Name="Estatus" MaxLength="50" Type="varchar" />
-          <Property Name="ip_realiza" MaxLength="20" Type="varchar" />
-          <Property Name="EstatusContrato" MaxLength="50" Type="varchar" />
+          <Property Name="UsuarioRegistra" Type="varchar" MaxLength="20" />
+          <Property Name="Estatus" Type="varchar" MaxLength="50" />
+          <Property Name="ip_realiza" Type="varchar" MaxLength="20" />
+          <Property Name="EstatusContrato" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="SISM_VALE_ENTRADA">
           <Key>
             <PropertyRef Name="Id_ValeEntrada" />
           </Key>
-          <Property Name="Id_ValeEntrada" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="Id_ValeEntrada" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Clave" Type="varchar(max)" />
           <Property Name="Id_OrdenCompra" Type="int" />
           <Property Name="Fecha" Type="datetime" />
@@ -206,8 +221,8 @@
           <Property Name="Estatus" Type="int" />
         </EntityType>
         <Association Name="FK__SISM_COTI__Id_Re__5CD6CB2B">
-          <End Type="Self.SISM_REQUISICION" Multiplicity="1" Role="SISM_REQUISICION" />
-          <End Type="Self.SISM_COTIZACIONES" Multiplicity="*" Role="SISM_COTIZACIONES" />
+          <End Role="SISM_REQUISICION" Type="Self.SISM_REQUISICION" Multiplicity="1" />
+          <End Role="SISM_COTIZACIONES" Type="Self.SISM_COTIZACIONES" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SISM_REQUISICION">
               <PropertyRef Name="Id_Requicision" />
@@ -218,8 +233,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__SISM_DET___Id_Co__3B75D760">
-          <End Type="Self.SISM_CODIGOBARRAS" Multiplicity="1" Role="SISM_CODIGOBARRAS" />
-          <End Type="Self.SISM_DET_VALE_ENTRADA" Multiplicity="*" Role="SISM_DET_VALE_ENTRADA" />
+          <End Role="SISM_CODIGOBARRAS" Type="Self.SISM_CODIGOBARRAS" Multiplicity="1" />
+          <End Role="SISM_DET_VALE_ENTRADA" Type="Self.SISM_DET_VALE_ENTRADA" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SISM_CODIGOBARRAS">
               <PropertyRef Name="Id_CodigoBarras" />
@@ -230,8 +245,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__SISM_DET___Id_Re__45F365D3">
-          <End Type="Self.SISM_REQUISICION" Multiplicity="1" Role="SISM_REQUISICION" />
-          <End Type="Self.SISM_DET_REQUISICION" Multiplicity="*" Role="SISM_DET_REQUISICION" />
+          <End Role="SISM_REQUISICION" Type="Self.SISM_REQUISICION" Multiplicity="1" />
+          <End Role="SISM_DET_REQUISICION" Type="Self.SISM_DET_REQUISICION" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SISM_REQUISICION">
               <PropertyRef Name="Id_Requicision" />
@@ -242,8 +257,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__SISM_DET___Id_Va__3A81B327">
-          <End Type="Self.SISM_VALE_ENTRADA" Multiplicity="1" Role="SISM_VALE_ENTRADA" />
-          <End Type="Self.SISM_DET_VALE_ENTRADA" Multiplicity="*" Role="SISM_DET_VALE_ENTRADA" />
+          <End Role="SISM_VALE_ENTRADA" Type="Self.SISM_VALE_ENTRADA" Multiplicity="1" />
+          <End Role="SISM_DET_VALE_ENTRADA" Type="Self.SISM_DET_VALE_ENTRADA" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SISM_VALE_ENTRADA">
               <PropertyRef Name="Id_ValeEntrada" />
@@ -254,8 +269,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__SISM_DETA__Id_Bo__4BAC3F29">
-          <End Type="Self.SISM_BORRADOR_REQUI" Multiplicity="1" Role="SISM_BORRADOR_REQUI" />
-          <End Type="Self.SISM_DETALLE_BORRADOR_REQUI" Multiplicity="*" Role="SISM_DETALLE_BORRADOR_REQUI" />
+          <End Role="SISM_BORRADOR_REQUI" Type="Self.SISM_BORRADOR_REQUI" Multiplicity="1" />
+          <End Role="SISM_DETALLE_BORRADOR_REQUI" Type="Self.SISM_DETALLE_BORRADOR_REQUI" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SISM_BORRADOR_REQUI">
               <PropertyRef Name="Id_BorradorRequi" />
@@ -266,8 +281,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__SISM_DETA__Id_Re__619B8048">
-          <End Type="Self.SISM_REQUISICION_FARMACIA" Multiplicity="1" Role="SISM_REQUISICION_FARMACIA" />
-          <End Type="Self.SISM_DETALLE_REQ_FARMACIA" Multiplicity="*" Role="SISM_DETALLE_REQ_FARMACIA" />
+          <End Role="SISM_REQUISICION_FARMACIA" Type="Self.SISM_REQUISICION_FARMACIA" Multiplicity="1" />
+          <End Role="SISM_DETALLE_REQ_FARMACIA" Type="Self.SISM_DETALLE_REQ_FARMACIA" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SISM_REQUISICION_FARMACIA">
               <PropertyRef Name="Id_Requisicion_Farm" />
@@ -278,8 +293,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__SISM_DETA__Pendi__68487DD7">
-          <End Type="Self.SISM_ORDEN_COMPRA" Multiplicity="1" Role="SISM_ORDEN_COMPRA" />
-          <End Type="Self.SISM_DETALLE_OC" Multiplicity="*" Role="SISM_DETALLE_OC" />
+          <End Role="SISM_ORDEN_COMPRA" Type="Self.SISM_ORDEN_COMPRA" Multiplicity="1" />
+          <End Role="SISM_DETALLE_OC" Type="Self.SISM_DETALLE_OC" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SISM_ORDEN_COMPRA">
               <PropertyRef Name="Id" />
@@ -306,32 +321,32 @@
           <EntitySet Name="SISM_REQUISICION_FARMACIA" EntityType="Self.SISM_REQUISICION_FARMACIA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SISM_VALE_ENTRADA" EntityType="Self.SISM_VALE_ENTRADA" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__SISM_COTI__Id_Re__5CD6CB2B" Association="Self.FK__SISM_COTI__Id_Re__5CD6CB2B">
-            <End EntitySet="SISM_REQUISICION" Role="SISM_REQUISICION" />
-            <End EntitySet="SISM_COTIZACIONES" Role="SISM_COTIZACIONES" />
+            <End Role="SISM_REQUISICION" EntitySet="SISM_REQUISICION" />
+            <End Role="SISM_COTIZACIONES" EntitySet="SISM_COTIZACIONES" />
           </AssociationSet>
           <AssociationSet Name="FK__SISM_DET___Id_Co__3B75D760" Association="Self.FK__SISM_DET___Id_Co__3B75D760">
-            <End EntitySet="SISM_CODIGOBARRAS" Role="SISM_CODIGOBARRAS" />
-            <End EntitySet="SISM_DET_VALE_ENTRADA" Role="SISM_DET_VALE_ENTRADA" />
+            <End Role="SISM_CODIGOBARRAS" EntitySet="SISM_CODIGOBARRAS" />
+            <End Role="SISM_DET_VALE_ENTRADA" EntitySet="SISM_DET_VALE_ENTRADA" />
           </AssociationSet>
           <AssociationSet Name="FK__SISM_DET___Id_Re__45F365D3" Association="Self.FK__SISM_DET___Id_Re__45F365D3">
-            <End EntitySet="SISM_REQUISICION" Role="SISM_REQUISICION" />
-            <End EntitySet="SISM_DET_REQUISICION" Role="SISM_DET_REQUISICION" />
+            <End Role="SISM_REQUISICION" EntitySet="SISM_REQUISICION" />
+            <End Role="SISM_DET_REQUISICION" EntitySet="SISM_DET_REQUISICION" />
           </AssociationSet>
           <AssociationSet Name="FK__SISM_DET___Id_Va__3A81B327" Association="Self.FK__SISM_DET___Id_Va__3A81B327">
-            <End EntitySet="SISM_VALE_ENTRADA" Role="SISM_VALE_ENTRADA" />
-            <End EntitySet="SISM_DET_VALE_ENTRADA" Role="SISM_DET_VALE_ENTRADA" />
+            <End Role="SISM_VALE_ENTRADA" EntitySet="SISM_VALE_ENTRADA" />
+            <End Role="SISM_DET_VALE_ENTRADA" EntitySet="SISM_DET_VALE_ENTRADA" />
           </AssociationSet>
           <AssociationSet Name="FK__SISM_DETA__Id_Bo__4BAC3F29" Association="Self.FK__SISM_DETA__Id_Bo__4BAC3F29">
-            <End EntitySet="SISM_BORRADOR_REQUI" Role="SISM_BORRADOR_REQUI" />
-            <End EntitySet="SISM_DETALLE_BORRADOR_REQUI" Role="SISM_DETALLE_BORRADOR_REQUI" />
+            <End Role="SISM_BORRADOR_REQUI" EntitySet="SISM_BORRADOR_REQUI" />
+            <End Role="SISM_DETALLE_BORRADOR_REQUI" EntitySet="SISM_DETALLE_BORRADOR_REQUI" />
           </AssociationSet>
           <AssociationSet Name="FK__SISM_DETA__Id_Re__619B8048" Association="Self.FK__SISM_DETA__Id_Re__619B8048">
-            <End EntitySet="SISM_REQUISICION_FARMACIA" Role="SISM_REQUISICION_FARMACIA" />
-            <End EntitySet="SISM_DETALLE_REQ_FARMACIA" Role="SISM_DETALLE_REQ_FARMACIA" />
+            <End Role="SISM_REQUISICION_FARMACIA" EntitySet="SISM_REQUISICION_FARMACIA" />
+            <End Role="SISM_DETALLE_REQ_FARMACIA" EntitySet="SISM_DETALLE_REQ_FARMACIA" />
           </AssociationSet>
           <AssociationSet Name="FK__SISM_DETA__Pendi__68487DD7" Association="Self.FK__SISM_DETA__Pendi__68487DD7">
-            <End EntitySet="SISM_ORDEN_COMPRA" Role="SISM_ORDEN_COMPRA" />
-            <End EntitySet="SISM_DETALLE_OC" Role="SISM_DETALLE_OC" />
+            <End Role="SISM_ORDEN_COMPRA" EntitySet="SISM_ORDEN_COMPRA" />
+            <End Role="SISM_DETALLE_OC" EntitySet="SISM_DETALLE_OC" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -377,6 +392,9 @@
           <Property Name="Compendio" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="PrecioUnitario" Type="Double" />
           <Property Name="Total" Type="Double" />
+          <Property Name="Cantidad_OC" Type="Int32" />
+          <Property Name="CantidadPendiente_OC" Type="Int32" />
+          <Property Name="PartidaPendiente_OC" Type="Boolean" />
         </EntityType>
         <EntityType Name="SISM_DET_VALE_ENTRADA">
           <Key>
@@ -444,6 +462,7 @@
           <NavigationProperty Name="SISM_DET_REQUISICION" Relationship="Self.FK__SISM_DET___Id_Re__45F365D3" FromRole="SISM_REQUISICION" ToRole="SISM_DET_REQUISICION" />
           <NavigationProperty Name="SISM_COTIZACIONES" Relationship="SISM_SIST_MEDModel.FK__SISM_COTI__Id_Re__5CD6CB2B" FromRole="SISM_REQUISICION" ToRole="SISM_COTIZACIONES" />
           <Property Name="EstatusOC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Estatus_OC_Parcial" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="SISM_VALE_ENTRADA">
           <Key>
@@ -648,6 +667,9 @@
           <Property Name="Id_Sustencia" Type="Int32" />
           <Property Name="Pendiente" Type="Int32" />
           <NavigationProperty Name="SISM_ORDEN_COMPRA" Relationship="SISM_SIST_MEDModel.FK__SISM_DETA__Pendi__68487DD7" FromRole="SISM_DETALLE_OC" ToRole="SISM_ORDEN_COMPRA" />
+          <Property Name="Total" Type="Double" />
+          <Property Name="Descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="ClaveMedicamento" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="SISM_ORDEN_COMPRA">
           <Key>
@@ -668,6 +690,14 @@
           <NavigationProperty Name="SISM_DETALLE_OC" Relationship="SISM_SIST_MEDModel.FK__SISM_DETA__Pendi__68487DD7" FromRole="SISM_ORDEN_COMPRA" ToRole="SISM_DETALLE_OC" />
           <Property Name="UsuarioNuevo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="IP_User" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="NombreProveedor" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Total_OC" Type="Double" />
+          <Property Name="OC_PorValidar" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha_Acuse" Type="DateTime" Precision="3" />
+          <Property Name="Fecha_AutorizaOC" Type="DateTime" Precision="3" />
+          <Property Name="Usuario_AutorizaOC" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha_HacerOC" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK__SISM_DETA__Pendi__68487DD7">
           <End Type="SISM_SIST_MEDModel.SISM_ORDEN_COMPRA" Role="SISM_ORDEN_COMPRA" Multiplicity="1" />
@@ -715,6 +745,9 @@
           <EntitySetMapping Name="SISM_DET_REQUISICION">
             <EntityTypeMapping TypeName="SISM_SIST_MEDModel.SISM_DET_REQUISICION">
               <MappingFragment StoreEntitySet="SISM_DET_REQUISICION">
+                <ScalarProperty Name="PartidaPendiente_OC" ColumnName="PartidaPendiente_OC" />
+                <ScalarProperty Name="CantidadPendiente_OC" ColumnName="CantidadPendiente_OC" />
+                <ScalarProperty Name="Cantidad_OC" ColumnName="Cantidad_OC" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="PrecioUnitario" ColumnName="PrecioUnitario" />
                 <ScalarProperty Name="Compendio" ColumnName="Compendio" />
@@ -781,6 +814,7 @@
           <EntitySetMapping Name="SISM_REQUISICION">
             <EntityTypeMapping TypeName="SISM_SIST_MEDModel.SISM_REQUISICION">
               <MappingFragment StoreEntitySet="SISM_REQUISICION">
+                <ScalarProperty Name="Estatus_OC_Parcial" ColumnName="Estatus_OC_Parcial" />
                 <ScalarProperty Name="EstatusOC" ColumnName="EstatusOC" />
                 <ScalarProperty Name="Id_Requicision" ColumnName="Id_Requicision" />
                 <ScalarProperty Name="Clave" ColumnName="Clave" />
@@ -870,6 +904,9 @@
           <EntitySetMapping Name="SISM_DETALLE_OC">
             <EntityTypeMapping TypeName="SISM_SIST_MEDModel.SISM_DETALLE_OC">
               <MappingFragment StoreEntitySet="SISM_DETALLE_OC">
+                <ScalarProperty Name="ClaveMedicamento" ColumnName="ClaveMedicamento" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="Pendiente" ColumnName="Pendiente" />
                 <ScalarProperty Name="Id_Sustencia" ColumnName="Id_Sustencia" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
@@ -885,6 +922,14 @@
           <EntitySetMapping Name="SISM_ORDEN_COMPRA">
             <EntityTypeMapping TypeName="SISM_SIST_MEDModel.SISM_ORDEN_COMPRA">
               <MappingFragment StoreEntitySet="SISM_ORDEN_COMPRA">
+                <ScalarProperty Name="Fecha_HacerOC" ColumnName="Fecha_HacerOC" />
+                <ScalarProperty Name="Usuario_AutorizaOC" ColumnName="Usuario_AutorizaOC" />
+                <ScalarProperty Name="Fecha_AutorizaOC" ColumnName="Fecha_AutorizaOC" />
+                <ScalarProperty Name="Fecha_Acuse" ColumnName="Fecha_Acuse" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="OC_PorValidar" ColumnName="OC_PorValidar" />
+                <ScalarProperty Name="Total_OC" ColumnName="Total_OC" />
+                <ScalarProperty Name="NombreProveedor" ColumnName="NombreProveedor" />
                 <ScalarProperty Name="IP_User" ColumnName="IP_User" />
                 <ScalarProperty Name="UsuarioNuevo" ColumnName="UsuarioNuevo" />
                 <ScalarProperty Name="Cuadro" ColumnName="Cuadro" />
