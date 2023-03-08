@@ -106,6 +106,7 @@
             <div class="modal-body imprimir-content">
                 <div class="row">
                     <input id="Id_OC" name="Id_OC" value="" style="display: none;" />
+                    <input id="Folio_Requi" name="Folio_Requi" value="" style="display: none;" />
                 </div>
 
                 <div class="row m-0 text-center pt-4">
@@ -546,6 +547,7 @@ crossorigin="anonymous"></script>*@
         }
 
         $('#Id_OC').val(IdOC);
+        $('#Folio_Requi').val(ClaveRequi);
 
         $('#DetalleOCModal').modal("show");
 
@@ -783,12 +785,13 @@ crossorigin="anonymous"></script>*@
 
     $('#btnGenerar_OC').on('click', function () {
         var Id_OC = $("#Id_OC").val();
+        var Folio_Requi = $("#Folio_Requi").val();
 
         $.ajax({
             url: '@Url.Action("HACER_OC", "OrdenCompra")',
             method: 'POST',
             dataType: 'json',
-            data: { Id_OC: Id_OC },
+            data: { Id_OC: Id_OC, Folio_Requi: Folio_Requi },
             success: function (data) {
                 if (data.MENSAJE.substring(0, 6) == "Succe:") {
                     Swal.fire({
