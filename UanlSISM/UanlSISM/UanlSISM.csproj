@@ -438,7 +438,7 @@
       <DependentUpon>Dhabientes.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CodigoBarras.cs">
-      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
+      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ColoniaPrueba.Context.cs">
       <AutoGen>True</AutoGen>
@@ -527,7 +527,7 @@
       <DependentUpon>Derechohabientes.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\DetalleOC.cs">
-      <DependentUpon>Req.tt</DependentUpon>
+      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DetalleReq.cs">
       <DependentUpon>Req.tt</DependentUpon>
@@ -1119,7 +1119,7 @@
       <DependentUpon>Afiliados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OrdenCompra.cs">
-      <DependentUpon>Req.tt</DependentUpon>
+      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OrdenesInternamientos.cs" />
     <Compile Include="Models\OrdenInternamiento.Context.cs">
@@ -1820,7 +1820,7 @@
       <DependentUpon>Dhabientes.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Usuario.cs">
-      <DependentUpon>Req.tt</DependentUpon>
+      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ValeEntrada.cs">
       <DependentUpon>Inventario.tt</DependentUpon>

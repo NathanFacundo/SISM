@@ -615,14 +615,25 @@ namespace UanlSISM.Controllers
                 {
 
                     var sus = (from a in DAM.Sustancia
+                               //join G in DAM.grupo_21 on a.id_grupo_21 equals G.id
                                where a.Clave == q.Clave
-                               select a).FirstOrDefault();
+                               select new { 
+                               a.Id,
+                               //G.descripcion
+                               }).FirstOrDefault();
 
                     if (sus != null)
                     {
                         string query2 = "select ManejoDisponible as ManejoDisponible from InvAlmFarm WHERE Id_Sustancia = " + sus.Id + " and InvAlmId = 84";
                         var result2 = db.Database.SqlQuery<InvAlmFarm>(query2);
                         var res2 = result2.FirstOrDefault();
+
+                        string query22 = "select G.descripcion As DescripcionGrupo "+
+                                        "from Sustancia S " +
+                                        "INNER JOIN grupo_21 G ON S.id_grupo_21 = G.id " +
+                                        "where S.Id = " + sus.Id + " ";
+                        var result22 = DAM.Database.SqlQuery<Detalle>(query22);
+                        var res22 = result22.FirstOrDefault();
 
                         var resultado = new Detalle
                         {
@@ -635,7 +646,8 @@ namespace UanlSISM.Controllers
                             Usuario = q.Id_User,
                             Fecha1 = string.Format("{0:d/M/yy hh:mm tt}", fechaDT),
                             EstatusContrato = q.EstatusContrato,
-                            Compendio = q.Compendio
+                            Compendio = q.Compendio,
+                            DescripcionGrupo = res22.DescripcionGrupo
                         };
                         results1.Add(resultado);
                     }
@@ -663,6 +675,7 @@ namespace UanlSISM.Controllers
             public int? Existencia { get; set; }
             public string EstatusContrato { get; set; }
             public string Compendio { get; set; }
+            public string DescripcionGrupo { get; set; }
         }
 
         public JsonResult EliminarBorrador(int Id_FolioBorrador)

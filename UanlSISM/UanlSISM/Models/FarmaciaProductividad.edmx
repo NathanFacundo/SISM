@@ -19,6 +19,20 @@
           <Property Name="contenido_anterior" Type="int" />
           <Property Name="codigobarra_anterior" Type="nchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="DetalleOC">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_OrdenCompra" Type="int" Nullable="false" />
+          <Property Name="Id_CodigoBarras" Type="int" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="PreUnit" Type="float" Nullable="false" />
+          <Property Name="Obsequio" Type="int" />
+          <Property Name="Status" Type="bit" />
+          <Property Name="Id_Sustancia" Type="int" />
+          <Property Name="Pendiente" Type="int" />
+        </EntityType>
         <EntityType Name="Grupo">
           <Key>
             <PropertyRef Name="Id" />
@@ -82,6 +96,23 @@
           <Property Name="status" Type="int" />
           <Property Name="fecha" Type="datetime" />
           <Property Name="usuario_registra" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="OrdenCompra">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="clave" Type="char" MaxLength="7" Nullable="false" />
+          <Property Name="Id_Requisicion" Type="int" />
+          <Property Name="Id_Proveedor" Type="int" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" />
+          <Property Name="FecMod" Type="datetime" />
+          <Property Name="Forma_Pago" Type="varchar" MaxLength="50" />
+          <Property Name="Folio" Type="varchar" MaxLength="50" />
+          <Property Name="Status" Type="bit" />
+          <Property Name="UsuarioId" Type="int" />
+          <Property Name="Cerrado" Type="bit" Nullable="false" />
+          <Property Name="Cuadro" Type="int" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'SERVMED.dbo.Receta_Detalle' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -206,14 +237,42 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.Receta_Detalle' no tiene definid
           <Property Name="Usu_Status" Type="bit" Nullable="false" />
           <Property Name="Baja" Type="bit" Nullable="false" />
         </EntityType>
+        <Association Name="FK_DetalleOC_OrdenCompra">
+          <End Role="OrdenCompra" Type="Self.OrdenCompra" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DetalleOC" Type="Self.DetalleOC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrdenCompra">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetalleOC">
+              <PropertyRef Name="Id_OrdenCompra" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdenCompra_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="OrdenCompra" Type="Self.OrdenCompra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="UsuarioId" />
+            </Principal>
+            <Dependent Role="OrdenCompra">
+              <PropertyRef Name="UsuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="SERVMEDModel3StoreContainer">
           <EntitySet Name="CodigoBarras" EntityType="Self.CodigoBarras" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DetalleOC" EntityType="Self.DetalleOC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Grupo" EntityType="Self.Grupo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="grupo_21" EntityType="Self.grupo_21" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InhabilitarMedicamentos" EntityType="Self.InhabilitarMedicamentos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InventarioConteo" EntityType="Self.InventarioConteo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InvFarm" EntityType="Self.InvFarm" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MedicamentosControlados" EntityType="Self.MedicamentosControlados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrdenCompra" EntityType="Self.OrdenCompra" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Receta_Exp" EntityType="Self.Receta_Exp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sal" EntityType="Self.Sal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sustancia" EntityType="Self.Sustancia" Schema="dbo" store:Type="Tables" />
@@ -234,6 +293,14 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.Receta_Detalle' no tiene definid
     [Receta_Detalle].[costo] AS [costo]
     FROM [dbo].[Receta_Detalle] AS [Receta_Detalle]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_DetalleOC_OrdenCompra" Association="Self.FK_DetalleOC_OrdenCompra">
+            <End Role="OrdenCompra" EntitySet="OrdenCompra" />
+            <End Role="DetalleOC" EntitySet="DetalleOC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdenCompra_Usuario" Association="Self.FK_OrdenCompra_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="OrdenCompra" EntitySet="OrdenCompra" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -251,6 +318,7 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.Receta_Detalle' no tiene definid
           <Property Name="RolId" Type="Byte" />
           <Property Name="Usu_Status" Type="Boolean" Nullable="false" />
           <Property Name="Baja" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="OrdenCompra" Relationship="SERVMEDModel3.FK_OrdenCompra_Usuario" FromRole="Usuario" ToRole="OrdenCompra" />
         </EntityType>
         <EntityType Name="Receta_Detalle">
           <Key>
@@ -282,6 +350,16 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.Receta_Detalle' no tiene definid
           <EntitySet Name="Grupo" EntityType="SERVMEDModel3.Grupo" />
           <EntitySet Name="Sal" EntityType="SERVMEDModel3.Sal" />
           <EntitySet Name="MedicamentosControlados" EntityType="SERVMEDModel3.MedicamentosControlados" />
+          <EntitySet Name="DetalleOC" EntityType="SERVMEDModel3.DetalleOC" />
+          <EntitySet Name="OrdenCompra" EntityType="SERVMEDModel3.OrdenCompra" />
+          <AssociationSet Name="FK_DetalleOC_OrdenCompra" Association="SERVMEDModel3.FK_DetalleOC_OrdenCompra">
+            <End Role="OrdenCompra" EntitySet="OrdenCompra" />
+            <End Role="DetalleOC" EntitySet="DetalleOC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdenCompra_Usuario" Association="SERVMEDModel3.FK_OrdenCompra_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="OrdenCompra" EntitySet="OrdenCompra" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Receta_Exp">
           <Key>
@@ -453,6 +531,66 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.Receta_Detalle' no tiene definid
           <Property Name="fecha" Type="DateTime" Precision="3" />
           <Property Name="usuario_registra" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="DetalleOC">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_OrdenCompra" Type="Int32" Nullable="false" />
+          <Property Name="Id_CodigoBarras" Type="Int32" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="PreUnit" Type="Double" Nullable="false" />
+          <Property Name="Obsequio" Type="Int32" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="Id_Sustancia" Type="Int32" />
+          <Property Name="Pendiente" Type="Int32" />
+          <NavigationProperty Name="OrdenCompra" Relationship="SERVMEDModel3.FK_DetalleOC_OrdenCompra" FromRole="DetalleOC" ToRole="OrdenCompra" />
+        </EntityType>
+        <EntityType Name="OrdenCompra">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="clave" Type="String" Nullable="false" MaxLength="7" FixedLength="true" Unicode="false" />
+          <Property Name="Id_Requisicion" Type="Int32" />
+          <Property Name="Id_Proveedor" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="FecMod" Type="DateTime" Precision="3" />
+          <Property Name="Forma_Pago" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Folio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="UsuarioId" Type="Int32" />
+          <Property Name="Cerrado" Type="Boolean" Nullable="false" />
+          <Property Name="Cuadro" Type="Int32" />
+          <NavigationProperty Name="DetalleOC" Relationship="SERVMEDModel3.FK_DetalleOC_OrdenCompra" FromRole="OrdenCompra" ToRole="DetalleOC" />
+          <NavigationProperty Name="Usuario" Relationship="SERVMEDModel3.FK_OrdenCompra_Usuario" FromRole="OrdenCompra" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="FK_DetalleOC_OrdenCompra">
+          <End Type="SERVMEDModel3.OrdenCompra" Role="OrdenCompra" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="SERVMEDModel3.DetalleOC" Role="DetalleOC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrdenCompra">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetalleOC">
+              <PropertyRef Name="Id_OrdenCompra" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdenCompra_Usuario">
+          <End Type="SERVMEDModel3.Usuario" Role="Usuario" Multiplicity="0..1" />
+          <End Type="SERVMEDModel3.OrdenCompra" Role="OrdenCompra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="UsuarioId" />
+            </Principal>
+            <Dependent Role="OrdenCompra">
+              <PropertyRef Name="UsuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -668,6 +806,39 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.Receta_Detalle' no tiene definid
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="clave" ColumnName="clave" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DetalleOC">
+            <EntityTypeMapping TypeName="SERVMEDModel3.DetalleOC">
+              <MappingFragment StoreEntitySet="DetalleOC">
+                <ScalarProperty Name="Pendiente" ColumnName="Pendiente" />
+                <ScalarProperty Name="Id_Sustancia" ColumnName="Id_Sustancia" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Obsequio" ColumnName="Obsequio" />
+                <ScalarProperty Name="PreUnit" ColumnName="PreUnit" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Id_CodigoBarras" ColumnName="Id_CodigoBarras" />
+                <ScalarProperty Name="Id_OrdenCompra" ColumnName="Id_OrdenCompra" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrdenCompra">
+            <EntityTypeMapping TypeName="SERVMEDModel3.OrdenCompra">
+              <MappingFragment StoreEntitySet="OrdenCompra">
+                <ScalarProperty Name="Cuadro" ColumnName="Cuadro" />
+                <ScalarProperty Name="Cerrado" ColumnName="Cerrado" />
+                <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Folio" ColumnName="Folio" />
+                <ScalarProperty Name="Forma_Pago" ColumnName="Forma_Pago" />
+                <ScalarProperty Name="FecMod" ColumnName="FecMod" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Id_Proveedor" ColumnName="Id_Proveedor" />
+                <ScalarProperty Name="Id_Requisicion" ColumnName="Id_Requisicion" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

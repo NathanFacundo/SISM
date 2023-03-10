@@ -38,5 +38,7 @@ namespace UanlSISM.Models
         public virtual DbSet<Grupo> Grupo { get; set; }
         public virtual DbSet<Sal> Sal { get; set; }
         public virtual DbSet<MedicamentosControlados> MedicamentosControlados { get; set; }
+        public virtual DbSet<DetalleOC> DetalleOC { get; set; }
+        public virtual DbSet<OrdenCompra> OrdenCompra { get; set; }
     }
 }

@@ -67,6 +67,7 @@ namespace UanlSISM.Controllers
             public bool? PartidaPendiente { get; internal set; }
             public string FechaOC { get; internal set; }
             public string OC_PorValidar { get; internal set; }
+            public double UltimoPrecio { get; internal set; }
         }
 
         //----------------------------------------------------- Pantalla ORDEN COMPRA   --------------  INICIO
@@ -124,6 +125,7 @@ namespace UanlSISM.Controllers
             public int Inv_Reorden { get; set; }
             public int ManejoDisponible { get; set; }
             public string Usuario_Registra { get; set; }
+            public double PreUnit { get; internal set; }
         }
 
         public JsonResult ObtenerDetalleRequi(string Id_Requi)
@@ -165,21 +167,29 @@ namespace UanlSISM.Controllers
                                  a.Estatus_OC_Parcial,
                                  det.PartidaPendiente_OC
                              }).ToList();
-
                 var results1 = new List<ListCampos>();
 
                 foreach (var q in query)
                 {
-
                     var sus = (from a in DAM.Sustancia
                                where a.Clave == q.Clave
                                select a).FirstOrDefault();
 
                     if (sus != null)
                     {
-                        string query2 = "select ManejoDisponible as ManejoDisponible from InvAlmFarm WHERE Id_Sustancia = " + sus.Id + " and InvAlmId = 76";
+                        //Nuevo inventario: Farmacia-85, Almacen-84
+                        string query2 = "select ManejoDisponible as ManejoDisponible from InvAlmFarm WHERE Id_Sustancia = " + sus.Id + " and InvAlmId = 84";
                         var result2 = db.Database.SqlQuery<InvAlmFarm>(query2);
                         var res2 = result2.FirstOrDefault();
+
+                        string UP =
+                            "select D_OC.PreUnit as PreUnit " +
+                            "FROM OrdenCompra OC" +
+                            "INNER JOIN DetalleOC D_OC ON OC.Id = D_OC.Id_OrdenCompra" +
+                            "INNER JOIN Sustancia Sus ON D_OC.Id_Sustancia = Sus.Id" +
+                            "WHERE OC.Fecha >= '2022-01-01T00:00:00' AND D_OC.Id_Sustancia = " + sus.Id + " ";
+                        var PU = DAM.Database.SqlQuery<InvAlmFarm>(UP);
+                        var Precio = PU.FirstOrDefault();
 
                         var resultado = new ListCampos
                         {
@@ -201,13 +211,12 @@ namespace UanlSISM.Controllers
                             CantidadPendiente_OC = q.CantidadPendiente_OC,
                             Cantidad_OC = q.Cantidad_OC,
                             Estatus_OC_Parcial = q.Estatus_OC_Parcial,
-                            PartidaPendiente = q.PartidaPendiente_OC
+                            PartidaPendiente = q.PartidaPendiente_OC,
+                            UltimoPrecio = Precio.PreUnit
                         };
                         results1.Add(resultado);
                     }
-
                 }
-
                 return new JsonResult { Data = results1, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
             catch (Exception ex)

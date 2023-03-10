@@ -276,6 +276,7 @@
                                 <th style="width:10px"></th>
                                 <th>Compendio</th>
                                 <th>Clave Med.</th>
+                                <th>Grupo</th>
                                 <th>Descripción</th>
                                 <th>Cant. Solicitada</th>
                             </tr>
@@ -1021,6 +1022,7 @@
                 lengthChange: false,
                 paging: false,
                 data: Lista,
+                "order": [[2, 'asc']],
                 language: {
                     "zeroRecords": " ",
                     "search": "",
@@ -1046,6 +1048,7 @@
                     //{ "data": "Compendio", className: "text-center" },
                     { "data": "Compendio", className: "text-center", render: function (data) { return (data == null ? '<h8 style="color:black; ">' + "SIN COMPENDIO" + '</h8>' : '<a>' + data + '</a>'); } },
                     { "data": "Clave", className: "text-center" },
+                    { "data": "DescripcionGrupo", className: "text-center" },
                     { "data": "Descripcion", className: "text-center" },
                     { "data": "Cantidad", className: "text-center" },
                 ]
