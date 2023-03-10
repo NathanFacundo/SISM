@@ -122,7 +122,7 @@ namespace UanlSISM.Controllers
                                "INNER JOIN InvAlmFarm AS Inv ON Sus.Id = Inv.Id_Sustancia " +
                                "WHERE(Sus.descripcion_21 IS NOT NULL) " +
                                "AND(Sus.descripcion_21 <> '') " +
-                               "AND(Inv.InvAlmId = 76) " +
+                               "AND(Inv.InvAlmId = 84) " +
                                "AND(Sus.LicitacionStatus IS NOT NULL) ";
 
                 var result = DAM.Database.SqlQuery<LstInv1>(query);
@@ -620,7 +620,7 @@ namespace UanlSISM.Controllers
 
                     if (sus != null)
                     {
-                        string query2 = "select ManejoDisponible as ManejoDisponible from InvAlmFarm WHERE Id_Sustancia = " + sus.Id + " and InvAlmId = 76";
+                        string query2 = "select ManejoDisponible as ManejoDisponible from InvAlmFarm WHERE Id_Sustancia = " + sus.Id + " and InvAlmId = 84";
                         var result2 = db.Database.SqlQuery<InvAlmFarm>(query2);
                         var res2 = result2.FirstOrDefault();
 
