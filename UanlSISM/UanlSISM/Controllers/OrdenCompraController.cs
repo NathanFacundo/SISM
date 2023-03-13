@@ -173,7 +173,9 @@ namespace UanlSISM.Controllers
                 {
                     var sus = (from a in DAM.Sustancia
                                where a.Clave == q.Clave
-                               select a).FirstOrDefault();
+                               select new { 
+                               a.Id
+                               }).FirstOrDefault();
 
                     if (sus != null)
                     {
@@ -182,14 +184,13 @@ namespace UanlSISM.Controllers
                         var result2 = db.Database.SqlQuery<InvAlmFarm>(query2);
                         var res2 = result2.FirstOrDefault();
 
-                        string UP =
-                            "select D_OC.PreUnit as PreUnit " +
-                            "FROM OrdenCompra OC" +
-                            "INNER JOIN DetalleOC D_OC ON OC.Id = D_OC.Id_OrdenCompra" +
-                            "INNER JOIN Sustancia Sus ON D_OC.Id_Sustancia = Sus.Id" +
-                            "WHERE OC.Fecha >= '2022-01-01T00:00:00' AND D_OC.Id_Sustancia = " + sus.Id + " ";
-                        var PU = DAM.Database.SqlQuery<InvAlmFarm>(UP);
-                        var Precio = PU.FirstOrDefault();
+                        //string UP = "select D_OC.PreUnit as PreUnit "+
+                        //    "from OrdenCompra OC " +
+                        //    "INNER JOIN DetalleOC D_OC ON OC.Id = D_OC.Id_OrdenCompra " +
+                        //    "INNER JOIN Sustancia Sus ON D_OC.Id_Sustancia = Sus.Id " +
+                        //    "WHERE OC.Fecha >= '2020-01-01T00:00:00' AND D_OC.Id_Sustancia = " + sus.Id + " ";
+                        //var PU = DAM.Database.SqlQuery<InvAlmFarm>(UP);
+                        //var Precio = PU.FirstOrDefault();
 
                         var resultado = new ListCampos
                         {
@@ -212,7 +213,7 @@ namespace UanlSISM.Controllers
                             Cantidad_OC = q.Cantidad_OC,
                             Estatus_OC_Parcial = q.Estatus_OC_Parcial,
                             PartidaPendiente = q.PartidaPendiente_OC,
-                            UltimoPrecio = Precio.PreUnit
+                            //UltimoPrecio = Precio.PreUnit
                         };
                         results1.Add(resultado);
                     }
