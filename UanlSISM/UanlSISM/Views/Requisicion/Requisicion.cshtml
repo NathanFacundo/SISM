@@ -205,12 +205,12 @@
                 <div class="row m-0 text-center pt-4">
 
                     <div class="col-2 m-auto imprimirUanl">
-                        <img src="~/Imagenes/uanl.png" />
+                        <img src="~/Imagenes/uanl.png" style="width:100px; height:100px"/>
                     </div>
 
                     <div class="col-8 m-auto imprimirTitulo">
                         <h5>UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</h5>
-                        <div style="        border: 0.5px solid rgb(217, 220, 217);"></div>
+                        <div style="border: 0.5px solid rgb(217, 220, 217);"></div>
                         <h5>SERVICIOS MÉDICOS</h5>
                     </div>
 
@@ -1015,7 +1015,7 @@
         });
 
         function LlenDetalle(Lista) {
-            var table12 = $('#tblDetalleRequi').DataTable({
+            var t = $('#tblDetalleRequi').DataTable({
                 destroy: true,
                 searching: false,
                 responsive: true,
@@ -1026,7 +1026,7 @@
                 language: {
                     "zeroRecords": " ",
                     "search": "",
-                    "info": "",
+                    "info": "_TOTAL_ Medicamentos",
                     "infoEmpty": "",
                     "paginate": {
                         "first": "Primero",
@@ -1039,22 +1039,40 @@
                     },
                 },
                 columns: [
-                    {
-                        'data': 'ORDEN', className: "text-center",
-                        render: function (data, type, row, meta) {
-                            return (row.ORDEN = meta.row + meta.settings._iDisplayStart + 1);
-                        }
-                    },
-                    //{ "data": "Compendio", className: "text-center" },
+                    //{
+                    //    'data': 'Orden', className: "text-center",
+                    //    render: function (data, type, row, meta) {
+                    //        return (row.Orden = meta.row + meta.settings._iDisplayStart + 1);
+                    //    }
+                    //},
+                    { "data": "Compendio", className: "text-center"},
                     { "data": "Compendio", className: "text-center", render: function (data) { return (data == null ? '<h8 style="color:black; ">' + "SIN COMPENDIO" + '</h8>' : '<a>' + data + '</a>'); } },
                     { "data": "Clave", className: "text-center" },
                     { "data": "DescripcionGrupo", className: "text-center" },
                     { "data": "Descripcion", className: "text-center" },
                     { "data": "Cantidad", className: "text-center" },
-                ]
+                ],
+                columnDefs: [
+                    {
+                        searchable: false,
+                        orderable: false,
+                        targets: 0,
+                    },
+                ],
             });
+            t.on('order.dt search.dt', function () {
+                let i = 1;
+
+                t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                    this.data(i++);
+                });
+            }).draw();
         }
     });
+
+    $('#DetalleRequiModal').on('hidden.bs.modal', function () {
+        location.reload();
+    })
 
     //---------------------------------------------------------------------------------------------------------
 
