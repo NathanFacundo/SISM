@@ -102,7 +102,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <br />
+            @*<br />*@
             <div class="modal-body imprimir-content">
                 <div class="row">
                     <input id="Id_OC" name="Id_OC" value="" style="display: none;" />
@@ -116,11 +116,11 @@
                     <div class="col-8 m-auto imprimirTitulo">
                         <h5>UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</h5>
                         <div style="        border: 0.5px solid rgb(217, 220, 217);"></div>
-                        <h5>SERVICIOS MÉDICOS</h5>
+                        <h5>SERVICIOS MÉDICOS U.A.N.L.</h5>
                         <div class="col-12 m-auto">
-                            <p style="font-size:10px;" class="m-0"><b>U.A.N.L. SERVICIOS MÉDICOS</b></p>
-                            <p style="font-size:10px;" class="m-0"><b>GONZALITOS Y HAITI, COLONIA VISTA HERMOSA</b></p>
-                            <p style="font-size:10px;" class="m-0"><b>MONTERREY NUEVO LEÓN</b></p>
+                            @*<p style="font-size:10px;" class="m-0"><b>U.A.N.L. SERVICIOS MÉDICOS</b></p>*@
+                            @*<p style="font-size:10px;" class="m-0"><b>GONZALITOS Y HAITI, COLONIA VISTA HERMOSA</b></p>
+                            <p style="font-size:10px;" class="m-0"><b>MONTERREY NUEVO LEÓN</b></p>*@
                         </div>
                     </div>
                     <div class="col-2 m-auto imprimirLogo">
@@ -152,7 +152,6 @@
                         </div>
                     </div>
                 </div>
-
                 @*<div class="row" id="contenido">
                     <div class="row">
                         <h5 id="TitutloModal" class="imprimirTitulo" style="text-align: right; color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;"></h5>
@@ -180,25 +179,30 @@
                         </div>
                     </div>
                 </div>*@
-
                 <div class="row">
                     <div class="col-4">
-                        <div class="alt-features-item align-center">
-                            <h6 class="text-center" style="font-weight:400">Datos del Proveedor</h6>
-                            <p class="text" style="text-align:center;">
-                                <a style="font-size:13px; " id="ProvUanl"></a><br />
-                                <a style="font-size:13px; " id="ProvNom"></a><br />
-                                <a style="font-size:13px; ">FACTURAR A UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</a><br />
-                                <a style="font-size:13px; ">SERVICIOS MÉDICOS RFC:UANL691126MK2</a>
-                            </p>
+                        <div class="row">
+                            <div class="alt-features-item align-center">
+                                <h6 class="text-center" style="font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Datos del Proveedor</h6>
+                                <div class="text" style="text-align:center;">
+                                    <a style="" id="ProvUanl"></a>
+                                    <a style="" id="ProvNom"></a><br />
+                                    <a style=""><span class="emphasized">FACTURAR A:</span> UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</a><br />
+                                    <a style=""><span class="emphasized">RFC:</span> UANL691126MK2</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h6 class="text-left" style="font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Embarcar:</h6>
+                            <a style="">GONZALITOS Y HAITI, COLONIA VISTA HERMOSA. MONTERREY NUEVO LEÓN</a>
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="alt-features-item align-center">
-                            <h6 class="text-center" style="font-weight:400">Tiempo de Entrega</h6>
-                            <p class="text" style="text-align:center;">
-                                <a style="font-size:13px; ">10 DÍAS A PARTIR DEL ACUSE DEL PROVEEDOR</a>
-                            </p>
+                            <h6 class="text-center" style="font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Tiempo de Entrega</h6>
+                            <div class="text" style="text-align:center;">
+                                <a style="">5 DÍAS NATURALES</a>
+                            </div>
                         </div>
                     </div>
                     <div class="col-4">
@@ -209,30 +213,30 @@
                             <div class="row">
                                 <div class="row">
                                     <div class="col-6">
-                                        <h10 style="color:green">Folio Req.</h10><br />
-                                        <a style="font-size:13px" id="FRequi"></a>
+                                        <h10 style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Folio Req.</h10><br />
+                                        <a style="" id="FRequi"></a>
                                     </div>
                                     <div class="col-6">
-                                        <h10 style="color:green" id="ClaveOC1">Folio O.C</h10><br />
-                                        <a style="font-size:13px" id="ClaveOC"></a>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <h10 style="color:green">Fecha Impresión</h10><br />
-                                        <a style="font-size:13px" id="Fecha"></a>
-                                    </div>
-                                    <div class="col-6">
-                                        <h10 style="color:green" id="FechaOC1">Fecha Pre-O.C</h10><br />
-                                        <a style="font-size:13px" id="FechaOC"></a>
+                                        <h10 style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;" id="ClaveOC1">Folio O.C</h10><br />
+                                        <a style="" id="ClaveOC"></a>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6">
+                                        <h10 style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Fecha Impresión</h10><br />
+                                        <a style="" id="Fecha"></a>
                                     </div>
                                     <div class="col-6">
-                                        <h10 id="InputFA1" style="color:green">Fecha Acuse</h10><br />
-                                        <a style="font-size:13px" id="InputFA"></a>
+                                        <h10 style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;" id="FechaOC1">Fecha Pre-O.C</h10><br />
+                                        <a style="" id="FechaOC"></a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h10 id="InputFA1" style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Fecha Acuse</h10><br />
+                                        <a style="" id="InputFA"></a>
+                                    </div>
+                                    <div class="col-6">
                                     </div>
                                 </div>
                                 @*<div class="row" style="text-align: right;">
@@ -915,6 +919,15 @@ crossorigin="anonymous"></script>*@
         border: 1px solid black;
     }
 
+    div > a {
+        /*font-weight: 900;*/
+        font-size: 12px;
+    }
+
+    .emphasized {
+        font-style: italic;
+    }
+
     @@media print {
         .imprimir {
             display: none;
@@ -938,6 +951,21 @@ crossorigin="anonymous"></script>*@
 
         #BtnDeletePartida {
             display: none;
+        }
+
+        div > a {
+            /*font-weight: 900;*/
+            font-size: 15px;
+            /*font-weight: bold;*/
+        }
+
+        div > h6, h10{
+            font-weight: bold;
+            font-family: Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        .emphasized {
+            font-style: italic;
         }
 
         /*
