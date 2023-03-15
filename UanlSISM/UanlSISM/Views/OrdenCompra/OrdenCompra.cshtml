@@ -85,7 +85,7 @@
                     <th>Fecha<br /> Req.</th>
                     <th>Usuario<br /> Req.</th>
                     <th>Contrato<br /> Req.</th>
-                    <th>Estatus Req.<br /> Compras</th>
+                    <th>Estatus<br /> Compras</th>
                     <th>Ver Detalle<br /> Req.</th>
                     <th></th>
                 </tr>
@@ -145,7 +145,7 @@
                                     <h10 id="Contrato" style="color:green">Con Contrato </h10><br />
                                     @*<a style="font-size: 13px" id="EstContrato"></a>*@
                                 </th>
-                                <th>
+                                <th COLSPAN="2"> 
                                     <a style="font-size: 13px; display: none;" id="Estatus_OC_Parcial"></a>
                                 </th>
                             </tr>
@@ -153,6 +153,7 @@
                                 <th></th>
                                 <th>Clave<br />Med.</th>
                                 <th>Descripción<br />Med.</th>
+                                <th>Grupo<br />Med.</th>
                                 <th>Cant.<br />Solicitada</th>
                                 <th>Cant.<br />Pendiente</th>
                                 <th>Precio<br />Unitario</th>
@@ -419,7 +420,6 @@
                     var Insertar = true;
                     $.grep(DetRequi, function (itemEnLista) {
                         if (item.Clave == itemEnLista.Clave) {
-                            //Insertar = false;
                         };
                     });
                     if (Insertar) {
@@ -481,6 +481,7 @@
                     },
                     { "data": "Clave", className: "text-center" },
                     { "data": "Descripcion", className: "text-center" },
+                    { "data": "DescripcionGrupo", className: "text-center" },
                     {
                         "data": "Cantidad", className: "text-center", render: function (data, type, row) {
                             if (row.PartidaPendiente == 1 || row.PartidaPendiente == true) {
@@ -560,7 +561,7 @@
                     { 'data': 'CB_ELIMINAR', className: "text-center", render: function (data) { return "<input class='input3' id='input3' type='checkbox' ></input>" } }
                 ],
                 columnDefs: [
-                    { "visible": false, "targets": 10 },
+                    { "visible": false, "targets": 11 },
                 ]
             });
 
@@ -568,8 +569,8 @@
             Estatus_OC_P = $("#Estatus_OC_Parcial").val();
             var dt = $('#tblDetalleRequi').DataTable();
             
-            dt.column([5]).visible(false);
             dt.column([6]).visible(false);
+            dt.column([7]).visible(false);
         }
 
         //BTN Delete
@@ -639,7 +640,7 @@
                         TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PREUNIT_NUEVA;
                         row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
                         $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
-                        var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
+                        var sum = $('#tblDetalleRequi').DataTable().column(10).data().sum();
                         document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
                     }
                     
@@ -682,7 +683,7 @@
                             TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PREUNIT_NUEVA;
                             row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
                             $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
-                            var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
+                            var sum = $('#tblDetalleRequi').DataTable().column(10).data().sum();
                             document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
                         }
                          
@@ -700,7 +701,7 @@
                     row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
                     $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
 
-                    var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
+                    var sum = $('#tblDetalleRequi').DataTable().column(10).data().sum();
                     document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
                 }
                 else {
@@ -710,7 +711,7 @@
                         row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
                         $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
 
-                        var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
+                        var sum = $('#tblDetalleRequi').DataTable().column(10).data().sum();
                         document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
 
                     } else {
@@ -719,7 +720,7 @@
                         row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
                         $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
 
-                        var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
+                        var sum = $('#tblDetalleRequi').DataTable().column(10).data().sum();
                         document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
 
                     }

@@ -52,10 +52,6 @@
         margin-right: 5px;
     }
 
-    /*.modal {
-        padding: 0 !important;
-    }*/
-
     #DetalleOCModal .modal-dialog {
         height: 100vh;
         margin-top: 0px;
@@ -102,7 +98,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            @*<br />*@
+           
             <div class="modal-body imprimir-content">
                 <div class="row">
                     <input id="Id_OC" name="Id_OC" value="" style="display: none;" />
@@ -118,9 +114,6 @@
                         <div style="        border: 0.5px solid rgb(217, 220, 217);"></div>
                         <h5>SERVICIOS MÉDICOS U.A.N.L.</h5>
                         <div class="col-12 m-auto">
-                            @*<p style="font-size:10px;" class="m-0"><b>U.A.N.L. SERVICIOS MÉDICOS</b></p>*@
-                            @*<p style="font-size:10px;" class="m-0"><b>GONZALITOS Y HAITI, COLONIA VISTA HERMOSA</b></p>
-                            <p style="font-size:10px;" class="m-0"><b>MONTERREY NUEVO LEÓN</b></p>*@
                         </div>
                     </div>
                     <div class="col-2 m-auto imprimirLogo">
@@ -152,33 +145,7 @@
                         </div>
                     </div>
                 </div>
-                @*<div class="row" id="contenido">
-                    <div class="row">
-                        <h5 id="TitutloModal" class="imprimirTitulo" style="text-align: right; color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;"></h5>
-                    </div>
-                    <div class="row">
-                        <div class="row" style="text-align: right;">
-                            <h10 style="color:green" id="ClaveOC1">Folio O.C</h10><br />
-                            <a style="font-size:13px" id="ClaveOC"></a>
-                        </div>
-                        <div class="row" style="text-align: right;">
-                            <h10 style="color:green" id="FechaOC1">Fecha Pre-O.C</h10><br />
-                            <a style="font-size:13px" id="FechaOC"></a>
-                        </div>
-                        <div class="row" style="text-align: right;">
-                            <h10 style="color:green">Folio<br />Req.</h10><br />
-                            <a style="font-size:13px" id="FRequi"></a>
-                        </div>
-                        <div class="row" style="text-align: right;">
-                            <h10 style="color:green">Fecha<br />Impresión</h10><br />
-                            <a style="font-size:13px" id="Fecha"></a>
-                        </div>
-                        <div class="row" style="text-align: right;">
-                            <h10 id="InputFA1" style="color:green">Fecha Acuse</h10><br />
-                            <a style="font-size:13px" id="InputFA"></a>
-                        </div>
-                    </div>
-                </div>*@
+                
                 <div class="row">
                     <div class="col-4">
                         <div class="row">
@@ -239,26 +206,7 @@
                                     <div class="col-6">
                                     </div>
                                 </div>
-                                @*<div class="row" style="text-align: right;">
-                                    <h10 style="color:green" id="ClaveOC1">Folio O.C</h10><br />
-                                    <a style="font-size:13px" id="ClaveOC"></a>
-                                </div>
-                                <div class="row" style="text-align: right;">
-                                    <h10 style="color:green" id="FechaOC1">Fecha Pre-O.C</h10><br />
-                                    <a style="font-size:13px" id="FechaOC"></a>
-                                </div>*@
-                                                        @*<div class="row" style="text-align: right;">
-                                    <h10 style="color:green">Folio Req.</h10><br />
-                                    <a style="font-size:13px" id="FRequi"></a>
-                                </div>
-                                <div class="row" style="text-align: right;">
-                                    <h10 style="color:green">Fecha Impresión</h10><br />
-                                    <a style="font-size:13px" id="Fecha"></a>
-                                </div>*@
-                                @*<div class="row" style="text-align: right;">
-                                    <h10 id="InputFA1" style="color:green">Fecha Acuse</h10><br />
-                                    <a style="font-size:13px" id="InputFA"></a>
-                                </div>*@
+                                
                             </div>
                         </div>
                     </div>
@@ -379,11 +327,6 @@
 
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-@*<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-crossorigin="anonymous">
-</script>*@
-@*<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-crossorigin="anonymous"></script>*@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
 <script>
@@ -679,14 +622,6 @@ crossorigin="anonymous"></script>*@
                     { "data": "Cantidad", className: "text-center" },
                     { "data": "PrecioUnitario", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                     { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
-                    //{
-                    //    "className": 'text-center',
-                    //    "orderable": false,
-                    //    "data": null,
-                    //    "defaultContent": '<button title="Eliminar Partida" id="BtnDeletePartida" class="btn btn-danger btn-sm fa fa-times" data-toggle="modal"></button>',
-                    //    "target": -2
-                    //}
-
                     {
                         "data": null, render: function (data, type, row) {
                             if (row.OC_PorValidar != "3" || row.OC_PorValidar != 3) {
@@ -711,9 +646,7 @@ crossorigin="anonymous"></script>*@
         var row = $('#tblDetalleOC').DataTable().row(tr);
         var Id_DetOc = row.data().IdDetOC;
         var Id_OC = row.data().Id_OC;
-        //alert(Id_DetOc);
-        //alert(Id_OC);
-
+        
         $.ajax({
             url: '@Url.Action("EliminarPartidaOC", "OrdenCompra")',
             method: 'POST',
@@ -968,10 +901,5 @@ crossorigin="anonymous"></script>*@
             font-style: italic;
         }
 
-        /*
-        #BtnEliminar {
-            display: none;
-        }
-            */
     }
 </style>

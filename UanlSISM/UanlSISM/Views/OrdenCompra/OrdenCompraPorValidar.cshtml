@@ -516,43 +516,6 @@
         });
     });
 
-    @*$('#btnCancelar_OC').on('click', function () {
-        var Id_OC = $("#Id_OC").val();
-        var Descripcion = $("#TXTdescripcion").val();
-
-        $.ajax({
-            url: '@Url.Action("CancelarOC", "OrdenCompra")',
-            method: 'POST',
-            dataType: 'json',
-            data: { Id_OC: Id_OC, DescripcionOC: Descripcion },
-            success: function (data) {
-                if (data.MENSAJE.substring(0, 6) == "Succe:") {
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Éxito!',
-                        text: data.MENSAJE.substring(7),
-                        willClose: () => {
-                            location.reload();
-                        }
-                    });
-                }
-                if (data.MENSAJE.substring(0, 6) == "Error:") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops... ¡Error!',
-                        text: data.MENSAJE.substring(7),
-                    });
-                }
-            },
-            error: function (ex) {
-                Swal.fire({
-                    icon: 'error',
-                    title: '¡Error!',
-                });
-            }
-        });
-    });*@
-
     function Regresar() {
         window.location = '@Url.Action("OrdenCompra")';
     }
