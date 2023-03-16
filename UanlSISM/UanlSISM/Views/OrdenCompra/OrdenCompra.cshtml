@@ -97,7 +97,7 @@
 </div>
 
 <div class="modal fade" id="DetalleRequiModal" tabindex="-1" role="dialog" aria-labelledby="DetalleRequiModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-dialog modal-xl " role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
@@ -453,6 +453,8 @@
                 responsive: true,
                 lengthChange: false,
                 paging: false,
+                //scrollX: true,
+                //scroller:true,
                 data: DetRequi,
                 language: {
                     "zeroRecords": " ",
@@ -703,6 +705,8 @@
 
                     var sum = $('#tblDetalleRequi').DataTable().column(10).data().sum();
                     document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
+                    //const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
+                    //document.getElementById("Total_OC2").innerHTML = TextoTotal + formato.format(sum);
                 }
                 else {
                     if (row.data().CantidadPendiente_OC > 0 && row.data().CantidadPendiente_OC != row.data().Cantidad) {
@@ -863,4 +867,23 @@
             display: none;
         }
     }
+
 </style>
+
+@*<style type="text/css" media="screen and (max-width: 767px)">
+    table.scrollmenu {
+        /*overflow: auto;
+        white-space: nowrap;*/
+        overflow-x: scroll;
+    }
+</style>
+<style type="text/css" media="screen and (max-width: 992px)">
+    table.scrollmenu {
+        overflow-x: scroll;
+    }
+</style>
+<style type="text/css" media="screen and (max-width: 480px)">
+    table.scrollmenu {
+        overflow-x: scroll;
+    }
+</style>*@

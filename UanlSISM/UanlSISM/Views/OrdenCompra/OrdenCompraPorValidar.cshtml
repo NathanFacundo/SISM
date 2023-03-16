@@ -99,7 +99,7 @@
 </div>
 
 <div class="modal fade" id="DetalleOCModal" tabindex="-1" role="dialog" aria-labelledby="NuevaRequiModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
@@ -114,20 +114,20 @@
 
                 <div class="row m-0 text-center pt-4">
                     <div class="col-2 m-auto imprimirUanl">
-                        <img src="~/Imagenes/uanl.png" />
+                        <img src="~/Imagenes/uanl.png" style="width:90px; height:90px" />
                     </div>
                     <div class="col-8 m-auto imprimirTitulo">
                         <h5>UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</h5>
                         <div style="        border: 0.5px solid rgb(217, 220, 217);"></div>
                         <h5>SERVICIOS MÉDICOS</h5>
                         <div class="col-12 m-auto">
-                            <p style="font-size:10px;" class="m-0"><b>U.A.N.L. SERVICIOS MÉDICOS</b></p>
+                            @*<p style="font-size:10px;" class="m-0"><b>U.A.N.L. SERVICIOS MÉDICOS</b></p>
                             <p style="font-size:10px;" class="m-0"><b>GONZALITOS Y HAITI S/N COL. MITRAS CENTRO</b></p>
-                            <p style="font-size:10px;" class="m-0"><b>MONTERREY NUEVO LEÓN C.P. 66460 TEL.8113404860</b></p>
+                            <p style="font-size:10px;" class="m-0"><b>MONTERREY NUEVO LEÓN C.P. 66460 TEL.8113404860</b></p>*@
                         </div>
                     </div>
                     <div class="col-2 m-auto imprimirLogo">
-                        <img src="~/Imagenes/Servicios Medicos_Mesa de trabajo 1.png" style="width:130px; height:66px" /><br />
+                        <img src="~/Imagenes/Servicios Medicos_Mesa de trabajo 1.png" style="width:145px; height:75px" /><br />
                     </div>
                 </div>
                 <div class="row" id="contenido">
@@ -202,7 +202,7 @@
                         </div>
                         <div class="col-md-6" style="text-align:right;">
                             <strong>
-                                <a style="font-size:20px; display:inline-block; margin-right:10px;">Gran Total: $</a>
+                                @*<a style="font-size:20px; display:inline-block; margin-right:10px;">Gran Total: $</a>*@
                                 <a style="font-size:20px; display:inline-block;" id="Total_OC"></a>
                             </strong>
                         </div>
@@ -409,8 +409,12 @@
             $('#PROV').html(response[0].NombreProveedor);
             $('#UsElaboro').html(response[0].Usuario);
             $('#Total_OC1').html(response[0].Total_OC);
-            $('#Total_OC').html(response[0].Total_OC);
+            //$('#Total_OC').html(response[0].Total_OC);
             $('#TXTdescripcion').html(response[0].DescripcionOC);
+
+            //Texto que se muestra debajo de la tabla del Detalle de la OC (con decimales)
+            var GranTotalModal = response[0].Total_OC;
+            document.getElementById("Total_OC").innerHTML = "Gran Total $" + GranTotalModal.toFixed(2);
 
             $('#FRequi').html(response[0].FolioRequisicion);
 
@@ -443,6 +447,9 @@
                 responsive: true,
                 lengthChange: false,
                 paging: false,
+                //scrollX: true,
+                scroller: true,
+                //scrollCollapse:true,
                 data: Lista,
                 language: {
                     "zeroRecords": " ",
@@ -473,6 +480,7 @@
                     { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') }
                 ]
             });
+
         }
 
         $('#DetalleOCModal').on('hidden.bs.modal', function () {

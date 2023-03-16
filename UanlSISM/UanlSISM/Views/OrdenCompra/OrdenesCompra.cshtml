@@ -91,7 +91,7 @@
 </div>
 
 <div class="modal fade" id="DetalleOCModal" tabindex="-1" role="dialog" aria-labelledby="NuevaRequiModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
@@ -261,7 +261,7 @@
                         </div>
                         <div class="col-md-6" style="text-align:right;">
                             <strong>
-                                <a style="font-size:20px; display:inline-block; margin-right:10px;">Gran Total: $</a>
+                                @*<a style="font-size:20px; display:inline-block; margin-right:10px;">Gran Total: $</a>*@
                                 <a style="font-size:20px; display:inline-block;" id="Total_OC"></a>
                             </strong>
                         </div>
@@ -548,13 +548,19 @@
             $('#UsElaboro').html(response[0].NombreUsu);
             $('#Us').html(response[0].Usuario);
             $('#Total_OC1').html(response[0].Total_OC);
-            $('#Total_OC').html(response[0].Total_OC);
+            //$('#Total_OC').html(response[0].Total_OC);
             $('#TXTdescripcion').html(response[0].DescripcionOC);
             $('#FRequi').html(response[0].FolioRequisicion);
             $('#ProvNom').html(response[0].NombreProveedor);
             $('#ProvDir').html(response[0].DirProv);
             $('#ProvTel').html(response[0].TelProv);
             $('#ProvUanl').html(response[0].UanlProv);
+
+            //Texto que se muestra debajo de la tabla del Detalle de la OC (con decimales)
+            var GranTotalModal = response[0].Total_OC;
+            //const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
+            //document.getElementById("Total_OC").innerHTML = "Gran Total $" + formato.format(GranTotalModal);
+            document.getElementById("Total_OC").innerHTML = "Gran Total $" + GranTotalModal.toFixed(2);
 
             $('#FRequiEncabezado').html(response[0].FolioRequisicion);
             $('#FechaEncabezado').html(response[0].Fecha1);
@@ -594,6 +600,7 @@
                 responsive: true,
                 lengthChange: false,
                 paging: false,
+                //scrollX: true,
                 data: Lista,
                 language: {
                     "zeroRecords": " ",
@@ -634,6 +641,7 @@
 
                 ]
             });
+
         }
 
         $('#DetalleOCModal').on('hidden.bs.modal', function () {
