@@ -414,7 +414,9 @@
 
             //Texto que se muestra debajo de la tabla del Detalle de la OC (con decimales)
             var GranTotalModal = response[0].Total_OC;
-            document.getElementById("Total_OC").innerHTML = "Gran Total $" + GranTotalModal.toFixed(2);
+            //document.getElementById("Total_OC").innerHTML = "Gran Total $" + GranTotalModal.toFixed(2);
+            const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
+            document.getElementById("Total_OC").innerHTML = "Gran Total $" + formato.format(GranTotalModal);
 
             $('#FRequi').html(response[0].FolioRequisicion);
 
@@ -448,7 +450,7 @@
                 lengthChange: false,
                 paging: false,
                 //scrollX: true,
-                scroller: true,
+                //scroller: true,
                 //scrollCollapse:true,
                 data: Lista,
                 language: {

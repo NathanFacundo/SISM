@@ -643,7 +643,9 @@
                         row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
                         $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
                         var sum = $('#tblDetalleRequi').DataTable().column(10).data().sum();
-                        document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
+                        //document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
+                        const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
+                        document.getElementById("Total_OC2").innerHTML = TextoTotal + formato.format(sum);
                     }
                     
                 } else
@@ -686,7 +688,9 @@
                             row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
                             $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
                             var sum = $('#tblDetalleRequi').DataTable().column(10).data().sum();
-                            document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
+                            //document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
+                            const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
+                            document.getElementById("Total_OC2").innerHTML = TextoTotal + formato.format(sum);
                         }
                          
                     }
@@ -704,9 +708,9 @@
                     $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
 
                     var sum = $('#tblDetalleRequi').DataTable().column(10).data().sum();
-                    document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
-                    //const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
-                    //document.getElementById("Total_OC2").innerHTML = TextoTotal + formato.format(sum);
+                    //document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
+                    const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
+                    document.getElementById("Total_OC2").innerHTML = TextoTotal + formato.format(sum);
                 }
                 else {
                     if (row.data().CantidadPendiente_OC > 0 && row.data().CantidadPendiente_OC != row.data().Cantidad) {
@@ -716,7 +720,9 @@
                         $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
 
                         var sum = $('#tblDetalleRequi').DataTable().column(10).data().sum();
-                        document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
+                        //document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
+                        const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
+                        document.getElementById("Total_OC2").innerHTML = TextoTotal + formato.format(sum);
 
                     } else {
 
@@ -725,7 +731,9 @@
                         $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
 
                         var sum = $('#tblDetalleRequi').DataTable().column(10).data().sum();
-                        document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
+                        //document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
+                        const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
+                        document.getElementById("Total_OC2").innerHTML = TextoTotal + formato.format(sum);
 
                     }
                 }

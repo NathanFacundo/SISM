@@ -179,6 +179,7 @@
           <Property Name="Fecha_AutorizaOC" Type="datetime" />
           <Property Name="Usuario_AutorizaOC" Type="varchar" MaxLength="30" />
           <Property Name="Fecha_HacerOC" Type="datetime" />
+          <Property Name="Contrato" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="SISM_REQUISICION">
           <Key>
@@ -519,6 +520,7 @@
           <Property Name="Fecha_AutorizaOC" Type="DateTime" Precision="3" />
           <Property Name="Usuario_AutorizaOC" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Fecha_HacerOC" Type="DateTime" Precision="3" />
+          <Property Name="Contrato" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="SISM_REQUISICION">
           <Key>
@@ -861,6 +863,7 @@
           <EntitySetMapping Name="SISM_ORDEN_COMPRA">
             <EntityTypeMapping TypeName="SISM_SIST_MED_MILTONModel.SISM_ORDEN_COMPRA">
               <MappingFragment StoreEntitySet="SISM_ORDEN_COMPRA">
+                <ScalarProperty Name="Contrato" ColumnName="Contrato" />
                 <ScalarProperty Name="Fecha_HacerOC" ColumnName="Fecha_HacerOC" />
                 <ScalarProperty Name="Usuario_AutorizaOC" ColumnName="Usuario_AutorizaOC" />
                 <ScalarProperty Name="Fecha_AutorizaOC" ColumnName="Fecha_AutorizaOC" />

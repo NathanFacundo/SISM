@@ -121,16 +121,20 @@
                     </div>
                 </div>
                 <br />
+
                 <div class="row" id="imprimir">
-                    <div class="col-md-8">
+
+                    <div class="col-md-3">
                         <button type="button" style="width:100%; background-color:rgba(0,74,143,1);" class="btn btn-success imprimir">Imprimir</button>
                     </div>
-                    <div class="col-md-2">
+
+                    <div class="col-md-3">
                         <div>
                             <a class="btn btn-success text-white" id="Xcel2">Descargar Excel</a>
                         </div>
                     </div>
-                    <div class="col-md-2">
+
+                    <div class="col-md-3">
                         <div class="row" id="divAcuse">
                             <label>Fecha Acuse: </label>
                             <div id="datepicker"
@@ -144,8 +148,15 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-md-3">
+                        <div class="row" id="divContrato">
+                            <label>Contrato <input class="Buscar" type="text" id="InputContrato" /></label>
+                        </div>
+                    </div>
+
                 </div>
-                
+
                 <div class="row">
                     <div class="col-4">
                         <div class="row">
@@ -206,7 +217,15 @@
                                     <div class="col-6">
                                     </div>
                                 </div>
-                                
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h10 id="LabelContrato" style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Contrato</h10><br />
+                                        <a style="" id="InputCon"></a>
+                                    </div>
+                                    <div class="col-6">
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -270,11 +289,12 @@
                         <textarea class="text-center" id="TXTdescripcion" name="Descripcion" rows="3" cols="40" readonly></textarea>
                     </div>
                 </div>
+
                 <div class="row m-0 pt-2 text-center" id="pie" style=" border-collapse: collapse; border-spacing: 0;">
-                    <table id="firmas" align="center" BORDER="1">
+                    <table id="firmas" align="center" BORDER="0" style="border: hidden">
                         <tbody>
                             <tr>
-                                <td align="center">
+                                @*<td align="center">
                                     <br />
                                     <br />
                                     <br />
@@ -282,13 +302,13 @@
                                         <a><em>DIRECTOR</em></a><br />
                                         <a>Raúl Gabino<br /> Salazar Montalvo</a>
                                     </strong>
-                                </td>
+                                </td>*@
                                 <td align="center">
                                     <br />
                                     <br />
                                     <br />
                                     <strong>
-                                        <a><em>COMPRAS</em></a><br />
+                                        <a><em>REALIZÓ</em></a><br />
                                         <a id="Us"></a><br />
                                         <a id="UsElaboro"></a>
                                     </strong>
@@ -307,6 +327,43 @@
                         </tbody>
                     </table>
                 </div>
+
+                <div class="row m-0 pt-2 text-center" id="pie1" style=" border-collapse: collapse; border-spacing: 0;">
+                    <table id="firmas" align="center" BORDER="0" style="border: hidden">
+                        <tbody>
+                            <tr>
+                                <td align="center">
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <strong>
+                                        <a><em>DIRECTOR</em></a><br />
+                                        <a>Raúl Gabino<br /> Salazar Montalvo</a>
+                                    </strong>
+                                </td>
+                                <td align="center">
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <strong>
+                                        <a><em>ADQUISICIONES</em></a><br />
+                                        <a>Lic. Marcela<br /> Valdéz Flores.</a>
+                                    </strong>
+                                </td>
+                                <td align="center">
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <strong>
+                                        <a><em>PROVEEDOR</em></a><br />
+                                        <a>Representante ó<br /> Apoderado legal.</a>
+                                    </strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
     </div>
@@ -325,7 +382,6 @@
 
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jQuery.print/1.3.3/jQuery.print.min.js'></script>
 
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
@@ -338,6 +394,8 @@
 </script>
 
 <script>
+
+    var FolioOC
 
     $(document).ready(function () {
 
@@ -502,7 +560,7 @@
         var url = '@Url.Action("ObtenerDetalleOC_Generada", "OrdenCompra")';
         $.post(url, array).done(function (response) {
 
-            var FolioOC = response[0].Folio;
+            FolioOC = response[0].Folio;
             if (FolioOC == null || FolioOC == '') {
                 document.getElementById("ClaveOC1").innerHTML = "Identificador";
                 $('#ClaveOC').html(response[0].Id_OC);
@@ -517,6 +575,10 @@
 
                 document.getElementById("Fecha11").innerHTML = "Fecha Pre-O.C";
                 $('#Fecha1').html(response[0].Fecha);
+
+                $("#pie").show();
+                $("#pie1").hide();
+
             } else {
                 $("#ClaveOC1").show();
                 $('#ClaveOC').html(response[0].Folio);
@@ -531,6 +593,9 @@
 
                 document.getElementById("Fecha11").innerHTML = "Fecha O.C";
                 $('#Fecha1').html(response[0].FechaOC);
+
+                $("#pie1").show();
+                $("#pie").hide();
             }
 
             //var FechaOC = response[0].FechaOC;
@@ -558,27 +623,37 @@
 
             //Texto que se muestra debajo de la tabla del Detalle de la OC (con decimales)
             var GranTotalModal = response[0].Total_OC;
-            //const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
-            //document.getElementById("Total_OC").innerHTML = "Gran Total $" + formato.format(GranTotalModal);
-            document.getElementById("Total_OC").innerHTML = "Gran Total $" + GranTotalModal.toFixed(2);
+            const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
+            document.getElementById("Total_OC").innerHTML = "Gran Total $" + formato.format(GranTotalModal);
+            //document.getElementById("Total_OC").innerHTML = "Gran Total $" + GranTotalModal.toFixed(2);
 
             $('#FRequiEncabezado').html(response[0].FolioRequisicion);
             $('#FechaEncabezado').html(response[0].Fecha1);
 
             var FA = response[0].FechaAcuse;
-
             if (FA == null || FA == "") {
                 $("#InputFA1").hide();
                 $("#InputFA111").hide();
-
                 $("#divAcuse").show();
             } else {
                 $("#InputFA1").show();
                 $("#InputFA11").show();
                 $('#InputFA').html(FA);
                 $('#InputFA11').html(FA);
-
                 $("#divAcuse").hide();
+            }
+
+            var CON = response[0].NumContrato;
+            if (CON == null || CON == "") {
+                $("#LabelContrato").hide();
+                $("#InputCon").hide();
+                $("#divContrato").show();
+            } else {
+                $("#InputContrato").hide();
+                $("#LabelContrato").show();
+                $('#InputCon').html(CON);
+                $("#InputCon").show();
+                $("#divContrato").hide();
             }
 
             $('#FechaAutoriza').html(response[0].FechaAutorizaOC);
@@ -654,7 +729,7 @@
         var row = $('#tblDetalleOC').DataTable().row(tr);
         var Id_DetOc = row.data().IdDetOC;
         var Id_OC = row.data().Id_OC;
-        
+
         $.ajax({
             url: '@Url.Action("EliminarPartidaOC", "OrdenCompra")',
             method: 'POST',
@@ -832,6 +907,67 @@
             }
         });
     });
+
+    $('.Buscar').on("keypress", function (e) {
+        if (e.keyCode == 13) {
+            var Contrato = $(this).val();
+            GuardarContrato(Contrato);
+            return false;
+        }
+    });
+
+    function GuardarContrato(Contrato) {
+
+        var Id_OC = $("#Id_OC").val();
+
+        Swal.fire({
+            title: '¿Desea guardar el Contrato?',
+            text: Contrato,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                $.ajax({
+                    url: '@Url.Action("GuardarContrato", "OrdenCompra")',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: { Id_OC: Id_OC, Contrato: Contrato },
+                    success: function (data) {
+                        if (data.MENSAJE.substring(0, 6) == "Succe:") {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '¡Éxito!',
+                                text: data.MENSAJE.substring(7),
+                                showConfirmButton: true,
+                                willClose: () => {
+                                    location.reload();
+                                }
+                            });
+                        }
+                        if (data.MENSAJE.substring(0, 6) == "Error:") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops... ¡Error!',
+                                text: data.MENSAJE.substring(7),
+                            });
+                        }
+                    },
+                    error: function (ex) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '¡Error!',
+                        });
+                    }
+                });
+            }
+        });
+
+    }
 
     function Regresar() {
         window.location = '@Url.Action("OrdenCompra")';
