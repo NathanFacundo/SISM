@@ -428,8 +428,11 @@
                         item.TOTAL_NUEVA = 0;
                         DetRequi.push(item);
                     }
-                    LlenDetalle(DetRequi);
+                    //LlenDetalle(DetRequi);
                 });
+
+                LlenDetalle(response);
+
             }).fail(function (response) {
                 Swal.fire({
                     icon: 'error',
@@ -453,8 +456,6 @@
                 responsive: true,
                 lengthChange: false,
                 paging: false,
-                //scrollX: true,
-                //scroller:true,
                 data: DetRequi,
                 language: {
                     "zeroRecords": " ",
@@ -524,15 +525,6 @@
                             }
                         }
                     },
-                    //{
-                    //    "data": "UltimoPrecio", className: "text-center", render: function (data, type, row) {
-                    //        if (data == '' || data == null) {
-                    //            return '<a></a>';
-                    //        } else {
-                    //            return '$' +'<h8 style="color:black; ">' + data + '</h8>';
-                    //        }
-                    //    }
-                    //},
                     {
                         "data": "CANTIDAD_NUEVA", className: "text-center", render: function (data, type, row) {
                             if (row.PartidaPendiente == 1 || row.PartidaPendiente == true) {
@@ -570,7 +562,6 @@
             EsConContrato = $("#EstContrato").val();
             Estatus_OC_P = $("#Estatus_OC_Parcial").val();
             var dt = $('#tblDetalleRequi').DataTable();
-            
             dt.column([6]).visible(false);
             dt.column([7]).visible(false);
         }
@@ -598,6 +589,7 @@
             var TotalNuevo = 0;
             var TextoTotal = "Gran Total $";
 
+            //CANTIDAD
             $(".input").keyup(function () {
                 var tr = $(this).closest('tr');
                 var row = $('#tblDetalleRequi').DataTable().row(tr);
@@ -616,28 +608,11 @@
                     row.data().CANTIDAD_NUEVA = "";
                 }
                 else
-                if (row.data().CantidadPendiente_OC == null)
+                if (row.data().CantidadPendiente_OC == null)//Si no hay CantidadPendiente, o sea, la partida es nueva
                 {
                     row.data().CANTIDAD_NUEVA = valor;
-                    //if (EC != "Sin Contrato")
-                    //{
-                    //    TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PrecioUnitario;
-                    //    row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
-                    //    $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
-                    //    var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
-                    //    document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
-                    //}
-                    //else
-                    //{
-                    //    if (row.data().PREUNIT_NUEVA > 0) {
-                    //        TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PREUNIT_NUEVA;
-                    //        row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
-                    //        $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
-                    //        var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
-                    //        document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
-                    //    }
-                    //}
 
+                    //Cantidad Nueva * Precio U Nuevo
                     if (row.data().PREUNIT_NUEVA > 0) {
                         TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PREUNIT_NUEVA;
                         row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
@@ -663,26 +638,7 @@
                     } else
                     {
                         row.data().CANTIDAD_NUEVA = valor;
-                        //if (EC != "Sin Contrato")
-                        //{
-                        //    TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PrecioUnitario;
-                        //    row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
-                        //    $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
-                        //    var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
-                        //    document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
-                        //}
-                        //else
-                        //{
-                        //    if (row.data().PREUNIT_NUEVA > 0)
-                        //    {
-                        //        TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PREUNIT_NUEVA;
-                        //        row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
-                        //        $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
-                        //        var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
-                        //        document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
-                        //    }
-                        //}
-
+                        
                         if (row.data().PREUNIT_NUEVA > 0) {
                             TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PREUNIT_NUEVA;
                             row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
@@ -697,6 +653,7 @@
                 }
             });
 
+            //PRECIO UNITARIO
             $(".InputPU").keyup(function () {
                 var tr = $(this).closest('tr');
                 var row = $('#tblDetalleRequi').DataTable().row(tr);

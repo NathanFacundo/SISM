@@ -254,7 +254,11 @@
                                     <h10 id="InputFA111" style="color:green">Fecha Acuse</h10><br />
                                     <a style="font-size:13px" id="InputFA11"></a>
                                 </th>
-                                <th COLSPAN="2">
+                                <th>
+                                    <h10 id="InputContratoDT" style="color:green">Contrato</h10><br />
+                                    <a style="font-size:13px" id="InputConDT"></a>
+                                </th>
+                                <th @*COLSPAN="2"*@>
                                     <h10 style="color:green" hidden>Gran Total: $</h10><br />
                                     <a style="font-size:13px; display:inline-block;" id="Total_OC1" hidden></a>
                                 </th>
@@ -338,7 +342,7 @@
                                     <br />
                                     <strong>
                                         <a><em>DIRECTOR</em></a><br />
-                                        <a>Raúl Gabino<br /> Salazar Montalvo</a>
+                                        <a>Dr. Raúl Gabino<br /> Salazar Montalvo</a>
                                     </strong>
                                 </td>
                                 <td align="center">
@@ -648,12 +652,15 @@
                 $("#LabelContrato").hide();
                 $("#InputCon").hide();
                 $("#divContrato").show();
+                $("#InputContratoDT").hide();//Label del Contrato del Datatable (solo se muestra al exportar a Excel)
             } else {
                 $("#InputContrato").hide();
                 $("#LabelContrato").show();
                 $('#InputCon').html(CON);
                 $("#InputCon").show();
                 $("#divContrato").hide();
+                $("#InputConDT").show();
+                $('#InputConDT').html(CON);//Dato del Contrato del Datatable (solo se muestra al exportar a Excel)
             }
 
             $('#FechaAutoriza').html(response[0].FechaAutorizaOC);
@@ -806,12 +813,13 @@
     $('#btnGenerar_OC').on('click', function () {
         var Id_OC = $("#Id_OC").val();
         var Folio_Requi = $("#Folio_Requi").val();
+        var Contrato = $("#InputContrato").val();
 
         $.ajax({
             url: '@Url.Action("HACER_OC", "OrdenCompra")',
             method: 'POST',
             dataType: 'json',
-            data: { Id_OC: Id_OC, Folio_Requi: Folio_Requi },
+            data: { Id_OC: Id_OC, Folio_Requi: Folio_Requi, NumContrato:Contrato },
             success: function (data) {
                 if (data.MENSAJE.substring(0, 6) == "Succe:") {
                     Swal.fire({
@@ -1023,6 +1031,10 @@
         }
 
         #divAcuse {
+            display: none;
+        }
+
+        #divContrato {
             display: none;
         }
 
