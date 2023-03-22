@@ -49,29 +49,29 @@ namespace UanlSISM.Controllers
             public string DescripcionOC { get; set; }
             public string Estatus_OC { get; set; }
 
-            public string DescO { get; internal set; }
-            public int? CBarra { get; internal set; }
-            public int? Can { get; internal set; }
-            public int Id_Requicision { get; internal set; }
-            public int Id_Detalle_Req { get; internal set; }
-            public int? CantidadPendiente_OC { get; internal set; }
-            public int? Cantidad_OC { get; internal set; }
-            public string Estatus_OC_Parcial { get; internal set; }
-            public string FechaAcuse { get; internal set; }
-            public string DirProv { get; internal set; }
-            public string TelProv { get; internal set; }
-            public string UanlProv { get; internal set; }
-            public string NombreUsu { get; internal set; }
-            public string FechaAutorizaOC { get; internal set; }
-            public string UsuarioAutorizaOC { get; internal set; }
-            public string Fecha_OC { get; internal set; }
-            public int IdDetOC { get; internal set; }
-            public bool? PartidaPendiente { get; internal set; }
-            public string FechaOC { get; internal set; }
-            public string OC_PorValidar { get; internal set; }
-            public double UltimoPrecio { get; internal set; }
-            public string DescripcionGrupo { get; internal set; }
-            public string NumContrato { get; internal set; }
+            public string DescO { get; set; }
+            public int? CBarra { get; set; }
+            public int? Can { get; set; }
+            public int Id_Requicision { get; set; }
+            public int Id_Detalle_Req { get; set; }
+            public int? CantidadPendiente_OC { get; set; }
+            public int? Cantidad_OC { get; set; }
+            public string Estatus_OC_Parcial { get; set; }
+            public string FechaAcuse { get; set; }
+            public string DirProv { get; set; }
+            public string TelProv { get; set; }
+            public string UanlProv { get; set; }
+            public string NombreUsu { get; set; }
+            public string FechaAutorizaOC { get; set; }
+            public string UsuarioAutorizaOC { get; set; }
+            public string Fecha_OC { get; set; }
+            public int IdDetOC { get; set; }
+            public bool? PartidaPendiente { get; set; }
+            public string FechaOC { get; set; }
+            public string OC_PorValidar { get; set; }
+            public double UltimoPrecio { get; set; }
+            public string DescripcionGrupo { get; set; }
+            public string NumContrato { get; set; }
         }
 
         //----------------------------------------------------- Pantalla ORDEN COMPRA   --------------  INICIO
@@ -806,7 +806,7 @@ namespace UanlSISM.Controllers
                         Total_OC = (double)q.Total_OC,//(double)Decimal.Round((decimal)(q.Total_OC), 2),//(double)q.Total_OC,
                         DescripcionOC = q.Desc,
                         FolioRequisicion = q.FolioR,
-                        FechaAcuse = string.Format("{0:d/M/yy hh:mm tt}", q.FechaAcuse),
+                        FechaAcuse = string.Format("{0:d/M/yy}", q.FechaAcuse),
                         DirProv = Prov.Prov_Direccion,
                         TelProv = Prov.Prov_Telefono,
                         UanlProv = Prov.Prov_uanl,
@@ -1299,12 +1299,14 @@ namespace UanlSISM.Controllers
                               IdDet_OC = DetOC.Id,
                               Sustancia_OC = DetOC.Id_Sustencia,
                               SubTotal_OC = DetOC.Total,
+                              FolioReq = a.Id_Requisicion
                           }).FirstOrDefault();
 
                 //Obtener REQUI y su Detalle de la Partida que se eliminará
                 var REQUI = (from Requi in ConBD.SISM_REQUISICION
                              join DetRequi in ConBD.SISM_DET_REQUISICION on Requi.Id_Requicision equals DetRequi.Id_Requicision
                              where OC.Sustancia_OC == DetRequi.Id_Sustancia
+                             where Requi.Id_Requicision == OC.FolioReq
                              select new
                              {
                                  Id_Requi = Requi.Id_Requicision,

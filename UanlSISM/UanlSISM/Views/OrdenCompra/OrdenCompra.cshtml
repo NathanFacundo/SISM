@@ -68,7 +68,7 @@
 
 <div class="btn-toolbar">
     <button type="button" class="btn btn-primary btn-space" onclick="OCS()">ÓRDENES DE COMPRA <em>(Dpto. Compras)</em></button>
-    <button type="button" class="btn btn-primary btn-space" onclick="OCS_Validar()">ÓRDENES DE COMPRA <em>(Coordinación)</em></button>
+    @*<button type="button" class="btn btn-primary btn-space" onclick="OCS_Validar()">ÓRDENES DE COMPRA <em>(Coordinación)</em></button>*@
 </div>
 
 <div>
@@ -608,7 +608,7 @@
                     row.data().CANTIDAD_NUEVA = "";
                 }
                 else
-                if (row.data().CantidadPendiente_OC == null)//Si no hay CantidadPendiente, o sea, la partida es nueva
+                if (row.data().CantidadPendiente_OC == null || row.data().CantidadPendiente_OC == "0") //Si no hay CantidadPendiente, o sea, la partida es nueva
                 {
                     row.data().CANTIDAD_NUEVA = valor;
 
