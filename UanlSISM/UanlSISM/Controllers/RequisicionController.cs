@@ -125,7 +125,8 @@ namespace UanlSISM.Controllers
                                "WHERE(Sus.descripcion_21 IS NOT NULL) " +
                                "AND(Sus.descripcion_21 <> '') " +
                                "AND(Inv.InvAlmId = 84) " +
-                               "AND(Sus.LicitacionStatus IS NOT NULL) ";
+                               "AND(Sus.LicitacionStatus IS NOT NULL) " +
+                               "AND(Sus.Status = 1) ";
 
                 var result = DAM.Database.SqlQuery<LstInv1>(query);
                 var res = result.ToList();

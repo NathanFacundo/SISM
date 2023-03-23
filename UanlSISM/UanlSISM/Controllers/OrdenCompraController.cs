@@ -14,7 +14,7 @@ namespace UanlSISM.Controllers
     public class OrdenCompraController : Controller
     {
         SISM_SIST_MEDEntities ConBD = new SISM_SIST_MEDEntities();      //BD NUEVA PRODUCTIVA
-        BD_Almacen ConBD2 = new BD_Almacen();                           //BD NUEVA PRUEBAS(mía)
+        //BD_Almacen ConBD2 = new BD_Almacen();                           //BD NUEVA PRUEBAS(mía)
         SERVMEDEntities4 DAM = new SERVMEDEntities4();                  //TBL SUSTANCIAS
         SERVMEDEntities8 db = new SERVMEDEntities8();                   //TBLS PROV,REQ,OC
         SERVMEDEntities5 SISMFarmacia = new SERVMEDEntities5();         //TBL CODIGOBARRAS
@@ -139,21 +139,13 @@ namespace UanlSISM.Controllers
                 var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
                 var fechaDT = DateTime.Parse(fecha);
 
-                //Obtener el último folio de la OC para sumar uno (será el nuevo folio de la nueva OC)
-                //var FolioOC = (from a in db.OrdenCompra
-                //               select a).OrderByDescending(u => u.clave).FirstOrDefault();
-
-                //int FolioOC_Nuevo = Convert.ToInt32(FolioOC.clave) + 1;
-                //ViewBag.Folio = FolioOC_Nuevo;
-                //----------------
-
                 var query = (from a in ConBD.SISM_REQUISICION
                              join det in ConBD.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
                              where a.claveOLD == Id_Requi
                              //where det.PartidaPendiente_OC == false || det.PartidaPendiente_OC == null
                              select new
                              {
-                                 det.Clave,
+                                 Clave = det.Clave,
                                  det.Descripcion,
                                  det.Cantidad,
                                  Folio = a.claveOLD,
@@ -176,33 +168,23 @@ namespace UanlSISM.Controllers
                 foreach (var q in query)
                 {
                     var sus = (from a in DAM.Sustancia
+                               join b in DAM.grupo_21 on a.id_grupo_21 equals b.id
                                where a.Clave == q.Clave
-                               select new
-                               {
-                                   a.Id
+                               select new { 
+                               
+                               a.Id,b.descripcion
+                               
                                }).FirstOrDefault();
 
                     if (sus != null)
                     {
-                        //Nuevo inventario: Farmacia-85, Almacen-84
-                        //string query2 = "select ManejoDisponible as ManejoDisponible from InvAlmFarm WHERE Id_Sustancia = " + sus.Id + " and InvAlmId = 84";
-                        //var result2 = db.Database.SqlQuery<InvAlmFarm>(query2);
-                        //var res2 = result2.FirstOrDefault();
 
-                        //string UP = "select D_OC.PreUnit as PreUnit "+
-                        //    "from OrdenCompra OC " +
-                        //    "INNER JOIN DetalleOC D_OC ON OC.Id = D_OC.Id_OrdenCompra " +
-                        //    "INNER JOIN Sustancia Sus ON D_OC.Id_Sustancia = Sus.Id " +
-                        //    "WHERE OC.Fecha >= '2020-01-01T00:00:00' AND D_OC.Id_Sustancia = " + sus.Id + " ";
-                        //var PU = DAM.Database.SqlQuery<InvAlmFarm>(UP);
-                        //var Precio = PU.FirstOrDefault();
-
-                        string query22 = "select G.descripcion As DescripcionGrupo " +
-                                        "from Sustancia S " +
-                                        "INNER JOIN grupo_21 G ON S.id_grupo_21 = G.id " +
-                                        "where S.Id = " + sus.Id + " ";
-                        var result22 = DAM.Database.SqlQuery<ListCampos>(query22);
-                        var res22 = result22.FirstOrDefault();
+                        //string query22 = "select G.descripcion As DescripcionGrupo " +
+                        //                "from Sustancia S " +
+                        //                "INNER JOIN grupo_21 G ON S.id_grupo_21 = G.id " +
+                        //                "where S.Id = " + sus.Id + " ";
+                        //var result22 = DAM.Database.SqlQuery<ListCampos>(query22);
+                        //var res22 = result22.FirstOrDefault();
 
                         var resultado = new ListCampos
                         {
@@ -225,8 +207,7 @@ namespace UanlSISM.Controllers
                             Cantidad_OC = q.Cantidad_OC,
                             Estatus_OC_Parcial = q.Estatus_OC_Parcial,
                             PartidaPendiente = q.PartidaPendiente_OC,
-                            //UltimoPrecio = Precio.PreUnit
-                            DescripcionGrupo = res22.DescripcionGrupo
+                            DescripcionGrupo = sus.descripcion
                         };
                         results1.Add(resultado);
                     }
@@ -794,8 +775,8 @@ namespace UanlSISM.Controllers
                     {
                         Folio = q.Folio,
                         Id_OC = q.Id_OC,
-                        Fecha = string.Format("{0:d/M/yy hh:mm tt}", q.Fecha),
-                        Fecha1 = string.Format("{0:d/M/yy hh:mm tt}", fechaDT),
+                        Fecha = string.Format("{0:d/M/yy}", q.Fecha), //Fecha PreOrden
+                        Fecha1 = string.Format("{0:d/M/yy}", fechaDT), //Fecha impresion
                         Usuario = q.Usuario,
                         Descripcion = q.Descripcion,
                         Clave = q.ClaveMed,
@@ -814,7 +795,7 @@ namespace UanlSISM.Controllers
                         FechaAutorizaOC = string.Format("{0:d/M/yy hh:mm tt}", q.FechaAutorizaOC),
                         UsuarioAutorizaOC = q.UsuarioAutorizaOC,
                         IdDetOC = q.IdDetOC,
-                        FechaOC = string.Format("{0:d/M/yy hh:mm tt}", q.FechaOC),
+                        FechaOC = string.Format("{0:d/M/yy}", q.FechaOC), //Fecha OrdenCompra
                         OC_PorValidar = q.PorValidar,
                         NumContrato = q.Contrato
                     };
@@ -950,10 +931,16 @@ namespace UanlSISM.Controllers
                                           IdSus = Det_Oc.Id_Sustencia
                                       }).FirstOrDefault();
 
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Id_Prov_1 = '" + OC_Detalle.IdProv + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Cant_Asig_1 = '" + OC_Detalle.Cantidad + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET CostoUnit_1 = '" + OC_Detalle.PU + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Status = '" + true + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                    //ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Id_Prov_1 = '" + OC_Detalle.IdProv + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                    //ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Cant_Asig_1 = '" + OC_Detalle.Cantidad + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                    //ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET CostoUnit_1 = '" + OC_Detalle.PU + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                    //ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Status = '" + true + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+
+                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Id_Prov_1 = '" + OC_Detalle.IdProv + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Cant_Asig_1 = '" + OC_Detalle.Cantidad + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET CostoUnit_1 = '" + OC_Detalle.PU + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Status = '" + true + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+
                 }
 
                 #endregion
@@ -967,99 +954,105 @@ namespace UanlSISM.Controllers
                 ////  Se crea la NuevaO.C en la BD VIEJA, en la tabla OrdenCompra, DetalleOC y se busca la Requi en la tbl Cotizaciones (vieja bd) y se actualizarán sus datos
 
                 ////Obtener la Requi de la BD VIEJITA
-                //var RequiVieja = (from a in RequisicionDB.Requisicion
-                //                  where a.clave == Folio_Requi.ToString()
-                //                  select a).OrderByDescending(u => u.id).FirstOrDefault();
+                var RequiVieja = (from a in RequisicionDB.Requisicion
+                                  where a.clave == Folio_Requi.ToString()
+                                  select a).OrderByDescending(u => u.id).FirstOrDefault();
 
-                ////Se crea una NUEVA O.C en la B.D VIEJA, en base a la O.C creada en la NUEVA B.D
-                //OrdenCompra NuevaOC_BDVieja = new OrdenCompra();
-                //NuevaOC_BDVieja.clave = AñoMes_Actual + ConsecutivoNuevoTxt;
-                ////NuevaOC_BDVieja.Id_Requisicion = OC.Id_Requisicion;
-                //NuevaOC_BDVieja.Id_Requisicion = RequiVieja.id;
-                //NuevaOC_BDVieja.Id_Proveedor = (int)OC.Id_Proveedor;
-                //NuevaOC_BDVieja.Fecha = OC.Fecha_HacerOC;
-                //NuevaOC_BDVieja.FecMod = OC.Fecha_HacerOC;
-                //NuevaOC_BDVieja.Forma_Pago = OC.Forma_Pago;
-                //NuevaOC_BDVieja.Folio = OC.Folio;
-                //NuevaOC_BDVieja.Status = true;
-                //NuevaOC_BDVieja.UsuarioId = OC.UsuarioId;
-                //NuevaOC_BDVieja.Cerrado = (bool)OC.Cerrado;
-                //NuevaOC_BDVieja.Cuadro = OC.Cuadro;
-                //RequisicionDB.OrdenCompra.Add(NuevaOC_BDVieja);
-                //RequisicionDB.SaveChanges();
+                //Se crea una NUEVA O.C en la B.D VIEJA, en base a la O.C creada en la NUEVA B.D
+                OrdenCompra NuevaOC_BDVieja = new OrdenCompra();
+                NuevaOC_BDVieja.clave = AñoMes_Actual + ConsecutivoNuevoTxt;
+                //NuevaOC_BDVieja.Id_Requisicion = OC.Id_Requisicion;
+                NuevaOC_BDVieja.Id_Requisicion = RequiVieja.id;
+                NuevaOC_BDVieja.Id_Proveedor = (int)OC.Id_Proveedor;
+                NuevaOC_BDVieja.Fecha = OC.Fecha_HacerOC;
+                NuevaOC_BDVieja.FecMod = OC.Fecha_HacerOC;
+                NuevaOC_BDVieja.Forma_Pago = OC.Forma_Pago;
+                NuevaOC_BDVieja.Folio = OC.Folio;
+                NuevaOC_BDVieja.Status = true;
+                NuevaOC_BDVieja.UsuarioId = OC.UsuarioId;
+                NuevaOC_BDVieja.Cerrado = (bool)OC.Cerrado;
+                NuevaOC_BDVieja.Cuadro = OC.Cuadro;
+                RequisicionDB.OrdenCompra.Add(NuevaOC_BDVieja);
+                RequisicionDB.SaveChanges();
 
-                ////Obtener la ultima OC en la BD VIEJA (que es esta OC)
-                //var OCvieja_Nueva = (from a in RequisicionDB.OrdenCompra
-                //                         //where a.Fecha == OC.Fecha
-                //                     where a.clave == NuevaOC_BDVieja.clave
-                //                     select a).OrderByDescending(u => u.Id).FirstOrDefault();
+                //Obtener la ultima OC en la BD VIEJA (que es esta OC)
+                var OCvieja_Nueva = (from a in RequisicionDB.OrdenCompra
+                                         //where a.Fecha == OC.Fecha
+                                     where a.clave == NuevaOC_BDVieja.clave
+                                     select a).OrderByDescending(u => u.Id).FirstOrDefault();
 
-                ////Se crea el nuevo DetalleOC en la BD VIEJA
-                //foreach (var NuevoDetalle in DetalleOC)
-                //{
-                //    DetalleOC NuevoDetalleOC_Vieja = new DetalleOC();
-                //    NuevoDetalleOC_Vieja.Id_OrdenCompra = OCvieja_Nueva.Id;
-                //    NuevoDetalleOC_Vieja.Id_CodigoBarras = (int)NuevoDetalle.Id_CodigoBarrar;
-                //    NuevoDetalleOC_Vieja.Cantidad = (int)NuevoDetalle.Cantidad;
-                //    NuevoDetalleOC_Vieja.PreUnit = (double)NuevoDetalle.PreUnit;
-                //    NuevoDetalleOC_Vieja.Obsequio = NuevoDetalle.Obsequio;
-                //    NuevoDetalleOC_Vieja.Status = true;
-                //    NuevoDetalleOC_Vieja.Id_Sustancia = NuevoDetalle.Id_Sustencia;
-                //    NuevoDetalleOC_Vieja.Pendiente = NuevoDetalle.Pendiente;
-                //    RequisicionDB.DetalleOC.Add(NuevoDetalleOC_Vieja);
-                //    RequisicionDB.SaveChanges();
-                //}
+                //Se crea el nuevo DetalleOC en la BD VIEJA
+                foreach (var NuevoDetalle in DetalleOC)
+                {
+                    DetalleOC NuevoDetalleOC_Vieja = new DetalleOC();
+                    NuevoDetalleOC_Vieja.Id_OrdenCompra = OCvieja_Nueva.Id;
+                    NuevoDetalleOC_Vieja.Id_CodigoBarras = (int)NuevoDetalle.Id_CodigoBarrar;
+                    NuevoDetalleOC_Vieja.Cantidad = (int)NuevoDetalle.Cantidad;
+                    NuevoDetalleOC_Vieja.PreUnit = (double)NuevoDetalle.PreUnit;
+                    NuevoDetalleOC_Vieja.Obsequio = NuevoDetalle.Obsequio;
+                    NuevoDetalleOC_Vieja.Status = true;
+                    NuevoDetalleOC_Vieja.Id_Sustancia = NuevoDetalle.Id_Sustencia;
+                    NuevoDetalleOC_Vieja.Pendiente = NuevoDetalle.Pendiente;
+                    RequisicionDB.DetalleOC.Add(NuevoDetalleOC_Vieja);
+                    RequisicionDB.SaveChanges();
+                }
 
-                ////Obtener las Cotizaciones que se actualizarán de la tbl VIEJA
-                //var CotizacionesViejas = (from Cot in RequisicionDB.Cotizaciones
-                //                          join Oc in RequisicionDB.OrdenCompra on Cot.Id_Requisicion equals Oc.Id_Requisicion
-                //                          join DetOc in RequisicionDB.DetalleOC on Oc.Id equals DetOc.Id_OrdenCompra
-                //                          where Oc.Id == OCvieja_Nueva.Id
-                //                          where DetOc.Id_Sustancia == Cot.Id_Sustancia
-                //                          select new
-                //                          {
-                //                              IdCot = Cot.Id,
-                //                              IdSus = Cot.Id_Sustancia,
-                //                              IdProv = Cot.Id_Prov_1,
-                //                              CantAsig = Cot.Cant_Asig_1,
-                //                              CostUnit = Cot.CostoUnit_1,
-                //                              Status = Cot.Status,
-                //                              FechaCrea = Cot.FechaCrea,
-                //                              FechaMod = Cot.FechaMod,
-                //                              Usu = Cot.Id_Usuario,
-                //                              Cuadro = Cot.Cuadro,
-                //                              IdReq = Cot.Id_Requisicion,
-                //                              IdDetReq = DetOc.Id
-                //                          }).ToList();
+                //Obtener las Cotizaciones que se actualizarán de la tbl VIEJA
+                var CotizacionesViejas = (from Cot in RequisicionDB.Cotizaciones
+                                          join Oc in RequisicionDB.OrdenCompra on Cot.Id_Requisicion equals Oc.Id_Requisicion
+                                          join DetOc in RequisicionDB.DetalleOC on Oc.Id equals DetOc.Id_OrdenCompra
+                                          where Oc.Id == OCvieja_Nueva.Id
+                                          where DetOc.Id_Sustancia == Cot.Id_Sustancia
+                                          select new
+                                          {
+                                              IdCot = Cot.Id,
+                                              IdSus = Cot.Id_Sustancia,
+                                              IdProv = Cot.Id_Prov_1,
+                                              CantAsig = Cot.Cant_Asig_1,
+                                              CostUnit = Cot.CostoUnit_1,
+                                              Status = Cot.Status,
+                                              FechaCrea = Cot.FechaCrea,
+                                              FechaMod = Cot.FechaMod,
+                                              Usu = Cot.Id_Usuario,
+                                              Cuadro = Cot.Cuadro,
+                                              IdReq = Cot.Id_Requisicion,
+                                              IdDetReq = DetOc.Id
+                                          }).ToList();
 
-                ////Se actualiza la tbl Vieja Cotizaciones con los datos de la Nueva OC
-                //foreach (var CotVieja in CotizacionesViejas)
-                //{
-                //    //Se obtiene el DetalleOC de la BD VIEJA con el que se actualizará su registro correspondiente en tbl Cotizaciones Viejas
-                //    var OCDetalle_Nueva = (from Oc in RequisicionDB.OrdenCompra
-                //                           join Det_Oc in RequisicionDB.DetalleOC on Oc.Id equals Det_Oc.Id_OrdenCompra
-                //                           where Oc.Id == OCvieja_Nueva.Id
-                //                           where Det_Oc.Id == CotVieja.IdDetReq
-                //                           select new
-                //                           {
-                //                               IdOc = Oc.Id,
-                //                               ClaveOC = Oc.clave,
-                //                               IdReq = Oc.Id_Requisicion,
-                //                               IdProv = Oc.Id_Proveedor,
-                //                               FechaOC = Oc.Fecha,
-                //                               UsuIdOC = Oc.UsuarioId,
-                //                               IdDetR = Det_Oc.Id,
-                //                               IdCB = Det_Oc.Id_CodigoBarras,
-                //                               Cantidad = Det_Oc.Cantidad,
-                //                               PU = Det_Oc.PreUnit,
-                //                               IdSus = Det_Oc.Id_Sustancia
-                //                           }).FirstOrDefault();
+                //Se actualiza la tbl Vieja Cotizaciones con los datos de la Nueva OC
+                foreach (var CotVieja in CotizacionesViejas)
+                {
+                    //Se obtiene el DetalleOC de la BD VIEJA con el que se actualizará su registro correspondiente en tbl Cotizaciones Viejas
+                    var OCDetalle_Nueva = (from Oc in RequisicionDB.OrdenCompra
+                                           join Det_Oc in RequisicionDB.DetalleOC on Oc.Id equals Det_Oc.Id_OrdenCompra
+                                           where Oc.Id == OCvieja_Nueva.Id
+                                           where Det_Oc.Id == CotVieja.IdDetReq
+                                           select new
+                                           {
+                                               IdOc = Oc.Id,
+                                               ClaveOC = Oc.clave,
+                                               IdReq = Oc.Id_Requisicion,
+                                               IdProv = Oc.Id_Proveedor,
+                                               FechaOC = Oc.Fecha,
+                                               UsuIdOC = Oc.UsuarioId,
+                                               IdDetR = Det_Oc.Id,
+                                               IdCB = Det_Oc.Id_CodigoBarras,
+                                               Cantidad = Det_Oc.Cantidad,
+                                               PU = Det_Oc.PreUnit,
+                                               IdSus = Det_Oc.Id_Sustancia
+                                           }).FirstOrDefault();
 
-                //    RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Id_Prov_1 = '" + OCDetalle_Nueva.IdProv + "' WHERE Id_Sustancia='" + OCDetalle_Nueva.IdSus + "';");
-                //    RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Cant_Asig_1 = '" + OCDetalle_Nueva.Cantidad + "' WHERE Id_Sustancia='" + OCDetalle_Nueva.IdSus + "';");
-                //    RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET CostoUnit_1 = '" + OCDetalle_Nueva.PU + "' WHERE Id_Sustancia='" + OCDetalle_Nueva.IdSus + "';");
-                //    RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Status = '" + true + "' WHERE Id_Sustancia='" + OCDetalle_Nueva.IdSus + "';");
-                //}
+                    //RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Id_Prov_1 = '" + OCDetalle_Nueva.IdProv + "' WHERE Id_Sustancia='" + OCDetalle_Nueva.IdSus + "';");
+                    //RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Cant_Asig_1 = '" + OCDetalle_Nueva.Cantidad + "' WHERE Id_Sustancia='" + OCDetalle_Nueva.IdSus + "';");
+                    //RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET CostoUnit_1 = '" + OCDetalle_Nueva.PU + "' WHERE Id_Sustancia='" + OCDetalle_Nueva.IdSus + "';");
+                    //RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Status = '" + true + "' WHERE Id_Sustancia='" + OCDetalle_Nueva.IdSus + "';");
+
+                    RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Id_Prov_1 = '" + OCDetalle_Nueva.IdProv + "' WHERE Id_Requisicion='" + OCDetalle_Nueva.IdReq + "';");
+                    RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Cant_Asig_1 = '" + OCDetalle_Nueva.Cantidad + "' WHERE Id_Requisicion='" + OCDetalle_Nueva.IdReq + "';");
+                    RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET CostoUnit_1 = '" + OCDetalle_Nueva.PU + "' WHERE Id_Requisicion='" + OCDetalle_Nueva.IdReq + "';");
+                    RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Status = '" + true + "' WHERE Id_Requisicion='" + OCDetalle_Nueva.IdReq + "';");
+
+                }
                 #endregion
                 ////-----------------------------------------------------------  BASE DE DATOS VIEJA  -------------------------   FIN  ------
 
@@ -1106,16 +1099,6 @@ namespace UanlSISM.Controllers
                                  PartidaPteOC_DetReq = DetRequi.PartidaPendiente_OC,
                                  Cantidad = DetRequi.Cantidad
                              }).ToList();
-
-                //  "VACIAR" Partidas de la tbl DetalleRequisicion que Existen en la OC que se eliminará
-                //foreach (var item in REQUI)
-                //{
-                //    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PrecioUnitario = '" + 0 + "' WHERE Id_Detalle_Req='" + item.IdDet_Requi + "';");
-                //    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + 0 + "' WHERE Id_Detalle_Req='" + item.IdDet_Requi + "';");
-                //    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + null + "' WHERE Id_Detalle_Req='" + item.IdDet_Requi + "';");
-                //    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + item.Cantidad + "' WHERE Id_Detalle_Req='" + item.IdDet_Requi + "';");
-                //    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + false + "' WHERE Id_Detalle_Req='" + item.IdDet_Requi + "';");
-                //}
 
                 //Poner el "Estatus_OC_Parcial = Parcial" 
                 ConBD.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Estatus_OC_Parcial = '" + "Parcial" + "' WHERE Id_Requicision='" + OC.Id_Requi + "';");
@@ -1165,16 +1148,27 @@ namespace UanlSISM.Controllers
                                           IdSus = Det_Oc.Id_Sustencia
                                       }).FirstOrDefault();
 
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Id_Prov_1 = '" + 0 + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Cant_Asig_1 = '" + 0 + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET CostoUnit_1 = '" + 0 + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Status = '" + false + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                    //ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Id_Prov_1 = '" + 0 + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                    //ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Cant_Asig_1 = '" + 0 + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                    //ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET CostoUnit_1 = '" + 0 + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                    //ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Status = '" + false + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
 
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PrecioUnitario = '" + 0 + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + 0 + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + null + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + null + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + false + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Id_Prov_1 = '" + 0 + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Cant_Asig_1 = '" + 0 + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET CostoUnit_1 = '" + 0 + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Status = '" + false + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+
+                    //ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PrecioUnitario = '" + 0 + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                    //ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + 0 + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                    //ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + null + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                    //ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + null + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                    //ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + false + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+
+                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PrecioUnitario = '" + 0 + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + 0 + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + null + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + null + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + false + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
                 }
 
                 //ELIMINAR OC y su DETALLE
@@ -1242,10 +1236,15 @@ namespace UanlSISM.Controllers
                                               IdSus = Det_Oc.Id_Sustancia
                                           }).FirstOrDefault();
 
-                        RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Id_Prov_1 = '" + 0 + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
-                        RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Cant_Asig_1 = '" + 0 + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
-                        RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET CostoUnit_1 = '" + 0 + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
-                        RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Status = '" + false + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                        //RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Id_Prov_1 = '" + 0 + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                        //RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Cant_Asig_1 = '" + 0 + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                        //RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET CostoUnit_1 = '" + 0 + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+                        //RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Status = '" + false + "' WHERE Id_Sustancia='" + OC_Detalle.IdSus + "';");
+
+                        RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Id_Prov_1 = '" + 0 + "' WHERE Id_Requisicion='" + OC_Detalle.IdReq + "';");
+                        RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Cant_Asig_1 = '" + 0 + "' WHERE Id_Requisicion='" + OC_Detalle.IdReq + "';");
+                        RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET CostoUnit_1 = '" + 0 + "' WHERE Id_Requisicion='" + OC_Detalle.IdReq + "';");
+                        RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Status = '" + false + "' WHERE Id_Requisicion='" + OC_Detalle.IdReq + "';");
                     }
                     //ELIMINAR OC y su DETALLE de la BD VIEJA
                     RequisicionDB.Database.ExecuteSqlCommand("DELETE FROM DetalleOC WHERE Id_OrdenCompra= '" + OC_VIEJA.Id + "';");
