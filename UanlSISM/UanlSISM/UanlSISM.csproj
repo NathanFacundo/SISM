@@ -1437,6 +1437,9 @@
     <Compile Include="Models\SISM_ORDEN_COMPRA.cs">
       <DependentUpon>BorradorRequisicion.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SISM_PROVEEDOR_COMPRAS.cs">
+      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SISM_REQUISICION.cs">
       <DependentUpon>BorradorRequisicion.tt</DependentUpon>
     </Compile>

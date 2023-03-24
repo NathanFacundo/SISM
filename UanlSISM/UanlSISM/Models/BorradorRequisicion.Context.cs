@@ -40,5 +40,6 @@ namespace UanlSISM.Models
         public virtual DbSet<SISM_COSTEO_LICITACION> SISM_COSTEO_LICITACION { get; set; }
         public virtual DbSet<SISM_DETALLE_OC> SISM_DETALLE_OC { get; set; }
         public virtual DbSet<SISM_ORDEN_COMPRA> SISM_ORDEN_COMPRA { get; set; }
+        public virtual DbSet<SISM_PROVEEDOR_COMPRAS> SISM_PROVEEDOR_COMPRAS { get; set; }
     }
 }

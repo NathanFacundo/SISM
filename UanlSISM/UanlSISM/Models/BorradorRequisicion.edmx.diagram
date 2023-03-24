@@ -27,6 +27,7 @@
         <EntityTypeShape EntityType="SISM_SIST_MEDModel.SISM_DETALLE_OC" Width="1.5" PointX="5.625" PointY="8.25" />
         <EntityTypeShape EntityType="SISM_SIST_MEDModel.SISM_ORDEN_COMPRA" Width="1.5" PointX="3.375" PointY="8" />
         <AssociationConnector Association="SISM_SIST_MEDModel.FK__SISM_DETA__Pendi__68487DD7" />
+        <EntityTypeShape EntityType="SISM_SIST_MEDModel.SISM_PROVEEDOR_COMPRAS" Width="1.5" PointX="8.375" PointY="7.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

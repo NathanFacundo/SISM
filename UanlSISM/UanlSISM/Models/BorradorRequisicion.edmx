@@ -181,6 +181,20 @@
           <Property Name="Fecha_HacerOC" Type="datetime" />
           <Property Name="Contrato" Type="varchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="SISM_PROVEEDOR_COMPRAS">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Prov_Nombre" Type="varchar" MaxLength="200" />
+          <Property Name="Prov_Direccion" Type="varchar" MaxLength="50" />
+          <Property Name="Prov_Telefono" Type="varchar" MaxLength="20" />
+          <Property Name="Prov_Contacto" Type="varchar" MaxLength="30" />
+          <Property Name="Prov_Email" Type="varchar" MaxLength="30" />
+          <Property Name="Prov_uanl" Type="varchar" MaxLength="10" />
+          <Property Name="EstatusContrato" Type="varchar" MaxLength="20" />
+          <Property Name="Id_Prov" Type="int" />
+        </EntityType>
         <EntityType Name="SISM_REQUISICION">
           <Key>
             <PropertyRef Name="Id_Requicision" />
@@ -318,6 +332,7 @@
           <EntitySet Name="SISM_INV_MED" EntityType="Self.SISM_INV_MED" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SISM_MOV_INV" EntityType="Self.SISM_MOV_INV" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SISM_ORDEN_COMPRA" EntityType="Self.SISM_ORDEN_COMPRA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SISM_PROVEEDOR_COMPRAS" EntityType="Self.SISM_PROVEEDOR_COMPRAS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SISM_REQUISICION" EntityType="Self.SISM_REQUISICION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SISM_REQUISICION_FARMACIA" EntityType="Self.SISM_REQUISICION_FARMACIA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SISM_VALE_ENTRADA" EntityType="Self.SISM_VALE_ENTRADA" Schema="dbo" store:Type="Tables" />
@@ -571,6 +586,7 @@
             <End Role="SISM_ORDEN_COMPRA" EntitySet="SISM_ORDEN_COMPRA" />
             <End Role="SISM_DETALLE_OC" EntitySet="SISM_DETALLE_OC" />
           </AssociationSet>
+          <EntitySet Name="SISM_PROVEEDOR_COMPRAS" EntityType="SISM_SIST_MEDModel.SISM_PROVEEDOR_COMPRAS" />
         </EntityContainer>
         <EntityType Name="SISM_COTIZACIONES">
           <Key>
@@ -713,6 +729,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SISM_PROVEEDOR_COMPRAS">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Prov_Nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Prov_Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Prov_Telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Prov_Contacto" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Prov_Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Prov_uanl" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EstatusContrato" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Id_Prov" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -946,6 +976,21 @@
                 <ScalarProperty Name="Id_Proveedor" ColumnName="Id_Proveedor" />
                 <ScalarProperty Name="Id_Requisicion" ColumnName="Id_Requisicion" />
                 <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SISM_PROVEEDOR_COMPRAS">
+            <EntityTypeMapping TypeName="SISM_SIST_MEDModel.SISM_PROVEEDOR_COMPRAS">
+              <MappingFragment StoreEntitySet="SISM_PROVEEDOR_COMPRAS">
+                <ScalarProperty Name="Id_Prov" ColumnName="Id_Prov" />
+                <ScalarProperty Name="EstatusContrato" ColumnName="EstatusContrato" />
+                <ScalarProperty Name="Prov_uanl" ColumnName="Prov_uanl" />
+                <ScalarProperty Name="Prov_Email" ColumnName="Prov_Email" />
+                <ScalarProperty Name="Prov_Contacto" ColumnName="Prov_Contacto" />
+                <ScalarProperty Name="Prov_Telefono" ColumnName="Prov_Telefono" />
+                <ScalarProperty Name="Prov_Direccion" ColumnName="Prov_Direccion" />
+                <ScalarProperty Name="Prov_Nombre" ColumnName="Prov_Nombre" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
