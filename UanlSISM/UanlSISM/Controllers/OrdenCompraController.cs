@@ -1,5 +1,4 @@
 ﻿
-
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -398,7 +397,16 @@ namespace UanlSISM.Controllers
 
                 //                                  DETALLE REQUI =>    PARTIDA PENDIENTE
                 //Si "CantidadPendiente_OC" es mayor a 0 quiere decir que esa partida o item aún tiene Cantidades por surtir entonces esa Requi sigue siendo una        REQUI PARCIAL
-                if (RequiDetalle_Nueva.CantidadPendiente_OC > 0 || RequiDetalle_Nueva.CantidadPendiente_OC == null)
+                //if (RequiDetalle_Nueva.CantidadPendiente_OC > 0 || RequiDetalle_Nueva.CantidadPendiente_OC == null)
+                //{
+                //    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + false + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                //}
+                //else
+                //{
+                //    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + true + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                //}
+
+                if ((RequiDetalle_Nueva.CantidadPendiente_OC > 0) || (RequiDetalle_Nueva.PrecioUnitario == 0 && RequiDetalle_Nueva.Total == 0))
                 {
                     ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + false + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                 }
@@ -406,6 +414,7 @@ namespace UanlSISM.Controllers
                 {
                     ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + true + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                 }
+
             }
 
             //  **NOTA => EN CAMPO 'PartidaPendiente_OC' DE LA TABLA DetalleRequi, EL '1' QUIERE DECIR QUE ESE ITEM SE AGREGÓ A LA O'C (O SE COMPLETO) Y SE IRÁ EN LA O'C. 
@@ -560,7 +569,13 @@ namespace UanlSISM.Controllers
                     {
 
                         DetalleOC.Id_OrdenCompra = IdOC.Id;
-                        DetalleOC.Id_CodigoBarrar = CodigoBarras.Id;
+                        //DetalleOC.Id_CodigoBarrar = CodigoBarras.Id;
+
+                        if(CodigoBarras != null)
+                        {
+                            DetalleOC.Id_CodigoBarrar = CodigoBarras.Id;
+                        }
+
                         DetalleOC.Obsequio = 0;
                         DetalleOC.Status = false;
                         DetalleOC.Id_Sustencia = item.Id_Sustancia;
