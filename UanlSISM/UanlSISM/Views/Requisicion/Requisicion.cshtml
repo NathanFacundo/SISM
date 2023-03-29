@@ -610,8 +610,8 @@
 
         var allData = tableVenta.rows().data();
 
-        $('.dataTables_filter input').on('keyup', function (e) {
-            var value = $('.dataTables_filter input').val();
+        $('#tblGenerarRequi2_filter input').on('keyup', function (e) {
+            var value = $('#tblGenerarRequi2_filter input').val();
 
             var tr = $(this).closest('tr');
             var row = $('#tblGenerarRequi2').DataTable().row(tr);
@@ -621,7 +621,10 @@
             var keycode = e.keyCode || e.which;
             if (keycode == 13) {
 
+
+
                 if (count = 1)
+                    //alert(value);
                     AgregarALista(value)
             }
         });
@@ -1026,7 +1029,7 @@
                 language: {
                     "zeroRecords": " ",
                     "search": "",
-                    "info": "_TOTAL_ Medicamentos",
+                    "info": " _TOTAL_ Medicamentos",
                     "infoEmpty": "",
                     "paginate": {
                         "first": "Primero",
