@@ -55,8 +55,11 @@
     }
 
     #DetalleRequiModal .modal-dialog {
-        height: 100vh;
-        margin-top: 0px;
+        /*height: 100vh;
+        margin-top: 0px;*/
+        max-width: none;
+        height: 100%;
+        margin: 0;
     }
 
     input[type=number]::-webkit-inner-spin-button,
@@ -324,7 +327,7 @@
                 },
             },
             data: ListaOCS,
-            "order": [[10, 'desc']],
+            "order": [[0, 'desc']],
             columns: [
                 { 'data': 'Id_OC', className: "text-center" },
                 { 'data': 'Clave', className: "text-center" },
