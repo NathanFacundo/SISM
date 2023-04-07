@@ -686,7 +686,7 @@
         });
 
         function LlenDetalle(Lista) {
-            $('#tblDetalleOC').DataTable({
+            var t = $('#tblDetalleOC').DataTable({
                 destroy: true,
                 searching: false,
                 responsive: true,
@@ -694,10 +694,11 @@
                 paging: false,
                 //scrollX: true,
                 data: Lista,
+                "order": [[1, 'asc']],
                 language: {
                     "zeroRecords": " ",
                     "search": "",
-                    "info": "",
+                    "info": "Total _TOTAL_ ",
                     "infoEmpty": "",
                     "paginate": {
                         "first": "Primero",
@@ -710,12 +711,13 @@
                     },
                 },
                 columns: [
-                    {
-                        'data': 'ORDEN', className: "text-center",
-                        render: function (data, type, row, meta) {
-                            return (row.ORDEN = meta.row + meta.settings._iDisplayStart + 1);
-                        }
-                    },
+                    //{
+                    //    'data': 'ORDEN', className: "text-center",
+                    //    render: function (data, type, row, meta) {
+                    //        return (row.ORDEN = meta.row + meta.settings._iDisplayStart + 1);
+                    //    }
+                    //},
+                    { "data": "Clave", className: "text-center" },
                     { "data": "Clave", className: "text-center" },
                     { "data": "Descripcion", className: "text-center" },
                     { "data": "Cantidad", className: "text-center" },
@@ -731,9 +733,22 @@
                         }
                     }
 
-                ]
+                ],
+                columnDefs: [
+                    {
+                        searchable: false,
+                        orderable: false,
+                        targets: 0,
+                    },
+                ],
             });
+            t.on('order.dt search.dt', function () {
+                let i = 1;
 
+                t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                    this.data(i++);
+                });
+            }).draw();
         }
 
         $('#DetalleOCModal').on('hidden.bs.modal', function () {

@@ -546,7 +546,7 @@ namespace UanlSISM.Controllers
         {
             try
             {
-                var query = (from a in ConBD2.SISM_REQUISICION
+                var query = (from a in ConBD.SISM_REQUISICION
                              select a).ToList();
 
                 var results1 = new List<BorradorList>();
@@ -596,8 +596,8 @@ namespace UanlSISM.Controllers
                 //string f = string.Format("{0:d/M/yyyy hh:mm tt}", fechaDT);
                 //ViewData["FyH"] = f;
 
-                var query = (from a in ConBD2.SISM_REQUISICION
-                             join det in ConBD2.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
+                var query = (from a in ConBD.SISM_REQUISICION
+                             join det in ConBD.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
                              //where a.Id_Requicision == Id_Requi
                              where a.claveOLD == Id_Requi
                              select new
