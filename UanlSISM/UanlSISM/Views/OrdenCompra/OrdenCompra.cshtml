@@ -54,7 +54,7 @@
         height: 100%;
         margin: 0;
     }
-    
+
     input[type=number]::-webkit-inner-spin-button,
     input[type=number]::-webkit-outer-spin-button {
         -webkit-appearance: none;
@@ -145,7 +145,7 @@
                                     <h10 id="Contrato" style="color:green">Con Contrato </h10><br />
                                     @*<a style="font-size: 13px" id="EstContrato"></a>*@
                                 </th>
-                                <th COLSPAN="2"> 
+                                <th COLSPAN="2">
                                     <a style="font-size: 13px; display: none;" id="Estatus_OC_Parcial"></a>
                                 </th>
                             </tr>
@@ -368,7 +368,7 @@
     var row = "";
     var Id = "";
     var Estatus_OC_P = "";
-    
+
     $('#Requis tbody').on('click', '#VerDetalle', function () {
         var tr = $(this).closest('tr');
         row = $('#Requis').DataTable().row(tr);
@@ -431,7 +431,7 @@
                     //LlenDetalle(DetRequi);
                 });
 
-                LlenDetalle(response);
+                LlenDetalle(DetRequi);
 
             }).fail(function (response) {
                 Swal.fire({
@@ -457,15 +457,13 @@
                 lengthChange: false,
                 paging: false,
                 data: DetRequi,
+                "order": [[1, 'asc']],
                 language: {
+                    "zeroRecords": " ",
                     "zeroRecords": "No se encontró registro",
                     "search": "",
+                    "info": "Total _TOTAL_ ",
                     "infoEmpty": "",
-                    "loadingRecords": "Un momento, cargando partidas...",
-                    "processing": "Procesando partidas...",
-                    //"info": "Mostrando _START_ a _END_ de _TOTAL_ partidas",
-                    "info": "",
-                    "lengthMenu": "Mostrando _MENU_ partidas",
                     decimal: ',',
                     thousands: '.',
                     "paginate": {
@@ -528,6 +526,15 @@
                             }
                         }
                     },
+                    //{
+                    //    "data": "UltimoPrecio", className: "text-center", render: function (data, type, row) {
+                    //        if (data == '' || data == null) {
+                    //            return '<a></a>';
+                    //        } else {
+                    //            return '$' +'<h8 style="color:black; ">' + data + '</h8>';
+                    //        }
+                    //    }
+                    //},
                     {
                         "data": "CANTIDAD_NUEVA", className: "text-center", render: function (data, type, row) {
                             if (row.PartidaPendiente == 1 || row.PartidaPendiente == true) {
@@ -565,6 +572,7 @@
             EsConContrato = $("#EstContrato").val();
             Estatus_OC_P = $("#Estatus_OC_Parcial").val();
             var dt = $('#tblDetalleRequi').DataTable();
+
             dt.column([6]).visible(false);
             dt.column([7]).visible(false);
         }
@@ -592,7 +600,6 @@
             var TotalNuevo = 0;
             var TextoTotal = "Gran Total $";
 
-            //CANTIDAD
             $(".input").keyup(function () {
                 var tr = $(this).closest('tr');
                 var row = $('#tblDetalleRequi').DataTable().row(tr);
@@ -611,11 +618,28 @@
                     row.data().CANTIDAD_NUEVA = "";
                 }
                 else
-                if (row.data().CantidadPendiente_OC == null || row.data().CantidadPendiente_OC == "0") //Si no hay CantidadPendiente, o sea, la partida es nueva
+                if (row.data().CantidadPendiente_OC == null || row.data().CantidadPendiente_OC == "0")
                 {
                     row.data().CANTIDAD_NUEVA = valor;
+                    //if (EC != "Sin Contrato")
+                    //{
+                    //    TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PrecioUnitario;
+                    //    row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
+                    //    $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
+                    //    var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
+                    //    document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
+                    //}
+                    //else
+                    //{
+                    //    if (row.data().PREUNIT_NUEVA > 0) {
+                    //        TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PREUNIT_NUEVA;
+                    //        row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
+                    //        $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
+                    //        var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
+                    //        document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
+                    //    }
+                    //}
 
-                    //Cantidad Nueva * Precio U Nuevo
                     if (row.data().PREUNIT_NUEVA > 0) {
                         TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PREUNIT_NUEVA;
                         row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
@@ -625,7 +649,7 @@
                         const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
                         document.getElementById("Total_OC2").innerHTML = TextoTotal + formato.format(sum);
                     }
-                    
+
                 } else
                 {
                     if (valor > row.data().CantidadPendiente_OC)
@@ -641,7 +665,26 @@
                     } else
                     {
                         row.data().CANTIDAD_NUEVA = valor;
-                        
+                        //if (EC != "Sin Contrato")
+                        //{
+                        //    TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PrecioUnitario;
+                        //    row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
+                        //    $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
+                        //    var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
+                        //    document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
+                        //}
+                        //else
+                        //{
+                        //    if (row.data().PREUNIT_NUEVA > 0)
+                        //    {
+                        //        TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PREUNIT_NUEVA;
+                        //        row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
+                        //        $('#ORDEN' + row.data().ORDEN).val(TotalNuevo.toFixed(2));
+                        //        var sum = $('#tblDetalleRequi').DataTable().column(9).data().sum();
+                        //        document.getElementById("Total_OC2").innerHTML = TextoTotal + sum.toFixed(2);
+                        //    }
+                        //}
+
                         if (row.data().PREUNIT_NUEVA > 0) {
                             TotalNuevo = row.data().CANTIDAD_NUEVA * row.data().PREUNIT_NUEVA;
                             row.data().TOTAL_NUEVA = TotalNuevo.toFixed(2);
@@ -651,12 +694,11 @@
                             const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
                             document.getElementById("Total_OC2").innerHTML = TextoTotal + formato.format(sum);
                         }
-                         
+
                     }
                 }
             });
 
-            //PRECIO UNITARIO
             $(".InputPU").keyup(function () {
                 var tr = $(this).closest('tr');
                 var row = $('#tblDetalleRequi').DataTable().row(tr);
@@ -705,7 +747,7 @@
         Folio = $("#NoRequi").val();
         Proveedor = document.getElementById('PROV').textContent.trim();
         EsConContrato = $("#EstContrato").val();
-        
+
         if (DetRequi.length > 0) {
 
             TablaValida = true;
@@ -720,7 +762,7 @@
                 if ((Proveedor == "" || Proveedor == "Catálogo Proveedores") || (itemEnLista.CANTIDAD_NUEVA > 0 && itemEnLista.PREUNIT_NUEVA <= 0)) {
                     TablaValida = false;
                 }
-                  
+
             });
 
             if (TablaValida) {
@@ -754,7 +796,7 @@
                                 icon: 'error',
                                 title: 'Orden de Compra no generada',
                             });
-                            
+
                         }
                     });
             } else
@@ -762,7 +804,7 @@
                     icon: 'error',
                     title: '¡Error!',
                     text: 'No puede haber Cantidades en Cero y/o falta seleccionar Proveedor'
-                });        
+                });
         } else {
             Swal.fire({
                 icon: 'error',
@@ -835,23 +877,22 @@
             display: none;
         }
     }
-
 </style>
 
 @*<style type="text/css" media="screen and (max-width: 767px)">
-    table.scrollmenu {
-        /*overflow: auto;
-        white-space: nowrap;*/
-        overflow-x: scroll;
-    }
-</style>
-<style type="text/css" media="screen and (max-width: 992px)">
-    table.scrollmenu {
-        overflow-x: scroll;
-    }
-</style>
-<style type="text/css" media="screen and (max-width: 480px)">
-    table.scrollmenu {
-        overflow-x: scroll;
-    }
-</style>*@
+        table.scrollmenu {
+            /*overflow: auto;
+            white-space: nowrap;*/
+            overflow-x: scroll;
+        }
+    </style>
+    <style type="text/css" media="screen and (max-width: 992px)">
+        table.scrollmenu {
+            overflow-x: scroll;
+        }
+    </style>
+    <style type="text/css" media="screen and (max-width: 480px)">
+        table.scrollmenu {
+            overflow-x: scroll;
+        }
+    </style>*@
