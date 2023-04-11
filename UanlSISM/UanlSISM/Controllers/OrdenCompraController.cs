@@ -211,6 +211,7 @@ namespace UanlSISM.Controllers
 
         //TBL PROVEEDOR NUEVO = ConDB
         decimal? SubTotal_OC = 0.00m;
+        decimal? SubTotal_OC1 = 0.00m;
         public JsonResult GenerarOC(List<SISM_DET_REQUISICION> ListaOC, int FolioRequi, string ProveedorReq)
         {
             var UsuarioRegistra = User.Identity.GetUserName();
@@ -442,7 +443,8 @@ namespace UanlSISM.Controllers
                                   where a.Usu_User == UsuarioOld
                                   select a).FirstOrDefault();
 
-
+                #region GUARDAR PRE-ORDEN BD NUEVA DEL 206
+                
                 //CREAR ORDEN NUEVA a partir de una Requi
                 SISM_ORDEN_COMPRA OC = new SISM_ORDEN_COMPRA();
                 OC.Id_Requisicion = Requi.Id_Requicision;
@@ -491,6 +493,10 @@ namespace UanlSISM.Controllers
                         if (CodigoBarras != null)
                         {
                             DetalleOC.Id_CodigoBarrar = CodigoBarras.Id;
+                        }
+                        else
+                        {
+                            DetalleOC.Id_CodigoBarrar = 0;
                         }
                         DetalleOC.Obsequio = 0;
                         DetalleOC.Status = false;
@@ -568,6 +574,144 @@ namespace UanlSISM.Controllers
                         ConBD.SaveChanges();
                     }
                 }
+                #endregion
+
+
+                //---------------------------------------------------------     NUEVA BD SISTEMA NUEVO -- SERVMED 205
+                #region GUARDAR PRE-ORDEN BD NUEVA SERVMED 205
+
+                //CREAR ORDEN NUEVA a partir de una Requi
+                Tbl_OrdenCompra OC1 = new Tbl_OrdenCompra();
+                OC1.Id_Requisicion = Requi.Id_Requicision;
+                OC1.Id_Proveedor = Prov.Id_Prov; //Id_Prov es el Id del Proveedor en la tabla vieja de Proveedor
+                OC1.Fecha = fechaDT;
+                OC1.FechaMod = fechaDT;
+                OC1.Forma_Pago = "";
+                OC1.Folio = "";
+                OC1.Status = false;
+                OC1.UsuarioId = UsuarioOLD.UsuarioId;
+                OC1.Cerrado = false;
+                OC1.Cuadro = 1;
+                OC1.UsuarioNuevo = UsuarioRegistra;
+                OC1.IP_User = ip_realiza;
+                OC1.NombreProveedor = Prov.Prov_Nombre;
+                OC1.OC_PorValidar = "1"; //LA OC nace en 1, tiene que validarse para pasar a 2 (validada) despues tiene que Generarse la OC y pasa a 3, el Status cambiará a True
+
+                ConBD_SM.Tbl_OrdenCompra.Add(OC1);
+                ConBD_SM.SaveChanges();
+
+                //Obtenemos la ultima O.C guardada(que es esta) para guardar su detalle
+                var IdOC1 = (from a in ConBD_SM.Tbl_OrdenCompra
+                             where a.UsuarioNuevo == UsuarioRegistra
+                            where a.Fecha == fechaDT
+                            select a).OrderByDescending(u => u.Id).FirstOrDefault();
+
+                //RECORREMOS  para guardar en la tabla DETALLE ORDEN        **DETALLE ORDEN DE COMPRA**
+                foreach (var item in ListaOC)
+                {
+                    //CREAR EL DETALLE DE LA NUEVA ORDEN
+                    Tbl_DetalleOC DetalleOC = new Tbl_DetalleOC();
+
+                    //BUSCAMOS EN LA TABLA "CodigoBarras" el Id del Codigo de Barras, buscando por el Id de la Sustancia
+                    var CodigoBarras = (from a in SISMFarmacia.CodigoBarras
+                                        where a.Id_Sustancia == item.Id_Sustancia
+                                        select a).FirstOrDefault();
+
+                    //Obtenemos la info de SUSTANCIA de la tabla Detalle_Requi
+                    var Sustancia = (from a in ConBD.SISM_DET_REQUISICION
+                                     where a.Clave == item.Clave
+                                     select a).FirstOrDefault();
+                    if (item.CB_ELIMINAR == true)
+                    {
+                        DetalleOC.Id_OrdenCompra = IdOC1.Id;
+                        //DetalleOC.Id_CodigoBarrar = CodigoBarras.Id;
+                        if (CodigoBarras != null)
+                        {
+                            DetalleOC.Id_CodigoBarrar = CodigoBarras.Id;
+                        }
+                        else
+                        {
+                            DetalleOC.Id_CodigoBarrar = 0;
+                        }
+                        DetalleOC.Obsequio = 0;
+                        DetalleOC.Status = false;
+                        DetalleOC.Id_Sustencia = item.Id_Sustancia;
+                        DetalleOC.Descripcion = Sustancia.Descripcion;
+                        DetalleOC.ClaveMedicamento = Sustancia.Clave;
+
+                        //                                              *CANTIDAD*
+                        if (item.CANTIDAD_NUEVA > 0)
+                        {
+                            DetalleOC.Cantidad = item.CANTIDAD_NUEVA;
+                        }
+                        else
+                        {
+                            if (item.CANTIDAD_NUEVA == 0 && item.CantidadPendiente_OC > 0)
+                            {
+                                DetalleOC.Cantidad = item.CantidadPendiente_OC;
+                            }
+                            else
+                            {
+                                DetalleOC.Cantidad = item.Cantidad;
+                            }
+                        }
+
+                        DetalleOC.Pendiente = DetalleOC.Cantidad;
+
+                        //Se valida si el PRECIO UNITARIO se modificó   *PRECIO UNITARIO*
+                        if (item.PREUNIT_NUEVA > 0)
+                        {
+                            DetalleOC.PreUnit = item.PREUNIT_NUEVA;
+                        }
+                        else
+                        {
+                            DetalleOC.PreUnit = item.PrecioUnitario;
+                        }
+
+                        //Se valida si se ingresó una NUEVA CANTIDAD o un NUEVO PRECIO UNITARIO     *$TOTAL$*
+                        if (item.CANTIDAD_NUEVA > 0 || item.PREUNIT_NUEVA > 0)
+                        {
+                            if (item.CANTIDAD_NUEVA > 0 && item.PREUNIT_NUEVA > 0)
+                            {
+                                DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PREUNIT_NUEVA), 2);
+                            }
+                            else
+                            {
+                                if (item.CANTIDAD_NUEVA > 0)
+                                {
+                                    DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PrecioUnitario), 2);
+                                }
+                                if (item.PREUNIT_NUEVA > 0)
+                                {
+                                    if (item.CantidadPendiente_OC > 0)
+                                    {
+                                        DetalleOC.Total = (double?)decimal.Round((decimal)(item.CantidadPendiente_OC * item.PREUNIT_NUEVA), 2);
+                                    }
+                                    else
+                                    {
+                                        DetalleOC.Total = (double?)decimal.Round((decimal)(item.Cantidad * item.PREUNIT_NUEVA), 2);
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            DetalleOC.Total = (double?)decimal.Round((decimal)(DetalleOC.Cantidad * DetalleOC.PreUnit), 2);
+                        }
+
+                        ConBD_SM.Tbl_DetalleOC.Add(DetalleOC);
+                        ConBD_SM.SaveChanges();
+
+                        //                                                              *$TOTAL$ TBL O'C*
+                        SubTotal_OC1 += Decimal.Round((decimal)(DetalleOC.Total), 2);
+                        OC1.Total_OC = (double?)SubTotal_OC1;
+
+                        ConBD_SM.SaveChanges();
+                    }
+                }
+
+                #endregion
+
 
                 return Json(new { MENSAJE = "Succe: Se generó la Pre-O.C" }, JsonRequestBehavior.AllowGet);
             }
@@ -751,6 +895,7 @@ namespace UanlSISM.Controllers
                 //  Se Actualizan las tablas nuevas: OrdenCompra - DetalleOrdenCompra - Cotizaciones
 
                 //ORDEN DE COMPRA
+                #region ORDEN DE COMPRA
                 var OC = (from a in ConBD.SISM_ORDEN_COMPRA
                           where a.Id == Id_OC
                           select a).FirstOrDefault();
@@ -782,7 +927,8 @@ namespace UanlSISM.Controllers
                     ConBD.SaveChanges();
                 }
 
-                #region Crear e Insertar FOLIO/CLAVE en la BD Nueva
+                //**************************************Crear e Insertar FOLIO/CLAVE en la BD Nueva
+
                 //obtener la ultima 'clave' de la tabla OrdenCompra actual BD (vieja) para que inserte un nuevo registro en la nueva BD CONSECUTIVO de la clave
                 var Clave = (from a in db.OrdenCompra
                              select new
@@ -814,6 +960,81 @@ namespace UanlSISM.Controllers
                 //ACTUALIZAMOS LA 'CLAVE' DE LA O'C NUEVA
                 ConBD.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Clave = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id='" + OC.Id + "';");
                 #endregion
+
+
+                #region NUEVA BD SERVMED 205
+                
+                var OC1 = (from a in ConBD_SM.Tbl_OrdenCompra
+                          where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.Fecha &&
+                          a.UsuarioNuevo == OC.UsuarioNuevo && a.IP_User == OC.IP_User &&
+                          a.Total_OC == OC.Total_OC
+                          select a).FirstOrDefault();
+
+                if (OC1 != null)
+                {
+                    OC1.Status = true;
+                    OC1.OC_PorValidar = "3";// el usuario de Compras puede Aprobarla/Generarla y el Status en BD cambia a True y OC_PorValidar puede cambiar a 3
+                    OC1.Fecha_HacerOC = fechaDT;// Esta es la Fecha cuando Compras hace la OC una vez que la Autoriza Coordinacion
+
+                    if (NumContrato != null || NumContrato != "")
+                    {
+                        OC1.Contrato = NumContrato;
+                    }
+                    else
+                    {
+                        OC1.Contrato = NumContrato;
+                    }
+
+                    ConBD_SM.SaveChanges();
+
+                    //DETALLE DE LA O.C
+                    var DetalleOC1 = (from a in ConBD_SM.Tbl_DetalleOC
+                                      where a.Id_OrdenCompra == OC1.Id
+                                      select a
+                                ).ToList();
+
+                    foreach (var q in DetalleOC1)
+                    {
+                        q.Status = true;
+                        ConBD_SM.SaveChanges();
+                    }
+
+                    //**************************************Crear e Insertar FOLIO/CLAVE en la BD Nueva
+
+                    //obtener la ultima 'clave' de la tabla OrdenCompra actual BD (vieja) para que inserte un nuevo registro en la nueva BD CONSECUTIVO de la clave
+                    var Clave1 = (from a in db.OrdenCompra
+                                  select new
+                                  {
+                                      clave = a.clave
+                                  }).OrderByDescending(u => u.clave).FirstOrDefault();
+
+                    var AñoMes_Actual1 = string.Format("{0:yyMM}", fechaDT);
+                    var UltimoConsecutivo_Clave1 = Convert.ToInt32(Clave1.clave.Substring(4));
+                    var ConsecutivoNuevo1 = ((UltimoConsecutivo_Clave1) + 1);
+                    var ConsecutivoNuevoTxt1 = "";
+
+                    if (ConsecutivoNuevo1 < 100)
+                    {
+                        if (ConsecutivoNuevo1 < 9)
+                        {
+                            ConsecutivoNuevoTxt1 = "00" + ConsecutivoNuevo1;
+                        }
+                        else
+                        {
+                            ConsecutivoNuevoTxt1 = "0" + ConsecutivoNuevo1;
+                        }
+                    }
+                    else
+                    {
+                        ConsecutivoNuevoTxt1 = "" + ConsecutivoNuevo1;
+                    }
+
+                    //ACTUALIZAMOS LA 'CLAVE' DE LA O'C NUEVA
+                    ConBD_SM.Database.ExecuteSqlCommand("UPDATE Tbl_OrdenCompra SET Clave = '" + AñoMes_Actual1 + ConsecutivoNuevoTxt1 + "' WHERE Id='" + OC1.Id + "';");
+                }
+
+                #endregion
+
 
                 #region Actualizar tbl COTIZACIONES (NUEVA BD)
 
@@ -915,6 +1136,10 @@ namespace UanlSISM.Controllers
                     {
                         NuevoDetalleOC_Vieja.Id_CodigoBarras = (int)NuevoDetalle.Id_CodigoBarrar;
                     }
+                    else
+                    {
+                        NuevoDetalleOC_Vieja.Id_CodigoBarras = 0;
+                    }
                     NuevoDetalleOC_Vieja.Cantidad = (int)NuevoDetalle.Cantidad;
                     NuevoDetalleOC_Vieja.PreUnit = (double)NuevoDetalle.PreUnit;
                     NuevoDetalleOC_Vieja.Obsequio = NuevoDetalle.Obsequio;
@@ -1005,6 +1230,10 @@ namespace UanlSISM.Controllers
                               Id_Requi = a.Id_Requisicion,
                               FolioOC = a.Clave,
                               FechaOC = a.Fecha
+                              ,
+                              a.Id_Proveedor,
+                              a.UsuarioNuevo,
+                              a.IP_User
                           }).FirstOrDefault();
 
                 //Obtener REQUI y su Detalle
@@ -1088,7 +1317,7 @@ namespace UanlSISM.Controllers
                 ConBD.Database.ExecuteSqlCommand("DELETE FROM SISM_ORDEN_COMPRA WHERE Id= '" + OC.Id_OC + "';");
 
                 //--------------------------------------------------------------------------  BASE DE DATOS VIEJA  -------------ELIMINAR O.C------------   INICIO  ------
-
+                #region
                 //Si la OC tiene Folio(clave) quiere decir que el Usuario de Compras si generó la OC despues de haberla autorizado
                 //por lo tanto si existe la OC en la BD VIEJA, entonces entraríamos para eliminarla tambien de la BDVIEJA
                 //si no, entonces no entramos al IF y solo se eliminará de la BNUEVA ya que ahí se guarda la Pre-Orden y la Orden
@@ -1157,8 +1386,27 @@ namespace UanlSISM.Controllers
                     RequisicionDB.Database.ExecuteSqlCommand("DELETE FROM DetalleOC WHERE Id_OrdenCompra= '" + OC_VIEJA.Id + "';");
                     RequisicionDB.Database.ExecuteSqlCommand("DELETE FROM OrdenCompra WHERE Id= '" + OC_VIEJA.Id + "';");
                 }
-
+                #endregion
                 //--------------------------------------------------------------------------  BASE DE DATOS VIEJA  --------------ELIMINAR O.C-----------   FIN  ------
+
+
+                #region NUEVA BD SERVMED 205
+
+                var OC1 = (from a in ConBD_SM.Tbl_OrdenCompra
+                           where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.FechaOC &&
+                           a.UsuarioNuevo == OC.UsuarioNuevo && a.IP_User == OC.IP_User &&
+                           a.Total_OC == OC.Total_OC
+                           select a).FirstOrDefault();
+
+                if (OC1 != null)
+                {
+                    //ELIMINAR OC y su DETALLE
+                    ConBD_SM.Database.ExecuteSqlCommand("DELETE FROM Tbl_DetalleOC WHERE Id_OrdenCompra= '" + OC1.Id + "';");
+                    ConBD_SM.Database.ExecuteSqlCommand("DELETE FROM Tbl_OrdenCompra WHERE Id= '" + OC1.Id + "';");
+                }
+
+                #endregion
+
 
                 return Json(new { MENSAJE = "Succe: Se eliminó la O.C" }, JsonRequestBehavior.AllowGet);
             }
@@ -1180,6 +1428,23 @@ namespace UanlSISM.Controllers
 
                 OC.Fecha_Acuse = fechaDT;
                 ConBD.SaveChanges();
+
+                #region NUEVA BD SERVMED 205
+
+                var OC1 = (from a in ConBD_SM.Tbl_OrdenCompra
+                           where a.Fecha >= OC.Fecha &&
+                           a.UsuarioNuevo == OC.UsuarioNuevo && a.IP_User == OC.IP_User &&
+                           a.Total_OC == OC.Total_OC
+                           select a).FirstOrDefault();
+
+                if (OC1 != null)
+                {
+                    OC1.Fecha_Acuse = fechaDT;
+                    ConBD_SM.SaveChanges();
+                }
+
+                #endregion
+
 
                 return Json(new { MENSAJE = "Succe: Se guardó la fecha" }, JsonRequestBehavior.AllowGet);
             }
@@ -1206,6 +1471,11 @@ namespace UanlSISM.Controllers
                               Sustancia_OC = DetOC.Id_Sustencia,
                               SubTotal_OC = DetOC.Total,
                               FolioReq = a.Id_Requisicion
+                              ,
+                              a.Id_Proveedor,
+                              a.Fecha,
+                              a.UsuarioNuevo,
+                              a.IP_User
                           }).FirstOrDefault();
 
                 //Obtener REQUI y su Detalle de la Partida que se eliminará
@@ -1240,6 +1510,41 @@ namespace UanlSISM.Controllers
                 var NuevoGranTotal_OC = (double?)decimal.Round((decimal)(OC.Total_OC - OC.SubTotal_OC), 2);
                 ConBD.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Total_OC = '" + NuevoGranTotal_OC + "' WHERE Id='" + Id_OC + "';");
 
+
+                #region NUEVA BD SERVMED 205
+
+                var OC1 = (from a in ConBD_SM.Tbl_OrdenCompra
+                           join DetOC in ConBD_SM.Tbl_DetalleOC on a.Id equals DetOC.Id_OrdenCompra
+                           where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.Fecha &&
+                           a.UsuarioNuevo == OC.UsuarioNuevo && a.IP_User == OC.IP_User &&
+                           a.Total_OC == OC.Total_OC
+                           select new
+                           {
+                               Id_OC = a.Id,
+                               Total_OC = a.Total_OC,
+                               IdDet_OC = DetOC.Id,
+                               Sustancia_OC = DetOC.Id_Sustencia,
+                               SubTotal_OC = DetOC.Total,
+                               FolioReq = a.Id_Requisicion
+                              ,
+                               a.Id_Proveedor,
+                               a.Fecha,
+                               a.UsuarioNuevo,
+                               a.IP_User
+                           }).FirstOrDefault();
+
+                if (OC1 != null)
+                {
+                    //ELIMINAR Partida de la tbl DetalleOrdenCompra
+                    ConBD_SM.Database.ExecuteSqlCommand("DELETE FROM Tbl_DetalleOC WHERE Id= '" + OC1.IdDet_OC + "';");
+
+                    //Volver a hacer el RECALCULO del GranTotal de la OrdenCompra
+                    var NuevoGranTotal_OC1 = (double?)decimal.Round((decimal)(OC1.Total_OC - OC1.SubTotal_OC), 2);
+                    ConBD_SM.Database.ExecuteSqlCommand("UPDATE Tbl_OrdenCompra SET Total_OC = '" + NuevoGranTotal_OC1 + "' WHERE Id='" + OC1.Id_OC + "';");
+                }
+
+                #endregion
+
                 return Json(new { MENSAJE = "Succe: Se eliminó la Partida de la O.C" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -1258,6 +1563,22 @@ namespace UanlSISM.Controllers
 
                 OC.Contrato = Contrato;
                 ConBD.SaveChanges();
+
+                #region NUEVA BD SERVMED 205
+
+                var OC1 = (from a in ConBD_SM.Tbl_OrdenCompra
+                           where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.Fecha &&
+                           a.UsuarioNuevo == OC.UsuarioNuevo && a.IP_User == OC.IP_User &&
+                           a.Total_OC == OC.Total_OC
+                           select a).FirstOrDefault();
+
+                if (OC1 != null)
+                {
+                    OC1.Contrato = Contrato;
+                    ConBD_SM.SaveChanges();
+                }
+
+                #endregion
 
                 return Json(new { MENSAJE = "Succe: Se guardó el Contrato" }, JsonRequestBehavior.AllowGet);
             }
@@ -1343,6 +1664,26 @@ namespace UanlSISM.Controllers
                 OC.Usuario_AutorizaOC = UsuarioRegistra;
                 ConBD.SaveChanges();
 
+                #region NUEVA BD SERVMED 205
+
+                var OC1 = (from a in ConBD_SM.Tbl_OrdenCompra
+                           where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.Fecha &&
+                           a.UsuarioNuevo == OC.UsuarioNuevo && a.IP_User == OC.IP_User &&
+                           a.Total_OC == OC.Total_OC
+                           select a).FirstOrDefault();
+
+                if (OC1 != null)
+                {
+                    OC1.OC_PorValidar = "2";// 2 Quiere decir que se Validó la O.C porque la OC nace como 1 (Generada) al validarla (2) el usuario de Compras puede Aprobarla/Generarla y el Status en BD cambia a True y OC_PorValidar puede cambiar a 3
+                    OC1.Descripcion = DescripcionOC;
+                    OC1.Fecha_AutorizaOC = fechaDT;
+                    OC1.Usuario_AutorizaOC = UsuarioRegistra;
+                    ConBD_SM.SaveChanges();
+                }
+
+                #endregion
+
+
                 return Json(new { MENSAJE = "Succe: Se autorizó la Pre-Orden de Compra" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -1351,26 +1692,26 @@ namespace UanlSISM.Controllers
             }
         }
 
-        public JsonResult CancelarOC(int Id_OC, string DescripcionOC)
-        {
-            try
-            {
-                var OC = (from a in ConBD.SISM_ORDEN_COMPRA
-                          where a.Id == Id_OC
-                          select a).FirstOrDefault();
+        //public JsonResult CancelarOC(int Id_OC, string DescripcionOC)
+        //{
+        //    try
+        //    {
+        //        var OC = (from a in ConBD.SISM_ORDEN_COMPRA
+        //                  where a.Id == Id_OC
+        //                  select a).FirstOrDefault();
 
-                OC.Status = false;
-                OC.OC_PorValidar = "4";// 4 Quiere decir que se Canceló la O.C 
-                OC.Descripcion = DescripcionOC;
-                ConBD.SaveChanges();
+        //        OC.Status = false;
+        //        OC.OC_PorValidar = "4";// 4 Quiere decir que se Canceló la O.C 
+        //        OC.Descripcion = DescripcionOC;
+        //        ConBD.SaveChanges();
 
-                return Json(new { MENSAJE = "Succe: Se canceló la O.C" }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        return Json(new { MENSAJE = "Succe: Se canceló la O.C" }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
         //----------------------------------------------------------------------------------- Pantalla ORDENES COMPRA POR VALIDAR   --------------  FIN
 
