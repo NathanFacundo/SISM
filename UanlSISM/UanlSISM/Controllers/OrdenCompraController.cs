@@ -419,7 +419,6 @@ namespace UanlSISM.Controllers
                 {
                     ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + true + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                 }
-
             }
 
             //  **NOTA => EN CAMPO 'PartidaPendiente_OC' DE LA TABLA DetalleRequi, EL '1' QUIERE DECIR QUE ESE ITEM SE AGREGÓ A LA O'C (O SE COMPLETO) Y SE IRÁ EN LA O'C. 
@@ -462,7 +461,6 @@ namespace UanlSISM.Controllers
                 //            where a.Prov_Nombre == ProveedorReq
                 //            select a
                 //            ).FirstOrDefault();
-
                 var Prov = (from a in ConBD.SISM_PROVEEDOR_COMPRAS
                             where a.Prov_Nombre == ProveedorReq
                             select a
@@ -985,9 +983,9 @@ namespace UanlSISM.Controllers
                 ////-----------------------------------------------------------  BASE DE DATOS VIEJA  -------------------------   INICIO  ------
                 #region
 
-                //  Se crea la NuevaO.C en la BD VIEJA, en la tabla OrdenCompra, DetalleOC y se busca la Requi en la tbl Cotizaciones (vieja bd) y se actualizarán sus datos
+                ////  Se crea la NuevaO.C en la BD VIEJA, en la tabla OrdenCompra, DetalleOC y se busca la Requi en la tbl Cotizaciones (vieja bd) y se actualizarán sus datos
 
-                //Obtener la Requi de la BD VIEJITA
+                ////Obtener la Requi de la BD VIEJITA
                 var RequiVieja = (from a in RequisicionDB.Requisicion
                                   where a.clave == Folio_Requi.ToString()
                                   select a).OrderByDescending(u => u.id).FirstOrDefault();
@@ -1021,7 +1019,6 @@ namespace UanlSISM.Controllers
                     DetalleOC NuevoDetalleOC_Vieja = new DetalleOC();
                     NuevoDetalleOC_Vieja.Id_OrdenCompra = OCvieja_Nueva.Id;
                     //NuevoDetalleOC_Vieja.Id_CodigoBarras = (int)NuevoDetalle.Id_CodigoBarrar;
-
                     if (NuevoDetalle.Id_CodigoBarrar != null)
                     {
                         NuevoDetalleOC_Vieja.Id_CodigoBarras = (int)NuevoDetalle.Id_CodigoBarrar;
@@ -1366,38 +1363,12 @@ namespace UanlSISM.Controllers
                 ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + false + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
                 ConBD.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Estatus_OC_Parcial = '" + "Parcial" + "' WHERE Id_Requicision='" + REQUI.Id_Requi + "';");
 
-                ////ELIMINAR Partida de la tbl DetalleOrdenCompra
-                //ConBD.Database.ExecuteSqlCommand("DELETE FROM SISM_DETALLE_OC WHERE Id= '" + Id_DetOc + "';");
+                //ELIMINAR Partida de la tbl DetalleOrdenCompra
+                ConBD.Database.ExecuteSqlCommand("DELETE FROM SISM_DETALLE_OC WHERE Id= '" + Id_DetOc + "';");
 
-                ////Volver a hacer el RECALCULO del GranTotal de la OrdenCompra
-                //var NuevoGranTotal_OC = (double?)decimal.Round((decimal)(OC.Total_OC - OC.SubTotal_OC), 2);
-                //ConBD.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Total_OC = '" + NuevoGranTotal_OC + "' WHERE Id='" + Id_OC + "';");
-
-                //Obtener los Detalles de la OC para ver cuantos son y dependiendo de eso eliminar solo la Partida o TODA LA OC
-                var OC_Eliminar = (from a in ConBD.SISM_DETALLE_OC
-                                   where a.Id_OrdenCompra == Id_OC
-                                   select a
-                                   ).ToList();
-
-                //Si la OC tiene más de un Detalle, solo se eliminará ese Detalle.
-                //Si la OC solo tiene un Detalle que es el que se está eliminando, que se elimine por completo el Detalle y la OC. Esto para que no quede viva la OC pero sin Detalle
-                if (OC_Eliminar.Count > 1)
-                {
-                    //ELIMINAR Partida de la tbl DetalleOrdenCompra
-                    ConBD.Database.ExecuteSqlCommand("DELETE FROM SISM_DETALLE_OC WHERE Id= '" + Id_DetOc + "';");
-
-                    //Volver a hacer el RECALCULO del GranTotal de la OrdenCompra
-                    var NuevoGranTotal_OC = (double?)decimal.Round((decimal)(OC.Total_OC - OC.SubTotal_OC), 2);
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Total_OC = '" + NuevoGranTotal_OC + "' WHERE Id='" + Id_OC + "';");
-                }
-                else
-                {
-                    //Eliminar el Detalle de esa OC
-                    ConBD.Database.ExecuteSqlCommand("DELETE FROM SISM_DETALLE_OC WHERE Id= '" + Id_DetOc + "';");
-
-                    //Eliminar la OC
-                    ConBD.Database.ExecuteSqlCommand("DELETE FROM SISM_ORDEN_COMPRA WHERE Id= '" + Id_OC + "';");
-                }
+                //Volver a hacer el RECALCULO del GranTotal de la OrdenCompra
+                var NuevoGranTotal_OC = (double?)decimal.Round((decimal)(OC.Total_OC - OC.SubTotal_OC), 2);
+                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Total_OC = '" + NuevoGranTotal_OC + "' WHERE Id='" + Id_OC + "';");
 
                 return Json(new { MENSAJE = "Succe: Se eliminó la Partida de la O.C" }, JsonRequestBehavior.AllowGet);
             }
@@ -1534,5 +1505,6 @@ namespace UanlSISM.Controllers
 
         //----------------------------------------------------------------------------------- Pantalla ORDENES COMPRA POR VALIDAR   --------------  FIN
 
+        
     }
 }
