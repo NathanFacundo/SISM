@@ -19,6 +19,51 @@
           <Property Name="contenido_anterior" Type="int" />
           <Property Name="codigobarra_anterior" Type="nchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Tbl_DetalleOC">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_OrdenCompra" Type="int" Nullable="false" />
+          <Property Name="Id_CodigoBarrar" Type="int" />
+          <Property Name="Cantidad" Type="int" />
+          <Property Name="PreUnit" Type="float" />
+          <Property Name="Obsequio" Type="int" />
+          <Property Name="Status" Type="bit" />
+          <Property Name="Id_Sustencia" Type="int" />
+          <Property Name="Pendiente" Type="int" />
+          <Property Name="Total" Type="float" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="300" />
+          <Property Name="ClaveMedicamento" Type="varchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="Tbl_OrdenCompra">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Clave" Type="varchar" MaxLength="15" />
+          <Property Name="Id_Requisicion" Type="int" />
+          <Property Name="Id_Proveedor" Type="int" />
+          <Property Name="Fecha" Type="datetime" />
+          <Property Name="FechaMod" Type="datetime" />
+          <Property Name="Forma_Pago" Type="varchar" MaxLength="50" />
+          <Property Name="Folio" Type="varchar" MaxLength="50" />
+          <Property Name="Status" Type="bit" />
+          <Property Name="UsuarioId" Type="int" />
+          <Property Name="Cerrado" Type="bit" />
+          <Property Name="Cuadro" Type="int" />
+          <Property Name="UsuarioNuevo" Type="varchar" MaxLength="30" />
+          <Property Name="IP_User" Type="varchar" MaxLength="30" />
+          <Property Name="NombreProveedor" Type="varchar" MaxLength="500" />
+          <Property Name="Total_OC" Type="float" />
+          <Property Name="OC_PorValidar" Type="varchar" MaxLength="10" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="500" />
+          <Property Name="Fecha_Acuse" Type="datetime" />
+          <Property Name="Fecha_AutorizaOC" Type="datetime" />
+          <Property Name="Usuario_AutorizaOC" Type="varchar" MaxLength="30" />
+          <Property Name="Fecha_HacerOC" Type="datetime" />
+          <Property Name="Contrato" Type="varchar" MaxLength="100" />
+        </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ReporteInventarios">
@@ -49,6 +94,18 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
           <Property Name="Inv_Act_Mederos" Type="numeric" Precision="38" Scale="0" />
           <Property Name="InventarioTotal" Type="numeric" Precision="38" Scale="0" />
         </EntityType>
+        <Association Name="FK__Tbl_Detal__Id_Or__396E5EB4">
+          <End Role="Tbl_OrdenCompra" Type="Self.Tbl_OrdenCompra" Multiplicity="1" />
+          <End Role="Tbl_DetalleOC" Type="Self.Tbl_DetalleOC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_OrdenCompra">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tbl_DetalleOC">
+              <PropertyRef Name="Id_OrdenCompra" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="SP_MedicamentosTemporales" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idUnidad" Type="int" Mode="In" />
         </Function>
@@ -57,6 +114,8 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
         </Function>
         <EntityContainer Name="SERVMEDNivel2StoreContainer">
           <EntitySet Name="CodigoBarras" EntityType="Self.CodigoBarras" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_DetalleOC" EntityType="Self.Tbl_DetalleOC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_OrdenCompra" EntityType="Self.Tbl_OrdenCompra" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReporteInventarios" EntityType="Self.ReporteInventarios" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ReporteInventarios].[Id] AS [Id], 
@@ -77,6 +136,10 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
     [ReporteInventarios].[InventarioTotal] AS [InventarioTotal]
     FROM [dbo].[ReporteInventarios] AS [ReporteInventarios]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK__Tbl_Detal__Id_Or__396E5EB4" Association="Self.FK__Tbl_Detal__Id_Or__396E5EB4">
+            <End Role="Tbl_OrdenCompra" EntitySet="Tbl_OrdenCompra" />
+            <End Role="Tbl_DetalleOC" EntitySet="Tbl_DetalleOC" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -119,6 +182,12 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
           <Parameter Name="idUnidad" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="CodigoBarras" EntityType="SERVMEDNivel2.CodigoBarras" />
+          <EntitySet Name="Tbl_DetalleOC" EntityType="SERVMEDNivel2.Tbl_DetalleOC" />
+          <EntitySet Name="Tbl_OrdenCompra" EntityType="SERVMEDNivel2.Tbl_OrdenCompra" />
+          <AssociationSet Name="FK__Tbl_Detal__Id_Or__396E5EB4" Association="SERVMEDNivel2.FK__Tbl_Detal__Id_Or__396E5EB4">
+            <End Role="Tbl_OrdenCompra" EntitySet="Tbl_OrdenCompra" />
+            <End Role="Tbl_DetalleOC" EntitySet="Tbl_DetalleOC" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="SP_MedicamentosTemporales_Result">
           <Property Type="String" Name="Clave" Nullable="false" MaxLength="6" />
@@ -144,6 +213,65 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
           <Property Name="contenido_anterior" Type="Int32" />
           <Property Name="codigobarra_anterior" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
         </EntityType>
+        <EntityType Name="Tbl_DetalleOC">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_OrdenCompra" Type="Int32" Nullable="false" />
+          <Property Name="Id_CodigoBarrar" Type="Int32" />
+          <Property Name="Cantidad" Type="Int32" />
+          <Property Name="PreUnit" Type="Double" />
+          <Property Name="Obsequio" Type="Int32" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="Id_Sustencia" Type="Int32" />
+          <Property Name="Pendiente" Type="Int32" />
+          <Property Name="Total" Type="Double" />
+          <Property Name="Descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="ClaveMedicamento" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Tbl_OrdenCompra" Relationship="SERVMEDNivel2.FK__Tbl_Detal__Id_Or__396E5EB4" FromRole="Tbl_DetalleOC" ToRole="Tbl_OrdenCompra" />
+        </EntityType>
+        <EntityType Name="Tbl_OrdenCompra">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Clave" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Id_Requisicion" Type="Int32" />
+          <Property Name="Id_Proveedor" Type="Int32" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="FechaMod" Type="DateTime" Precision="3" />
+          <Property Name="Forma_Pago" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Folio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="UsuarioId" Type="Int32" />
+          <Property Name="Cerrado" Type="Boolean" />
+          <Property Name="Cuadro" Type="Int32" />
+          <Property Name="UsuarioNuevo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="IP_User" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="NombreProveedor" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Total_OC" Type="Double" />
+          <Property Name="OC_PorValidar" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha_Acuse" Type="DateTime" Precision="3" />
+          <Property Name="Fecha_AutorizaOC" Type="DateTime" Precision="3" />
+          <Property Name="Usuario_AutorizaOC" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha_HacerOC" Type="DateTime" Precision="3" />
+          <Property Name="Contrato" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Tbl_DetalleOC" Relationship="SERVMEDNivel2.FK__Tbl_Detal__Id_Or__396E5EB4" FromRole="Tbl_OrdenCompra" ToRole="Tbl_DetalleOC" />
+        </EntityType>
+        <Association Name="FK__Tbl_Detal__Id_Or__396E5EB4">
+          <End Type="SERVMEDNivel2.Tbl_OrdenCompra" Role="Tbl_OrdenCompra" Multiplicity="1" />
+          <End Type="SERVMEDNivel2.Tbl_DetalleOC" Role="Tbl_DetalleOC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_OrdenCompra">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tbl_DetalleOC">
+              <PropertyRef Name="Id_OrdenCompra" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -201,6 +329,53 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
                 <ScalarProperty Name="Codigo_Barra" ColumnName="Codigo_Barra" />
                 <ScalarProperty Name="Nombre_Comercial" ColumnName="Nombre_Comercial" />
                 <ScalarProperty Name="Id_Sustancia" ColumnName="Id_Sustancia" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_DetalleOC">
+            <EntityTypeMapping TypeName="SERVMEDNivel2.Tbl_DetalleOC">
+              <MappingFragment StoreEntitySet="Tbl_DetalleOC">
+                <ScalarProperty Name="ClaveMedicamento" ColumnName="ClaveMedicamento" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Pendiente" ColumnName="Pendiente" />
+                <ScalarProperty Name="Id_Sustencia" ColumnName="Id_Sustencia" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Obsequio" ColumnName="Obsequio" />
+                <ScalarProperty Name="PreUnit" ColumnName="PreUnit" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Id_CodigoBarrar" ColumnName="Id_CodigoBarrar" />
+                <ScalarProperty Name="Id_OrdenCompra" ColumnName="Id_OrdenCompra" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_OrdenCompra">
+            <EntityTypeMapping TypeName="SERVMEDNivel2.Tbl_OrdenCompra">
+              <MappingFragment StoreEntitySet="Tbl_OrdenCompra">
+                <ScalarProperty Name="Contrato" ColumnName="Contrato" />
+                <ScalarProperty Name="Fecha_HacerOC" ColumnName="Fecha_HacerOC" />
+                <ScalarProperty Name="Usuario_AutorizaOC" ColumnName="Usuario_AutorizaOC" />
+                <ScalarProperty Name="Fecha_AutorizaOC" ColumnName="Fecha_AutorizaOC" />
+                <ScalarProperty Name="Fecha_Acuse" ColumnName="Fecha_Acuse" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="OC_PorValidar" ColumnName="OC_PorValidar" />
+                <ScalarProperty Name="Total_OC" ColumnName="Total_OC" />
+                <ScalarProperty Name="NombreProveedor" ColumnName="NombreProveedor" />
+                <ScalarProperty Name="IP_User" ColumnName="IP_User" />
+                <ScalarProperty Name="UsuarioNuevo" ColumnName="UsuarioNuevo" />
+                <ScalarProperty Name="Cuadro" ColumnName="Cuadro" />
+                <ScalarProperty Name="Cerrado" ColumnName="Cerrado" />
+                <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Folio" ColumnName="Folio" />
+                <ScalarProperty Name="Forma_Pago" ColumnName="Forma_Pago" />
+                <ScalarProperty Name="FechaMod" ColumnName="FechaMod" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Id_Proveedor" ColumnName="Id_Proveedor" />
+                <ScalarProperty Name="Id_Requisicion" ColumnName="Id_Requisicion" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
