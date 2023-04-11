@@ -438,7 +438,7 @@
       <DependentUpon>Dhabientes.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CodigoBarras.cs">
-      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ColoniaPrueba.Context.cs">
       <AutoGen>True</AutoGen>
@@ -1752,6 +1752,12 @@
     </Compile>
     <Compile Include="Models\Tbl_CategoriaSM.cs">
       <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_DetalleOC.cs">
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_OrdenCompra.cs">
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Tbl_PuestosSM.cs">
       <DependentUpon>SISM-RH.tt</DependentUpon>
