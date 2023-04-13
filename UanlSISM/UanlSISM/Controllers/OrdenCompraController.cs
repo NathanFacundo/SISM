@@ -211,7 +211,7 @@ namespace UanlSISM.Controllers
 
         //TBL PROVEEDOR NUEVO = ConDB
         decimal? SubTotal_OC = 0.00m;
-        decimal? SubTotal_OC1 = 0.00m;
+        decimal? SubTotal_OC1 = 0.00m; //Este es para guardr la Pre-Orden en la Nueva BD pero en SERVMED 205
         public JsonResult GenerarOC(List<SISM_DET_REQUISICION> ListaOC, int FolioRequi, string ProveedorReq)
         {
             var UsuarioRegistra = User.Identity.GetUserName();
@@ -1691,27 +1691,6 @@ namespace UanlSISM.Controllers
                 return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
-        //public JsonResult CancelarOC(int Id_OC, string DescripcionOC)
-        //{
-        //    try
-        //    {
-        //        var OC = (from a in ConBD.SISM_ORDEN_COMPRA
-        //                  where a.Id == Id_OC
-        //                  select a).FirstOrDefault();
-
-        //        OC.Status = false;
-        //        OC.OC_PorValidar = "4";// 4 Quiere decir que se Canceló la O.C 
-        //        OC.Descripcion = DescripcionOC;
-        //        ConBD.SaveChanges();
-
-        //        return Json(new { MENSAJE = "Succe: Se canceló la O.C" }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
 
         //----------------------------------------------------------------------------------- Pantalla ORDENES COMPRA POR VALIDAR   --------------  FIN
 
