@@ -752,7 +752,8 @@ namespace UanlSISM.Controllers
                                  FReq = req.Fecha,
                                  Cont = req.EstatusContrato,
                                  a.OC_PorValidar,
-                                 a.Fecha_HacerOC
+                                 a.Fecha_HacerOC,
+                                 a.NombreProveedor
                              }).ToList();
 
                 var results1 = new List<ListCampos>();
@@ -771,6 +772,7 @@ namespace UanlSISM.Controllers
                         Validar = q.OC_PorValidar,
                         FechaRequisicion = string.Format("{0:yyyy/M/d hh:mm tt}", q.Fecha, new CultureInfo("es-ES")),
                         Fecha_OC = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha_HacerOC),
+                        NombreProveedor = q.NombreProveedor
                     };
                     results1.Add(resultado);
                 }

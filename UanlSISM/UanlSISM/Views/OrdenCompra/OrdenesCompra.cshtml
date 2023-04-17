@@ -79,6 +79,7 @@
                 <th>Folio<br />O.C</th>
                 <th>Fecha<br />O.C</th>
                 <th>Fecha<br />Pre-O.C</th>
+                <th>Proveedor<br />O.C</th>
                 <th>Elaboró<br />O.C</th>
                 <th>Estatus<br /> O.C</th>
                 <th>Folio<br /> Req.</th>
@@ -184,12 +185,14 @@
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <h10 style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Fecha Impresión</h10><br />
-                                <a style="" id="Fecha"></a>
-                            </div>
-                            <div class="col-6">
+                                @*<h10 style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Fecha Impresión</h10><br />
+        <a style="" id="Fecha"></a>*@
                                 <h10 id="InputFA1" style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Fecha Acuse</h10><br />
                                 <a style="" id="InputFA"></a>
+                            </div>
+                            <div class="col-6">
+                                @*<h10 id="InputFA1" style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Fecha Acuse</h10><br />
+                                <a style="" id="InputFA"></a>*@
                             </div>
                         </div>
                     </div>
@@ -257,8 +260,11 @@
                                     <a style="font-size:13px" id="FRequiEncabezado"></a>
                                 </th>
                                 <th>
-                                    <h10 style="color:green">Fecha<br />Impresión</h10><br />
-                                    <a style="font-size:13px" id="FechaEncabezado"></a>
+                                    @*<h10 style="color:green">Fecha<br />Impresión</h10><br />
+        <a style="font-size:13px" id="FechaEncabezado"></a>*@
+                                    <h10 style="color:green">Proveedor</h10><br />
+                                    <a style="font-size:13px" id="ProvUanl1"></a><br />
+                                    <a style="font-size:13px" id="ProvNom1"></a>
                                 </th>
                                 <th>
                                     <h10 id="InputFA111" style="color:green">Fecha Acuse</h10><br />
@@ -503,6 +509,7 @@
                 { 'data': 'Clave', className: "text-center" },
                 { 'data': 'Fecha_OC', className: "text-center" },
                 { 'data': 'Fecha', className: "text-center" },
+                { 'data': 'NombreProveedor', className: "text-center" },
                 { 'data': 'Id_User', className: "text-center" },
                 {
                     "data": "Validar", className: "text-center", render: function (data) {
@@ -548,7 +555,7 @@
                 { "data": "FechaRequisicion" }
             ],
             columnDefs: [
-                { "visible": false, "targets": 11 },
+                { "visible": false, "targets": 12 },
             ]
         });
     }
@@ -634,6 +641,9 @@
             $('#ProvDir').html(response[0].DirProv);
             $('#ProvTel').html(response[0].TelProv);
             $('#ProvUanl').html(response[0].UanlProv);
+
+            $('#ProvUanl1').html(response[0].UanlProv);
+            $('#ProvNom1').html(response[0].NombreProveedor);
 
             //Texto que se muestra debajo de la tabla del Detalle de la OC (con decimales)
             var GranTotalModal = response[0].Total_OC;
