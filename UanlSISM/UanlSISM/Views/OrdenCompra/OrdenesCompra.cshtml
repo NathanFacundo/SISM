@@ -162,7 +162,7 @@
 
                 </div>
 
-                <div class="row">
+                <div class="row" id="Moddal">
                     <div class="col-4">
                         <div class="row">
                             <div class="alt-features-item align-center">
@@ -174,25 +174,33 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-12">
+                                <h10 id="LabelContrato" style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Contrato</h10><br />
+                                <a style="" id="InputCon"></a>
+                            </div>
+                            @*<div class="col-6">
+                            </div>*@
+                        </div>
+                        <div class="row">
                             <div class="col-6">
                                 <h10 style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Folio Req.</h10><br />
                                 <a style="" id="FRequi"></a>
                             </div>
                             <div class="col-6">
-                                <h10 id="LabelContrato" style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Contrato</h10><br />
-                                <a style="" id="InputCon"></a>
+                                @*<h10 id="LabelContrato" style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Contrato</h10><br />
+                <a style="" id="InputCon"></a>*@
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6">
                                 @*<h10 style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Fecha Impresión</h10><br />
-        <a style="" id="Fecha"></a>*@
+                <a style="" id="Fecha"></a>*@
                                 <h10 id="InputFA1" style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Fecha Acuse</h10><br />
                                 <a style="" id="InputFA"></a>
                             </div>
                             <div class="col-6">
                                 @*<h10 id="InputFA1" style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Fecha Acuse</h10><br />
-                                <a style="" id="InputFA"></a>*@
+                <a style="" id="InputFA"></a>*@
                             </div>
                         </div>
                     </div>
@@ -204,8 +212,10 @@
                                 <a style=""><span class="emphasized"><strong>RFC:</strong></span> UANL691126MK2</a>
                             </div>
                             <div class="row">
-                                <h6 class="text-left" style="font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Embarcar:</h6>
-                                <a style="">GONZALITOS Y HAITI, COLONIA VISTA HERMOSA. MONTERREY NUEVO LEÓN</a>
+                                @*<h6 class="text-left" style="font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Embarcar:</h6>
+        <a style="">GONZALITOS Y HAITI, COLONIA VISTA HERMOSA. MONTERREY NUEVO LEÓN</a>*@
+                                <a style=""><span class="emphasized"><strong>Embarcar:</strong></span> GONZALITOS Y HAITI, COLONIA VISTA HERMOSA. MONTERREY NUEVO LEÓN</a><br />
+                                
                             </div>
                             <div class="row">
                                 <h6 class="text-center" style="font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Tiempo de Entrega</h6>
@@ -1137,5 +1147,22 @@
             font-style: italic;
         }
 
+        #Moddal h6 
+        {
+            font-size: 22px
+        }
+        #Moddal a {
+            font-size: 19px
+        }
+        #Moddal h10 {
+            font-size: 22px
+        }
+        #Moddal h5 {
+            font-size: 22px
+        }
+        #InputCon {
+            font-size: 17px
+        }
+        
     }
 </style>
