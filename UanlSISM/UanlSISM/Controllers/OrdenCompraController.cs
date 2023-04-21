@@ -1,5 +1,4 @@
 ﻿
-
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -73,6 +72,9 @@ namespace UanlSISM.Controllers
             public double UltimoPrecio { get; set; }
             public string DescripcionGrupo { get; set; }
             public string NumContrato { get; set; }
+            public int Identificador { get; internal set; }
+            public double? GranT { get; internal set; }
+            public double? Subtotal { get; internal set; }
         }
 
         //----------------------------------------------------- Pantalla ORDEN COMPRA   --------------  INICIO
@@ -1705,6 +1707,71 @@ namespace UanlSISM.Controllers
             return View();
         }
 
+        public ActionResult ObtenerReporte(string FechaInicio, string FechaFin)
+        {
+            try
+            {
+                var fechaI = FechaInicio;
+                var fechaIn = DateTime.Parse(fechaI);
+
+                var fechaF = FechaFin;
+                var fechaFi = DateTime.Parse(fechaF);
+
+                var query = (from OC in ConBD.SISM_ORDEN_COMPRA
+                             join DOC in ConBD.SISM_DETALLE_OC on OC.Id equals DOC.Id_OrdenCompra
+                             join REQ in ConBD.SISM_REQUISICION on OC.Id_Requisicion equals REQ.Id_Requicision
+                             where OC.Fecha_HacerOC >= fechaIn
+                             where OC.Fecha_HacerOC <= fechaFi
+                             select new
+                             {
+                                 Identificador = OC.Id,
+                                 FolioRequi = REQ.claveOLD,
+                                 FolioOC = OC.Clave,
+                                 FechaOC = OC.Fecha_HacerOC,
+                                 ProveedorOC = OC.NombreProveedor,
+                                 GranTotalOC = OC.Total_OC,
+                                 UsuarioElaboraOC = OC.UsuarioNuevo,
+                                 FechaAcuseOC = OC.Fecha_Acuse,
+                                 FechaAutorizaOC = OC.Fecha_AutorizaOC,
+                                 ContratoOC = OC.Contrato,
+                                 ClaveMed = DOC.ClaveMedicamento,
+                                 CantidadMed = DOC.Cantidad,
+                                 PreUnitMed = DOC.PreUnit,
+                                 SubTotalMed = DOC.Total,
+                                 DescripcionMed = DOC.Descripcion
+                             }).ToList();
+
+                var results1 = new List<ListCampos>();
+
+                foreach (var q in query)
+                {
+                    var resultado = new ListCampos
+                    {
+                        Identificador = q.Identificador,
+                        FolioRequisicion = q.FolioRequi,
+                        Folio = q.FolioOC,
+                        FechaOC = string.Format("{0:d/M/yyyy hh:mm tt}", q.FechaOC),
+                        NombreProveedor = q.ProveedorOC,
+                        GranT = q.GranTotalOC,
+                        Usuario = q.UsuarioElaboraOC,
+                        FechaAcuse = string.Format("{0:d/M/yyyy}", q.FechaAcuseOC),
+                        FechaAutorizaOC = string.Format("{0:d/M/yyyy}", q.FechaAutorizaOC),
+                        NumContrato = q.ContratoOC,
+                        Clave = q.ClaveMed,
+                        Cantidad = (int)q.CantidadMed,
+                        PrecioUnitario = (double)q.PreUnitMed,
+                        Subtotal = q.SubTotalMed,
+                        Descripcion = q.DescripcionMed.Trim()
+                    };
+                    results1.Add(resultado);
+                }
+                return Json(new { MENSAJE = "FOUND", REP = results1 }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         //----------------------------------------------------------------------------------- Pantalla REPORTE   --------------  FIN
     }
