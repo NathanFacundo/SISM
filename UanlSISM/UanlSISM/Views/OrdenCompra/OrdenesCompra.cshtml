@@ -681,14 +681,14 @@
             if (CON == null || CON == "") {
                 $("#LabelContrato").hide();
                 $("#InputCon").hide();
-                $("#divContrato").show();
+                //$("#divContrato").show();//Donde aparece en el Modal para poner el Contrato
                 $("#InputContratoDT").hide();//Label del Contrato del Datatable (solo se muestra al exportar a Excel)
             } else {
-                $("#InputContrato").hide();
+                //$("#InputContrato").hide();//Donde aparece en el Modal para poner el Contrato (INPUT)
                 $("#LabelContrato").show();
                 $('#InputCon').html(CON);
                 $("#InputCon").show();
-                $("#divContrato").hide();
+                //$("#divContrato").hide();//Donde aparece en el Modal para poner el Contrato
                 $("#InputConDT").show();
                 $('#InputConDT').html(CON);//Dato del Contrato del Datatable (solo se muestra al exportar a Excel)
             }
