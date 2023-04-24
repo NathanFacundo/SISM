@@ -26,7 +26,7 @@
 
 <row class="row m-0">
     <div class="col-md-12">
-        <h5 style="text-align:center">REPORTE</h5>
+        <h5 style="text-align:center">REPORTE POR LÍNEA</h5>
     </div>
 </row>
 
@@ -105,7 +105,18 @@
                 </div>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-info" onclick="ConsultarReporte()">Consultar</button>
+                @*<button type="button" class="btn" style="background-color: #0431B4; color:yellow;" onclick="ConsultarReporte()">Consultar</button>*@
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Clave Medicamento</span>
+                    <input type="number" class="form-control" id="ClaveM" name="ClaveM">
+                </div>
+            </div>
+            <div class="col-6">
+                <button type="button" class="btn" style="background-color: #0431B4; color:yellow;" onclick="ConsultarReporte()">Consultar</button>
             </div>
         </div>
     </div>
@@ -123,10 +134,10 @@
                     <th>Folio<br /> O.C</th>
                     <th>Fecha<br /> O.C</th>
                     <th>Proveedor<br /> O.C</th>
-                    <th>Gran Total<br /> O.C</th>
-                    <th>Usuario Elabora<br /> O.C</th>
-                    <th>Fecha Acuse<br /> O.C</th>
-                    <th>Fecha Autoriza<br /> O.C</th>
+                    @*<th>Gran Total<br /> O.C</th>*@
+                    <th>Elabora<br /> O.C</th>
+                    <th>Acuse<br /> O.C</th>
+                    @*<th>Fecha Autoriza<br /> O.C</th>*@
                     <th>Contrato<br /> O.C</th>
                     <th>Clave<br /> Medicamento</th>
                     <th>Cantidad<br /> Medicamento</th>
@@ -168,7 +179,7 @@
             scrollX: true,
             lengthChange: false,
             language: {
-                "zeroRecords": "No se encontraron datos",
+                "zeroRecords": "Buscar",
                 "search": "",
                 "info": "",
                 "infoEmpty": "",
@@ -201,29 +212,30 @@
     function ConsultarReporte() {
         var FechaInicio = $('#datepickerInicio input').val();
         var FechaFin = $('#datepickerFin input').val()
+        var ClaveMed = $("#ClaveM").val();
 
-        if ((FechaInicio == '' || FechaInicio == null) || (FechaFin == '' || FechaFin == null)) {
+        if ((FechaInicio != "" && FechaFin != "") || ClaveMed != "") {
+            LlenaTbl(FechaInicio, FechaFin, ClaveMed)
+        } else {
             Swal.fire({
                 icon: 'error',
-                title: 'Oops... ¡Error!',
-                text: 'Debe ingresar Fecha Inicio y Fecha Fin'
+                title: '¡Error!',
+                text: 'Debe ingresar Fecha Inicio y Fecha Fin ó Clave Medicamento'
             });
-        } else {
-            LlenaTbl(FechaInicio, FechaFin)
         }
     }
 
-    function LlenaTbl(FechaInicio, FechaFin) {
+    function LlenaTbl(FechaInicio, FechaFin, ClaveMed) {
         $.ajax({
             url: '@Url.Action("ObtenerReporte", "OrdenCompra")',
             method: 'POST',
             dataType: 'json',
-            data: { FechaInicio: FechaInicio, FechaFin: FechaFin },
+            data: { FechaInicio: FechaInicio, FechaFin: FechaFin, ClaveMed: ClaveMed },
             success: function (data) {
                 if (data.MENSAJE.substring(0, 6) == "Error:") {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Oops... ¡Error!',
+                        title: '¡Error!',
                         text: data.MENSAJE.substring(7),
                     });
                 }
@@ -254,7 +266,7 @@
             paging: false,
             lengthChange: false,
             language: {
-                "zeroRecords": "No se encontraron",
+                "zeroRecords": "No se encontraron registros",
                 "search": "",
                 "info": "_TOTAL_ filas",
                 "infoEmpty": "",
@@ -276,10 +288,10 @@
                 { 'data': 'Folio', className: "text-center" },
                 { 'data': 'FechaOC', className: "text-center" },
                 { 'data': 'NombreProveedor', className: "text-center" },
-                { 'data': 'GranT', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                //{ 'data': 'GranT', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                 { 'data': 'Usuario', className: "text-center" },
                 { 'data': 'FechaAcuse', className: "text-center" },
-                { 'data': 'FechaAutorizaOC', className: "text-center" },
+                //{ 'data': 'FechaAutorizaOC', className: "text-center" },
                 { 'data': 'NumContrato', className: "text-center" },
                 { 'data': 'Clave', className: "text-center" },
                 { 'data': 'Cantidad', className: "text-center" },
@@ -289,7 +301,9 @@
             ],
             dom: 'Bfrtip',
             buttons: [
-                'excel', 'pdf', 'print'
+                { extend: 'excel', text: 'Excel' },
+                { extend: 'pdf', text: 'PDF' },
+                { extend: 'print', text: 'Imprimir' },
             ]
         });
     }
