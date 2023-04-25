@@ -1,5 +1,4 @@
 ﻿
-
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -172,7 +171,7 @@ namespace UanlSISM.Controllers
                     nuevoDetalle.Clave = item.Clave;
                     nuevoDetalle.Id_Sustancia = item.Id;
                     nuevoDetalle.Id_BorradorRequi = IdBorrador.Id_BorradorRequi;
-                    nuevoDetalle.Descripcion = item.descripcion_21;
+                    nuevoDetalle.Descripcion = item.descripcion_21.Trim();
                     nuevoDetalle.Compendio = item.Compendio;
 
                     ConBD2.SISM_DETALLE_BORRADOR_REQUI.Add(nuevoDetalle);
@@ -787,7 +786,7 @@ namespace UanlSISM.Controllers
                     nuevoDetalle.Id_Sustancia = item.Id;
                     nuevoDetalle.Cantidad = item.CANTIDAD;
                     nuevoDetalle.Clave = item.Clave;
-                    nuevoDetalle.Descripcion = item.descripcion_21;
+                    nuevoDetalle.Descripcion = item.descripcion_21.Trim();
                     nuevoDetalle.Compendio = item.Compendio;
 
                     //***************************************************      ESTE BLOQUE SE COMENTA PARA QUE SE PUEDA HACER UNA O.C DIRECTA A PARTIR DE UNA REQUI CON CONTRATO
