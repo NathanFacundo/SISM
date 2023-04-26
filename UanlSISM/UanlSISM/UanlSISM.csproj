@@ -3794,8 +3794,6 @@
     <Content Include="Views\OrdenCompra\OrdenCompra.cshtml" />
     <Content Include="Views\OrdenCompra\OrdenesCompra.cshtml" />
     <Content Include="Views\OrdenCompra\OrdenCompraPorValidar.cshtml" />
-    <Content Include="Views\Requisicion\Requisicion - Copia.cshtml" />
-    <Content Include="Views\Requisicion\BorradorRequisicion - Copia.cshtml" />
     <Content Include="Views\OrdenCompra\Reporte.cshtml" />
   </ItemGroup>
   <ItemGroup>
