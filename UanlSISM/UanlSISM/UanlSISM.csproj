@@ -2640,6 +2640,7 @@
     <Content Include="Scripts\2023\buttons.print.min.js" />
     <Content Include="Scripts\2023\css2.css" />
     <Content Include="Scripts\2023\dataTables.buttons.min.js" />
+    <Content Include="Scripts\2023\dataTables.fixedHeader.min.js" />
     <Content Include="Scripts\2023\datatables.min.js" />
     <Content Include="Scripts\2023\dataTables.responsive.min.js" />
     <Content Include="Scripts\2023\jquery-3.5.1.js" />
@@ -3777,7 +3778,6 @@
     <Content Include="Views\MedNivel2\MNivel2.cshtml" />
     <Content Include="Views\Farmacia\SalidaRecetasCU.cshtml" />
     <Content Include="Views\RecepcionTriage\ListaEsperaT.cshtml" />
-    <Content Include="Views\RecepcionTriage\MedicoUrgenciasT.cshtml" />
     <Content Include="Views\RecepcionTriage\RecTriage.cshtml" />
     <Content Include="Views\Farmacia\SalidaRecetasLinares.cshtml" />
     <Content Include="Views\AdministradorMed\AdministradorMed.cshtml" />
@@ -3795,7 +3795,6 @@
     <Content Include="Views\Hospital\Recetas.cshtml" />
     <Content Include="Views\Hospital\ListaRecetas.cshtml" />
     <Content Include="Views\Hospital\Alta.cshtml" />
-    <Content Include="Views\RecepcionTriage\SOAP.cshtml" />
     <Content Include="Views\Farmacia\SalidaRecetas.cshtml" />
     <Content Include="Views\ServiciosMedicos\Insumos.cshtml" />
     <Content Include="Views\CuadroBasico\CuadroBasico.cshtml" />

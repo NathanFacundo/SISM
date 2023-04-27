@@ -1711,15 +1711,9 @@ namespace UanlSISM.Controllers
         {
             try
             {
-                //var fechaI = FechaInicio;
-                //var fechaIn = DateTime.Parse(fechaI);
-                //var fechaF = FechaFin;
-                //var fechaFi = DateTime.Parse(fechaF);
-
                 var results1 = new List<ListCampos>();
-
-                //Consultar SOLO CON FECHAS
-                if (ClaveMed == "" || ClaveMed == null)
+                                
+                if (ClaveMed == "" || ClaveMed == null)//Consultar SOLO CON FECHAS
                 {
                     var fechaI = FechaInicio;
                     var fechaIn = DateTime.Parse(fechaI);
