@@ -85,27 +85,40 @@
 </div>
 
 <div class="row">
-    <table class="table table-striped table-hover" id="tbl_OCgeneradas">
-        <thead>
-            <tr>
-                <th>Identificador<br /> O.C</th>
-                <th>Folio<br />O.C</th>
-                <th>Fecha<br />O.C</th>
-                <th>Fecha<br />Pre-O.C</th>
-                <th>Proveedor<br />O.C</th>
-                <th>Elaboró<br />O.C</th>
-                <th>Estatus<br /> O.C</th>
-                <th>Folio<br /> Req.</th>
-                <th>Fecha<br /> Req.</th>
-                <th>Contrato<br /> Req.</th>
-                <th>Detalle<br /> O.C</th>
-                <th>Eliminar<br />O.C</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+
+    <div class="row">
+        <div class="col">
+            <label>
+                <input type="checkbox" id="cb1" name=""> MOSTRAR TODAS LAS OC.
+            </label>
+        </div>
+    </div>
+
+    <div class="row">
+        <table class="table table-striped table-hover" id="tbl_OCgeneradas">
+            <thead>
+                <tr>
+                    <th>Identificador<br /> O.C</th>
+                    <th>Folio<br />O.C</th>
+                    <th>Fecha<br />O.C</th>
+                    <th>Fecha<br />Pre-O.C</th>
+                    <th>Proveedor<br />O.C</th>
+                    <th>Elaboró<br />O.C</th>
+                    <th>Estatus<br /> O.C</th>
+                    <th>Folio<br /> Req.</th>
+                    <th>Fecha<br /> Req.</th>
+                    <th>Contrato<br /> Req.</th>
+                    <th>Detalle<br /> O.C</th>
+                    <th>Eliminar<br />O.C</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    
 </div>
 
 <div class="modal fade" id="DetalleOCModal" tabindex="-1" role="dialog" aria-labelledby="NuevaRequiModalLabel" aria-hidden="true">
@@ -587,6 +600,37 @@
             ]
         });
     }
+
+    $("input[type=checkbox]").click(function (event) {
+     
+        if ($('#cb1').prop('checked')) {
+             $.ajax({
+                url: '@Url.Action("ObtenerOCInicioT", "OrdenCompra")',
+                method: 'POST',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.MENSAJE.substring(0, 6) == "Error:") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops... ¡Error!',
+                            text: data.MENSAJE.substring(7),
+                        });
+                    }
+                    else {
+                        LlenaTablaOC(data.OCS);
+                    }
+                },
+                error: function (ex) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                    });
+                }
+            });
+        } else {
+            LlenaOC();
+        }
+    });
 
     $('#tbl_OCgeneradas tbody').on('click', '#VerDetalle', function () {
         var tr = $(this).closest('tr');
