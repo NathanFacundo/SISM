@@ -144,18 +144,16 @@
         <table class="table table-striped table-hover" id="TblReporte">
             <thead>
                 <tr>
-                    @*<th>Identificador<br /> O.C</th>*@
+                    <th></th>
+                    <th>Clave<br /> Medicamento</th>
+                    <th>Cantidad<br /> Medicamento</th>
                     <th>Folio<br /> REQUI</th>
                     <th>Folio<br /> O.C</th>
                     <th>Fecha<br /> O.C</th>
                     <th>Proveedor<br /> O.C</th>
-                    @*<th>Gran Total<br /> O.C</th>*@
-                    <th>Elabora<br /> O.C</th>
+                    @*<th>Elabora<br /> O.C</th>*@
                     <th>Acuse<br /> O.C</th>
-                    @*<th>Fecha Autoriza<br /> O.C</th>*@
-                    <th>Contrato<br /> O.C</th>
-                    <th>Clave<br /> Medicamento</th>
-                    <th>Cantidad<br /> Medicamento</th>
+                    @*<th>Contrato<br /> O.C</th>*@
                     <th>P.U.<br /> Medicamento</th>
                     <th>Sub total<br /> Medicamento</th>
                     <th>Descripción<br /> Medicamento</th>
@@ -333,18 +331,16 @@
             data: Rep,
             //"order": [[0, 'desc']],
             columns: [
-                //{ 'data': 'Identificador', className: "text-center" },
+                { 'data': 'Clave', className: "text-center" },
+                { 'data': 'Clave', className: "text-center" },
+                { 'data': 'Cantidad', className: "text-center" },
                 { 'data': 'FolioRequisicion', className: "text-center" },
                 { 'data': 'Folio', className: "text-center" },
                 { 'data': 'FechaOC', className: "text-center" },
                 { 'data': 'NombreProveedor', className: "text-center" },
-                //{ 'data': 'GranT', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
-                { 'data': 'Usuario', className: "text-center" },
+                //{ 'data': 'Usuario', className: "text-center" },
                 { 'data': 'FechaAcuse', className: "text-center" },
-                //{ 'data': 'FechaAutorizaOC', className: "text-center" },
-                { 'data': 'NumContrato', className: "text-center" },
-                { 'data': 'Clave', className: "text-center" },
-                { 'data': 'Cantidad', className: "text-center" },
+                //{ 'data': 'NumContrato', className: "text-center" },
                 { 'data': 'PrecioUnitario', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                 { 'data': 'Subtotal', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                 { 'data': 'Descripcion', className: "text-center" }
@@ -356,6 +352,13 @@
                 { extend: 'print', text: 'Imprimir' },
             ]
         });
+        table.on('order.dt search.dt', function () {
+            let i = 1;
+
+            table.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                this.data(i++);
+            });
+        }).draw();
     }
 
     function Regresar() {
