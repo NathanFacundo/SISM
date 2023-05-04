@@ -1770,16 +1770,22 @@ namespace UanlSISM.Controllers
 
                 if (ClaveMed == "" || ClaveMed == null)//Consultar SOLO CON FECHAS
                 {
-                    var fechaI = FechaInicio;
+                    var fechaI = FechaInicio + " 00:00:00";
+                    //var fechaInn = string.Format("{0:yyyy/M/d HH:mm}", fechaI, new CultureInfo("es-ES"));
                     var fechaIn = DateTime.Parse(fechaI);
-                    var fechaF = FechaFin;
+
+                    var fechaF = FechaFin + " 23:59:59";
                     var fechaFi = DateTime.Parse(fechaF);
+                    //var fechaFi = DateTime.ParseExact("{0:yyyy/M/d HH:mm}", fechaF, new CultureInfo("es-ES"));
+
+                    //String strDate = FechaInicio + " 00:00:00";
+                    //DateTime date = DateTime.Parse(strDate);
 
                     var query = (from OC in ConBD.SISM_ORDEN_COMPRA
                                  join DOC in ConBD.SISM_DETALLE_OC on OC.Id equals DOC.Id_OrdenCompra
                                  join REQ in ConBD.SISM_REQUISICION on OC.Id_Requisicion equals REQ.Id_Requicision
-                                 where OC.Fecha_HacerOC >= fechaIn
-                                 where OC.Fecha_HacerOC <= fechaFi
+                                 where OC.Fecha_HacerOC >= fechaIn && OC.Fecha_HacerOC <= fechaFi
+                                 where OC.Id_Requisicion == REQ.Id_Requicision
                                  select new
                                  {
                                      Identificador = OC.Id,
@@ -1824,9 +1830,15 @@ namespace UanlSISM.Controllers
                 }
                 else if (FechaInicio != "" && FechaFin != "" && ClaveMed != "")// Consultar CON FECHAS Y CLAVE
                 {
-                    var fechaI = FechaInicio;
+                    //var fechaI = FechaInicio;
+                    //var fechaIn = DateTime.Parse(fechaI);
+                    //var fechaF = FechaFin;
+                    //var fechaFi = DateTime.Parse(fechaF);
+
+                    var fechaI = FechaInicio + " 00:00:00";
                     var fechaIn = DateTime.Parse(fechaI);
-                    var fechaF = FechaFin;
+
+                    var fechaF = FechaFin + " 23:59:59";
                     var fechaFi = DateTime.Parse(fechaF);
 
                     var query = (from OC in ConBD.SISM_ORDEN_COMPRA

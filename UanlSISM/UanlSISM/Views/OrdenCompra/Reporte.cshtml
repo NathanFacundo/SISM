@@ -237,6 +237,7 @@
         locale: 'es-es',
         showOtherMonths: true,
         format: 'dd/mm/yyyy'
+        //format: 'yyyy/mm/dd'
     });
 
     $('#datepickerFin').datepicker({
@@ -251,6 +252,17 @@
         var ClaveMed = $("#ClaveM").val();
 
         if ((FechaInicio != "" && FechaFin != "") || ClaveMed != "") {
+
+            //var d = new Date(); // for now
+            //var h = d.getHours();
+            //h = (h < 10) ? ("0" + h) : h;
+            //var m = d.getMinutes();
+            //m = (m < 10) ? ("0" + m) : m;
+            //var s = d.getSeconds();
+            //s = (s < 10) ? ("0" + s) : s;
+
+            //FI = FechaInicio + " " + h + ":" + m + ":" + s;
+
             LlenaTbl(FechaInicio, FechaFin, ClaveMed)
         } else {
             Swal.fire({
