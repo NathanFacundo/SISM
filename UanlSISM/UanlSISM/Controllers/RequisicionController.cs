@@ -12,7 +12,7 @@ namespace UanlSISM.Controllers
 {
     public class RequisicionController : Controller
     {
-        //BD_Almacen ConBD2 = new BD_Almacen();                           //BD Nueva (Pruebas Milton)
+        BD_Almacen ConBD2 = new BD_Almacen();                           //BD Nueva (Pruebas Milton)
         SERVMEDEntities5 db2 = new SERVMEDEntities5();                  //TBL Sustancia (LinQ)
         SERVMEDEntities8 db = new SERVMEDEntities8();                   //TBL InvAlmFarm (Manejo Disp)
         //SERVMEDEntities12 SPM = new SERVMEDEntities12();
@@ -141,10 +141,10 @@ namespace UanlSISM.Controllers
                 BorradorRequi.Estatus = "Borrador Generado";
                 BorradorRequi.ip_realiza = ip_realiza;
                 BorradorRequi.EstatusContrato = StatusContrato;
-                ConBD.SISM_BORRADOR_REQUI.Add(BorradorRequi);
-                ConBD.SaveChanges();
+                ConBD2.SISM_BORRADOR_REQUI.Add(BorradorRequi);
+                ConBD2.SaveChanges();
 
-                var IdBorrador = (from a in ConBD.SISM_BORRADOR_REQUI
+                var IdBorrador = (from a in ConBD2.SISM_BORRADOR_REQUI
                                   where a.UsuarioRegistra == UsuarioRegistra
                                   select a).OrderByDescending(u => u.Id_BorradorRequi).FirstOrDefault();
 
@@ -158,8 +158,8 @@ namespace UanlSISM.Controllers
                     nuevoDetalle.Descripcion = item.descripcion_21.Trim();
                     nuevoDetalle.Compendio = item.Compendio;
 
-                    ConBD.SISM_DETALLE_BORRADOR_REQUI.Add(nuevoDetalle);
-                    ConBD.SaveChanges();
+                    ConBD2.SISM_DETALLE_BORRADOR_REQUI.Add(nuevoDetalle);
+                    ConBD2.SaveChanges();
                 }
 
                 return Json(new { MENSAJE = "Succe: Se guardó con éxito el Borrador de Requisición" }, JsonRequestBehavior.AllowGet);
@@ -174,7 +174,7 @@ namespace UanlSISM.Controllers
         {
             try
             {
-                var query = (from a in ConBD.SISM_REQUISICION
+                var query = (from a in ConBD2.SISM_REQUISICION
                              select a).ToList();
 
                 var results1 = new List<BorradorList>();
@@ -209,8 +209,8 @@ namespace UanlSISM.Controllers
                 //string f = string.Format("{0:d/M/yyyy hh:mm tt}", fechaDT);
                 //ViewData["FyH"] = f;
 
-                var query = (from a in ConBD.SISM_REQUISICION
-                             join det in ConBD.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
+                var query = (from a in ConBD2.SISM_REQUISICION
+                             join det in ConBD2.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
                              //where a.Id_Requicision == Id_Requi
                              where a.claveOLD == Id_Requi
                              select new
@@ -338,21 +338,21 @@ namespace UanlSISM.Controllers
                 NuevaRequi.EstatusContrato = StatusContrato;
                 //NuevaRequi.EstatusOC = "0";
 
-                ConBD.SISM_REQUISICION.Add(NuevaRequi);
-                ConBD.SaveChanges();
+                ConBD2.SISM_REQUISICION.Add(NuevaRequi);
+                ConBD2.SaveChanges();
 
                 //Obtenemos la ultima requi guardada(que es esta) para guardar su detalle
-                var IdRequi = (from a in ConBD.SISM_REQUISICION
+                var IdRequi = (from a in ConBD2.SISM_REQUISICION
                                where a.Id_User == UsuarioRegistra
                                where a.Fecha == fechaDT
                                select a).OrderByDescending(u => u.Id_Requicision).FirstOrDefault();
 
                 //ACTUALIZAMOS LA CLAVE DE LA 
-                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
+                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
 
                 //ACTUALIZAMOS EL ID DE LA REQUI PARA CONCATENARLA LA NOMENCLATURA Y ASÍ GUARDAR EL FOLIO
-                //ConBD.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC-" + IdRequi.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
-                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC-" + ff + "-" + IdRequi.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
+                //ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC-" + IdRequi.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
+                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC-" + ff + "-" + IdRequi.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
 
                 //Recorremos que lista que recibimos como parámetro para guardar el detalle en la Requi
                 foreach (var item in ListaSustanciasRequiDirecta)
@@ -369,7 +369,7 @@ namespace UanlSISM.Controllers
                     //***************************************************      ESTE BLOQUE SE COMENTA PARA QUE SE PUEDA HACER UNA O.C DIRECTA A PARTIR DE UNA REQUI CON CONTRATO
                     //if (StatusContrato != "Sin Contrato")
                     //{
-                    //    var ARTICULO = (from a in ConBD.SISM_COSTEO_LICITACION
+                    //    var ARTICULO = (from a in ConBD2.SISM_COSTEO_LICITACION
                     //                    where a.Id_Sustancia == item.Id
                     //                    select a).FirstOrDefault();
 
@@ -390,8 +390,8 @@ namespace UanlSISM.Controllers
                     nuevoDetalle.Total = 0;
                     //}
 
-                    ConBD.SISM_DET_REQUISICION.Add(nuevoDetalle);
-                    ConBD.SaveChanges();
+                    ConBD2.SISM_DET_REQUISICION.Add(nuevoDetalle);
+                    ConBD2.SaveChanges();
                 }
 
                 //Obtenemos el Usuario que se logueó para hacer el join (buscarlo) en la tabla Usuario y así obtener el Id de esa tabla
@@ -422,8 +422,8 @@ namespace UanlSISM.Controllers
                     Cotizacion.Cuadro = 0;
                     Cotizacion.UserId = IdUsuarioCifrado;
 
-                    ConBD.SISM_COTIZACIONES.Add(Cotizacion);
-                    ConBD.SaveChanges();
+                    ConBD2.SISM_COTIZACIONES.Add(Cotizacion);
+                    ConBD2.SaveChanges();
                 }
 
                 //--------------------------------------------------------------------------------------------------------------------------------  TABLAS VIEJAS
@@ -537,7 +537,7 @@ namespace UanlSISM.Controllers
 
             //BUSCAR LOS DETALLES POR EL FOLIO QUE RECIBIRÉ COMO PARAMETRO
             var DETALLES = new List<SISM_DETALLE_BORRADOR_REQUI>();
-            DETALLES = ConBD.SISM_DETALLE_BORRADOR_REQUI.Where(u => u.Id_BorradorRequi == Id_FolioBorrador).ToList();
+            DETALLES = ConBD2.SISM_DETALLE_BORRADOR_REQUI.Where(u => u.Id_BorradorRequi == Id_FolioBorrador).ToList();
 
             var medicamentos = new List<LstInv>();
 
@@ -577,7 +577,7 @@ namespace UanlSISM.Controllers
         {
             try
             {
-                var query = (from a in ConBD.SISM_BORRADOR_REQUI
+                var query = (from a in ConBD2.SISM_BORRADOR_REQUI
                              where a.Estatus == "Borrador Generado"
                              select new
                              {
@@ -613,8 +613,8 @@ namespace UanlSISM.Controllers
         {
             try
             {
-                var query = (from a in ConBD.SISM_BORRADOR_REQUI
-                             join det in ConBD.SISM_DETALLE_BORRADOR_REQUI on a.Id_BorradorRequi equals det.Id_BorradorRequi
+                var query = (from a in ConBD2.SISM_BORRADOR_REQUI
+                             join det in ConBD2.SISM_DETALLE_BORRADOR_REQUI on a.Id_BorradorRequi equals det.Id_BorradorRequi
                              where a.Id_BorradorRequi == Id_Borrador
                              select new
                              {
@@ -690,7 +690,7 @@ namespace UanlSISM.Controllers
                 }
 
                 //Obtenemos el borrador que se convertirá a Requi para cambiarle su Estatus y que ya no aparezca en Borradores
-                var Borrador = (from a in ConBD.SISM_BORRADOR_REQUI
+                var Borrador = (from a in ConBD2.SISM_BORRADOR_REQUI
                                 where a.Id_BorradorRequi == Id_FolioBorrador
                                 select a).FirstOrDefault();
 
@@ -706,22 +706,22 @@ namespace UanlSISM.Controllers
                 }
 
                 //Requisicion.EstatusOC = "0";
-                ConBD.SISM_REQUISICION.Add(Requisicion);
-                ConBD.SaveChanges();
+                ConBD2.SISM_REQUISICION.Add(Requisicion);
+                ConBD2.SaveChanges();
                 //-----------
 
                 Borrador.Estatus = "Borrador a Requisicion";
 
                 //Obtenemos al usuario que generó la Requi para despúes en la tabla Detalle obtener y guardar el Id de la Requi
-                var IdRequisicion = (from a in ConBD.SISM_REQUISICION
+                var IdRequisicion = (from a in ConBD2.SISM_REQUISICION
                                      where a.Id_User == UsuarioRegistra
                                      select a).OrderByDescending(u => u.Id_Requicision).FirstOrDefault();
 
                 // ACTUALIZAMOS LA CLAVE DE LA
-                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequisicion.Id_Requicision + "';");
+                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequisicion.Id_Requicision + "';");
 
                 //ACTUALIZAMOS LA CLAVE DE LA REQUI PARA CONCATENARLA LA NOMENCLATURA Y ASÍ GUARDAR EL FOLIO
-                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC-" + ff + "-" + IdRequisicion.Id_Requicision + "' WHERE Id_Requicision='" + IdRequisicion.Id_Requicision + "';");
+                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC-" + ff + "-" + IdRequisicion.Id_Requicision + "' WHERE Id_Requicision='" + IdRequisicion.Id_Requicision + "';");
 
                 foreach (var item in ListaSustanciasBorrador)
                 {
@@ -746,7 +746,7 @@ namespace UanlSISM.Controllers
                     //-------------------
                     //if (Borrador.EstatusContrato != "Sin Contrato")
                     //{
-                    //    var ARTICULO = (from a in ConBD.SISM_COSTEO_LICITACION
+                    //    var ARTICULO = (from a in ConBD2.SISM_COSTEO_LICITACION
                     //                    where a.Id_Sustancia == item.Id_Sustancia
                     //                    select a).FirstOrDefault();
 
@@ -772,8 +772,8 @@ namespace UanlSISM.Controllers
                     detalleRequisicion.Descripcion = item.Descripcion.Trim();
                     detalleRequisicion.Compendio = item.Compendio;
 
-                    ConBD.SISM_DET_REQUISICION.Add(detalleRequisicion);
-                    ConBD.SaveChanges();
+                    ConBD2.SISM_DET_REQUISICION.Add(detalleRequisicion);
+                    ConBD2.SaveChanges();
                 }
 
                 //Obtenemos el Usuario que se logueó para hacer el join (buscarlo) en la tabla Usuario y así obtener el Id de esa tabla
@@ -804,8 +804,8 @@ namespace UanlSISM.Controllers
                     Cotizacion.Cuadro = 0;
                     Cotizacion.UserId = IdUsuarioCifrado;
 
-                    ConBD.SISM_COTIZACIONES.Add(Cotizacion);
-                    ConBD.SaveChanges();
+                    ConBD2.SISM_COTIZACIONES.Add(Cotizacion);
+                    ConBD2.SaveChanges();
                 }
 
 
@@ -920,13 +920,13 @@ namespace UanlSISM.Controllers
         {
             try
             {
-                var Borrador = (from a in ConBD.SISM_BORRADOR_REQUI
+                var Borrador = (from a in ConBD2.SISM_BORRADOR_REQUI
                                 where a.Id_BorradorRequi == Id_FolioBorrador
                                 select a).FirstOrDefault();
 
                 Borrador.Estatus = "Borrador Cancelado";
 
-                ConBD.SaveChanges();
+                ConBD2.SaveChanges();
 
                 return Json(new { MENSAJE = "Succe: Se eliminó el Borrador" }, JsonRequestBehavior.AllowGet);
             }
@@ -946,12 +946,12 @@ namespace UanlSISM.Controllers
             try
             {
                 //Buscamos el borrador (este) para cambiarle el estatus y que ya no aparesca ya que se hará borrador del borrador
-                var Borrador = (from a in ConBD.SISM_BORRADOR_REQUI
+                var Borrador = (from a in ConBD2.SISM_BORRADOR_REQUI
                                 where a.Id_BorradorRequi == Id_FolioBorrador
                                 select a).FirstOrDefault();
 
                 Borrador.Estatus = "Borrador del Borrador";
-                ConBD.SaveChanges();
+                ConBD2.SaveChanges();
 
                 //Creamos borrador del borrador (nuevo borrador)
                 SISM_BORRADOR_REQUI BorradorRequi = new SISM_BORRADOR_REQUI();
@@ -971,10 +971,10 @@ namespace UanlSISM.Controllers
                     BorradorRequi.EstatusContrato = StatusContrato;
                 }
 
-                ConBD.SISM_BORRADOR_REQUI.Add(BorradorRequi);
-                ConBD.SaveChanges();
+                ConBD2.SISM_BORRADOR_REQUI.Add(BorradorRequi);
+                ConBD2.SaveChanges();
 
-                var IdBorrador = (from a in ConBD.SISM_BORRADOR_REQUI
+                var IdBorrador = (from a in ConBD2.SISM_BORRADOR_REQUI
                                   where a.UsuarioRegistra == UsuarioRegistra
                                   select a).OrderByDescending(u => u.Id_BorradorRequi).FirstOrDefault();
 
@@ -1002,8 +1002,8 @@ namespace UanlSISM.Controllers
                     nuevoDetalle.Descripcion = item.Descripcion.Trim();
                     nuevoDetalle.Compendio = item.Compendio;
 
-                    ConBD.SISM_DETALLE_BORRADOR_REQUI.Add(nuevoDetalle);
-                    ConBD.SaveChanges();
+                    ConBD2.SISM_DETALLE_BORRADOR_REQUI.Add(nuevoDetalle);
+                    ConBD2.SaveChanges();
                 }
 
                 return Json(new { MENSAJE = "Succe: Se guardó con éxito el Borrador" }, JsonRequestBehavior.AllowGet);
