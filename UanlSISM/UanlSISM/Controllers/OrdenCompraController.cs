@@ -1031,7 +1031,7 @@ namespace UanlSISM.Controllers
                 #endregion
 
 
-                //#region NUEVA BD SERVMED 205
+                #region NUEVA BD SERVMED 205
 
                 //var OC1 = (from a in ConBD22_SM.Tbl_OrdenCompra
                 //           where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.Fecha &&
@@ -1102,10 +1102,10 @@ namespace UanlSISM.Controllers
                 //    ConBD22_SM.Database.ExecuteSqlCommand("UPDATE Tbl_OrdenCompra SET Clave = '" + AñoMes_Actual1 + ConsecutivoNuevoTxt1 + "' WHERE Id='" + OC1.Id + "';");
                 //}
 
-                //#endregion
+                #endregion
 
 
-                //#region Actualizar tbl COTIZACIONES (NUEVA BD)
+                #region Actualizar tbl COTIZACIONES (NUEVA BD)
 
                 ////CONSULTAR LA TBL COTIZACIONES CON LA OC QUE SE ESTÁ TRABAJANDO 
                 //var DetalleCotizacion = (from Cot in ConBD22.SISM_COTIZACIONES
@@ -1159,13 +1159,13 @@ namespace UanlSISM.Controllers
 
                 //}
 
-                //#endregion
+                #endregion
 
                 ////------------------------------------------------------------------------ BASE DE DATOS NUEVA  -------------------------   FIN  ------
 
 
                 //////-----------------------------------------------------------  BASE DE DATOS VIEJA  -------------------------   INICIO  ------
-                //#region
+                #region
 
                 //  Se crea la NuevaO.C en la BD VIEJA, en la tabla OrdenCompra, DetalleOC y se busca la Requi en la tbl Cotizaciones (vieja bd) y se actualizarán sus datos
 
@@ -1270,7 +1270,7 @@ namespace UanlSISM.Controllers
                 //    RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Status = '" + true + "' WHERE Id_Requisicion='" + OCDetalle_Nueva.IdReq + "';");
 
                 //}
-                //#endregion
+                #endregion
                 ////-----------------------------------------------------------  BASE DE DATOS VIEJA  -------------------------   FIN  ------
 
                 return Json(new { MENSAJE = "Succe: Se generó la O.C" }, JsonRequestBehavior.AllowGet);
@@ -1386,7 +1386,7 @@ namespace UanlSISM.Controllers
                 ConBD2.Database.ExecuteSqlCommand("DELETE FROM SISM_ORDEN_COMPRA WHERE Id= '" + OC.Id_OC + "';");
 
                 //--------------------------------------------------------------------------  BASE DE DATOS VIEJA  -------------ELIMINAR O.C------------   INICIO  ------
-                //#region
+                #region
                 ////Si la OC tiene Folio(clave) quiere decir que el Usuario de Compras si generó la OC despues de haberla autorizado
                 ////por lo tanto si existe la OC en la BD VIEJA, entonces entraríamos para eliminarla tambien de la BDVIEJA
                 ////si no, entonces no entramos al IF y solo se eliminará de la BNUEVA ya que ahí se guarda la Pre-Orden y la Orden
@@ -1455,11 +1455,11 @@ namespace UanlSISM.Controllers
                 //    RequisicionDB.Database.ExecuteSqlCommand("DELETE FROM DetalleOC WHERE Id_OrdenCompra= '" + OC_VIEJA.Id + "';");
                 //    RequisicionDB.Database.ExecuteSqlCommand("DELETE FROM OrdenCompra WHERE Id= '" + OC_VIEJA.Id + "';");
                 //}
-                //#endregion
+                #endregion
                 ////--------------------------------------------------------------------------  BASE DE DATOS VIEJA  --------------ELIMINAR O.C-----------   FIN  ------
 
 
-                //#region NUEVA BD SERVMED 205
+                #region NUEVA BD SERVMED 205
 
                 //var OC1 = (from a in ConBD22_SM.Tbl_OrdenCompra
                 //           where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.FechaOC &&
@@ -1474,7 +1474,7 @@ namespace UanlSISM.Controllers
                 //    ConBD22_SM.Database.ExecuteSqlCommand("DELETE FROM Tbl_OrdenCompra WHERE Id= '" + OC1.Id + "';");
                 //}
 
-                //#endregion
+                #endregion
 
 
                 return Json(new { MENSAJE = "Succe: Se eliminó la O.C" }, JsonRequestBehavior.AllowGet);
@@ -1498,7 +1498,7 @@ namespace UanlSISM.Controllers
                 OC.Fecha_Acuse = fechaDT;
                 ConBD2.SaveChanges();
 
-                //#region NUEVA BD SERVMED 205
+                #region NUEVA BD SERVMED 205
 
                 //var OC1 = (from a in ConBD22_SM.Tbl_OrdenCompra
                 //           where a.Fecha >= OC.Fecha &&
@@ -1512,7 +1512,7 @@ namespace UanlSISM.Controllers
                 //    ConBD22_SM.SaveChanges();
                 //}
 
-                //#endregion
+                #endregion
 
 
                 return Json(new { MENSAJE = "Succe: Se guardó la fecha" }, JsonRequestBehavior.AllowGet);
@@ -1582,35 +1582,35 @@ namespace UanlSISM.Controllers
 
                 #region NUEVA BD SERVMED 205
 
-                var OC1 = (from a in ConBD2_SM.Tbl_OrdenCompra
-                           join DetOC in ConBD2_SM.Tbl_DetalleOC on a.Id equals DetOC.Id_OrdenCompra
-                           where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.Fecha &&
-                           a.UsuarioNuevo == OC.UsuarioNuevo && a.IP_User == OC.IP_User &&
-                           a.Total_OC == OC.Total_OC
-                           select new
-                           {
-                               Id_OC = a.Id,
-                               Total_OC = a.Total_OC,
-                               IdDet_OC = DetOC.Id,
-                               Sustancia_OC = DetOC.Id_Sustencia,
-                               SubTotal_OC = DetOC.Total,
-                               FolioReq = a.Id_Requisicion
-                              ,
-                               a.Id_Proveedor,
-                               a.Fecha,
-                               a.UsuarioNuevo,
-                               a.IP_User
-                           }).FirstOrDefault();
+                //var OC1 = (from a in ConBD2_SM.Tbl_OrdenCompra
+                //           join DetOC in ConBD2_SM.Tbl_DetalleOC on a.Id equals DetOC.Id_OrdenCompra
+                //           where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.Fecha &&
+                //           a.UsuarioNuevo == OC.UsuarioNuevo && a.IP_User == OC.IP_User &&
+                //           a.Total_OC == OC.Total_OC
+                //           select new
+                //           {
+                //               Id_OC = a.Id,
+                //               Total_OC = a.Total_OC,
+                //               IdDet_OC = DetOC.Id,
+                //               Sustancia_OC = DetOC.Id_Sustencia,
+                //               SubTotal_OC = DetOC.Total,
+                //               FolioReq = a.Id_Requisicion
+                //              ,
+                //               a.Id_Proveedor,
+                //               a.Fecha,
+                //               a.UsuarioNuevo,
+                //               a.IP_User
+                //           }).FirstOrDefault();
 
-                if (OC1 != null)
-                {
-                    //ELIMINAR Partida de la tbl DetalleOrdenCompra
-                    ConBD2_SM.Database.ExecuteSqlCommand("DELETE FROM Tbl_DetalleOC WHERE Id= '" + OC1.IdDet_OC + "';");
+                //if (OC1 != null)
+                //{
+                //    //ELIMINAR Partida de la tbl DetalleOrdenCompra
+                //    ConBD2_SM.Database.ExecuteSqlCommand("DELETE FROM Tbl_DetalleOC WHERE Id= '" + OC1.IdDet_OC + "';");
 
-                    //Volver a hacer el RECALCULO del GranTotal de la OrdenCompra
-                    var NuevoGranTotal_OC1 = (double?)decimal.Round((decimal)(OC1.Total_OC - OC1.SubTotal_OC), 2);
-                    ConBD2_SM.Database.ExecuteSqlCommand("UPDATE Tbl_OrdenCompra SET Total_OC = '" + NuevoGranTotal_OC1 + "' WHERE Id='" + OC1.Id_OC + "';");
-                }
+                //    //Volver a hacer el RECALCULO del GranTotal de la OrdenCompra
+                //    var NuevoGranTotal_OC1 = (double?)decimal.Round((decimal)(OC1.Total_OC - OC1.SubTotal_OC), 2);
+                //    ConBD2_SM.Database.ExecuteSqlCommand("UPDATE Tbl_OrdenCompra SET Total_OC = '" + NuevoGranTotal_OC1 + "' WHERE Id='" + OC1.Id_OC + "';");
+                //}
 
                 #endregion
 
@@ -1633,7 +1633,7 @@ namespace UanlSISM.Controllers
                 OC.Contrato = Contrato;
                 ConBD2.SaveChanges();
 
-                //#region NUEVA BD SERVMED 205
+                #region NUEVA BD SERVMED 205
 
                 //var OC1 = (from a in ConBD22_SM.Tbl_OrdenCompra
                 //           where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.Fecha &&
@@ -1647,7 +1647,7 @@ namespace UanlSISM.Controllers
                 //    ConBD22_SM.SaveChanges();
                 //}
 
-                //#endregion
+                #endregion
 
                 return Json(new { MENSAJE = "Succe: Se guardó el Contrato" }, JsonRequestBehavior.AllowGet);
             }
@@ -1735,20 +1735,20 @@ namespace UanlSISM.Controllers
 
                 #region NUEVA BD SERVMED 205
 
-                var OC1 = (from a in ConBD2_SM.Tbl_OrdenCompra
-                           where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.Fecha &&
-                           a.UsuarioNuevo == OC.UsuarioNuevo && a.IP_User == OC.IP_User &&
-                           a.Total_OC == OC.Total_OC
-                           select a).FirstOrDefault();
+                //var OC1 = (from a in ConBD2_SM.Tbl_OrdenCompra
+                //           where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.Fecha &&
+                //           a.UsuarioNuevo == OC.UsuarioNuevo && a.IP_User == OC.IP_User &&
+                //           a.Total_OC == OC.Total_OC
+                //           select a).FirstOrDefault();
 
-                if (OC1 != null)
-                {
-                    OC1.OC_PorValidar = "2";// 2 Quiere decir que se Validó la O.C porque la OC nace como 1 (Generada) al validarla (2) el usuario de Compras puede Aprobarla/Generarla y el Status en BD cambia a True y OC_PorValidar puede cambiar a 3
-                    OC1.Descripcion = DescripcionOC;
-                    OC1.Fecha_AutorizaOC = fechaDT;
-                    OC1.Usuario_AutorizaOC = UsuarioRegistra;
-                    ConBD2_SM.SaveChanges();
-                }
+                //if (OC1 != null)
+                //{
+                //    OC1.OC_PorValidar = "2";// 2 Quiere decir que se Validó la O.C porque la OC nace como 1 (Generada) al validarla (2) el usuario de Compras puede Aprobarla/Generarla y el Status en BD cambia a True y OC_PorValidar puede cambiar a 3
+                //    OC1.Descripcion = DescripcionOC;
+                //    OC1.Fecha_AutorizaOC = fechaDT;
+                //    OC1.Usuario_AutorizaOC = UsuarioRegistra;
+                //    ConBD2_SM.SaveChanges();
+                //}
 
                 #endregion
 
