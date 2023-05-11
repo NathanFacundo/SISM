@@ -118,12 +118,12 @@
         </table>
     </div>
 
-    
 </div>
 
 <div class="modal fade" id="DetalleOCModal" tabindex="-1" role="dialog" aria-labelledby="NuevaRequiModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
         <div class="modal-content">
+
             <div class="modal-header">
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -134,6 +134,9 @@
                 <div class="row">
                     <input id="Id_OC" name="Id_OC" value="" style="display: none;" />
                     <input id="Folio_Requi" name="Folio_Requi" value="" style="display: none;" />
+
+                    <input id="FechaPreOC" name="FechaPreOC" value="" style="display: none;" />
+
                 </div>
 
                 <div class="row m-0 text-center pt-4">
@@ -153,42 +156,49 @@
                 </div>
                 <br />
 
-                <div class="row" id="imprimir">
+                @* BOTONES - CONTRATO - ACUSE *@
+            <div class="row" id="imprimir">
 
-                    <div class="col-md-3">
-                        <button type="button" style="width:100%; background-color:rgba(0,74,143,1);" class="btn btn-success imprimir">Imprimir</button>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div>
-                            <a class="btn btn-success text-white" id="Xcel2">Descargar Excel</a>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="row" id="divAcuse">
-                            <label>Fecha Acuse: </label>
-                            <div id="datepicker"
-                                 class="input-group date"
-                                 data-date-format="dd-mm-yyyy">
-                                <input class="form-control"
-                                       type="text" readonly />
-                                <span class="input-group-addon">
-                                    <i class="glyphicon glyphicon-calendar"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="row" id="divContrato">
-                            <label>Contrato <input class="Buscar" type="text" id="InputContrato" /></label>
-                        </div>
-                    </div>
-
+                <div class="col-md-2">
+                    <button type="button" style="width:100%; background-color:rgba(0,74,143,1);" class="btn btn-success imprimir">Imprimir</button>
                 </div>
 
+                <div class="col-md-2">
+                    <button type="button" style="width:100%;" class="btn btn-secondary imprimir2">Imprimir Pre-Orden</button>
+                </div>
+
+                <div class="col-md-2">
+                    <div>
+                        <a class="btn btn-success text-white" id="Xcel2">Descargar Excel</a>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="row" id="divAcuse">
+                        <label>Fecha Acuse: </label>
+                        <div id="datepicker"
+                             class="input-group date"
+                             data-date-format="dd-mm-yyyy">
+                            <input class="form-control"
+                                   type="text" readonly />
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="row" id="divContrato">
+                        <label>Contrato <input class="Buscar" type="text" id="InputContrato" /></label>
+                    </div>
+                </div>
+
+            </div>
+
+                @* INFO: ACUSE - CONTRATO... *@
                 <div class="row" id="Moddal">
+                    
                     <div class="col-4">
                         <div class="row">
                             <div class="alt-features-item align-center">
@@ -204,8 +214,6 @@
                                 <h10 id="LabelContrato" style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Contrato</h10><br />
                                 <a style="" id="InputCon"></a>
                             </div>
-                            @*<div class="col-6">
-                                </div>*@
                         </div>
                         <div class="row">
                             <div class="col-6">
@@ -213,20 +221,14 @@
                                 <a style="" id="FRequi"></a>
                             </div>
                             <div class="col-6">
-                                @*<h10 id="LabelContrato" style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Contrato</h10><br />
-                                    <a style="" id="InputCon"></a>*@
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                @*<h10 style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Fecha Impresión</h10><br />
-                                    <a style="" id="Fecha"></a>*@
                                 <h10 id="InputFA1" style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Fecha Acuse</h10><br />
                                 <a style="" id="InputFA"></a>
                             </div>
                             <div class="col-6">
-                                @*<h10 id="InputFA1" style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Fecha Acuse</h10><br />
-                                    <a style="" id="InputFA"></a>*@
                             </div>
                         </div>
                     </div>
@@ -238,10 +240,7 @@
                                 <a style=""><span class="emphasized"><strong>RFC:</strong></span> UANL691126MK2</a>
                             </div>
                             <div class="row">
-                                @*<h6 class="text-left" style="font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Embarcar:</h6>
-                                    <a style="">GONZALITOS Y HAITI, COLONIA VISTA HERMOSA. MONTERREY NUEVO LEÓN</a>*@
                                 <a style=""><span class="emphasized"><strong>Embarcar:</strong></span> GONZALITOS Y HAITI, COLONIA VISTA HERMOSA. MONTERREY NUEVO LEÓN</a><br />
-
                             </div>
                             <div class="row">
                                 <h6 class="text-center" style="font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Tiempo de Entrega</h6>
@@ -279,8 +278,10 @@
                     </div>
 
                 </div>
+                
                 <div>
                     <table id="tblDetalleOC" class="table table-striped table-hover">
+
                         <thead>
                             <tr hidden>
                                 <th>
@@ -296,8 +297,6 @@
                                     <a style="font-size:13px" id="FRequiEncabezado"></a>
                                 </th>
                                 <th>
-                                    @*<h10 style="color:green">Fecha<br />Impresión</h10><br />
-                                        <a style="font-size:13px" id="FechaEncabezado"></a>*@
                                     <h10 style="color:green">Proveedor</h10><br />
                                     <a style="font-size:13px" id="ProvUanl1"></a><br />
                                     <a style="font-size:13px" id="ProvNom1"></a>
@@ -310,7 +309,7 @@
                                     <h10 id="InputContratoDT" style="color:green">Contrato</h10><br />
                                     <a style="font-size:13px" id="InputConDT"></a>
                                 </th>
-                                <th @*COLSPAN="2"*@>
+                                <th>
                                     <h10 style="color:green" hidden>Gran Total: $</h10><br />
                                     <a style="font-size:13px; display:inline-block;" id="Total_OC1" hidden></a>
                                 </th>
@@ -336,7 +335,6 @@
                         </div>
                         <div class="col-md-6" style="text-align:right;">
                             <strong>
-                                @*<a style="font-size:20px; display:inline-block; margin-right:10px;">Gran Total: $</a>*@
                                 <a style="font-size:20px; display:inline-block;" id="Total_OC"></a>
                             </strong>
                         </div>
@@ -346,19 +344,11 @@
                     </div>
                 </div>
 
+                @* FIRMAS CUANDO ES *PRE-ORDERN DE COMPRA* *@
                 <div class="row m-0 pt-2 text-center" id="pie" style=" border-collapse: collapse; border-spacing: 0;">
                     <table id="firmas" align="center" BORDER="0" style="border: hidden">
                         <tbody>
                             <tr>
-                                @*<td align="center">
-                                        <br />
-                                        <br />
-                                        <br />
-                                        <strong>
-                                            <a><em>DIRECTOR</em></a><br />
-                                            <a>Raúl Gabino<br /> Salazar Montalvo</a>
-                                        </strong>
-                                    </td>*@
                                 <td align="center">
                                     <br />
                                     <br />
@@ -384,6 +374,7 @@
                     </table>
                 </div>
 
+                @* FIRMAS CUANDO YA ES *ORDERN DE COMPRA* *@
                 <div class="row m-0 pt-2 text-center" id="pie1" style=" border-collapse: collapse; border-spacing: 0;">
                     <table id="firmas" align="center" BORDER="0" style="border: hidden">
                         <tbody>
@@ -448,10 +439,40 @@
 
 <script>
     $('.imprimir').on('click', function () {
-        //$('#BtnEliminar').text('');
+        $.print(".imprimir-content");
+    });
+
+    //Boton para Imprimir Pre-Orden aun cuando ya es Orden
+    $('.imprimir2').on('click', function () {
+
+        //$("#ClaveOC").hide();
+        //$("#FechaOC").hide();
+
+        var Id_OC = $("#Id_OC").val();
+        var FePre = $("#FechaPreOC").val();
+
+        document.getElementById("ClaveOC1").innerHTML = "Identificador";
+        $('#ClaveOC').html(Id_OC);
+
+        document.getElementById("Clave1").innerHTML = "Identificador";
+        $('#ClaveOC').html(Id_OC);
+
+        document.getElementById("TitutloModal").innerHTML = "PRE-ORDEN DE COMPRA";
+
+        document.getElementById("FechaOC1").innerHTML = "Fecha Pre-O.C";
+        $('#FechaOC').html(FePre);
+
+        document.getElementById("Fecha11").innerHTML = "Fecha Pre-O.C";
+        $('#Fecha1').html(FePre);
+
+        $("#pie").show();
+        $("#pie1").hide();
+
         $.print(".imprimir-content");
 
+        //alert(FePre)
     });
+
 </script>
 
 <script>
@@ -669,8 +690,11 @@
                 document.getElementById("Fecha11").innerHTML = "Fecha Pre-O.C";
                 $('#Fecha1').html(response[0].Fecha);
 
-                $("#pie").show();
-                $("#pie1").hide();
+                $("#pie").show();//Firmas Pre-Orden     Cuando no tiene Folio, es Pre-Orden y las Firmas que deben salir son Quien Realizo y Quien Autorizo
+                $("#pie1").hide();//Firmas Orden
+
+                //var FePre = response[0].Fecha;
+                //$('#FechaPreOC').val(FePre);
 
             } else {
                 $("#ClaveOC1").show();
@@ -687,8 +711,11 @@
                 document.getElementById("Fecha11").innerHTML = "Fecha O.C";
                 $('#Fecha1').html(response[0].FechaOC);
 
-                $("#pie1").show();
-                $("#pie").hide();
+                $("#pie").hide();//Firmas Pre-Orden
+                $("#pie1").show();//Firmas Orden        Cuando ya tiene Folio, es Orden y las Firmas (del Dr.) deben salir
+
+                var FePre = response[0].Fecha;
+                $('#FechaPreOC').val(FePre);
             }
 
             //var FechaOC = response[0].FechaOC;
@@ -793,12 +820,6 @@
                     },
                 },
                 columns: [
-                    //{
-                    //    'data': 'ORDEN', className: "text-center",
-                    //    render: function (data, type, row, meta) {
-                    //        return (row.ORDEN = meta.row + meta.settings._iDisplayStart + 1);
-                    //    }
-                    //},
                     { "data": "Clave", className: "text-center" },
                     { "data": "Clave", className: "text-center" },
                     { "data": "Descripcion", className: "text-center" },
@@ -814,7 +835,6 @@
                             }
                         }
                     }
-
                 ],
                 columnDefs: [
                     {
@@ -1167,6 +1187,10 @@
 
     @@media print {
         .imprimir {
+            display: none;
+        }
+
+        .imprimir2 {
             display: none;
         }
 
