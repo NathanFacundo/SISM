@@ -68,8 +68,6 @@
     }
 
     #DetalleOCModal .modal-dialog {
-        /*height: 100vh;
-        margin-top: 0px;*/
         max-width: none;
         height: 100%;
         margin: 0;
@@ -134,9 +132,7 @@
                 <div class="row">
                     <input id="Id_OC" name="Id_OC" value="" style="display: none;" />
                     <input id="Folio_Requi" name="Folio_Requi" value="" style="display: none;" />
-
                     <input id="FechaPreOC" name="FechaPreOC" value="" style="display: none;" />
-
                 </div>
 
                 <div class="row m-0 text-center pt-4">
@@ -157,44 +153,44 @@
                 <br />
 
                 @* BOTONES - CONTRATO - ACUSE *@
-            <div class="row" id="imprimir">
+                <div class="row" id="imprimir">
 
-                <div class="col-md-2">
-                    <button type="button" style="width:100%; background-color:rgba(0,74,143,1);" class="btn btn-success imprimir">Imprimir</button>
-                </div>
-
-                <div class="col-md-2">
-                    <button type="button" style="width:100%;" class="btn btn-secondary imprimir2">Imprimir Pre-Orden</button>
-                </div>
-
-                <div class="col-md-2">
-                    <div>
-                        <a class="btn btn-success text-white" id="Xcel2">Descargar Excel</a>
+                    <div class="col-md-2">
+                        <button type="button" style="width:100%; background-color:rgba(0,74,143,1);" class="btn btn-success imprimir">Imprimir</button>
                     </div>
-                </div>
 
-                <div class="col-md-3">
-                    <div class="row" id="divAcuse">
-                        <label>Fecha Acuse: </label>
-                        <div id="datepicker"
-                             class="input-group date"
-                             data-date-format="dd-mm-yyyy">
-                            <input class="form-control"
-                                   type="text" readonly />
-                            <span class="input-group-addon">
-                                <i class="glyphicon glyphicon-calendar"></i>
-                            </span>
+                    <div class="col-md-2">
+                        <button type="button" style="width:100%;" class="btn btn-secondary imprimir2">Imprimir Pre-Orden</button>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div>
+                            <a class="btn btn-success text-white" id="Xcel2">Descargar Excel</a>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-md-3">
-                    <div class="row" id="divContrato">
-                        <label>Contrato <input class="Buscar" type="text" id="InputContrato" /></label>
+                    <div class="col-md-3">
+                        <div class="row" id="divAcuse">
+                            <label>Fecha Acuse: </label>
+                            <div id="datepicker"
+                                 class="input-group date"
+                                 data-date-format="dd-mm-yyyy">
+                                <input class="form-control"
+                                       type="text" readonly />
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-            </div>
+                    <div class="col-md-3">
+                        <div class="row" id="divContrato">
+                            <label>Contrato <input class="Buscar" type="text" id="InputContrato" /></label>
+                        </div>
+                    </div>
+
+                </div>
 
                 @* INFO: ACUSE - CONTRATO... *@
                 <div class="row" id="Moddal">
@@ -279,9 +275,9 @@
 
                 </div>
                 
+                @*TABLA*@
                 <div>
                     <table id="tblDetalleOC" class="table table-striped table-hover">
-
                         <thead>
                             <tr hidden>
                                 <th>
@@ -445,9 +441,6 @@
     //Boton para Imprimir Pre-Orden aun cuando ya es Orden
     $('.imprimir2').on('click', function () {
 
-        //$("#ClaveOC").hide();
-        //$("#FechaOC").hide();
-
         var Id_OC = $("#Id_OC").val();
         var FePre = $("#FechaPreOC").val();
 
@@ -470,7 +463,6 @@
 
         $.print(".imprimir-content");
 
-        //alert(FePre)
     });
 
 </script>
@@ -623,7 +615,7 @@
     }
 
     $("input[type=checkbox]").click(function (event) {
-     
+
         if ($('#cb1').prop('checked')) {
              $.ajax({
                 url: '@Url.Action("ObtenerOCInicioT", "OrdenCompra")',
@@ -858,6 +850,176 @@
         //})
     });
 
+    function VerDetalle(IdOC, ClaveRequi) {
+        
+        $('#DetalleOCModal').modal("show");
+
+        var array = { Id_OC: IdOC, FolioRequi: ClaveRequi  };
+        var url = '@Url.Action("ObtenerDetalleOC_Generada", "OrdenCompra")';
+        $.post(url, array).done(function (response) {
+
+            FolioOC = response[0].Folio;
+            if (FolioOC == null || FolioOC == '') {
+                document.getElementById("ClaveOC1").innerHTML = "Identificador";
+                $('#ClaveOC').html(response[0].Id_OC);
+
+                document.getElementById("Clave1").innerHTML = "Identificador";
+                $('#Clave').html(response[0].Id_OC);
+
+                document.getElementById("TitutloModal").innerHTML = "PRE-ORDEN DE COMPRA";
+
+                document.getElementById("FechaOC1").innerHTML = "Fecha Pre-O.C";
+                $('#FechaOC').html(response[0].Fecha);
+
+                document.getElementById("Fecha11").innerHTML = "Fecha Pre-O.C";
+                $('#Fecha1').html(response[0].Fecha);
+
+                $("#pie").show();//Firmas Pre-Orden     Cuando no tiene Folio, es Pre-Orden y las Firmas que deben salir son Quien Realizo y Quien Autorizo
+                $("#pie1").hide();//Firmas Orden
+
+            } else {
+                $("#ClaveOC1").show();
+                $('#ClaveOC').html(response[0].Folio);
+
+                $("#Clave1").show();
+                $('#Clave').html(response[0].Folio);
+
+                document.getElementById("TitutloModal").innerHTML = "ORDEN DE COMPRA";
+
+                document.getElementById("FechaOC1").innerHTML = "Fecha O.C";
+                $('#FechaOC').html(response[0].FechaOC);
+
+                document.getElementById("Fecha11").innerHTML = "Fecha O.C";
+                $('#Fecha1').html(response[0].FechaOC);
+
+                $("#pie").hide();//Firmas Pre-Orden
+                $("#pie1").show();//Firmas Orden        Cuando ya tiene Folio, es Orden y las Firmas (del Dr.) deben salir
+
+                var FePre = response[0].Fecha;
+                $('#FechaPreOC').val(FePre);
+            }
+
+            $('#Fecha').html(response[0].Fecha1);
+            $('#PROV').html(response[0].NombreProveedor);
+            $('#UsElaboro').html(response[0].NombreUsu);
+            $('#Us').html(response[0].Usuario);
+            $('#Total_OC1').html(response[0].Total_OC);
+            
+            $('#TXTdescripcion').html(response[0].DescripcionOC);
+            $('#FRequi').html(response[0].FolioRequisicion);
+            $('#ProvNom').html(response[0].NombreProveedor);
+            $('#ProvDir').html(response[0].DirProv);
+            $('#ProvTel').html(response[0].TelProv);
+            $('#ProvUanl').html(response[0].UanlProv);
+
+            $('#ProvUanl1').html(response[0].UanlProv);
+            $('#ProvNom1').html(response[0].NombreProveedor);
+
+            //Texto que se muestra debajo de la tabla del Detalle de la OC (con decimales)
+            var GranTotalModal = response[0].Total_OC;
+            const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
+            document.getElementById("Total_OC").innerHTML = "Gran Total $" + formato.format(GranTotalModal);
+            
+            $('#FRequiEncabezado').html(response[0].FolioRequisicion);
+            $('#FechaEncabezado').html(response[0].Fecha1);
+
+            var FA = response[0].FechaAcuse;
+            if (FA == null || FA == "") {
+                $("#InputFA1").hide();
+                $("#InputFA111").hide();
+                //$("#divAcuse").show();
+            } else {
+                $("#InputFA1").show();
+                $("#InputFA11").show();
+                $('#InputFA').html(FA);
+                $('#InputFA11').html(FA);
+                //$("#divAcuse").hide();
+            }
+
+            var CON = response[0].NumContrato;
+            if (CON == null || CON == "") {
+                $("#LabelContrato").hide();
+                $("#InputCon").hide();
+                $("#InputContratoDT").hide();//Label del Contrato del Datatable (solo se muestra al exportar a Excel)
+            } else {
+                $("#LabelContrato").show();
+                $('#InputCon').html(CON);
+                $("#InputCon").show();
+                $("#InputConDT").show();
+                $('#InputConDT').html(CON);//Dato del Contrato del Datatable (solo se muestra al exportar a Excel)
+            }
+
+            $('#FechaAutoriza').html(response[0].FechaAutorizaOC);
+            $('#UsuAutoriza').html(response[0].UsuarioAutorizaOC);
+
+            LlenDetalle(response);
+
+        }).fail(function (response) {
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+            });
+        });
+
+        function LlenDetalle(Lista) {
+            var t = $('#tblDetalleOC').DataTable({
+                destroy: true,
+                searching: false,
+                responsive: true,
+                lengthChange: false,
+                paging: false,
+                data: Lista,
+                "order": [[1, 'asc']],
+                language: {
+                    "zeroRecords": " ",
+                    "search": "",
+                    "info": "Total _TOTAL_ ",
+                    "infoEmpty": "",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Último",
+                        "next": "Siguiente",
+                        "previous": "Anterior",
+                    },
+                    "select": {
+                        "rows": " %d filas seleccionadas"
+                    },
+                },
+                columns: [
+                    { "data": "Clave", className: "text-center" },
+                    { "data": "Clave", className: "text-center" },
+                    { "data": "Descripcion", className: "text-center" },
+                    { "data": "Cantidad", className: "text-center" },
+                    { "data": "PrecioUnitario", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                    { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                    {
+                        "data": null, render: function (data, type, row) {
+                            if (row.OC_PorValidar != "3" || row.OC_PorValidar != 3) {
+                                return '<button title="Eliminar Partida" id="BtnDeletePartida" class="btn btn-danger btn-sm fa fa-times" data-toggle="modal"></button>';
+                            } else {
+                                return '';
+                            }
+                        }
+                    }
+                ],
+                columnDefs: [
+                    {
+                        searchable: false,
+                        orderable: false,
+                        targets: 0,
+                    },
+                ],
+            });
+            t.on('order.dt search.dt', function () {
+                let i = 1;
+
+                t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                    this.data(i++);
+                });
+            }).draw();
+        }
+    }
+
     $('#tblDetalleOC tbody').on('click', '#BtnDeletePartida', function () {
         var tr = $(this).closest('tr');
         var row = $('#tblDetalleOC').DataTable().row(tr);
@@ -1026,9 +1188,11 @@
         format: 'dd/mm/yyyy'
     });
 
+    //Guardar Acuse
     $("#datepicker input").change(function () {
         var FechaAcuse = $(this).val()
         var Id_OC = $("#Id_OC").val();
+        var Id_Requi = $("#Folio_Requi").val();
 
         var d = new Date(); // for now
         var h = d.getHours();
@@ -1065,7 +1229,8 @@
                                 text: data.MENSAJE.substring(7),
                                 showConfirmButton: true,
                                 willClose: () => {
-                                    location.reload();
+                                    //location.reload();
+                                    VerDetalle(Id_OC, Id_Requi);
                                 }
                             });
                         }
@@ -1099,6 +1264,7 @@
     function GuardarContrato(Contrato) {
 
         var Id_OC = $("#Id_OC").val();
+        var Id_Requi = $("#Folio_Requi").val();
 
         Swal.fire({
             title: '¿Desea guardar el Contrato?',
@@ -1111,7 +1277,6 @@
             cancelButtonText: 'No'
         }).then((result) => {
             if (result.isConfirmed) {
-
                 $.ajax({
                     url: '@Url.Action("GuardarContrato", "OrdenCompra")',
                     method: 'POST',
@@ -1125,7 +1290,8 @@
                                 text: data.MENSAJE.substring(7),
                                 showConfirmButton: true,
                                 willClose: () => {
-                                    location.reload();
+                                    //location.reload();
+                                    VerDetalle(Id_OC, Id_Requi);
                                 }
                             });
                         }
@@ -1146,7 +1312,6 @@
                 });
             }
         });
-
     }
 
     function Regresar() {
@@ -1177,7 +1342,6 @@
     }
 
     div > a {
-        /*font-weight: 900;*/
         font-size: 12px;
     }
 
@@ -1219,9 +1383,7 @@
         }
 
         div > a {
-            /*font-weight: 900;*/
             font-size: 15px;
-            /*font-weight: bold;*/
         }
 
         div > h6, h10 {
