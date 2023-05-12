@@ -96,7 +96,7 @@ namespace UanlSISM.Controllers
 
             return Json(new { SUSTANCIAS = SUSTANCIA }, JsonRequestBehavior.AllowGet);
         }
-
+        //                                                                                  ****        INVENTARIO ALMACEN 84       ****
         public ActionResult ObtenerSustanciasModal()
         {
             try
@@ -238,7 +238,7 @@ namespace UanlSISM.Controllers
                                    a.Id,
                                    //G.descripcion
                                }).FirstOrDefault();
-
+                    //                                                                                  ****        INVENTARIO ALMACEN 84       ****
                     if (sus != null)
                     {
                         string query2 = "select ManejoDisponible as ManejoDisponible from InvAlmFarm WHERE Id_Sustancia = " + sus.Id + " and InvAlmId = 84";
