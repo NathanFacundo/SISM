@@ -151,7 +151,6 @@
                     <th>Folio<br /> O.C</th>
                     <th>Fecha<br /> O.C</th>
                     <th>Proveedor<br /> O.C</th>
-                    @*<th>Elabora<br /> O.C</th>*@
                     <th>Acuse<br /> O.C</th>
                     @*<th>Contrato<br /> O.C</th>*@
                     <th>P.U.<br /> Medicamento</th>
@@ -208,10 +207,6 @@
             searching: false,
             info: true,
             lengthChange: false,
-            //deferRender: true,
-            //scrollColapse: true,
-            //scrollY: 280,
-            //scrollX: true,
             language: {
                 "zeroRecords": "Buscar",
                 "search": "",
@@ -235,7 +230,6 @@
         locale: 'es-es',
         showOtherMonths: true,
         format: 'dd/mm/yyyy'
-        //format: 'yyyy/mm/dd'
     });
 
     $('#datepickerFin').datepicker({
@@ -250,17 +244,6 @@
         var ClaveMed = $("#ClaveM").val();
 
         if ((FechaInicio != "" && FechaFin != "") || ClaveMed != "") {
-
-            //var d = new Date(); // for now
-            //var h = d.getHours();
-            //h = (h < 10) ? ("0" + h) : h;
-            //var m = d.getMinutes();
-            //m = (m < 10) ? ("0" + m) : m;
-            //var s = d.getSeconds();
-            //s = (s < 10) ? ("0" + s) : s;
-
-            //FI = FechaInicio + " " + h + ":" + m + ":" + s;
-
             LlenaTbl(FechaInicio, FechaFin, ClaveMed)
         } else {
             Swal.fire({
@@ -308,8 +291,6 @@
             info: true,
             deferRender: true,
             scroller: true,
-            //scrollX: true,
-            //scrollY: 280,
             scrollColapse: true,
             paging: false,
             lengthChange: false,
@@ -338,7 +319,6 @@
                 { 'data': 'Folio', className: "text-center" },
                 { 'data': 'FechaOC', className: "text-center" },
                 { 'data': 'NombreProveedor', className: "text-center" },
-                //{ 'data': 'Usuario', className: "text-center" },
                 { 'data': 'FechaAcuse', className: "text-center" },
                 //{ 'data': 'NumContrato', className: "text-center" },
                 { 'data': 'PrecioUnitario', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
