@@ -76,6 +76,11 @@
     p {
         line-height: 100%;
     }
+
+    .btn-spaceA {
+        margin-bottom: 5px;
+    }
+
 </style>
 
 <div class="btn-toolbar">
@@ -169,9 +174,9 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="row" id="divAcuse">
-                            <label>Fecha Acuse: </label>
+                            <label>Fecha Acuse</label>
                             <div id="datepicker"
                                  class="input-group date"
                                  data-date-format="dd-mm-yyyy">
@@ -184,9 +189,19 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="row" id="divContrato">
-                            <label>Contrato <input class="Buscar" type="text" id="InputContrato" /></label>
+                            <label>Contrato</label>
+                            <div>
+                                <input class="Buscar" type="text" id="InputContrato" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="row" id="divBtnEliminar">
+                            <button type="button" class="btn btn-danger btn-spaceA" onclick="EliminarAcuse()">Eliminar Acuse</button><br />
+                            <button type="button" class="btn btn-danger" onclick="EliminarContrato()">Eliminar Contrato</button>
                         </div>
                     </div>
 
@@ -645,6 +660,7 @@
         }
     });
 
+    //Boton VER DETALLE - al abrir el Modal
     $('#tbl_OCgeneradas tbody').on('click', '#VerDetalle', function () {
         var tr = $(this).closest('tr');
         var row = $('#tbl_OCgeneradas').DataTable().row(tr);
@@ -851,7 +867,7 @@
     });
 
     function VerDetalle(IdOC, ClaveRequi) {
-        
+
         $('#DetalleOCModal').modal("show");
 
         var array = { Id_OC: IdOC, FolioRequi: ClaveRequi  };
@@ -904,7 +920,7 @@
             $('#UsElaboro').html(response[0].NombreUsu);
             $('#Us').html(response[0].Usuario);
             $('#Total_OC1').html(response[0].Total_OC);
-            
+
             $('#TXTdescripcion').html(response[0].DescripcionOC);
             $('#FRequi').html(response[0].FolioRequisicion);
             $('#ProvNom').html(response[0].NombreProveedor);
@@ -919,7 +935,7 @@
             var GranTotalModal = response[0].Total_OC;
             const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
             document.getElementById("Total_OC").innerHTML = "Gran Total $" + formato.format(GranTotalModal);
-            
+
             $('#FRequiEncabezado').html(response[0].FolioRequisicion);
             $('#FechaEncabezado').html(response[0].Fecha1);
 
@@ -928,6 +944,7 @@
                 $("#InputFA1").hide();
                 $("#InputFA111").hide();
                 //$("#divAcuse").show();
+                $("#InputFA").hide();//Se oculta el dato una vez que el usuario haya eliminado el Acuse con el boton
             } else {
                 $("#InputFA1").show();
                 $("#InputFA11").show();
@@ -1314,6 +1331,108 @@
         });
     }
 
+    function EliminarAcuse() {
+
+        var Id_OC = $("#Id_OC").val();
+        var Id_Requi = $("#Folio_Requi").val();
+
+        Swal.fire({
+            title: '¿Desea eliminar el Acuse?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '@Url.Action("EliminarAcuse", "OrdenCompra")',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: { Id_OC: Id_OC },
+                    success: function (data) {
+                        if (data.MENSAJE.substring(0, 6) == "Succe:") {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '¡Éxito!',
+                                text: data.MENSAJE.substring(7),
+                                showConfirmButton: true,
+                                willClose: () => {
+                                    VerDetalle(Id_OC, Id_Requi);
+                                }
+                            });
+                        }
+                        if (data.MENSAJE.substring(0, 6) == "Error:") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops... ¡Error!',
+                                text: data.MENSAJE.substring(7),
+                            });
+                        }
+                    },
+                    error: function (ex) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '¡Error!',
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    function EliminarContrato() {
+
+        var Id_OC = $("#Id_OC").val();
+        var Id_Requi = $("#Folio_Requi").val();
+
+        Swal.fire({
+            title: '¿Desea eliminar el Contrato?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '@Url.Action("EliminarContrato", "OrdenCompra")',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: { Id_OC: Id_OC },
+                    success: function (data) {
+                        if (data.MENSAJE.substring(0, 6) == "Succe:") {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '¡Éxito!',
+                                text: data.MENSAJE.substring(7),
+                                showConfirmButton: true,
+                                willClose: () => {
+                                    VerDetalle(Id_OC, Id_Requi);
+                                }
+                            });
+                        }
+                        if (data.MENSAJE.substring(0, 6) == "Error:") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops... ¡Error!',
+                                text: data.MENSAJE.substring(7),
+                            });
+                        }
+                    },
+                    error: function (ex) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '¡Error!',
+                        });
+                    }
+                });
+            }
+        });
+    }
+
     function Regresar() {
         window.location = '@Url.Action("OrdenCompra")';
     }
@@ -1413,6 +1532,10 @@
 
         #InputCon {
             font-size: 17px
+        }
+
+        #divBtnEliminar {
+            display: none;
         }
     }
 </style>
