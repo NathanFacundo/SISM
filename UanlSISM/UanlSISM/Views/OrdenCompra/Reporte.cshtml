@@ -144,7 +144,7 @@
         <table class="table table-striped table-hover" id="TblReporte">
             <thead>
                 <tr>
-                    <th></th>
+                    @*<th></th>*@
                     <th>Clave<br /> Medicamento</th>
                     <th>Cantidad<br /> Medicamento</th>
                     <th>Folio<br /> REQUI</th>
@@ -312,7 +312,7 @@
             data: Rep,
             //"order": [[0, 'desc']],
             columns: [
-                { 'data': 'Clave', className: "text-center" },
+                //{ 'data': 'Clave', className: "text-center" },
                 { 'data': 'Clave', className: "text-center" },
                 { 'data': 'Cantidad', className: "text-center" },
                 { 'data': 'FolioRequisicion', className: "text-center" },
@@ -332,13 +332,13 @@
                 { extend: 'print', text: 'Imprimir' },
             ]
         });
-        table.on('order.dt search.dt', function () {
-            let i = 1;
+        //table.on('order.dt search.dt', function () {
+        //    let i = 1;
 
-            table.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
-                this.data(i++);
-            });
-        }).draw();
+        //    table.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+        //        this.data(i++);
+        //    });
+        //}).draw();
     }
 
     function Regresar() {
