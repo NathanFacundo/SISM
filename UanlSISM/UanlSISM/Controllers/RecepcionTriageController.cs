@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using UanlSISM.Models;
+using System.Text.RegularExpressions;
 
 namespace UanlSISM.Controllers
 {
@@ -290,7 +291,7 @@ namespace UanlSISM.Controllers
                 triage.SV_Glasgow = triageData.Glasgow.ToString();
                 triage.SV_Peso = triageData.Peso.ToString();
                 triage.SV_Talla = triageData.Talla.ToString();
-                triage.NombrePaciente = triageData.Nombre.ToString();
+                triage.NombrePaciente = Regex.Replace(triageData.Nombre.Trim(), @"\s+", " ");
                 triage.EdadPaciente = triageData.Edad.ToString();
                 triage.SexoPaciente = triageData.Sexo.ToString();
                 triage.VigenciaPaciente = triageData.Vigencia.ToString();
