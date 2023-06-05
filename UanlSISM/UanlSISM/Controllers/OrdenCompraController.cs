@@ -19,7 +19,7 @@ namespace UanlSISM.Controllers
         SERVMEDEntities5 SISMFarmacia = new SERVMEDEntities5();         //TBL CODIGOBARRAS
         //SERVMEDEntities5 db2 = new SERVMEDEntities5();
         SERVMEDEntities8 RequisicionDB = new SERVMEDEntities8();        //BD TABLAS viejas
-        SERVMEDEntities6 ConBD_SM = new SERVMEDEntities6();             //Nueva BD en ServMed
+        SERVMEDEntities6 ConBD_SM = new SERVMEDEntities6();             //Nueva BD en ServMed  205
 
         public class ListCampos
         {

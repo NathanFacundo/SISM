@@ -5,11 +5,14 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="ec0f7fe0ec7d443dafc97915a0baad0e" Name="Diagram1">
-        <EntityTypeShape EntityType="SERVMEDNivel2.ReporteInventarios" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SERVMEDNivel2.CodigoBarras" Width="1.5" PointX="3.375" PointY="0.75" />
-        <EntityTypeShape EntityType="SERVMEDNivel2.Tbl_DetalleOC" Width="1.5" PointX="8" PointY="1.5" />
-        <EntityTypeShape EntityType="SERVMEDNivel2.Tbl_OrdenCompra" Width="1.5" PointX="5.75" PointY="0.5" />
+        <EntityTypeShape EntityType="SERVMEDNivel2.ReporteInventarios" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVMEDNivel2.CodigoBarras" Width="1.5" PointX="2.5" PointY="0.5" />
+        <EntityTypeShape EntityType="SERVMEDNivel2.Tbl_DetalleOC" Width="1.5" PointX="6.625" PointY="0.5" />
+        <EntityTypeShape EntityType="SERVMEDNivel2.Tbl_OrdenCompra" Width="1.5" PointX="4.625" PointY="0.5" />
         <AssociationConnector Association="SERVMEDNivel2.FK__Tbl_Detal__Id_Or__396E5EB4" />
+        <EntityTypeShape EntityType="SERVMEDNivel2.Tbl_DetalleRequi" Width="1.5" PointX="10.875" PointY="0.5" />
+        <EntityTypeShape EntityType="SERVMEDNivel2.Tbl_Requisicion" Width="1.5" PointX="8.625" PointY="0.5" />
+        <AssociationConnector Association="SERVMEDNivel2.FK__Tbl_Detal__Id_Re__62707447" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

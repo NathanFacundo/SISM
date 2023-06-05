@@ -36,6 +36,23 @@
           <Property Name="Descripcion" Type="varchar" MaxLength="300" />
           <Property Name="ClaveMedicamento" Type="varchar" MaxLength="15" />
         </EntityType>
+        <EntityType Name="Tbl_DetalleRequi">
+          <Key>
+            <PropertyRef Name="Id_Detalle_Req" />
+          </Key>
+          <Property Name="Id_Detalle_Req" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Requicision" Type="int" Nullable="false" />
+          <Property Name="Id_Sustancia" Type="int" Nullable="false" />
+          <Property Name="Cantidad" Type="int" />
+          <Property Name="Clave" Type="varchar" MaxLength="15" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="300" />
+          <Property Name="Compendio" Type="varchar" MaxLength="100" />
+          <Property Name="PrecioUnitario" Type="float" />
+          <Property Name="Total" Type="float" />
+          <Property Name="Cantidad_OC" Type="int" />
+          <Property Name="CantidadPendiente_OC" Type="int" />
+          <Property Name="PartidaPendiente_OC" Type="bit" />
+        </EntityType>
         <EntityType Name="Tbl_OrdenCompra">
           <Key>
             <PropertyRef Name="Id" />
@@ -63,6 +80,19 @@
           <Property Name="Usuario_AutorizaOC" Type="varchar" MaxLength="30" />
           <Property Name="Fecha_HacerOC" Type="datetime" />
           <Property Name="Contrato" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Tbl_Requisicion">
+          <Key>
+            <PropertyRef Name="Id_Requicision" />
+          </Key>
+          <Property Name="Id_Requicision" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Clave" Type="varchar(max)" />
+          <Property Name="Fecha" Type="datetime" />
+          <Property Name="Id_User" Type="varchar(max)" />
+          <Property Name="IP_User" Type="varchar(max)" />
+          <Property Name="claveOLD" Type="varchar" MaxLength="30" />
+          <Property Name="EstatusContrato" Type="varchar" MaxLength="30" />
+          <Property Name="Estatus_OC_Parcial" Type="varchar" MaxLength="50" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -106,6 +136,18 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Tbl_Detal__Id_Re__62707447">
+          <End Role="Tbl_Requisicion" Type="Self.Tbl_Requisicion" Multiplicity="1" />
+          <End Role="Tbl_DetalleRequi" Type="Self.Tbl_DetalleRequi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Requisicion">
+              <PropertyRef Name="Id_Requicision" />
+            </Principal>
+            <Dependent Role="Tbl_DetalleRequi">
+              <PropertyRef Name="Id_Requicision" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="SP_MedicamentosTemporales" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idUnidad" Type="int" Mode="In" />
         </Function>
@@ -115,7 +157,9 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
         <EntityContainer Name="SERVMEDNivel2StoreContainer">
           <EntitySet Name="CodigoBarras" EntityType="Self.CodigoBarras" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_DetalleOC" EntityType="Self.Tbl_DetalleOC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_DetalleRequi" EntityType="Self.Tbl_DetalleRequi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_OrdenCompra" EntityType="Self.Tbl_OrdenCompra" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Requisicion" EntityType="Self.Tbl_Requisicion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReporteInventarios" EntityType="Self.ReporteInventarios" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ReporteInventarios].[Id] AS [Id], 
@@ -139,6 +183,10 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
           <AssociationSet Name="FK__Tbl_Detal__Id_Or__396E5EB4" Association="Self.FK__Tbl_Detal__Id_Or__396E5EB4">
             <End Role="Tbl_OrdenCompra" EntitySet="Tbl_OrdenCompra" />
             <End Role="Tbl_DetalleOC" EntitySet="Tbl_DetalleOC" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tbl_Detal__Id_Re__62707447" Association="Self.FK__Tbl_Detal__Id_Re__62707447">
+            <End Role="Tbl_Requisicion" EntitySet="Tbl_Requisicion" />
+            <End Role="Tbl_DetalleRequi" EntitySet="Tbl_DetalleRequi" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -187,6 +235,12 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
           <AssociationSet Name="FK__Tbl_Detal__Id_Or__396E5EB4" Association="SERVMEDNivel2.FK__Tbl_Detal__Id_Or__396E5EB4">
             <End Role="Tbl_OrdenCompra" EntitySet="Tbl_OrdenCompra" />
             <End Role="Tbl_DetalleOC" EntitySet="Tbl_DetalleOC" />
+          </AssociationSet>
+          <EntitySet Name="Tbl_DetalleRequi" EntityType="SERVMEDNivel2.Tbl_DetalleRequi" />
+          <EntitySet Name="Tbl_Requisicion" EntityType="SERVMEDNivel2.Tbl_Requisicion" />
+          <AssociationSet Name="FK__Tbl_Detal__Id_Re__62707447" Association="SERVMEDNivel2.FK__Tbl_Detal__Id_Re__62707447">
+            <End Role="Tbl_Requisicion" EntitySet="Tbl_Requisicion" />
+            <End Role="Tbl_DetalleRequi" EntitySet="Tbl_DetalleRequi" />
           </AssociationSet>
         </EntityContainer>
         <ComplexType Name="SP_MedicamentosTemporales_Result">
@@ -269,6 +323,50 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
             </Principal>
             <Dependent Role="Tbl_DetalleOC">
               <PropertyRef Name="Id_OrdenCompra" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Tbl_DetalleRequi">
+          <Key>
+            <PropertyRef Name="Id_Detalle_Req" />
+          </Key>
+          <Property Name="Id_Detalle_Req" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Requicision" Type="Int32" Nullable="false" />
+          <Property Name="Id_Sustancia" Type="Int32" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" />
+          <Property Name="Clave" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Compendio" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PrecioUnitario" Type="Double" />
+          <Property Name="Total" Type="Double" />
+          <Property Name="Cantidad_OC" Type="Int32" />
+          <Property Name="CantidadPendiente_OC" Type="Int32" />
+          <Property Name="PartidaPendiente_OC" Type="Boolean" />
+          <NavigationProperty Name="Tbl_Requisicion" Relationship="SERVMEDNivel2.FK__Tbl_Detal__Id_Re__62707447" FromRole="Tbl_DetalleRequi" ToRole="Tbl_Requisicion" />
+        </EntityType>
+        <EntityType Name="Tbl_Requisicion">
+          <Key>
+            <PropertyRef Name="Id_Requicision" />
+          </Key>
+          <Property Name="Id_Requicision" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Clave" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="Id_User" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IP_User" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="claveOLD" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="EstatusContrato" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Estatus_OC_Parcial" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Tbl_DetalleRequi" Relationship="SERVMEDNivel2.FK__Tbl_Detal__Id_Re__62707447" FromRole="Tbl_Requisicion" ToRole="Tbl_DetalleRequi" />
+        </EntityType>
+        <Association Name="FK__Tbl_Detal__Id_Re__62707447">
+          <End Type="SERVMEDNivel2.Tbl_Requisicion" Role="Tbl_Requisicion" Multiplicity="1" />
+          <End Type="SERVMEDNivel2.Tbl_DetalleRequi" Role="Tbl_DetalleRequi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Requisicion">
+              <PropertyRef Name="Id_Requicision" />
+            </Principal>
+            <Dependent Role="Tbl_DetalleRequi">
+              <PropertyRef Name="Id_Requicision" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -377,6 +475,38 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
                 <ScalarProperty Name="Id_Requisicion" ColumnName="Id_Requisicion" />
                 <ScalarProperty Name="Clave" ColumnName="Clave" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_DetalleRequi">
+            <EntityTypeMapping TypeName="SERVMEDNivel2.Tbl_DetalleRequi">
+              <MappingFragment StoreEntitySet="Tbl_DetalleRequi">
+                <ScalarProperty Name="PartidaPendiente_OC" ColumnName="PartidaPendiente_OC" />
+                <ScalarProperty Name="CantidadPendiente_OC" ColumnName="CantidadPendiente_OC" />
+                <ScalarProperty Name="Cantidad_OC" ColumnName="Cantidad_OC" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="PrecioUnitario" ColumnName="PrecioUnitario" />
+                <ScalarProperty Name="Compendio" ColumnName="Compendio" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Id_Sustancia" ColumnName="Id_Sustancia" />
+                <ScalarProperty Name="Id_Requicision" ColumnName="Id_Requicision" />
+                <ScalarProperty Name="Id_Detalle_Req" ColumnName="Id_Detalle_Req" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Requisicion">
+            <EntityTypeMapping TypeName="SERVMEDNivel2.Tbl_Requisicion">
+              <MappingFragment StoreEntitySet="Tbl_Requisicion">
+                <ScalarProperty Name="Estatus_OC_Parcial" ColumnName="Estatus_OC_Parcial" />
+                <ScalarProperty Name="EstatusContrato" ColumnName="EstatusContrato" />
+                <ScalarProperty Name="claveOLD" ColumnName="claveOLD" />
+                <ScalarProperty Name="IP_User" ColumnName="IP_User" />
+                <ScalarProperty Name="Id_User" ColumnName="Id_User" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Id_Requicision" ColumnName="Id_Requicision" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

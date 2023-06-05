@@ -19,6 +19,7 @@ namespace UanlSISM.Controllers
         Models.SERVMEDEntities4 DAM = new Models.SERVMEDEntities4();    //TBL Sustancia (ExecuteSqlCommand)
         SISM_SIST_MEDEntities ConBD = new SISM_SIST_MEDEntities();      //BD Nueva (Está en Productivo)
         SERVMEDEntities8 RequisicionDB = new SERVMEDEntities8();        //TABLAS Requisicion Viejas (BD Viejita)
+        SERVMEDEntities6 ConBD_SM = new SERVMEDEntities6();             //Nueva BD en ServMed  205
 
         public class LstInv
         {
