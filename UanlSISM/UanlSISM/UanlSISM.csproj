@@ -1756,11 +1756,17 @@
     <Compile Include="Models\Tbl_DetalleOC.cs">
       <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Tbl_DetalleRequi.cs">
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Tbl_OrdenCompra.cs">
       <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Tbl_PuestosSM.cs">
       <DependentUpon>SISM-RH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Requisicion.cs">
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Tbl_UnidadMedica.cs">
       <DependentUpon>SISM-RH.tt</DependentUpon>

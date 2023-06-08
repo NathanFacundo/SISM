@@ -589,141 +589,141 @@ namespace UanlSISM.Controllers
                 //---------------------------------------------------------     NUEVA BD SISTEMA NUEVO -- SERVMED 205
                 #region GUARDAR PRE-ORDEN BD NUEVA SERVMED 205
 
-                ////CREAR ORDEN NUEVA a partir de una Requi
-                //Tbl_OrdenCompra OC1 = new Tbl_OrdenCompra();
-                //OC1.Id_Requisicion = Requi.Id_Requicision;
-                //OC1.Id_Proveedor = Prov.Id_Prov; //Id_Prov es el Id del Proveedor en la tabla vieja de Proveedor
-                //OC1.Fecha = fechaDT;
-                //OC1.FechaMod = fechaDT;
-                //OC1.Forma_Pago = "";
-                //OC1.Folio = "";
-                //OC1.Status = false;
-                //OC1.UsuarioId = UsuarioOLD.UsuarioId;
-                //OC1.Cerrado = false;
-                //OC1.Cuadro = 1;
-                //OC1.UsuarioNuevo = UsuarioRegistra;
-                //OC1.IP_User = ip_realiza;
-                //OC1.NombreProveedor = Prov.Prov_Nombre;
-                //OC1.OC_PorValidar = "1"; //LA OC nace en 1, tiene que validarse para pasar a 2 (validada) despues tiene que Generarse la OC y pasa a 3, el Status cambiará a True
+                //CREAR ORDEN NUEVA a partir de una Requi
+                Tbl_OrdenCompra OC1 = new Tbl_OrdenCompra();
+                OC1.Id_Requisicion = Requi.Id_Requicision;
+                OC1.Id_Proveedor = Prov.Id_Prov; //Id_Prov es el Id del Proveedor en la tabla vieja de Proveedor
+                OC1.Fecha = fechaDT;
+                OC1.FechaMod = fechaDT;
+                OC1.Forma_Pago = "";
+                OC1.Folio = "";
+                OC1.Status = false;
+                OC1.UsuarioId = UsuarioOLD.UsuarioId;
+                OC1.Cerrado = false;
+                OC1.Cuadro = 1;
+                OC1.UsuarioNuevo = UsuarioRegistra;
+                OC1.IP_User = ip_realiza;
+                OC1.NombreProveedor = Prov.Prov_Nombre;
+                OC1.OC_PorValidar = "1"; //LA OC nace en 1, tiene que validarse para pasar a 2 (validada) despues tiene que Generarse la OC y pasa a 3, el Status cambiará a True
 
-                //ConBD_SM.Tbl_OrdenCompra.Add(OC1);
-                //ConBD_SM.SaveChanges();
+                ConBD_SM.Tbl_OrdenCompra.Add(OC1);
+                ConBD_SM.SaveChanges();
 
-                ////Obtenemos la ultima O.C guardada(que es esta) para guardar su detalle
-                //var IdOC1 = (from a in ConBD_SM.Tbl_OrdenCompra
-                //             where a.UsuarioNuevo == UsuarioRegistra
-                //             where a.Fecha == fechaDT
-                //             select a).OrderByDescending(u => u.Id).FirstOrDefault();
+                //Obtenemos la ultima O.C guardada(que es esta) para guardar su detalle
+                var IdOC1 = (from a in ConBD_SM.Tbl_OrdenCompra
+                             where a.UsuarioNuevo == UsuarioRegistra
+                             where a.Fecha == fechaDT
+                             select a).OrderByDescending(u => u.Id).FirstOrDefault();
 
-                ////RECORREMOS  para guardar en la tabla DETALLE ORDEN        **DETALLE ORDEN DE COMPRA**
-                //foreach (var item in ListaOC)
-                //{
-                //    //CREAR EL DETALLE DE LA NUEVA ORDEN
-                //    Tbl_DetalleOC DetalleOC = new Tbl_DetalleOC();
+                //RECORREMOS  para guardar en la tabla DETALLE ORDEN        **DETALLE ORDEN DE COMPRA**
+                foreach (var item in ListaOC)
+                {
+                    //CREAR EL DETALLE DE LA NUEVA ORDEN
+                    Tbl_DetalleOC DetalleOC = new Tbl_DetalleOC();
 
-                //    //BUSCAMOS EN LA TABLA "CodigoBarras" el Id del Codigo de Barras, buscando por el Id de la Sustancia
-                //    var CodigoBarras = (from a in SISMFarmacia.CodigoBarras
-                //                        where a.Id_Sustancia == item.Id_Sustancia
-                //                        select a).FirstOrDefault();
+                    //BUSCAMOS EN LA TABLA "CodigoBarras" el Id del Codigo de Barras, buscando por el Id de la Sustancia
+                    var CodigoBarras = (from a in SISMFarmacia.CodigoBarras
+                                        where a.Id_Sustancia == item.Id_Sustancia
+                                        select a).FirstOrDefault();
 
-                //    //Obtenemos la info de SUSTANCIA de la tabla Detalle_Requi
-                //    var Sustancia = (from a in ConBD.SISM_DET_REQUISICION
-                //                     where a.Clave == item.Clave
-                //                     where a.Id_Requicision == Requi.Id_Requicision
-                //                     select a).FirstOrDefault();
-                //    if (item.CB_ELIMINAR == true)
-                //    {
-                //        DetalleOC.Id_OrdenCompra = IdOC1.Id;
-                //        //DetalleOC.Id_CodigoBarrar = CodigoBarras.Id;
-                //        if (CodigoBarras != null)
-                //        {
-                //            DetalleOC.Id_CodigoBarrar = CodigoBarras.Id;
-                //        }
-                //        else
-                //        {
-                //            DetalleOC.Id_CodigoBarrar = 1;
-                //        }
-                //        DetalleOC.Obsequio = 0;
-                //        DetalleOC.Status = false;
-                //        DetalleOC.Id_Sustencia = item.Id_Sustancia;
-                //        DetalleOC.Descripcion = Sustancia.Descripcion;
-                //        DetalleOC.ClaveMedicamento = Sustancia.Clave;
+                    //Obtenemos la info de SUSTANCIA de la tabla Detalle_Requi
+                    var Sustancia = (from a in ConBD.SISM_DET_REQUISICION
+                                     where a.Clave == item.Clave
+                                     where a.Id_Requicision == Requi.Id_Requicision
+                                     select a).FirstOrDefault();
+                    if (item.CB_ELIMINAR == true)
+                    {
+                        DetalleOC.Id_OrdenCompra = IdOC1.Id;
+                        //DetalleOC.Id_CodigoBarrar = CodigoBarras.Id;
+                        if (CodigoBarras != null)
+                        {
+                            DetalleOC.Id_CodigoBarrar = CodigoBarras.Id;
+                        }
+                        else
+                        {
+                            DetalleOC.Id_CodigoBarrar = 1;
+                        }
+                        DetalleOC.Obsequio = 0;
+                        DetalleOC.Status = false;
+                        DetalleOC.Id_Sustencia = item.Id_Sustancia;
+                        DetalleOC.Descripcion = Sustancia.Descripcion;
+                        DetalleOC.ClaveMedicamento = Sustancia.Clave;
 
-                //        if (DetalleOC.Id_CodigoBarrar == null)
-                //        {
-                //            DetalleOC.Id_CodigoBarrar = 1;
-                //        }
+                        if (DetalleOC.Id_CodigoBarrar == null)
+                        {
+                            DetalleOC.Id_CodigoBarrar = 1;
+                        }
 
-                //        //                                              *CANTIDAD*
-                //        if (item.CANTIDAD_NUEVA > 0)
-                //        {
-                //            DetalleOC.Cantidad = item.CANTIDAD_NUEVA;
-                //        }
-                //        else
-                //        {
-                //            if (item.CANTIDAD_NUEVA == 0 && item.CantidadPendiente_OC > 0)
-                //            {
-                //                DetalleOC.Cantidad = item.CantidadPendiente_OC;
-                //            }
-                //            else
-                //            {
-                //                DetalleOC.Cantidad = item.Cantidad;
-                //            }
-                //        }
+                        //                                              *CANTIDAD*
+                        if (item.CANTIDAD_NUEVA > 0)
+                        {
+                            DetalleOC.Cantidad = item.CANTIDAD_NUEVA;
+                        }
+                        else
+                        {
+                            if (item.CANTIDAD_NUEVA == 0 && item.CantidadPendiente_OC > 0)
+                            {
+                                DetalleOC.Cantidad = item.CantidadPendiente_OC;
+                            }
+                            else
+                            {
+                                DetalleOC.Cantidad = item.Cantidad;
+                            }
+                        }
 
-                //        DetalleOC.Pendiente = DetalleOC.Cantidad;
+                        DetalleOC.Pendiente = DetalleOC.Cantidad;
 
-                //        //Se valida si el PRECIO UNITARIO se modificó   *PRECIO UNITARIO*
-                //        if (item.PREUNIT_NUEVA > 0)
-                //        {
-                //            DetalleOC.PreUnit = item.PREUNIT_NUEVA;
-                //        }
-                //        else
-                //        {
-                //            DetalleOC.PreUnit = item.PrecioUnitario;
-                //        }
+                        //Se valida si el PRECIO UNITARIO se modificó   *PRECIO UNITARIO*
+                        if (item.PREUNIT_NUEVA > 0)
+                        {
+                            DetalleOC.PreUnit = item.PREUNIT_NUEVA;
+                        }
+                        else
+                        {
+                            DetalleOC.PreUnit = item.PrecioUnitario;
+                        }
 
-                //        //Se valida si se ingresó una NUEVA CANTIDAD o un NUEVO PRECIO UNITARIO     *$TOTAL$*
-                //        if (item.CANTIDAD_NUEVA > 0 || item.PREUNIT_NUEVA > 0)
-                //        {
-                //            if (item.CANTIDAD_NUEVA > 0 && item.PREUNIT_NUEVA > 0)
-                //            {
-                //                DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PREUNIT_NUEVA), 2);
-                //            }
-                //            else
-                //            {
-                //                if (item.CANTIDAD_NUEVA > 0)
-                //                {
-                //                    DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PrecioUnitario), 2);
-                //                }
-                //                if (item.PREUNIT_NUEVA > 0)
-                //                {
-                //                    if (item.CantidadPendiente_OC > 0)
-                //                    {
-                //                        DetalleOC.Total = (double?)decimal.Round((decimal)(item.CantidadPendiente_OC * item.PREUNIT_NUEVA), 2);
-                //                    }
-                //                    else
-                //                    {
-                //                        DetalleOC.Total = (double?)decimal.Round((decimal)(item.Cantidad * item.PREUNIT_NUEVA), 2);
-                //                    }
-                //                }
-                //            }
-                //        }
-                //        else
-                //        {
-                //            DetalleOC.Total = (double?)decimal.Round((decimal)(DetalleOC.Cantidad * DetalleOC.PreUnit), 2);
-                //        }
+                        //Se valida si se ingresó una NUEVA CANTIDAD o un NUEVO PRECIO UNITARIO     *$TOTAL$*
+                        if (item.CANTIDAD_NUEVA > 0 || item.PREUNIT_NUEVA > 0)
+                        {
+                            if (item.CANTIDAD_NUEVA > 0 && item.PREUNIT_NUEVA > 0)
+                            {
+                                DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PREUNIT_NUEVA), 2);
+                            }
+                            else
+                            {
+                                if (item.CANTIDAD_NUEVA > 0)
+                                {
+                                    DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PrecioUnitario), 2);
+                                }
+                                if (item.PREUNIT_NUEVA > 0)
+                                {
+                                    if (item.CantidadPendiente_OC > 0)
+                                    {
+                                        DetalleOC.Total = (double?)decimal.Round((decimal)(item.CantidadPendiente_OC * item.PREUNIT_NUEVA), 2);
+                                    }
+                                    else
+                                    {
+                                        DetalleOC.Total = (double?)decimal.Round((decimal)(item.Cantidad * item.PREUNIT_NUEVA), 2);
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            DetalleOC.Total = (double?)decimal.Round((decimal)(DetalleOC.Cantidad * DetalleOC.PreUnit), 2);
+                        }
 
-                //        ConBD_SM.Tbl_DetalleOC.Add(DetalleOC);
-                //        ConBD_SM.SaveChanges();
+                        ConBD_SM.Tbl_DetalleOC.Add(DetalleOC);
+                        ConBD_SM.SaveChanges();
 
-                //        //                                                              *$TOTAL$ TBL O'C*
-                //        SubTotal_OC1 += Decimal.Round((decimal)(DetalleOC.Total), 2);
-                //        OC1.Total_OC = (double?)SubTotal_OC1;
+                        //                                                              *$TOTAL$ TBL O'C*
+                        SubTotal_OC1 += Decimal.Round((decimal)(DetalleOC.Total), 2);
+                        OC1.Total_OC = (double?)SubTotal_OC1;
 
-                //        ConBD_SM.SaveChanges();
-                //    }
-                //}
+                        ConBD_SM.SaveChanges();
+                    }
+                }
 
                 #endregion
 
@@ -1033,7 +1033,7 @@ namespace UanlSISM.Controllers
 
                 #region NUEVA BD SERVMED 205
 
-                //var OC1 = (from a in ConBD2_SM.Tbl_OrdenCompra
+                //var OC1 = (from a in ConBD_SM.Tbl_OrdenCompra
                 //           where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.Fecha &&
                 //           a.UsuarioNuevo == OC.UsuarioNuevo && a.IP_User == OC.IP_User &&
                 //           a.Total_OC == OC.Total_OC
@@ -1054,10 +1054,10 @@ namespace UanlSISM.Controllers
                 //        OC1.Contrato = NumContrato;
                 //    }
 
-                //    ConBD2_SM.SaveChanges();
+                //    ConBD_SM.SaveChanges();
 
                 //    //DETALLE DE LA O.C
-                //    var DetalleOC1 = (from a in ConBD2_SM.Tbl_DetalleOC
+                //    var DetalleOC1 = (from a in ConBD_SM.Tbl_DetalleOC
                 //                      where a.Id_OrdenCompra == OC1.Id
                 //                      select a
                 //                ).ToList();
@@ -1065,7 +1065,7 @@ namespace UanlSISM.Controllers
                 //    foreach (var q in DetalleOC1)
                 //    {
                 //        q.Status = true;
-                //        ConBD2_SM.SaveChanges();
+                //        ConBD_SM.SaveChanges();
                 //    }
 
                 //    //**************************************Crear e Insertar FOLIO/CLAVE en la BD Nueva
@@ -1099,7 +1099,7 @@ namespace UanlSISM.Controllers
                 //    }
 
                 //    //ACTUALIZAMOS LA 'CLAVE' DE LA O'C NUEVA
-                //    ConBD2_SM.Database.ExecuteSqlCommand("UPDATE Tbl_OrdenCompra SET Clave = '" + AñoMes_Actual1 + ConsecutivoNuevoTxt1 + "' WHERE Id='" + OC1.Id + "';");
+                //    ConBD_SM.Database.ExecuteSqlCommand("UPDATE Tbl_OrdenCompra SET Clave = '" + AñoMes_Actual1 + ConsecutivoNuevoTxt1 + "' WHERE Id='" + OC1.Id + "';");
                 //}
 
                 #endregion
