@@ -132,6 +132,7 @@
             </div>
             <div class="col-6">
                 <button type="button" class="btn" style="background-color: #0431B4; color:yellow;" onclick="ConsultarReporte()">Consultar</button>
+                <button type="button" class="btn btn-outline-primary" @*style="background-color: #0431B4; color:yellow;"*@ onclick="Limpiar()">Limpiar</button>
             </div>
         </div>
     </div>
@@ -208,7 +209,7 @@
             info: true,
             lengthChange: false,
             language: {
-                "zeroRecords": "Buscar",
+                "zeroRecords": " ",
                 "search": "",
                 "info": "",
                 "infoEmpty": "",
@@ -249,7 +250,7 @@
             Swal.fire({
                 icon: 'error',
                 title: '¡Error!',
-                text: 'Debe ingresar Fecha Inicio y Fecha Fin ó Clave Medicamento'
+                text: 'Debe ingresar la Fecha Inicio y Fecha Fin ó Clave de Medicamento'
             });
         }
     }
@@ -261,6 +262,9 @@
             dataType: 'json',
             data: { FechaInicio: FechaInicio, FechaFin: FechaFin, ClaveMed: ClaveMed },
             success: function (data) {
+
+                var count = data.REP.length;
+
                 if (data.MENSAJE.substring(0, 6) == "Error:") {
                     Swal.fire({
                         icon: 'error',
@@ -268,9 +272,17 @@
                         text: data.MENSAJE.substring(7),
                     });
                 }
-                else {
-                    LlenaTabla(data.REP);
-                }
+                else //{
+                    if (count == 0 || count == "0") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'No se encontraron registros con los filtros ingresados'
+                        });
+                    }
+                    else {
+                        LlenaTabla(data.REP);
+                    }
+                //}
             },
             error: function (ex) {
                 Swal.fire({
@@ -343,6 +355,10 @@
 
     function Regresar() {
         window.location = '@Url.Action("OrdenCompra")';
+    }
+
+    function Limpiar() {
+        location.reload();
     }
 
 </script>
