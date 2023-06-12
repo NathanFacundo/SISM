@@ -1861,7 +1861,7 @@ namespace UanlSISM.Controllers
             public string DescripcionMed { get; set; }
         }
 
-        public ActionResult ObtenerReporte(string FechaInicio, string FechaFin, string ClaveMed)
+        public ActionResult ObtenerReporte(string FechaInicio, string FechaFin, string ClaveMed, string EstatusContrato)
         {
             try
             {
@@ -1874,9 +1874,6 @@ namespace UanlSISM.Controllers
 
                     var fechaF = FechaFin + " 23:59:59";
                     var fechaFi = DateTime.Parse(fechaF);
-
-                    //var query = new List<Buscar>();
-                    //query = ConBD.SISM_ORDEN_COMPRA.ToList();
 
                     var query = (from OC in ConBD.SISM_ORDEN_COMPRA
                                  join DOC in ConBD.SISM_DETALLE_OC on OC.Id equals DOC.Id_OrdenCompra

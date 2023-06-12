@@ -131,8 +131,21 @@
                 </div>
             </div>
             <div class="col-6">
-                <button type="button" class="btn" style="background-color: #0431B4; color:yellow;" onclick="ConsultarReporte()">Consultar</button>
-                <button type="button" class="btn btn-outline-primary" @*style="background-color: #0431B4; color:yellow;"*@ onclick="Limpiar()">Limpiar</button>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-check">
+                            <label>
+                                <input type="checkbox" id="cb1" name="ConContrato"> Con Contrato
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn" style="background-color: #0431B4; color:yellow;" onclick="ConsultarReporte()">Consultar</button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-outline-primary" onclick="Limpiar()">Limpiar Filtros</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -245,7 +258,15 @@
         var ClaveMed = $("#ClaveM").val();
 
         if ((FechaInicio != "" && FechaFin != "") || ClaveMed != "") {
-            LlenaTbl(FechaInicio, FechaFin, ClaveMed)
+
+            var EstatusContrato = "";
+            if (document.getElementById('cb1').checked) {
+                EstatusContrato = "Con Contrato";
+            } else {
+                EstatusContrato = "Sin Contrato";
+            }
+
+            LlenaTbl(FechaInicio, FechaFin, ClaveMed, EstatusContrato)
         } else {
             Swal.fire({
                 icon: 'error',
@@ -255,12 +276,12 @@
         }
     }
 
-    function LlenaTbl(FechaInicio, FechaFin, ClaveMed) {
+    function LlenaTbl(FechaInicio, FechaFin, ClaveMed, EstatusContrato) {
         $.ajax({
             url: '@Url.Action("ObtenerReporte", "OrdenCompra")',
             method: 'POST',
             dataType: 'json',
-            data: { FechaInicio: FechaInicio, FechaFin: FechaFin, ClaveMed: ClaveMed },
+            data: { FechaInicio: FechaInicio, FechaFin: FechaFin, ClaveMed: ClaveMed, EstatusContrato: EstatusContrato },
             success: function (data) {
 
                 var count = data.REP.length;
