@@ -194,7 +194,7 @@
                                     <h10 id="InputFA1" style="color:green">Fecha Acuse</h10><br />
                                     <a style="font-size:13px" id="InputFA"></a>
                                 </th>
-                                <th @*COLSPAN="2"*@>
+                                <th COLSPAN="2">
                                     <h10 style="color:green" hidden>Gran Total: $</h10><br />
                                     <a style="font-size:13px; display:inline-block;" id="Total_OC1" hidden></a>
                                 </th>
@@ -206,6 +206,7 @@
                                 <th>Cant. Solicitada</th>
                                 <th>Precio U.</th>
                                 <th>Total</th>
+                                <th>Nuevo P.U</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -215,6 +216,7 @@
                         <div class="col-md-6" style="text-align:left;">
                             <div class="btn-toolbar">
                                 <button type="button" id="btnValidar_OC" class="btn btn-success btn-space">AUTORIZAR PRE-O.C</button>
+                                <button type="button" id="btnActualizar_OC" class="btn btn-primary btn-space">ACTUALIZAR</button>
                                 <button type="button" id="Cancelar" class="btn btn-secondary">Salir</button>
                             </div>
                         </div>
@@ -257,6 +259,8 @@
 </script>
 
 <script>
+
+    var DetalleOC = [];
 
     $(document).ready(function () {
 
@@ -410,7 +414,7 @@
         $('#DetalleOCModal').modal("show");
 
         var array = { Id_OC: IdOC, FolioRequi: ClaveRequi  };
-        var url = '@Url.Action("ObtenerDetalleOC_Generada", "OrdenCompra")';
+        var url = '@Url.Action("ObtenerDetalleOC_GeneradaPV", "OrdenCompra")';
         $.post(url, array).done(function (response) {
 
             var FolioOC = response[0].Folio;
@@ -453,7 +457,22 @@
                 $("#divAcuse").hide();
             }
 
-            LlenDetalle(response);
+
+            $.grep(response, function (item) {
+                var Insertar = true;
+                $.grep(DetalleOC, function (itemEnLista) {
+                    if (item.Clave == itemEnLista.Clave) {
+                    };
+                });
+                if (Insertar) {
+                    //item.CANTIDAD_NUEVA = 0;
+                    item.PREUNIT_NUEVA = 0;
+                    //item.TOTAL_NUEVA = 0;
+                    DetalleOC.push(item);
+                }
+            });
+
+            LlenDetalle(DetalleOC);
 
         }).fail(function (response) {
             Swal.fire({
@@ -501,7 +520,14 @@
                     { "data": "Descripcion", className: "text-center" },
                     { "data": "Cantidad", className: "text-center" },
                     { "data": "PrecioUnitario", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
-                    { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') }
+                    { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+
+                    {
+                        "data": "PREUNIT_NUEVA", className: "text-center", render: function (data, type, row) {
+                            return '$' + "<input class='InputPU' id='InputPU' style='width: 70px; border: 0; border-bottom: 1px solid; background: transparent; ' type='number' min='1' max='' value='" + data + "'></input>";
+                        }
+                    },
+
                 ],
                 columnDefs: [
                     {
@@ -520,9 +546,21 @@
             }).draw();
         }
 
-        //$('#DetalleOCModal').on('hidden.bs.modal', function () {
-        //    location.reload();
-        //})
+        $('#DetalleOCModal').on('hidden.bs.modal', function () {
+            location.reload();
+        })
+
+
+        //P.U
+        $('#DetalleOCModal').on('shown.bs.modal', function () {
+            $(".InputPU").keyup(function () {
+                var tr = $(this).closest('tr');
+                var row = $('#tblDetalleOC').DataTable().row(tr);
+                row.data().PREUNIT_NUEVA = $(this).val();
+            });
+        })
+
+
     });
 
     $('#btnValidar_OC').on('click', function () {
@@ -559,6 +597,51 @@
                 });
             }
         });
+    });
+
+    $('#btnActualizar_OC').on('click', function () {
+        var Id_OC = $("#Id_OC").val();
+
+        if (DetalleOC.length > 0){
+            $.ajax({
+                url: '@Url.Action("ActualizarOC", "OrdenCompra")',
+                method: 'POST',
+                dataType: 'json',
+                data: { Id_OC: Id_OC, DetalleOC: DetalleOC },
+                success: function (data) {
+                    if (data.MENSAJE.substring(0, 6) == "Succe:") {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Éxito!',
+                            text: data.MENSAJE.substring(7),
+                            willClose: () => {
+                                location.reload();
+                            }
+                        });
+                    }
+                    if (data.MENSAJE.substring(0, 6) == "Error:") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops... ¡Error!',
+                            text: data.MENSAJE.substring(7),
+                        });
+                    }
+                },
+                error: function (ex) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                    });
+                }
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'No hay datos'
+            });
+        }
+
     });
 
     function Regresar() {

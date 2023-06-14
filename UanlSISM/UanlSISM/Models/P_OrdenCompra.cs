@@ -12,4 +12,12 @@ namespace UanlSISM.Models
         public float TOTAL_NUEVA { get; set; }
         public bool CB_ELIMINAR { get; set; }
     }
+
+    public partial class SISM_DETALLE_OC
+    {
+        public short CANTIDAD_NUEVA { get; set; }
+        public float PREUNIT_NUEVA { get; set; }
+        public float TOTAL_NUEVA { get; set; }
+        public bool CB_ELIMINAR { get; set; }
+    }
 }
