@@ -75,7 +75,11 @@ namespace UanlSISM.Controllers
             public int Identificador { get; internal set; }
             public double? GranT { get; internal set; }
             public double? Subtotal { get; internal set; }
+
+            //Estas al agregar la edición del P.U
             public int Id { get; internal set; }
+            public string ClaveMedicamento { get; internal set; }
+            public double PreUnit { get; internal set; }
         }
 
         //----------------------------------------------------- Pantalla ORDEN COMPRA   --------------  INICIO
@@ -1920,7 +1924,10 @@ namespace UanlSISM.Controllers
                         Id = q.IdDetOC,
                         FechaOC = string.Format("{0:d/M/yy}", q.FechaOC), //Fecha OrdenCompra
                         OC_PorValidar = q.PorValidar,
-                        NumContrato = q.Contrato
+                        NumContrato = q.Contrato,
+                        //---
+                        ClaveMedicamento = q.ClaveMed,
+                        PreUnit = (double)q.PU
                     };
                     results1.Add(resultado);
                 }
@@ -1933,19 +1940,80 @@ namespace UanlSISM.Controllers
             }
         }
 
+        decimal? SubTotal_OC_Det = 0.00m;
         public JsonResult ActualizarOC(List<SISM_DETALLE_OC> DetalleOC, int Id_OC)
         {
             try
             {
+                //Si el PREUNIT_NUEVA es mayor a cero (0) el Checkbox se pondrá en True (eso quiere decir que esos itemas o partidas se modificará el P.U) 
+                foreach (var Partida in DetalleOC)
+                {
+                    if (Partida.PREUNIT_NUEVA > 0)
+                    {
+                        Partida.CB_ELIMINAR = true;
+                    }
+                    else
+                    {
+                        Partida.CB_ELIMINAR = false;
+                    }
+                }
+
+                #region BD SISM_ 206
+
                 var OC = (from a in ConBD2.SISM_ORDEN_COMPRA
                           where a.Id == Id_OC
                           select a).FirstOrDefault();
 
-                
+                //Recorremos los Detalles de la OC Recibidos para actualizar las tbls OC y DetalleOC del 206
+                foreach (var DetOC in DetalleOC)
+                {
+                    //Ingresamos a la partida de la OC que se actualizará. Updates solo si el CB_ELIMINAR es True.
+                    if (DetOC.PREUNIT_NUEVA > 0)
+                    {
+                        if (DetOC.CB_ELIMINAR == true)
+                        {
+                            //Buscamos el Detalle de la OC que se actualizará
+                            var DetalleAactualizar = (from a in ConBD2.SISM_DETALLE_OC
+                                                      where a.Id == DetOC.Id
+                                                      select new
+                                                      {
+                                                          a.Id,
+                                                          a.Cantidad,
+                                                          a.PreUnit,
+                                                          a.Total,
+                                                          a.ClaveMedicamento
+                                                      }).FirstOrDefault();
+
+                            //Actualizamos el Precio Unitario (nuevo)
+                            ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DETALLE_OC SET PreUnit = '" + DetOC.PREUNIT_NUEVA + "' WHERE Id='" + DetalleAactualizar.Id + "';");
+
+                            //Se actualiza tambien el subtotal de la partida de la OC
+                            var SubTotal = (double?)decimal.Round((decimal)(DetOC.Cantidad * DetOC.PREUNIT_NUEVA), 2);
+                            ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DETALLE_OC SET Total = '" + SubTotal + "' WHERE Id='" + DetalleAactualizar.Id + "';");
+
+                        }
+                    }
+                }
+
+                //Obtenemos los detalles (partidas) de la OC con sus nuevos P.U
+                var DOC = (from a in ConBD2.SISM_DETALLE_OC
+                           where a.Id_OrdenCompra == OC.Id
+                           select a).ToList();
+
+                //Recorremos los detalles para ir sumando el Subtotal (Total tbl DetalleOC)
+                foreach (var item in DOC)
+                {
+                    SubTotal_OC_Det += Decimal.Round((decimal)(item.Total), 2);
+                }
+
+                //Guardamos el GranTotal
+                OC.Total_OC = (double?)SubTotal_OC_Det;
+                ConBD2.SaveChanges();
+
+                #endregion
+
 
                 #region NUEVA BD SERVMED 205
-
-                
 
                 #endregion
 
