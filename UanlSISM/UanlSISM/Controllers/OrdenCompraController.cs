@@ -48,7 +48,6 @@ namespace UanlSISM.Controllers
             public string Validar { get; set; }
             public string DescripcionOC { get; set; }
             public string Estatus_OC { get; set; }
-
             public string DescO { get; set; }
             public int? CBarra { get; set; }
             public int? Can { get; set; }
@@ -592,7 +591,7 @@ namespace UanlSISM.Controllers
                 #endregion
 
                 //---------------------------------------------------------     NUEVA BD SISTEMA NUEVO -- SERVMED 205
-                #region GUARDAR PRE-ORDEN BD NUEVA SERVMED 205
+                #region GUARDAR PRE-ORDEN TABLAS NUEVAS SERVMED 205
 
                 ////CREAR ORDEN NUEVA a partir de una Requi
                 //Tbl_OrdenCompra OC1 = new Tbl_OrdenCompra();
@@ -1958,13 +1957,13 @@ namespace UanlSISM.Controllers
                     }
                 }
 
-                #region BD SISM_ 206
-
                 var OC = (from a in ConBD2.SISM_ORDEN_COMPRA
                           where a.Id == Id_OC
                           select a).FirstOrDefault();
 
-                //Recorremos los Detalles de la OC Recibidos para actualizar las tbls OC y DetalleOC del 206
+                #region BD Nueva SISM_ 206
+
+                //Recorremos los Detalles de la OC Recibidos para actualizar las tbls OC y DetalleOC del 206 && 205
                 foreach (var DetOC in DetalleOC)
                 {
                     //Ingresamos a la partida de la OC que se actualizará. Updates solo si el CB_ELIMINAR es True.
@@ -1981,7 +1980,8 @@ namespace UanlSISM.Controllers
                                                           a.Cantidad,
                                                           a.PreUnit,
                                                           a.Total,
-                                                          a.ClaveMedicamento
+                                                          a.ClaveMedicamento,
+                                                          a.Id_Sustencia
                                                       }).FirstOrDefault();
 
                             //Actualizamos el Precio Unitario (nuevo)
@@ -1991,10 +1991,33 @@ namespace UanlSISM.Controllers
                             var SubTotal = (double?)decimal.Round((decimal)(DetOC.Cantidad * DetOC.PREUNIT_NUEVA), 2);
                             ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DETALLE_OC SET Total = '" + SubTotal + "' WHERE Id='" + DetalleAactualizar.Id + "';");
 
+                            #region Tablas Viejitas SERVMED 205
+
+                            //Si el registro ya es una OC, o sea, la PreOrden de hizo OC e insertó en SERVMED
+                            if (OC.Clave != null || OC.Clave != "")
+                            {
+                                //Obtener la OC en las Tbls viejas SERVMED 205
+                                var OC_vieja = (from a in RequisicionDB.OrdenCompra
+                                                where a.Id_Proveedor == OC.Id_Proveedor
+                                                where a.Fecha == OC.Fecha_HacerOC && a.UsuarioId == OC.UsuarioId
+                                                select a).FirstOrDefault();
+
+                                //Detalle de la OC Tbls viejas SERVMED 205 (lo buscamos por el Id_Sustancia obtenido de la BD nueva 206, tiene que ser la misma partida en ambas BD'S)
+                                var Detalles_OCvieja = (from a in RequisicionDB.DetalleOC
+                                                        where a.Id_OrdenCompra == OC_vieja.Id
+                                                        where a.Id_Sustancia == DetalleAactualizar.Id_Sustencia
+                                                        select a).FirstOrDefault();
+
+                                RequisicionDB.Database.ExecuteSqlCommand("UPDATE DetalleOC SET PreUnit = '" + DetOC.PREUNIT_NUEVA + "' WHERE Id='" + Detalles_OCvieja.Id + "';");
+                            }
+
+                            #endregion
+
                         }
                     }
                 }
 
+                //-------                                                               Generar el Nuevo $GranTotal$ para guardar en    SISM_ORDEN_COMPRA
                 //Obtenemos los detalles (partidas) de la OC con sus nuevos P.U
                 var DOC = (from a in ConBD2.SISM_DETALLE_OC
                            where a.Id_OrdenCompra == OC.Id
@@ -2012,8 +2035,13 @@ namespace UanlSISM.Controllers
 
                 #endregion
 
+                #region Tablas Nuevas SERVMED 205
 
-                #region NUEVA BD SERVMED 205
+                //Obtenemos la O.C para actualizar los Detalles
+                var IdOC1 = (from a in ConBD_SM.Tbl_OrdenCompra
+                             where a.UsuarioNuevo == OC.UsuarioNuevo
+                             where a.Fecha == OC.Fecha && a.IP_User == OC.IP_User
+                             select a).OrderByDescending(u => u.Id).FirstOrDefault();
 
                 #endregion
 
