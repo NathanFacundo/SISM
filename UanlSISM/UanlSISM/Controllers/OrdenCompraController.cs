@@ -19,7 +19,7 @@ namespace UanlSISM.Controllers
         SERVMEDEntities5 SISMFarmacia = new SERVMEDEntities5();         //TBL CODIGOBARRAS
         //SERVMEDEntities5 db2 = new SERVMEDEntities5();
         SERVMEDEntities8 RequisicionDB = new SERVMEDEntities8();        //BD TABLAS viejas
-        SERVMEDEntities6 ConBD_SM = new SERVMEDEntities6();             //Nueva BD en ServMed  205
+        SERVMEDEntities6 ConBD_SM = new SERVMEDEntities6();             //Nueva BD en ServMed  205  ConBD_SM
 
         public class ListCampos
         {
@@ -1957,6 +1957,7 @@ namespace UanlSISM.Controllers
                     }
                 }
 
+                //Obtenemos la O.C de SISM_
                 var OC = (from a in ConBD2.SISM_ORDEN_COMPRA
                           where a.Id == Id_OC
                           select a).FirstOrDefault();
@@ -1974,6 +1975,7 @@ namespace UanlSISM.Controllers
                             //Buscamos el Detalle de la OC que se actualizará
                             var DetalleAactualizar = (from a in ConBD2.SISM_DETALLE_OC
                                                       where a.Id == DetOC.Id
+                                                      where a.Id_OrdenCompra == OC.Id
                                                       select new
                                                       {
                                                           a.Id,
@@ -1991,33 +1993,25 @@ namespace UanlSISM.Controllers
                             var SubTotal = (double?)decimal.Round((decimal)(DetOC.Cantidad * DetOC.PREUNIT_NUEVA), 2);
                             ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_DETALLE_OC SET Total = '" + SubTotal + "' WHERE Id='" + DetalleAactualizar.Id + "';");
 
-                            #region Tablas Viejitas SERVMED 205
+                            #region Tablas Viejitas SERVMED 205                                                         SERVMED 205
+                            ////Obtener la OC en las Tbls viejas SERVMED 205
+                            //var OC_vieja = (from a in RequisicionDB.OrdenCompra
+                            //                where a.Id_Proveedor == OC.Id_Proveedor
+                            //                where a.Fecha == OC.Fecha_HacerOC && a.UsuarioId == OC.UsuarioId
+                            //                select a).FirstOrDefault();
 
-                            //Si el registro ya es una OC, o sea, la PreOrden de hizo OC e insertó en SERVMED
-                            if (OC.Clave != null || OC.Clave != "")
-                            {
-                                //Obtener la OC en las Tbls viejas SERVMED 205
-                                var OC_vieja = (from a in RequisicionDB.OrdenCompra
-                                                where a.Id_Proveedor == OC.Id_Proveedor
-                                                where a.Fecha == OC.Fecha_HacerOC && a.UsuarioId == OC.UsuarioId
-                                                select a).FirstOrDefault();
+                            ////Detalle de la OC Tbls viejas SERVMED 205 (lo buscamos por el Id_Sustancia obtenido de la BD nueva 206, tiene que ser la misma partida en ambas BD'S)
+                            //var Detalles_OCvieja = (from a in RequisicionDB.DetalleOC
+                            //                        where a.Id_OrdenCompra == OC_vieja.Id
+                            //                        where a.Id_Sustancia == DetalleAactualizar.Id_Sustencia
+                            //                        select a).FirstOrDefault();
 
-                                //Detalle de la OC Tbls viejas SERVMED 205 (lo buscamos por el Id_Sustancia obtenido de la BD nueva 206, tiene que ser la misma partida en ambas BD'S)
-                                var Detalles_OCvieja = (from a in RequisicionDB.DetalleOC
-                                                        where a.Id_OrdenCompra == OC_vieja.Id
-                                                        where a.Id_Sustancia == DetalleAactualizar.Id_Sustencia
-                                                        select a).FirstOrDefault();
-
-                                RequisicionDB.Database.ExecuteSqlCommand("UPDATE DetalleOC SET PreUnit = '" + DetOC.PREUNIT_NUEVA + "' WHERE Id='" + Detalles_OCvieja.Id + "';");
-                            }
-
+                            //RequisicionDB.Database.ExecuteSqlCommand("UPDATE DetalleOC SET PreUnit = '" + DetOC.PREUNIT_NUEVA + "' WHERE Id='" + Detalles_OCvieja.Id + "';");
                             #endregion
-
                         }
                     }
                 }
-
-                //-------                                                               Generar el Nuevo $GranTotal$ para guardar en    SISM_ORDEN_COMPRA
+                                
                 //Obtenemos los detalles (partidas) de la OC con sus nuevos P.U
                 var DOC = (from a in ConBD2.SISM_DETALLE_OC
                            where a.Id_OrdenCompra == OC.Id
@@ -2029,20 +2023,58 @@ namespace UanlSISM.Controllers
                     SubTotal_OC_Det += Decimal.Round((decimal)(item.Total), 2);
                 }
 
-                //Guardamos el GranTotal
+                //-------                                                               Guardar $GranTotal$ en    SISM_ORDEN_COMPRA
                 OC.Total_OC = (double?)SubTotal_OC_Det;
                 ConBD2.SaveChanges();
 
                 #endregion
 
-                #region Tablas Nuevas SERVMED 205
+                #region Tablas Nuevas SERVMED 205                                           Tbl_OrdenCompra
 
-                //Obtenemos la O.C para actualizar los Detalles
-                var IdOC1 = (from a in ConBD_SM.Tbl_OrdenCompra
-                             where a.UsuarioNuevo == OC.UsuarioNuevo
-                             where a.Fecha == OC.Fecha && a.IP_User == OC.IP_User
-                             select a).OrderByDescending(u => u.Id).FirstOrDefault();
+                ////Obtenemos la O.C de Tbl_OrdenCompra para actualizar los Detalles
+                //var OC_Serv = (from a in ConBD_SM.Tbl_OrdenCompra
+                //             where a.UsuarioNuevo == OC.UsuarioNuevo
+                //             where a.Fecha == OC.Fecha && a.IP_User == OC.IP_User
+                //             select a).FirstOrDefault();
 
+                ////Recorremos la lista recibida con los nuevos P.U para actualizarlos
+                //foreach (var DetOC_Serv in DetalleOC)
+                //{
+                //    if(DetOC_Serv.PREUNIT_NUEVA > 0)
+                //    {
+                //        if(DetOC_Serv.CB_ELIMINAR == true)
+                //        {
+                //            //Seguimos obteniendo el Detalle de **SISM_** para obtener la Sustancia y hacer el Match con ConBD_SM
+                //            var DetalleSISM = (from a in ConBD2.SISM_DETALLE_OC
+                //                                      where a.Id == DetOC_Serv.Id
+                //                                      where a.Id_OrdenCompra == OC.Id
+                //                                      select a).FirstOrDefault();
+
+                //            //Si sí existe esa OC en ConBD_SM
+                //            if (OC_Serv != null)
+                //            {
+                //                //Buscamos el Detalle que se actualizará en     ConBD_SM
+                //                var DetActualizar = (from a in ConBD_SM.Tbl_DetalleOC
+                //                                     where a.Id_Sustencia == DetalleSISM.Id_Sustencia
+                //                                     where a.Id_OrdenCompra == OC_Serv.Id /////////////////////////////
+                //                                     select a).FirstOrDefault();
+
+                //                ConBD_SM.Database.ExecuteSqlCommand("UPDATE Tbl_DetalleOC SET PreUnit = '" + DetOC_Serv.PREUNIT_NUEVA + "' WHERE Id='" + DetActualizar.Id + "';");
+
+                //                var SubTotal = (double?)decimal.Round((decimal)(DetOC_Serv.Cantidad * DetOC_Serv.PREUNIT_NUEVA), 2);
+                //                ConBD_SM.Database.ExecuteSqlCommand("UPDATE Tbl_DetalleOC SET Total = '" + SubTotal + "' WHERE Id='" + DetActualizar.Id + "';");
+                //            }
+                //        }
+                //    }
+                //}
+
+                ////-------                                                               Guardar $GranTotal$ en    Tbl_OrdenCompra
+                //if(OC_Serv != null)
+                //{
+                //    OC_Serv.Total_OC = (double?)SubTotal_OC_Det;
+                //    ConBD_SM.SaveChanges();
+                //}
+                
                 #endregion
 
                 return Json(new { MENSAJE = "Succe: Se actualizó correctamente" }, JsonRequestBehavior.AllowGet);
