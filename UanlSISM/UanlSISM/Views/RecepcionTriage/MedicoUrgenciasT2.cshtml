@@ -117,7 +117,7 @@
                 if (data.MENSAJE.substring(0, 6) == "Error:") {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Oops... ¡Error!',
+                        title: '¡Error!',
                         text: data.MENSAJE.substring(7),
                     });
                 }
@@ -290,7 +290,7 @@
                             if (response.MENSAJE.substring(0, 7) == "Error: ") {
                                 Swal.fire({
                                     icon: 'error',
-                                    title: 'Oops... ¡Error!',
+                                    title: '¡Error!',
                                     text: response.MENSAJE.substring(7),
                                 });
                             }
@@ -305,7 +305,7 @@
             error: function (xhr, status, error) {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Oops... ¡Error!',
+                    title: '¡Error!',
                 });
             }
         });

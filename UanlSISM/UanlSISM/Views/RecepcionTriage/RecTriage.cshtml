@@ -765,7 +765,7 @@
                     if (response.MENSAJE.substring(0, 6) == "Error:") {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Oops... ¡Error!',
+                            title: '¡Error!',
                         });
                     }
                     else {
@@ -848,7 +848,7 @@
                 if (data.MENSAJE.substring(0, 6) == "Error:") {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Oops... ¡Error!',
+                        title: '¡Error!',
                         text: data.MENSAJE.substring(7),
                     });
                 }
