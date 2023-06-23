@@ -22,5 +22,6 @@ namespace UanlSISM.Models
         public string Prov_Email { get; set; }
         public string Prov_uanl { get; set; }
         public string EstatusContrato { get; set; }
+        public string Ubicacion { get; set; }
     }
 }

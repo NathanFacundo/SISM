@@ -82,6 +82,7 @@
           <Property Name="Prov_Email" Type="varchar" MaxLength="30" />
           <Property Name="Prov_uanl" Type="varchar" MaxLength="10" />
           <Property Name="EstatusContrato" Type="varchar" MaxLength="20" />
+          <Property Name="Ubicacion" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Requisicion">
           <Key>
@@ -109,6 +110,7 @@
           <Property Name="RolId" Type="tinyint" />
           <Property Name="Usu_Status" Type="bit" Nullable="false" />
           <Property Name="Baja" Type="bit" Nullable="false" />
+          <Property Name="Caja" Type="int" />
         </EntityType>
         <Association Name="FK_DetalleOC_OrdenCompra">
           <End Role="OrdenCompra" Type="Self.OrdenCompra" Multiplicity="1">
@@ -238,6 +240,7 @@
           <Property Name="Usu_Status" Type="Boolean" Nullable="false" />
           <Property Name="Baja" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="OrdenCompra" Relationship="SERVMEDModel6.FK_OrdenCompra_Usuario" FromRole="Usuario" ToRole="OrdenCompra" />
+          <Property Name="Caja" Type="Int32" />
         </EntityType>
         <Association Name="FK_DetalleReq_Requisicion">
           <End Role="Requisicion" Type="SERVMEDModel6.Requisicion_1" Multiplicity="1">
@@ -286,6 +289,7 @@
           <Property Name="Prov_Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Prov_uanl" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="EstatusContrato" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Ubicacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="DetalleOC">
           <Key>
@@ -407,6 +411,7 @@
           <EntitySetMapping Name="Usuario">
             <EntityTypeMapping TypeName="SERVMEDModel6.Usuario">
               <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="Caja" ColumnName="Caja" />
                 <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
                 <ScalarProperty Name="Usu_User" ColumnName="Usu_User" />
                 <ScalarProperty Name="Usu_Pass" ColumnName="Usu_Pass" />
@@ -421,6 +426,7 @@
           <EntitySetMapping Name="Proveedor">
             <EntityTypeMapping TypeName="SERVMEDModel6.Proveedor">
               <MappingFragment StoreEntitySet="Proveedor">
+                <ScalarProperty Name="Ubicacion" ColumnName="Ubicacion" />
                 <ScalarProperty Name="EstatusContrato" ColumnName="EstatusContrato" />
                 <ScalarProperty Name="Prov_uanl" ColumnName="Prov_uanl" />
                 <ScalarProperty Name="Prov_Email" ColumnName="Prov_Email" />

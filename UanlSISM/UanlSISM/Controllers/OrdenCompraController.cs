@@ -2086,6 +2086,36 @@ namespace UanlSISM.Controllers
             }
         }
 
+        public JsonResult GuardarProveedor(string NomProv, string PadronProv)
+        {
+            try
+            {
+                var UltimoProv = (from a in db.Proveedor
+                                  select a).OrderByDescending(u => u.Id).FirstOrDefault();
+
+                var IdNuevo = ((UltimoProv.Id) + 1);
+                if (PadronProv == null || PadronProv == "")
+                {
+                    PadronProv = "0";
+                }
+                var Ubicacion = "Medicamentos";
+
+                db.Database.ExecuteSqlCommand(
+                    "INSERT INTO Proveedor (Id, Prov_Nombre, Prov_uanl, Ubicacion) " +
+                    "        VALUES('" + IdNuevo + "', '" + NomProv + "', '" + PadronProv + "', '" + Ubicacion + "')");
+
+                ConBD.Database.ExecuteSqlCommand(
+                    "INSERT INTO SISM_PROVEEDOR_COMPRAS (Prov_Nombre, Prov_uanl, Id_Prov) " +
+                    "        VALUES('" + NomProv + "', '" + PadronProv + "', '" + IdNuevo + "')");
+
+
+                return Json(new { MENSAJE = "Succe: Se guardó el Proveedor" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         //----------------------------------------------------------------------------------- Pantalla ORDENES COMPRA POR VALIDAR   --------------  FIN
 

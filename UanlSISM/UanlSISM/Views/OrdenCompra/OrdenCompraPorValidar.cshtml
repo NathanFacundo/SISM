@@ -90,6 +90,7 @@
 
 <div class="btn-toolbar">
     <button type="button" class="btn btn-primary btn-space" onclick="Regresar()">REQUISICIONES (regresar)</button>
+    <button type="button" class="btn btn-primary btn-space" data-toggle="modal" data-target="#ProvModal">Alta Proveedor</button>
 </div>
 
 <div>
@@ -232,6 +233,35 @@
                     </div>
                 </div>
 
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ProvModal" tabindex="-1" role="dialog" aria-labelledby="ProvModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ProvModalLabel">Alta de proveedor de medicamentos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Nombre:</label>
+                        <input type="text" class="form-control" id="NomProv">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Padrón:</label>
+                        <input type="text" class="form-control" id="PadronProv">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" @*data-dismiss="modal"*@ onclick="CerrarProv()">CERRAR/CANCELAR</button>
+                <button type="button" class="btn btn-primary" onclick="GuardarProv()">GUARDAR</button>
             </div>
         </div>
     </div>
@@ -651,6 +681,49 @@
     $('#Cancelar').on('click', function () {
         location.reload();
     });
+
+
+    function CerrarProv() {
+        location.reload();
+    }
+
+    function GuardarProv() {
+        var NomProv = $("#NomProv").val();
+        var PadronProv = $("#PadronProv").val();
+
+        $.ajax({
+            url: '@Url.Action("GuardarProveedor", "OrdenCompra")',
+            method: 'POST',
+            dataType: 'json',
+            data: { NomProv: NomProv, PadronProv: PadronProv },
+            success: function (data) {
+                if (data.MENSAJE.substring(0, 6) == "Succe:") {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: data.MENSAJE.substring(7),
+                        willClose: () => {
+                            location.reload();
+                        }
+                    });
+                }
+                if (data.MENSAJE.substring(0, 6) == "Error:") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: data.MENSAJE.substring(7),
+                    });
+                }
+            },
+            error: function (ex) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                });
+            }
+
+        });
+    }
 
 </script>
 

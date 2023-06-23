@@ -28,6 +28,7 @@ namespace UanlSISM.Models
         public Nullable<byte> RolId { get; set; }
         public bool Usu_Status { get; set; }
         public bool Baja { get; set; }
+        public Nullable<int> Caja { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrdenCompra> OrdenCompra { get; set; }
