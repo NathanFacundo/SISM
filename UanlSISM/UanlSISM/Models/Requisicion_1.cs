@@ -18,6 +18,7 @@ namespace UanlSISM.Models
         public Requisicion_1()
         {
             this.DetalleReq = new HashSet<DetalleReq>();
+            this.ValeEntrada = new HashSet<ValeEntrada>();
         }
     
         public int id { get; set; }
@@ -32,5 +33,7 @@ namespace UanlSISM.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetalleReq> DetalleReq { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ValeEntrada> ValeEntrada { get; set; }
     }
 }

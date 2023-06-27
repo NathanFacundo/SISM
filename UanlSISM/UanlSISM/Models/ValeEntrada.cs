@@ -34,9 +34,11 @@ namespace UanlSISM.Models
         public Nullable<byte> tipo { get; set; }
         public Nullable<int> id_ConceptoEntrada { get; set; }
         public string UserId { get; set; }
+        public string NotaCredito { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Detalle_VE> Detalle_VE { get; set; }
-        public virtual Requisicion Requisicion { get; set; }
+        public virtual Requisicion_1 Requisicion { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
 }

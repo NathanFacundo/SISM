@@ -5,16 +5,22 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="a864f075de314d4e98750b097a26b165" Name="Diagram1">
-        <EntityTypeShape EntityType="SERVMEDModel6.Cotizaciones" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SERVMEDModel6.DetalleReq" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="SERVMEDModel6.Requisicion_1" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="SERVMEDModel6.Usuario" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVMEDModel6.Cotizaciones" Width="1.5" PointX="0.875" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVMEDModel6.DetalleReq" Width="1.5" PointX="3.25" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVMEDModel6.Requisicion_1" Width="1.5" PointX="0.875" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SERVMEDModel6.Usuario" Width="1.5" PointX="2.75" PointY="5.25" IsExpanded="true" />
         <AssociationConnector Association="SERVMEDModel6.FK_DetalleReq_Requisicion" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="SERVMEDModel6.Proveedor" Width="1.5" PointX="5.375" PointY="0.75" />
-        <EntityTypeShape EntityType="SERVMEDModel6.DetalleOC" Width="1.5" PointX="7.25" PointY="5.625" />
+        <EntityTypeShape EntityType="SERVMEDModel6.Proveedor" Width="1.5" PointX="9.25" PointY="4" />
+        <EntityTypeShape EntityType="SERVMEDModel6.DetalleOC" Width="1.5" PointX="7.125" PointY="5.25" />
         <EntityTypeShape EntityType="SERVMEDModel6.OrdenCompra" Width="1.5" PointX="5" PointY="5.25" />
         <AssociationConnector Association="SERVMEDModel6.FK_DetalleOC_OrdenCompra" />
         <AssociationConnector Association="SERVMEDModel6.FK_OrdenCompra_Usuario" />
+        <EntityTypeShape EntityType="SERVMEDModel6.Detalle_VE" Width="1.5" PointX="7.5" PointY="0.5" />
+        <EntityTypeShape EntityType="SERVMEDModel6.Sustancia" Width="1.5" PointX="3.375" PointY="10.25" />
+        <EntityTypeShape EntityType="SERVMEDModel6.ValeEntrada" Width="1.5" PointX="5.375" PointY="0.5" />
+        <AssociationConnector Association="SERVMEDModel6.FK_Detalle_VE_ValeEntrada" />
+        <AssociationConnector Association="SERVMEDModel6.FK_ValeEntrada_Requisicion" />
+        <AssociationConnector Association="SERVMEDModel6.FK_ValeEntrada_Usuario" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

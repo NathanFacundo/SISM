@@ -297,6 +297,7 @@
     <Compile Include="Controllers\ReporteRHController.cs" />
     <Compile Include="Controllers\RequisicionController.cs" />
     <Compile Include="Controllers\RetardosController.cs" />
+    <Compile Include="Controllers\SeguimientoController.cs" />
     <Compile Include="Controllers\ServiciosMedicosController.cs" />
     <Compile Include="Controllers\SolicitudLaboratorioController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
@@ -533,7 +534,7 @@
       <DependentUpon>Req.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Detalle_VE.cs">
-      <DependentUpon>Inventario.tt</DependentUpon>
+      <DependentUpon>Req.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Dhabientes.Context.cs">
       <AutoGen>True</AutoGen>
@@ -1658,7 +1659,7 @@
       <DependentUpon>SISM-Farmacia.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Sustancia.cs">
-      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
+      <DependentUpon>Req.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>SISM-RH.tt</DependentUpon>
@@ -1838,7 +1839,7 @@
       <DependentUpon>Req.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ValeEntrada.cs">
-      <DependentUpon>Inventario.tt</DependentUpon>
+      <DependentUpon>Req.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\_ConsumoAlm.cs" />
     <Compile Include="Models\_ConsumoFar.cs" />
@@ -2044,6 +2045,7 @@
     <Content Include="Imagenes\somos-uni.png" />
     <Content Include="Imagenes\termino_consulta.png" />
     <Content Include="Imagenes\termino_consulta1.png" />
+    <Content Include="Imagenes\trazabilidad.png" />
     <Content Include="Imagenes\uanl-left-side.jpg" />
     <Content Include="Imagenes\uanl-logo.png" />
     <Content Include="Imagenes\uanl.png" />
@@ -3811,6 +3813,7 @@
     <Content Include="Views\OrdenCompra\OrdenesCompra.cshtml" />
     <Content Include="Views\OrdenCompra\OrdenCompraPorValidar.cshtml" />
     <Content Include="Views\OrdenCompra\Reporte.cshtml" />
+    <Content Include="Views\Seguimiento\Trazabilidad.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

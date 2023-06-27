@@ -1019,6 +1019,22 @@
         </div>
     }
 
+    @if (HttpContext.Current.User.IsInRole("ComprasCoordinacion"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("Trazabilidad", "Seguimiento")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/trazabilidad.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">Seguimiento</h5>
+                    <p class="card-text">
+                        Trazabilidad de medicamento
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
     <script>
         function imprimiExcel() {
             window.open('/Manage/RpExcel/', '_blank');

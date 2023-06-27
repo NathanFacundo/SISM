@@ -49,5 +49,6 @@ namespace UanlSISM.Models
         public Nullable<System.DateTime> FechaMed { get; set; }
         public Nullable<int> LicitacionStatus { get; set; }
         public string Compendio { get; set; }
+        public string Proveedores { get; set; }
     }
 }

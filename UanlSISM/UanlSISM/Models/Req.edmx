@@ -28,6 +28,20 @@
           <Property Name="Cuadro" Type="int" />
           <Property Name="UserId" Type="varchar(max)" />
         </EntityType>
+        <EntityType Name="Detalle_VE">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_ve" Type="int" />
+          <Property Name="Id_Sustancia" Type="int" />
+          <Property Name="Id_CodigoBarras" Type="int" />
+          <Property Name="Cant_Surtida" Type="int" />
+          <Property Name="Caducidad" Type="varchar" MaxLength="10" />
+          <Property Name="Pendientes" Type="int" />
+          <Property Name="Id_CodigoBarras_deOC" Type="int" />
+          <Property Name="IdLote" Type="int" />
+        </EntityType>
         <EntityType Name="DetalleOC">
           <Key>
             <PropertyRef Name="Id" />
@@ -98,6 +112,47 @@
           <Property Name="UserId" Type="varchar(max)" />
           <Property Name="EstatusContrato" Type="varchar(max)" />
         </EntityType>
+        <EntityType Name="Sustancia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Grupo" Type="smallint" Nullable="false" />
+          <Property Name="Id_Sal" Type="smallint" Nullable="false" />
+          <Property Name="Id_Nivel" Type="smallint" Nullable="false" />
+          <Property Name="clave_presentacion" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="Presentacion" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Clave" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="Consultorio" Type="char" MaxLength="1" />
+          <Property Name="estante_col" Type="char" MaxLength="10" />
+          <Property Name="estante_nivel" Type="char" MaxLength="10" />
+          <Property Name="pos_frecuencia" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="consumo_semana" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="cb_mederos" Type="char" MaxLength="1" />
+          <Property Name="cto_ultimo" Type="real" />
+          <Property Name="cto_promedio" Type="real" />
+          <Property Name="estatus_21" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="descripcion_21" Type="nchar" MaxLength="200" />
+          <Property Name="clave_21" Type="nchar" MaxLength="19" />
+          <Property Name="id_grupo_21" Type="int" />
+          <Property Name="id_principioactivo_21" Type="int" />
+          <Property Name="id_formafarm_21" Type="int" />
+          <Property Name="id_concentracion_21" Type="int" />
+          <Property Name="id_unidadeslicitacion_21" Type="int" />
+          <Property Name="id_unidadesmedida_21" Type="int" />
+          <Property Name="id_cantidadenvases_21" Type="int" />
+          <Property Name="id_tipoenvase_21" Type="int" />
+          <Property Name="codigo_21" Type="nchar" MaxLength="19" />
+          <Property Name="Nivel_21" Type="int" />
+          <Property Name="SobranteInv2022" Type="char" MaxLength="2" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="IP" Type="varchar" MaxLength="20" />
+          <Property Name="FechaMed" Type="datetime" />
+          <Property Name="LicitacionStatus" Type="int" />
+          <Property Name="Compendio" Type="varchar" MaxLength="20" />
+          <Property Name="Proveedores" Type="varchar(max)" />
+        </EntityType>
         <EntityType Name="Usuario">
           <Key>
             <PropertyRef Name="UsuarioId" />
@@ -112,6 +167,38 @@
           <Property Name="Baja" Type="bit" Nullable="false" />
           <Property Name="Caja" Type="int" />
         </EntityType>
+        <EntityType Name="ValeEntrada">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="clave" Type="char" MaxLength="7" Nullable="false" />
+          <Property Name="id_Requisicion" Type="int" />
+          <Property Name="id_ordencompra" Type="int" />
+          <Property Name="id_valesalida" Type="int" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Fecha_Mod" Type="datetime" />
+          <Property Name="Factura" Type="varchar" MaxLength="50" />
+          <Property Name="Remision" Type="varchar" MaxLength="50" />
+          <Property Name="id_usuario" Type="int" Nullable="false" />
+          <Property Name="status" Type="tinyint" Nullable="false" />
+          <Property Name="tipo" Type="tinyint" />
+          <Property Name="id_ConceptoEntrada" Type="int" />
+          <Property Name="UserId" Type="varchar(max)" />
+          <Property Name="NotaCredito" Type="varchar(max)" />
+        </EntityType>
+        <Association Name="FK_Detalle_VE_ValeEntrada">
+          <End Role="ValeEntrada" Type="Self.ValeEntrada" Multiplicity="0..1" />
+          <End Role="Detalle_VE" Type="Self.Detalle_VE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ValeEntrada">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Detalle_VE">
+              <PropertyRef Name="Id_ve" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DetalleOC_OrdenCompra">
           <End Role="OrdenCompra" Type="Self.OrdenCompra" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -152,14 +239,45 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ValeEntrada_Requisicion">
+          <End Role="Requisicion" Type="Self.Requisicion" Multiplicity="0..1" />
+          <End Role="ValeEntrada" Type="Self.ValeEntrada" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Requisicion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ValeEntrada">
+              <PropertyRef Name="id_Requisicion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ValeEntrada_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="ValeEntrada" Type="Self.ValeEntrada" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="UsuarioId" />
+            </Principal>
+            <Dependent Role="ValeEntrada">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="SERVMEDModel6StoreContainer">
           <EntitySet Name="Cotizaciones" EntityType="Self.Cotizaciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Detalle_VE" EntityType="Self.Detalle_VE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetalleOC" EntityType="Self.DetalleOC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetalleReq" EntityType="Self.DetalleReq" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrdenCompra" EntityType="Self.OrdenCompra" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proveedor" EntityType="Self.Proveedor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Requisicion" EntityType="Self.Requisicion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sustancia" EntityType="Self.Sustancia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ValeEntrada" EntityType="Self.ValeEntrada" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Detalle_VE_ValeEntrada" Association="Self.FK_Detalle_VE_ValeEntrada">
+            <End Role="ValeEntrada" EntitySet="ValeEntrada" />
+            <End Role="Detalle_VE" EntitySet="Detalle_VE" />
+          </AssociationSet>
           <AssociationSet Name="FK_DetalleOC_OrdenCompra" Association="Self.FK_DetalleOC_OrdenCompra">
             <End Role="OrdenCompra" EntitySet="OrdenCompra" />
             <End Role="DetalleOC" EntitySet="DetalleOC" />
@@ -171,6 +289,14 @@
           <AssociationSet Name="FK_OrdenCompra_Usuario" Association="Self.FK_OrdenCompra_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="OrdenCompra" EntitySet="OrdenCompra" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ValeEntrada_Requisicion" Association="Self.FK_ValeEntrada_Requisicion">
+            <End Role="Requisicion" EntitySet="Requisicion" />
+            <End Role="ValeEntrada" EntitySet="ValeEntrada" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ValeEntrada_Usuario" Association="Self.FK_ValeEntrada_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="ValeEntrada" EntitySet="ValeEntrada" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -226,6 +352,7 @@
           <Property Name="UserId" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="EstatusContrato" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="DetalleReq" Relationship="Self.FK_DetalleReq_Requisicion" FromRole="Requisicion" ToRole="DetalleReq" />
+          <NavigationProperty Name="ValeEntrada" Relationship="SERVMEDModel6.FK_ValeEntrada_Requisicion" FromRole="Requisicion_1" ToRole="ValeEntrada" />
         </EntityType>
         <EntityType Name="Usuario">
           <Key>
@@ -241,6 +368,7 @@
           <Property Name="Baja" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="OrdenCompra" Relationship="SERVMEDModel6.FK_OrdenCompra_Usuario" FromRole="Usuario" ToRole="OrdenCompra" />
           <Property Name="Caja" Type="Int32" />
+          <NavigationProperty Name="ValeEntrada" Relationship="SERVMEDModel6.FK_ValeEntrada_Usuario" FromRole="Usuario" ToRole="ValeEntrada" />
         </EntityType>
         <Association Name="FK_DetalleReq_Requisicion">
           <End Role="Requisicion" Type="SERVMEDModel6.Requisicion_1" Multiplicity="1">
@@ -275,6 +403,21 @@
           <AssociationSet Name="FK_OrdenCompra_Usuario" Association="SERVMEDModel6.FK_OrdenCompra_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="OrdenCompra" EntitySet="OrdenCompra" />
+          </AssociationSet>
+          <EntitySet Name="Detalle_VE" EntityType="SERVMEDModel6.Detalle_VE" />
+          <EntitySet Name="Sustancia" EntityType="SERVMEDModel6.Sustancia" />
+          <EntitySet Name="ValeEntrada" EntityType="SERVMEDModel6.ValeEntrada" />
+          <AssociationSet Name="FK_Detalle_VE_ValeEntrada" Association="SERVMEDModel6.FK_Detalle_VE_ValeEntrada">
+            <End Role="ValeEntrada" EntitySet="ValeEntrada" />
+            <End Role="Detalle_VE" EntitySet="Detalle_VE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ValeEntrada_Requisicion" Association="SERVMEDModel6.FK_ValeEntrada_Requisicion">
+            <End Role="Requisicion_1" EntitySet="Requisicion" />
+            <End Role="ValeEntrada" EntitySet="ValeEntrada" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ValeEntrada_Usuario" Association="SERVMEDModel6.FK_ValeEntrada_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="ValeEntrada" EntitySet="ValeEntrada" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Proveedor">
@@ -348,6 +491,121 @@
             </Principal>
             <Dependent Role="OrdenCompra">
               <PropertyRef Name="UsuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Detalle_VE">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_ve" Type="Int32" />
+          <Property Name="Id_Sustancia" Type="Int32" />
+          <Property Name="Id_CodigoBarras" Type="Int32" />
+          <Property Name="Cant_Surtida" Type="Int32" />
+          <Property Name="Caducidad" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Pendientes" Type="Int32" />
+          <Property Name="Id_CodigoBarras_deOC" Type="Int32" />
+          <Property Name="IdLote" Type="Int32" />
+          <NavigationProperty Name="ValeEntrada" Relationship="SERVMEDModel6.FK_Detalle_VE_ValeEntrada" FromRole="Detalle_VE" ToRole="ValeEntrada" />
+        </EntityType>
+        <EntityType Name="Sustancia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Grupo" Type="Int16" Nullable="false" />
+          <Property Name="Id_Sal" Type="Int16" Nullable="false" />
+          <Property Name="Id_Nivel" Type="Int16" Nullable="false" />
+          <Property Name="clave_presentacion" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Presentacion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Clave" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="Consultorio" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="estante_col" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="estante_nivel" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="pos_frecuencia" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="consumo_semana" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="cb_mederos" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="cto_ultimo" Type="Single" />
+          <Property Name="cto_promedio" Type="Single" />
+          <Property Name="estatus_21" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="descripcion_21" Type="String" MaxLength="200" FixedLength="true" Unicode="true" />
+          <Property Name="clave_21" Type="String" MaxLength="19" FixedLength="true" Unicode="true" />
+          <Property Name="id_grupo_21" Type="Int32" />
+          <Property Name="id_principioactivo_21" Type="Int32" />
+          <Property Name="id_formafarm_21" Type="Int32" />
+          <Property Name="id_concentracion_21" Type="Int32" />
+          <Property Name="id_unidadeslicitacion_21" Type="Int32" />
+          <Property Name="id_unidadesmedida_21" Type="Int32" />
+          <Property Name="id_cantidadenvases_21" Type="Int32" />
+          <Property Name="id_tipoenvase_21" Type="Int32" />
+          <Property Name="codigo_21" Type="String" MaxLength="19" FixedLength="true" Unicode="true" />
+          <Property Name="Nivel_21" Type="Int32" />
+          <Property Name="SobranteInv2022" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IP" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FechaMed" Type="DateTime" Precision="3" />
+          <Property Name="LicitacionStatus" Type="Int32" />
+          <Property Name="Compendio" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Proveedores" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ValeEntrada">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="clave" Type="String" Nullable="false" MaxLength="7" FixedLength="true" Unicode="false" />
+          <Property Name="id_Requisicion" Type="Int32" />
+          <Property Name="id_ordencompra" Type="Int32" />
+          <Property Name="id_valesalida" Type="Int32" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Fecha_Mod" Type="DateTime" Precision="3" />
+          <Property Name="Factura" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Remision" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="id_usuario" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="Byte" Nullable="false" />
+          <Property Name="tipo" Type="Byte" />
+          <Property Name="id_ConceptoEntrada" Type="Int32" />
+          <Property Name="UserId" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="NotaCredito" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Detalle_VE" Relationship="SERVMEDModel6.FK_Detalle_VE_ValeEntrada" FromRole="ValeEntrada" ToRole="Detalle_VE" />
+          <NavigationProperty Name="Requisicion" Relationship="SERVMEDModel6.FK_ValeEntrada_Requisicion" FromRole="ValeEntrada" ToRole="Requisicion_1" />
+          <NavigationProperty Name="Usuario" Relationship="SERVMEDModel6.FK_ValeEntrada_Usuario" FromRole="ValeEntrada" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="FK_Detalle_VE_ValeEntrada">
+          <End Type="SERVMEDModel6.ValeEntrada" Role="ValeEntrada" Multiplicity="0..1" />
+          <End Type="SERVMEDModel6.Detalle_VE" Role="Detalle_VE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ValeEntrada">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Detalle_VE">
+              <PropertyRef Name="Id_ve" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ValeEntrada_Requisicion">
+          <End Type="SERVMEDModel6.Requisicion_1" Role="Requisicion_1" Multiplicity="0..1" />
+          <End Type="SERVMEDModel6.ValeEntrada" Role="ValeEntrada" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Requisicion_1">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ValeEntrada">
+              <PropertyRef Name="id_Requisicion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ValeEntrada_Usuario">
+          <End Type="SERVMEDModel6.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="SERVMEDModel6.ValeEntrada" Role="ValeEntrada" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="UsuarioId" />
+            </Principal>
+            <Dependent Role="ValeEntrada">
+              <PropertyRef Name="id_usuario" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -468,6 +726,84 @@
                 <ScalarProperty Name="Id_Requisicion" ColumnName="Id_Requisicion" />
                 <ScalarProperty Name="clave" ColumnName="clave" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Detalle_VE">
+            <EntityTypeMapping TypeName="SERVMEDModel6.Detalle_VE">
+              <MappingFragment StoreEntitySet="Detalle_VE">
+                <ScalarProperty Name="IdLote" ColumnName="IdLote" />
+                <ScalarProperty Name="Id_CodigoBarras_deOC" ColumnName="Id_CodigoBarras_deOC" />
+                <ScalarProperty Name="Pendientes" ColumnName="Pendientes" />
+                <ScalarProperty Name="Caducidad" ColumnName="Caducidad" />
+                <ScalarProperty Name="Cant_Surtida" ColumnName="Cant_Surtida" />
+                <ScalarProperty Name="Id_CodigoBarras" ColumnName="Id_CodigoBarras" />
+                <ScalarProperty Name="Id_Sustancia" ColumnName="Id_Sustancia" />
+                <ScalarProperty Name="Id_ve" ColumnName="Id_ve" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sustancia">
+            <EntityTypeMapping TypeName="SERVMEDModel6.Sustancia">
+              <MappingFragment StoreEntitySet="Sustancia">
+                <ScalarProperty Name="Proveedores" ColumnName="Proveedores" />
+                <ScalarProperty Name="Compendio" ColumnName="Compendio" />
+                <ScalarProperty Name="LicitacionStatus" ColumnName="LicitacionStatus" />
+                <ScalarProperty Name="FechaMed" ColumnName="FechaMed" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="SobranteInv2022" ColumnName="SobranteInv2022" />
+                <ScalarProperty Name="Nivel_21" ColumnName="Nivel_21" />
+                <ScalarProperty Name="codigo_21" ColumnName="codigo_21" />
+                <ScalarProperty Name="id_tipoenvase_21" ColumnName="id_tipoenvase_21" />
+                <ScalarProperty Name="id_cantidadenvases_21" ColumnName="id_cantidadenvases_21" />
+                <ScalarProperty Name="id_unidadesmedida_21" ColumnName="id_unidadesmedida_21" />
+                <ScalarProperty Name="id_unidadeslicitacion_21" ColumnName="id_unidadeslicitacion_21" />
+                <ScalarProperty Name="id_concentracion_21" ColumnName="id_concentracion_21" />
+                <ScalarProperty Name="id_formafarm_21" ColumnName="id_formafarm_21" />
+                <ScalarProperty Name="id_principioactivo_21" ColumnName="id_principioactivo_21" />
+                <ScalarProperty Name="id_grupo_21" ColumnName="id_grupo_21" />
+                <ScalarProperty Name="clave_21" ColumnName="clave_21" />
+                <ScalarProperty Name="descripcion_21" ColumnName="descripcion_21" />
+                <ScalarProperty Name="estatus_21" ColumnName="estatus_21" />
+                <ScalarProperty Name="cto_promedio" ColumnName="cto_promedio" />
+                <ScalarProperty Name="cto_ultimo" ColumnName="cto_ultimo" />
+                <ScalarProperty Name="cb_mederos" ColumnName="cb_mederos" />
+                <ScalarProperty Name="consumo_semana" ColumnName="consumo_semana" />
+                <ScalarProperty Name="pos_frecuencia" ColumnName="pos_frecuencia" />
+                <ScalarProperty Name="estante_nivel" ColumnName="estante_nivel" />
+                <ScalarProperty Name="estante_col" ColumnName="estante_col" />
+                <ScalarProperty Name="Consultorio" ColumnName="Consultorio" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Presentacion" ColumnName="Presentacion" />
+                <ScalarProperty Name="clave_presentacion" ColumnName="clave_presentacion" />
+                <ScalarProperty Name="Id_Nivel" ColumnName="Id_Nivel" />
+                <ScalarProperty Name="Id_Sal" ColumnName="Id_Sal" />
+                <ScalarProperty Name="Id_Grupo" ColumnName="Id_Grupo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ValeEntrada">
+            <EntityTypeMapping TypeName="SERVMEDModel6.ValeEntrada">
+              <MappingFragment StoreEntitySet="ValeEntrada">
+                <ScalarProperty Name="NotaCredito" ColumnName="NotaCredito" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="id_ConceptoEntrada" ColumnName="id_ConceptoEntrada" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="Remision" ColumnName="Remision" />
+                <ScalarProperty Name="Factura" ColumnName="Factura" />
+                <ScalarProperty Name="Fecha_Mod" ColumnName="Fecha_Mod" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="id_valesalida" ColumnName="id_valesalida" />
+                <ScalarProperty Name="id_ordencompra" ColumnName="id_ordencompra" />
+                <ScalarProperty Name="id_Requisicion" ColumnName="id_Requisicion" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -18,6 +18,7 @@ namespace UanlSISM.Models
         public Usuario()
         {
             this.OrdenCompra = new HashSet<OrdenCompra>();
+            this.ValeEntrada = new HashSet<ValeEntrada>();
         }
     
         public int UsuarioId { get; set; }
@@ -32,5 +33,7 @@ namespace UanlSISM.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrdenCompra> OrdenCompra { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ValeEntrada> ValeEntrada { get; set; }
     }
 }
