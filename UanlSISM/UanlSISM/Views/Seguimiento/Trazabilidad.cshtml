@@ -78,6 +78,17 @@
     input[type=number] {
         -moz-appearance: textfield;
     }
+    
+    .pink {
+        background-color: green !important;
+    }
+    .pink1 {
+        background-color: darkorange !important;
+    }
+    .pink2 {
+        background-color: gold !important;
+    }
+
 </style>
 
 <div class="row">
@@ -142,16 +153,17 @@
         <table class="table table-striped table-hover" id="TblTrazabilidad">
             <thead>
                 <tr>
-                    <th class='text-center' style="background-color: green">Clave<br /> Med.</th>
+                    <th class='text-center' style="background-color: green; color: white">Clave<br /> Med.</th>
                     <th class='text-center' style="background-color: darkorange">Folio<br /> Req.</th>
                     <th class='text-center' style="background-color: darkorange">Fecha<br /> Req.</th>
                     <th class='text-center' style="background-color: darkorange">Cantidad<br /> Req.</th>
                     <th class='text-center' style="background-color: gold">Folio<br /> OC.</th>
                     <th class='text-center' style="background-color: gold">Fecha<br /> OC.</th>
                     <th class='text-center' style="background-color: gold">Cantidad<br /> OC.</th>
-                    <th class='text-center' style="background-color: green">P.U.<br /> Med.</th>
+                    <th class='text-center' style="background-color: gold">PU. Med<br /> OC.</th>
                     @*<th class='text-center' style="background-color: green">Sub total<br /> Med.</th>*@
-                    <th class='text-center' style="background-color: green">Descripción<br /> Med.</th>
+                    @*<th class='text-center' style="background-color: green; color: white">Descripción<br /> Med.</th>*@
+                    <th class='text-center' style="background-color: gold">Proveedor<br /> OC.</th>
                 </tr>
             </thead>
             <tbody>
@@ -196,6 +208,12 @@
 
     $(document).ready(function () {
 
+        Swal.fire({
+            title: 'Ingrese rango de fechas y clave del medicamento para la búsqueda',
+            showConfirmButton: false,
+            timer: 1750
+        })
+
         $('#TblTrazabilidad').DataTable({
             paging: false,
             scroller: false,
@@ -219,7 +237,7 @@
                 },
             }
         });
-
+                
     });
 
     $('#datepickerInicio').datepicker({
@@ -240,6 +258,14 @@
         var ClaveMed = $("#ClaveM").val();
 
         if (FechaInicio != "" && FechaFin != "" && ClaveMed != "") {
+
+            Swal.fire({
+                title: 'Realizando búsqueda',
+                timer: 1000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+            })
+
             LlenaTbl(FechaInicio, FechaFin, ClaveMed)
         } else {
             Swal.fire({
@@ -258,7 +284,7 @@
             data: { FechaInicio: FechaInicio, FechaFin: FechaFin, ClaveMed: ClaveMed },
             success: function (data) {
 
-                var count = data.REP.length;
+                //var count = data.REP.length;
 
                 if (data.MENSAJE.substring(0, 6) == "Error:") {
                     Swal.fire({
@@ -268,7 +294,7 @@
                     });
                 }
                 else 
-                    if (count == 0 || count == "0") {
+                    if (data.REP == 0 || data.REP == "0") {
                         Swal.fire({
                             icon: 'error',
                             title: 'No se encontraron registros con los filtros ingresados'
@@ -318,17 +344,108 @@
             data: Rep,
             "order": [[2, 'desc']],
             columns: [
-                { 'data': 'Clave', className: "text-center" },
+                {
+                    'data': 'Clave', className: "text-center", render: function (data) {
+                        return '<h8 style="color:white; ">' + data + '</h8>';
+                    }
+                },
                 { 'data': 'FolioRequisicion', className: "text-center" },
                 { 'data': 'FechaRequisicion', className: "text-center" },
                 { 'data': 'CanReq', className: "text-center" },
-                { 'data': 'FolioOC', className: "text-center" },
+                //{ 'data': 'FolioOC', className: "text-center" },
+                {
+                    "data": "FolioOC", className: "text-center", render: function (data) {
+                        if (data == '' || data == null) {
+                            return '<h8 style="color:red; "><b>' + "SIN O.C." + '</b></h8>';
+                        } else {
+                            return '<h8 style="color:black; ">' + data + '</h8>';
+                        }
+                    }
+                },
                 { 'data': 'FechaOC', className: "text-center" },
-                { 'data': 'CanOC', className: "text-center" },
-                { 'data': 'PrecioUnitario', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                //{
+                //    "data": "FechaOC", className: "text-center", render: function (data) {
+                //        if (data == '' || data == null) {
+                //            return '<h8 style="color:red; "><b>' + "SIN O.C." + '</b></h8>';
+                //        } else {
+                //            return '<h8 style="color:black; ">' + data + '</h8>';
+                //        }
+                //    }
+                //},
+                //{ 'data': 'CanOC', className: "text-center" },
+                {
+                    "data": "CanOC", className: "text-center", render: function (data) {
+                        if (data == '' || data == null) {
+                            return '<h8 style="color:red; "><b>' + "" + '</b></h8>';
+                        } else {
+                            return '<h8 style="color:black; ">' + data + '</h8>';
+                        }
+                    }
+                },
+                //{ 'data': 'PrecioUnitario', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                {
+                    "data": "PrecioUnitario", className: "text-center", render: function (data) {
+                        if (data == '' || data == null) {
+                            return '<h8 style="color:red; "><b>' + "" + '</b></h8>';
+                        } else {
+                            return '$ '+'<h8 style="color:black; ">' + data + '</h8>';
+                        }
+                    }
+                },
+
                 //{ 'data': 'Subtotal', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
-                { 'data': 'Descripcion', className: "text-center" }
+                //{
+                //    'data': 'Descripcion', className: "text-center", render: function (data) {
+                //        return '<h8 style="color:white; ">' + data + '</h8>';
+                //    }
+                //},
+                {
+                    "data": "ProveedorOC", className: "text-center", render: function (data) {
+                        if (data == '' || data == null) {
+                            return '<h8 style="color:red; "><b>' + "" + '</b></h8>';
+                        } else {
+                            return '<h8 style="color:black; ">' + data + '</h8>';
+                        }
+                    }
+                },
             ]
+        });
+        
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 0 }).node();
+            $(cell).addClass('pink');
+        });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 1 }).node();
+            $(cell).addClass('pink1');
+        });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 2 }).node();
+            $(cell).addClass('pink1');
+        });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 3 }).node();
+            $(cell).addClass('pink1');
+        });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 4 }).node();
+            $(cell).addClass('pink2');
+        });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 5 }).node();
+            $(cell).addClass('pink2');
+        });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 6 }).node();
+            $(cell).addClass('pink2');
+        });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 7 }).node();
+            $(cell).addClass('pink2');
+        });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 8 }).node();
+            $(cell).addClass('pink2');
         });
     }
 
