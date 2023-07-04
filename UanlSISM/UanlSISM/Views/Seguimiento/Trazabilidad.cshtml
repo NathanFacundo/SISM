@@ -382,16 +382,16 @@
                         }
                     }
                 },
-                //{ 'data': 'PrecioUnitario', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
-                {
-                    "data": "PrecioUnitario", className: "text-center", render: function (data) {
-                        if (data == '' || data == null) {
-                            return '<h8 style="color:red; "><b>' + "" + '</b></h8>';
-                        } else {
-                            return '$ '+'<h8 style="color:black; ">' + data + '</h8>';
-                        }
-                    }
-                },
+                { 'data': 'PrecioUnitario', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                //{
+                //    "data": "PrecioUnitario", className: "text-center", render: function (data) {
+                //        if (data == '' || data == null) {
+                //            return '<h8 style="color:red; "><b>' + "" + '</b></h8>';
+                //        } else {
+                //            return '$ '+'<h8 style="color:black; ">' + data + '</h8>';
+                //        }
+                //    }
+                //},
 
                 //{ 'data': 'Subtotal', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                 //{
