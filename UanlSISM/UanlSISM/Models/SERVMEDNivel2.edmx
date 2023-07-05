@@ -154,6 +154,11 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
         <Function Name="SP_Temporales" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idUnidad" Type="int" Mode="In" />
         </Function>
+        <Function Name="SP_Trazabilidad" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fechaIn" Type="varchar" Mode="In" />
+          <Parameter Name="fechaFi" Type="varchar" Mode="In" />
+          <Parameter Name="ClaveMed" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="SERVMEDNivel2StoreContainer">
           <EntitySet Name="CodigoBarras" EntityType="Self.CodigoBarras" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_DetalleOC" EntityType="Self.Tbl_DetalleOC" Schema="dbo" store:Type="Tables" />
@@ -242,6 +247,11 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
             <End Role="Tbl_Requisicion" EntitySet="Tbl_Requisicion" />
             <End Role="Tbl_DetalleRequi" EntitySet="Tbl_DetalleRequi" />
           </AssociationSet>
+          <FunctionImport Name="SP_Trazabilidad" ReturnType="Collection(SERVMEDNivel2.SP_Trazabilidad_Result1)">
+            <Parameter Name="fechaIn" Mode="In" Type="String" />
+            <Parameter Name="fechaFi" Mode="In" Type="String" />
+            <Parameter Name="ClaveMed" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="SP_MedicamentosTemporales_Result">
           <Property Type="String" Name="Clave" Nullable="false" MaxLength="6" />
@@ -370,6 +380,35 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="SP_Trazabilidad_Result">
+          <Property Type="String" Name="Clave_Med_" Nullable="true" MaxLength="6" />
+          <Property Type="String" Name="Descripción_Med_" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Folio_Req_" Nullable="true" MaxLength="20" />
+          <Property Type="DateTime" Name="Fecha_Req_" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Cant__Req_" Nullable="true" />
+          <Property Type="String" Name="Folio_OC_" Nullable="true" MaxLength="7" />
+          <Property Type="DateTime" Name="Fecha_OC_" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Cant__OC_" Nullable="true" />
+          <Property Type="String" Name="Folio_VE_" Nullable="true" MaxLength="7" />
+          <Property Type="DateTime" Name="Fecha_VE_" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Cant__VE_" Nullable="true" />
+          <Property Type="String" Name="Factura" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SP_Trazabilidad_Result1">
+          <Property Type="String" Name="Clave_Med_" Nullable="true" MaxLength="6" />
+          <Property Type="String" Name="Descripción_Med_" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Folio_Req_" Nullable="true" MaxLength="20" />
+          <Property Type="DateTime" Name="Fecha_Req_" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Cant__Req_" Nullable="true" />
+          <Property Type="String" Name="Folio_OC_" Nullable="true" MaxLength="7" />
+          <Property Type="DateTime" Name="Fecha_OC_" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Cant__OC_" Nullable="true" />
+          <Property Type="Double" Name="P_U__OC" Nullable="true" />
+          <Property Type="String" Name="Folio_VE_" Nullable="true" MaxLength="7" />
+          <Property Type="DateTime" Name="Fecha_VE_" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Cant__VE_" Nullable="true" />
+          <Property Type="String" Name="Factura" Nullable="true" MaxLength="50" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -510,6 +549,25 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_Trazabilidad" FunctionName="SERVMEDNivel2.Store.SP_Trazabilidad">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SERVMEDNivel2.SP_Trazabilidad_Result1">
+                <ScalarProperty Name="Clave_Med_" ColumnName="Clave Med." />
+                <ScalarProperty Name="Descripción_Med_" ColumnName="Descripción Med." />
+                <ScalarProperty Name="Folio_Req_" ColumnName="Folio Req." />
+                <ScalarProperty Name="Fecha_Req_" ColumnName="Fecha Req." />
+                <ScalarProperty Name="Cant__Req_" ColumnName="Cant. Req." />
+                <ScalarProperty Name="Folio_OC_" ColumnName="Folio OC." />
+                <ScalarProperty Name="Fecha_OC_" ColumnName="Fecha OC." />
+                <ScalarProperty Name="Cant__OC_" ColumnName="Cant. OC." />
+                <ScalarProperty Name="P_U__OC" ColumnName="P.U. OC" />
+                <ScalarProperty Name="Folio_VE_" ColumnName="Folio VE." />
+                <ScalarProperty Name="Fecha_VE_" ColumnName="Fecha VE." />
+                <ScalarProperty Name="Cant__VE_" ColumnName="Cant. VE." />
+                <ScalarProperty Name="Factura" ColumnName="Factura" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

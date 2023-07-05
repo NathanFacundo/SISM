@@ -51,5 +51,22 @@ namespace UanlSISM.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Temporales_Result>("SP_Temporales", idUnidadParameter);
         }
+    
+        public virtual ObjectResult<SP_Trazabilidad_Result1> SP_Trazabilidad(string fechaIn, string fechaFi, string claveMed)
+        {
+            var fechaInParameter = fechaIn != null ?
+                new ObjectParameter("fechaIn", fechaIn) :
+                new ObjectParameter("fechaIn", typeof(string));
+    
+            var fechaFiParameter = fechaFi != null ?
+                new ObjectParameter("fechaFi", fechaFi) :
+                new ObjectParameter("fechaFi", typeof(string));
+    
+            var claveMedParameter = claveMed != null ?
+                new ObjectParameter("ClaveMed", claveMed) :
+                new ObjectParameter("ClaveMed", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Trazabilidad_Result1>("SP_Trazabilidad", fechaInParameter, fechaFiParameter, claveMedParameter);
+        }
     }
 }

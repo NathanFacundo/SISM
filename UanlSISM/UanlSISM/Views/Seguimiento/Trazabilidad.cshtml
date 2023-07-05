@@ -78,17 +78,22 @@
     input[type=number] {
         -moz-appearance: textfield;
     }
-    
+
     .pink {
         background-color: green !important;
     }
+
     .pink1 {
         background-color: darkorange !important;
     }
+
     .pink2 {
         background-color: gold !important;
     }
 
+    .pink3 {
+        background-color: darkgrey !important;
+    }
 </style>
 
 <div class="row">
@@ -154,16 +159,21 @@
             <thead>
                 <tr>
                     <th class='text-center' style="background-color: green; color: white">Clave<br /> Med.</th>
+
                     <th class='text-center' style="background-color: darkorange">Folio<br /> Req.</th>
                     <th class='text-center' style="background-color: darkorange">Fecha<br /> Req.</th>
                     <th class='text-center' style="background-color: darkorange">Cantidad<br /> Req.</th>
+
                     <th class='text-center' style="background-color: gold">Folio<br /> OC.</th>
                     <th class='text-center' style="background-color: gold">Fecha<br /> OC.</th>
                     <th class='text-center' style="background-color: gold">Cantidad<br /> OC.</th>
                     <th class='text-center' style="background-color: gold">PU. Med<br /> OC.</th>
-                    @*<th class='text-center' style="background-color: green">Sub total<br /> Med.</th>*@
-                    @*<th class='text-center' style="background-color: green; color: white">Descripción<br /> Med.</th>*@
-                    <th class='text-center' style="background-color: gold">Proveedor<br /> OC.</th>
+
+                    <th class='text-center' style="background-color:darkgrey">Folio<br /> VE.</th>
+                    <th class='text-center' style="background-color: darkgrey">Fecha<br /> VE.</th>
+                    <th class='text-center' style="background-color: darkgrey">Cantidad<br /> VE.</th>
+                    <th class='text-center' style="background-color: darkgrey">Factura</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -172,8 +182,10 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script type="text/javascript" src="~/Scripts/2023/jquery-3.5.1.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+<script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/plug-ins/1.10.12/sorting/datetime-moment.js"></script>
 
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="~/Scripts/2023/jquery.dataTables.min.js"></script>
@@ -196,13 +208,13 @@
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 <script type="text/javascript" src="~/Scripts/2023/buttons.print.min.js"></script>
 
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 <link rel=¨stylesheet¨ href="~/Scripts/2023/bootstrap-datepicker.min.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 <script type="text/javascript" src="~/Scripts/2023/bootstrap-datepicker.min.js"></script>
 
+<script src="https://cdn.datatables.net/plug-ins/1.10.21/dataRender/datetime.js" charset="utf8"></script>
 
 <script>
 
@@ -237,7 +249,7 @@
                 },
             }
         });
-                
+
     });
 
     $('#datepickerInicio').datepicker({
@@ -278,7 +290,7 @@
 
     function LlenaTbl(FechaInicio, FechaFin, ClaveMed) {
         $.ajax({
-            url: '@Url.Action("ObtenerReporte", "Seguimiento")',
+            url: '@Url.Action("ObtenerReporte1", "Seguimiento")',
             method: 'POST',
             dataType: 'json',
             data: { FechaInicio: FechaInicio, FechaFin: FechaFin, ClaveMed: ClaveMed },
@@ -293,7 +305,7 @@
                         text: data.MENSAJE.substring(7),
                     });
                 }
-                else 
+                else
                     if (data.REP == 0 || data.REP == "0") {
                         Swal.fire({
                             icon: 'error',
@@ -343,18 +355,53 @@
             },
             data: Rep,
             "order": [[2, 'desc']],
+
+            //columns: [
+            //    {
+            //        'data': 'Clave', className: "text-center", render: function (data) {
+            //            return '<h8 style="color:white; ">' + data + '</h8>';
+            //        }
+            //    },
+            //    { 'data': 'FolioRequisicion', className: "text-center" },
+            //    { 'data': 'FechaRequisicion', className: "text-center" },
+            //    { 'data': 'CanReq', className: "text-center" },
+            //    {
+            //        "data": "FolioOC", className: "text-center", render: function (data) {
+            //            if (data == '' || data == null) {
+            //                return '<h8 style="color:red; "><b>' + "SIN O.C." + '</b></h8>';
+            //            } else {
+            //                return '<h8 style="color:black; ">' + data + '</h8>';
+            //            }
+            //        }
+            //    },
+            //    { 'data': 'FechaOC', className: "text-center" },
+            //    { 'data': 'CanOC', className: "text-center" },
+            //    { 'data': 'PrecioUnitario', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+            //    {
+            //        "data": "FolioVE", className: "text-center", render: function (data) {
+            //            if (data == '' || data == null) {
+            //                return '<h8 style="color:red; "><b>' + "SIN O.C." + '</b></h8>';
+            //            } else {
+            //                return '<h8 style="color:black; ">' + data + '</h8>';
+            //            }
+            //        }
+            //    },
+            //    { 'data': 'FechaVE', className: "text-center" },
+            //    { 'data': 'CantSurVE', className: "text-center" },
+            //    { 'data': 'FacturaVE', className: "text-center" }
+            //]
+
             columns: [
                 {
-                    'data': 'Clave', className: "text-center", render: function (data) {
+                    'data': 'Clave_Med_', className: "text-center", render: function (data) {
                         return '<h8 style="color:white; ">' + data + '</h8>';
                     }
                 },
-                { 'data': 'FolioRequisicion', className: "text-center" },
-                { 'data': 'FechaRequisicion', className: "text-center" },
-                { 'data': 'CanReq', className: "text-center" },
-                //{ 'data': 'FolioOC', className: "text-center" },
+                { 'data': 'Folio_Req_', className: "text-center" },
+                { 'data': 'Fecha_Req_', className: "text-center", render: function (data) { return moment(data).isValid() ? moment(data).format("DD/MM/YYYY HH:mm") : ""; } },
+                { 'data': 'Cant__Req_', className: "text-center" },
                 {
-                    "data": "FolioOC", className: "text-center", render: function (data) {
+                    "data": "Folio_OC_", className: "text-center", render: function (data) {
                         if (data == '' || data == null) {
                             return '<h8 style="color:red; "><b>' + "SIN O.C." + '</b></h8>';
                         } else {
@@ -362,55 +409,24 @@
                         }
                     }
                 },
-                { 'data': 'FechaOC', className: "text-center" },
-                //{
-                //    "data": "FechaOC", className: "text-center", render: function (data) {
-                //        if (data == '' || data == null) {
-                //            return '<h8 style="color:red; "><b>' + "SIN O.C." + '</b></h8>';
-                //        } else {
-                //            return '<h8 style="color:black; ">' + data + '</h8>';
-                //        }
-                //    }
-                //},
-                //{ 'data': 'CanOC', className: "text-center" },
+                { 'data': 'Fecha_OC_', className: "text-center", render: function (data) { return moment(data).isValid() ? moment(data).format("DD/MM/YYYY HH:mm") : ""; } },
+                { 'data': 'Cant__OC_', className: "text-center" },
+                { 'data': 'P_U__OC', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                 {
-                    "data": "CanOC", className: "text-center", render: function (data) {
+                    "data": "Folio_VE_", className: "text-center", render: function (data) {
                         if (data == '' || data == null) {
-                            return '<h8 style="color:red; "><b>' + "" + '</b></h8>';
+                            return '<h8 style="color:red; "><b>' + "SIN V.E." + '</b></h8>';
                         } else {
                             return '<h8 style="color:black; ">' + data + '</h8>';
                         }
                     }
                 },
-                { 'data': 'PrecioUnitario', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
-                //{
-                //    "data": "PrecioUnitario", className: "text-center", render: function (data) {
-                //        if (data == '' || data == null) {
-                //            return '<h8 style="color:red; "><b>' + "" + '</b></h8>';
-                //        } else {
-                //            return '$ '+'<h8 style="color:black; ">' + data + '</h8>';
-                //        }
-                //    }
-                //},
-
-                //{ 'data': 'Subtotal', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
-                //{
-                //    'data': 'Descripcion', className: "text-center", render: function (data) {
-                //        return '<h8 style="color:white; ">' + data + '</h8>';
-                //    }
-                //},
-                {
-                    "data": "ProveedorOC", className: "text-center", render: function (data) {
-                        if (data == '' || data == null) {
-                            return '<h8 style="color:red; "><b>' + "" + '</b></h8>';
-                        } else {
-                            return '<h8 style="color:black; ">' + data + '</h8>';
-                        }
-                    }
-                },
+                { 'data': 'Fecha_VE_', className: "text-center", render: function (data) { return moment(data).isValid() ? moment(data).format("DD/MM/YYYY HH:mm") : ""; } },
+                { 'data': 'Cant__VE_', className: "text-center" },
+                { 'data': 'Factura', className: "text-center" }
             ]
         });
-        
+
         table.rows().every(function (rowIdx, tableLoop, rowLoop) {
             var cell = table.cell({ row: rowIdx, column: 0 }).node();
             $(cell).addClass('pink');
@@ -445,7 +461,23 @@
         });
         table.rows().every(function (rowIdx, tableLoop, rowLoop) {
             var cell = table.cell({ row: rowIdx, column: 8 }).node();
-            $(cell).addClass('pink2');
+            $(cell).addClass('pink3');
+        });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 9 }).node();
+            $(cell).addClass('pink3');
+        });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 10 }).node();
+            $(cell).addClass('pink3');
+        });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 11 }).node();
+            $(cell).addClass('pink3');
+        });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 12 }).node();
+            $(cell).addClass('pink3');
         });
     }
 
