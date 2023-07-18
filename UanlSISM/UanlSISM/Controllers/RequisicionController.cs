@@ -290,239 +290,248 @@ namespace UanlSISM.Controllers
                                    a.clave
                                }).OrderByDescending(u => u.clave).FirstOrDefault();
 
-                //Creamos una nueva Requi
-                SISM_REQUISICION NuevaRequi = new SISM_REQUISICION();
-                NuevaRequi.Fecha = fechaDT;
-                NuevaRequi.Id_User = UsuarioRegistra;
-                NuevaRequi.IP_User = ip_realiza;
-
-                var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
-                var UltimoConsecutivo_Clave = Convert.ToInt32(ClaveID.clave.Substring(4));
-                var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
-
-                var ConsecutivoNuevoTxt = "";
-
-                if (ConsecutivoNuevo < 100)
+                if (UsuarioRegistra == null || UsuarioRegistra == "")
                 {
-                    if (ConsecutivoNuevo < 9)
-                    {
-                        ConsecutivoNuevoTxt = "00" + ConsecutivoNuevo;
-                    }
-                    else
-                    {
-                        ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
-                    }
+                    return Json(new { MENSAJE = "Error: Por favor vuelva a recargar la página e inicie sesión nuevamente" }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    ConsecutivoNuevoTxt = "" + ConsecutivoNuevo;
-                }
+                    //Creamos una nueva Requi
+                    SISM_REQUISICION NuevaRequi = new SISM_REQUISICION();
+                    NuevaRequi.Fecha = fechaDT;
+                    NuevaRequi.Id_User = UsuarioRegistra;
+                    NuevaRequi.IP_User = ip_realiza;
 
-                NuevaRequi.EstatusContrato = StatusContrato;
+                    var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
+                    var UltimoConsecutivo_Clave = Convert.ToInt32(ClaveID.clave.Substring(4));
+                    var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
 
-                ConBD2.SISM_REQUISICION.Add(NuevaRequi);
-                ConBD2.SaveChanges();
+                    var ConsecutivoNuevoTxt = "";
 
-                //Obtenemos la ultima requi guardada(que es esta) para guardar su detalle
-                var IdRequi = (from a in ConBD2.SISM_REQUISICION
-                               where a.Id_User == UsuarioRegistra
-                               where a.Fecha == fechaDT
-                               select a).OrderByDescending(u => u.Id_Requicision).FirstOrDefault();
+                    if (ConsecutivoNuevo < 100)
+                    {
+                        if (ConsecutivoNuevo < 9)
+                        {
+                            ConsecutivoNuevoTxt = "00" + ConsecutivoNuevo;
+                        }
+                        else
+                        {
+                            ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
+                        }
+                    }
+                    else
+                    {
+                        ConsecutivoNuevoTxt = "" + ConsecutivoNuevo;
+                    }
 
-                //ACTUALIZAMOS LA CLAVE DE LA 
-                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
+                    NuevaRequi.EstatusContrato = StatusContrato;
 
-                //ACTUALIZAMOS EL ID DE LA REQUI PARA CONCATENARLA LA NOMENCLATURA Y ASÍ GUARDAR EL FOLIO
-                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC-" + ff + "-" + IdRequi.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
+                    ConBD2.SISM_REQUISICION.Add(NuevaRequi);
+                    ConBD2.SaveChanges();
 
-                //Recorremos que lista que recibimos como parámetro para guardar el detalle en la Requi
-                foreach (var item in ListaSustanciasRequiDirecta)
-                {
-                    SISM_DET_REQUISICION nuevoDetalle = new SISM_DET_REQUISICION();
-                    nuevoDetalle.Id_Requicision = IdRequi.Id_Requicision;
-                    nuevoDetalle.Id_Sustancia = item.Id;
-                    nuevoDetalle.Cantidad = item.CANTIDAD;
-                    nuevoDetalle.Clave = item.Clave;
-                    nuevoDetalle.Descripcion = item.descripcion_21.Trim();
-                    nuevoDetalle.Compendio = item.Compendio;
+                    //Obtenemos la ultima requi guardada(que es esta) para guardar su detalle
+                    var IdRequi = (from a in ConBD2.SISM_REQUISICION
+                                   where a.Id_User == UsuarioRegistra
+                                   where a.Fecha == fechaDT
+                                   select a).OrderByDescending(u => u.Id_Requicision).FirstOrDefault();
 
-                    //***************************************************      ESTE BLOQUE SE COMENTA PARA QUE SE PUEDA HACER UNA O.C DIRECTA A PARTIR DE UNA REQUI CON CONTRATO
-                    //if (StatusContrato != "Sin Contrato")
+                    //ACTUALIZAMOS LA CLAVE DE LA 
+                    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
+
+                    //ACTUALIZAMOS EL ID DE LA REQUI PARA CONCATENARLA LA NOMENCLATURA Y ASÍ GUARDAR EL FOLIO
+                    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC-" + ff + "-" + IdRequi.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
+
+                    //Recorremos que lista que recibimos como parámetro para guardar el detalle en la Requi
+                    foreach (var item in ListaSustanciasRequiDirecta)
+                    {
+                        SISM_DET_REQUISICION nuevoDetalle = new SISM_DET_REQUISICION();
+                        nuevoDetalle.Id_Requicision = IdRequi.Id_Requicision;
+                        nuevoDetalle.Id_Sustancia = item.Id;
+                        nuevoDetalle.Cantidad = item.CANTIDAD;
+                        nuevoDetalle.Clave = item.Clave;
+                        nuevoDetalle.Descripcion = item.descripcion_21.Trim();
+                        nuevoDetalle.Compendio = item.Compendio;
+
+                        //***************************************************      ESTE BLOQUE SE COMENTA PARA QUE SE PUEDA HACER UNA O.C DIRECTA A PARTIR DE UNA REQUI CON CONTRATO
+                        //if (StatusContrato != "Sin Contrato")
+                        //{
+                        //    var ARTICULO = (from a in ConBD2.SISM_COSTEO_LICITACION
+                        //                    where a.Id_Sustancia == item.Id
+                        //                    select a).FirstOrDefault();
+
+                        //    if (ARTICULO != null)
+                        //    {
+                        //        nuevoDetalle.PrecioUnitario = ARTICULO.PrecioUnitario;
+
+                        //        //nuevoDetalle.Total = nuevoDetalle.PrecioUnitario * nuevoDetalle.Cantidad;
+                        //        nuevoDetalle.Total = (double?)decimal.Round((decimal)(nuevoDetalle.Cantidad * nuevoDetalle.PrecioUnitario), 2);
+                        //    }
+                        //    else
+                        //    {
+                        //    }
+                        //}
+                        //else
+                        //{
+                        nuevoDetalle.PrecioUnitario = 0;
+                        nuevoDetalle.Total = 0;
+                        //}
+
+                        ConBD2.SISM_DET_REQUISICION.Add(nuevoDetalle);
+                        ConBD2.SaveChanges();
+                    }
+
+                    //Obtenemos el Usuario que se logueó para hacer el join (buscarlo) en la tabla Usuario y así obtener el Id de esa tabla
+                    var UsuarioOld = User.Identity.GetUserName();
+                    var UsuarioOLD = (from a in RequisicionDB.Usuario
+                                      where a.Usu_User == UsuarioOld
+                                      select a).FirstOrDefault();
+
+                    ////Volvemos a recorrer la lista (detalle de la requi) ahora para guardar en la tabla Cotizaciones     
+                    //foreach (var item in ListaSustanciasRequiDirecta)
                     //{
-                    //    var ARTICULO = (from a in ConBD2.SISM_COSTEO_LICITACION
-                    //                    where a.Id_Sustancia == item.Id
-                    //                    select a).FirstOrDefault();
+                    //    SISM_COTIZACIONES Cotizacion = new SISM_COTIZACIONES();
+                    //    Cotizacion.Id_Sustancia = item.Id;
+                    //    Cotizacion.Id_Requicision = IdRequi.Id_Requicision;
+                    //    Cotizacion.Id_Prov_1 = 0;
+                    //    Cotizacion.Cant_Asig_1 = 0;
+                    //    Cotizacion.CostoUnit_1 = 0;
+                    //    Cotizacion.Id_Prov_2 = 0;
+                    //    Cotizacion.Cant_Asig_2 = 0;
+                    //    Cotizacion.CostoUnit_2 = 0;
+                    //    Cotizacion.Id_Prov_3 = 0;
+                    //    Cotizacion.Cant_Asig_3 = 0;
+                    //    Cotizacion.CostoUnit_3 = 0;
+                    //    Cotizacion.Status = false;
+                    //    Cotizacion.FechaCrea = fechaDT;
+                    //    Cotizacion.FechaMod = fechaDT;
+                    //    Cotizacion.Id_Usuario = UsuarioOLD.UsuarioId;
+                    //    Cotizacion.Cuadro = 0;
+                    //    Cotizacion.UserId = IdUsuarioCifrado;
 
-                    //    if (ARTICULO != null)
-                    //    {
-                    //        nuevoDetalle.PrecioUnitario = ARTICULO.PrecioUnitario;
+                    //    ConBD2.SISM_COTIZACIONES.Add(Cotizacion);
+                    //    ConBD2.SaveChanges();
+                    //}
 
-                    //        //nuevoDetalle.Total = nuevoDetalle.PrecioUnitario * nuevoDetalle.Cantidad;
-                    //        nuevoDetalle.Total = (double?)decimal.Round((decimal)(nuevoDetalle.Cantidad * nuevoDetalle.PrecioUnitario), 2);
-                    //    }
-                    //    else
-                    //    {
-                    //    }
+                    //-------------------------------------------------------------------------------------------------  TABLAS NUEVAS 205 PRD SERVMED
+                    #region Insertar la Nueva Requi en las Nuevas Tbl del 205 SERVMED
+
+                    //Tbl_Requisicion Nueva_Requi = new Tbl_Requisicion();
+                    //Nueva_Requi.Fecha = fechaDT;
+                    //Nueva_Requi.Id_User = UsuarioRegistra;
+                    //Nueva_Requi.IP_User = ip_realiza;
+                    //Nueva_Requi.EstatusContrato = StatusContrato;
+
+                    //ConBD2_SM.Tbl_Requisicion.Add(Nueva_Requi);
+                    //ConBD2_SM.SaveChanges();
+
+                    ////Obtenemos la ultima requi guardada(que es esta)
+                    //var IdRequi1 = (from a in ConBD2_SM.Tbl_Requisicion
+                    //                where a.Id_User == UsuarioRegistra
+                    //                where a.Fecha == fechaDT
+                    //                select a).OrderByDescending(u => u.Id_Requicision).FirstOrDefault();
+
+                    //ConBD2_SM.Database.ExecuteSqlCommand("UPDATE Tbl_Requisicion SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequi1.Id_Requicision + "';");
+                    //ConBD2_SM.Database.ExecuteSqlCommand("UPDATE Tbl_Requisicion SET Clave = 'RAC-" + ff + "-" + IdRequi.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi1.Id_Requicision + "';");
+
+                    //foreach (var item in ListaSustanciasRequiDirecta)
+                    //{
+                    //    Tbl_DetalleRequi nuevo_Detalle = new Tbl_DetalleRequi();
+                    //    nuevo_Detalle.Id_Requicision = IdRequi1.Id_Requicision;
+                    //    nuevo_Detalle.Id_Sustancia = item.Id;
+                    //    nuevo_Detalle.Cantidad = item.CANTIDAD;
+                    //    nuevo_Detalle.Clave = item.Clave;
+                    //    nuevo_Detalle.Descripcion = item.descripcion_21.Trim();
+                    //    nuevo_Detalle.Compendio = item.Compendio;
+                    //    nuevo_Detalle.PrecioUnitario = 0;
+                    //    nuevo_Detalle.Total = 0;
+
+                    //    ConBD2_SM.Tbl_DetalleRequi.Add(nuevo_Detalle);
+                    //    ConBD2_SM.SaveChanges();
+                    //}
+
+                    #endregion
+                    //-----------------------------------------------------------------------------------------------------------------------
+
+                    //--------------------------------------------------------------------------------------------------------------------------------  TABLAS VIEJAS
+                    /*  GUARDAR LA REQUISICION Y SU DETALLE EN LAS TABLAS DE REQUISICION Y DETALLE REQUISICION  */
+                    #region
+                    //Requisicion_1 Req = new Requisicion_1();
+                    //Req.Id_Tipo = 2;
+                    //Req.Fecha = fechaDT;
+                    //Req.Status = true;
+                    //Req.cerrado = false;
+                    //Req.UserId = IdUsuarioCifrado;
+
+                    ////Guardamos el Id del usuario de la tabla Usuario en el campo 'UsuarioId' en la tabla Requisiciones
+                    //if (UsuarioOLD == null)
+                    //{
                     //}
                     //else
                     //{
-                    nuevoDetalle.PrecioUnitario = 0;
-                    nuevoDetalle.Total = 0;
+                    //    if (UsuarioOLD.Usu_User == null)
+                    //    {
+                    //    }
+                    //    else
+                    //    {
+                    //        Req.Id_Usuario = UsuarioOLD.UsuarioId;
+                    //    }
                     //}
 
-                    ConBD2.SISM_DET_REQUISICION.Add(nuevoDetalle);
-                    ConBD2.SaveChanges();
+                    //var ClaveNueva = AñoMes_Actual + ConsecutivoNuevoTxt;
+                    //Req.clave = ClaveNueva;
+                    //Req.EstatusContrato = StatusContrato;
+
+                    //RequisicionDB.Requisicion.Add(Req);
+                    //RequisicionDB.SaveChanges();
+
+                    ////Obtener Requisición recién generada en las tablas viejas
+                    //var ID = (from a in RequisicionDB.Requisicion
+                    //          where a.Fecha == fechaDT
+                    //          where a.Id_Tipo == 2
+                    //          select a).OrderByDescending(u => u.id).FirstOrDefault();
+
+                    //foreach (var item in ListaSustanciasRequiDirecta)
+                    //{
+                    //    DetalleReq detRequi = new DetalleReq();
+                    //    detRequi.Id_Requisicion = ID.id;
+                    //    detRequi.Id_Sustancia = item.Id;
+                    //    detRequi.C_Solicitada = (int)item.CANTIDAD;
+                    //    detRequi.C_Recibida = 0;
+                    //    detRequi.Status = false;
+
+                    //    RequisicionDB.DetalleReq.Add(detRequi);
+                    //    RequisicionDB.SaveChanges();
+                    //}
+
+                    //foreach (var item in ListaSustanciasRequiDirecta)
+                    //{
+                    //    Cotizaciones Coti = new Cotizaciones();
+                    //    Coti.Id_Sustancia = item.Id;
+                    //    Coti.Id_Requisicion = ID.id;
+                    //    Coti.Id_Prov_1 = 0;
+                    //    Coti.Cant_Asig_1 = 0;
+                    //    Coti.CostoUnit_1 = 0;
+                    //    Coti.Id_Prov_2 = 0;
+                    //    Coti.Cant_Asig_2 = 0;
+                    //    Coti.CostoUnit_2 = 0;
+                    //    Coti.Id_Prov_3 = 0;
+                    //    Coti.Cant_Asig_3 = 0;
+                    //    Coti.CostoUnit_3 = 0;
+                    //    Coti.Status = false;
+                    //    Coti.FechaCrea = ID.Fecha;
+                    //    Coti.FechaMod = ID.Fecha;
+                    //    Coti.Id_Usuario = ID.Id_Usuario;
+                    //    Coti.Cuadro = 0;
+                    //    Coti.UserId = IdUsuarioCifrado;
+
+                    //    RequisicionDB.Cotizaciones.Add(Coti);
+                    //    RequisicionDB.SaveChanges();
+                    //}
+                    #endregion
+                    //--------------------------------------------------------------------------------------------------------------------------------
+
+                    return Json(new { MENSAJE = "Succe: Se generó la Requisición" }, JsonRequestBehavior.AllowGet);
                 }
-
-                //Obtenemos el Usuario que se logueó para hacer el join (buscarlo) en la tabla Usuario y así obtener el Id de esa tabla
-                var UsuarioOld = User.Identity.GetUserName();
-                var UsuarioOLD = (from a in RequisicionDB.Usuario
-                                  where a.Usu_User == UsuarioOld
-                                  select a).FirstOrDefault();
-
-                ////Volvemos a recorrer la lista (detalle de la requi) ahora para guardar en la tabla Cotizaciones     
-                //foreach (var item in ListaSustanciasRequiDirecta)
-                //{
-                //    SISM_COTIZACIONES Cotizacion = new SISM_COTIZACIONES();
-                //    Cotizacion.Id_Sustancia = item.Id;
-                //    Cotizacion.Id_Requicision = IdRequi.Id_Requicision;
-                //    Cotizacion.Id_Prov_1 = 0;
-                //    Cotizacion.Cant_Asig_1 = 0;
-                //    Cotizacion.CostoUnit_1 = 0;
-                //    Cotizacion.Id_Prov_2 = 0;
-                //    Cotizacion.Cant_Asig_2 = 0;
-                //    Cotizacion.CostoUnit_2 = 0;
-                //    Cotizacion.Id_Prov_3 = 0;
-                //    Cotizacion.Cant_Asig_3 = 0;
-                //    Cotizacion.CostoUnit_3 = 0;
-                //    Cotizacion.Status = false;
-                //    Cotizacion.FechaCrea = fechaDT;
-                //    Cotizacion.FechaMod = fechaDT;
-                //    Cotizacion.Id_Usuario = UsuarioOLD.UsuarioId;
-                //    Cotizacion.Cuadro = 0;
-                //    Cotizacion.UserId = IdUsuarioCifrado;
-
-                //    ConBD2.SISM_COTIZACIONES.Add(Cotizacion);
-                //    ConBD2.SaveChanges();
-                //}
-
-                //-------------------------------------------------------------------------------------------------  TABLAS NUEVAS 205 PRD SERVMED
-                #region Insertar la Nueva Requi en las Nuevas Tbl del 205 SERVMED
-
-                //Tbl_Requisicion Nueva_Requi = new Tbl_Requisicion();
-                //Nueva_Requi.Fecha = fechaDT;
-                //Nueva_Requi.Id_User = UsuarioRegistra;
-                //Nueva_Requi.IP_User = ip_realiza;
-                //Nueva_Requi.EstatusContrato = StatusContrato;
-
-                //ConBD2_SM.Tbl_Requisicion.Add(Nueva_Requi);
-                //ConBD2_SM.SaveChanges();
-
-                ////Obtenemos la ultima requi guardada(que es esta)
-                //var IdRequi1 = (from a in ConBD2_SM.Tbl_Requisicion
-                //                where a.Id_User == UsuarioRegistra
-                //                where a.Fecha == fechaDT
-                //                select a).OrderByDescending(u => u.Id_Requicision).FirstOrDefault();
-
-                //ConBD2_SM.Database.ExecuteSqlCommand("UPDATE Tbl_Requisicion SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequi1.Id_Requicision + "';");
-                //ConBD2_SM.Database.ExecuteSqlCommand("UPDATE Tbl_Requisicion SET Clave = 'RAC-" + ff + "-" + IdRequi.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi1.Id_Requicision + "';");
-
-                //foreach (var item in ListaSustanciasRequiDirecta)
-                //{
-                //    Tbl_DetalleRequi nuevo_Detalle = new Tbl_DetalleRequi();
-                //    nuevo_Detalle.Id_Requicision = IdRequi1.Id_Requicision;
-                //    nuevo_Detalle.Id_Sustancia = item.Id;
-                //    nuevo_Detalle.Cantidad = item.CANTIDAD;
-                //    nuevo_Detalle.Clave = item.Clave;
-                //    nuevo_Detalle.Descripcion = item.descripcion_21.Trim();
-                //    nuevo_Detalle.Compendio = item.Compendio;
-                //    nuevo_Detalle.PrecioUnitario = 0;
-                //    nuevo_Detalle.Total = 0;
-
-                //    ConBD2_SM.Tbl_DetalleRequi.Add(nuevo_Detalle);
-                //    ConBD2_SM.SaveChanges();
-                //}
-
-                #endregion
-                //-----------------------------------------------------------------------------------------------------------------------
-
-                //--------------------------------------------------------------------------------------------------------------------------------  TABLAS VIEJAS
-                /*  GUARDAR LA REQUISICION Y SU DETALLE EN LAS TABLAS DE REQUISICION Y DETALLE REQUISICION  */
-                //Requisicion_1 Req = new Requisicion_1();
-                //Req.Id_Tipo = 2;
-                //Req.Fecha = fechaDT;
-                //Req.Status = true;
-                //Req.cerrado = false;
-                //Req.UserId = IdUsuarioCifrado;
-
-                ////Guardamos el Id del usuario de la tabla Usuario en el campo 'UsuarioId' en la tabla Requisiciones
-                //if (UsuarioOLD == null)
-                //{
-                //}
-                //else
-                //{
-                //    if (UsuarioOLD.Usu_User == null)
-                //    {
-                //    }
-                //    else
-                //    {
-                //        Req.Id_Usuario = UsuarioOLD.UsuarioId;
-                //    }
-                //}
-
-                //var ClaveNueva = AñoMes_Actual + ConsecutivoNuevoTxt;
-                //Req.clave = ClaveNueva;
-                //Req.EstatusContrato = StatusContrato;
-
-                //RequisicionDB.Requisicion.Add(Req);
-                //RequisicionDB.SaveChanges();
-
-                ////Obtener Requisición recién generada en las tablas viejas
-                //var ID = (from a in RequisicionDB.Requisicion
-                //          where a.Fecha == fechaDT
-                //          where a.Id_Tipo == 2
-                //          select a).OrderByDescending(u => u.id).FirstOrDefault();
-
-                //foreach (var item in ListaSustanciasRequiDirecta)
-                //{
-                //    DetalleReq detRequi = new DetalleReq();
-                //    detRequi.Id_Requisicion = ID.id;
-                //    detRequi.Id_Sustancia = item.Id;
-                //    detRequi.C_Solicitada = (int)item.CANTIDAD;
-                //    detRequi.C_Recibida = 0;
-                //    detRequi.Status = false;
-
-                //    RequisicionDB.DetalleReq.Add(detRequi);
-                //    RequisicionDB.SaveChanges();
-                //}
-
-                //foreach (var item in ListaSustanciasRequiDirecta)
-                //{
-                //    Cotizaciones Coti = new Cotizaciones();
-                //    Coti.Id_Sustancia = item.Id;
-                //    Coti.Id_Requisicion = ID.id;
-                //    Coti.Id_Prov_1 = 0;
-                //    Coti.Cant_Asig_1 = 0;
-                //    Coti.CostoUnit_1 = 0;
-                //    Coti.Id_Prov_2 = 0;
-                //    Coti.Cant_Asig_2 = 0;
-                //    Coti.CostoUnit_2 = 0;
-                //    Coti.Id_Prov_3 = 0;
-                //    Coti.Cant_Asig_3 = 0;
-                //    Coti.CostoUnit_3 = 0;
-                //    Coti.Status = false;
-                //    Coti.FechaCrea = ID.Fecha;
-                //    Coti.FechaMod = ID.Fecha;
-                //    Coti.Id_Usuario = ID.Id_Usuario;
-                //    Coti.Cuadro = 0;
-                //    Coti.UserId = IdUsuarioCifrado;
-
-                //    RequisicionDB.Cotizaciones.Add(Coti);
-                //    RequisicionDB.SaveChanges();
-                //}
-                //--------------------------------------------------------------------------------------------------------------------------------
-
-                return Json(new { MENSAJE = "Succe: Se generó la Requisición" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

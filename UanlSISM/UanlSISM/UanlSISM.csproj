@@ -1655,10 +1655,19 @@
     <Compile Include="Models\SP_Temporales_Result.cs">
       <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_Trazabilidad_OC_Result.cs">
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Trazabilidad_OC_Result1.cs">
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SP_Trazabilidad_Result.cs">
       <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_Trazabilidad_Result1.cs">
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Trazabilidad_VE_Result.cs">
       <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_ViewCodBar2022_Result.cs">
