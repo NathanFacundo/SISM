@@ -94,7 +94,7 @@
 <div>
 
     <div class="row">
-        <h5 class="text-center m-0" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Trazabilidad de Medicamento</h5>
+        <h5 class="text-center m-0" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Consultar O.C.</h5>
     </div>
 
     <div class="row">
@@ -167,8 +167,6 @@
                     <th class='text-center' style="background-color: gold">Cantidad<br /> OC.</th>
                     <th class='text-center' style="background-color: gold">Cantidad<br /> Pen.</th>
                     <th class='text-center' style="background-color: gold">PU. Med<br /> OC.</th>
-                    <th class='text-center' style="background-color: gold">Prov.<br /> OC.</th>
-                    <th class='text-center' style="background-color: darkgrey"></th>
                 </tr>
             </thead>
             <tbody>
@@ -176,40 +174,53 @@
         </table>
     </div>
 
-</div>
+    <br />
+    <div class="row">
+        <h5 class="text-center" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Consultar V.E.</h5>
+    </div>
 
-<div class="modal fade" id="DetalleModal" tabindex="-1" role="dialog" aria-labelledby="DetalleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body imprimir-content">
-                <div class="row" id="contenido">
-                    <h5 id="TitutloModal" class="text-center imprimirTitulo" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Vales de Entrada</h5>
+    <div class="row">
+        <div class="col-6">
+            <div class="row">
+                <div class="col-6">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Clave Med.</span>
+                        <input type="number" class="form-control" id="ClaveM_VE" name="ClaveM_VE">
+                    </div>
                 </div>
-                <div>
-                    <table id="tblDetalleVE" class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Clave<br />Med.</th>
-                                <th>Folio<br />VE.</th>
-                                <th>Fecha<br />VE.</th>
-                                <th>Cantidad<br />Surtida.</th>
-                                <th>Factura<br />.</th>
-                                <th>Lote<br />.</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col">
+                            <button type="button" class="btn" style="background-color: #0431B4; color:yellow;" onclick="Buscar_VE()">Buscar</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="col-6">
+        </div>
     </div>
+
+    <div class="row">
+        <table class="table table-striped table-hover" id="TblTrazabilidad_VE">
+            <thead>
+                <tr>
+                    <th class='text-center' style="background-color: green; color: white">Clave<br /> Med.</th>
+                    <th class='text-center' style="background-color:darkgrey">Folio<br /> VE.</th>
+                    <th class='text-center' style="background-color: darkgrey">Fecha<br /> VE.</th>
+                    <th class='text-center' style="background-color:darkgrey">Factura</th>
+                    <th class='text-center' style="background-color: darkorange">Folio<br /> Req.</th>
+                    <th class='text-center' style="background-color: gold">Folio<br /> OC.</th>
+                    <th class='text-center' style="background-color: gold">Cantidad<br /> OC.</th>
+                    <th class='text-center' style="background-color: gold">Cantidad<br /> Surt.</th>
+                    <th class='text-center' style="background-color: gold">Cantidad<br /> Pend.</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
 </div>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
@@ -274,7 +285,7 @@
             }
         });
 
-        $('#tblDetalleVE').DataTable({
+        $('#TblTrazabilidad_VE').DataTable({
             paging: false,
             scroller: false,
             responsive: true,
@@ -382,7 +393,7 @@
             deferRender: true,
             scroller: true,
             scrollColapse: true,
-            paging: false,
+            scrollY: 200,
             lengthChange: false,
             language: {
                 "zeroRecords": "No se encontraron registros",
@@ -421,19 +432,7 @@
                 { 'data': 'Fecha_OC_', className: "text-center", render: function (data) { return moment(data).isValid() ? moment(data).format("DD/MM/YYYY HH:mm") : ""; } },
                 { 'data': 'Cant__OC_', className: "text-center" },
                 { 'data': 'Cant__Pen_', className: "text-center" },
-                { 'data': 'P_U__OC', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
-                { 'data': 'Prov_Nombre', className: "text-center" },
-                {
-                    "data": null, className: "text-center", render: function (data) {
-                        if (data.Fecha_OC_ == '' || data.Fecha_OC_ == null) {
-                            return '';
-                        } else {
-                            return '<button title="Ver Detalle" id="VerDetalle" class="btn btn-primary fa fa-book " data-toggle="modal" ></button>';
-                        }
-                    }
-                }
-                //,
-                //{ 'data': null, className: "text-center", render: function (data, type, row) { return ((data.Fecha_OC_ = null) ? '' : '<button title="Ver Detalle" id="VerDetalle" class="btn btn-primary fa fa-book " data-toggle="modal" ></button>'); } },
+                { 'data': 'P_U__OC', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') }
             ]
         });
 
@@ -473,29 +472,56 @@
             var cell = table.cell({ row: rowIdx, column: 8 }).node();
             $(cell).addClass('pink2');
         });
-        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
-            var cell = table.cell({ row: rowIdx, column: 9 }).node();
-            $(cell).addClass('pink2');
-        });
-        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
-            var cell = table.cell({ row: rowIdx, column: 10 }).node();
-            $(cell).addClass('pink3');
-        });
+        //table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+        //    var cell = table.cell({ row: rowIdx, column: 8 }).node();
+        //    $(cell).addClass('pink3');
+        //});
+        //table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+        //    var cell = table.cell({ row: rowIdx, column: 9 }).node();
+        //    $(cell).addClass('pink3');
+        //});
+        //table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+        //    var cell = table.cell({ row: rowIdx, column: 10 }).node();
+        //    $(cell).addClass('pink3');
+        //});
+        //table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+        //    var cell = table.cell({ row: rowIdx, column: 11 }).node();
+        //    $(cell).addClass('pink3');
+        //});
+        //table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+        //    var cell = table.cell({ row: rowIdx, column: 12 }).node();
+        //    $(cell).addClass('pink3');
+        //});
     }
 
-    $('#TblTrazabilidad tbody').on('click', '#VerDetalle', function () {
-        var tr = $(this).closest('tr');
-        row = $('#TblTrazabilidad').DataTable().row(tr);
-        IdOC = row.data().Id;
-        IdSus = row.data().IdSustancia;
+    function Buscar_VE() {
+        var ClaveMed = $("#ClaveM_VE").val();
 
-        $('#DetalleModal').modal("show");
+        if (ClaveMed != "") {
 
+            Swal.fire({
+                title: 'Realizando búsqueda',
+                timer: 1000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+            })
+
+            LlenaTbl_VE(ClaveMed)
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'Debe ingresar la Clave de Medicamento'
+            });
+        }
+    }
+
+    function LlenaTbl_VE(ClaveMed) {
         $.ajax({
             url: '@Url.Action("ObtenerReporteVE", "Seguimiento")',
             method: 'POST',
             dataType: 'json',
-            data: { IdOC: IdOC, IdSus: IdSus },
+            data: { ClaveMed: ClaveMed },
             success: function (data) {
 
                 if (data.MENSAJE.substring(0, 6) == "Error:") {
@@ -505,9 +531,16 @@
                         text: data.MENSAJE.substring(7),
                     });
                 }
-                else {
-                    LlenDetalle(data.R);
-                }
+                else
+                    if (data.REP == 0 || data.REP == "0") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'No se encontraron registros con el filtro ingresado'
+                        });
+                    }
+                    else {
+                        LlenaTabla_VE(data.REP);
+                    }
             },
             error: function (ex) {
                 Swal.fire({
@@ -516,56 +549,108 @@
                 });
             }
         });
+    }
 
-        function LlenDetalle(Det) {
-            var tableP = $('#tblDetalleVE').DataTable();
+    function LlenaTabla_VE(Rep) {
+        var table = $('#TblTrazabilidad_VE').DataTable();
+        table.destroy();
 
-            tableP.destroy();
-            tableP = $('#tblDetalleVE').DataTable({
-                destroy: true,
-                searching: false,
-                responsive: true,
-                lengthChange: false,
-                paging: false,
-                data: Det,
-                //"order": [[1, 'asc']],
-                language: {
-                    "zeroRecords": " ",
-                    "zeroRecords": "No se encontró V.E. de de este medicamento",
-                    "search": "",
-                    "info": "Total _TOTAL_ ",
-                    "infoEmpty": "",
-                    decimal: ',',
-                    thousands: '.',
-                    "paginate": {
-                        "first": "Primero",
-                        "last": "Último",
-                        "next": "Siguiente",
-                        "previous": "Anterior",
-                    },
-                    "select": {
-                        "rows": " %d filas seleccionadas"
-                    },
+        table = $('#TblTrazabilidad_VE').DataTable({
+            responsive: true,
+            searching: false,
+            info: true,
+            deferRender: true,
+            scroller: true,
+            scrollColapse: true,
+            scrollY: 200,
+            lengthChange: false,
+            language: {
+                "zeroRecords": "No se encontraron registros",
+                "search": "",
+                "info": "_TOTAL_ filas",
+                "infoEmpty": "",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior",
                 },
-                columns: [
-                    {
-                        'data': 'ORDEN', className: "text-center",
-                        render: function (data, type, row, meta) {
-                            return (row.ORDEN = meta.row + meta.settings._iDisplayStart + 1);
+                "select": {
+                    "rows": " %d filas seleccionadas"
+                },
+            },
+            data: Rep,
+            columns: [
+                {
+                    'data': 'Clave_Med', className: "text-center", render: function (data) {//
+                        return '<h8 style="color:white; ">' + data + '</h8>';
+                    }
+                },
+                {
+                    "data": "Folio_VE", className: "text-center", render: function (data) {//
+                        if (data == '' || data == null) {
+                            return '<h8 style="color:red; "><b>' + "SIN V.E." + '</b></h8>';
+                        } else {
+                            return '<h8 style="color:black; ">' + data + '</h8>';
                         }
-                    },
-                    { "data": "Clave_Med_", className: "text-center" },
-                    { "data": "Folio_VE_", className: "text-center" },
-                    { 'data': 'Fecha_VE', className: "text-center", render: function (data) { return moment(data).isValid() ? moment(data).format("DD/MM/YYYY HH:mm") : ""; } },
-                    { "data": "Cant__VE_", className: "text-center" },
-                    { "data": "Factura", className: "text-center" },
-                    { "data": "Lote", className: "text-center" }
-                ]
-            });
+                    }
+                },
+                { 'data': 'Fecha_VE', className: "text-center", render: function (data) { return moment(data).isValid() ? moment(data).format("DD/MM/YYYY HH:mm") : ""; } },//
+                { 'data': 'Factura', className: "text-center" },//
+                { 'data': 'Folio_Req', className: "text-center" },//
+                {
+                    "data": "Folio_OC", className: "text-center", render: function (data) {//
+                        if (data == '' || data == null) {
+                            return '<h8 style="color:red; "><b>' + "SIN O.C." + '</b></h8>';
+                        } else {
+                            return '<h8 style="color:black; ">' + data + '</h8>';
+                        }
+                    }
+                },
+                { 'data': 'Can_OC', className: "text-center" },//
+                { 'data': 'Can_Surtida', className: "text-center" },//
+                { 'data': 'Pendiente_OC', className: "text-center" }//
+            ]
+        });
 
-        }
-
-    });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 0 }).node();
+            $(cell).addClass('pink');
+        });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 1 }).node();
+            $(cell).addClass('pink3');
+        });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 2 }).node();
+            $(cell).addClass('pink3');
+        });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 3 }).node();
+            $(cell).addClass('pink3');
+        });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 4 }).node();
+            $(cell).addClass('pink1');
+        });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 5 }).node();
+            $(cell).addClass('pink2');
+        });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 6 }).node();
+            $(cell).addClass('pink2');
+        });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 7 }).node();
+            $(cell).addClass('pink2');
+        });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 8 }).node();
+            $(cell).addClass('pink2');
+        });
+        
+    }
 
     function Limpiar() {
         location.reload();

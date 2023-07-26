@@ -1019,7 +1019,7 @@
         </div>
     }
 
-    @if (HttpContext.Current.User.IsInRole("ComprasCoordinacion"))
+    @if (HttpContext.Current.User.IsInRole("TrazabilidadMedicamento"))
     {
         <div class="col-lg-3 col-md-6 item text-center">
             <a href="@Url.Action("Trazabilidad", "Seguimiento")">

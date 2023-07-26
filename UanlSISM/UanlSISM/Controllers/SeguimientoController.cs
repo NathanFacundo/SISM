@@ -85,15 +85,33 @@ namespace UanlSISM.Controllers
             }
         }
 
-        public ActionResult ObtenerReporteVE(string ClaveMed)
+        public ActionResult ObtenerReporteVE(int IdOC, int IdSus)
         {
             try
             {
-                var Clave = (from S in db2.Sustancia
-                             where S.Clave == ClaveMed
-                             select S).FirstOrDefault();
+                var query = db3.SP_Trazabilidad_VE(IdOC, IdSus).ToList();
 
-                var query = db3.SP_Trazabilidad_VE(Clave.Id.ToString()).ToList();
+                return Json(new { MENSAJE = "FOUND", R = query }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult Trazabilidad_Completa(string FechaInicio, string FechaFin, string ClaveMed)
+        {
+            try
+            {
+                #region Fechas
+                var fechaI = FechaInicio + " 00:00:00";
+                var fechaIn = DateTime.Parse(fechaI);
+
+                var fechaF = FechaFin + " 23:59:59";
+                var fechaFi = DateTime.Parse(fechaF);
+                #endregion
+
+                var query = db3.SP_Trazabilidad_Completa(FechaInicio, FechaFin, ClaveMed).ToList();
 
                 return Json(new { MENSAJE = "FOUND", REP = query }, JsonRequestBehavior.AllowGet);
             }
@@ -102,6 +120,5 @@ namespace UanlSISM.Controllers
                 return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
     }
 }

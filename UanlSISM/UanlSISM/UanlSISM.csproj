@@ -1655,10 +1655,40 @@
     <Compile Include="Models\SP_Temporales_Result.cs">
       <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_Trazabilidad_Completa_Result.cs">
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SP_Trazabilidad_OC_Result.cs">
       <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_Trazabilidad_OC_Result1.cs">
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Trazabilidad_OC_Result10.cs">
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Trazabilidad_OC_Result2.cs">
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Trazabilidad_OC_Result3.cs">
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Trazabilidad_OC_Result4.cs">
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Trazabilidad_OC_Result5.cs">
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Trazabilidad_OC_Result6.cs">
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Trazabilidad_OC_Result7.cs">
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Trazabilidad_OC_Result8.cs">
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Trazabilidad_OC_Result9.cs">
       <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_Trazabilidad_Result.cs">
@@ -1668,6 +1698,9 @@
       <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_Trazabilidad_VE_Result.cs">
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Trazabilidad_VE_Result1.cs">
       <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_ViewCodBar2022_Result.cs">
@@ -3828,6 +3861,8 @@
     <Content Include="Views\OrdenCompra\OrdenesCompra.cshtml" />
     <Content Include="Views\OrdenCompra\OrdenCompraPorValidar.cshtml" />
     <Content Include="Views\OrdenCompra\Reporte.cshtml" />
+    <Content Include="Views\Seguimiento\Trazabilidad2.cshtml" />
+    <Content Include="Views\Seguimiento\Trazabilidad_ORIGINAL.cshtml" />
     <Content Include="Views\Seguimiento\Trazabilidad.cshtml" />
   </ItemGroup>
   <ItemGroup>

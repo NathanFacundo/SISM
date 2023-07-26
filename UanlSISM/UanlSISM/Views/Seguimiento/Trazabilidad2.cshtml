@@ -89,12 +89,16 @@
     .pink3 {
         background-color: darkgrey !important;
     }
+
+    .pink4 {
+        background-color: aqua !important;
+    }
 </style>
 
 <div>
 
     <div class="row">
-        <h5 class="text-center m-0" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Trazabilidad de Medicamento</h5>
+        <h5 class="text-center m-0" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">TRAZABILIDAD</h5>
     </div>
 
     <div class="row">
@@ -159,16 +163,22 @@
             <thead>
                 <tr>
                     <th class='text-center' style="background-color: green; color: white">Clave<br /> Med.</th>
+
                     <th class='text-center' style="background-color: darkorange">Folio<br /> Req.</th>
                     <th class='text-center' style="background-color: darkorange">Fecha<br /> Req.</th>
                     <th class='text-center' style="background-color: darkorange">Cantidad<br /> Req.</th>
+
                     <th class='text-center' style="background-color: gold">Folio<br /> OC.</th>
                     <th class='text-center' style="background-color: gold">Fecha<br /> OC.</th>
                     <th class='text-center' style="background-color: gold">Cantidad<br /> OC.</th>
-                    <th class='text-center' style="background-color: gold">Cantidad<br /> Pen.</th>
-                    <th class='text-center' style="background-color: gold">PU. Med<br /> OC.</th>
-                    <th class='text-center' style="background-color: gold">Prov.<br /> OC.</th>
-                    <th class='text-center' style="background-color: darkgrey"></th>
+
+                    <th class='text-center' style="background-color:darkgrey">Folio<br /> VE.</th>
+                    <th class='text-center' style="background-color: darkgrey">Fecha<br /> VE.</th>
+                    <th class='text-center' style="background-color: darkgrey">Cant.<br /> VE.</th>
+
+                    <th class='text-center' style="background-color: aqua">Factura<br /> .</th>
+                    <th class='text-center' style="background-color: aqua">Lote<br /> .</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -176,40 +186,7 @@
         </table>
     </div>
 
-</div>
 
-<div class="modal fade" id="DetalleModal" tabindex="-1" role="dialog" aria-labelledby="DetalleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body imprimir-content">
-                <div class="row" id="contenido">
-                    <h5 id="TitutloModal" class="text-center imprimirTitulo" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Vales de Entrada</h5>
-                </div>
-                <div>
-                    <table id="tblDetalleVE" class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Clave<br />Med.</th>
-                                <th>Folio<br />VE.</th>
-                                <th>Fecha<br />VE.</th>
-                                <th>Cantidad<br />Surtida.</th>
-                                <th>Factura<br />.</th>
-                                <th>Lote<br />.</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
@@ -274,30 +251,6 @@
             }
         });
 
-        $('#tblDetalleVE').DataTable({
-            paging: false,
-            scroller: false,
-            responsive: true,
-            searching: false,
-            info: true,
-            lengthChange: false,
-            language: {
-                "zeroRecords": " ",
-                "search": "",
-                "info": "",
-                "infoEmpty": "",
-                "paginate": {
-                    "first": "Primero",
-                    "last": "Último",
-                    "next": "Siguiente",
-                    "previous": "Anterior",
-                },
-                "select": {
-                    "rows": " %d filas seleccionadas"
-                },
-            }
-        });
-
     });
 
     $('#datepickerInicio').datepicker({
@@ -338,7 +291,7 @@
 
     function LlenaTbl(FechaInicio, FechaFin, ClaveMed) {
         $.ajax({
-            url: '@Url.Action("ObtenerReporteOC", "Seguimiento")',
+            url: '@Url.Action("Trazabilidad_Completa", "Seguimiento")',
             method: 'POST',
             dataType: 'json',
             data: { FechaInicio: FechaInicio, FechaFin: FechaFin, ClaveMed: ClaveMed },
@@ -382,6 +335,7 @@
             deferRender: true,
             scroller: true,
             scrollColapse: true,
+            //scrollY: 200,
             paging: false,
             lengthChange: false,
             language: {
@@ -409,6 +363,7 @@
                 { 'data': 'Folio_Req_', className: "text-center" },
                 { 'data': 'Fecha_Req_', className: "text-center", render: function (data) { return moment(data).isValid() ? moment(data).format("DD/MM/YYYY HH:mm") : ""; } },
                 { 'data': 'Cant__Req_', className: "text-center" },
+
                 {
                     "data": "Folio_OC_", className: "text-center", render: function (data) {
                         if (data == '' || data == null) {
@@ -419,21 +374,38 @@
                     }
                 },
                 { 'data': 'Fecha_OC_', className: "text-center", render: function (data) { return moment(data).isValid() ? moment(data).format("DD/MM/YYYY HH:mm") : ""; } },
-                { 'data': 'Cant__OC_', className: "text-center" },
-                { 'data': 'Cant__Pen_', className: "text-center" },
-                { 'data': 'P_U__OC', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
-                { 'data': 'Prov_Nombre', className: "text-center" },
+                { 'data': 'Cant_OC_', className: "text-center" },
+
                 {
-                    "data": null, className: "text-center", render: function (data) {
-                        if (data.Fecha_OC_ == '' || data.Fecha_OC_ == null) {
-                            return '';
+                    "data": "Folio_VE_", className: "text-center", render: function (data) {
+                        if (data == '' || data == null) {
+                            return '<h8 style="color:red; "><b>' + "SIN VE." + '</b></h8>';
                         } else {
-                            return '<button title="Ver Detalle" id="VerDetalle" class="btn btn-primary fa fa-book " data-toggle="modal" ></button>';
+                            return '<h8 style="color:black; ">' + data + '</h8>';
+                        }
+                    }
+                },
+                { 'data': 'Fecha_VE', className: "text-center", render: function (data) { return moment(data).isValid() ? moment(data).format("DD/MM/YYYY HH:mm") : ""; } },
+                { 'data': 'Cant__VE_', className: "text-center" },
+
+                {
+                    "data": "Factura", className: "text-center", render: function (data) {
+                        if (data == '' || data == null) {
+                            return '<h8 style="color:red; "><b>' + "SIN FACT." + '</b></h8>';
+                        } else {
+                            return '<h8 style="color:black; ">' + data + '</h8>';
+                        }
+                    }
+                },
+                {
+                    "data": "Lote", className: "text-center", render: function (data) {
+                        if (data == '' || data == null) {
+                            return '<h8 style="color:red; "><b>' + "SIN LOTE" + '</b></h8>';
+                        } else {
+                            return '<h8 style="color:black; ">' + data + '</h8>';
                         }
                     }
                 }
-                //,
-                //{ 'data': null, className: "text-center", render: function (data, type, row) { return ((data.Fecha_OC_ = null) ? '' : '<button title="Ver Detalle" id="VerDetalle" class="btn btn-primary fa fa-book " data-toggle="modal" ></button>'); } },
             ]
         });
 
@@ -467,106 +439,28 @@
         });
         table.rows().every(function (rowIdx, tableLoop, rowLoop) {
             var cell = table.cell({ row: rowIdx, column: 7 }).node();
-            $(cell).addClass('pink2');
+            $(cell).addClass('pink3');
         });
         table.rows().every(function (rowIdx, tableLoop, rowLoop) {
             var cell = table.cell({ row: rowIdx, column: 8 }).node();
-            $(cell).addClass('pink2');
+            $(cell).addClass('pink3');
         });
         table.rows().every(function (rowIdx, tableLoop, rowLoop) {
             var cell = table.cell({ row: rowIdx, column: 9 }).node();
-            $(cell).addClass('pink2');
+            $(cell).addClass('pink3');
         });
         table.rows().every(function (rowIdx, tableLoop, rowLoop) {
             var cell = table.cell({ row: rowIdx, column: 10 }).node();
-            $(cell).addClass('pink3');
+            $(cell).addClass('pink4');
         });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 11 }).node();
+            $(cell).addClass('pink4');
+        });
+        
     }
 
-    $('#TblTrazabilidad tbody').on('click', '#VerDetalle', function () {
-        var tr = $(this).closest('tr');
-        row = $('#TblTrazabilidad').DataTable().row(tr);
-        IdOC = row.data().Id;
-        IdSus = row.data().IdSustancia;
-
-        $('#DetalleModal').modal("show");
-
-        $.ajax({
-            url: '@Url.Action("ObtenerReporteVE", "Seguimiento")',
-            method: 'POST',
-            dataType: 'json',
-            data: { IdOC: IdOC, IdSus: IdSus },
-            success: function (data) {
-
-                if (data.MENSAJE.substring(0, 6) == "Error:") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: '¡Error!',
-                        text: data.MENSAJE.substring(7),
-                    });
-                }
-                else {
-                    LlenDetalle(data.R);
-                }
-            },
-            error: function (ex) {
-                Swal.fire({
-                    icon: 'error',
-                    title: '¡Error!',
-                });
-            }
-        });
-
-        function LlenDetalle(Det) {
-            var tableP = $('#tblDetalleVE').DataTable();
-
-            tableP.destroy();
-            tableP = $('#tblDetalleVE').DataTable({
-                destroy: true,
-                searching: false,
-                responsive: true,
-                lengthChange: false,
-                paging: false,
-                data: Det,
-                //"order": [[1, 'asc']],
-                language: {
-                    "zeroRecords": " ",
-                    "zeroRecords": "No se encontró V.E. de de este medicamento",
-                    "search": "",
-                    "info": "Total _TOTAL_ ",
-                    "infoEmpty": "",
-                    decimal: ',',
-                    thousands: '.',
-                    "paginate": {
-                        "first": "Primero",
-                        "last": "Último",
-                        "next": "Siguiente",
-                        "previous": "Anterior",
-                    },
-                    "select": {
-                        "rows": " %d filas seleccionadas"
-                    },
-                },
-                columns: [
-                    {
-                        'data': 'ORDEN', className: "text-center",
-                        render: function (data, type, row, meta) {
-                            return (row.ORDEN = meta.row + meta.settings._iDisplayStart + 1);
-                        }
-                    },
-                    { "data": "Clave_Med_", className: "text-center" },
-                    { "data": "Folio_VE_", className: "text-center" },
-                    { 'data': 'Fecha_VE', className: "text-center", render: function (data) { return moment(data).isValid() ? moment(data).format("DD/MM/YYYY HH:mm") : ""; } },
-                    { "data": "Cant__VE_", className: "text-center" },
-                    { "data": "Factura", className: "text-center" },
-                    { "data": "Lote", className: "text-center" }
-                ]
-            });
-
-        }
-
-    });
-
+    
     function Limpiar() {
         location.reload();
     }

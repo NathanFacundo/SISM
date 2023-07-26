@@ -2147,7 +2147,7 @@ namespace UanlSISM.Controllers
             public string DescripcionMed { get; set; }
         }
 
-        public ActionResult ObtenerReporte(string FechaInicio, string FechaFin, string ClaveMed, string EstatusContrato)
+        public ActionResult ObtenerReporte(string FechaInicio, string FechaFin, string ClaveMed)
         {
             try
             {
@@ -2182,7 +2182,8 @@ namespace UanlSISM.Controllers
                                      CantidadMed = DOC.Cantidad,
                                      PreUnitMed = DOC.PreUnit,
                                      SubTotalMed = DOC.Total,
-                                     DescripcionMed = DOC.Descripcion
+                                     DescripcionMed = DOC.Descripcion,
+                                     
                                  }).ToList();
 
                     foreach (var q in query)
@@ -2203,7 +2204,8 @@ namespace UanlSISM.Controllers
                             Cantidad = (int)q.CantidadMed,
                             PrecioUnitario = (double)q.PreUnitMed,
                             Subtotal = q.SubTotalMed,
-                            Descripcion = q.DescripcionMed.Trim()
+                            Descripcion = q.DescripcionMed.Trim(),
+                            
                         };
                         results1.Add(resultado);
                     }

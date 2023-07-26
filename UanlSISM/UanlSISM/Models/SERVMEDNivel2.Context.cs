@@ -69,16 +69,7 @@ namespace UanlSISM.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Trazabilidad_Result1>("SP_Trazabilidad", fechaInParameter, fechaFiParameter, claveMedParameter);
         }
     
-        public virtual ObjectResult<SP_Trazabilidad_VE_Result> SP_Trazabilidad_VE(string idSustancia)
-        {
-            var idSustanciaParameter = idSustancia != null ?
-                new ObjectParameter("IdSustancia", idSustancia) :
-                new ObjectParameter("IdSustancia", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Trazabilidad_VE_Result>("SP_Trazabilidad_VE", idSustanciaParameter);
-        }
-    
-        public virtual ObjectResult<SP_Trazabilidad_OC_Result1> SP_Trazabilidad_OC(string fechaIn, string fechaFi, string claveMed)
+        public virtual ObjectResult<SP_Trazabilidad_Completa_Result> SP_Trazabilidad_Completa(string fechaIn, string fechaFi, string claveMed)
         {
             var fechaInParameter = fechaIn != null ?
                 new ObjectParameter("fechaIn", fechaIn) :
@@ -92,7 +83,37 @@ namespace UanlSISM.Models
                 new ObjectParameter("ClaveMed", claveMed) :
                 new ObjectParameter("ClaveMed", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Trazabilidad_OC_Result1>("SP_Trazabilidad_OC", fechaInParameter, fechaFiParameter, claveMedParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Trazabilidad_Completa_Result>("SP_Trazabilidad_Completa", fechaInParameter, fechaFiParameter, claveMedParameter);
+        }
+    
+        public virtual ObjectResult<SP_Trazabilidad_VE_Result1> SP_Trazabilidad_VE(Nullable<int> idOC, Nullable<int> idSustancia)
+        {
+            var idOCParameter = idOC.HasValue ?
+                new ObjectParameter("IdOC", idOC) :
+                new ObjectParameter("IdOC", typeof(int));
+    
+            var idSustanciaParameter = idSustancia.HasValue ?
+                new ObjectParameter("IdSustancia", idSustancia) :
+                new ObjectParameter("IdSustancia", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Trazabilidad_VE_Result1>("SP_Trazabilidad_VE", idOCParameter, idSustanciaParameter);
+        }
+    
+        public virtual ObjectResult<SP_Trazabilidad_OC_Result10> SP_Trazabilidad_OC(string fechaIn, string fechaFi, string claveMed)
+        {
+            var fechaInParameter = fechaIn != null ?
+                new ObjectParameter("fechaIn", fechaIn) :
+                new ObjectParameter("fechaIn", typeof(string));
+    
+            var fechaFiParameter = fechaFi != null ?
+                new ObjectParameter("fechaFi", fechaFi) :
+                new ObjectParameter("fechaFi", typeof(string));
+    
+            var claveMedParameter = claveMed != null ?
+                new ObjectParameter("ClaveMed", claveMed) :
+                new ObjectParameter("ClaveMed", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Trazabilidad_OC_Result10>("SP_Trazabilidad_OC", fechaInParameter, fechaFiParameter, claveMedParameter);
         }
     }
 }

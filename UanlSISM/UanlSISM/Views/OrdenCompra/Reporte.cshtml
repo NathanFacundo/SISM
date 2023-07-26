@@ -133,11 +133,11 @@
             <div class="col-6">
                 <div class="row">
                     <div class="col">
-                        <div class="form-check">
+                        @*<div class="form-check">
                             <label>
                                 <input type="checkbox" id="cb1" name="ConContrato"> Con Contrato
                             </label>
-                        </div>
+                        </div>*@
                     </div>
                     <div class="col">
                         <button type="button" class="btn" style="background-color: #0431B4; color:yellow;" onclick="ConsultarReporte()">Consultar</button>
@@ -158,15 +158,15 @@
         <table class="table table-striped table-hover" id="TblReporte">
             <thead>
                 <tr>
-                    @*<th></th>*@
-                    <th>Clave<br /> Medicamento</th>
-                    <th>Cantidad<br /> Medicamento</th>
                     <th>Folio<br /> REQUI</th>
                     <th>Folio<br /> O.C</th>
                     <th>Fecha<br /> O.C</th>
                     <th>Proveedor<br /> O.C</th>
+                    <th>Gran Total<br /> O.C</th>
                     <th>Acuse<br /> O.C</th>
-                    @*<th>Contrato<br /> O.C</th>*@
+                    <th>Contrato<br /> O.C</th>
+                    <th>Clave<br /> Medicamento</th>
+                    <th>Cantidad<br /> Medicamento</th>
                     <th>P.U.<br /> Medicamento</th>
                     <th>Sub total<br /> Medicamento</th>
                     <th>Descripción<br /> Medicamento</th>
@@ -259,14 +259,14 @@
 
         if ((FechaInicio != "" && FechaFin != "") || ClaveMed != "") {
 
-            var EstatusContrato = "";
-            if (document.getElementById('cb1').checked) {
-                EstatusContrato = "Con Contrato";
-            } else {
-                EstatusContrato = "Sin Contrato";
-            }
+            //var EstatusContrato = "";
+            //if (document.getElementById('cb1').checked) {
+            //    EstatusContrato = "Con Contrato";
+            //} else {
+            //    EstatusContrato = "Sin Contrato";
+            //}
 
-            LlenaTbl(FechaInicio, FechaFin, ClaveMed, EstatusContrato)
+            LlenaTbl(FechaInicio, FechaFin, ClaveMed)
         } else {
             Swal.fire({
                 icon: 'error',
@@ -281,7 +281,7 @@
             url: '@Url.Action("ObtenerReporte", "OrdenCompra")',
             method: 'POST',
             dataType: 'json',
-            data: { FechaInicio: FechaInicio, FechaFin: FechaFin, ClaveMed: ClaveMed, EstatusContrato: EstatusContrato },
+            data: { FechaInicio: FechaInicio, FechaFin: FechaFin, ClaveMed: ClaveMed},
             success: function (data) {
 
                 var count = data.REP.length;
@@ -343,17 +343,17 @@
                 },
             },
             data: Rep,
-            //"order": [[0, 'desc']],
+            "order": [[1, 'asc']],
             columns: [
-                //{ 'data': 'Clave', className: "text-center" },
-                { 'data': 'Clave', className: "text-center" },
-                { 'data': 'Cantidad', className: "text-center" },
                 { 'data': 'FolioRequisicion', className: "text-center" },
                 { 'data': 'Folio', className: "text-center" },
                 { 'data': 'FechaOC', className: "text-center" },
                 { 'data': 'NombreProveedor', className: "text-center" },
+                { 'data': 'GranT', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                 { 'data': 'FechaAcuse', className: "text-center" },
-                //{ 'data': 'NumContrato', className: "text-center" },
+                { 'data': 'NumContrato', className: "text-center" },
+                { 'data': 'Clave', className: "text-center" },
+                { 'data': 'Cantidad', className: "text-center" },
                 { 'data': 'PrecioUnitario', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                 { 'data': 'Subtotal', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                 { 'data': 'Descripcion', className: "text-center" }
