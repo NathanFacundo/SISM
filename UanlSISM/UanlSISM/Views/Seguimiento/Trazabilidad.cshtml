@@ -165,10 +165,10 @@
                     <th class='text-center' style="background-color: gold">Folio<br /> OC.</th>
                     <th class='text-center' style="background-color: gold">Fecha<br /> OC.</th>
                     <th class='text-center' style="background-color: gold">Cantidad<br /> OC.</th>
-                    <th class='text-center' style="background-color: gold">Cantidad<br /> Pen.</th>
-                    <th class='text-center' style="background-color: gold">PU. Med<br /> OC.</th>
+                    <th class='text-center' style="background-color: gold">Cantidad<br /> Pte.</th>
+                    <th class='text-center' style="background-color: gold">P.U.<br /> OC.</th>
                     <th class='text-center' style="background-color: gold">Prov.<br /> OC.</th>
-                    <th class='text-center' style="background-color: darkgrey"></th>
+                    <th class='text-center' style="background-color: darkgrey">Entradas</th>
                 </tr>
             </thead>
             <tbody>
@@ -434,6 +434,16 @@
                 }
                 //,
                 //{ 'data': null, className: "text-center", render: function (data, type, row) { return ((data.Fecha_OC_ = null) ? '' : '<button title="Ver Detalle" id="VerDetalle" class="btn btn-primary fa fa-book " data-toggle="modal" ></button>'); } },
+            ],
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                },
+                {
+                    extend: 'print',
+                    text: 'Imprimir',
+                },
             ]
         });
 
