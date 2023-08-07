@@ -80,7 +80,6 @@
     .btn-spaceA {
         margin-bottom: 5px;
     }
-
 </style>
 
 <div class="btn-toolbar">
@@ -210,7 +209,7 @@
 
                 @* INFO: ACUSE - CONTRATO... *@
                 <div class="row" id="Moddal">
-                    
+
                     <div class="col-4">
                         <div class="row">
                             <div class="alt-features-item align-center">
@@ -237,7 +236,7 @@
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <h10 id="InputFA1" style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Fecha Acuse</h10><br />
+                                <h10 id="InputFA1" style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Fecha Vencimiento</h10><br />
                                 <a style="" id="InputFA"></a>
                             </div>
                             <div class="col-6">
@@ -273,7 +272,7 @@
                                     <div class="col-6">
                                     </div>
                                     <div class="col-6">
-                                        <h10 style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;" id="ClaveOC1">Folio O.C</h10><br />
+                                        <h10 style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;" id="ClaveOC1">Folio</h10><br />
                                         <a style="" id="ClaveOC"></a>
                                     </div>
                                 </div>
@@ -281,7 +280,7 @@
                                     <div class="col-6">
                                     </div>
                                     <div class="col-6">
-                                        <h10 style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;" id="FechaOC1">Fecha Pre-O.C</h10><br />
+                                        <h10 style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;" id="FechaOC1">Fecha Pre-Orden</h10><br />
                                         <a style="" id="FechaOC"></a>
                                     </div>
                                 </div>
@@ -290,7 +289,7 @@
                     </div>
 
                 </div>
-                
+
                 @*TABLA*@
                 <div>
                     <table id="tblDetalleOC" class="table table-striped table-hover">
@@ -468,10 +467,10 @@
 
         document.getElementById("TitutloModal").innerHTML = "PRE-ORDEN DE COMPRA";
 
-        document.getElementById("FechaOC1").innerHTML = "Fecha Pre-O.C";
+        document.getElementById("FechaOC1").innerHTML = "Fecha Pre-Orden";
         $('#FechaOC').html(FePre);
 
-        document.getElementById("Fecha11").innerHTML = "Fecha Pre-O.C";
+        document.getElementById("Fecha11").innerHTML = "Fecha Pre-Orden";
         $('#Fecha1').html(FePre);
 
         $("#pie").show();
@@ -693,10 +692,10 @@
 
                 document.getElementById("TitutloModal").innerHTML = "PRE-ORDEN DE COMPRA";
 
-                document.getElementById("FechaOC1").innerHTML = "Fecha Pre-O.C";
+                document.getElementById("FechaOC1").innerHTML = "Fecha Pre-Orden";
                 $('#FechaOC').html(response[0].Fecha);
 
-                document.getElementById("Fecha11").innerHTML = "Fecha Pre-O.C";
+                document.getElementById("Fecha11").innerHTML = "Fecha Pre-Orden";
                 $('#Fecha1').html(response[0].Fecha);
 
                 $("#pie").show();//Firmas Pre-Orden     Cuando no tiene Folio, es Pre-Orden y las Firmas que deben salir son Quien Realizo y Quien Autorizo
@@ -714,10 +713,10 @@
 
                 document.getElementById("TitutloModal").innerHTML = "ORDEN DE COMPRA";
 
-                document.getElementById("FechaOC1").innerHTML = "Fecha O.C";
+                document.getElementById("FechaOC1").innerHTML = "Fecha";
                 $('#FechaOC').html(response[0].FechaOC);
 
-                document.getElementById("Fecha11").innerHTML = "Fecha O.C";
+                document.getElementById("Fecha11").innerHTML = "Fecha";
                 $('#Fecha1').html(response[0].FechaOC);
 
                 $("#pie").hide();//Firmas Pre-Orden
@@ -794,7 +793,7 @@
             $('#FechaAutoriza').html(response[0].FechaAutorizaOC);
             $('#UsuAutoriza').html(response[0].UsuarioAutorizaOC);
 
-            var CO = response[0].NumContrato;
+	    var CO = response[0].NumContrato;
             $('#Num_Contrato').val(CO);
 
             LlenDetalle(response);
@@ -888,10 +887,10 @@
 
                 document.getElementById("TitutloModal").innerHTML = "PRE-ORDEN DE COMPRA";
 
-                document.getElementById("FechaOC1").innerHTML = "Fecha Pre-O.C";
+                document.getElementById("FechaOC1").innerHTML = "Fecha Pre-Orden";
                 $('#FechaOC').html(response[0].Fecha);
 
-                document.getElementById("Fecha11").innerHTML = "Fecha Pre-O.C";
+                document.getElementById("Fecha11").innerHTML = "Fecha Pre-Orden";
                 $('#Fecha1').html(response[0].Fecha);
 
                 $("#pie").show();//Firmas Pre-Orden     Cuando no tiene Folio, es Pre-Orden y las Firmas que deben salir son Quien Realizo y Quien Autorizo
@@ -906,10 +905,10 @@
 
                 document.getElementById("TitutloModal").innerHTML = "ORDEN DE COMPRA";
 
-                document.getElementById("FechaOC1").innerHTML = "Fecha O.C";
+                document.getElementById("FechaOC1").innerHTML = "Fecha";
                 $('#FechaOC').html(response[0].FechaOC);
 
-                document.getElementById("Fecha11").innerHTML = "Fecha O.C";
+                document.getElementById("Fecha11").innerHTML = "Fecha";
                 $('#Fecha1').html(response[0].FechaOC);
 
                 $("#pie").hide();//Firmas Pre-Orden
