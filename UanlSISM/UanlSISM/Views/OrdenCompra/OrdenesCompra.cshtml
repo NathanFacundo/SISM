@@ -84,7 +84,7 @@
 </style>
 
 <div class="btn-toolbar">
-    <button type="button" class="btn btn-primary btn-space" onclick="Regresar()">REQUISICIONES (regresar)</button>
+    <button type="button" class="btn btn-primary btn-space" onclick="Regresar()">REGRESAR</button>
 </div>
 
 <div class="row">
@@ -138,6 +138,7 @@
                     <input id="Id_OC" name="Id_OC" value="" style="display: none;" />
                     <input id="Folio_Requi" name="Folio_Requi" value="" style="display: none;" />
                     <input id="FechaPreOC" name="FechaPreOC" value="" style="display: none;" />
+                    <input id="Num_Contrato" name="Num_Contrato" value="" style="display: none;" />
                 </div>
 
                 <div class="row m-0 text-center pt-4">
@@ -793,6 +794,9 @@
             $('#FechaAutoriza').html(response[0].FechaAutorizaOC);
             $('#UsuAutoriza').html(response[0].UsuarioAutorizaOC);
 
+            var CO = response[0].NumContrato;
+            $('#Num_Contrato').val(CO);
+
             LlenDetalle(response);
 
         }).fail(function (response) {
@@ -968,6 +972,9 @@
 
             $('#FechaAutoriza').html(response[0].FechaAutorizaOC);
             $('#UsuAutoriza').html(response[0].UsuarioAutorizaOC);
+
+            var CO = response[0].NumContrato;
+            $('#Num_Contrato').val(CO);
 
             LlenDetalle(response);
 
@@ -1164,7 +1171,7 @@
     $('#btnGenerar_OC').on('click', function () {
         var Id_OC = $("#Id_OC").val();
         var Folio_Requi = $("#Folio_Requi").val();
-        var Contrato = $("#InputContrato").val();
+        var Contrato = $("#Num_Contrato").val();
 
         $.ajax({
             url: '@Url.Action("HACER_OC", "OrdenCompra")',
