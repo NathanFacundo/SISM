@@ -79,6 +79,7 @@ namespace UanlSISM.Controllers
             public int Id { get; internal set; }
             public string ClaveMedicamento { get; internal set; }
             public double PreUnit { get; internal set; }
+            public int? Pendiente { get; internal set; }
         }
 
         //----------------------------------------------------- Pantalla ORDEN COMPRA   --------------  INICIO
@@ -2161,9 +2162,9 @@ namespace UanlSISM.Controllers
                     var fechaF = FechaFin + " 23:59:59";
                     var fechaFi = DateTime.Parse(fechaF);
 
-                    var query = (from OC in ConBD2.SISM_ORDEN_COMPRA
-                                 join DOC in ConBD2.SISM_DETALLE_OC on OC.Id equals DOC.Id_OrdenCompra
-                                 join REQ in ConBD2.SISM_REQUISICION on OC.Id_Requisicion equals REQ.Id_Requicision
+                    var query = (from OC in ConBD.SISM_ORDEN_COMPRA
+                                 join DOC in ConBD.SISM_DETALLE_OC on OC.Id equals DOC.Id_OrdenCompra
+                                 join REQ in ConBD.SISM_REQUISICION on OC.Id_Requisicion equals REQ.Id_Requicision
                                  where OC.Fecha_HacerOC >= fechaIn && OC.Fecha_HacerOC <= fechaFi
                                  where OC.Id_Requisicion == REQ.Id_Requicision
                                  select new
@@ -2183,11 +2184,23 @@ namespace UanlSISM.Controllers
                                      PreUnitMed = DOC.PreUnit,
                                      SubTotalMed = DOC.Total,
                                      DescripcionMed = DOC.Descripcion,
-
+                                     IdSustancia = DOC.Id_Sustencia
                                  }).ToList();
+
+                    
 
                     foreach (var q in query)
                     {
+                        //Hacemos la misma consulta pero en la bd vieja para sacar la columna Pendiente
+                        var BDvieja = (from oc in RequisicionDB.OrdenCompra
+                                       join doc in RequisicionDB.DetalleOC on oc.Id equals doc.Id_OrdenCompra
+                                       where oc.clave == q.FolioOC
+                                       where doc.Id_Sustancia == q.IdSustancia
+                                       select new
+                                       {
+                                           Pendiente = doc.Pendiente
+                                       }).FirstOrDefault();
+
                         var resultado = new ListCampos
                         {
                             Identificador = q.Identificador,
@@ -2205,10 +2218,13 @@ namespace UanlSISM.Controllers
                             PrecioUnitario = (double)q.PreUnitMed,
                             Subtotal = q.SubTotalMed,
                             Descripcion = q.DescripcionMed.Trim(),
-
+                            Id_Sustancia = (int)q.IdSustancia,
+                            Pendiente = BDvieja.Pendiente
                         };
                         results1.Add(resultado);
                     }
+
+                    
                 }
                 else if (FechaInicio != "" && FechaFin != "" && ClaveMed != "")// Consultar CON FECHAS Y CLAVE
                 {
@@ -2218,9 +2234,9 @@ namespace UanlSISM.Controllers
                     var fechaF = FechaFin + " 23:59:59";
                     var fechaFi = DateTime.Parse(fechaF);
 
-                    var query = (from OC in ConBD2.SISM_ORDEN_COMPRA
-                                 join DOC in ConBD2.SISM_DETALLE_OC on OC.Id equals DOC.Id_OrdenCompra
-                                 join REQ in ConBD2.SISM_REQUISICION on OC.Id_Requisicion equals REQ.Id_Requicision
+                    var query = (from OC in ConBD.SISM_ORDEN_COMPRA
+                                 join DOC in ConBD.SISM_DETALLE_OC on OC.Id equals DOC.Id_OrdenCompra
+                                 join REQ in ConBD.SISM_REQUISICION on OC.Id_Requisicion equals REQ.Id_Requicision
                                  where OC.Fecha_HacerOC >= fechaIn
                                  where OC.Fecha_HacerOC <= fechaFi && DOC.ClaveMedicamento == ClaveMed
                                  select new
@@ -2239,11 +2255,22 @@ namespace UanlSISM.Controllers
                                      CantidadMed = DOC.Cantidad,
                                      PreUnitMed = DOC.PreUnit,
                                      SubTotalMed = DOC.Total,
-                                     DescripcionMed = DOC.Descripcion
+                                     DescripcionMed = DOC.Descripcion,
+                                     IdSustancia = DOC.Id_Sustencia
                                  }).ToList();
 
                     foreach (var q in query)
                     {
+                        //Hacemos la misma consulta pero en la bd vieja para sacar la columna Pendiente
+                        var BDvieja = (from oc in RequisicionDB.OrdenCompra
+                                       join doc in RequisicionDB.DetalleOC on oc.Id equals doc.Id_OrdenCompra
+                                       where oc.clave == q.FolioOC
+                                       where doc.Id_Sustancia == q.IdSustancia
+                                       select new
+                                       {
+                                           Pendiente = doc.Pendiente
+                                       }).FirstOrDefault();
+
                         var resultado = new ListCampos
                         {
                             Identificador = q.Identificador,
@@ -2260,16 +2287,18 @@ namespace UanlSISM.Controllers
                             Cantidad = (int)q.CantidadMed,
                             PrecioUnitario = (double)q.PreUnitMed,
                             Subtotal = q.SubTotalMed,
-                            Descripcion = q.DescripcionMed.Trim()
+                            Descripcion = q.DescripcionMed.Trim(),
+                            Id_Sustancia = (int)q.IdSustancia,
+                            Pendiente = BDvieja.Pendiente
                         };
                         results1.Add(resultado);
                     }
                 }
                 else// Consultar SOLO CON CLAVE
                 {
-                    var query = (from OC in ConBD2.SISM_ORDEN_COMPRA
-                                 join DOC in ConBD2.SISM_DETALLE_OC on OC.Id equals DOC.Id_OrdenCompra
-                                 join REQ in ConBD2.SISM_REQUISICION on OC.Id_Requisicion equals REQ.Id_Requicision
+                    var query = (from OC in ConBD.SISM_ORDEN_COMPRA
+                                 join DOC in ConBD.SISM_DETALLE_OC on OC.Id equals DOC.Id_OrdenCompra
+                                 join REQ in ConBD.SISM_REQUISICION on OC.Id_Requisicion equals REQ.Id_Requicision
                                  where DOC.ClaveMedicamento == ClaveMed
                                  select new
                                  {
@@ -2287,11 +2316,22 @@ namespace UanlSISM.Controllers
                                      CantidadMed = DOC.Cantidad,
                                      PreUnitMed = DOC.PreUnit,
                                      SubTotalMed = DOC.Total,
-                                     DescripcionMed = DOC.Descripcion
+                                     DescripcionMed = DOC.Descripcion,
+                                     IdSustancia = DOC.Id_Sustencia
                                  }).ToList();
 
                     foreach (var q in query)
                     {
+                        //Hacemos la misma consulta pero en la bd vieja para sacar la columna Pendiente
+                        var BDvieja = (from oc in RequisicionDB.OrdenCompra
+                                       join doc in RequisicionDB.DetalleOC on oc.Id equals doc.Id_OrdenCompra
+                                       where oc.clave == q.FolioOC
+                                       where doc.Id_Sustancia == q.IdSustancia
+                                       select new
+                                       {
+                                           Pendiente = doc.Pendiente
+                                       }).FirstOrDefault();
+
                         var resultado = new ListCampos
                         {
                             Identificador = q.Identificador,
@@ -2308,7 +2348,9 @@ namespace UanlSISM.Controllers
                             Cantidad = (int)q.CantidadMed,
                             PrecioUnitario = (double)q.PreUnitMed,
                             Subtotal = q.SubTotalMed,
-                            Descripcion = q.DescripcionMed.Trim()
+                            Descripcion = q.DescripcionMed.Trim(),
+                            Id_Sustancia = (int)q.IdSustancia,
+                            Pendiente = BDvieja.Pendiente
                         };
                         results1.Add(resultado);
                     }

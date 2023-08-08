@@ -38,6 +38,8 @@ namespace UanlSISM.Controllers
             public int Existencia { get; set; }
             public string Compendio { get; set; }
             public int Licitacion { get; set; }
+
+            public int Inventario { get; set; }
         }
 
         public class BorradorList
@@ -103,6 +105,10 @@ namespace UanlSISM.Controllers
         {
             try
             {
+                //var inv = " SELECT TOP 1 FROM Inventario WHERE status = 'true' AND tipo = '2' ";
+                //var r = ConBD2_SM.Database.SqlQuery<LstInv1>(inv);
+                //var re = r.FirstOrDefault();
+
                 //var query = db.SP_ObtenerSustancias_Milton();
                 string query = "SELECT Sus.Clave AS Clave, RTRIM(Sus.descripcion_21) AS Descripcion, Inv.ManejoDisponible AS Existencia, Sus.Compendio As Compendio, Sus.LicitacionStatus As Licitacion " +
                                "FROM Sustancia AS Sus " +
