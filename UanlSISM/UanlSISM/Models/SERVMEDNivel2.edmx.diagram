@@ -13,6 +13,7 @@
         <EntityTypeShape EntityType="SERVMEDNivel2.Tbl_DetalleRequi" Width="1.5" PointX="10.875" PointY="0.5" />
         <EntityTypeShape EntityType="SERVMEDNivel2.Tbl_Requisicion" Width="1.5" PointX="8.625" PointY="0.5" />
         <AssociationConnector Association="SERVMEDNivel2.FK__Tbl_Detal__Id_Re__62707447" />
+        <EntityTypeShape EntityType="SERVMEDNivel2.Inventario_1" Width="1.5" PointX="0.75" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

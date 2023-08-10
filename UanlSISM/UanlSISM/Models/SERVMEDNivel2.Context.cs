@@ -33,6 +33,7 @@ namespace UanlSISM.Models
         public virtual DbSet<Tbl_OrdenCompra> Tbl_OrdenCompra { get; set; }
         public virtual DbSet<Tbl_DetalleRequi> Tbl_DetalleRequi { get; set; }
         public virtual DbSet<Tbl_Requisicion> Tbl_Requisicion { get; set; }
+        public virtual DbSet<Inventario_1> Inventario { get; set; }
     
         public virtual ObjectResult<SP_MedicamentosTemporales_Result> SP_MedicamentosTemporales(Nullable<int> idUnidad)
         {

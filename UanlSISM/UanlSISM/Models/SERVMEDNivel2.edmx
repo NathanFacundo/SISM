@@ -19,6 +19,15 @@
           <Property Name="contenido_anterior" Type="int" />
           <Property Name="codigobarra_anterior" Type="nchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Inventario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom_invent" Type="char" MaxLength="25" Nullable="false" />
+          <Property Name="status" Type="bit" Nullable="false" />
+          <Property Name="tipo" Type="tinyint" Nullable="false" />
+        </EntityType>
         <EntityType Name="Tbl_DetalleOC">
           <Key>
             <PropertyRef Name="Id" />
@@ -175,6 +184,7 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
         </Function>
         <EntityContainer Name="SERVMEDNivel2StoreContainer">
           <EntitySet Name="CodigoBarras" EntityType="Self.CodigoBarras" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Inventario" EntityType="Self.Inventario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_DetalleOC" EntityType="Self.Tbl_DetalleOC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_DetalleRequi" EntityType="Self.Tbl_DetalleRequi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_OrdenCompra" EntityType="Self.Tbl_OrdenCompra" Schema="dbo" store:Type="Tables" />
@@ -280,6 +290,7 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
             <Parameter Name="fechaFi" Mode="In" Type="String" />
             <Parameter Name="ClaveMed" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="Inventario" EntityType="SERVMEDNivel2.Inventario_1" />
         </EntityContainer>
         <ComplexType Name="SP_MedicamentosTemporales_Result">
           <Property Type="String" Name="Clave" Nullable="false" MaxLength="6" />
@@ -621,6 +632,15 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
           <Property Type="Int32" Name="IdSustancia" Nullable="true" />
           <Property Type="Int32" Name="Id" Nullable="true" />
         </ComplexType>
+        <EntityType Name="Inventario_1">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom_invent" Type="String" Nullable="false" MaxLength="25" FixedLength="true" Unicode="false" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+          <Property Name="tipo" Type="Byte" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -831,6 +851,16 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="Inventario">
+            <EntityTypeMapping TypeName="SERVMEDNivel2.Inventario_1">
+              <MappingFragment StoreEntitySet="Inventario">
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="nom_invent" ColumnName="nom_invent" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

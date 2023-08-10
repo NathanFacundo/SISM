@@ -925,6 +925,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>InventarioFarmacia.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Inventario_1.cs">
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\inventario_ip.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

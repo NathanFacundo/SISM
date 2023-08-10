@@ -38,8 +38,7 @@ namespace UanlSISM.Controllers
             public int Existencia { get; set; }
             public string Compendio { get; set; }
             public int Licitacion { get; set; }
-
-            public int Inventario { get; set; }
+            public Int16 id { get; set; }
         }
 
         public class BorradorList
@@ -105,9 +104,9 @@ namespace UanlSISM.Controllers
         {
             try
             {
-                //var inv = " SELECT TOP 1 FROM Inventario WHERE status = 'true' AND tipo = '2' ";
-                //var r = ConBD2_SM.Database.SqlQuery<LstInv1>(inv);
-                //var re = r.FirstOrDefault();
+                var inv = " select top 1 id from Inventario where status = 'true' and tipo = '2'  ";
+                var r = ConBD2_SM.Database.SqlQuery<LstInv1>(inv);
+                var re = r.FirstOrDefault();
 
                 //var query = db.SP_ObtenerSustancias_Milton();
                 string query = "SELECT Sus.Clave AS Clave, RTRIM(Sus.descripcion_21) AS Descripcion, Inv.ManejoDisponible AS Existencia, Sus.Compendio As Compendio, Sus.LicitacionStatus As Licitacion " +
@@ -115,7 +114,7 @@ namespace UanlSISM.Controllers
                                "INNER JOIN InvAlmFarm AS Inv ON Sus.Id = Inv.Id_Sustancia " +
                                "WHERE(Sus.descripcion_21 IS NOT NULL) " +
                                "AND(Sus.descripcion_21 <> '') " +
-                               "AND(Inv.InvAlmId = 84) " +
+                               "AND(Inv.InvAlmId = '"+ re.id +"' ) " +
                                "AND(Sus.LicitacionStatus IS NOT NULL) " +
                                "AND(Sus.Status = 1) ";
 
@@ -240,7 +239,11 @@ namespace UanlSISM.Controllers
 
                     if (sus != null)
                     {
-                        string query2 = "select ManejoDisponible as ManejoDisponible from InvAlmFarm WHERE Id_Sustancia = " + sus.Id + " and InvAlmId = 84";
+                        var inv = " select top 1 id from Inventario where status = 'true' and tipo = '2'  ";
+                        var r = ConBD2_SM.Database.SqlQuery<LstInv1>(inv);
+                        var re = r.FirstOrDefault();
+
+                        string query2 = "select ManejoDisponible as ManejoDisponible from InvAlmFarm WHERE Id_Sustancia = " + sus.Id + " and InvAlmId = '"+ re.id +"' ";
                         var result2 = db.Database.SqlQuery<InvAlmFarm>(query2);
                         var res2 = result2.FirstOrDefault();
 
