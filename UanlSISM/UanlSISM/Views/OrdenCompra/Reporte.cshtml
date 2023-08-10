@@ -169,6 +169,7 @@
                     <th>Cantidad<br /> Medicamento</th>
                     <th>P.U.<br /> Medicamento</th>
                     <th>Sub total<br /> Medicamento</th>
+                    <th>Pte.<br /> Surtir</th>
                     <th>Descripción<br /> Medicamento</th>
                 </tr>
             </thead>
@@ -356,6 +357,7 @@
                 { 'data': 'Cantidad', className: "text-center" },
                 { 'data': 'PrecioUnitario', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                 { 'data': 'Subtotal', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                { 'data': 'Pendiente', className: "text-center" },
                 { 'data': 'Descripcion', className: "text-center" }
             ],
             dom: 'Bfrtip',

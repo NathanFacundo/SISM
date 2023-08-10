@@ -2201,6 +2201,39 @@ namespace UanlSISM.Controllers
                                            Pendiente = doc.Pendiente
                                        }).FirstOrDefault();
 
+                        //var resultado = new ListCampos
+                        //{
+                        //    Identificador = q.Identificador,
+                        //    FolioRequisicion = q.FolioRequi,
+                        //    Folio = q.FolioOC,
+                        //    FechaOC = string.Format("{0:d/M/yyyy hh:mm tt}", q.FechaOC),
+                        //    NombreProveedor = q.ProveedorOC,
+                        //    GranT = q.GranTotalOC,
+                        //    Usuario = q.UsuarioElaboraOC,
+                        //    FechaAcuse = string.Format("{0:d/M/yyyy}", q.FechaAcuseOC),
+                        //    FechaAutorizaOC = string.Format("{0:d/M/yyyy}", q.FechaAutorizaOC),
+                        //    NumContrato = q.ContratoOC,
+                        //    Clave = q.ClaveMed,
+                        //    Cantidad = (int)q.CantidadMed,
+                        //    PrecioUnitario = (double)q.PreUnitMed,
+                        //    Subtotal = q.SubTotalMed,
+                        //    Descripcion = q.DescripcionMed.Trim(),
+                        //    Id_Sustancia = (int)q.IdSustancia,
+                        //    Pendiente = BDvieja.Pendiente
+                        //};
+                        //results1.Add(resultado);
+
+                        var pp = 0;
+
+                        if (BDvieja != null)
+                        {
+                            pp = (int)BDvieja.Pendiente;
+                        }
+                        else
+                        {
+                            pp = (int)q.CantidadMed;
+                        }
+
                         var resultado = new ListCampos
                         {
                             Identificador = q.Identificador,
@@ -2219,7 +2252,7 @@ namespace UanlSISM.Controllers
                             Subtotal = q.SubTotalMed,
                             Descripcion = q.DescripcionMed.Trim(),
                             Id_Sustancia = (int)q.IdSustancia,
-                            Pendiente = BDvieja.Pendiente
+                            Pendiente = pp
                         };
                         results1.Add(resultado);
                     }
@@ -2271,6 +2304,39 @@ namespace UanlSISM.Controllers
                                            Pendiente = doc.Pendiente
                                        }).FirstOrDefault();
 
+                        //var resultado = new ListCampos
+                        //{
+                        //    Identificador = q.Identificador,
+                        //    FolioRequisicion = q.FolioRequi,
+                        //    Folio = q.FolioOC,
+                        //    FechaOC = string.Format("{0:d/M/yyyy hh:mm tt}", q.FechaOC),
+                        //    NombreProveedor = q.ProveedorOC,
+                        //    GranT = q.GranTotalOC,
+                        //    Usuario = q.UsuarioElaboraOC,
+                        //    FechaAcuse = string.Format("{0:d/M/yyyy}", q.FechaAcuseOC),
+                        //    FechaAutorizaOC = string.Format("{0:d/M/yyyy}", q.FechaAutorizaOC),
+                        //    NumContrato = q.ContratoOC,
+                        //    Clave = q.ClaveMed,
+                        //    Cantidad = (int)q.CantidadMed,
+                        //    PrecioUnitario = (double)q.PreUnitMed,
+                        //    Subtotal = q.SubTotalMed,
+                        //    Descripcion = q.DescripcionMed.Trim(),
+                        //    Id_Sustancia = (int)q.IdSustancia,
+                        //    Pendiente = BDvieja.Pendiente
+                        //};
+                        //results1.Add(resultado);
+
+                        var pp = 0;
+
+                        if (BDvieja != null)
+                        {
+                            pp = (int)BDvieja.Pendiente;
+                        }
+                        else
+                        {
+                            pp = (int)q.CantidadMed;
+                        }
+
                         var resultado = new ListCampos
                         {
                             Identificador = q.Identificador,
@@ -2289,7 +2355,7 @@ namespace UanlSISM.Controllers
                             Subtotal = q.SubTotalMed,
                             Descripcion = q.DescripcionMed.Trim(),
                             Id_Sustancia = (int)q.IdSustancia,
-                            Pendiente = BDvieja.Pendiente
+                            Pendiente = pp
                         };
                         results1.Add(resultado);
                     }
@@ -2332,6 +2398,42 @@ namespace UanlSISM.Controllers
                                            Pendiente = doc.Pendiente
                                        }).FirstOrDefault();
 
+                        //if (BDvieja != null)
+                        //{
+                        //    var resultado = new ListCampos
+                        //    {
+                        //        Identificador = q.Identificador,
+                        //        FolioRequisicion = q.FolioRequi,
+                        //        Folio = q.FolioOC,
+                        //        FechaOC = string.Format("{0:d/M/yyyy hh:mm tt}", q.FechaOC),
+                        //        NombreProveedor = q.ProveedorOC,
+                        //        GranT = q.GranTotalOC,
+                        //        Usuario = q.UsuarioElaboraOC,
+                        //        FechaAcuse = string.Format("{0:d/M/yyyy}", q.FechaAcuseOC),
+                        //        FechaAutorizaOC = string.Format("{0:d/M/yyyy}", q.FechaAutorizaOC),
+                        //        NumContrato = q.ContratoOC,
+                        //        Clave = q.ClaveMed,
+                        //        Cantidad = (int)q.CantidadMed,
+                        //        PrecioUnitario = (double)q.PreUnitMed,
+                        //        Subtotal = q.SubTotalMed,
+                        //        Descripcion = q.DescripcionMed.Trim(),
+                        //        Id_Sustancia = (int)q.IdSustancia,
+                        //        Pendiente = BDvieja.Pendiente
+                        //    };
+                        //    results1.Add(resultado);
+                        //}
+
+                        var pp = 0;
+
+                        if (BDvieja != null)
+                        {
+                            pp = (int)BDvieja.Pendiente;
+                        }
+                        else
+                        {
+                            pp = (int)q.CantidadMed;
+                        }
+
                         var resultado = new ListCampos
                         {
                             Identificador = q.Identificador,
@@ -2350,9 +2452,10 @@ namespace UanlSISM.Controllers
                             Subtotal = q.SubTotalMed,
                             Descripcion = q.DescripcionMed.Trim(),
                             Id_Sustancia = (int)q.IdSustancia,
-                            Pendiente = BDvieja.Pendiente
+                            Pendiente = pp
                         };
                         results1.Add(resultado);
+
                     }
                 }
 
