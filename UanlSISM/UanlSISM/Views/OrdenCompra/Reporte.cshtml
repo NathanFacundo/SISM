@@ -158,19 +158,19 @@
         <table class="table table-striped table-hover" id="TblReporte">
             <thead>
                 <tr>
-                    <th>Folio<br /> REQUI</th>
-                    <th>Folio<br /> O.C</th>
-                    <th>Fecha<br /> O.C</th>
-                    <th>Proveedor<br /> O.C</th>
-                    <th>Gran Total<br /> O.C</th>
-                    <th>Acuse<br /> O.C</th>
-                    <th>Contrato<br /> O.C</th>
+                    <th>Folio<br /> Req.</th>
+                    <th>Folio<br /> </th>
+                    <th>Fecha<br /> </th>
+                    <th>Proveedor<br /> </th>
+                    @*<th>Gran Total<br /> O.C</th>*@
+                    <th>Acuse<br /> </th>
+                    <th>Contrato<br /> </th>
                     <th>Clave<br /> Medicamento</th>
-                    <th>Cantidad<br /> Medicamento</th>
-                    <th>P.U.<br /> Medicamento</th>
-                    <th>Sub total<br /> Medicamento</th>
+                    <th>Cantidad<br /> </th>
+                    <th>P.U.<br /> </th>
+                    <th>Sub total<br /> </th>
                     <th>Pte.<br /> Surtir</th>
-                    <th>Descripción<br /> Medicamento</th>
+                    <th>Descripción<br /> </th>
                 </tr>
             </thead>
             <tbody>
@@ -350,7 +350,7 @@
                 { 'data': 'Folio', className: "text-center" },
                 { 'data': 'FechaOC', className: "text-center" },
                 { 'data': 'NombreProveedor', className: "text-center" },
-                { 'data': 'GranT', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                //{ 'data': 'GranT', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                 { 'data': 'FechaAcuse', className: "text-center" },
                 { 'data': 'NumContrato', className: "text-center" },
                 { 'data': 'Clave', className: "text-center" },
