@@ -60,7 +60,7 @@
         margin-right: 5px;
     }
 
-    .modal {
+    /*.modal {
         padding: 0 !important;
     }
 
@@ -68,7 +68,7 @@
         max-width: none;
         height: 100%;
         margin: 0;
-    }
+    }*/
 
     input[type=number]::-webkit-inner-spin-button,
     input[type=number]::-webkit-outer-spin-button {
@@ -79,6 +79,19 @@
     input[type=number] {
         -moz-appearance: textfield;
     }
+
+    th, td {
+        white-space: nowrap;
+    }
+
+    div.dataTables_wrapper {
+        margin: 0 auto;
+    }
+
+    div.container {
+        width: 80%;
+    }
+
 </style>
 
 <div class="btn-toolbar">
@@ -155,7 +168,8 @@
 
 <div>
     <div class="row">
-        <table class="table table-striped table-hover" id="TblReporte">
+        @*table-hover*@
+        <table class="table table-striped table-bordered " id="TblReporte">
             <thead>
                 <tr>
                     <th>Folio<br /> Req.</th>
@@ -355,8 +369,8 @@
                 { 'data': 'NumContrato', className: "text-center" },
                 { 'data': 'Clave', className: "text-center" },
                 { 'data': 'Cantidad', className: "text-center" },
-                { 'data': 'PrecioUnitario', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
-                { 'data': 'Subtotal', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                { 'data': 'PrecioUnitario', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$ ', ' ') },
+                { 'data': 'Subtotal', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$ ', ' ') },
                 { 'data': 'Pendiente', className: "text-center" },
                 { 'data': 'Descripcion', className: "text-center" }
             ],
