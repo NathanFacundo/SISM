@@ -12,14 +12,14 @@ namespace UanlSISM.Controllers
 {
     public class RequisicionController : Controller
     {
-        BD_Almacen ConBD2 = new BD_Almacen();                           //BD Nueva (Pruebas Milton)
+        //BD_Almacen ConBD2 = new BD_Almacen();                           //BD Nueva (Pruebas Milton)
         SERVMEDEntities5 db2 = new SERVMEDEntities5();                  //TBL Sustancia (LinQ)
         SERVMEDEntities8 db = new SERVMEDEntities8();                   //TBL InvAlmFarm (Manejo Disp)
         //SERVMEDEntities12 SPM = new SERVMEDEntities12();
         Models.SERVMEDEntities4 DAM = new Models.SERVMEDEntities4();    //TBL Sustancia (ExecuteSqlCommand)
         SISM_SIST_MEDEntities ConBD = new SISM_SIST_MEDEntities();      //BD Nueva (Está en Productivo)
         SERVMEDEntities8 RequisicionDB = new SERVMEDEntities8();        //TABLAS Requisicion Viejas (BD Viejita)
-        SERVMEDEntities6 ConBD2_SM = new SERVMEDEntities6();             //Nueva BD en ServMed  205
+        SERVMEDEntities6 ConBD_SM = new SERVMEDEntities6();             //Nueva BD en ServMed  205
 
         public class LstInv
         {
@@ -104,17 +104,26 @@ namespace UanlSISM.Controllers
         {
             try
             {
-                var inv = " select top 1 id from Inventario where status = 'true' and tipo = '2'  ";
-                var r = ConBD2_SM.Database.SqlQuery<LstInv1>(inv);
-                var re = r.FirstOrDefault();
+                //var inv = " select top 1 id from Inventario where status = 'true' and tipo = '2'  ";
+                //var r = ConBD_SM.Database.SqlQuery<LstInv1>(inv);
+                //var re = r.FirstOrDefault();
 
                 //var query = db.SP_ObtenerSustancias_Milton();
+                //string query = "SELECT Sus.Clave AS Clave, RTRIM(Sus.descripcion_21) AS Descripcion, Inv.ManejoDisponible AS Existencia, Sus.Compendio As Compendio, Sus.LicitacionStatus As Licitacion " +
+                //               "FROM Sustancia AS Sus " +
+                //               "INNER JOIN InvAlmFarm AS Inv ON Sus.Id = Inv.Id_Sustancia " +
+                //               "WHERE(Sus.descripcion_21 IS NOT NULL) " +
+                //               "AND(Sus.descripcion_21 <> '') " +
+                //               "AND(Inv.InvAlmId = '" + re.id + "' ) " +
+                //               "AND(Sus.LicitacionStatus IS NOT NULL) " +
+                //               "AND(Sus.Status = 1) ";
+
                 string query = "SELECT Sus.Clave AS Clave, RTRIM(Sus.descripcion_21) AS Descripcion, Inv.ManejoDisponible AS Existencia, Sus.Compendio As Compendio, Sus.LicitacionStatus As Licitacion " +
                                "FROM Sustancia AS Sus " +
                                "INNER JOIN InvAlmFarm AS Inv ON Sus.Id = Inv.Id_Sustancia " +
                                "WHERE(Sus.descripcion_21 IS NOT NULL) " +
                                "AND(Sus.descripcion_21 <> '') " +
-                               "AND(Inv.InvAlmId = '"+ re.id +"' ) " +
+                               "AND(Inv.InvAlmId = 84 ) " +
                                "AND(Sus.LicitacionStatus IS NOT NULL) " +
                                "AND(Sus.Status = 1) ";
 
@@ -131,12 +140,16 @@ namespace UanlSISM.Controllers
 
         public JsonResult GenerarBorradorRequi(List<Sustancia> ListaSustanciasBorrador, string StatusContrato)
         {
+            //return null;
+
             var UsuarioRegistra = User.Identity.GetUserName();
             var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
             var fechaDT = DateTime.Parse(fecha);
             var ip_realiza = Request.UserHostAddress;
             try
             {
+                //int i = 0, j = 0;
+                //i = i / j;
                 //Creamos borrador de la Requi
                 SISM_BORRADOR_REQUI BorradorRequi = new SISM_BORRADOR_REQUI();
                 BorradorRequi.Fecha = fechaDT;
@@ -144,10 +157,10 @@ namespace UanlSISM.Controllers
                 BorradorRequi.Estatus = "Borrador Generado";
                 BorradorRequi.ip_realiza = ip_realiza;
                 BorradorRequi.EstatusContrato = StatusContrato;
-                ConBD2.SISM_BORRADOR_REQUI.Add(BorradorRequi);
-                ConBD2.SaveChanges();
+                ConBD.SISM_BORRADOR_REQUI.Add(BorradorRequi);
+                ConBD.SaveChanges();
 
-                var IdBorrador = (from a in ConBD2.SISM_BORRADOR_REQUI
+                var IdBorrador = (from a in ConBD.SISM_BORRADOR_REQUI
                                   where a.UsuarioRegistra == UsuarioRegistra
                                   select a).OrderByDescending(u => u.Id_BorradorRequi).FirstOrDefault();
 
@@ -161,8 +174,8 @@ namespace UanlSISM.Controllers
                     nuevoDetalle.Descripcion = item.descripcion_21.Trim();
                     nuevoDetalle.Compendio = item.Compendio;
 
-                    ConBD2.SISM_DETALLE_BORRADOR_REQUI.Add(nuevoDetalle);
-                    ConBD2.SaveChanges();
+                    ConBD.SISM_DETALLE_BORRADOR_REQUI.Add(nuevoDetalle);
+                    ConBD.SaveChanges();
                 }
 
                 return Json(new { MENSAJE = "Succe: Se guardó con éxito el Borrador de Requisición" }, JsonRequestBehavior.AllowGet);
@@ -177,7 +190,7 @@ namespace UanlSISM.Controllers
         {
             try
             {
-                var query = (from a in ConBD2.SISM_REQUISICION
+                var query = (from a in ConBD.SISM_REQUISICION
                              select a).ToList();
 
                 var results1 = new List<BorradorList>();
@@ -186,6 +199,7 @@ namespace UanlSISM.Controllers
                 {
                     var resultado = new BorradorList
                     {
+                        //Id_Requisicion = q.Id_Requicision,
                         Clave = q.claveOLD,
                         Fecha = string.Format("{0:d/M/yyyy HH:mm tt}", q.Fecha),
                         Id_User = q.Id_User,
@@ -209,9 +223,12 @@ namespace UanlSISM.Controllers
             {
                 var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
                 var fechaDT = DateTime.Parse(fecha);
+                //string f = string.Format("{0:d/M/yyyy hh:mm tt}", fechaDT);
+                //ViewData["FyH"] = f;
 
-                var query = (from a in ConBD2.SISM_REQUISICION
-                             join det in ConBD2.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
+                var query = (from a in ConBD.SISM_REQUISICION
+                             join det in ConBD.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
+                             //where a.Id_Requicision == Id_Requi
                              where a.claveOLD == Id_Requi
                              select new
                              {
@@ -231,19 +248,22 @@ namespace UanlSISM.Controllers
                 {
 
                     var sus = (from a in DAM.Sustancia
+                                   //join G in DAM.grupo_21 on a.id_grupo_21 equals G.id
                                where a.Clave == q.Clave
                                select new
                                {
                                    a.Id,
+                                   //G.descripcion
                                }).FirstOrDefault();
 
                     if (sus != null)
                     {
-                        var inv = " select top 1 id from Inventario where status = 'true' and tipo = '2'  ";
-                        var r = ConBD2_SM.Database.SqlQuery<LstInv1>(inv);
-                        var re = r.FirstOrDefault();
+                        //var inv = " select top 1 id from Inventario where status = 'true' and tipo = '2'  ";
+                        //var r = ConBD_SM.Database.SqlQuery<LstInv1>(inv);
+                        //var re = r.FirstOrDefault();
 
-                        string query2 = "select ManejoDisponible as ManejoDisponible from InvAlmFarm WHERE Id_Sustancia = " + sus.Id + " and InvAlmId = '"+ re.id +"' ";
+                        //string query2 = "select ManejoDisponible as ManejoDisponible from InvAlmFarm WHERE Id_Sustancia = " + sus.Id + " and InvAlmId = '" + re.id + "' ";
+                        string query2 = "select ManejoDisponible as ManejoDisponible from InvAlmFarm WHERE Id_Sustancia = " + sus.Id + " and InvAlmId = '84' ";
                         var result2 = db.Database.SqlQuery<InvAlmFarm>(query2);
                         var res2 = result2.FirstOrDefault();
 
@@ -251,6 +271,7 @@ namespace UanlSISM.Controllers
                                         "from Sustancia S " +
                                         "INNER JOIN grupo_21 G ON S.id_grupo_21 = G.id " +
                                         "where S.Id = " + sus.Id + " ";
+
                         var result22 = DAM.Database.SqlQuery<Detalle>(query22);
                         var res22 = result22.FirstOrDefault();
 
@@ -270,7 +291,10 @@ namespace UanlSISM.Controllers
                         };
                         results1.Add(resultado);
                     }
+
                 }
+
+                //return Json(new { MENSAJE = "FOUND", REQUIS = query }, JsonRequestBehavior.AllowGet);
                 return new JsonResult { Data = results1, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
             catch (Exception ex)
@@ -285,6 +309,7 @@ namespace UanlSISM.Controllers
             var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
             var fechaDT = DateTime.Parse(fecha);
             var ip_realiza = Request.UserHostAddress;
+            //var ff = string.Format("{0:d/M/yy}", fechaDT);
             var ff = string.Format("{0:ddMMyy}", fechaDT);
 
             var IdUsuarioCifrado = User.Identity.GetUserId();
@@ -298,6 +323,7 @@ namespace UanlSISM.Controllers
                                {
                                    a.clave
                                }).OrderByDescending(u => u.clave).FirstOrDefault();
+                //int ClaveNueva = Convert.ToInt32(ClaveID.clave) + 1;
 
                 if (UsuarioRegistra == null || UsuarioRegistra == "")
                 {
@@ -311,8 +337,11 @@ namespace UanlSISM.Controllers
                     NuevaRequi.Id_User = UsuarioRegistra;
                     NuevaRequi.IP_User = ip_realiza;
 
+                    //NuevaRequi.claveOLD = Convert.ToString(ClaveNueva);
+
                     var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
                     var UltimoConsecutivo_Clave = Convert.ToInt32(ClaveID.clave.Substring(4));
+
                     var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
 
                     var ConsecutivoNuevoTxt = "";
@@ -327,6 +356,7 @@ namespace UanlSISM.Controllers
                         {
                             ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
                         }
+
                     }
                     else
                     {
@@ -334,26 +364,29 @@ namespace UanlSISM.Controllers
                     }
 
                     NuevaRequi.EstatusContrato = StatusContrato;
+                    //NuevaRequi.EstatusOC = "0";
 
-                    ConBD2.SISM_REQUISICION.Add(NuevaRequi);
-                    ConBD2.SaveChanges();
+                    ConBD.SISM_REQUISICION.Add(NuevaRequi);
+                    ConBD.SaveChanges();
 
                     //Obtenemos la ultima requi guardada(que es esta) para guardar su detalle
-                    var IdRequi = (from a in ConBD2.SISM_REQUISICION
+                    var IdRequi = (from a in ConBD.SISM_REQUISICION
                                    where a.Id_User == UsuarioRegistra
                                    where a.Fecha == fechaDT
                                    select a).OrderByDescending(u => u.Id_Requicision).FirstOrDefault();
 
                     //ACTUALIZAMOS LA CLAVE DE LA 
-                    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
+                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
 
                     //ACTUALIZAMOS EL ID DE LA REQUI PARA CONCATENARLA LA NOMENCLATURA Y ASÍ GUARDAR EL FOLIO
-                    ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC-" + ff + "-" + IdRequi.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
+                    //ConBD.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC-" + IdRequi.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
+                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC-" + ff + "-" + IdRequi.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
 
                     //Recorremos que lista que recibimos como parámetro para guardar el detalle en la Requi
                     foreach (var item in ListaSustanciasRequiDirecta)
                     {
                         SISM_DET_REQUISICION nuevoDetalle = new SISM_DET_REQUISICION();
+
                         nuevoDetalle.Id_Requicision = IdRequi.Id_Requicision;
                         nuevoDetalle.Id_Sustancia = item.Id;
                         nuevoDetalle.Cantidad = item.CANTIDAD;
@@ -364,7 +397,7 @@ namespace UanlSISM.Controllers
                         //***************************************************      ESTE BLOQUE SE COMENTA PARA QUE SE PUEDA HACER UNA O.C DIRECTA A PARTIR DE UNA REQUI CON CONTRATO
                         //if (StatusContrato != "Sin Contrato")
                         //{
-                        //    var ARTICULO = (from a in ConBD2.SISM_COSTEO_LICITACION
+                        //    var ARTICULO = (from a in ConBD.SISM_COSTEO_LICITACION
                         //                    where a.Id_Sustancia == item.Id
                         //                    select a).FirstOrDefault();
 
@@ -384,9 +417,8 @@ namespace UanlSISM.Controllers
                         nuevoDetalle.PrecioUnitario = 0;
                         nuevoDetalle.Total = 0;
                         //}
-
-                        ConBD2.SISM_DET_REQUISICION.Add(nuevoDetalle);
-                        ConBD2.SaveChanges();
+                        ConBD.SISM_DET_REQUISICION.Add(nuevoDetalle);
+                        ConBD.SaveChanges();
                     }
 
                     //Obtenemos el Usuario que se logueó para hacer el join (buscarlo) en la tabla Usuario y así obtener el Id de esa tabla
@@ -395,147 +427,151 @@ namespace UanlSISM.Controllers
                                       where a.Usu_User == UsuarioOld
                                       select a).FirstOrDefault();
 
-                    ////Volvemos a recorrer la lista (detalle de la requi) ahora para guardar en la tabla Cotizaciones     
-                    //foreach (var item in ListaSustanciasRequiDirecta)
-                    //{
-                    //    SISM_COTIZACIONES Cotizacion = new SISM_COTIZACIONES();
-                    //    Cotizacion.Id_Sustancia = item.Id;
-                    //    Cotizacion.Id_Requicision = IdRequi.Id_Requicision;
-                    //    Cotizacion.Id_Prov_1 = 0;
-                    //    Cotizacion.Cant_Asig_1 = 0;
-                    //    Cotizacion.CostoUnit_1 = 0;
-                    //    Cotizacion.Id_Prov_2 = 0;
-                    //    Cotizacion.Cant_Asig_2 = 0;
-                    //    Cotizacion.CostoUnit_2 = 0;
-                    //    Cotizacion.Id_Prov_3 = 0;
-                    //    Cotizacion.Cant_Asig_3 = 0;
-                    //    Cotizacion.CostoUnit_3 = 0;
-                    //    Cotizacion.Status = false;
-                    //    Cotizacion.FechaCrea = fechaDT;
-                    //    Cotizacion.FechaMod = fechaDT;
-                    //    Cotizacion.Id_Usuario = UsuarioOLD.UsuarioId;
-                    //    Cotizacion.Cuadro = 0;
-                    //    Cotizacion.UserId = IdUsuarioCifrado;
+                    //Volvemos a recorrer la lista (detalle de la requi) ahora para guardar en la tabla Cotizaciones     
+                    foreach (var item in ListaSustanciasRequiDirecta)
+                    {
+                        SISM_COTIZACIONES Cotizacion = new SISM_COTIZACIONES();
+                        Cotizacion.Id_Sustancia = item.Id;
+                        Cotizacion.Id_Requicision = IdRequi.Id_Requicision;
+                        Cotizacion.Id_Prov_1 = 0;
+                        Cotizacion.Cant_Asig_1 = 0;
+                        Cotizacion.CostoUnit_1 = 0;
+                        Cotizacion.Id_Prov_2 = 0;
+                        Cotizacion.Cant_Asig_2 = 0;
+                        Cotizacion.CostoUnit_2 = 0;
+                        Cotizacion.Id_Prov_3 = 0;
+                        Cotizacion.Cant_Asig_3 = 0;
+                        Cotizacion.CostoUnit_3 = 0;
+                        Cotizacion.Status = false;
+                        Cotizacion.FechaCrea = fechaDT;
+                        Cotizacion.FechaMod = fechaDT;
+                        Cotizacion.Id_Usuario = UsuarioOLD.UsuarioId;
+                        Cotizacion.Cuadro = 0;
+                        Cotizacion.UserId = IdUsuarioCifrado;
 
-                    //    ConBD2.SISM_COTIZACIONES.Add(Cotizacion);
-                    //    ConBD2.SaveChanges();
-                    //}
+                        ConBD.SISM_COTIZACIONES.Add(Cotizacion);
+                        ConBD.SaveChanges();
+                    }
 
                     //-------------------------------------------------------------------------------------------------  TABLAS NUEVAS 205 PRD SERVMED
                     #region Insertar la Nueva Requi en las Nuevas Tbl del 205 SERVMED
+                    Tbl_Requisicion Nueva_Requi = new Tbl_Requisicion();
+                    Nueva_Requi.Fecha = fechaDT;
+                    Nueva_Requi.Id_User = UsuarioRegistra;
+                    Nueva_Requi.IP_User = ip_realiza;
+                    Nueva_Requi.EstatusContrato = StatusContrato;
 
-                    //Tbl_Requisicion Nueva_Requi = new Tbl_Requisicion();
-                    //Nueva_Requi.Fecha = fechaDT;
-                    //Nueva_Requi.Id_User = UsuarioRegistra;
-                    //Nueva_Requi.IP_User = ip_realiza;
-                    //Nueva_Requi.EstatusContrato = StatusContrato;
+                    ConBD_SM.Tbl_Requisicion.Add(Nueva_Requi);
+                    ConBD_SM.SaveChanges();
 
-                    //ConBD2_SM.Tbl_Requisicion.Add(Nueva_Requi);
-                    //ConBD2_SM.SaveChanges();
+                    //Obtenemos la ultima requi guardada(que es esta)
+                    var IdRequi1 = (from a in ConBD_SM.Tbl_Requisicion
+                                    where a.Id_User == UsuarioRegistra
+                                    where a.Fecha == fechaDT
+                                    select a).OrderByDescending(u => u.Id_Requicision).FirstOrDefault();
 
-                    ////Obtenemos la ultima requi guardada(que es esta)
-                    //var IdRequi1 = (from a in ConBD2_SM.Tbl_Requisicion
-                    //                where a.Id_User == UsuarioRegistra
-                    //                where a.Fecha == fechaDT
-                    //                select a).OrderByDescending(u => u.Id_Requicision).FirstOrDefault();
+                    ConBD_SM.Database.ExecuteSqlCommand("UPDATE Tbl_Requisicion SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequi1.Id_Requicision + "';");
+                    ConBD_SM.Database.ExecuteSqlCommand("UPDATE Tbl_Requisicion SET Clave = 'RAC-" + ff + "-" + IdRequi.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi1.Id_Requicision + "';");
 
-                    //ConBD2_SM.Database.ExecuteSqlCommand("UPDATE Tbl_Requisicion SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequi1.Id_Requicision + "';");
-                    //ConBD2_SM.Database.ExecuteSqlCommand("UPDATE Tbl_Requisicion SET Clave = 'RAC-" + ff + "-" + IdRequi.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi1.Id_Requicision + "';");
+                    foreach (var item in ListaSustanciasRequiDirecta)
+                    {
+                        Tbl_DetalleRequi nuevo_Detalle = new Tbl_DetalleRequi();
+                        nuevo_Detalle.Id_Requicision = IdRequi1.Id_Requicision;
+                        nuevo_Detalle.Id_Sustancia = item.Id;
+                        nuevo_Detalle.Cantidad = item.CANTIDAD;
+                        nuevo_Detalle.Clave = item.Clave;
+                        nuevo_Detalle.Descripcion = item.descripcion_21.Trim();
+                        nuevo_Detalle.Compendio = item.Compendio;
+                        nuevo_Detalle.PrecioUnitario = 0;
+                        nuevo_Detalle.Total = 0;
 
-                    //foreach (var item in ListaSustanciasRequiDirecta)
-                    //{
-                    //    Tbl_DetalleRequi nuevo_Detalle = new Tbl_DetalleRequi();
-                    //    nuevo_Detalle.Id_Requicision = IdRequi1.Id_Requicision;
-                    //    nuevo_Detalle.Id_Sustancia = item.Id;
-                    //    nuevo_Detalle.Cantidad = item.CANTIDAD;
-                    //    nuevo_Detalle.Clave = item.Clave;
-                    //    nuevo_Detalle.Descripcion = item.descripcion_21.Trim();
-                    //    nuevo_Detalle.Compendio = item.Compendio;
-                    //    nuevo_Detalle.PrecioUnitario = 0;
-                    //    nuevo_Detalle.Total = 0;
-
-                    //    ConBD2_SM.Tbl_DetalleRequi.Add(nuevo_Detalle);
-                    //    ConBD2_SM.SaveChanges();
-                    //}
-
+                        ConBD_SM.Tbl_DetalleRequi.Add(nuevo_Detalle);
+                        ConBD_SM.SaveChanges();
+                    }
                     #endregion
                     //-----------------------------------------------------------------------------------------------------------------------
 
                     //--------------------------------------------------------------------------------------------------------------------------------  TABLAS VIEJAS
                     /*  GUARDAR LA REQUISICION Y SU DETALLE EN LAS TABLAS DE REQUISICION Y DETALLE REQUISICION  */
                     #region
-                    //Requisicion_1 Req = new Requisicion_1();
-                    //Req.Id_Tipo = 2;
-                    //Req.Fecha = fechaDT;
-                    //Req.Status = true;
-                    //Req.cerrado = false;
-                    //Req.UserId = IdUsuarioCifrado;
+                    Requisicion_1 Req = new Requisicion_1();
+                    Req.Id_Tipo = 2;
+                    Req.Fecha = fechaDT;
+                    Req.Status = true;
+                    Req.cerrado = false;
 
-                    ////Guardamos el Id del usuario de la tabla Usuario en el campo 'UsuarioId' en la tabla Requisiciones
-                    //if (UsuarioOLD == null)
-                    //{
-                    //}
-                    //else
-                    //{
-                    //    if (UsuarioOLD.Usu_User == null)
-                    //    {
-                    //    }
-                    //    else
-                    //    {
-                    //        Req.Id_Usuario = UsuarioOLD.UsuarioId;
-                    //    }
-                    //}
+                    Req.UserId = IdUsuarioCifrado;
 
-                    //var ClaveNueva = AñoMes_Actual + ConsecutivoNuevoTxt;
-                    //Req.clave = ClaveNueva;
-                    //Req.EstatusContrato = StatusContrato;
+                    //Guardamos el Id del usuario de la tabla Usuario en el campo 'UsuarioId' en la tabla Requisiciones
+                    if (UsuarioOLD == null)
+                    {
 
-                    //RequisicionDB.Requisicion.Add(Req);
-                    //RequisicionDB.SaveChanges();
+                    }
+                    else
+                    {
+                        if (UsuarioOLD.Usu_User == null)
+                        {
 
-                    ////Obtener Requisición recién generada en las tablas viejas
-                    //var ID = (from a in RequisicionDB.Requisicion
-                    //          where a.Fecha == fechaDT
-                    //          where a.Id_Tipo == 2
-                    //          select a).OrderByDescending(u => u.id).FirstOrDefault();
+                        }
+                        else
+                        {
+                            Req.Id_Usuario = UsuarioOLD.UsuarioId;
+                        }
+                    }
 
-                    //foreach (var item in ListaSustanciasRequiDirecta)
-                    //{
-                    //    DetalleReq detRequi = new DetalleReq();
-                    //    detRequi.Id_Requisicion = ID.id;
-                    //    detRequi.Id_Sustancia = item.Id;
-                    //    detRequi.C_Solicitada = (int)item.CANTIDAD;
-                    //    detRequi.C_Recibida = 0;
-                    //    detRequi.Status = false;
+                    //Req.clave = Convert.ToString(ClaveNueva);
 
-                    //    RequisicionDB.DetalleReq.Add(detRequi);
-                    //    RequisicionDB.SaveChanges();
-                    //}
+                    var ClaveNueva = AñoMes_Actual + ConsecutivoNuevoTxt;
+                    Req.clave = ClaveNueva;
 
-                    //foreach (var item in ListaSustanciasRequiDirecta)
-                    //{
-                    //    Cotizaciones Coti = new Cotizaciones();
-                    //    Coti.Id_Sustancia = item.Id;
-                    //    Coti.Id_Requisicion = ID.id;
-                    //    Coti.Id_Prov_1 = 0;
-                    //    Coti.Cant_Asig_1 = 0;
-                    //    Coti.CostoUnit_1 = 0;
-                    //    Coti.Id_Prov_2 = 0;
-                    //    Coti.Cant_Asig_2 = 0;
-                    //    Coti.CostoUnit_2 = 0;
-                    //    Coti.Id_Prov_3 = 0;
-                    //    Coti.Cant_Asig_3 = 0;
-                    //    Coti.CostoUnit_3 = 0;
-                    //    Coti.Status = false;
-                    //    Coti.FechaCrea = ID.Fecha;
-                    //    Coti.FechaMod = ID.Fecha;
-                    //    Coti.Id_Usuario = ID.Id_Usuario;
-                    //    Coti.Cuadro = 0;
-                    //    Coti.UserId = IdUsuarioCifrado;
+                    Req.EstatusContrato = StatusContrato;
 
-                    //    RequisicionDB.Cotizaciones.Add(Coti);
-                    //    RequisicionDB.SaveChanges();
-                    //}
+                    RequisicionDB.Requisicion.Add(Req);
+                    RequisicionDB.SaveChanges();
+
+                    //Obtener Requisición recién generada en las tablas viejas
+                    var ID = (from a in RequisicionDB.Requisicion
+                              where a.Fecha == fechaDT
+                              where a.Id_Tipo == 2
+                              select a).OrderByDescending(u => u.id).FirstOrDefault();
+
+                    foreach (var item in ListaSustanciasRequiDirecta)
+                    {
+                        DetalleReq detRequi = new DetalleReq();
+                        detRequi.Id_Requisicion = ID.id;
+                        detRequi.Id_Sustancia = item.Id;
+                        detRequi.C_Solicitada = (int)item.CANTIDAD;
+                        detRequi.C_Recibida = 0;
+                        detRequi.Status = false;
+
+                        RequisicionDB.DetalleReq.Add(detRequi);
+                        RequisicionDB.SaveChanges();
+                    }
+
+                    foreach (var item in ListaSustanciasRequiDirecta)
+                    {
+                        Cotizaciones Coti = new Cotizaciones();
+                        Coti.Id_Sustancia = item.Id;
+                        Coti.Id_Requisicion = ID.id;
+                        Coti.Id_Prov_1 = 0;
+                        Coti.Cant_Asig_1 = 0;
+                        Coti.CostoUnit_1 = 0;
+                        Coti.Id_Prov_2 = 0;
+                        Coti.Cant_Asig_2 = 0;
+                        Coti.CostoUnit_2 = 0;
+                        Coti.Id_Prov_3 = 0;
+                        Coti.Cant_Asig_3 = 0;
+                        Coti.CostoUnit_3 = 0;
+                        Coti.Status = false;
+                        Coti.FechaCrea = ID.Fecha;
+                        Coti.FechaMod = ID.Fecha;
+                        Coti.Id_Usuario = ID.Id_Usuario;
+                        Coti.Cuadro = 0;
+                        Coti.UserId = IdUsuarioCifrado;
+
+                        RequisicionDB.Cotizaciones.Add(Coti);
+                        RequisicionDB.SaveChanges();
+                    }
                     #endregion
                     //--------------------------------------------------------------------------------------------------------------------------------
 
@@ -562,12 +598,13 @@ namespace UanlSISM.Controllers
         //Agregar medicamento a lista
         public JsonResult BuscarSustancia(string Clave, int Id_FolioBorrador)
         {
+
             var SUSTANCIA = new List<Sustancia>();
             SUSTANCIA = db2.Sustancia.Where(s => s.Clave == Clave).ToList();
 
             //BUSCAR LOS DETALLES POR EL FOLIO QUE RECIBIRÉ COMO PARAMETRO
             var DETALLES = new List<SISM_DETALLE_BORRADOR_REQUI>();
-            DETALLES = ConBD2.SISM_DETALLE_BORRADOR_REQUI.Where(u => u.Id_BorradorRequi == Id_FolioBorrador).ToList();
+            DETALLES = ConBD.SISM_DETALLE_BORRADOR_REQUI.Where(u => u.Id_BorradorRequi == Id_FolioBorrador).ToList();
 
             var medicamentos = new List<LstInv>();
 
@@ -607,7 +644,7 @@ namespace UanlSISM.Controllers
         {
             try
             {
-                var query = (from a in ConBD2.SISM_BORRADOR_REQUI
+                var query = (from a in ConBD.SISM_BORRADOR_REQUI
                              where a.Estatus == "Borrador Generado"
                              select new
                              {
@@ -643,8 +680,8 @@ namespace UanlSISM.Controllers
         {
             try
             {
-                var query = (from a in ConBD2.SISM_BORRADOR_REQUI
-                             join det in ConBD2.SISM_DETALLE_BORRADOR_REQUI on a.Id_BorradorRequi equals det.Id_BorradorRequi
+                var query = (from a in ConBD.SISM_BORRADOR_REQUI
+                             join det in ConBD.SISM_DETALLE_BORRADOR_REQUI on a.Id_BorradorRequi equals det.Id_BorradorRequi
                              where a.Id_BorradorRequi == Id_Borrador
                              select new
                              {
@@ -659,6 +696,7 @@ namespace UanlSISM.Controllers
                              ).ToList();
 
                 return Json(new { MENSAJE = "FOUND", DETALLES = query }, JsonRequestBehavior.AllowGet);
+                //return new JsonResult { Data = query, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
             catch (Exception ex)
             {
@@ -666,7 +704,7 @@ namespace UanlSISM.Controllers
             }
         }
 
-        //Hacer Borrador (Generar Requi a partir del borrado)
+        //Hacer Borrador
         public JsonResult GenerarRequi(List<SISM_DETALLE_BORRADOR_REQUI> ListaSustanciasBorrador, int Id_FolioBorrador, string StatusContrato)
         {
             var UsuarioRegistra = User.Identity.GetUserName();
@@ -694,6 +732,9 @@ namespace UanlSISM.Controllers
                                    a.clave
                                }).OrderByDescending(u => u.clave).FirstOrDefault();
 
+                //int ClaveNueva = Convert.ToInt32(ClaveID.clave) + 1;
+                //Requisicion.claveOLD = Convert.ToString(ClaveNueva);
+
                 var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
                 var UltimoConsecutivo_Clave = Convert.ToInt32(ClaveID.clave.Substring(4));
                 var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
@@ -716,9 +757,11 @@ namespace UanlSISM.Controllers
                 }
 
                 //Obtenemos el borrador que se convertirá a Requi para cambiarle su Estatus y que ya no aparezca en Borradores
-                var Borrador = (from a in ConBD2.SISM_BORRADOR_REQUI
+                var Borrador = (from a in ConBD.SISM_BORRADOR_REQUI
                                 where a.Id_BorradorRequi == Id_FolioBorrador
                                 select a).FirstOrDefault();
+
+                //Requisicion.EstatusContrato = Borrador.EstatusContrato;
 
                 if (Borrador.EstatusContrato == StatusContrato)
                 {
@@ -729,23 +772,24 @@ namespace UanlSISM.Controllers
                     Requisicion.EstatusContrato = StatusContrato;
                 }
 
-                ConBD2.SISM_REQUISICION.Add(Requisicion);
-                ConBD2.SaveChanges();
+                //Requisicion.EstatusOC = "0";
+                ConBD.SISM_REQUISICION.Add(Requisicion);
+                ConBD.SaveChanges();
                 //-----------
 
                 //Borrador.Estatus = "Borrador a Requisicion";
-                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_BORRADOR_REQUI SET Estatus = 'Borrador a Requisicion' WHERE Id_BorradorRequi='" + Borrador.Id_BorradorRequi + "';");
+                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_BORRADOR_REQUI SET Estatus = 'Borrador a Requisicion' WHERE Id_BorradorRequi='" + Borrador.Id_BorradorRequi + "';");
 
                 //Obtenemos al usuario que generó la Requi para despúes en la tabla Detalle obtener y guardar el Id de la Requi
-                var IdRequisicion = (from a in ConBD2.SISM_REQUISICION
+                var IdRequisicion = (from a in ConBD.SISM_REQUISICION
                                      where a.Id_User == UsuarioRegistra
                                      select a).OrderByDescending(u => u.Id_Requicision).FirstOrDefault();
 
                 // ACTUALIZAMOS LA CLAVE DE LA
-                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequisicion.Id_Requicision + "';");
+                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequisicion.Id_Requicision + "';");
 
                 //ACTUALIZAMOS LA CLAVE DE LA REQUI PARA CONCATENARLA LA NOMENCLATURA Y ASÍ GUARDAR EL FOLIO
-                ConBD2.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC-" + ff + "-" + IdRequisicion.Id_Requicision + "' WHERE Id_Requicision='" + IdRequisicion.Id_Requicision + "';");
+                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC-" + ff + "-" + IdRequisicion.Id_Requicision + "' WHERE Id_Requicision='" + IdRequisicion.Id_Requicision + "';");
 
                 foreach (var item in ListaSustanciasBorrador)
                 {
@@ -770,7 +814,7 @@ namespace UanlSISM.Controllers
                     //-------------------
                     //if (Borrador.EstatusContrato != "Sin Contrato")
                     //{
-                    //    var ARTICULO = (from a in ConBD2.SISM_COSTEO_LICITACION
+                    //    var ARTICULO = (from a in ConBD.SISM_COSTEO_LICITACION
                     //                    where a.Id_Sustancia == item.Id_Sustancia
                     //                    select a).FirstOrDefault();
 
@@ -796,8 +840,8 @@ namespace UanlSISM.Controllers
                     detalleRequisicion.Descripcion = item.Descripcion.Trim();
                     detalleRequisicion.Compendio = item.Compendio;
 
-                    ConBD2.SISM_DET_REQUISICION.Add(detalleRequisicion);
-                    ConBD2.SaveChanges();
+                    ConBD.SISM_DET_REQUISICION.Add(detalleRequisicion);
+                    ConBD.SaveChanges();
                 }
 
                 //Obtenemos el Usuario que se logueó para hacer el join (buscarlo) en la tabla Usuario y así obtener el Id de esa tabla
@@ -828,8 +872,8 @@ namespace UanlSISM.Controllers
                     Cotizacion.Cuadro = 0;
                     Cotizacion.UserId = IdUsuarioCifrado;
 
-                    ConBD2.SISM_COTIZACIONES.Add(Cotizacion);
-                    ConBD2.SaveChanges();
+                    ConBD.SISM_COTIZACIONES.Add(Cotizacion);
+                    ConBD.SaveChanges();
                 }
 
                 //-------------------------------------------------------------------------------------------------  TABLAS NUEVAS 205 PRD SERVMED
@@ -841,17 +885,17 @@ namespace UanlSISM.Controllers
                 Nueva_Requi.IP_User = ip_realiza;
                 Nueva_Requi.EstatusContrato = IdRequisicion.EstatusContrato;
 
-                ConBD2_SM.Tbl_Requisicion.Add(Nueva_Requi);
-                ConBD2_SM.SaveChanges();
+                ConBD_SM.Tbl_Requisicion.Add(Nueva_Requi);
+                ConBD_SM.SaveChanges();
 
                 //Obtenemos la ultima requi guardada(que es esta)
-                var IdRequi1 = (from a in ConBD2_SM.Tbl_Requisicion
+                var IdRequi1 = (from a in ConBD_SM.Tbl_Requisicion
                                 where a.Id_User == UsuarioRegistra
                                 where a.Fecha == fechaDT
                                 select a).OrderByDescending(u => u.Id_Requicision).FirstOrDefault();
 
-                ConBD2_SM.Database.ExecuteSqlCommand("UPDATE Tbl_Requisicion SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequi1.Id_Requicision + "';");
-                ConBD2_SM.Database.ExecuteSqlCommand("UPDATE Tbl_Requisicion SET Clave = 'RAC-" + ff + "-" + IdRequisicion.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi1.Id_Requicision + "';");
+                ConBD_SM.Database.ExecuteSqlCommand("UPDATE Tbl_Requisicion SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequi1.Id_Requicision + "';");
+                ConBD_SM.Database.ExecuteSqlCommand("UPDATE Tbl_Requisicion SET Clave = 'RAC-" + ff + "-" + IdRequisicion.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi1.Id_Requicision + "';");
 
                 foreach (var item in ListaSustanciasBorrador)
                 {
@@ -878,8 +922,8 @@ namespace UanlSISM.Controllers
                     nuevo_Detalle.Descripcion = item.Descripcion.Trim();
                     nuevo_Detalle.Compendio = item.Compendio;
 
-                    ConBD2_SM.Tbl_DetalleRequi.Add(nuevo_Detalle);
-                    ConBD2_SM.SaveChanges();
+                    ConBD_SM.Tbl_DetalleRequi.Add(nuevo_Detalle);
+                    ConBD_SM.SaveChanges();
                 }
 
                 #endregion
@@ -888,12 +932,20 @@ namespace UanlSISM.Controllers
 
                 //--------------------------------------------------------------------------------------------------------------------------------
                 /*  GUARDAR LA REQUISICION Y SU DETALLE EN LAS TABLAS DE REQUISICION Y DETALLE REQUISICION  */
+                #region
                 Requisicion_1 Req = new Requisicion_1();
                 Req.Id_Tipo = 2;
                 Req.Fecha = fechaDT;
                 Req.Status = true;
                 Req.cerrado = false;
+
                 Req.UserId = IdUsuarioCifrado;
+
+                //Obtenemos el Usuario que se logueó para hacer el join (buscarlo) en la tabla Usuario y así obtener el Id de esa tabla
+                //var UsuarioOld = User.Identity.GetUserName();
+                //var UsuarioOLD = (from a in RequisicionDB.Usuario
+                //                  where a.Usu_User == UsuarioOld
+                //                  select a).FirstOrDefault();
 
                 //Guardamos el Id del usuario de la tabla Usuario en el campo 'UsuarioId' en la tabla Requisiciones
                 if (UsuarioOLD == null)
@@ -910,8 +962,11 @@ namespace UanlSISM.Controllers
                     }
                 }
 
+                //Req.clave = Convert.ToString(ClaveNueva);
+
                 var ClaveNueva = AñoMes_Actual + ConsecutivoNuevoTxt;
                 Req.clave = ClaveNueva;
+
                 Req.EstatusContrato = Borrador.EstatusContrato;
 
                 RequisicionDB.Requisicion.Add(Req);
@@ -929,6 +984,7 @@ namespace UanlSISM.Controllers
                     detRequi.Id_Sustancia = (int)item.Id_Sustancia;
                     detRequi.C_Recibida = 0;
                     detRequi.Status = false;
+                    //detRequi.C_Solicitada = (int)item.Cantidad;
 
                     if (item.CANTIDAD_NUEVA > 0)
                     {
@@ -971,6 +1027,8 @@ namespace UanlSISM.Controllers
                     RequisicionDB.Cotizaciones.Add(Coti);
                     RequisicionDB.SaveChanges();
                 }
+                #endregion
+
                 //--------------------------------------------------------------------------------------------------------------------------------
 
                 return Json(new { MENSAJE = "Succe: Se generó con éxito la Requisición" }, JsonRequestBehavior.AllowGet);
@@ -986,13 +1044,13 @@ namespace UanlSISM.Controllers
         {
             try
             {
-                var Borrador = (from a in ConBD2.SISM_BORRADOR_REQUI
+                var Borrador = (from a in ConBD.SISM_BORRADOR_REQUI
                                 where a.Id_BorradorRequi == Id_FolioBorrador
                                 select a).FirstOrDefault();
 
                 Borrador.Estatus = "Borrador Cancelado";
 
-                ConBD2.SaveChanges();
+                ConBD.SaveChanges();
 
                 return Json(new { MENSAJE = "Succe: Se eliminó el Borrador" }, JsonRequestBehavior.AllowGet);
             }
@@ -1012,12 +1070,12 @@ namespace UanlSISM.Controllers
             try
             {
                 //Buscamos el borrador (este) para cambiarle el estatus y que ya no aparesca ya que se hará borrador del borrador
-                var Borrador = (from a in ConBD2.SISM_BORRADOR_REQUI
+                var Borrador = (from a in ConBD.SISM_BORRADOR_REQUI
                                 where a.Id_BorradorRequi == Id_FolioBorrador
                                 select a).FirstOrDefault();
 
                 Borrador.Estatus = "Borrador del Borrador";
-                ConBD2.SaveChanges();
+                ConBD.SaveChanges();
 
                 //Creamos borrador del borrador (nuevo borrador)
                 SISM_BORRADOR_REQUI BorradorRequi = new SISM_BORRADOR_REQUI();
@@ -1026,7 +1084,8 @@ namespace UanlSISM.Controllers
                 BorradorRequi.Estatus = "Borrador Generado";
                 BorradorRequi.ip_realiza = ip_realiza;
 
-                //Se puede Cambiar el Estatus (del contrato) si así se desea
+                //BorradorRequi.EstatusContrato = Borrador.EstatusContrato;
+
                 if (Borrador.EstatusContrato == StatusContrato)
                 {
                     BorradorRequi.EstatusContrato = Borrador.EstatusContrato;
@@ -1036,16 +1095,17 @@ namespace UanlSISM.Controllers
                     BorradorRequi.EstatusContrato = StatusContrato;
                 }
 
-                ConBD2.SISM_BORRADOR_REQUI.Add(BorradorRequi);
-                ConBD2.SaveChanges();
+                ConBD.SISM_BORRADOR_REQUI.Add(BorradorRequi);
+                ConBD.SaveChanges();
 
-                var IdBorrador = (from a in ConBD2.SISM_BORRADOR_REQUI
+                var IdBorrador = (from a in ConBD.SISM_BORRADOR_REQUI
                                   where a.UsuarioRegistra == UsuarioRegistra
                                   select a).OrderByDescending(u => u.Id_BorradorRequi).FirstOrDefault();
 
                 foreach (var item in ListaSustanciasBorrador)
                 {
                     SISM_DETALLE_BORRADOR_REQUI nuevoDetalle = new SISM_DETALLE_BORRADOR_REQUI();
+                    //nuevoDetalle.Cantidad = item.CANTIDAD;
 
                     if (item.CANTIDAD_NUEVA > 0)
                     {
@@ -1066,9 +1126,10 @@ namespace UanlSISM.Controllers
                     nuevoDetalle.Descripcion = item.Descripcion.Trim();
                     nuevoDetalle.Compendio = item.Compendio;
 
-                    ConBD2.SISM_DETALLE_BORRADOR_REQUI.Add(nuevoDetalle);
-                    ConBD2.SaveChanges();
+                    ConBD.SISM_DETALLE_BORRADOR_REQUI.Add(nuevoDetalle);
+                    ConBD.SaveChanges();
                 }
+
                 return Json(new { MENSAJE = "Succe: Se guardó con éxito el Borrador" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
