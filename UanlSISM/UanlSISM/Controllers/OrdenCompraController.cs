@@ -1009,14 +1009,45 @@ namespace UanlSISM.Controllers
                 var Clave = (from a in db.OrdenCompra
                              select new
                              {
+                                 id = a.Id,
                                  clave = a.clave
-                             }).OrderByDescending(u => u.clave).FirstOrDefault();
+                             }).OrderByDescending(u => u.id).FirstOrDefault();
+
+                //var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
+                //var UltimoConsecutivo_Clave = Convert.ToInt32(Clave.clave.Substring(4));
+                //var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
+                //var ConsecutivoNuevoTxt = "";
+
+                //if (ConsecutivoNuevo < 100)
+                //{
+                //    if (ConsecutivoNuevo < 9)
+                //    {
+                //        ConsecutivoNuevoTxt = "00" + ConsecutivoNuevo;
+                //    }
+                //    else
+                //    {
+                //        ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
+                //    }
+                //}
+                //else
+                //{
+                //    ConsecutivoNuevoTxt = "" + ConsecutivoNuevo;
+                //}
 
                 var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
                 var UltimoConsecutivo_Clave = Convert.ToInt32(Clave.clave.Substring(4));
-                var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
-                var ConsecutivoNuevoTxt = "";
 
+                var ConsecutivoNuevo = 0;
+                if (UltimoConsecutivo_Clave >= 999)
+                {
+                    ConsecutivoNuevo = 1;
+                }
+                else
+                {
+                    ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
+                }
+
+                var ConsecutivoNuevoTxt = "";
                 if (ConsecutivoNuevo < 100)
                 {
                     if (ConsecutivoNuevo < 9)
@@ -1078,35 +1109,36 @@ namespace UanlSISM.Controllers
                     //**************************************Crear e Insertar FOLIO/CLAVE en la BD Nueva
 
                     //obtener la ultima 'clave' de la tabla OrdenCompra actual BD (vieja) para que inserte un nuevo registro en la nueva BD CONSECUTIVO de la clave
-                    var Clave1 = (from a in db.OrdenCompra
-                                  select new
-                                  {
-                                      clave = a.clave
-                                  }).OrderByDescending(u => u.clave).FirstOrDefault();
+                    //var Clave1 = (from a in db.OrdenCompra
+                    //              select new
+                    //              {
+                    //                  clave = a.clave
+                    //              }).OrderByDescending(u => u.clave).FirstOrDefault();
 
-                    var AñoMes_Actual1 = string.Format("{0:yyMM}", fechaDT);
-                    var UltimoConsecutivo_Clave1 = Convert.ToInt32(Clave1.clave.Substring(4));
-                    var ConsecutivoNuevo1 = ((UltimoConsecutivo_Clave1) + 1);
-                    var ConsecutivoNuevoTxt1 = "";
+                    //var AñoMes_Actual1 = string.Format("{0:yyMM}", fechaDT);
+                    //var UltimoConsecutivo_Clave1 = Convert.ToInt32(Clave1.clave.Substring(4));
+                    //var ConsecutivoNuevo1 = ((UltimoConsecutivo_Clave1) + 1);
+                    //var ConsecutivoNuevoTxt1 = "";
 
-                    if (ConsecutivoNuevo1 < 100)
-                    {
-                        if (ConsecutivoNuevo1 < 9)
-                        {
-                            ConsecutivoNuevoTxt1 = "00" + ConsecutivoNuevo1;
-                        }
-                        else
-                        {
-                            ConsecutivoNuevoTxt1 = "0" + ConsecutivoNuevo1;
-                        }
-                    }
-                    else
-                    {
-                        ConsecutivoNuevoTxt1 = "" + ConsecutivoNuevo1;
-                    }
+                    //if (ConsecutivoNuevo1 < 100)
+                    //{
+                    //    if (ConsecutivoNuevo1 < 9)
+                    //    {
+                    //        ConsecutivoNuevoTxt1 = "00" + ConsecutivoNuevo1;
+                    //    }
+                    //    else
+                    //    {
+                    //        ConsecutivoNuevoTxt1 = "0" + ConsecutivoNuevo1;
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    ConsecutivoNuevoTxt1 = "" + ConsecutivoNuevo1;
+                    //}
+
 
                     //ACTUALIZAMOS LA 'CLAVE' DE LA O'C NUEVA
-                    ConBD_SM.Database.ExecuteSqlCommand("UPDATE Tbl_OrdenCompra SET Clave = '" + AñoMes_Actual1 + ConsecutivoNuevoTxt1 + "' WHERE Id='" + OC1.Id + "';");
+                    ConBD_SM.Database.ExecuteSqlCommand("UPDATE Tbl_OrdenCompra SET Clave = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id='" + OC1.Id + "';");
                 }
 
                 #endregion

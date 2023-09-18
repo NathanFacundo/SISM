@@ -1102,10 +1102,11 @@
 
     $('#btnGenerarRequi').on('click', function () {
         if (ListaSustancias.length > 0) {
-            TablaValida = true;
+            var TablaValida = true;
 
+            //if (itemEnLista.CANTIDAD <= 0 || itemEnLista.CANTIDAD == "" || itemEnLista.CANTIDAD == "0") {
             $.grep(ListaSustancias, function (itemEnLista) {
-                if (itemEnLista.CANTIDAD <= 0 || itemEnLista.CANTIDAD == "" || itemEnLista.CANTIDAD == "0") {
+                if (itemEnLista.CANTIDAD <= 0) {
                     TablaValida = false;
                 };
             });
