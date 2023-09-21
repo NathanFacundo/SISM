@@ -159,6 +159,7 @@
             <thead>
                 <tr>
                     <th class='text-center' style="background-color: green; color: white">Clave<br /> Med.</th>
+                    <th class='text-center' style="background-color: green; color: white">Descripción<br /> Med.</th>
                     <th class='text-center' style="background-color: darkorange">Folio<br /> Req.</th>
                     <th class='text-center' style="background-color: darkorange">Fecha<br /> Req.</th>
                     <th class='text-center' style="background-color: darkorange">Cantidad<br /> Req.</th>
@@ -406,6 +407,11 @@
                         return '<h8 style="color:white; ">' + data + '</h8>';
                     }
                 },
+                {
+                    'data': 'Descripcion', className: "text-center", render: function (data) {
+                        return '<h8 style="color:white; ">' + data + '</h8>';
+                    }
+                },
                 { 'data': 'Folio_Req_', className: "text-center" },
                 { 'data': 'Fecha_Req_', className: "text-center", render: function (data) { return moment(data).isValid() ? moment(data).format("DD/MM/YYYY HH:mm") : ""; } },
                 { 'data': 'Cant__Req_', className: "text-center" },
@@ -453,7 +459,7 @@
         });
         table.rows().every(function (rowIdx, tableLoop, rowLoop) {
             var cell = table.cell({ row: rowIdx, column: 1 }).node();
-            $(cell).addClass('pink1');
+            $(cell).addClass('pink');
         });
         table.rows().every(function (rowIdx, tableLoop, rowLoop) {
             var cell = table.cell({ row: rowIdx, column: 2 }).node();
@@ -465,7 +471,7 @@
         });
         table.rows().every(function (rowIdx, tableLoop, rowLoop) {
             var cell = table.cell({ row: rowIdx, column: 4 }).node();
-            $(cell).addClass('pink2');
+            $(cell).addClass('pink1');
         });
         table.rows().every(function (rowIdx, tableLoop, rowLoop) {
             var cell = table.cell({ row: rowIdx, column: 5 }).node();
@@ -489,6 +495,10 @@
         });
         table.rows().every(function (rowIdx, tableLoop, rowLoop) {
             var cell = table.cell({ row: rowIdx, column: 10 }).node();
+            $(cell).addClass('pink2');
+        });
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var cell = table.cell({ row: rowIdx, column: 11 }).node();
             $(cell).addClass('pink3');
         });
     }

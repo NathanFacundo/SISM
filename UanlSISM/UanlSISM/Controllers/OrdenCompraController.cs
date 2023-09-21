@@ -1050,7 +1050,7 @@ namespace UanlSISM.Controllers
                 var ConsecutivoNuevoTxt = "";
                 if (ConsecutivoNuevo < 100)
                 {
-                    if (ConsecutivoNuevo < 9)
+                    if (ConsecutivoNuevo < 10)
                     {
                         ConsecutivoNuevoTxt = "00" + ConsecutivoNuevo;
                     }

@@ -100,7 +100,7 @@ namespace UanlSISM.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Trazabilidad_VE_Result1>("SP_Trazabilidad_VE", idOCParameter, idSustanciaParameter);
         }
     
-        public virtual ObjectResult<SP_Trazabilidad_OC_Result10> SP_Trazabilidad_OC(string fechaIn, string fechaFi, string claveMed)
+        public virtual ObjectResult<SP_Trazabilidad_OC_Result11> SP_Trazabilidad_OC(string fechaIn, string fechaFi, string claveMed)
         {
             var fechaInParameter = fechaIn != null ?
                 new ObjectParameter("fechaIn", fechaIn) :
@@ -114,7 +114,7 @@ namespace UanlSISM.Models
                 new ObjectParameter("ClaveMed", claveMed) :
                 new ObjectParameter("ClaveMed", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Trazabilidad_OC_Result10>("SP_Trazabilidad_OC", fechaInParameter, fechaFiParameter, claveMedParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Trazabilidad_OC_Result11>("SP_Trazabilidad_OC", fechaInParameter, fechaFiParameter, claveMedParameter);
         }
     }
 }
