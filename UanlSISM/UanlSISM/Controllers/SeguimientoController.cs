@@ -69,13 +69,14 @@ namespace UanlSISM.Controllers
             {
                 #region Fechas
                 var fechaI = FechaInicio + " 00:00:00";
-                var fechaIn = DateTime.Parse(fechaI);
+                //var fechaIn = DateTime.Parse(fechaI);
 
                 var fechaF = FechaFin + " 23:59:59";
-                var fechaFi = DateTime.Parse(fechaF);
+                //var fechaFi = DateTime.Parse(fechaF);
                 #endregion
 
-                var query = db3.SP_Trazabilidad_OC(FechaInicio, FechaFin, ClaveMed).ToList();
+                //var query = db3.SP_Trazabilidad_OC(FechaInicio, FechaFin, ClaveMed).ToList();
+                var query = db3.SP_Trazabilidad_OC(fechaI, fechaF, ClaveMed).ToList();
 
                 return Json(new { MENSAJE = "FOUND", REP = query }, JsonRequestBehavior.AllowGet);
             }
