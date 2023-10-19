@@ -94,7 +94,7 @@ namespace UanlSISM.Controllers
         public JsonResult BuscarSustancia2(string Clave)
         {
             var SUSTANCIA = new List<Sustancia>();
-            SUSTANCIA = db2.Sustancia.Where(s => s.Clave == Clave).ToList();
+            SUSTANCIA = DAM.Sustancia.Where(s => s.Clave == Clave).ToList();
 
             return Json(new { SUSTANCIAS = SUSTANCIA }, JsonRequestBehavior.AllowGet);
         }

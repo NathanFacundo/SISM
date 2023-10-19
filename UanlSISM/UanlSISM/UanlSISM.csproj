@@ -439,7 +439,7 @@
       <DependentUpon>Dhabientes.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CodigoBarras.cs">
-      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
+      <DependentUpon>SISM-Farmacia.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ColoniaPrueba.Context.cs">
       <AutoGen>True</AutoGen>
@@ -792,7 +792,7 @@
       <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\grupo_21.cs">
-      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
+      <DependentUpon>SISM-Farmacia.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HistorialPadecimientos.Context.cs">
       <AutoGen>True</AutoGen>
@@ -1713,7 +1713,7 @@
       <DependentUpon>SISM-Farmacia.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Sustancia.cs">
-      <DependentUpon>Req.tt</DependentUpon>
+      <DependentUpon>SISM-Farmacia.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>SISM-RH.tt</DependentUpon>
@@ -1881,7 +1881,7 @@
       <DependentUpon>UanlEncuesta.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\unidadeslicitacion_21.cs">
-      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
+      <DependentUpon>SISM-Farmacia.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\unidadesmedida_21.cs">
       <DependentUpon>SISM-Farmacia.tt</DependentUpon>

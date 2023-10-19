@@ -1,5 +1,4 @@
-﻿
-@*DATATABLES*@
+﻿@*DATATABLES*@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="~/Scripts/2023/jquery.min.js"></script>
 
@@ -79,12 +78,19 @@
     input[type=number] {
         -moz-appearance: textfield;
     }
+
+    @@media print {
+        #Xcel2 {
+            display: none;
+        }
+    }
+
 </style>
 
 <div class="btn-toolbar">
     <button type="button" class="btn btn-primary btn-space" onclick="OCS()">ÓRDENES DE COMPRA <em>(Dpto. Compras)</em></button>
     <button type="button" class="btn btn-primary btn-space" onclick="Reporte()"><em>MEDICAMENTO EN O.C</em></button>
-    
+
 </div>
 
 <div>
@@ -132,6 +138,10 @@
                     </div>
                     <div class="col-md-9">
                         @*<button type="button" style="width:100%; background-color:rgba(0,74,143,1);" class="btn btn-success imprimir">Imprimir</button>*@
+
+                        <div>
+                            <a class="btn btn-success text-white" id="Xcel2">Descargar Excel</a>
+                        </div>
                     </div>
                 </div>
 
@@ -213,8 +223,6 @@
     </div>
 </div>
 
-
-
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jQuery.print/1.3.3/jQuery.print.min.js'></script>
 <script type="text/javascript" src="~/Scripts/2023/jQuery.print.min.js"></script>
 
@@ -226,6 +234,19 @@
 
 <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
 <script type="text/javascript" src="~/Scripts/2023/sum().js"></script>
+
+
+<script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.1/dist/jquery.table2excel.min.js"></script>
+<script type="text/javascript" src="~/Scripts/2023/jquery.table2excel.min.js"></script>
+
+<script>
+    $("#Xcel2").click(function () {
+        $("#tblDetalleRequi").table2excel({
+            exclude: ".xls",
+            filename: 'Requi-Orden.xls'
+        });
+    });
+</script>
 
 <script>
 
