@@ -2416,7 +2416,7 @@ namespace UanlSISM.Controllers
                             Identificador = q.Identificador,
                             FolioRequisicion = q.FolioRequi,
                             Folio = q.FolioOC,
-                            FechaOC = string.Format("{0:d/M/yyyy hh:mm tt}", q.FechaOC),
+                            FechaOC = string.Format("{0:d/M/yyyy}", q.FechaOC),
                             NombreProveedor = q.ProveedorOC,
                             GranT = q.GranTotalOC,
                             Usuario = q.UsuarioElaboraOC,

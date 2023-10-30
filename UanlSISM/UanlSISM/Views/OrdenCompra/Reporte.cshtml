@@ -175,16 +175,16 @@
                     <th>Folio<br /> Req.</th>
                     <th>Folio<br /> </th>
                     <th>Fecha<br /> </th>
+                    <th>Vencimiento<br /> </th>
                     <th>Proveedor<br /> </th>
                     @*<th>Gran Total<br /> O.C</th>*@
-                    <th>Acuse<br /> </th>
                     <th>Contrato<br /> </th>
                     <th>Clave<br /> Medicamento</th>
+                    <th>Descripción<br /> </th>
                     <th>Cantidad<br /> </th>
                     <th>P.U.<br /> </th>
                     <th>Sub total<br /> </th>
                     <th>Pte.<br /> Surtir</th>
-                    <th>Descripción<br /> </th>
                 </tr>
             </thead>
             <tbody>
@@ -363,16 +363,16 @@
                 { 'data': 'FolioRequisicion', className: "text-center" },
                 { 'data': 'Folio', className: "text-center" },
                 { 'data': 'FechaOC', className: "text-center" },
+                { 'data': 'FechaAcuse', className: "text-center" },
                 { 'data': 'NombreProveedor', className: "text-center" },
                 //{ 'data': 'GranT', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
-                { 'data': 'FechaAcuse', className: "text-center" },
                 { 'data': 'NumContrato', className: "text-center" },
                 { 'data': 'Clave', className: "text-center" },
+                { 'data': 'Descripcion', className: "text-center" },
                 { 'data': 'Cantidad', className: "text-center" },
                 { 'data': 'PrecioUnitario', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$ ', ' ') },
                 { 'data': 'Subtotal', className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$ ', ' ') },
-                { 'data': 'Pendiente', className: "text-center" },
-                { 'data': 'Descripcion', className: "text-center" }
+                { 'data': 'Pendiente', className: "text-center" }
             ],
             dom: 'Bfrtip',
             buttons: [

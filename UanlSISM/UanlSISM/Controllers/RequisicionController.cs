@@ -278,7 +278,7 @@ namespace UanlSISM.Controllers
                         var resultado = new Detalle
                         {
                             Clave = q.Clave,
-                            Existencia = res2.ManejoDisponible,
+                            //Existencia = res2.ManejoDisponible,
                             Descripcion = q.Descripcion.Trim(),
                             Cantidad = (int)q.Cantidad,
                             Folio = q.Folio,
