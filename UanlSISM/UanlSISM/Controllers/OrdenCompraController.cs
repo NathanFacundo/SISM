@@ -2587,7 +2587,12 @@ namespace UanlSISM.Controllers
                     }
                 }
 
-                return Json(new { MENSAJE = "FOUND", REP = results1 }, JsonRequestBehavior.AllowGet);
+                var json = new JsonResult { Data = results1, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+                json.MaxJsonLength = 500000000;
+                //return json;
+
+                //return Json(new { MENSAJE = "FOUND", REP = json.Data }, JsonRequestBehavior.AllowGet);
+                return json;
             }
             catch (Exception ex)
             {

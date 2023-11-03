@@ -299,26 +299,27 @@
             data: { FechaInicio: FechaInicio, FechaFin: FechaFin, ClaveMed: ClaveMed},
             success: function (data) {
 
-                var count = data.REP.length;
-
-                if (data.MENSAJE.substring(0, 6) == "Error:") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: '¡Error!',
-                        text: data.MENSAJE.substring(7),
-                    });
-                }
-                else //{
-                    if (count == 0 || count == "0") {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'No se encontraron registros con los filtros ingresados'
-                        });
-                    }
-                    else {
-                        LlenaTabla(data.REP);
-                    }
+                //var count = data.REP.length;
+                //if (data.MENSAJE.substring(0, 6) == "Error:") {
+                //    Swal.fire({
+                //        icon: 'error',
+                //        title: '¡Error!',
+                //        text: data.MENSAJE.substring(7),
+                //    });
                 //}
+                //else
+                //    if (count == 0 || count == "0") {
+                //        Swal.fire({
+                //            icon: 'error',
+                //            title: 'No se encontraron registros con los filtros ingresados'
+                //        });
+                //    }
+                //    else {
+                //        LlenaTabla(data.REP);
+                //    }
+
+                LlenaTabla(data);
+                
             },
             error: function (ex) {
                 Swal.fire({
