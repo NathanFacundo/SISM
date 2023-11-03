@@ -318,6 +318,20 @@
                 //        LlenaTabla(data.REP);
                 //    }
 
+                if (data == 0 || data == "0") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'No se encontraron registros con los filtros ingresados'
+                    });
+                }
+                if (data.MENSAJE) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: data.MENSAJE.substring(7),
+                    });
+                }
+
                 LlenaTabla(data);
                 
             },

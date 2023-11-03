@@ -2592,6 +2592,7 @@ namespace UanlSISM.Controllers
                 //return json;
 
                 //return Json(new { MENSAJE = "FOUND", REP = json.Data }, JsonRequestBehavior.AllowGet);
+
                 return json;
             }
             catch (Exception ex)
