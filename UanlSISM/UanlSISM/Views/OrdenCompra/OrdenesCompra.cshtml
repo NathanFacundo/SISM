@@ -176,7 +176,7 @@
 
                     <div class="col-md-2">
                         <div class="row" id="divAcuse">
-                            <label>Fecha Acuse</label>
+                            <label>Vencimiento</label>
                             <div id="datepicker"
                                  class="input-group date"
                                  data-date-format="dd-mm-yyyy">
@@ -200,7 +200,7 @@
 
                     <div class="col-md-2">
                         <div class="row" id="divBtnEliminar">
-                            <button type="button" class="btn btn-danger btn-spaceA" onclick="EliminarAcuse()">Eliminar Acuse</button><br />
+                            <button type="button" class="btn btn-danger btn-spaceA" onclick="EliminarAcuse()">Eliminar Vencimiento</button><br />
                             <button type="button" class="btn btn-danger" onclick="EliminarContrato()">Eliminar Contrato</button>
                         </div>
                     </div>
@@ -313,7 +313,7 @@
                                     <a style="font-size:13px" id="ProvNom1"></a>
                                 </th>
                                 <th>
-                                    <h10 id="InputFA111" style="color:green">Fecha Acuse</h10><br />
+                                    <h10 id="InputFA111" style="color:green">Vencimiento</h10><br />
                                     <a style="font-size:13px" id="InputFA11"></a>
                                 </th>
                                 <th>
@@ -1228,7 +1228,7 @@
         FechaAcuse = FechaAcuse + " " + h + ":" + m + ":" + s;
 
         Swal.fire({
-            title: '¿Desea guardar la Fecha de Acuse?',
+            title: '¿Desea guardar el Vencimiento?',
             text: FechaAcuse,
             icon: 'warning',
             showCancelButton: true,
@@ -1343,7 +1343,7 @@
         var Id_Requi = $("#Folio_Requi").val();
 
         Swal.fire({
-            title: '¿Desea eliminar el Acuse?',
+            title: '¿Desea eliminar el Vencimiento?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
