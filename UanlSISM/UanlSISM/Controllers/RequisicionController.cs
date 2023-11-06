@@ -172,7 +172,11 @@ namespace UanlSISM.Controllers
                     nuevoDetalle.Id_Sustancia = item.Id;
                     nuevoDetalle.Id_BorradorRequi = IdBorrador.Id_BorradorRequi;
                     nuevoDetalle.Descripcion = item.descripcion_21.Trim();
-                    nuevoDetalle.Compendio = item.Compendio;
+                    //nuevoDetalle.Compendio = item.Compendio;
+                    if (item.Compendio != null)
+                    {
+                        nuevoDetalle.Compendio = item.Compendio;
+                    }
 
                     ConBD.SISM_DETALLE_BORRADOR_REQUI.Add(nuevoDetalle);
                     ConBD.SaveChanges();
@@ -342,13 +346,41 @@ namespace UanlSISM.Controllers
                     var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
                     var UltimoConsecutivo_Clave = Convert.ToInt32(ClaveID.clave.Substring(4));
 
-                    var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
+                    //var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
+
+                    //var ConsecutivoNuevoTxt = "";
+
+                    //if (ConsecutivoNuevo < 100)
+                    //{
+                    //    if (ConsecutivoNuevo < 9)
+                    //    {
+                    //        ConsecutivoNuevoTxt = "00" + ConsecutivoNuevo;
+                    //    }
+                    //    else
+                    //    {
+                    //        ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
+                    //    }
+
+                    //}
+                    //else
+                    //{
+                    //    ConsecutivoNuevoTxt = "" + ConsecutivoNuevo;
+                    //}
+
+                    var ConsecutivoNuevo = 0;
+                    if (UltimoConsecutivo_Clave >= 999)
+                    {
+                        ConsecutivoNuevo = 1;
+                    }
+                    else
+                    {
+                        ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
+                    }
 
                     var ConsecutivoNuevoTxt = "";
-
                     if (ConsecutivoNuevo < 100)
                     {
-                        if (ConsecutivoNuevo < 9)
+                        if (ConsecutivoNuevo < 10)
                         {
                             ConsecutivoNuevoTxt = "00" + ConsecutivoNuevo;
                         }
@@ -356,7 +388,6 @@ namespace UanlSISM.Controllers
                         {
                             ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
                         }
-
                     }
                     else
                     {
@@ -392,7 +423,12 @@ namespace UanlSISM.Controllers
                         nuevoDetalle.Cantidad = item.CANTIDAD;
                         nuevoDetalle.Clave = item.Clave;
                         nuevoDetalle.Descripcion = item.descripcion_21.Trim();
-                        nuevoDetalle.Compendio = item.Compendio;
+                        //nuevoDetalle.Compendio = item.Compendio;
+                        if (item.Compendio != null)
+                        {
+                            nuevoDetalle.Compendio = item.Compendio;
+                        }
+                        
 
                         //***************************************************      ESTE BLOQUE SE COMENTA PARA QUE SE PUEDA HACER UNA O.C DIRECTA A PARTIR DE UNA REQUI CON CONTRATO
                         //if (StatusContrato != "Sin Contrato")
@@ -481,7 +517,11 @@ namespace UanlSISM.Controllers
                         nuevo_Detalle.Cantidad = item.CANTIDAD;
                         nuevo_Detalle.Clave = item.Clave;
                         nuevo_Detalle.Descripcion = item.descripcion_21.Trim();
-                        nuevo_Detalle.Compendio = item.Compendio;
+                        //nuevo_Detalle.Compendio = item.Compendio;
+                        if (item.Compendio != null)
+                        {
+                            nuevo_Detalle.Compendio = item.Compendio;
+                        }
                         nuevo_Detalle.PrecioUnitario = 0;
                         nuevo_Detalle.Total = 0;
 
@@ -737,12 +777,40 @@ namespace UanlSISM.Controllers
 
                 var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
                 var UltimoConsecutivo_Clave = Convert.ToInt32(ClaveID.clave.Substring(4));
-                var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
-                var ConsecutivoNuevoTxt = "";
 
+                //var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
+                //var ConsecutivoNuevoTxt = "";
+
+                //if (ConsecutivoNuevo < 100)
+                //{
+                //    if (ConsecutivoNuevo < 9)
+                //    {
+                //        ConsecutivoNuevoTxt = "00" + ConsecutivoNuevo;
+                //    }
+                //    else
+                //    {
+                //        ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
+                //    }
+                //}
+                //else
+                //{
+                //    ConsecutivoNuevoTxt = "" + ConsecutivoNuevo;
+                //}
+
+                var ConsecutivoNuevo = 0;
+                if (UltimoConsecutivo_Clave >= 999)
+                {
+                    ConsecutivoNuevo = 1;
+                }
+                else
+                {
+                    ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
+                }
+
+                var ConsecutivoNuevoTxt = "";
                 if (ConsecutivoNuevo < 100)
                 {
-                    if (ConsecutivoNuevo < 9)
+                    if (ConsecutivoNuevo < 10)
                     {
                         ConsecutivoNuevoTxt = "00" + ConsecutivoNuevo;
                     }
@@ -838,7 +906,11 @@ namespace UanlSISM.Controllers
 
                     detalleRequisicion.Clave = item.Clave;
                     detalleRequisicion.Descripcion = item.Descripcion.Trim();
-                    detalleRequisicion.Compendio = item.Compendio;
+                    //detalleRequisicion.Compendio = item.Compendio;
+                    if (item.Compendio != null)
+                    {
+                        detalleRequisicion.Compendio = item.Compendio;
+                    }
 
                     ConBD.SISM_DET_REQUISICION.Add(detalleRequisicion);
                     ConBD.SaveChanges();
@@ -920,7 +992,11 @@ namespace UanlSISM.Controllers
                     nuevo_Detalle.Total = 0;
                     nuevo_Detalle.Clave = item.Clave;
                     nuevo_Detalle.Descripcion = item.Descripcion.Trim();
-                    nuevo_Detalle.Compendio = item.Compendio;
+                    //nuevo_Detalle.Compendio = item.Compendio;
+                    if (item.Compendio != null)
+                    {
+                        nuevo_Detalle.Compendio = item.Compendio;
+                    }
 
                     ConBD_SM.Tbl_DetalleRequi.Add(nuevo_Detalle);
                     ConBD_SM.SaveChanges();
@@ -1124,7 +1200,11 @@ namespace UanlSISM.Controllers
                     nuevoDetalle.Id_Sustancia = item.Id_Sustancia;
                     nuevoDetalle.Id_BorradorRequi = IdBorrador.Id_BorradorRequi;
                     nuevoDetalle.Descripcion = item.Descripcion.Trim();
-                    nuevoDetalle.Compendio = item.Compendio;
+                    //nuevoDetalle.Compendio = item.Compendio;
+                    if (item.Compendio != null)
+                    {
+                        nuevoDetalle.Compendio = item.Compendio;
+                    }
 
                     ConBD.SISM_DETALLE_BORRADOR_REQUI.Add(nuevoDetalle);
                     ConBD.SaveChanges();
