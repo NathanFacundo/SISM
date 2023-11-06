@@ -1123,7 +1123,7 @@
 
                 $.ajax({
                     url: '@Url.Action("GenerarRequisiciondirecta", "Requisicion")',
-                    method: 'POST',
+                    //method: 'POST',
                     dataType: 'json',
                     data: { ListaSustanciasRequiDirecta: ListaSustancias, StatusContrato : EstatusContrato },
                     success: function (data) {
@@ -1151,7 +1151,7 @@
                             title: '¡Error!',
                             text: 'Requisición no generada'
                         });
-                        location.reload();
+                        //location.reload();
                     }
                 });
             } else
