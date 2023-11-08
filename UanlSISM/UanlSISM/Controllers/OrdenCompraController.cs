@@ -1,4 +1,5 @@
 ﻿
+
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -553,30 +554,55 @@ namespace UanlSISM.Controllers
                         {
                             if (item.CANTIDAD_NUEVA > 0 && item.PREUNIT_NUEVA > 0)
                             {
-                                DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PREUNIT_NUEVA), 2);
+                                //DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PREUNIT_NUEVA), 2);
+
+                                double resultado = item.CANTIDAD_NUEVA * item.PREUNIT_NUEVA;
+                                string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
+                                DetalleOC.Total = double.Parse(resultadoFormateado);
+
                             }
                             else
                             {
                                 if (item.CANTIDAD_NUEVA > 0)
                                 {
-                                    DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PrecioUnitario), 2);
+                                    //DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PrecioUnitario), 2);
+
+                                    double resultado = (double)(item.CANTIDAD_NUEVA * item.PrecioUnitario);
+                                    string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
+                                    DetalleOC.Total = double.Parse(resultadoFormateado);
+
                                 }
                                 if (item.PREUNIT_NUEVA > 0)
                                 {
                                     if (item.CantidadPendiente_OC > 0)
                                     {
-                                        DetalleOC.Total = (double?)decimal.Round((decimal)(item.CantidadPendiente_OC * item.PREUNIT_NUEVA), 2);
+                                        //DetalleOC.Total = (double?)decimal.Round((decimal)(item.CantidadPendiente_OC * item.PREUNIT_NUEVA), 2);
+
+                                        double resultado = (double)(item.CantidadPendiente_OC * item.PREUNIT_NUEVA);
+                                        string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
+                                        DetalleOC.Total = double.Parse(resultadoFormateado);
+
                                     }
                                     else
                                     {
-                                        DetalleOC.Total = (double?)decimal.Round((decimal)(item.Cantidad * item.PREUNIT_NUEVA), 2);
+                                        //DetalleOC.Total = (double?)decimal.Round((decimal)(item.Cantidad * item.PREUNIT_NUEVA), 2);
+
+                                        double resultado = (double)(item.Cantidad * item.PREUNIT_NUEVA);
+                                        string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
+                                        DetalleOC.Total = double.Parse(resultadoFormateado);
+
                                     }
                                 }
                             }
                         }
                         else
                         {
-                            DetalleOC.Total = (double?)decimal.Round((decimal)(DetalleOC.Cantidad * DetalleOC.PreUnit), 2);
+                            //DetalleOC.Total = (double?)decimal.Round((decimal)(DetalleOC.Cantidad * DetalleOC.PreUnit), 2);
+
+                            double resultado = (double)(DetalleOC.Cantidad * DetalleOC.PreUnit);
+                            string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
+                            DetalleOC.Total = double.Parse(resultadoFormateado);
+
                         }
 
                         ConBD.SISM_DETALLE_OC.Add(DetalleOC);
@@ -694,30 +720,55 @@ namespace UanlSISM.Controllers
                         {
                             if (item.CANTIDAD_NUEVA > 0 && item.PREUNIT_NUEVA > 0)
                             {
-                                DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PREUNIT_NUEVA), 2);
+                                //DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PREUNIT_NUEVA), 2);
+
+                                double resultado = item.CANTIDAD_NUEVA * item.PREUNIT_NUEVA;
+                                string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
+                                DetalleOC.Total = double.Parse(resultadoFormateado);
+
                             }
                             else
                             {
                                 if (item.CANTIDAD_NUEVA > 0)
                                 {
-                                    DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PrecioUnitario), 2);
+                                    //DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PrecioUnitario), 2);
+
+                                    double resultado = (double)(item.CANTIDAD_NUEVA * item.PrecioUnitario);
+                                    string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
+                                    DetalleOC.Total = double.Parse(resultadoFormateado);
+
                                 }
                                 if (item.PREUNIT_NUEVA > 0)
                                 {
                                     if (item.CantidadPendiente_OC > 0)
                                     {
-                                        DetalleOC.Total = (double?)decimal.Round((decimal)(item.CantidadPendiente_OC * item.PREUNIT_NUEVA), 2);
+                                        //DetalleOC.Total = (double?)decimal.Round((decimal)(item.CantidadPendiente_OC * item.PREUNIT_NUEVA), 2);
+
+                                        double resultado = (double)(item.CantidadPendiente_OC * item.PREUNIT_NUEVA);
+                                        string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
+                                        DetalleOC.Total = double.Parse(resultadoFormateado);
+
                                     }
                                     else
                                     {
-                                        DetalleOC.Total = (double?)decimal.Round((decimal)(item.Cantidad * item.PREUNIT_NUEVA), 2);
+                                        //DetalleOC.Total = (double?)decimal.Round((decimal)(item.Cantidad * item.PREUNIT_NUEVA), 2);
+
+                                        double resultado = (double)(item.Cantidad * item.PREUNIT_NUEVA);
+                                        string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
+                                        DetalleOC.Total = double.Parse(resultadoFormateado);
+
                                     }
                                 }
                             }
                         }
                         else
                         {
-                            DetalleOC.Total = (double?)decimal.Round((decimal)(DetalleOC.Cantidad * DetalleOC.PreUnit), 2);
+                            //DetalleOC.Total = (double?)decimal.Round((decimal)(DetalleOC.Cantidad * DetalleOC.PreUnit), 2);
+
+                            double resultado = (double)(DetalleOC.Cantidad * DetalleOC.PreUnit);
+                            string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
+                            DetalleOC.Total = double.Parse(resultadoFormateado);
+
                         }
 
                         ConBD_SM.Tbl_DetalleOC.Add(DetalleOC);
@@ -2589,10 +2640,8 @@ namespace UanlSISM.Controllers
 
                 var json = new JsonResult { Data = results1, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
                 json.MaxJsonLength = 500000000;
-                //return json;
 
-                //return Json(new { MENSAJE = "FOUND", REP = json.Data }, JsonRequestBehavior.AllowGet);
-
+                //return Json(new { MENSAJE = "FOUND", REP = results1 }, JsonRequestBehavior.AllowGet);
                 return json;
             }
             catch (Exception ex)
