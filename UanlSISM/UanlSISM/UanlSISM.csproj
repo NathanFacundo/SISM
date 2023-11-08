@@ -1715,6 +1715,7 @@
     <Compile Include="Models\Sustancia.cs">
       <DependentUpon>SISM-Farmacia.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SustanciaM.cs" />
     <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>SISM-RH.tt</DependentUpon>
     </Compile>

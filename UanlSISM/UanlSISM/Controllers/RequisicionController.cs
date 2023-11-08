@@ -138,7 +138,7 @@ namespace UanlSISM.Controllers
             }
         }
 
-        public JsonResult GenerarBorradorRequi(List<Sustancia> ListaSustanciasBorrador, string StatusContrato)
+        public JsonResult GenerarBorradorRequi(List<SustanciaM> ListaSustanciasBorrador, string StatusContrato)
         {
             //return null;
 
@@ -307,7 +307,7 @@ namespace UanlSISM.Controllers
             }
         }
 
-        public JsonResult GenerarRequisiciondirecta(List<Sustancia> ListaSustanciasRequiDirecta, string StatusContrato)
+        public JsonResult GenerarRequisiciondirecta(List<SustanciaM> ListaSustanciasRequiDirecta, string StatusContrato)
         {
             var UsuarioRegistra = User.Identity.GetUserName();
             var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");

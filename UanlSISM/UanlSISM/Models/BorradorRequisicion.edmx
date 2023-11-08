@@ -405,7 +405,7 @@
           <Property Name="Clave" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="Descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="SISM_REQUISICION" Relationship="Self.FK__SISM_DET___Id_Re__45F365D3" FromRole="SISM_DET_REQUISICION" ToRole="SISM_REQUISICION" />
-          <Property Name="Compendio" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Compendio" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="true" />
           <Property Name="PrecioUnitario" Type="Double" />
           <Property Name="Total" Type="Double" />
           <Property Name="Cantidad_OC" Type="Int32" />
