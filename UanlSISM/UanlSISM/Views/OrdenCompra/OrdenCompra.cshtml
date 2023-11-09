@@ -785,6 +785,9 @@
     }
 
     $('#btnGenerarOC').on('click', function () {
+
+        event.preventDefault(); // Prevenir el envío del formulario
+
         Folio = $("#NoRequi").val();
         Proveedor = document.getElementById('PROV').textContent.trim();
         EsConContrato = $("#EstContrato").val();

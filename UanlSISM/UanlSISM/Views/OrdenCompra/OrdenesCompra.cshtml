@@ -1168,6 +1168,9 @@
     });
 
     $('#btnGenerar_OC').on('click', function () {
+
+        event.preventDefault(); // Prevenir el envío del formulario
+
         var Id_OC = $("#Id_OC").val();
         var Folio_Requi = $("#Folio_Requi").val();
         var Contrato = $("#Num_Contrato").val();
