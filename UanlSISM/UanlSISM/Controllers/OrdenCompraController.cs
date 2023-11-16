@@ -2171,6 +2171,7 @@ namespace UanlSISM.Controllers
             }
         }
 
+        //TBL PROVEEDOR NUEVO = ConDB
         public JsonResult GuardarProveedor(string NomProv, string PadronProv)
         {
             try
@@ -2861,5 +2862,92 @@ namespace UanlSISM.Controllers
         #endregion
 
         //----------------------------------------------------------------------------------- Pantalla REPORTE   --------------  FIN
+
+
+        //----------------------------------------------------- Pantalla PROVEEDOR   --------------  INICIO
+
+        //TBL PROVEEDOR NUEVO = ConDB
+        [Authorize]
+        public ActionResult Proveedor()
+        {
+            ViewBag.PROVEEDORES = new SelectList(ConBD.SISM_PROVEEDOR_COMPRAS.ToList(), "Id", "Prov_Nombre", "Id_Prov");
+
+            return View();
+        }
+
+        public ActionResult ObtenerReporteProveedor(string FechaInicio, string FechaFin, string Proveedor)
+        {
+            try
+            {
+                var results1 = new List<ListCampos>();
+
+                var fechaI = FechaInicio + " 00:00:00";
+                var fechaIn = DateTime.Parse(fechaI);
+
+                var fechaF = FechaFin + " 23:59:59";
+                var fechaFi = DateTime.Parse(fechaF);
+
+                var Prov = (from a in ConBD.SISM_PROVEEDOR_COMPRAS
+                            where a.Prov_Nombre == Proveedor
+                            select a
+                            ).FirstOrDefault();
+
+                var query = (from OC in ConBD.SISM_ORDEN_COMPRA
+                             where OC.Fecha_HacerOC >= fechaIn
+                             where OC.Fecha_HacerOC <= fechaFi && OC.Id_Proveedor == Prov.Id_Prov
+                             select new
+                             {
+                                 Identificador = OC.Id,
+                                 FolioOC = OC.Clave,
+                                 FechaOC = OC.Fecha_HacerOC,
+                                 ProveedorOC = OC.NombreProveedor,
+                                 GranTotalOC = OC.Total_OC,
+                                 FechaAcuseOC = OC.Fecha_Acuse,
+                                 ContratoOC = OC.Contrato
+                             }).ToList();
+
+                foreach (var q in query)
+                {
+                    
+                    var resultado = new ListCampos
+                    {
+                        Identificador = q.Identificador,
+                        Folio = q.FolioOC,
+                        FechaOC = string.Format("{0:d/M/yyyy hh:mm tt}", q.FechaOC),
+                        NombreProveedor = q.ProveedorOC,
+                        GranT = q.GranTotalOC,
+                        FechaAcuse = string.Format("{0:d/M/yyyy}", q.FechaAcuseOC),
+                        NumContrato = q.ContratoOC
+                    };
+                    results1.Add(resultado);
+                }
+
+                //// Calcular la sumatoria total de 'GranT'
+                //decimal totalGranT = (decimal)results1.Sum(item => item.GranT);
+
+                //// Crear un objeto anónimo que incluye la lista de resultados y la sumatoria total
+                //var jsonData = new
+                //{
+                //    Results = results1,
+                //    TotalGranT = totalGranT
+                //};
+
+                //// Crear JsonResult con el objeto anónimo
+                //var json = new JsonResult
+                //{
+                //    Data = jsonData,
+                //    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                //};
+
+                var json = new JsonResult { Data = results1, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+                json.MaxJsonLength = 500000000;
+
+                return json;
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

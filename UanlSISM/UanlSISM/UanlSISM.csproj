@@ -3871,6 +3871,7 @@
     <Content Include="Views\Seguimiento\Trazabilidad2.cshtml" />
     <Content Include="Views\Seguimiento\Trazabilidad_ORIGINAL.cshtml" />
     <Content Include="Views\Seguimiento\Trazabilidad.cshtml" />
+    <Content Include="Views\OrdenCompra\Proveedor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

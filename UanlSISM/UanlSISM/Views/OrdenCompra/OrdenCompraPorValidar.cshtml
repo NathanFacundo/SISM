@@ -91,6 +91,7 @@
 <div class="btn-toolbar">
     <button type="button" class="btn btn-primary btn-space" onclick="Regresar()">REGRESAR</button>
     <button type="button" class="btn btn-primary btn-space" data-toggle="modal" data-target="#ProvModal">Alta Proveedor</button>
+    <button type="button" class="btn btn-success btn-space" onclick="ReporteProveedor()">Reporte Proveedor</button>
 </div>
 
 <div>
@@ -723,6 +724,11 @@
             }
 
         });
+    }
+
+
+    function ReporteProveedor() {
+        window.location.href = '../OrdenCompra/Proveedor'
     }
 
 </script>
