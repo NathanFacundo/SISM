@@ -1,5 +1,4 @@
-﻿
-@*DATATABLES*@
+﻿@*DATATABLES*@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="~/Scripts/2023/jquery.min.js"></script>
 
@@ -208,16 +207,98 @@
                 </div>
 
                 @* INFO: ACUSE - CONTRATO... *@
+                @*<div class="row" id="Moddal">
+
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="alt-features-item align-center">
+                                    <h6 class="text-center" style="font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Datos del Proveedor</h6>
+                                    <div class="text" style="text-align:center;">
+                                        <a style="" id="ProvUanl"></a>
+                                        <a style="" id="ProvNom"></a><br />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <h10 id="LabelContrato" style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Contrato</h10><br />
+                                    <a style="" id="InputCon"></a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h10 style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Folio Req.</h10><br />
+                                    <a style="" id="FRequi"></a>
+                                </div>
+                                <div class="col-6">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h10 id="InputFA1" style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Fecha Vencimiento</h10><br />
+                                    <a style="" id="InputFA"></a>
+                                </div>
+                                <div class="col-6">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="alt-features-item align-center">
+                                <div class="row">
+                                    <a style=""><span class="emphasized"><strong>FACTURAR A:</strong></span> UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</a><br />
+                                    <a style=""><span class="emphasized"><strong>RFC:</strong></span> UANL691126MK2</a>
+                                </div>
+                                <div class="row">
+                                    <a style=""><span class="emphasized"><strong>Embarcar:</strong></span> GONZALITOS Y HAITI, COLONIA VISTA HERMOSA. MONTERREY NUEVO LEÓN</a><br />
+                                </div>
+                                <div class="row">
+                                    <h6 class="text-center" style="font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Tiempo de Entrega</h6>
+                                    <div class="text" style="text-align:center;">
+                                        <a style="">5 DÍAS NATURALES</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="row" id="contenido">
+                                <div class="row">
+                                    <h5 id="TitutloModal" class="imprimirTitulo" style="text-align: right; color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;"></h5>
+                                </div>
+                                <div class="row">
+                                    <div class="row">
+                                        <div class="col-6">
+                                        </div>
+                                        <div class="col-6">
+                                            <h10 style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;" id="ClaveOC1">Folio</h10><br />
+                                            <a style="" id="ClaveOC"></a>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                        </div>
+                                        <div class="col-6">
+                                            <h10 style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;" id="FechaOC1">Fecha Pre-Orden</h10><br />
+                                            <a style="" id="FechaOC"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>*@
+
                 <div class="row" id="Moddal">
 
                     <div class="col-4">
                         <div class="alt-features-item align-center">
                             <div class="row">
-                                <a style=""><span class="emphasized"><strong>FACTURAR A:</strong></span> UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN.</a><br />
+                                <a style=""><span class="emphasized"><strong>FACTURAR A:</strong></span> UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</a><br />
                                 <a style=""><span class="emphasized"><strong>RFC:</strong></span> UANL691126MK2</a>
                             </div>
                             <div class="row">
-                                <a style=""><span class="emphasized"><strong>Embarcar:</strong></span> GONZALITOS Y HAITI, COLONIA VISTA HERMOSA. MONTERREY NUEVO LEÓN.</a><br />
+                                <a style=""><span class="emphasized"><strong>Embarcar:</strong></span> GONZALITOS Y HAITI, COLONIA VISTA HERMOSA. MONTERREY NUEVO LEÓN</a><br />
                             </div>
                             <div class="row">
                                 <a style=""><strong>SERVICIOS MÉDICOS DE LA U.A.N.L.</strong></a><br />
@@ -780,7 +861,6 @@
                 //$("#divAcuse").show();
 
                 $("#TDacuse").css("display", "none");
-
             } else {
                 $("#InputFA1").show();
                 $("#InputFA11").show();
@@ -1539,27 +1619,41 @@
         .emphasized {
             font-style: italic;
         }
+        /*#Moddal h6 {
+            font-size: 22px
+        }
 
+        #Moddal a {
+            font-size: 19px
+        }
+
+        #Moddal h10 {
+            font-size: 22px
+        }
+
+        #Moddal h5 {
+            font-size: 22px
+        }
+
+        #InputCon {
+            font-size: 17px
+        }*/
         /*TituloProveedor*/
         #Moddal h6 {
             font-size: 21px
         }
-
         /*Info proveedor*/
         #Moddal a {
             font-size: 18px
         }
-
         /*Titulo Contrato-req-vencimiento*/
         #Moddal h10 {
             font-size: 20px
         }
-
         /*Titulo OC-PREORDEN*/
         #Moddal h5 {
             font-size: 20px
         }
-
         /*Contrato*/
         #InputCon {
             font-size: 17px
@@ -1585,7 +1679,5 @@
             .table-bordered thead {
                 border-bottom: 2px solid #9a9898; /* Ancho y color del borde inferior del encabezado */
             }
-
     }
-
 </style>
