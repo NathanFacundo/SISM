@@ -19,5 +19,9 @@ namespace UanlSISM.Models
         public double PREUNIT_NUEVA { get; set; }
         public float TOTAL_NUEVA { get; set; }
         public bool CB_ELIMINAR { get; set; }
+
+
+        public float ST_IVA { get; set; }
+        //public bool CB_IVA { get; set; }
     }
 }
