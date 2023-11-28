@@ -13,13 +13,15 @@ namespace UanlSISM.Controllers
     public class RequisicionController : Controller
     {
         //BD_Almacen ConBD2 = new BD_Almacen();                           //BD Nueva (Pruebas Milton)
-        SERVMEDEntities5 db2 = new SERVMEDEntities5();                  //TBL Sustancia (LinQ)
+        //SERVMEDEntities5 db2 = new SERVMEDEntities5();                  //TBL Sustancia (LinQ)
+        SERVMEDEntities4 db2 = new SERVMEDEntities4();                  //TBL Sustancia (LinQ)
         SERVMEDEntities8 db = new SERVMEDEntities8();                   //TBL InvAlmFarm (Manejo Disp)
         //SERVMEDEntities12 SPM = new SERVMEDEntities12();
         Models.SERVMEDEntities4 DAM = new Models.SERVMEDEntities4();    //TBL Sustancia (ExecuteSqlCommand)
         SISM_SIST_MEDEntities ConBD = new SISM_SIST_MEDEntities();      //BD Nueva (Está en Productivo)
         SERVMEDEntities8 RequisicionDB = new SERVMEDEntities8();        //TABLAS Requisicion Viejas (BD Viejita)
         SERVMEDEntities6 ConBD_SM = new SERVMEDEntities6();             //Nueva BD en ServMed  205
+
 
         public class LstInv
         {
@@ -29,6 +31,8 @@ namespace UanlSISM.Controllers
             public string Descripcion { get; set; }
             public int CANTIDAD { get; set; }
             public string Compendio { get; set; }
+
+            public string descripcion_21 { get; set; }
         }
 
         public class LstInv1
@@ -94,7 +98,7 @@ namespace UanlSISM.Controllers
         public JsonResult BuscarSustancia2(string Clave)
         {
             var SUSTANCIA = new List<Sustancia>();
-            SUSTANCIA = DAM.Sustancia.Where(s => s.Clave == Clave).ToList();
+            SUSTANCIA = ConBD_SM.Sustancia.Where(s => s.Clave == Clave).ToList();
 
             return Json(new { SUSTANCIAS = SUSTANCIA }, JsonRequestBehavior.AllowGet);
         }
@@ -251,7 +255,7 @@ namespace UanlSISM.Controllers
                 foreach (var q in query)
                 {
 
-                    var sus = (from a in DAM.Sustancia
+                    var sus = (from a in ConBD_SM.Sustancia
                                    //join G in DAM.grupo_21 on a.id_grupo_21 equals G.id
                                where a.Clave == q.Clave
                                select new
@@ -276,7 +280,7 @@ namespace UanlSISM.Controllers
                                         "INNER JOIN grupo_21 G ON S.id_grupo_21 = G.id " +
                                         "where S.Id = " + sus.Id + " ";
 
-                        var result22 = DAM.Database.SqlQuery<Detalle>(query22);
+                        var result22 = ConBD_SM.Database.SqlQuery<Detalle>(query22);
                         var res22 = result22.FirstOrDefault();
 
                         var resultado = new Detalle
@@ -307,6 +311,7 @@ namespace UanlSISM.Controllers
             }
         }
 
+        [HttpPost]
         public JsonResult GenerarRequisiciondirecta(List<SustanciaM> ListaSustanciasRequiDirecta, string StatusContrato)
         {
             var UsuarioRegistra = User.Identity.GetUserName();
@@ -325,8 +330,9 @@ namespace UanlSISM.Controllers
                                where a.Id_Tipo == 2
                                select new
                                {
-                                   a.clave
-                               }).OrderByDescending(u => u.clave).FirstOrDefault();
+                                   a.clave,
+                                   a.id
+                               }).OrderByDescending(u => u.id).FirstOrDefault();
                 //int ClaveNueva = Convert.ToInt32(ClaveID.clave) + 1;
 
                 if (UsuarioRegistra == null || UsuarioRegistra == "")
@@ -340,8 +346,6 @@ namespace UanlSISM.Controllers
                     NuevaRequi.Fecha = fechaDT;
                     NuevaRequi.Id_User = UsuarioRegistra;
                     NuevaRequi.IP_User = ip_realiza;
-
-                    //NuevaRequi.claveOLD = Convert.ToString(ClaveNueva);
 
                     var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
                     var UltimoConsecutivo_Clave = Convert.ToInt32(ClaveID.clave.Substring(4));
@@ -428,7 +432,7 @@ namespace UanlSISM.Controllers
                         {
                             nuevoDetalle.Compendio = item.Compendio;
                         }
-                        
+
 
                         //***************************************************      ESTE BLOQUE SE COMENTA PARA QUE SE PUEDA HACER UNA O.C DIRECTA A PARTIR DE UNA REQUI CON CONTRATO
                         //if (StatusContrato != "Sin Contrato")
@@ -624,6 +628,32 @@ namespace UanlSISM.Controllers
             }
         }
 
+        public JsonResult BuscarSus(string Clave)
+        {
+
+            var SUSTANCIA = new List<Sustancia>();
+            SUSTANCIA = db2.Sustancia.Where(s => s.Clave == Clave).ToList();
+
+            var medicamentos = new List<LstInv>();
+
+            foreach (var item in SUSTANCIA)
+            {
+                var listamedicamentos = new LstInv
+                {
+                    Id_Sustancia = item.Id,
+                    Cantidad = 0,
+                    Clave = item.Clave,
+                    Descripcion = item.descripcion_21,
+                    descripcion_21 = item.descripcion_21,
+                    Compendio = item.Compendio
+                };
+
+                medicamentos.Add(listamedicamentos);
+            }
+
+            return Json(new { SUSTANCIAS = medicamentos }, JsonRequestBehavior.AllowGet);
+        }
+
         //----------------------------------------------------- Pantalla REQUISICION   --------------  FIN
 
 
@@ -769,11 +799,9 @@ namespace UanlSISM.Controllers
                                where a.Id_Tipo == 2
                                select new
                                {
-                                   a.clave
-                               }).OrderByDescending(u => u.clave).FirstOrDefault();
-
-                //int ClaveNueva = Convert.ToInt32(ClaveID.clave) + 1;
-                //Requisicion.claveOLD = Convert.ToString(ClaveNueva);
+                                   a.clave,
+                                   a.id
+                               }).OrderByDescending(u => u.id).FirstOrDefault();
 
                 var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
                 var UltimoConsecutivo_Clave = Convert.ToInt32(ClaveID.clave.Substring(4));
@@ -1038,8 +1066,6 @@ namespace UanlSISM.Controllers
                     }
                 }
 
-                //Req.clave = Convert.ToString(ClaveNueva);
-
                 var ClaveNueva = AñoMes_Actual + ConsecutivoNuevoTxt;
                 Req.clave = ClaveNueva;
 
@@ -1060,7 +1086,6 @@ namespace UanlSISM.Controllers
                     detRequi.Id_Sustancia = (int)item.Id_Sustancia;
                     detRequi.C_Recibida = 0;
                     detRequi.Status = false;
-                    //detRequi.C_Solicitada = (int)item.Cantidad;
 
                     if (item.CANTIDAD_NUEVA > 0)
                     {

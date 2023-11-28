@@ -6,14 +6,18 @@
     <edmx:Diagrams>
       <Diagram DiagramId="ec0f7fe0ec7d443dafc97915a0baad0e" Name="Diagram1">
         <EntityTypeShape EntityType="SERVMEDNivel2.ReporteInventarios" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SERVMEDNivel2.CodigoBarras" Width="1.5" PointX="2.5" PointY="0.5" />
-        <EntityTypeShape EntityType="SERVMEDNivel2.Tbl_DetalleOC" Width="1.5" PointX="6.625" PointY="0.5" />
-        <EntityTypeShape EntityType="SERVMEDNivel2.Tbl_OrdenCompra" Width="1.5" PointX="4.625" PointY="0.5" />
+        <EntityTypeShape EntityType="SERVMEDNivel2.Tbl_DetalleOC" Width="1.5" PointX="4.875" PointY="0.625" />
+        <EntityTypeShape EntityType="SERVMEDNivel2.Tbl_OrdenCompra" Width="1.5" PointX="2.875" PointY="0.5" />
         <AssociationConnector Association="SERVMEDNivel2.FK__Tbl_Detal__Id_Or__396E5EB4" />
-        <EntityTypeShape EntityType="SERVMEDNivel2.Tbl_DetalleRequi" Width="1.5" PointX="10.875" PointY="0.5" />
-        <EntityTypeShape EntityType="SERVMEDNivel2.Tbl_Requisicion" Width="1.5" PointX="8.625" PointY="0.5" />
+        <EntityTypeShape EntityType="SERVMEDNivel2.Tbl_DetalleRequi" Width="1.5" PointX="8.875" PointY="0.625" />
+        <EntityTypeShape EntityType="SERVMEDNivel2.Tbl_Requisicion" Width="1.5" PointX="6.875" PointY="0.625" />
         <AssociationConnector Association="SERVMEDNivel2.FK__Tbl_Detal__Id_Re__62707447" />
-        <EntityTypeShape EntityType="SERVMEDNivel2.Inventario_1" Width="1.5" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="SERVMEDNivel2.Inventario_1" Width="1.5" PointX="7.375" PointY="5.125" />
+        <EntityTypeShape EntityType="SERVMEDNivel2.InvAlmFarm" Width="1.5" PointX="9.625" PointY="4.875" />
+        <EntityTypeShape EntityType="SERVMEDNivel2.InvFarm" Width="1.5" PointX="6.875" PointY="8.25" />
+        <EntityTypeShape EntityType="SERVMEDNivel2.Sustancia" Width="1.5" PointX="0.625" PointY="6" />
+        <AssociationConnector Association="SERVMEDNivel2.FK_InvAlmFarm_Inventario" />
+        <AssociationConnector Association="SERVMEDNivel2.FK_InvFarm_Inventario" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

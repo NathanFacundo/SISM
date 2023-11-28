@@ -886,6 +886,9 @@
     <Compile Include="Models\InterconsultasSub.cs">
       <DependentUpon>Dhabientes.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InvAlmFarm.cs">
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Inventario.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -944,7 +947,7 @@
       <DependentUpon>inventario_ip.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\InvFarm.cs">
-      <DependentUpon>FarmaciaProductividad.tt</DependentUpon>
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\INV_GRAL.cs">
       <DependentUpon>Incidente.tt</DependentUpon>
@@ -1713,7 +1716,7 @@
       <DependentUpon>SISM-Farmacia.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Sustancia.cs">
-      <DependentUpon>SISM-Farmacia.tt</DependentUpon>
+      <DependentUpon>SERVMEDNivel2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SustanciaM.cs" />
     <Compile Include="Models\sysdiagrams.cs">

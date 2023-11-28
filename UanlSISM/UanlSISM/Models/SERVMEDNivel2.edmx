@@ -5,19 +5,21 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="SERVMEDNivel2.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="CodigoBarras">
+        <EntityType Name="InvAlmFarm">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InvAlmId" Type="smallint" Nullable="false" />
+          <Property Name="Fecha" Type="smalldatetime" Nullable="false" />
           <Property Name="Id_Sustancia" Type="int" Nullable="false" />
-          <Property Name="Nombre_Comercial" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Codigo_Barra" Type="varchar" MaxLength="20" />
-          <Property Name="Contenido" Type="smallint" Nullable="false" />
-          <Property Name="Status" Type="bit" Nullable="false" />
-          <Property Name="Fecha" Type="datetime" Nullable="false" />
-          <Property Name="contenido_anterior" Type="int" />
-          <Property Name="codigobarra_anterior" Type="nchar" MaxLength="50" />
+          <Property Name="Inv_Ini" Type="int" Nullable="false" />
+          <Property Name="Inv_Ent" Type="int" Nullable="false" />
+          <Property Name="Inv_Sal" Type="int" Nullable="false" />
+          <Property Name="Inv_Disp" Type="int" Nullable="false" />
+          <Property Name="Inv_Reorden" Type="int" Nullable="false" />
+          <Property Name="ManejoDisponible" Type="int" />
+          <Property Name="Usuario_Registra" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Inventario">
           <Key>
@@ -27,6 +29,63 @@
           <Property Name="nom_invent" Type="char" MaxLength="25" Nullable="false" />
           <Property Name="status" Type="bit" Nullable="false" />
           <Property Name="tipo" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InvFarm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InvFarmId" Type="smallint" Nullable="false" />
+          <Property Name="Inv_Fecha" Type="datetime" />
+          <Property Name="Id_Sustancia" Type="int" />
+          <Property Name="Inv_Ini" Type="int" />
+          <Property Name="Inv_Ent" Type="int" Nullable="false" />
+          <Property Name="Inv_Sal" Type="int" Nullable="false" />
+          <Property Name="Inv_Act" Type="int" Nullable="false" />
+          <Property Name="Inv_Reorden" Type="int" />
+          <Property Name="ManejoDisponible" Type="int" />
+          <Property Name="Usuario_Registra" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Sustancia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Grupo" Type="smallint" Nullable="false" />
+          <Property Name="Id_Sal" Type="smallint" Nullable="false" />
+          <Property Name="Id_Nivel" Type="smallint" Nullable="false" />
+          <Property Name="clave_presentacion" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="Presentacion" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Clave" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="Consultorio" Type="char" MaxLength="1" />
+          <Property Name="estante_col" Type="char" MaxLength="10" />
+          <Property Name="estante_nivel" Type="char" MaxLength="10" />
+          <Property Name="pos_frecuencia" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="consumo_semana" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="cb_mederos" Type="char" MaxLength="1" />
+          <Property Name="cto_ultimo" Type="real" />
+          <Property Name="cto_promedio" Type="real" />
+          <Property Name="estatus_21" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="descripcion_21" Type="nchar" MaxLength="200" />
+          <Property Name="clave_21" Type="nchar" MaxLength="19" />
+          <Property Name="id_grupo_21" Type="int" />
+          <Property Name="id_principioactivo_21" Type="int" />
+          <Property Name="id_formafarm_21" Type="int" />
+          <Property Name="id_concentracion_21" Type="int" />
+          <Property Name="id_unidadeslicitacion_21" Type="int" />
+          <Property Name="id_unidadesmedida_21" Type="int" />
+          <Property Name="id_cantidadenvases_21" Type="int" />
+          <Property Name="id_tipoenvase_21" Type="int" />
+          <Property Name="codigo_21" Type="nchar" MaxLength="19" />
+          <Property Name="Nivel_21" Type="int" />
+          <Property Name="SobranteInv2022" Type="char" MaxLength="2" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="IP" Type="varchar" MaxLength="20" />
+          <Property Name="FechaMed" Type="datetime" />
+          <Property Name="LicitacionStatus" Type="int" />
+          <Property Name="Compendio" Type="varchar" MaxLength="20" />
+          <Property Name="Proveedores" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Tbl_DetalleOC">
           <Key>
@@ -157,6 +216,30 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_InvAlmFarm_Inventario">
+          <End Role="Inventario" Type="Self.Inventario" Multiplicity="1" />
+          <End Role="InvAlmFarm" Type="Self.InvAlmFarm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inventario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="InvAlmFarm">
+              <PropertyRef Name="InvAlmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvFarm_Inventario">
+          <End Role="Inventario" Type="Self.Inventario" Multiplicity="1" />
+          <End Role="InvFarm" Type="Self.InvFarm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inventario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="InvFarm">
+              <PropertyRef Name="InvFarmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="SP_MedicamentosTemporales" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idUnidad" Type="int" Mode="In" />
         </Function>
@@ -183,8 +266,10 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
           <Parameter Name="IdSustancia" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="SERVMEDNivel2StoreContainer">
-          <EntitySet Name="CodigoBarras" EntityType="Self.CodigoBarras" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvAlmFarm" EntityType="Self.InvAlmFarm" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inventario" EntityType="Self.Inventario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvFarm" EntityType="Self.InvFarm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sustancia" EntityType="Self.Sustancia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_DetalleOC" EntityType="Self.Tbl_DetalleOC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_DetalleRequi" EntityType="Self.Tbl_DetalleRequi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tbl_OrdenCompra" EntityType="Self.Tbl_OrdenCompra" Schema="dbo" store:Type="Tables" />
@@ -216,6 +301,14 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
           <AssociationSet Name="FK__Tbl_Detal__Id_Re__62707447" Association="Self.FK__Tbl_Detal__Id_Re__62707447">
             <End Role="Tbl_Requisicion" EntitySet="Tbl_Requisicion" />
             <End Role="Tbl_DetalleRequi" EntitySet="Tbl_DetalleRequi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvAlmFarm_Inventario" Association="Self.FK_InvAlmFarm_Inventario">
+            <End Role="Inventario" EntitySet="Inventario" />
+            <End Role="InvAlmFarm" EntitySet="InvAlmFarm" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvFarm_Inventario" Association="Self.FK_InvFarm_Inventario">
+            <End Role="Inventario" EntitySet="Inventario" />
+            <End Role="InvFarm" EntitySet="InvFarm" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -258,7 +351,6 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
           <FunctionImport Name="SP_Temporales" ReturnType="Collection(SERVMEDNivel2.SP_Temporales_Result)">
           <Parameter Name="idUnidad" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="CodigoBarras" EntityType="SERVMEDNivel2.CodigoBarras" />
           <EntitySet Name="Tbl_DetalleOC" EntityType="SERVMEDNivel2.Tbl_DetalleOC" />
           <EntitySet Name="Tbl_OrdenCompra" EntityType="SERVMEDNivel2.Tbl_OrdenCompra" />
           <AssociationSet Name="FK__Tbl_Detal__Id_Or__396E5EB4" Association="SERVMEDNivel2.FK__Tbl_Detal__Id_Or__396E5EB4">
@@ -291,6 +383,17 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
             <Parameter Name="fechaFi" Mode="In" Type="String" />
             <Parameter Name="ClaveMed" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="InvAlmFarm" EntityType="SERVMEDNivel2.InvAlmFarm" />
+          <EntitySet Name="InvFarm" EntityType="SERVMEDNivel2.InvFarm" />
+          <EntitySet Name="Sustancia" EntityType="SERVMEDNivel2.Sustancia" />
+          <AssociationSet Name="FK_InvAlmFarm_Inventario" Association="SERVMEDNivel2.FK_InvAlmFarm_Inventario">
+            <End Role="Inventario_1" EntitySet="Inventario" />
+            <End Role="InvAlmFarm" EntitySet="InvAlmFarm" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvFarm_Inventario" Association="SERVMEDNivel2.FK_InvFarm_Inventario">
+            <End Role="Inventario_1" EntitySet="Inventario" />
+            <End Role="InvFarm" EntitySet="InvFarm" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="SP_MedicamentosTemporales_Result">
           <Property Type="String" Name="Clave" Nullable="false" MaxLength="6" />
@@ -302,20 +405,6 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
           <Property Type="String" Name="descripcion_21" Nullable="true" MaxLength="200" />
           <Property Type="Decimal" Name="c_actual" Nullable="true" Precision="18" Scale="0" />
         </ComplexType>
-        <EntityType Name="CodigoBarras">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Id_Sustancia" Type="Int32" Nullable="false" />
-          <Property Name="Nombre_Comercial" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Codigo_Barra" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Contenido" Type="Int16" Nullable="false" />
-          <Property Name="Status" Type="Boolean" Nullable="false" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="contenido_anterior" Type="Int32" />
-          <Property Name="codigobarra_anterior" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
-        </EntityType>
         <EntityType Name="Tbl_DetalleOC">
           <Key>
             <PropertyRef Name="Id" />
@@ -640,6 +729,8 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
           <Property Name="nom_invent" Type="String" Nullable="false" MaxLength="25" FixedLength="true" Unicode="false" />
           <Property Name="status" Type="Boolean" Nullable="false" />
           <Property Name="tipo" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="InvAlmFarm" Relationship="SERVMEDNivel2.FK_InvAlmFarm_Inventario" FromRole="Inventario_1" ToRole="InvAlmFarm" />
+          <NavigationProperty Name="InvFarm" Relationship="SERVMEDNivel2.FK_InvFarm_Inventario" FromRole="Inventario_1" ToRole="InvFarm" />
         </EntityType>
         <ComplexType Name="SP_Trazabilidad_OC_Result11">
           <Property Type="String" Name="Clave_Med_" Nullable="true" MaxLength="6" />
@@ -657,6 +748,105 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
           <Property Type="Int32" Name="IdSustancia" Nullable="true" />
           <Property Type="Int32" Name="Id" Nullable="true" />
         </ComplexType>
+        <EntityType Name="InvAlmFarm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvAlmId" Type="Int16" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Id_Sustancia" Type="Int32" Nullable="false" />
+          <Property Name="Inv_Ini" Type="Int32" Nullable="false" />
+          <Property Name="Inv_Ent" Type="Int32" Nullable="false" />
+          <Property Name="Inv_Sal" Type="Int32" Nullable="false" />
+          <Property Name="Inv_Disp" Type="Int32" Nullable="false" />
+          <Property Name="Inv_Reorden" Type="Int32" Nullable="false" />
+          <Property Name="ManejoDisponible" Type="Int32" />
+          <Property Name="Usuario_Registra" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Inventario" Relationship="SERVMEDNivel2.FK_InvAlmFarm_Inventario" FromRole="InvAlmFarm" ToRole="Inventario_1" />
+        </EntityType>
+        <EntityType Name="InvFarm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvFarmId" Type="Int16" Nullable="false" />
+          <Property Name="Inv_Fecha" Type="DateTime" Precision="3" />
+          <Property Name="Id_Sustancia" Type="Int32" />
+          <Property Name="Inv_Ini" Type="Int32" />
+          <Property Name="Inv_Ent" Type="Int32" Nullable="false" />
+          <Property Name="Inv_Sal" Type="Int32" Nullable="false" />
+          <Property Name="Inv_Act" Type="Int32" Nullable="false" />
+          <Property Name="Inv_Reorden" Type="Int32" />
+          <Property Name="ManejoDisponible" Type="Int32" />
+          <Property Name="Usuario_Registra" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Inventario" Relationship="SERVMEDNivel2.FK_InvFarm_Inventario" FromRole="InvFarm" ToRole="Inventario_1" />
+        </EntityType>
+        <EntityType Name="Sustancia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Grupo" Type="Int16" Nullable="false" />
+          <Property Name="Id_Sal" Type="Int16" Nullable="false" />
+          <Property Name="Id_Nivel" Type="Int16" Nullable="false" />
+          <Property Name="clave_presentacion" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Presentacion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Clave" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="Consultorio" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="estante_col" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="estante_nivel" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="pos_frecuencia" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="consumo_semana" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="cb_mederos" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="cto_ultimo" Type="Single" />
+          <Property Name="cto_promedio" Type="Single" />
+          <Property Name="estatus_21" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="descripcion_21" Type="String" MaxLength="200" FixedLength="true" Unicode="true" />
+          <Property Name="clave_21" Type="String" MaxLength="19" FixedLength="true" Unicode="true" />
+          <Property Name="id_grupo_21" Type="Int32" />
+          <Property Name="id_principioactivo_21" Type="Int32" />
+          <Property Name="id_formafarm_21" Type="Int32" />
+          <Property Name="id_concentracion_21" Type="Int32" />
+          <Property Name="id_unidadeslicitacion_21" Type="Int32" />
+          <Property Name="id_unidadesmedida_21" Type="Int32" />
+          <Property Name="id_cantidadenvases_21" Type="Int32" />
+          <Property Name="id_tipoenvase_21" Type="Int32" />
+          <Property Name="codigo_21" Type="String" MaxLength="19" FixedLength="true" Unicode="true" />
+          <Property Name="Nivel_21" Type="Int32" />
+          <Property Name="SobranteInv2022" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IP" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FechaMed" Type="DateTime" Precision="3" />
+          <Property Name="LicitacionStatus" Type="Int32" />
+          <Property Name="Compendio" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Proveedores" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_InvAlmFarm_Inventario">
+          <End Type="SERVMEDNivel2.Inventario_1" Role="Inventario_1" Multiplicity="1" />
+          <End Type="SERVMEDNivel2.InvAlmFarm" Role="InvAlmFarm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inventario_1">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="InvAlmFarm">
+              <PropertyRef Name="InvAlmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvFarm_Inventario">
+          <End Type="SERVMEDNivel2.Inventario_1" Role="Inventario_1" Multiplicity="1" />
+          <End Type="SERVMEDNivel2.InvFarm" Role="InvFarm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inventario_1">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="InvFarm">
+              <PropertyRef Name="InvFarmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -703,21 +893,6 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="CodigoBarras">
-            <EntityTypeMapping TypeName="SERVMEDNivel2.CodigoBarras">
-              <MappingFragment StoreEntitySet="CodigoBarras">
-                <ScalarProperty Name="codigobarra_anterior" ColumnName="codigobarra_anterior" />
-                <ScalarProperty Name="contenido_anterior" ColumnName="contenido_anterior" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Contenido" ColumnName="Contenido" />
-                <ScalarProperty Name="Codigo_Barra" ColumnName="Codigo_Barra" />
-                <ScalarProperty Name="Nombre_Comercial" ColumnName="Nombre_Comercial" />
-                <ScalarProperty Name="Id_Sustancia" ColumnName="Id_Sustancia" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Tbl_DetalleOC">
             <EntityTypeMapping TypeName="SERVMEDNivel2.Tbl_DetalleOC">
               <MappingFragment StoreEntitySet="Tbl_DetalleOC">
@@ -878,6 +1053,82 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="InvAlmFarm">
+            <EntityTypeMapping TypeName="SERVMEDNivel2.InvAlmFarm">
+              <MappingFragment StoreEntitySet="InvAlmFarm">
+                <ScalarProperty Name="Usuario_Registra" ColumnName="Usuario_Registra" />
+                <ScalarProperty Name="ManejoDisponible" ColumnName="ManejoDisponible" />
+                <ScalarProperty Name="Inv_Reorden" ColumnName="Inv_Reorden" />
+                <ScalarProperty Name="Inv_Disp" ColumnName="Inv_Disp" />
+                <ScalarProperty Name="Inv_Sal" ColumnName="Inv_Sal" />
+                <ScalarProperty Name="Inv_Ent" ColumnName="Inv_Ent" />
+                <ScalarProperty Name="Inv_Ini" ColumnName="Inv_Ini" />
+                <ScalarProperty Name="Id_Sustancia" ColumnName="Id_Sustancia" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="InvAlmId" ColumnName="InvAlmId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvFarm">
+            <EntityTypeMapping TypeName="SERVMEDNivel2.InvFarm">
+              <MappingFragment StoreEntitySet="InvFarm">
+                <ScalarProperty Name="Usuario_Registra" ColumnName="Usuario_Registra" />
+                <ScalarProperty Name="ManejoDisponible" ColumnName="ManejoDisponible" />
+                <ScalarProperty Name="Inv_Reorden" ColumnName="Inv_Reorden" />
+                <ScalarProperty Name="Inv_Act" ColumnName="Inv_Act" />
+                <ScalarProperty Name="Inv_Sal" ColumnName="Inv_Sal" />
+                <ScalarProperty Name="Inv_Ent" ColumnName="Inv_Ent" />
+                <ScalarProperty Name="Inv_Ini" ColumnName="Inv_Ini" />
+                <ScalarProperty Name="Id_Sustancia" ColumnName="Id_Sustancia" />
+                <ScalarProperty Name="Inv_Fecha" ColumnName="Inv_Fecha" />
+                <ScalarProperty Name="InvFarmId" ColumnName="InvFarmId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sustancia">
+            <EntityTypeMapping TypeName="SERVMEDNivel2.Sustancia">
+              <MappingFragment StoreEntitySet="Sustancia">
+                <ScalarProperty Name="Proveedores" ColumnName="Proveedores" />
+                <ScalarProperty Name="Compendio" ColumnName="Compendio" />
+                <ScalarProperty Name="LicitacionStatus" ColumnName="LicitacionStatus" />
+                <ScalarProperty Name="FechaMed" ColumnName="FechaMed" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="SobranteInv2022" ColumnName="SobranteInv2022" />
+                <ScalarProperty Name="Nivel_21" ColumnName="Nivel_21" />
+                <ScalarProperty Name="codigo_21" ColumnName="codigo_21" />
+                <ScalarProperty Name="id_tipoenvase_21" ColumnName="id_tipoenvase_21" />
+                <ScalarProperty Name="id_cantidadenvases_21" ColumnName="id_cantidadenvases_21" />
+                <ScalarProperty Name="id_unidadesmedida_21" ColumnName="id_unidadesmedida_21" />
+                <ScalarProperty Name="id_unidadeslicitacion_21" ColumnName="id_unidadeslicitacion_21" />
+                <ScalarProperty Name="id_concentracion_21" ColumnName="id_concentracion_21" />
+                <ScalarProperty Name="id_formafarm_21" ColumnName="id_formafarm_21" />
+                <ScalarProperty Name="id_principioactivo_21" ColumnName="id_principioactivo_21" />
+                <ScalarProperty Name="id_grupo_21" ColumnName="id_grupo_21" />
+                <ScalarProperty Name="clave_21" ColumnName="clave_21" />
+                <ScalarProperty Name="descripcion_21" ColumnName="descripcion_21" />
+                <ScalarProperty Name="estatus_21" ColumnName="estatus_21" />
+                <ScalarProperty Name="cto_promedio" ColumnName="cto_promedio" />
+                <ScalarProperty Name="cto_ultimo" ColumnName="cto_ultimo" />
+                <ScalarProperty Name="cb_mederos" ColumnName="cb_mederos" />
+                <ScalarProperty Name="consumo_semana" ColumnName="consumo_semana" />
+                <ScalarProperty Name="pos_frecuencia" ColumnName="pos_frecuencia" />
+                <ScalarProperty Name="estante_nivel" ColumnName="estante_nivel" />
+                <ScalarProperty Name="estante_col" ColumnName="estante_col" />
+                <ScalarProperty Name="Consultorio" ColumnName="Consultorio" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Presentacion" ColumnName="Presentacion" />
+                <ScalarProperty Name="clave_presentacion" ColumnName="clave_presentacion" />
+                <ScalarProperty Name="Id_Nivel" ColumnName="Id_Nivel" />
+                <ScalarProperty Name="Id_Sal" ColumnName="Id_Sal" />
+                <ScalarProperty Name="Id_Grupo" ColumnName="Id_Grupo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

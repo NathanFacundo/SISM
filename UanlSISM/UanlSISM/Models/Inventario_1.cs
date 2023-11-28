@@ -14,9 +14,21 @@ namespace UanlSISM.Models
     
     public partial class Inventario_1
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Inventario_1()
+        {
+            this.InvAlmFarm = new HashSet<InvAlmFarm>();
+            this.InvFarm = new HashSet<InvFarm>();
+        }
+    
         public short id { get; set; }
         public string nom_invent { get; set; }
         public bool status { get; set; }
         public byte tipo { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvAlmFarm> InvAlmFarm { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvFarm> InvFarm { get; set; }
     }
 }

@@ -12,17 +12,17 @@ namespace UanlSISM.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class InvFarm
+    public partial class InvAlmFarm
     {
         public int Id { get; set; }
-        public short InvFarmId { get; set; }
-        public Nullable<System.DateTime> Inv_Fecha { get; set; }
-        public Nullable<int> Id_Sustancia { get; set; }
-        public Nullable<int> Inv_Ini { get; set; }
+        public short InvAlmId { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public int Id_Sustancia { get; set; }
+        public int Inv_Ini { get; set; }
         public int Inv_Ent { get; set; }
         public int Inv_Sal { get; set; }
-        public int Inv_Act { get; set; }
-        public Nullable<int> Inv_Reorden { get; set; }
+        public int Inv_Disp { get; set; }
+        public int Inv_Reorden { get; set; }
         public Nullable<int> ManejoDisponible { get; set; }
         public string Usuario_Registra { get; set; }
     

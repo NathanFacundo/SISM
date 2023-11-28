@@ -28,12 +28,14 @@ namespace UanlSISM.Models
         }
     
         public virtual DbSet<ReporteInventarios> ReporteInventarios { get; set; }
-        public virtual DbSet<CodigoBarras> CodigoBarras { get; set; }
         public virtual DbSet<Tbl_DetalleOC> Tbl_DetalleOC { get; set; }
         public virtual DbSet<Tbl_OrdenCompra> Tbl_OrdenCompra { get; set; }
         public virtual DbSet<Tbl_DetalleRequi> Tbl_DetalleRequi { get; set; }
         public virtual DbSet<Tbl_Requisicion> Tbl_Requisicion { get; set; }
         public virtual DbSet<Inventario_1> Inventario { get; set; }
+        public virtual DbSet<InvAlmFarm> InvAlmFarm { get; set; }
+        public virtual DbSet<InvFarm> InvFarm { get; set; }
+        public virtual DbSet<Sustancia> Sustancia { get; set; }
     
         public virtual ObjectResult<SP_MedicamentosTemporales_Result> SP_MedicamentosTemporales(Nullable<int> idUnidad)
         {
