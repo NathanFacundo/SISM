@@ -207,7 +207,7 @@ namespace UanlSISM.Controllers
                 {
                     var resultado = new BorradorList
                     {
-                        //Id_Requisicion = q.Id_Requicision,
+                        Id_Requisicion = q.Id_Requicision, //Estaba comentada antes de consultar el Detalle por Id en vez de por folio(clave)
                         Clave = q.claveOLD,
                         Fecha = string.Format("{0:d/M/yyyy HH:mm tt}", q.Fecha),
                         Id_User = q.Id_User,
@@ -234,10 +234,13 @@ namespace UanlSISM.Controllers
                 //string f = string.Format("{0:d/M/yyyy hh:mm tt}", fechaDT);
                 //ViewData["FyH"] = f;
 
+                // Asumiendo que Id_Requi es de tipo string
+                int idRequiInt = Convert.ToInt32(Id_Requi);
+
                 var query = (from a in ConBD.SISM_REQUISICION
                              join det in ConBD.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
-                             //where a.Id_Requicision == Id_Requi
-                             where a.claveOLD == Id_Requi
+                             where a.Id_Requicision == idRequiInt //Estaba comentada antes de consultar el Detalle por Id en vez de por folio(clave)
+                             //where a.claveOLD == Id_Requi
                              select new
                              {
                                  det.Clave,

@@ -1000,7 +1000,8 @@
     $('#example tbody').on('click', '#VerDetalle', function () {
         var tr = $(this).closest('tr');
         var row = $('#example').DataTable().row(tr);
-        var Id = row.data().Clave;
+        //var Id = row.data().Clave; //Antes se consultaba el detalle por el folio, se cambió para que lo consulte por Id (01/12/2023)
+        var Id = row.data().Id_Requisicion;
 
         $('#DetalleRequiModal').modal("show");
 
