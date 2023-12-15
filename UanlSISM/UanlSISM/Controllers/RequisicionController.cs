@@ -1247,5 +1247,63 @@ namespace UanlSISM.Controllers
         }
 
         //----------------------------------------------------- Pantalla BORRADOR   --------------  FIN
+
+        //      PARTIDAS PENDIENTE
+
+        [Authorize]
+        public ActionResult PartidasPendientes()
+        {
+            return View();
+        }
+
+        public class ListCampos
+        {
+            public string Folio_Req { get; set; }
+            public string Fecha_Req { get; set; }
+            public string Contrato { get; set; }
+            public string Estatus_Req { get; set; }
+            public string Clave_Med { get; set; }
+            public int Cant_Sol { get; set; }
+            public int Cant_OC { get; set; }
+            public int Cant_Pte { get; set; }
+            public string Descripcion { get; set; }
+            
+        }
+
+        public ActionResult ObtenerPartidasPendientes()
+        {
+            try
+            {
+                var results1 = new List<ListCampos>();
+
+                var query = ConBD.SP_PartidasPendientes().ToList();
+
+                foreach (var q in query)
+                {
+                    var resultado = new ListCampos
+                    {
+                        Folio_Req = q.Folio_Req,
+                        Fecha_Req = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha_Req),
+                        Contrato = q.Contrato,
+                        Estatus_Req = q.Estatus_Req,
+                        Clave_Med = q.Clave_Med,
+                        Cant_Sol = (int)q.Cant_Sol,
+                        Cant_OC = (int)q.Cant_OC,
+                        Cant_Pte = (int)q.Cant_Pte,
+                        Descripcion = q.Descripción,
+                    };
+                    results1.Add(resultado);
+                }
+
+                var json = new JsonResult { Data = results1, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+                json.MaxJsonLength = 500000000;
+
+                return json;
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
