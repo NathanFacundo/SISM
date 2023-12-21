@@ -103,7 +103,7 @@
                     <th>Estatus<br /> Req.</th>
                     <th>Clave<br /> Medicamento</th>
                     <th>Cantidad<br /> Solicitada</th>
-                    <th>Cantidad<br /> Pedida</th>
+                    @*<th>Cantidad<br /> Pedida</th>*@
                     <th>Cantidad<br /> Pendiente</th>
                     <th>Descripción<br /> Medicamento</th>
                 </tr>
@@ -253,7 +253,7 @@
                 },
             },
             data: Rep,
-            "order": [[2, 'asc']],
+            "order": [[0, 'desc']],
             columns: [
                 { 'data': 'Folio_Req', className: "text-center" },
                 { 'data': 'Fecha_Req', className: "text-center" },
@@ -271,7 +271,7 @@
                 },
                 { 'data': 'Clave_Med', className: "text-center" },
                 { 'data': 'Cant_Sol', className: "text-center" },
-                { 'data': 'Cant_OC', className: "text-center" },
+                //{ 'data': 'Cant_OC', className: "text-center" },
                 { 'data': 'Cant_Pte', className: "text-center" },
                 { 'data': 'Descripcion', className: "text-left" }
             ],
