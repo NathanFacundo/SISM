@@ -1643,6 +1643,9 @@
     <Compile Include="Models\SP_ObtenerSustancias_Milton_Result.cs">
       <DependentUpon>SERVMEDMedNivel2.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_PartidasPendientes_Result.cs">
+      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Sp_ReporteAutInt_Result.cs">
       <DependentUpon>SISM-RH.tt</DependentUpon>
     </Compile>
@@ -3875,6 +3878,7 @@
     <Content Include="Views\Seguimiento\Trazabilidad_ORIGINAL.cshtml" />
     <Content Include="Views\Seguimiento\Trazabilidad.cshtml" />
     <Content Include="Views\OrdenCompra\Proveedor.cshtml" />
+    <Content Include="Views\Requisicion\PartidasPendientes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

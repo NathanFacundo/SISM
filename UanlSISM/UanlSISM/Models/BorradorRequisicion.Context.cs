@@ -12,6 +12,8 @@ namespace UanlSISM.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class SISM_SIST_MEDEntities : DbContext
     {
@@ -41,5 +43,10 @@ namespace UanlSISM.Models
         public virtual DbSet<SISM_DETALLE_OC> SISM_DETALLE_OC { get; set; }
         public virtual DbSet<SISM_ORDEN_COMPRA> SISM_ORDEN_COMPRA { get; set; }
         public virtual DbSet<SISM_PROVEEDOR_COMPRAS> SISM_PROVEEDOR_COMPRAS { get; set; }
+    
+        public virtual ObjectResult<SP_PartidasPendientes_Result> SP_PartidasPendientes()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_PartidasPendientes_Result>("SP_PartidasPendientes");
+        }
     }
 }

@@ -12,14 +12,13 @@ namespace UanlSISM.Controllers
 {
     public class OrdenCompraController : Controller
     {
-        SISM_SIST_MEDEntities ConBD = new SISM_SIST_MEDEntities();      //BD NUEVA PRODUCTIVA
-        //BD_Almacen ConBD2 = new BD_Almacen();                           //BD NUEVA PRUEBAS(mía)
-        SERVMEDEntities4 DAM = new SERVMEDEntities4();                  //TBL SUSTANCIAS
-        SERVMEDEntities8 db = new SERVMEDEntities8();                   //TBLS PROV,REQ,OC
-        SERVMEDEntities5 SISMFarmacia = new SERVMEDEntities5();         //TBL CODIGOBARRAS
-        //SERVMEDEntities5 db2 = new SERVMEDEntities5();
-        SERVMEDEntities8 RequisicionDB = new SERVMEDEntities8();        //BD TABLAS viejas
-        SERVMEDEntities6 ConBD_SM = new SERVMEDEntities6();             //Nueva BD en ServMed
+        SISM_SIST_MEDEntities ConBD = new SISM_SIST_MEDEntities();      //BD NUEVA PRODUCTIVA                               206
+        BD_Almacen Copia = new BD_Almacen();                           //BD NUEVA PRUEBAS(mía)                            206
+        SERVMEDEntities4 DAM = new SERVMEDEntities4();                  //TBL SUSTANCIAS (ObtenerDetalleRequi tbl grupo_21) 205
+        SERVMEDEntities8 db = new SERVMEDEntities8();                   //TBLS PROV,REQ,OC,USUARIO                          205
+        SERVMEDEntities5 SISMFarmacia = new SERVMEDEntities5();         //TBL CODIGOBARRAS                                  205
+        SERVMEDEntities8 RequisicionDB = new SERVMEDEntities8();        //BD TABLAS viejas                                  205
+        SERVMEDEntities6 Copia_SM = new SERVMEDEntities6();             //Nueva BD en ServMed                               205
 
         public class ListCampos
         {
@@ -80,6 +79,10 @@ namespace UanlSISM.Controllers
             public string ClaveMedicamento { get; internal set; }
             public double PreUnit { get; internal set; }
             public int? Pendiente { get; internal set; }
+            //iva
+            public double? Total_OC_iva { get; internal set; }
+            public double? STiva { get; internal set; }
+            public double? iva { get; internal set; }
         }
 
         //----------------------------------------------------- Pantalla ORDEN COMPRA   --------------  INICIO
@@ -97,7 +100,7 @@ namespace UanlSISM.Controllers
         {
             try
             {
-                var query = (from a in ConBD.SISM_REQUISICION
+                var query = (from a in Copia.SISM_REQUISICION
                              select a).ToList();
 
                 var results1 = new List<ListCampos>();
@@ -146,8 +149,8 @@ namespace UanlSISM.Controllers
                 var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
                 var fechaDT = DateTime.Parse(fecha);
 
-                var query = (from a in ConBD.SISM_REQUISICION
-                             join det in ConBD.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
+                var query = (from a in Copia.SISM_REQUISICION
+                             join det in Copia.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
                              where a.claveOLD == Id_Requi
                              select new
                              {
@@ -220,6 +223,8 @@ namespace UanlSISM.Controllers
         //TBL PROVEEDOR NUEVO = ConDB
         decimal? SubTotal_OC = 0.00m;
         decimal? SubTotal_OC1 = 0.00m;
+        decimal? SubTotal_OC_iva = 0.00m;
+        decimal? SubTotal_OC_iva1 = 0.00m;
         public JsonResult GenerarOC(List<SISM_DET_REQUISICION> ListaOC, int FolioRequi, string ProveedorReq)
         {
             var UsuarioRegistra = User.Identity.GetUserName();
@@ -242,15 +247,14 @@ namespace UanlSISM.Controllers
                 }
             }
 
-            //---------------------------------------------  Editar tablas de REQUIS    (parcialidades)       --------------------  INICIO  --------------------------------------
-            #region REQUIS
+            #region REQUIS  Editar tablas de REQUIS    (parcialidades)          INICIO
 
             //RECORREMOS EL DETALLE DE LA REQUI QUE RECIBIMOS(LOS NUEVOS DATOS) PARA BUSCAR ESE DETALLE EN LAS TABLAS Y ACTUALIZARLO CON LOS NUEVOS DATOS RECIBIDOS
             foreach (var DetRequi in ListaOC)
             {
                 //BUSCAMOS EL DETALLE DE LA REQUI QUE SE ACTUALIZARÁ
-                var RequiDetalle_Actualizar = (from a in ConBD.SISM_REQUISICION
-                                               join det in ConBD.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
+                var RequiDetalle_Actualizar = (from a in Copia.SISM_REQUISICION
+                                               join det in Copia.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
                                                where det.Id_Detalle_Req == DetRequi.Id_Detalle_Req
                                                select new
                                                {
@@ -273,8 +277,8 @@ namespace UanlSISM.Controllers
                             if (DetRequi.CantidadPendiente_OC == null || DetRequi.CantidadPendiente_OC == 0)
                             {
                                 var CantidadPendiente = DetRequi.Cantidad - DetRequi.CANTIDAD_NUEVA;
-                                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.CANTIDAD_NUEVA + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
-                                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + CantidadPendiente + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                                Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.CANTIDAD_NUEVA + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                                Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + CantidadPendiente + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                             }
                             else
                             {
@@ -282,19 +286,19 @@ namespace UanlSISM.Controllers
                         }
                         if (DetRequi.CANTIDAD_NUEVA == DetRequi.Cantidad)
                         {
-                            ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.Cantidad + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
-                            ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + 0 + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                            Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.Cantidad + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                            Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + 0 + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                         }
                         if (DetRequi.CANTIDAD_NUEVA == DetRequi.CantidadPendiente_OC)
                         {
-                            ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.CANTIDAD_NUEVA + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
-                            ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + 0 + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                            Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.CANTIDAD_NUEVA + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                            Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + 0 + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                         }
                         if (DetRequi.CANTIDAD_NUEVA < DetRequi.CantidadPendiente_OC)
                         {
                             var CantidadPendiente = DetRequi.CantidadPendiente_OC - DetRequi.CANTIDAD_NUEVA;
-                            ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.CANTIDAD_NUEVA + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
-                            ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + CantidadPendiente + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                            Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.CANTIDAD_NUEVA + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                            Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + CantidadPendiente + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                         }
                     }
                 }
@@ -304,13 +308,13 @@ namespace UanlSISM.Controllers
                     {
                         if (DetRequi.CANTIDAD_NUEVA == 0 && DetRequi.CantidadPendiente_OC > 0)
                         {
-                            ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.CantidadPendiente_OC + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
-                            ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + 0 + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                            Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.CantidadPendiente_OC + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                            Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + 0 + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                         }
                         else
                         {
-                            ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.Cantidad + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
-                            ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + 0 + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                            Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + DetRequi.Cantidad + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                            Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + 0 + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                         }
                     }
                 }
@@ -320,7 +324,7 @@ namespace UanlSISM.Controllers
                 {
                     if (DetRequi.CB_ELIMINAR == true)
                     {
-                        ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PrecioUnitario = '" + DetRequi.PREUNIT_NUEVA + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                        Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PrecioUnitario = '" + DetRequi.PREUNIT_NUEVA + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                     }
                 }
 
@@ -332,7 +336,7 @@ namespace UanlSISM.Controllers
                         var Total = (double?)decimal.Round((decimal)(DetRequi.CANTIDAD_NUEVA * DetRequi.PREUNIT_NUEVA), 2);
                         if (DetRequi.CB_ELIMINAR == true)
                         {
-                            ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                            Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                         }
                     }
                     else
@@ -342,7 +346,7 @@ namespace UanlSISM.Controllers
                             var Total = (double?)decimal.Round((decimal)(DetRequi.CANTIDAD_NUEVA * DetRequi.PrecioUnitario), 2);
                             if (DetRequi.CB_ELIMINAR == true)
                             {
-                                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                                Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                             }
                         }
                         if (DetRequi.PREUNIT_NUEVA > 0)
@@ -352,7 +356,7 @@ namespace UanlSISM.Controllers
                                 var Total = (double?)decimal.Round((decimal)(DetRequi.CantidadPendiente_OC * DetRequi.PREUNIT_NUEVA), 2);
                                 if (DetRequi.CB_ELIMINAR == true)
                                 {
-                                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                                 }
                             }
                             else
@@ -360,7 +364,7 @@ namespace UanlSISM.Controllers
                                 var Total = (double?)decimal.Round((decimal)(DetRequi.Cantidad * DetRequi.PREUNIT_NUEVA), 2);
                                 if (DetRequi.CB_ELIMINAR == true)
                                 {
-                                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                                 }
                             }
                         }
@@ -371,13 +375,13 @@ namespace UanlSISM.Controllers
                     var Total = (double?)decimal.Round((decimal)(DetRequi.Cantidad * DetRequi.PrecioUnitario), 2);
                     if (DetRequi.CB_ELIMINAR == true)
                     {
-                        ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                        Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + Total + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                     }
                 }
 
                 // SE OBTIENE LA REQUI Y SU DETALLE CON EL QUE SE ESTÁ TRABAJANDO AHORA CON LOS NUEVOS DATOS QUE SE HAN IDO ACTUALIZANDO EN ESTA MISMA FUNCIÓN
-                var RequiDetalle_Nueva = (from a in ConBD.SISM_REQUISICION
-                                          join det in ConBD.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
+                var RequiDetalle_Nueva = (from a in Copia.SISM_REQUISICION
+                                          join det in Copia.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
                                           where det.Id_Detalle_Req == DetRequi.Id_Detalle_Req
                                           select new
                                           {
@@ -392,11 +396,11 @@ namespace UanlSISM.Controllers
 
                 if ((RequiDetalle_Nueva.CantidadPendiente_OC > 0) || (RequiDetalle_Nueva.PrecioUnitario == 0 && RequiDetalle_Nueva.Total == 0))
                 {
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + false + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + false + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                 }
                 else
                 {
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + true + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
+                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + true + "' WHERE Id_Detalle_Req='" + RequiDetalle_Actualizar.Id_Detalle_Req + "';");
                 }
             }
 
@@ -404,13 +408,13 @@ namespace UanlSISM.Controllers
             //EL '0' QUIERE DECIR QUE ESE ITEM ESTÁ PENDIENTE
 
             //OBTENER EL "Id" DE LA REQUI CON LA QUE SE ESTÁ TRABAJANDO
-            var RequiDetalle_Nueva_X2 = (from a in ConBD.SISM_REQUISICION
+            var RequiDetalle_Nueva_X2 = (from a in Copia.SISM_REQUISICION
                                          where a.claveOLD == FolioRequi.ToString()
                                          select a).FirstOrDefault();
 
             //BUSCAMOS SI HAY 'DETALLES' CON 'False' EN EL CAMPO 'PartidaPendiente_OC' O SEA: PARTIDAS PENDIENTES
-            var Registro = (from a in ConBD.SISM_REQUISICION
-                            join det in ConBD.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
+            var Registro = (from a in Copia.SISM_REQUISICION
+                            join det in Copia.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
                             where a.claveOLD == FolioRequi.ToString()
                             where det.PartidaPendiente_OC == false
                             select a).FirstOrDefault();
@@ -419,19 +423,16 @@ namespace UanlSISM.Controllers
             if (Registro != null)
             {
                 var Incompleta = "Parcial";
-                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Estatus_OC_Parcial = '" + Incompleta + "' WHERE Id_Requicision='" + RequiDetalle_Nueva_X2.Id_Requicision + "';");
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Estatus_OC_Parcial = '" + Incompleta + "' WHERE Id_Requicision='" + RequiDetalle_Nueva_X2.Id_Requicision + "';");
             }
             else //SI NO HAY PARTIDAS PENDIENTES QUIERE DECIR QUE LA OC SE HIZO COMPLETA
             {
                 var Completa = "Completa";
-                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Estatus_OC_Parcial = '" + Completa + "' WHERE Id_Requicision='" + RequiDetalle_Nueva_X2.Id_Requicision + "';");
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Estatus_OC_Parcial = '" + Completa + "' WHERE Id_Requicision='" + RequiDetalle_Nueva_X2.Id_Requicision + "';");
             }
 
-            #endregion
-            //---------------------------------------------  Editar tablas de REQUIS    (parcialidades)       --------------------  FIN     --------------------------------------
+            #endregion  Editar tablas de REQUIS    (parcialidades)                      FIN
 
-
-            //---------------------------------------------     Crear nueva ORDEN DE COMPRA     ---------------------------------   INICIO  -----------------------------------
             #region CREAR ORDEN DE COMPRA **PRE ORDEN**
             try
             {
@@ -441,7 +442,7 @@ namespace UanlSISM.Controllers
                             ).FirstOrDefault();
 
                 //REQUI que se hará Orden
-                var Requi = (from a in ConBD.SISM_REQUISICION
+                var Requi = (from a in Copia.SISM_REQUISICION
                              where a.claveOLD == FolioRequi.ToString()
                              select a
                             ).FirstOrDefault();
@@ -470,11 +471,11 @@ namespace UanlSISM.Controllers
                 OC.NombreProveedor = Prov.Prov_Nombre;
                 OC.OC_PorValidar = "1"; //LA OC nace en 1, tiene que validarse para pasar a 2 (validada) despues tiene que Generarse la OC y pasa a 3, el Status cambiará a True
 
-                ConBD.SISM_ORDEN_COMPRA.Add(OC);
-                ConBD.SaveChanges();
+                Copia.SISM_ORDEN_COMPRA.Add(OC);
+                Copia.SaveChanges();
 
                 //Obtenemos la ultima O.C guardada(que es esta) para guardar su detalle
-                var IdOC = (from a in ConBD.SISM_ORDEN_COMPRA
+                var IdOC = (from a in Copia.SISM_ORDEN_COMPRA
                             where a.UsuarioNuevo == UsuarioRegistra
                             where a.Fecha == fechaDT
                             select a).OrderByDescending(u => u.Id).FirstOrDefault();
@@ -491,7 +492,7 @@ namespace UanlSISM.Controllers
                                         select a).FirstOrDefault();
 
                     //Obtenemos la info de SUSTANCIA de la tabla Detalle_Requi
-                    var Sustancia = (from a in ConBD.SISM_DET_REQUISICION
+                    var Sustancia = (from a in Copia.SISM_DET_REQUISICION
                                      where a.Clave == item.Clave
                                      where a.Id_Requicision == Requi.Id_Requicision
                                      select a).FirstOrDefault();
@@ -499,7 +500,6 @@ namespace UanlSISM.Controllers
                     if (item.CB_ELIMINAR == true)
                     {
                         DetalleOC.Id_OrdenCompra = IdOC.Id;
-                        //DetalleOC.Id_CodigoBarrar = CodigoBarras.Id;
                         if (CodigoBarras != null)
                         {
                             DetalleOC.Id_CodigoBarrar = CodigoBarras.Id;
@@ -554,42 +554,34 @@ namespace UanlSISM.Controllers
                             if (item.CANTIDAD_NUEVA > 0 && item.PREUNIT_NUEVA > 0)
                             {
                                 //DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PREUNIT_NUEVA), 2);
-
                                 double resultado = item.CANTIDAD_NUEVA * item.PREUNIT_NUEVA;
                                 string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
                                 DetalleOC.Total = double.Parse(resultadoFormateado);
-
                             }
                             else
                             {
                                 if (item.CANTIDAD_NUEVA > 0)
                                 {
                                     //DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PrecioUnitario), 2);
-
                                     double resultado = (double)(item.CANTIDAD_NUEVA * item.PrecioUnitario);
                                     string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
                                     DetalleOC.Total = double.Parse(resultadoFormateado);
-
                                 }
                                 if (item.PREUNIT_NUEVA > 0)
                                 {
                                     if (item.CantidadPendiente_OC > 0)
                                     {
                                         //DetalleOC.Total = (double?)decimal.Round((decimal)(item.CantidadPendiente_OC * item.PREUNIT_NUEVA), 2);
-
                                         double resultado = (double)(item.CantidadPendiente_OC * item.PREUNIT_NUEVA);
                                         string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
                                         DetalleOC.Total = double.Parse(resultadoFormateado);
-
                                     }
                                     else
                                     {
                                         //DetalleOC.Total = (double?)decimal.Round((decimal)(item.Cantidad * item.PREUNIT_NUEVA), 2);
-
                                         double resultado = (double)(item.Cantidad * item.PREUNIT_NUEVA);
                                         string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
                                         DetalleOC.Total = double.Parse(resultadoFormateado);
-
                                     }
                                 }
                             }
@@ -597,192 +589,216 @@ namespace UanlSISM.Controllers
                         else
                         {
                             //DetalleOC.Total = (double?)decimal.Round((decimal)(DetalleOC.Cantidad * DetalleOC.PreUnit), 2);
-
                             double resultado = (double)(DetalleOC.Cantidad * DetalleOC.PreUnit);
                             string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
                             DetalleOC.Total = double.Parse(resultadoFormateado);
-
                         }
 
-                        ConBD.SISM_DETALLE_OC.Add(DetalleOC);
-                        ConBD.SaveChanges();
+                        //                                  *SubTotal_iva & IVA*    Nota: cuando no lleva iba y se debuguea si brinca esta validación, cuando no se debugue (y no tiene iva) por alguna razón si entra a la validacion aunque no deba
+                        if (item.ST_IVA > 0)
+                        {
+                            DetalleOC.Total_iva = item.ST_IVA;
+
+                            var iva = ((DetalleOC.Total * 16) / 100);
+                            DetalleOC.iva = iva;
+                        }
+
+                        Copia.SISM_DETALLE_OC.Add(DetalleOC);
+                        Copia.SaveChanges();
 
                         //                                                              *$TOTAL$ TBL O'C*
                         SubTotal_OC += Decimal.Round((decimal)(DetalleOC.Total), 2);
                         OC.Total_OC = (double?)SubTotal_OC;
 
-                        ConBD.SaveChanges();
+                        //                                                              *$TOTAL$ TBL O'C GranTotal IVA*
+                        if (DetalleOC.Total_iva > 0)
+                        {
+                            SubTotal_OC_iva += Decimal.Round((decimal)(DetalleOC.Total_iva), 2);
+                        }
+                        else //Si no tiene iva, el subtotalIva será el subtotal normal (sin iva)
+                        {
+                            SubTotal_OC_iva += Decimal.Round((decimal)(DetalleOC.Total), 2);
+                        }
+                        OC.Total_OC_iva = (double?)SubTotal_OC_iva;
+
+                        Copia.SaveChanges();
                     }
                 }
                 #endregion
 
-
-                //---------------------------------------------------------     NUEVA BD SISTEMA NUEVO -- SERVMED 205
                 #region GUARDAR PRE-ORDEN BD NUEVA SERVMED 205
 
-                //CREAR ORDEN NUEVA a partir de una Requi
-                Tbl_OrdenCompra OC1 = new Tbl_OrdenCompra();
-                OC1.Id_Requisicion = Requi.Id_Requicision;
-                OC1.Id_Proveedor = Prov.Id_Prov; //Id_Prov es el Id del Proveedor en la tabla vieja de Proveedor
-                OC1.Fecha = fechaDT;
-                OC1.FechaMod = fechaDT;
-                OC1.Forma_Pago = "";
-                OC1.Folio = "";
-                OC1.Status = false;
-                OC1.UsuarioId = UsuarioOLD.UsuarioId;
-                OC1.Cerrado = false;
-                OC1.Cuadro = 1;
-                OC1.UsuarioNuevo = UsuarioRegistra;
-                OC1.IP_User = ip_realiza;
-                OC1.NombreProveedor = Prov.Prov_Nombre;
-                OC1.OC_PorValidar = "1"; //LA OC nace en 1, tiene que validarse para pasar a 2 (validada) despues tiene que Generarse la OC y pasa a 3, el Status cambiará a True
+                ////CREAR ORDEN NUEVA a partir de una Requi
+                //Tbl_OrdenCompra OC1 = new Tbl_OrdenCompra();
+                //OC1.Id_Requisicion = Requi.Id_Requicision;
+                //OC1.Id_Proveedor = Prov.Id_Prov; //Id_Prov es el Id del Proveedor en la tabla vieja de Proveedor
+                //OC1.Fecha = fechaDT;
+                //OC1.FechaMod = fechaDT;
+                //OC1.Forma_Pago = "";
+                //OC1.Folio = "";
+                //OC1.Status = false;
+                //OC1.UsuarioId = UsuarioOLD.UsuarioId;
+                //OC1.Cerrado = false;
+                //OC1.Cuadro = 1;
+                //OC1.UsuarioNuevo = UsuarioRegistra;
+                //OC1.IP_User = ip_realiza;
+                //OC1.NombreProveedor = Prov.Prov_Nombre;
+                //OC1.OC_PorValidar = "1"; //LA OC nace en 1, tiene que validarse para pasar a 2 (validada) despues tiene que Generarse la OC y pasa a 3, el Status cambiará a True
 
-                ConBD_SM.Tbl_OrdenCompra.Add(OC1);
-                ConBD_SM.SaveChanges();
+                //Copia_SM.Tbl_OrdenCompra.Add(OC1);
+                //Copia_SM.SaveChanges();
 
-                //Obtenemos la ultima O.C guardada(que es esta) para guardar su detalle
-                var IdOC1 = (from a in ConBD_SM.Tbl_OrdenCompra
-                             where a.UsuarioNuevo == UsuarioRegistra
-                             where a.Fecha == fechaDT
-                             select a).OrderByDescending(u => u.Id).FirstOrDefault();
+                ////Obtenemos la ultima O.C guardada(que es esta) para guardar su detalle
+                //var IdOC1 = (from a in Copia_SM.Tbl_OrdenCompra
+                //             where a.UsuarioNuevo == UsuarioRegistra
+                //             where a.Fecha == fechaDT
+                //             select a).OrderByDescending(u => u.Id).FirstOrDefault();
 
-                //RECORREMOS  para guardar en la tabla DETALLE ORDEN        **DETALLE ORDEN DE COMPRA**
-                foreach (var item in ListaOC)
-                {
-                    //CREAR EL DETALLE DE LA NUEVA ORDEN
-                    Tbl_DetalleOC DetalleOC = new Tbl_DetalleOC();
+                ////RECORREMOS  para guardar en la tabla DETALLE ORDEN        **DETALLE ORDEN DE COMPRA**
+                //foreach (var item in ListaOC)
+                //{
+                //    //CREAR EL DETALLE DE LA NUEVA ORDEN
+                //    Tbl_DetalleOC DetalleOC = new Tbl_DetalleOC();
 
-                    //BUSCAMOS EN LA TABLA "CodigoBarras" el Id del Codigo de Barras, buscando por el Id de la Sustancia
-                    var CodigoBarras = (from a in SISMFarmacia.CodigoBarras
-                                        where a.Id_Sustancia == item.Id_Sustancia
-                                        select a).FirstOrDefault();
+                //    //BUSCAMOS EN LA TABLA "CodigoBarras" el Id del Codigo de Barras, buscando por el Id de la Sustancia
+                //    var CodigoBarras = (from a in SISMFarmacia.CodigoBarras
+                //                        where a.Id_Sustancia == item.Id_Sustancia
+                //                        select a).FirstOrDefault();
 
-                    //Obtenemos la info de SUSTANCIA de la tabla Detalle_Requi
-                    var Sustancia = (from a in ConBD.SISM_DET_REQUISICION
-                                     where a.Clave == item.Clave
-                                     where a.Id_Requicision == Requi.Id_Requicision
-                                     select a).FirstOrDefault();
-                    if (item.CB_ELIMINAR == true)
-                    {
-                        DetalleOC.Id_OrdenCompra = IdOC1.Id;
-                        //DetalleOC.Id_CodigoBarrar = CodigoBarras.Id;
-                        if (CodigoBarras != null)
-                        {
-                            DetalleOC.Id_CodigoBarrar = CodigoBarras.Id;
-                        }
-                        else
-                        {
-                            DetalleOC.Id_CodigoBarrar = 1;
-                        }
-                        DetalleOC.Obsequio = 0;
-                        DetalleOC.Status = false;
-                        DetalleOC.Id_Sustencia = item.Id_Sustancia;
-                        DetalleOC.Descripcion = Sustancia.Descripcion;
-                        DetalleOC.ClaveMedicamento = Sustancia.Clave;
+                //    //Obtenemos la info de SUSTANCIA de la tabla Detalle_Requi
+                //    var Sustancia = (from a in Copia.SISM_DET_REQUISICION
+                //                     where a.Clave == item.Clave
+                //                     where a.Id_Requicision == Requi.Id_Requicision
+                //                     select a).FirstOrDefault();
+                //    if (item.CB_ELIMINAR == true)
+                //    {
+                //        DetalleOC.Id_OrdenCompra = IdOC1.Id;
+                //        if (CodigoBarras != null)
+                //        {
+                //            DetalleOC.Id_CodigoBarrar = CodigoBarras.Id;
+                //        }
+                //        else
+                //        {
+                //            DetalleOC.Id_CodigoBarrar = 1;
+                //        }
+                //        DetalleOC.Obsequio = 0;
+                //        DetalleOC.Status = false;
+                //        DetalleOC.Id_Sustencia = item.Id_Sustancia;
+                //        DetalleOC.Descripcion = Sustancia.Descripcion;
+                //        DetalleOC.ClaveMedicamento = Sustancia.Clave;
 
-                        if (DetalleOC.Id_CodigoBarrar == null)
-                        {
-                            DetalleOC.Id_CodigoBarrar = 1;
-                        }
+                //        if (DetalleOC.Id_CodigoBarrar == null)
+                //        {
+                //            DetalleOC.Id_CodigoBarrar = 1;
+                //        }
 
-                        //                                              *CANTIDAD*
-                        if (item.CANTIDAD_NUEVA > 0)
-                        {
-                            DetalleOC.Cantidad = item.CANTIDAD_NUEVA;
-                        }
-                        else
-                        {
-                            if (item.CANTIDAD_NUEVA == 0 && item.CantidadPendiente_OC > 0)
-                            {
-                                DetalleOC.Cantidad = item.CantidadPendiente_OC;
-                            }
-                            else
-                            {
-                                DetalleOC.Cantidad = item.Cantidad;
-                            }
-                        }
+                //        //                                              *CANTIDAD*
+                //        if (item.CANTIDAD_NUEVA > 0)
+                //        {
+                //            DetalleOC.Cantidad = item.CANTIDAD_NUEVA;
+                //        }
+                //        else
+                //        {
+                //            if (item.CANTIDAD_NUEVA == 0 && item.CantidadPendiente_OC > 0)
+                //            {
+                //                DetalleOC.Cantidad = item.CantidadPendiente_OC;
+                //            }
+                //            else
+                //            {
+                //                DetalleOC.Cantidad = item.Cantidad;
+                //            }
+                //        }
 
-                        DetalleOC.Pendiente = DetalleOC.Cantidad;
+                //        DetalleOC.Pendiente = DetalleOC.Cantidad;
 
-                        //Se valida si el PRECIO UNITARIO se modificó   *PRECIO UNITARIO*
-                        if (item.PREUNIT_NUEVA > 0)
-                        {
-                            DetalleOC.PreUnit = item.PREUNIT_NUEVA;
-                        }
-                        else
-                        {
-                            DetalleOC.PreUnit = item.PrecioUnitario;
-                        }
+                //        //Se valida si el PRECIO UNITARIO se modificó   *PRECIO UNITARIO*
+                //        if (item.PREUNIT_NUEVA > 0)
+                //        {
+                //            DetalleOC.PreUnit = item.PREUNIT_NUEVA;
+                //        }
+                //        else
+                //        {
+                //            DetalleOC.PreUnit = item.PrecioUnitario;
+                //        }
 
-                        //Se valida si se ingresó una NUEVA CANTIDAD o un NUEVO PRECIO UNITARIO     *$TOTAL$*
-                        if (item.CANTIDAD_NUEVA > 0 || item.PREUNIT_NUEVA > 0)
-                        {
-                            if (item.CANTIDAD_NUEVA > 0 && item.PREUNIT_NUEVA > 0)
-                            {
-                                //DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PREUNIT_NUEVA), 2);
+                //        //Se valida si se ingresó una NUEVA CANTIDAD o un NUEVO PRECIO UNITARIO     *$TOTAL$*
+                //        if (item.CANTIDAD_NUEVA > 0 || item.PREUNIT_NUEVA > 0)
+                //        {
+                //            if (item.CANTIDAD_NUEVA > 0 && item.PREUNIT_NUEVA > 0)
+                //            {
+                //                //DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PREUNIT_NUEVA), 2);
+                //                double resultado = item.CANTIDAD_NUEVA * item.PREUNIT_NUEVA;
+                //                string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
+                //                DetalleOC.Total = double.Parse(resultadoFormateado);
+                //            }
+                //            else
+                //            {
+                //                if (item.CANTIDAD_NUEVA > 0)
+                //                {
+                //                    //DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PrecioUnitario), 2);
+                //                    double resultado = (double)(item.CANTIDAD_NUEVA * item.PrecioUnitario);
+                //                    string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
+                //                    DetalleOC.Total = double.Parse(resultadoFormateado);
+                //                }
+                //                if (item.PREUNIT_NUEVA > 0)
+                //                {
+                //                    if (item.CantidadPendiente_OC > 0)
+                //                    {
+                //                        //DetalleOC.Total = (double?)decimal.Round((decimal)(item.CantidadPendiente_OC * item.PREUNIT_NUEVA), 2);
+                //                        double resultado = (double)(item.CantidadPendiente_OC * item.PREUNIT_NUEVA);
+                //                        string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
+                //                        DetalleOC.Total = double.Parse(resultadoFormateado);
+                //                    }
+                //                    else
+                //                    {
+                //                        //DetalleOC.Total = (double?)decimal.Round((decimal)(item.Cantidad * item.PREUNIT_NUEVA), 2);
+                //                        double resultado = (double)(item.Cantidad * item.PREUNIT_NUEVA);
+                //                        string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
+                //                        DetalleOC.Total = double.Parse(resultadoFormateado);
+                //                    }
+                //                }
+                //            }
+                //        }
+                //        else
+                //        {
+                //            //DetalleOC.Total = (double?)decimal.Round((decimal)(DetalleOC.Cantidad * DetalleOC.PreUnit), 2);
+                //            double resultado = (double)(DetalleOC.Cantidad * DetalleOC.PreUnit);
+                //            string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
+                //            DetalleOC.Total = double.Parse(resultadoFormateado);
+                //        }
 
-                                double resultado = item.CANTIDAD_NUEVA * item.PREUNIT_NUEVA;
-                                string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
-                                DetalleOC.Total = double.Parse(resultadoFormateado);
+                //        //                        SubTotal+iva & iva
+                //        if (item.ST_IVA > 0)
+                //        {
+                //            DetalleOC.Total_iva = item.ST_IVA;
 
-                            }
-                            else
-                            {
-                                if (item.CANTIDAD_NUEVA > 0)
-                                {
-                                    //DetalleOC.Total = (double?)decimal.Round((decimal)(item.CANTIDAD_NUEVA * item.PrecioUnitario), 2);
+                //            var iva = ((DetalleOC.Total * 16) / 100);
+                //            DetalleOC.iva = iva;
+                //        }
 
-                                    double resultado = (double)(item.CANTIDAD_NUEVA * item.PrecioUnitario);
-                                    string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
-                                    DetalleOC.Total = double.Parse(resultadoFormateado);
+                //        Copia_SM.Tbl_DetalleOC.Add(DetalleOC);
+                //        Copia_SM.SaveChanges();
 
-                                }
-                                if (item.PREUNIT_NUEVA > 0)
-                                {
-                                    if (item.CantidadPendiente_OC > 0)
-                                    {
-                                        //DetalleOC.Total = (double?)decimal.Round((decimal)(item.CantidadPendiente_OC * item.PREUNIT_NUEVA), 2);
+                //        //                                                              *$TOTAL$ TBL O'C* 
+                //        SubTotal_OC1 += Decimal.Round((decimal)(DetalleOC.Total), 2);
+                //        OC1.Total_OC = (double?)SubTotal_OC1;
 
-                                        double resultado = (double)(item.CantidadPendiente_OC * item.PREUNIT_NUEVA);
-                                        string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
-                                        DetalleOC.Total = double.Parse(resultadoFormateado);
+                //        //                          GranTotal con IVA 
+                //        if (DetalleOC.Total_iva > 0)
+                //        {
+                //            SubTotal_OC_iva1 += Decimal.Round((decimal)(DetalleOC.Total_iva), 2);
+                //        }
+                //        else
+                //        {
+                //            SubTotal_OC_iva1 += Decimal.Round((decimal)(DetalleOC.Total), 2);
+                //        }
+                //        OC1.Total_OC_iva = (double?)SubTotal_OC_iva1;
 
-                                    }
-                                    else
-                                    {
-                                        //DetalleOC.Total = (double?)decimal.Round((decimal)(item.Cantidad * item.PREUNIT_NUEVA), 2);
-
-                                        double resultado = (double)(item.Cantidad * item.PREUNIT_NUEVA);
-                                        string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
-                                        DetalleOC.Total = double.Parse(resultadoFormateado);
-
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            //DetalleOC.Total = (double?)decimal.Round((decimal)(DetalleOC.Cantidad * DetalleOC.PreUnit), 2);
-
-                            double resultado = (double)(DetalleOC.Cantidad * DetalleOC.PreUnit);
-                            string resultadoFormateado = resultado.ToString("N2"); // "N2" formatea con dos decimales
-                            DetalleOC.Total = double.Parse(resultadoFormateado);
-
-                        }
-
-                        ConBD_SM.Tbl_DetalleOC.Add(DetalleOC);
-                        ConBD_SM.SaveChanges();
-
-                        //                                                              *$TOTAL$ TBL O'C*
-                        SubTotal_OC1 += Decimal.Round((decimal)(DetalleOC.Total), 2);
-                        OC1.Total_OC = (double?)SubTotal_OC1;
-
-                        ConBD_SM.SaveChanges();
-                    }
-                }
+                //        Copia_SM.SaveChanges();
+                //    }
+                //}
 
                 #endregion
-
 
                 return Json(new { MENSAJE = "Succe: Se generó la Pre-O.C" }, JsonRequestBehavior.AllowGet);
             }
@@ -790,10 +806,8 @@ namespace UanlSISM.Controllers
             {
                 return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
-            #endregion
-            //---------------------------------------------     Crear nueva ORDEN DE COMPRA     ---------------------------------   FIN  -----------------------------------
+            #endregion      Crear nueva ORDEN DE COMPRA                     FIN
 
-            //return null;
         }
 
         //----------------------------------------------------- Pantalla ORDEN COMPRA   --------------  FIN
@@ -806,7 +820,6 @@ namespace UanlSISM.Controllers
             return View();
         }
 
-
         //LISTADO DE LAS ORDENES DE COMPRA GENERADAS *POR USUARIO LOGUEADO*
         public ActionResult ObtenerOCInicio()
         {
@@ -814,8 +827,8 @@ namespace UanlSISM.Controllers
             {
                 var UsuarioLogin = User.Identity.GetUserName();
 
-                var query = (from a in ConBD.SISM_ORDEN_COMPRA
-                             join req in ConBD.SISM_REQUISICION on a.Id_Requisicion equals req.Id_Requicision
+                var query = (from a in Copia.SISM_ORDEN_COMPRA
+                             join req in Copia.SISM_REQUISICION on a.Id_Requisicion equals req.Id_Requicision
                              where a.UsuarioNuevo == UsuarioLogin
                              select new
                              {
@@ -864,8 +877,8 @@ namespace UanlSISM.Controllers
         {
             try
             {
-                var query = (from a in ConBD.SISM_ORDEN_COMPRA
-                             join req in ConBD.SISM_REQUISICION on a.Id_Requisicion equals req.Id_Requicision
+                var query = (from a in Copia.SISM_ORDEN_COMPRA
+                             join req in Copia.SISM_REQUISICION on a.Id_Requisicion equals req.Id_Requicision
                              select new
                              {
                                  a.Id,
@@ -916,13 +929,13 @@ namespace UanlSISM.Controllers
                 var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
                 var fechaDT = DateTime.Parse(fecha);
 
-                var IdRequi = (from a in ConBD.SISM_REQUISICION
+                var IdRequi = (from a in Copia.SISM_REQUISICION
                                where a.claveOLD == FolioRequi.ToString()
                                select new
                                {
                                    a.Id_Requicision
                                }).FirstOrDefault();
-                var IdOC = (from a in ConBD.SISM_ORDEN_COMPRA
+                var IdOC = (from a in Copia.SISM_ORDEN_COMPRA
                             where a.Id == Id_OC
                             select a
                                ).FirstOrDefault();
@@ -937,9 +950,9 @@ namespace UanlSISM.Controllers
                                select a
                             ).FirstOrDefault();
 
-                var query = (from a in ConBD.SISM_ORDEN_COMPRA
-                             join DetOC in ConBD.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
-                             join Requi in ConBD.SISM_REQUISICION on a.Id_Requisicion equals Requi.Id_Requicision
+                var query = (from a in Copia.SISM_ORDEN_COMPRA
+                             join DetOC in Copia.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
+                             join Requi in Copia.SISM_REQUISICION on a.Id_Requisicion equals Requi.Id_Requicision
                              where a.Id == Id_OC
                              select new
                              {
@@ -963,7 +976,10 @@ namespace UanlSISM.Controllers
                                  IdDetOC = DetOC.Id,
                                  FechaOC = a.Fecha_HacerOC,
                                  PorValidar = a.OC_PorValidar,
-                                 Contrato = a.Contrato
+                                 Contrato = a.Contrato,
+                                 GTiva = a.Total_OC_iva,
+                                 STiva = DetOC.Total_iva,
+                                 iva = DetOC.iva
                              }).ToList();
 
                 var results1 = new List<ListCampos>();
@@ -996,7 +1012,10 @@ namespace UanlSISM.Controllers
                         IdDetOC = q.IdDetOC,
                         FechaOC = string.Format("{0:d/M/yy}", q.FechaOC), //Fecha OrdenCompra
                         OC_PorValidar = q.PorValidar,
-                        NumContrato = q.Contrato
+                        NumContrato = q.Contrato,
+                        Total_OC_iva = q.GTiva,
+                        STiva = q.STiva,
+                        iva = q.iva
                     };
                     results1.Add(resultado);
                 }
@@ -1020,9 +1039,8 @@ namespace UanlSISM.Controllers
                 //------------------------------------------------------------------------ BASE DE DATOS NUEVA  -------------------------   INICIO  ------
                 //  Se Actualizan las tablas nuevas: OrdenCompra - DetalleOrdenCompra - Cotizaciones
 
-                //ORDEN DE COMPRA
                 #region ORDEN DE COMPRA
-                var OC = (from a in ConBD.SISM_ORDEN_COMPRA
+                var OC = (from a in Copia.SISM_ORDEN_COMPRA
                           where a.Id == Id_OC
                           select a).FirstOrDefault();
 
@@ -1039,10 +1057,10 @@ namespace UanlSISM.Controllers
                     OC.Contrato = NumContrato;
                 }
 
-                ConBD.SaveChanges();
+                Copia.SaveChanges();
 
                 //DETALLE DE LA O.C
-                var DetalleOC = (from a in ConBD.SISM_DETALLE_OC
+                var DetalleOC = (from a in Copia.SISM_DETALLE_OC
                                  where a.Id_OrdenCompra == OC.Id
                                  select a
                             ).ToList();
@@ -1050,78 +1068,76 @@ namespace UanlSISM.Controllers
                 foreach (var q in DetalleOC)
                 {
                     q.Status = true;
-                    ConBD.SaveChanges();
+                    Copia.SaveChanges();
                 }
 
                 //**************************************Crear e Insertar FOLIO/CLAVE en la BD Nueva
 
-                //obtener la ultima 'clave' de la tabla OrdenCompra actual BD (vieja) para que inserte un nuevo registro en la nueva BD CONSECUTIVO de la clave
+                //obtener la ultima 'clave' de la tabla OrdenCompra actual BD (vieja) para que inserte un nuevo registro en la nueva BD CONSECUTIVO de la clave(folio)
                 var Clave = (from a in db.OrdenCompra
                              select new
                              {
                                  id = a.Id,
-                                 clave = a.clave
+                                 clave = a.clave,
+                                 fecha = a.Fecha
                              }).OrderByDescending(u => u.id).FirstOrDefault();
 
-                //var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
-                //var UltimoConsecutivo_Clave = Convert.ToInt32(Clave.clave.Substring(4));
-                //var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
-                //var ConsecutivoNuevoTxt = "";
-
-                //if (ConsecutivoNuevo < 100)
-                //{
-                //    if (ConsecutivoNuevo < 9)
-                //    {
-                //        ConsecutivoNuevoTxt = "00" + ConsecutivoNuevo;
-                //    }
-                //    else
-                //    {
-                //        ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
-                //    }
-                //}
-                //else
-                //{
-                //    ConsecutivoNuevoTxt = "" + ConsecutivoNuevo;
-                //}
-
+                //Obtenemos el Año y Mes actual.
                 var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
+                //Obtenemos el Mes actual.
+                var Mes_Actual = string.Format("{0:MM}", fechaDT);
+                //Obtenemos el Mes de la ultima Clave(folio) de la OC que obtuvimos
+                var Mes_Anterior = string.Format("{0:MM}", Clave.fecha);
+                //Obtenemos el consecutivo de la ultima OC
                 var UltimoConsecutivo_Clave = Convert.ToInt32(Clave.clave.Substring(4));
 
                 var ConsecutivoNuevo = 0;
-                if (UltimoConsecutivo_Clave >= 999)
+
+                var Mes_Actual1 = Convert.ToInt32(Mes_Actual);
+                var Mes_Anterior1 = Convert.ToInt32(Mes_Anterior);
+
+                //Validamos si el Mes actual es diferente al Mes de la ultima OC, o sea si es un nuevo Mes
+                if (Mes_Actual1 != Mes_Anterior1)
                 {
+                    //Si es un nuevo mes se reinicia el consecutivo
                     ConsecutivoNuevo = 1;
                 }
                 else
                 {
+                    //Si no es un nuevo mes, al consecutivo pasado se le agrega 1 para obtener el nuevo consecutivo
                     ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
                 }
 
                 var ConsecutivoNuevoTxt = "";
+
+                //Hacemos validación del nuevo consecutivo para agregar ceros (0-00) si lo requiere. El consecutivo tiene que ser de 3 digitos.
                 if (ConsecutivoNuevo < 100)
                 {
                     if (ConsecutivoNuevo < 10)
                     {
+                        //Si el ConsecutivoNuevo va del 1 al 9
                         ConsecutivoNuevoTxt = "00" + ConsecutivoNuevo;
                     }
                     else
                     {
+                        //Si el ConsecutivoNuevo va del  10 al 99
                         ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
                     }
                 }
                 else
                 {
+                    //Si el ConsecutivoNuevo es superior al 99 ya no ncesita llevar ceros(0) antes ya que cuenta con 3 digitos.
                     ConsecutivoNuevoTxt = "" + ConsecutivoNuevo;
                 }
 
                 //ACTUALIZAMOS LA 'CLAVE' DE LA O'C NUEVA
-                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Clave = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id='" + OC.Id + "';");
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Clave = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id='" + OC.Id + "';");
                 #endregion
 
 
                 #region NUEVA BD SERVMED 205
 
-                var OC1 = (from a in ConBD_SM.Tbl_OrdenCompra
+                var OC1 = (from a in Copia_SM.Tbl_OrdenCompra
                            where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.Fecha &&
                            a.UsuarioNuevo == OC.UsuarioNuevo && a.IP_User == OC.IP_User &&
                            a.Total_OC == OC.Total_OC
@@ -1142,10 +1158,10 @@ namespace UanlSISM.Controllers
                         OC1.Contrato = NumContrato;
                     }
 
-                    ConBD_SM.SaveChanges();
+                    Copia_SM.SaveChanges();
 
                     //DETALLE DE LA O.C
-                    var DetalleOC1 = (from a in ConBD_SM.Tbl_DetalleOC
+                    var DetalleOC1 = (from a in Copia_SM.Tbl_DetalleOC
                                       where a.Id_OrdenCompra == OC1.Id
                                       select a
                                 ).ToList();
@@ -1153,42 +1169,11 @@ namespace UanlSISM.Controllers
                     foreach (var q in DetalleOC1)
                     {
                         q.Status = true;
-                        ConBD_SM.SaveChanges();
+                        Copia_SM.SaveChanges();
                     }
 
-                    //**************************************Crear e Insertar FOLIO/CLAVE en la BD Nueva
-
-                    //obtener la ultima 'clave' de la tabla OrdenCompra actual BD (vieja) para que inserte un nuevo registro en la nueva BD CONSECUTIVO de la clave
-                    //var Clave1 = (from a in db.OrdenCompra
-                    //              select new
-                    //              {
-                    //                  clave = a.clave
-                    //              }).OrderByDescending(u => u.clave).FirstOrDefault();
-
-                    //var AñoMes_Actual1 = string.Format("{0:yyMM}", fechaDT);
-                    //var UltimoConsecutivo_Clave1 = Convert.ToInt32(Clave1.clave.Substring(4));
-                    //var ConsecutivoNuevo1 = ((UltimoConsecutivo_Clave1) + 1);
-                    //var ConsecutivoNuevoTxt1 = "";
-
-                    //if (ConsecutivoNuevo1 < 100)
-                    //{
-                    //    if (ConsecutivoNuevo1 < 9)
-                    //    {
-                    //        ConsecutivoNuevoTxt1 = "00" + ConsecutivoNuevo1;
-                    //    }
-                    //    else
-                    //    {
-                    //        ConsecutivoNuevoTxt1 = "0" + ConsecutivoNuevo1;
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    ConsecutivoNuevoTxt1 = "" + ConsecutivoNuevo1;
-                    //}
-
-
                     //ACTUALIZAMOS LA 'CLAVE' DE LA O'C NUEVA
-                    ConBD_SM.Database.ExecuteSqlCommand("UPDATE Tbl_OrdenCompra SET Clave = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id='" + OC1.Id + "';");
+                    Copia_SM.Database.ExecuteSqlCommand("UPDATE Tbl_OrdenCompra SET Clave = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id='" + OC1.Id + "';");
                 }
 
                 #endregion
@@ -1197,9 +1182,9 @@ namespace UanlSISM.Controllers
                 #region Actualizar tbl COTIZACIONES (NUEVA BD)
 
                 //CONSULTAR LA TBL COTIZACIONES CON LA OC QUE SE ESTÁ TRABAJANDO 
-                var DetalleCotizacion = (from Cot in ConBD.SISM_COTIZACIONES
-                                         join Oc in ConBD.SISM_ORDEN_COMPRA on Cot.Id_Requicision equals Oc.Id_Requisicion
-                                         join DetOc in ConBD.SISM_DETALLE_OC on Oc.Id equals DetOc.Id_OrdenCompra
+                var DetalleCotizacion = (from Cot in Copia.SISM_COTIZACIONES
+                                         join Oc in Copia.SISM_ORDEN_COMPRA on Cot.Id_Requicision equals Oc.Id_Requisicion
+                                         join DetOc in Copia.SISM_DETALLE_OC on Oc.Id equals DetOc.Id_OrdenCompra
                                          where Oc.Id == Id_OC
                                          where DetOc.Id_Sustencia == Cot.Id_Sustancia
                                          select new
@@ -1222,8 +1207,8 @@ namespace UanlSISM.Controllers
                 foreach (var DetCotizacion in DetalleCotizacion)
                 {
                     //Obtenemos el Detalle de la OC con el que se actualizará el item de la tbl Cotizaciones
-                    var OC_Detalle = (from Oc in ConBD.SISM_ORDEN_COMPRA
-                                      join Det_Oc in ConBD.SISM_DETALLE_OC on Oc.Id equals Det_Oc.Id_OrdenCompra
+                    var OC_Detalle = (from Oc in Copia.SISM_ORDEN_COMPRA
+                                      join Det_Oc in Copia.SISM_DETALLE_OC on Oc.Id equals Det_Oc.Id_OrdenCompra
                                       where Oc.Id == Id_OC
                                       where Det_Oc.Id == DetCotizacion.IdDetReq
                                       select new
@@ -1241,10 +1226,10 @@ namespace UanlSISM.Controllers
                                           IdSus = Det_Oc.Id_Sustencia
                                       }).FirstOrDefault();
 
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Id_Prov_1 = '" + OC_Detalle.IdProv + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Cant_Asig_1 = '" + OC_Detalle.Cantidad + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET CostoUnit_1 = '" + OC_Detalle.PU + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Status = '" + true + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Id_Prov_1 = '" + OC_Detalle.IdProv + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Cant_Asig_1 = '" + OC_Detalle.Cantidad + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET CostoUnit_1 = '" + OC_Detalle.PU + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Status = '" + true + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
 
                 }
 
@@ -1289,7 +1274,6 @@ namespace UanlSISM.Controllers
                 {
                     DetalleOC NuevoDetalleOC_Vieja = new DetalleOC();
                     NuevoDetalleOC_Vieja.Id_OrdenCompra = OCvieja_Nueva.Id;
-                    //NuevoDetalleOC_Vieja.Id_CodigoBarras = (int)NuevoDetalle.Id_CodigoBarrar;
                     if (NuevoDetalle.Id_CodigoBarrar != null)
                     {
                         NuevoDetalleOC_Vieja.Id_CodigoBarras = (int)NuevoDetalle.Id_CodigoBarrar;
@@ -1375,8 +1359,8 @@ namespace UanlSISM.Controllers
             try
             {
                 //Obtener OC y su Detalle
-                var OC = (from a in ConBD.SISM_ORDEN_COMPRA
-                          join DetOC in ConBD.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
+                var OC = (from a in Copia.SISM_ORDEN_COMPRA
+                          join DetOC in Copia.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
                           where a.Id == Id_OC
                           select new
                           {
@@ -1395,8 +1379,8 @@ namespace UanlSISM.Controllers
                           }).FirstOrDefault();
 
                 //Obtener REQUI y su Detalle
-                var REQUI = (from Requi in ConBD.SISM_REQUISICION
-                             join DetRequi in ConBD.SISM_DET_REQUISICION on Requi.Id_Requicision equals DetRequi.Id_Requicision
+                var REQUI = (from Requi in Copia.SISM_REQUISICION
+                             join DetRequi in Copia.SISM_DET_REQUISICION on Requi.Id_Requicision equals DetRequi.Id_Requicision
                              where OC.Id_Requi == Requi.Id_Requicision
                              select new
                              {
@@ -1411,12 +1395,12 @@ namespace UanlSISM.Controllers
                              }).ToList();
 
                 //Poner el "Estatus_OC_Parcial = Parcial" 
-                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Estatus_OC_Parcial = '" + "Parcial" + "' WHERE Id_Requicision='" + OC.Id_Requi + "';");
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Estatus_OC_Parcial = '" + "Parcial" + "' WHERE Id_Requicision='" + OC.Id_Requi + "';");
 
                 //  Obtener Cotizaciones que Existen de la OC que se eliminará en BD NUEVA
-                var DetalleCotizacion = (from Cot in ConBD.SISM_COTIZACIONES
-                                         join Oc in ConBD.SISM_ORDEN_COMPRA on Cot.Id_Requicision equals Oc.Id_Requisicion
-                                         join DetOc in ConBD.SISM_DETALLE_OC on Oc.Id equals DetOc.Id_OrdenCompra
+                var DetalleCotizacion = (from Cot in Copia.SISM_COTIZACIONES
+                                         join Oc in Copia.SISM_ORDEN_COMPRA on Cot.Id_Requicision equals Oc.Id_Requisicion
+                                         join DetOc in Copia.SISM_DETALLE_OC on Oc.Id equals DetOc.Id_OrdenCompra
                                          where Oc.Id == Id_OC
                                          where DetOc.Id_Sustencia == Cot.Id_Sustancia
                                          select new
@@ -1439,8 +1423,8 @@ namespace UanlSISM.Controllers
                 foreach (var item in DetalleCotizacion)
                 {
                     //Obtenemos el Detalle de la OC 
-                    var OC_Detalle = (from Oc in ConBD.SISM_ORDEN_COMPRA
-                                      join Det_Oc in ConBD.SISM_DETALLE_OC on Oc.Id equals Det_Oc.Id_OrdenCompra
+                    var OC_Detalle = (from Oc in Copia.SISM_ORDEN_COMPRA
+                                      join Det_Oc in Copia.SISM_DETALLE_OC on Oc.Id equals Det_Oc.Id_OrdenCompra
                                       where Oc.Id == Id_OC
                                       where Det_Oc.Id == item.IdDetReq
                                       select new
@@ -1458,113 +1442,100 @@ namespace UanlSISM.Controllers
                                           IdSus = Det_Oc.Id_Sustencia
                                       }).FirstOrDefault();
 
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Id_Prov_1 = '" + 0 + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Cant_Asig_1 = '" + 0 + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET CostoUnit_1 = '" + 0 + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Status = '" + false + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Id_Prov_1 = '" + 0 + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Cant_Asig_1 = '" + 0 + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET CostoUnit_1 = '" + 0 + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_COTIZACIONES SET Status = '" + false + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
 
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PrecioUnitario = '" + 0 + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + 0 + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + null + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + null + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
-                    ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + false + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PrecioUnitario = '" + 0 + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + 0 + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + null + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + null + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
+                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + false + "' WHERE Id_Requicision='" + OC_Detalle.IdReq + "';");
                 }
 
                 //ELIMINAR OC y su DETALLE
-                ConBD.Database.ExecuteSqlCommand("DELETE FROM SISM_DETALLE_OC WHERE Id_OrdenCompra= '" + OC.Id_OC + "';");
-                ConBD.Database.ExecuteSqlCommand("DELETE FROM SISM_ORDEN_COMPRA WHERE Id= '" + OC.Id_OC + "';");
+                Copia.Database.ExecuteSqlCommand("DELETE FROM SISM_DETALLE_OC WHERE Id_OrdenCompra= '" + OC.Id_OC + "';");
 
-                //--------------------------------------------------------------------------  BASE DE DATOS VIEJA  -------------ELIMINAR O.C------------   INICIO  ------
-                #region
-                //Si la OC tiene Folio(clave) quiere decir que el Usuario de Compras si generó la OC despues de haberla autorizado
-                //por lo tanto si existe la OC en la BD VIEJA, entonces entraríamos para eliminarla tambien de la BDVIEJA
-                //si no, entonces no entramos al IF y solo se eliminará de la BNUEVA ya que ahí se guarda la Pre-Orden y la Orden
-                if (OC.FolioOC == null || OC.FolioOC == "")
-                {
-                    var i = 0;
-                }
-                else
-                {//Eliminar OC en la BD Vieja: tbls Cotizaciones, DetalleOC y OC
+                #region   BASE DE DATOS VIEJA 205      ELIMINAR O.C
+                //var OC_VIEJA = (from OC_V in RequisicionDB.OrdenCompra
+                //                where OC_V.clave == OC.FolioOC
+                //                select OC_V).FirstOrDefault();
 
-                    var OC_VIEJA = (from OC_V in RequisicionDB.OrdenCompra
-                                    where OC_V.clave == OC.FolioOC
-                                    select OC_V).FirstOrDefault();
+                //if (OC_VIEJA != null)
+                //{
+                //    //  Obtener Cotizaciones que Existen de la OC que se eliminará de la BD VIEJA
+                //    var DetalleCotizacion_BDvieja = (from Cot in RequisicionDB.Cotizaciones
+                //                                     join Oc in RequisicionDB.OrdenCompra on Cot.Id_Requisicion equals Oc.Id_Requisicion
+                //                                     join DetOc in RequisicionDB.DetalleOC on Oc.Id equals DetOc.Id_OrdenCompra
+                //                                     where Oc.Id == OC_VIEJA.Id
+                //                                     where DetOc.Id_Sustancia == Cot.Id_Sustancia
+                //                                     select new
+                //                                     {
+                //                                         IdCot = Cot.Id,
+                //                                         IdSus = Cot.Id_Sustancia,
+                //                                         IdProv = Cot.Id_Prov_1,
+                //                                         CantAsig = Cot.Cant_Asig_1,
+                //                                         CostUnit = Cot.CostoUnit_1,
+                //                                         Status = Cot.Status,
+                //                                         FechaCrea = Cot.FechaCrea,
+                //                                         FechaMod = Cot.FechaMod,
+                //                                         Usu = Cot.Id_Usuario,
+                //                                         Cuadro = Cot.Cuadro,
+                //                                         IdReq = Cot.Id_Requisicion,
+                //                                         IdDetReq = DetOc.Id
+                //                                     }).ToList();
 
-                    //  Obtener Cotizaciones que Existen de la OC que se eliminará de la BD VIEJA
-                    var DetalleCotizacion_BDvieja = (from Cot in RequisicionDB.Cotizaciones
-                                                     join Oc in RequisicionDB.OrdenCompra on Cot.Id_Requisicion equals Oc.Id_Requisicion
-                                                     join DetOc in RequisicionDB.DetalleOC on Oc.Id equals DetOc.Id_OrdenCompra
-                                                     where Oc.Id == OC_VIEJA.Id
-                                                     where DetOc.Id_Sustancia == Cot.Id_Sustancia
-                                                     select new
-                                                     {
-                                                         IdCot = Cot.Id,
-                                                         IdSus = Cot.Id_Sustancia,
-                                                         IdProv = Cot.Id_Prov_1,
-                                                         CantAsig = Cot.Cant_Asig_1,
-                                                         CostUnit = Cot.CostoUnit_1,
-                                                         Status = Cot.Status,
-                                                         FechaCrea = Cot.FechaCrea,
-                                                         FechaMod = Cot.FechaMod,
-                                                         Usu = Cot.Id_Usuario,
-                                                         Cuadro = Cot.Cuadro,
-                                                         IdReq = Cot.Id_Requisicion,
-                                                         IdDetReq = DetOc.Id
-                                                     }).ToList();
+                //    //  "VACIAR" Partidas de la tbl Cotizaciones que Existen en la OC que se eliminará BD VIEJA
+                //    foreach (var item in DetalleCotizacion_BDvieja)
+                //    {
+                //        //Obtenemos el Detalle de la OC 
+                //        var OC_Detalle = (from Oc in RequisicionDB.OrdenCompra
+                //                          join Det_Oc in RequisicionDB.DetalleOC on Oc.Id equals Det_Oc.Id_OrdenCompra
+                //                          where Oc.Id == OC_VIEJA.Id
+                //                          where Det_Oc.Id == item.IdDetReq
+                //                          select new
+                //                          {
+                //                              IdOc = Oc.Id,
+                //                              ClaveOC = Oc.clave,
+                //                              IdReq = Oc.Id_Requisicion,
+                //                              IdProv = Oc.Id_Proveedor,
+                //                              FechaOC = Oc.Fecha,
+                //                              UsuIdOC = Oc.UsuarioId,
+                //                              IdDetR = Det_Oc.Id,
+                //                              IdCB = Det_Oc.Id_CodigoBarras,
+                //                              Cantidad = Det_Oc.Cantidad,
+                //                              PU = Det_Oc.PreUnit,
+                //                              IdSus = Det_Oc.Id_Sustancia
+                //                          }).FirstOrDefault();
 
-                    //  "VACIAR" Partidas de la tbl Cotizaciones que Existen en la OC que se eliminará BD VIEJA
-                    foreach (var item in DetalleCotizacion_BDvieja)
-                    {
-                        //Obtenemos el Detalle de la OC 
-                        var OC_Detalle = (from Oc in RequisicionDB.OrdenCompra
-                                          join Det_Oc in RequisicionDB.DetalleOC on Oc.Id equals Det_Oc.Id_OrdenCompra
-                                          where Oc.Id == OC_VIEJA.Id
-                                          where Det_Oc.Id == item.IdDetReq
-                                          select new
-                                          {
-                                              IdOc = Oc.Id,
-                                              ClaveOC = Oc.clave,
-                                              IdReq = Oc.Id_Requisicion,
-                                              IdProv = Oc.Id_Proveedor,
-                                              FechaOC = Oc.Fecha,
-                                              UsuIdOC = Oc.UsuarioId,
-                                              IdDetR = Det_Oc.Id,
-                                              IdCB = Det_Oc.Id_CodigoBarras,
-                                              Cantidad = Det_Oc.Cantidad,
-                                              PU = Det_Oc.PreUnit,
-                                              IdSus = Det_Oc.Id_Sustancia
-                                          }).FirstOrDefault();
-
-                        RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Id_Prov_1 = '" + 0 + "' WHERE Id_Requisicion='" + OC_Detalle.IdReq + "';");
-                        RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Cant_Asig_1 = '" + 0 + "' WHERE Id_Requisicion='" + OC_Detalle.IdReq + "';");
-                        RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET CostoUnit_1 = '" + 0 + "' WHERE Id_Requisicion='" + OC_Detalle.IdReq + "';");
-                        RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Status = '" + false + "' WHERE Id_Requisicion='" + OC_Detalle.IdReq + "';");
-                    }
-                    //ELIMINAR OC y su DETALLE de la BD VIEJA
-                    RequisicionDB.Database.ExecuteSqlCommand("DELETE FROM DetalleOC WHERE Id_OrdenCompra= '" + OC_VIEJA.Id + "';");
-                    RequisicionDB.Database.ExecuteSqlCommand("DELETE FROM OrdenCompra WHERE Id= '" + OC_VIEJA.Id + "';");
-                }
-                #endregion
-                //--------------------------------------------------------------------------  BASE DE DATOS VIEJA  --------------ELIMINAR O.C-----------   FIN  ------
-
-
-                #region NUEVA BD SERVMED 205
-
-                var OC1 = (from a in ConBD_SM.Tbl_OrdenCompra
-                           where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.FechaOC &&
-                           a.UsuarioNuevo == OC.UsuarioNuevo && a.IP_User == OC.IP_User &&
-                           a.Total_OC == OC.Total_OC
-                           select a).FirstOrDefault();
-
-                if (OC1 != null)
-                {
-                    //ELIMINAR OC y su DETALLE
-                    ConBD_SM.Database.ExecuteSqlCommand("DELETE FROM Tbl_DetalleOC WHERE Id_OrdenCompra= '" + OC1.Id + "';");
-                    ConBD_SM.Database.ExecuteSqlCommand("DELETE FROM Tbl_OrdenCompra WHERE Id= '" + OC1.Id + "';");
-                }
-
+                //        RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Id_Prov_1 = '" + 0 + "' WHERE Id_Requisicion='" + OC_Detalle.IdReq + "';");
+                //        RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Cant_Asig_1 = '" + 0 + "' WHERE Id_Requisicion='" + OC_Detalle.IdReq + "';");
+                //        RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET CostoUnit_1 = '" + 0 + "' WHERE Id_Requisicion='" + OC_Detalle.IdReq + "';");
+                //        RequisicionDB.Database.ExecuteSqlCommand("UPDATE Cotizaciones SET Status = '" + false + "' WHERE Id_Requisicion='" + OC_Detalle.IdReq + "';");
+                //    }
+                //    //ELIMINAR OC y su DETALLE de la BD VIEJA
+                //    RequisicionDB.Database.ExecuteSqlCommand("DELETE FROM DetalleOC WHERE Id_OrdenCompra= '" + OC_VIEJA.Id + "';");
+                //    RequisicionDB.Database.ExecuteSqlCommand("DELETE FROM OrdenCompra WHERE Id= '" + OC_VIEJA.Id + "';");
+                //}
                 #endregion
 
+                #region NUEVA BD Nueva SERVMED 205
+                //var OC1 = (from a in Copia_SM.Tbl_OrdenCompra
+                //           where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.FechaOC &&
+                //           a.UsuarioNuevo == OC.UsuarioNuevo && a.IP_User == OC.IP_User &&
+                //           a.Total_OC == OC.Total_OC
+                //           select a).FirstOrDefault();
+
+                //if (OC1 != null)
+                //{
+                //    //ELIMINAR OC y su DETALLE
+                //    Copia_SM.Database.ExecuteSqlCommand("DELETE FROM Tbl_DetalleOC WHERE Id_OrdenCompra= '" + OC1.Id + "';");
+                //    Copia_SM.Database.ExecuteSqlCommand("DELETE FROM Tbl_OrdenCompra WHERE Id= '" + OC1.Id + "';");
+                //}
+                #endregion
+
+                Copia.Database.ExecuteSqlCommand("DELETE FROM SISM_ORDEN_COMPRA WHERE Id= '" + OC.Id_OC + "';");
 
                 return Json(new { MENSAJE = "Succe: Se eliminó la O.C" }, JsonRequestBehavior.AllowGet);
             }
@@ -1580,16 +1551,16 @@ namespace UanlSISM.Controllers
             {
                 var fechaDT = DateTime.Parse(FechaAcuse);
 
-                var OC = (from a in ConBD.SISM_ORDEN_COMPRA
+                var OC = (from a in Copia.SISM_ORDEN_COMPRA
                           where a.Id == Id_OC
                           select a).FirstOrDefault();
 
                 OC.Fecha_Acuse = fechaDT;
-                ConBD.SaveChanges();
+                Copia.SaveChanges();
 
                 #region NUEVA BD SERVMED 205
 
-                var OC1 = (from a in ConBD_SM.Tbl_OrdenCompra
+                var OC1 = (from a in Copia_SM.Tbl_OrdenCompra
                            where a.Fecha >= OC.Fecha &&
                            a.UsuarioNuevo == OC.UsuarioNuevo && a.IP_User == OC.IP_User &&
                            a.Total_OC == OC.Total_OC
@@ -1598,11 +1569,10 @@ namespace UanlSISM.Controllers
                 if (OC1 != null)
                 {
                     OC1.Fecha_Acuse = fechaDT;
-                    ConBD_SM.SaveChanges();
+                    Copia_SM.SaveChanges();
                 }
 
                 #endregion
-
 
                 return Json(new { MENSAJE = "Succe: Se guardó la fecha" }, JsonRequestBehavior.AllowGet);
             }
@@ -1617,8 +1587,8 @@ namespace UanlSISM.Controllers
             try
             {
                 //Obtener OC y su Detalle de la Partida que se eliminará
-                var OC = (from a in ConBD.SISM_ORDEN_COMPRA
-                          join DetOC in ConBD.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
+                var OC = (from a in Copia.SISM_ORDEN_COMPRA
+                          join DetOC in Copia.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
                           where a.Id == Id_OC
                           where DetOC.Id == Id_DetOc
                           select new
@@ -1633,12 +1603,14 @@ namespace UanlSISM.Controllers
                               a.Id_Proveedor,
                               a.Fecha,
                               a.UsuarioNuevo,
-                              a.IP_User
+                              a.IP_User,
+                              GTiva = a.Total_OC_iva,
+                              STiva = DetOC.Total_iva
                           }).FirstOrDefault();
 
                 //Obtener REQUI y su Detalle de la Partida que se eliminará
-                var REQUI = (from Requi in ConBD.SISM_REQUISICION
-                             join DetRequi in ConBD.SISM_DET_REQUISICION on Requi.Id_Requicision equals DetRequi.Id_Requicision
+                var REQUI = (from Requi in Copia.SISM_REQUISICION
+                             join DetRequi in Copia.SISM_DET_REQUISICION on Requi.Id_Requicision equals DetRequi.Id_Requicision
                              where OC.Sustancia_OC == DetRequi.Id_Sustancia
                              where Requi.Id_Requicision == OC.FolioReq
                              select new
@@ -1654,53 +1626,82 @@ namespace UanlSISM.Controllers
                              }).FirstOrDefault();
 
                 //  "VACIAR" Partida de la tbl DetalleRequisicion
-                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PrecioUnitario = '" + 0 + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
-                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + 0 + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
-                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + null + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
-                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + REQUI.Cantidad + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
-                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + false + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
-                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Estatus_OC_Parcial = '" + "Parcial" + "' WHERE Id_Requicision='" + REQUI.Id_Requi + "';");
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PrecioUnitario = '" + 0 + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + 0 + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + null + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + REQUI.Cantidad + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + false + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Estatus_OC_Parcial = '" + "Parcial" + "' WHERE Id_Requicision='" + REQUI.Id_Requi + "';");
 
                 //ELIMINAR Partida de la tbl DetalleOrdenCompra
-                ConBD.Database.ExecuteSqlCommand("DELETE FROM SISM_DETALLE_OC WHERE Id= '" + Id_DetOc + "';");
+                Copia.Database.ExecuteSqlCommand("DELETE FROM SISM_DETALLE_OC WHERE Id= '" + Id_DetOc + "';");
 
-                //Volver a hacer el RECALCULO del GranTotal de la OrdenCompra
+                //Volver a hacer el RECALCULO del **GranTotal** de la OrdenCompra
                 var NuevoGranTotal_OC = (double?)decimal.Round((decimal)(OC.Total_OC - OC.SubTotal_OC), 2);
-                ConBD.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Total_OC = '" + NuevoGranTotal_OC + "' WHERE Id='" + Id_OC + "';");
-
-
-                #region NUEVA BD SERVMED 205
-
-                var OC1 = (from a in ConBD_SM.Tbl_OrdenCompra
-                           join DetOC in ConBD_SM.Tbl_DetalleOC on a.Id equals DetOC.Id_OrdenCompra
-                           where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.Fecha &&
-                           a.UsuarioNuevo == OC.UsuarioNuevo && a.IP_User == OC.IP_User &&
-                           a.Total_OC == OC.Total_OC
-                           select new
-                           {
-                               Id_OC = a.Id,
-                               Total_OC = a.Total_OC,
-                               IdDet_OC = DetOC.Id,
-                               Sustancia_OC = DetOC.Id_Sustencia,
-                               SubTotal_OC = DetOC.Total,
-                               FolioReq = a.Id_Requisicion
-                              ,
-                               a.Id_Proveedor,
-                               a.Fecha,
-                               a.UsuarioNuevo,
-                               a.IP_User
-                           }).FirstOrDefault();
-
-                if (OC1 != null)
+                //Esta validación para que en caso que eliminen la partida y esa sea la ultima partida de la oc, en ese caso mejor que se elimine toda la oc
+                if (NuevoGranTotal_OC > 0)
                 {
-                    //ELIMINAR Partida de la tbl DetalleOrdenCompra
-                    ConBD_SM.Database.ExecuteSqlCommand("DELETE FROM Tbl_DetalleOC WHERE Id= '" + OC1.IdDet_OC + "';");
-
-                    //Volver a hacer el RECALCULO del GranTotal de la OrdenCompra
-                    var NuevoGranTotal_OC1 = (double?)decimal.Round((decimal)(OC1.Total_OC - OC1.SubTotal_OC), 2);
-                    ConBD_SM.Database.ExecuteSqlCommand("UPDATE Tbl_OrdenCompra SET Total_OC = '" + NuevoGranTotal_OC1 + "' WHERE Id='" + OC1.Id_OC + "';");
+                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Total_OC = '" + NuevoGranTotal_OC + "' WHERE Id='" + Id_OC + "';");
                 }
 
+                //Recalculo del **GranTotal IVA** SÍÍ la oc tiene iva (en el gran total de la tbl OC)
+                if (OC.GTiva > 0)
+                {
+                    //AL GranTotalIVA de la tbl OC le restamos el SubtotalIVA de la tbl DetalleOC de la partida (esa misma) que se eliminará
+                    if (OC.STiva != null)
+                    {
+                        var NuevoGranTotalIVA_OC = (double?)decimal.Round((decimal)(OC.GTiva - OC.STiva), 2);
+                        Copia.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Total_OC_iva = '" + NuevoGranTotalIVA_OC + "' WHERE Id='" + Id_OC + "';");
+                    }
+                }
+
+                #region NUEVA BD SERVMED 205
+                //var OC1 = (from a in Copia_SM.Tbl_OrdenCompra
+                //           join DetOC in Copia_SM.Tbl_DetalleOC on a.Id equals DetOC.Id_OrdenCompra
+                //           where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.Fecha &&
+                //           a.UsuarioNuevo == OC.UsuarioNuevo && a.IP_User == OC.IP_User &&
+                //           a.Total_OC == OC.Total_OC
+                //           select new
+                //           {
+                //               Id_OC = a.Id,
+                //               Total_OC = a.Total_OC,
+                //               IdDet_OC = DetOC.Id,
+                //               Sustancia_OC = DetOC.Id_Sustencia,
+                //               SubTotal_OC = DetOC.Total,
+                //               FolioReq = a.Id_Requisicion
+                //              ,
+                //               a.Id_Proveedor,
+                //               a.Fecha,
+                //               a.UsuarioNuevo,
+                //               a.IP_User,
+                //               GTiva = a.Total_OC_iva,
+                //               STiva = DetOC.Total_iva
+                //           }).FirstOrDefault();
+
+                //if (OC1 != null)
+                //{
+                //    //ELIMINAR Partida de la tbl DetalleOrdenCompra
+                //    Copia_SM.Database.ExecuteSqlCommand("DELETE FROM Tbl_DetalleOC WHERE Id= '" + OC1.IdDet_OC + "';");
+
+                //    //Volver a hacer el RECALCULO del GranTotal de la OrdenCompra
+                //    var NuevoGranTotal_OC1 = (double?)decimal.Round((decimal)(OC1.Total_OC - OC1.SubTotal_OC), 2);
+                //    if (NuevoGranTotal_OC1 > 0)
+                //    {
+                //        Copia_SM.Database.ExecuteSqlCommand("UPDATE Tbl_OrdenCompra SET Total_OC = '" + NuevoGranTotal_OC1 + "' WHERE Id='" + OC1.Id_OC + "';");
+                //    }
+                    
+                //    //Recalculo del **GranTotal IVA** SÍÍ la oc tiene iva (en el gran total de la tbl Tbl_OC)
+                //    if (OC1.GTiva > 0)
+                //    {
+                //        //AL GranTotalIVA de la tbl OC le restamos el SubtotalIVA de la tbl DetalleOC de la partida (esa misma) que se eliminará
+                //        var NuGTIVA_OC = (double?)decimal.Round((decimal)(OC1.GTiva - OC1.STiva), 2);
+                //        //Esta validación para que en caso que eliminen la partida y esa sea la ultima partida de la oc, en ese caso mejor que se elimine toda la oc
+                //        if (NuGTIVA_OC > 0)
+                //        {
+                //            Copia_SM.Database.ExecuteSqlCommand("UPDATE Tbl_OrdenCompra SET Total_OC_iva = '" + NuGTIVA_OC + "' WHERE Id='" + OC1.Id_OC + "';");
+                //        }
+                //    }
+                //}
                 #endregion
 
                 return Json(new { MENSAJE = "Succe: Se eliminó la Partida de la O.C" }, JsonRequestBehavior.AllowGet);
@@ -1715,16 +1716,16 @@ namespace UanlSISM.Controllers
         {
             try
             {
-                var OC = (from a in ConBD.SISM_ORDEN_COMPRA
+                var OC = (from a in Copia.SISM_ORDEN_COMPRA
                           where a.Id == Id_OC
                           select a).FirstOrDefault();
 
                 OC.Contrato = Contrato;
-                ConBD.SaveChanges();
+                Copia.SaveChanges();
 
                 #region NUEVA BD SERVMED 205
 
-                var OC1 = (from a in ConBD_SM.Tbl_OrdenCompra
+                var OC1 = (from a in Copia_SM.Tbl_OrdenCompra
                            where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.Fecha &&
                            a.UsuarioNuevo == OC.UsuarioNuevo && a.IP_User == OC.IP_User &&
                            a.Total_OC == OC.Total_OC
@@ -1733,7 +1734,7 @@ namespace UanlSISM.Controllers
                 if (OC1 != null)
                 {
                     OC1.Contrato = Contrato;
-                    ConBD_SM.SaveChanges();
+                    Copia_SM.SaveChanges();
                 }
 
                 #endregion
@@ -1750,16 +1751,16 @@ namespace UanlSISM.Controllers
         {
             try
             {
-                var OC = (from a in ConBD.SISM_ORDEN_COMPRA
+                var OC = (from a in Copia.SISM_ORDEN_COMPRA
                           where a.Id == Id_OC
                           select a).FirstOrDefault();
 
                 OC.Fecha_Acuse = null;
-                ConBD.SaveChanges();
+                Copia.SaveChanges();
 
                 #region NUEVA BD SERVMED 205
 
-                var OC1 = (from a in ConBD_SM.Tbl_OrdenCompra
+                var OC1 = (from a in Copia_SM.Tbl_OrdenCompra
                            where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.Fecha &&
                            a.UsuarioNuevo == OC.UsuarioNuevo && a.IP_User == OC.IP_User &&
                            a.Total_OC == OC.Total_OC
@@ -1768,7 +1769,7 @@ namespace UanlSISM.Controllers
                 if (OC1 != null)
                 {
                     OC1.Fecha_Acuse = null;
-                    ConBD_SM.SaveChanges();
+                    Copia_SM.SaveChanges();
                 }
 
                 #endregion
@@ -1785,16 +1786,16 @@ namespace UanlSISM.Controllers
         {
             try
             {
-                var OC = (from a in ConBD.SISM_ORDEN_COMPRA
+                var OC = (from a in Copia.SISM_ORDEN_COMPRA
                           where a.Id == Id_OC
                           select a).FirstOrDefault();
 
                 OC.Contrato = null;
-                ConBD.SaveChanges();
+                Copia.SaveChanges();
 
                 #region NUEVA BD SERVMED 205
 
-                var OC1 = (from a in ConBD_SM.Tbl_OrdenCompra
+                var OC1 = (from a in Copia_SM.Tbl_OrdenCompra
                            where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.Fecha &&
                            a.UsuarioNuevo == OC.UsuarioNuevo && a.IP_User == OC.IP_User &&
                            a.Total_OC == OC.Total_OC
@@ -1803,7 +1804,7 @@ namespace UanlSISM.Controllers
                 if (OC1 != null)
                 {
                     OC1.Contrato = null;
-                    ConBD_SM.SaveChanges();
+                    Copia_SM.SaveChanges();
                 }
 
                 #endregion
@@ -1830,8 +1831,8 @@ namespace UanlSISM.Controllers
         {
             try
             {
-                var query = (from a in ConBD.SISM_ORDEN_COMPRA
-                             join req in ConBD.SISM_REQUISICION on a.Id_Requisicion equals req.Id_Requicision
+                var query = (from a in Copia.SISM_ORDEN_COMPRA
+                             join req in Copia.SISM_REQUISICION on a.Id_Requisicion equals req.Id_Requicision
                              select new
                              {
                                  a.Id,
@@ -1882,7 +1883,7 @@ namespace UanlSISM.Controllers
                 var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
                 var fechaDT = DateTime.Parse(fecha);
 
-                var OC = (from a in ConBD.SISM_ORDEN_COMPRA
+                var OC = (from a in Copia.SISM_ORDEN_COMPRA
                           where a.Id == Id_OC
                           select a).FirstOrDefault();
 
@@ -1890,11 +1891,11 @@ namespace UanlSISM.Controllers
                 OC.Descripcion = DescripcionOC;
                 OC.Fecha_AutorizaOC = fechaDT;
                 OC.Usuario_AutorizaOC = UsuarioRegistra;
-                ConBD.SaveChanges();
+                Copia.SaveChanges();
 
                 #region NUEVA BD SERVMED 205
 
-                var OC1 = (from a in ConBD_SM.Tbl_OrdenCompra
+                var OC1 = (from a in Copia_SM.Tbl_OrdenCompra
                            where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.Fecha &&
                            a.UsuarioNuevo == OC.UsuarioNuevo && a.IP_User == OC.IP_User &&
                            a.Total_OC == OC.Total_OC
@@ -1906,7 +1907,7 @@ namespace UanlSISM.Controllers
                     OC1.Descripcion = DescripcionOC;
                     OC1.Fecha_AutorizaOC = fechaDT;
                     OC1.Usuario_AutorizaOC = UsuarioRegistra;
-                    ConBD_SM.SaveChanges();
+                    Copia_SM.SaveChanges();
                 }
 
                 #endregion
@@ -1928,13 +1929,13 @@ namespace UanlSISM.Controllers
                 var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
                 var fechaDT = DateTime.Parse(fecha);
 
-                var IdRequi = (from a in ConBD.SISM_REQUISICION
+                var IdRequi = (from a in Copia.SISM_REQUISICION
                                where a.claveOLD == FolioRequi.ToString()
                                select new
                                {
                                    a.Id_Requicision
                                }).FirstOrDefault();
-                var IdOC = (from a in ConBD.SISM_ORDEN_COMPRA
+                var IdOC = (from a in Copia.SISM_ORDEN_COMPRA
                             where a.Id == Id_OC
                             select a
                                ).FirstOrDefault();
@@ -1949,9 +1950,9 @@ namespace UanlSISM.Controllers
                                select a
                             ).FirstOrDefault();
 
-                var query = (from a in ConBD.SISM_ORDEN_COMPRA
-                             join DetOC in ConBD.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
-                             join Requi in ConBD.SISM_REQUISICION on a.Id_Requisicion equals Requi.Id_Requicision
+                var query = (from a in Copia.SISM_ORDEN_COMPRA
+                             join DetOC in Copia.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
+                             join Requi in Copia.SISM_REQUISICION on a.Id_Requisicion equals Requi.Id_Requicision
                              where a.Id == Id_OC
                              select new
                              {
@@ -1975,7 +1976,10 @@ namespace UanlSISM.Controllers
                                  IdDetOC = DetOC.Id,
                                  FechaOC = a.Fecha_HacerOC,
                                  PorValidar = a.OC_PorValidar,
-                                 Contrato = a.Contrato
+                                 Contrato = a.Contrato,
+                                 GTiva = a.Total_OC_iva,
+                                 STiva = DetOC.Total_iva,
+                                 iva = DetOC.iva
                              }).ToList();
 
                 var results1 = new List<ListCampos>();
@@ -2011,7 +2015,10 @@ namespace UanlSISM.Controllers
                         NumContrato = q.Contrato,
                         //---
                         ClaveMedicamento = q.ClaveMed,
-                        PreUnit = (double)q.PU
+                        PreUnit = (double)q.PU,
+                        Total_OC_iva = q.GTiva,
+                        STiva = q.STiva,
+                        iva = q.iva
                     };
                     results1.Add(resultado);
                 }
@@ -2025,6 +2032,7 @@ namespace UanlSISM.Controllers
         }
 
         decimal? SubTotal_OC_Det = 0.00m;
+        decimal? SubTotal_OC_Det_IVA = 0.00m;
         public JsonResult ActualizarOC(List<SISM_DETALLE_OC> DetalleOC, int Id_OC)
         {
             try
@@ -2043,7 +2051,7 @@ namespace UanlSISM.Controllers
                 }
 
                 //Obtenemos la O.C de SISM_
-                var OC = (from a in ConBD.SISM_ORDEN_COMPRA
+                var OC = (from a in Copia.SISM_ORDEN_COMPRA
                           where a.Id == Id_OC
                           select a).FirstOrDefault();
 
@@ -2058,7 +2066,7 @@ namespace UanlSISM.Controllers
                         if (DetOC.CB_ELIMINAR == true)
                         {
                             //Buscamos el Detalle de la OC que se actualizará
-                            var DetalleAactualizar = (from a in ConBD.SISM_DETALLE_OC
+                            var DetalleAactualizar = (from a in Copia.SISM_DETALLE_OC
                                                       where a.Id == DetOC.Id
                                                       where a.Id_OrdenCompra == OC.Id
                                                       select new
@@ -2072,11 +2080,34 @@ namespace UanlSISM.Controllers
                                                       }).FirstOrDefault();
 
                             //Actualizamos el Precio Unitario (nuevo)
-                            ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DETALLE_OC SET PreUnit = '" + DetOC.PREUNIT_NUEVA + "' WHERE Id='" + DetalleAactualizar.Id + "';");
+                            Copia.Database.ExecuteSqlCommand("UPDATE SISM_DETALLE_OC SET PreUnit = '" + DetOC.PREUNIT_NUEVA + "' WHERE Id='" + DetalleAactualizar.Id + "';");
 
                             //Se actualiza tambien el subtotal de la partida de la OC
                             var SubTotal = (double?)decimal.Round((decimal)(DetOC.Cantidad * DetOC.PREUNIT_NUEVA), 2);
-                            ConBD.Database.ExecuteSqlCommand("UPDATE SISM_DETALLE_OC SET Total = '" + SubTotal + "' WHERE Id='" + DetalleAactualizar.Id + "';");
+                            Copia.Database.ExecuteSqlCommand("UPDATE SISM_DETALLE_OC SET Total = '" + SubTotal + "' WHERE Id='" + DetalleAactualizar.Id + "';");
+
+                            //Si el PU de la partida cambió DEBE cambiar también el IVA
+
+                            //Volvemos a consultar el detalle (partida) para obtener los nuevos datos que se acaban de actualizar (en esta misma fucnión)
+                            var DetalleAactualizado = (from a in Copia.SISM_DETALLE_OC
+                                                       where a.Id == DetOC.Id
+                                                       where a.Id_OrdenCompra == OC.Id
+                                                       select a).FirstOrDefault();
+
+                            //Calcular el iva de la partida (con el nuevo PU)
+                            var iva = ((SubTotal * 16) / 100);
+
+                            //Poner el nuevo iva en la tabla Detalle
+                            Copia.Database.ExecuteSqlCommand("UPDATE SISM_DETALLE_OC SET iva = '" + iva + "' WHERE Id='" + DetalleAactualizado.Id + "';");
+
+                            //Calculamos el nuevo Subtotal_IVA
+                            var NuevoPU = (DetalleAactualizado.PreUnit + iva);
+
+                            var STiva_nuevo = (DetalleAactualizado.Cantidad * NuevoPU);
+
+                            Copia.Database.ExecuteSqlCommand("UPDATE SISM_DETALLE_OC SET Total_iva = '" + STiva_nuevo + "' WHERE Id='" + DetalleAactualizado.Id + "';");
+
+                            Copia.SaveChanges();
 
                             #region Tablas Viejitas SERVMED 205                                                         SERVMED 205
                             //Si la OC en SISM_ 206 tiene Folio quiere decir que ya se Insertó en SERVMED 205
@@ -2100,10 +2131,11 @@ namespace UanlSISM.Controllers
                             #endregion
                         }
                     }
+
                 }
 
                 //Obtenemos los detalles (partidas) de la OC con sus nuevos P.U
-                var DOC = (from a in ConBD.SISM_DETALLE_OC
+                var DOC = (from a in Copia.SISM_DETALLE_OC
                            where a.Id_OrdenCompra == OC.Id
                            select a).ToList();
 
@@ -2112,14 +2144,39 @@ namespace UanlSISM.Controllers
                 {
                     SubTotal_OC_Det += Decimal.Round((decimal)(item.Total), 2);
                 }
-                //                                       Guardar $GranTotal$ en    SISM_ORDEN_COMPRA
+                //                                       Guardar $GranTotal$ en    SISM_ORDEN_COMPRA -sin iva-
                 OC.Total_OC = (double?)SubTotal_OC_Det;
-                ConBD.SaveChanges();
+                Copia.SaveChanges();
                 #endregion
+
+                //                                                                      GranTotal SIN IVA**
+
+                // Obtén los detalles de la OC
+                var detallesOC = Copia.SISM_DETALLE_OC
+                    .Where(d => d.Id_OrdenCompra == OC.Id)
+                    .ToList();
+
+                foreach (var item in detallesOC)
+                {
+                    if (item.Total_iva > 0)
+                    {
+                        SubTotal_OC_Det_IVA += Decimal.Round((decimal)(item.Total_iva), 2);
+                    }
+                    else
+                    {
+                        SubTotal_OC_Det_IVA += Decimal.Round((decimal)(item.Total), 2);
+                    }
+
+                    OC.Total_OC_iva = (double?)SubTotal_OC_Det_IVA;
+                    Copia.SaveChanges();
+                }
+
+                // Guarda los cambios
+                Copia.SaveChanges();
 
                 #region Tablas Nuevas SERVMED 205                                           Tbl_OrdenCompra
                 //Obtenemos la O.C de Tbl_OrdenCompra para actualizar los Detalles
-                var OC_Serv = (from a in ConBD_SM.Tbl_OrdenCompra
+                var OC_Serv = (from a in Copia_SM.Tbl_OrdenCompra
                                where a.UsuarioNuevo == OC.UsuarioNuevo
                                where a.Fecha == OC.Fecha && a.IP_User == OC.IP_User
                                select a).FirstOrDefault();
@@ -2131,25 +2188,48 @@ namespace UanlSISM.Controllers
                     {
                         if (DetOC_Serv.CB_ELIMINAR == true)
                         {
-                            //Seguimos obteniendo el Detalle de **SISM_** para obtener la Sustancia y hacer el Match con ConBD_SM
-                            var DetalleSISM = (from a in ConBD.SISM_DETALLE_OC
+                            //Seguimos obteniendo el Detalle de **SISM_** para obtener la Sustancia y hacer el Match con Copia_SM
+                            var DetalleSISM = (from a in Copia.SISM_DETALLE_OC
                                                where a.Id == DetOC_Serv.Id
                                                where a.Id_OrdenCompra == OC.Id
                                                select a).FirstOrDefault();
 
-                            //Si sí existe esa OC en ConBD_SM
+                            //Si sí existe esa OC en Copia_SM
                             if (OC_Serv != null)
                             {
-                                //Buscamos el Detalle que se actualizará en     ConBD_SM
-                                var DetActualizar = (from a in ConBD_SM.Tbl_DetalleOC
+                                //Buscamos el Detalle que se actualizará en     Copia_SM
+                                var DetActualizar = (from a in Copia_SM.Tbl_DetalleOC
                                                      where a.Id_Sustencia == DetalleSISM.Id_Sustencia
                                                      where a.Id_OrdenCompra == OC_Serv.Id /////////////////////////////
                                                      select a).FirstOrDefault();
 
-                                ConBD_SM.Database.ExecuteSqlCommand("UPDATE Tbl_DetalleOC SET PreUnit = '" + DetOC_Serv.PREUNIT_NUEVA + "' WHERE Id='" + DetActualizar.Id + "';");
+                                Copia_SM.Database.ExecuteSqlCommand("UPDATE Tbl_DetalleOC SET PreUnit = '" + DetOC_Serv.PREUNIT_NUEVA + "' WHERE Id='" + DetActualizar.Id + "';");
 
                                 var SubTotal = (double?)decimal.Round((decimal)(DetOC_Serv.Cantidad * DetOC_Serv.PREUNIT_NUEVA), 2);
-                                ConBD_SM.Database.ExecuteSqlCommand("UPDATE Tbl_DetalleOC SET Total = '" + SubTotal + "' WHERE Id='" + DetActualizar.Id + "';");
+                                Copia_SM.Database.ExecuteSqlCommand("UPDATE Tbl_DetalleOC SET Total = '" + SubTotal + "' WHERE Id='" + DetActualizar.Id + "';");
+
+
+                                //Si el PU de la partida cambió DEBE cambiar también el **IVA**
+
+                                //Volvemos a consultar el detalle (partida) para obtener los nuevos datos que se acaban de actualizar (en esta misma fucnión)
+                                var DetalleAactualizado = (from a in Copia_SM.Tbl_DetalleOC
+                                                           where a.Id_Sustencia == DetalleSISM.Id_Sustencia
+                                                           where a.Id_OrdenCompra == OC_Serv.Id
+                                                           select a).FirstOrDefault();
+
+                                //Calcular el iva de la partida (con el nuevo PU)
+                                var iva = ((SubTotal * 16) / 100);
+
+                                //Poner el nuevo iva en la tabla Detalle
+                                Copia_SM.Database.ExecuteSqlCommand("UPDATE Tbl_DetalleOC SET iva = '" + iva + "' WHERE Id='" + DetalleAactualizado.Id + "';");
+
+                                //Calculamos el nuevo Subtotal_IVA
+                                var NuevoPU = (DetalleAactualizado.PreUnit + iva);
+
+                                var STiva_nuevo = (DetalleAactualizado.Cantidad * NuevoPU);
+
+                                Copia_SM.Database.ExecuteSqlCommand("UPDATE Tbl_DetalleOC SET Total_iva = '" + STiva_nuevo + "' WHERE Id='" + DetalleAactualizado.Id + "';");
+
                             }
                         }
                     }
@@ -2159,8 +2239,16 @@ namespace UanlSISM.Controllers
                 if (OC_Serv != null)
                 {
                     OC_Serv.Total_OC = (double?)SubTotal_OC_Det;
-                    ConBD_SM.SaveChanges();
+                    Copia_SM.SaveChanges();
                 }
+
+                //                                                                      GranTotal SIN IVA**
+                if (OC_Serv != null)
+                {
+                    OC_Serv.Total_OC_iva = (double?)SubTotal_OC_Det_IVA;
+                    Copia_SM.SaveChanges();
+                }
+
                 #endregion
 
                 return Json(new { MENSAJE = "Succe: Se actualizó correctamente" }, JsonRequestBehavior.AllowGet);
@@ -2189,12 +2277,165 @@ namespace UanlSISM.Controllers
                     "INSERT INTO Proveedor (Id, Prov_Nombre, Prov_uanl, Ubicacion) " +
                     "        VALUES('" + IdNuevo + "', '" + NomProv + "', '" + PadronProv + "', '" + Ubicacion + "')");
 
-                ConBD.Database.ExecuteSqlCommand(
+                Copia.Database.ExecuteSqlCommand(
                     "INSERT INTO SISM_PROVEEDOR_COMPRAS (Prov_Nombre, Prov_uanl, Id_Prov) " +
                     "        VALUES('" + NomProv + "', '" + PadronProv + "', '" + IdNuevo + "')");
 
 
                 return Json(new { MENSAJE = "Succe: Se guardó el Proveedor" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult EliminarPartidaOC_PV(int Id_OC, int Id_DetOc)
+        {
+            try
+            {
+                //Obtener OC y su Detalle de la Partida que se eliminará
+                var OC = (from a in Copia.SISM_ORDEN_COMPRA
+                          join DetOC in Copia.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
+                          where a.Id == Id_OC
+                          where DetOC.Id == Id_DetOc
+                          select new
+                          {
+                              Id_OC = a.Id,
+                              Total_OC = a.Total_OC,
+                              IdDet_OC = DetOC.Id,
+                              Sustancia_OC = DetOC.Id_Sustencia,
+                              SubTotal_OC = DetOC.Total,
+                              FolioReq = a.Id_Requisicion,
+                              a.Id_Proveedor,
+                              a.Fecha,
+                              a.UsuarioNuevo,
+                              a.IP_User,
+                              GTiva = a.Total_OC_iva,
+                              STiva = DetOC.Total_iva,
+                              FolioOC = a.Clave
+                          }).FirstOrDefault();
+
+                //Obtener REQUI y su Detalle de la Partida que se eliminará
+                var REQUI = (from Requi in Copia.SISM_REQUISICION
+                             join DetRequi in Copia.SISM_DET_REQUISICION on Requi.Id_Requicision equals DetRequi.Id_Requicision
+                             where OC.Sustancia_OC == DetRequi.Id_Sustancia
+                             where Requi.Id_Requicision == OC.FolioReq
+                             select new
+                             {
+                                 Id_Requi = Requi.Id_Requicision,
+                                 Estatus_Requi = Requi.Estatus_OC_Parcial,
+                                 IdDet_Requi = DetRequi.Id_Detalle_Req,
+                                 Sustancia_DetReq = DetRequi.Id_Sustancia,
+                                 CantidadOC_DetReq = DetRequi.Cantidad_OC,
+                                 CanPendienteOC_DetReq = DetRequi.CantidadPendiente_OC,
+                                 PartidaPteOC_DetReq = DetRequi.PartidaPendiente_OC,
+                                 Cantidad = DetRequi.Cantidad
+                             }).FirstOrDefault();
+
+                //  "VACIAR" Partida de la tbl DetalleRequisicion
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PrecioUnitario = '" + 0 + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + 0 + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + null + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + REQUI.Cantidad + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + false + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Estatus_OC_Parcial = '" + "Parcial" + "' WHERE Id_Requicision='" + REQUI.Id_Requi + "';");
+
+                //ELIMINAR Partida de la tbl DetalleOrdenCompra
+                Copia.Database.ExecuteSqlCommand("DELETE FROM SISM_DETALLE_OC WHERE Id= '" + Id_DetOc + "';");
+
+                //Volver a hacer el RECALCULO del **GranTotal** de la OrdenCompra
+                var NuevoGranTotal_OC = (double?)decimal.Round((decimal)(OC.Total_OC - OC.SubTotal_OC), 2);
+                //Esta validación para que en caso que eliminen la partida y esa sea la ultima partida de la oc, en ese caso mejor que se elimine toda la oc
+                if (NuevoGranTotal_OC > 0)
+                {
+                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Total_OC = '" + NuevoGranTotal_OC + "' WHERE Id='" + Id_OC + "';");
+                }
+
+                //Recalculo del **GranTotal IVA** SÍÍ la oc tiene iva (en el gran total de la tbl OC)
+                if (OC.GTiva > 0)
+                {
+                    //AL GranTotalIVA de la tbl OC le restamos el SubtotalIVA de la tbl DetalleOC de la partida (esa misma) que se eliminará
+                    if (OC.STiva != null)
+                    {
+                        var NuevoGranTotalIVA_OC = (double?)decimal.Round((decimal)(OC.GTiva - OC.STiva), 2);
+                        Copia.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Total_OC_iva = '" + NuevoGranTotalIVA_OC + "' WHERE Id='" + Id_OC + "';");
+                    }
+                }
+
+                #region NUEVA BD SERVMED 205
+                //NO ELIMINAMOS PARA TENER HISTORIAL
+
+                //var OC1 = (from a in Copia_SM.Tbl_OrdenCompra
+                //           join DetOC in Copia_SM.Tbl_DetalleOC on a.Id equals DetOC.Id_OrdenCompra
+                //           where a.Id_Proveedor == OC.Id_Proveedor && a.Fecha >= OC.Fecha &&
+                //           a.UsuarioNuevo == OC.UsuarioNuevo && a.IP_User == OC.IP_User &&
+                //           a.Total_OC == OC.Total_OC
+                //           select new
+                //           {
+                //               Id_OC = a.Id,
+                //               Total_OC = a.Total_OC,
+                //               IdDet_OC = DetOC.Id,
+                //               Sustancia_OC = DetOC.Id_Sustencia,
+                //               SubTotal_OC = DetOC.Total,
+                //               FolioReq = a.Id_Requisicion
+                //              ,
+                //               a.Id_Proveedor,
+                //               a.Fecha,
+                //               a.UsuarioNuevo,
+                //               a.IP_User,
+                //               GTiva = a.Total_OC_iva,
+                //               STiva = DetOC.Total_iva
+                //           }).FirstOrDefault();
+
+                //if (OC1 != null)
+                //{
+                //    //ELIMINAR Partida de la tbl DetalleOrdenCompra
+                //    //Copia_SM.Database.ExecuteSqlCommand("DELETE FROM Tbl_DetalleOC WHERE Id= '" + OC1.IdDet_OC + "';");
+
+                //    //Volver a hacer el RECALCULO del GranTotal de la OrdenCompra
+                //    var NuevoGranTotal_OC1 = (double?)decimal.Round((decimal)(OC1.Total_OC - OC1.SubTotal_OC), 2);
+                //    if (NuevoGranTotal_OC1 > 0)
+                //    {
+                //        Copia_SM.Database.ExecuteSqlCommand("UPDATE Tbl_OrdenCompra SET Total_OC = '" + NuevoGranTotal_OC1 + "' WHERE Id='" + OC1.Id_OC + "';");
+                //    }
+
+                //    //Recalculo del **GranTotal IVA** SÍÍ la oc tiene iva (en el gran total de la tbl Tbl_OC)
+                //    if (OC1.GTiva > 0)
+                //    {
+                //        //AL GranTotalIVA de la tbl OC le restamos el SubtotalIVA de la tbl DetalleOC de la partida (esa misma) que se eliminará
+                //        var NuGTIVA_OC = (double?)decimal.Round((decimal)(OC1.GTiva - OC1.STiva), 2);
+                //        //Esta validación para que en caso que eliminen la partida y esa sea la ultima partida de la oc, en ese caso mejor que se elimine toda la oc
+                //        if (NuGTIVA_OC > 0)
+                //        {
+                //            Copia_SM.Database.ExecuteSqlCommand("UPDATE Tbl_OrdenCompra SET Total_OC_iva = '" + NuGTIVA_OC + "' WHERE Id='" + OC1.Id_OC + "';");
+                //        }
+                //    }
+                //}
+                #endregion
+
+                #region   BASE DE DATOS VIEJA 205      ELIMINAR DETALLE O.C
+                var OC_VIEJA = (from OC_V in RequisicionDB.OrdenCompra
+                                where OC_V.clave == OC.FolioOC
+                                select OC_V).FirstOrDefault();
+
+                if (OC_VIEJA != null)
+                {
+                    //Si existe la oc en la bd viejita, ahora buscamos el detalle/partida en la tabla DetalleOc viejita
+                    var Detalle = (from D in RequisicionDB.DetalleOC
+                                   where D.Id_OrdenCompra == OC_VIEJA.Id
+                                   where D.Id_Sustancia == OC.Sustancia_OC
+                                   select D).FirstOrDefault();
+
+                    //ELIMINAR DETALLE de la BD VIEJA
+                    if (Detalle != null)
+                    {
+                        RequisicionDB.Database.ExecuteSqlCommand("DELETE FROM DetalleOC WHERE Id= '" + Detalle.Id + "';");
+                    }
+                }
+                #endregion
+
+                return Json(new { MENSAJE = "Succe: Se eliminó la Partida de la O.C" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -2212,191 +2453,6 @@ namespace UanlSISM.Controllers
             return View();
         }
 
-        #region FUNCION ORIGINAL
-        //public ActionResult ObtenerReporte(string FechaInicio, string FechaFin, string ClaveMed)
-        //{
-        //    try
-        //    {
-        //        var results1 = new List<ListCampos>();
-
-        //        if (ClaveMed == "" || ClaveMed == null)//Consultar SOLO CON FECHAS
-        //        {
-        //            var fechaI = FechaInicio + " 00:00:00";
-        //            //var fechaInn = string.Format("{0:yyyy/M/d HH:mm}", fechaI, new CultureInfo("es-ES"));
-        //            var fechaIn = DateTime.Parse(fechaI);
-
-        //            var fechaF = FechaFin + " 23:59:59";
-        //            var fechaFi = DateTime.Parse(fechaF);
-        //            //var fechaFi = DateTime.ParseExact("{0:yyyy/M/d HH:mm}", fechaF, new CultureInfo("es-ES"));
-
-        //            //String strDate = FechaInicio + " 00:00:00";
-        //            //DateTime date = DateTime.Parse(strDate);
-
-        //            var query = (from OC in ConBD.SISM_ORDEN_COMPRA
-        //                         join DOC in ConBD.SISM_DETALLE_OC on OC.Id equals DOC.Id_OrdenCompra
-        //                         join REQ in ConBD.SISM_REQUISICION on OC.Id_Requisicion equals REQ.Id_Requicision
-        //                         where OC.Fecha_HacerOC >= fechaIn && OC.Fecha_HacerOC <= fechaFi
-        //                         where OC.Id_Requisicion == REQ.Id_Requicision
-        //                         select new
-        //                         {
-        //                             Identificador = OC.Id,
-        //                             FolioRequi = REQ.claveOLD,
-        //                             FolioOC = OC.Clave,
-        //                             FechaOC = OC.Fecha_HacerOC,
-        //                             ProveedorOC = OC.NombreProveedor,
-        //                             GranTotalOC = OC.Total_OC,
-        //                             UsuarioElaboraOC = OC.UsuarioNuevo,
-        //                             FechaAcuseOC = OC.Fecha_Acuse,
-        //                             FechaAutorizaOC = OC.Fecha_AutorizaOC,
-        //                             ContratoOC = OC.Contrato,
-        //                             ClaveMed = DOC.ClaveMedicamento,
-        //                             CantidadMed = DOC.Cantidad,
-        //                             PreUnitMed = DOC.PreUnit,
-        //                             SubTotalMed = DOC.Total,
-        //                             DescripcionMed = DOC.Descripcion
-        //                         }).ToList();
-
-        //            foreach (var q in query)
-        //            {
-        //                var resultado = new ListCampos
-        //                {
-        //                    Identificador = q.Identificador,
-        //                    FolioRequisicion = q.FolioRequi,
-        //                    Folio = q.FolioOC,
-        //                    FechaOC = string.Format("{0:d/M/yyyy hh:mm tt}", q.FechaOC),
-        //                    NombreProveedor = q.ProveedorOC,
-        //                    GranT = q.GranTotalOC,
-        //                    Usuario = q.UsuarioElaboraOC,
-        //                    FechaAcuse = string.Format("{0:d/M/yyyy}", q.FechaAcuseOC),
-        //                    FechaAutorizaOC = string.Format("{0:d/M/yyyy}", q.FechaAutorizaOC),
-        //                    NumContrato = q.ContratoOC,
-        //                    Clave = q.ClaveMed,
-        //                    Cantidad = (int)q.CantidadMed,
-        //                    PrecioUnitario = (double)q.PreUnitMed,
-        //                    Subtotal = q.SubTotalMed,
-        //                    Descripcion = q.DescripcionMed.Trim()
-        //                };
-        //                results1.Add(resultado);
-        //            }
-        //        }
-        //        else if (FechaInicio != "" && FechaFin != "" && ClaveMed != "")// Consultar CON FECHAS Y CLAVE
-        //        {
-        //            //var fechaI = FechaInicio;
-        //            //var fechaIn = DateTime.Parse(fechaI);
-        //            //var fechaF = FechaFin;
-        //            //var fechaFi = DateTime.Parse(fechaF);
-
-        //            var fechaI = FechaInicio + " 00:00:00";
-        //            var fechaIn = DateTime.Parse(fechaI);
-
-        //            var fechaF = FechaFin + " 23:59:59";
-        //            var fechaFi = DateTime.Parse(fechaF);
-
-        //            var query = (from OC in ConBD.SISM_ORDEN_COMPRA
-        //                         join DOC in ConBD.SISM_DETALLE_OC on OC.Id equals DOC.Id_OrdenCompra
-        //                         join REQ in ConBD.SISM_REQUISICION on OC.Id_Requisicion equals REQ.Id_Requicision
-        //                         where OC.Fecha_HacerOC >= fechaIn
-        //                         where OC.Fecha_HacerOC <= fechaFi && DOC.ClaveMedicamento == ClaveMed
-        //                         select new
-        //                         {
-        //                             Identificador = OC.Id,
-        //                             FolioRequi = REQ.claveOLD,
-        //                             FolioOC = OC.Clave,
-        //                             FechaOC = OC.Fecha_HacerOC,
-        //                             ProveedorOC = OC.NombreProveedor,
-        //                             GranTotalOC = OC.Total_OC,
-        //                             UsuarioElaboraOC = OC.UsuarioNuevo,
-        //                             FechaAcuseOC = OC.Fecha_Acuse,
-        //                             FechaAutorizaOC = OC.Fecha_AutorizaOC,
-        //                             ContratoOC = OC.Contrato,
-        //                             ClaveMed = DOC.ClaveMedicamento,
-        //                             CantidadMed = DOC.Cantidad,
-        //                             PreUnitMed = DOC.PreUnit,
-        //                             SubTotalMed = DOC.Total,
-        //                             DescripcionMed = DOC.Descripcion
-        //                         }).ToList();
-
-        //            foreach (var q in query)
-        //            {
-        //                var resultado = new ListCampos
-        //                {
-        //                    Identificador = q.Identificador,
-        //                    FolioRequisicion = q.FolioRequi,
-        //                    Folio = q.FolioOC,
-        //                    FechaOC = string.Format("{0:d/M/yyyy hh:mm tt}", q.FechaOC),
-        //                    NombreProveedor = q.ProveedorOC,
-        //                    GranT = q.GranTotalOC,
-        //                    Usuario = q.UsuarioElaboraOC,
-        //                    FechaAcuse = string.Format("{0:d/M/yyyy}", q.FechaAcuseOC),
-        //                    FechaAutorizaOC = string.Format("{0:d/M/yyyy}", q.FechaAutorizaOC),
-        //                    NumContrato = q.ContratoOC,
-        //                    Clave = q.ClaveMed,
-        //                    Cantidad = (int)q.CantidadMed,
-        //                    PrecioUnitario = (double)q.PreUnitMed,
-        //                    Subtotal = q.SubTotalMed,
-        //                    Descripcion = q.DescripcionMed.Trim()
-        //                };
-        //                results1.Add(resultado);
-        //            }
-        //        }
-        //        else// Consultar SOLO CON CLAVE
-        //        {
-        //            var query = (from OC in ConBD.SISM_ORDEN_COMPRA
-        //                         join DOC in ConBD.SISM_DETALLE_OC on OC.Id equals DOC.Id_OrdenCompra
-        //                         join REQ in ConBD.SISM_REQUISICION on OC.Id_Requisicion equals REQ.Id_Requicision
-        //                         where DOC.ClaveMedicamento == ClaveMed
-        //                         select new
-        //                         {
-        //                             Identificador = OC.Id,
-        //                             FolioRequi = REQ.claveOLD,
-        //                             FolioOC = OC.Clave,
-        //                             FechaOC = OC.Fecha_HacerOC,
-        //                             ProveedorOC = OC.NombreProveedor,
-        //                             GranTotalOC = OC.Total_OC,
-        //                             UsuarioElaboraOC = OC.UsuarioNuevo,
-        //                             FechaAcuseOC = OC.Fecha_Acuse,
-        //                             FechaAutorizaOC = OC.Fecha_AutorizaOC,
-        //                             ContratoOC = OC.Contrato,
-        //                             ClaveMed = DOC.ClaveMedicamento,
-        //                             CantidadMed = DOC.Cantidad,
-        //                             PreUnitMed = DOC.PreUnit,
-        //                             SubTotalMed = DOC.Total,
-        //                             DescripcionMed = DOC.Descripcion
-        //                         }).ToList();
-
-        //            foreach (var q in query)
-        //            {
-        //                var resultado = new ListCampos
-        //                {
-        //                    Identificador = q.Identificador,
-        //                    FolioRequisicion = q.FolioRequi,
-        //                    Folio = q.FolioOC,
-        //                    FechaOC = string.Format("{0:d/M/yyyy hh:mm tt}", q.FechaOC),
-        //                    NombreProveedor = q.ProveedorOC,
-        //                    GranT = q.GranTotalOC,
-        //                    Usuario = q.UsuarioElaboraOC,
-        //                    FechaAcuse = string.Format("{0:d/M/yyyy}", q.FechaAcuseOC),
-        //                    FechaAutorizaOC = string.Format("{0:d/M/yyyy}", q.FechaAutorizaOC),
-        //                    NumContrato = q.ContratoOC,
-        //                    Clave = q.ClaveMed,
-        //                    Cantidad = (int)q.CantidadMed,
-        //                    PrecioUnitario = (double)q.PreUnitMed,
-        //                    Subtotal = q.SubTotalMed,
-        //                    Descripcion = q.DescripcionMed.Trim()
-        //                };
-        //                results1.Add(resultado);
-        //            }
-        //        }
-
-        //        return Json(new { MENSAJE = "FOUND", REP = results1 }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-        #endregion
-
         public ActionResult ObtenerReporte(string FechaInicio, string FechaFin, string ClaveMed)
         {
             try
@@ -2411,9 +2467,9 @@ namespace UanlSISM.Controllers
                     var fechaF = FechaFin + " 23:59:59";
                     var fechaFi = DateTime.Parse(fechaF);
 
-                    var query = (from OC in ConBD.SISM_ORDEN_COMPRA
-                                 join DOC in ConBD.SISM_DETALLE_OC on OC.Id equals DOC.Id_OrdenCompra
-                                 join REQ in ConBD.SISM_REQUISICION on OC.Id_Requisicion equals REQ.Id_Requicision
+                    var query = (from OC in Copia.SISM_ORDEN_COMPRA
+                                 join DOC in Copia.SISM_DETALLE_OC on OC.Id equals DOC.Id_OrdenCompra
+                                 join REQ in Copia.SISM_REQUISICION on OC.Id_Requisicion equals REQ.Id_Requicision
                                  where OC.Fecha_HacerOC >= fechaIn && OC.Fecha_HacerOC <= fechaFi
                                  where OC.Id_Requisicion == REQ.Id_Requicision
                                  select new
@@ -2435,8 +2491,6 @@ namespace UanlSISM.Controllers
                                      DescripcionMed = DOC.Descripcion,
                                      IdSustancia = DOC.Id_Sustencia
                                  }).ToList();
-
-
 
                     foreach (var q in query)
                     {
@@ -2493,9 +2547,9 @@ namespace UanlSISM.Controllers
                     var fechaF = FechaFin + " 23:59:59";
                     var fechaFi = DateTime.Parse(fechaF);
 
-                    var query = (from OC in ConBD.SISM_ORDEN_COMPRA
-                                 join DOC in ConBD.SISM_DETALLE_OC on OC.Id equals DOC.Id_OrdenCompra
-                                 join REQ in ConBD.SISM_REQUISICION on OC.Id_Requisicion equals REQ.Id_Requicision
+                    var query = (from OC in Copia.SISM_ORDEN_COMPRA
+                                 join DOC in Copia.SISM_DETALLE_OC on OC.Id equals DOC.Id_OrdenCompra
+                                 join REQ in Copia.SISM_REQUISICION on OC.Id_Requisicion equals REQ.Id_Requicision
                                  where OC.Fecha_HacerOC >= fechaIn
                                  where OC.Fecha_HacerOC <= fechaFi && DOC.ClaveMedicamento == ClaveMed
                                  select new
@@ -2566,9 +2620,9 @@ namespace UanlSISM.Controllers
                 }
                 else// Consultar SOLO CON CLAVE
                 {
-                    var query = (from OC in ConBD.SISM_ORDEN_COMPRA
-                                 join DOC in ConBD.SISM_DETALLE_OC on OC.Id equals DOC.Id_OrdenCompra
-                                 join REQ in ConBD.SISM_REQUISICION on OC.Id_Requisicion equals REQ.Id_Requicision
+                    var query = (from OC in Copia.SISM_ORDEN_COMPRA
+                                 join DOC in Copia.SISM_DETALLE_OC on OC.Id equals DOC.Id_OrdenCompra
+                                 join REQ in Copia.SISM_REQUISICION on OC.Id_Requisicion equals REQ.Id_Requicision
                                  where DOC.ClaveMedicamento == ClaveMed
                                  select new
                                  {
@@ -2649,217 +2703,6 @@ namespace UanlSISM.Controllers
             }
         }
 
-        #region FUNCIÓN ANTES DE VALIDACIÓN DE COLUMNA 'PENDIENTE'
-        //public ActionResult ObtenerReporte(string FechaInicio, string FechaFin, string ClaveMed)
-        //{
-        //    try
-        //    {
-        //        var results1 = new List<ListCampos>();
-
-        //        if (ClaveMed == "" || ClaveMed == null)//Consultar SOLO CON FECHAS
-        //        {
-        //            var fechaI = FechaInicio + " 00:00:00";
-        //            var fechaIn = DateTime.Parse(fechaI);
-
-        //            var fechaF = FechaFin + " 23:59:59";
-        //            var fechaFi = DateTime.Parse(fechaF);
-
-        //            var query = (from OC in ConBD.SISM_ORDEN_COMPRA
-        //                         join DOC in ConBD.SISM_DETALLE_OC on OC.Id equals DOC.Id_OrdenCompra
-        //                         join REQ in ConBD.SISM_REQUISICION on OC.Id_Requisicion equals REQ.Id_Requicision
-        //                         where OC.Fecha_HacerOC >= fechaIn && OC.Fecha_HacerOC <= fechaFi
-        //                         where OC.Id_Requisicion == REQ.Id_Requicision
-        //                         select new
-        //                         {
-        //                             Identificador = OC.Id,
-        //                             FolioRequi = REQ.claveOLD,
-        //                             FolioOC = OC.Clave,
-        //                             FechaOC = OC.Fecha_HacerOC,
-        //                             ProveedorOC = OC.NombreProveedor,
-        //                             GranTotalOC = OC.Total_OC,
-        //                             UsuarioElaboraOC = OC.UsuarioNuevo,
-        //                             FechaAcuseOC = OC.Fecha_Acuse,
-        //                             FechaAutorizaOC = OC.Fecha_AutorizaOC,
-        //                             ContratoOC = OC.Contrato,
-        //                             ClaveMed = DOC.ClaveMedicamento,
-        //                             CantidadMed = DOC.Cantidad,
-        //                             PreUnitMed = DOC.PreUnit,
-        //                             SubTotalMed = DOC.Total,
-        //                             DescripcionMed = DOC.Descripcion,
-        //                             IdSustancia = DOC.Id_Sustencia
-        //                         }).ToList();
-
-        //            foreach (var q in query)
-        //            {
-        //                //Hacemos la misma consulta pero en la bd vieja para sacar la columna Pendiente
-        //                var BDvieja = (from oc in RequisicionDB.OrdenCompra
-        //                               join doc in RequisicionDB.DetalleOC on oc.Id equals doc.Id_OrdenCompra
-        //                               where oc.clave == q.FolioOC
-        //                               where doc.Id_Sustancia == q.IdSustancia
-        //                               select new
-        //                               {
-        //                                   Pendiente = doc.Pendiente
-        //                               }).FirstOrDefault();
-
-        //                var resultado = new ListCampos
-        //                {
-        //                    Identificador = q.Identificador,
-        //                    FolioRequisicion = q.FolioRequi,
-        //                    Folio = q.FolioOC,
-        //                    FechaOC = string.Format("{0:d/M/yyyy hh:mm tt}", q.FechaOC),
-        //                    NombreProveedor = q.ProveedorOC,
-        //                    GranT = q.GranTotalOC,
-        //                    Usuario = q.UsuarioElaboraOC,
-        //                    FechaAcuse = string.Format("{0:d/M/yyyy}", q.FechaAcuseOC),
-        //                    FechaAutorizaOC = string.Format("{0:d/M/yyyy}", q.FechaAutorizaOC),
-        //                    NumContrato = q.ContratoOC,
-        //                    Clave = q.ClaveMed,
-        //                    Cantidad = (int)q.CantidadMed,
-        //                    PrecioUnitario = (double)q.PreUnitMed,
-        //                    Subtotal = q.SubTotalMed,
-        //                    Descripcion = q.DescripcionMed.Trim(),
-        //                    Pendiente = BDvieja.Pendiente
-        //                };
-        //                results1.Add(resultado);
-        //            }
-        //        }
-        //        else if (FechaInicio != "" && FechaFin != "" && ClaveMed != "")// Consultar CON FECHAS Y CLAVE
-        //        {
-        //            var fechaI = FechaInicio + " 00:00:00";
-        //            var fechaIn = DateTime.Parse(fechaI);
-
-        //            var fechaF = FechaFin + " 23:59:59";
-        //            var fechaFi = DateTime.Parse(fechaF);
-
-        //            var query = (from OC in ConBD.SISM_ORDEN_COMPRA
-        //                         join DOC in ConBD.SISM_DETALLE_OC on OC.Id equals DOC.Id_OrdenCompra
-        //                         join REQ in ConBD.SISM_REQUISICION on OC.Id_Requisicion equals REQ.Id_Requicision
-        //                         where OC.Fecha_HacerOC >= fechaIn
-        //                         where OC.Fecha_HacerOC <= fechaFi && DOC.ClaveMedicamento == ClaveMed
-        //                         select new
-        //                         {
-        //                             Identificador = OC.Id,
-        //                             FolioRequi = REQ.claveOLD,
-        //                             FolioOC = OC.Clave,
-        //                             FechaOC = OC.Fecha_HacerOC,
-        //                             ProveedorOC = OC.NombreProveedor,
-        //                             GranTotalOC = OC.Total_OC,
-        //                             UsuarioElaboraOC = OC.UsuarioNuevo,
-        //                             FechaAcuseOC = OC.Fecha_Acuse,
-        //                             FechaAutorizaOC = OC.Fecha_AutorizaOC,
-        //                             ContratoOC = OC.Contrato,
-        //                             ClaveMed = DOC.ClaveMedicamento,
-        //                             CantidadMed = DOC.Cantidad,
-        //                             PreUnitMed = DOC.PreUnit,
-        //                             SubTotalMed = DOC.Total,
-        //                             DescripcionMed = DOC.Descripcion,
-        //                             IdSustancia = DOC.Id_Sustencia
-        //                         }).ToList();
-
-        //            foreach (var q in query)
-        //            {
-        //                //Hacemos la misma consulta pero en la bd vieja para sacar la columna Pendiente
-        //                var BDvieja = (from oc in RequisicionDB.OrdenCompra
-        //                               join doc in RequisicionDB.DetalleOC on oc.Id equals doc.Id_OrdenCompra
-        //                               where oc.clave == q.FolioOC
-        //                               where doc.Id_Sustancia == q.IdSustancia
-        //                               select new
-        //                               {
-        //                                   Pendiente = doc.Pendiente
-        //                               }).FirstOrDefault();
-
-        //                var resultado = new ListCampos
-        //                {
-        //                    Identificador = q.Identificador,
-        //                    FolioRequisicion = q.FolioRequi,
-        //                    Folio = q.FolioOC,
-        //                    FechaOC = string.Format("{0:d/M/yyyy hh:mm tt}", q.FechaOC),
-        //                    NombreProveedor = q.ProveedorOC,
-        //                    GranT = q.GranTotalOC,
-        //                    Usuario = q.UsuarioElaboraOC,
-        //                    FechaAcuse = string.Format("{0:d/M/yyyy}", q.FechaAcuseOC),
-        //                    FechaAutorizaOC = string.Format("{0:d/M/yyyy}", q.FechaAutorizaOC),
-        //                    NumContrato = q.ContratoOC,
-        //                    Clave = q.ClaveMed,
-        //                    Cantidad = (int)q.CantidadMed,
-        //                    PrecioUnitario = (double)q.PreUnitMed,
-        //                    Subtotal = q.SubTotalMed,
-        //                    Descripcion = q.DescripcionMed.Trim(),
-        //                    Pendiente = BDvieja.Pendiente
-        //                };
-        //                results1.Add(resultado);
-        //            }
-        //        }
-        //        else// Consultar SOLO CON CLAVE
-        //        {
-        //            var query = (from OC in ConBD.SISM_ORDEN_COMPRA
-        //                         join DOC in ConBD.SISM_DETALLE_OC on OC.Id equals DOC.Id_OrdenCompra
-        //                         join REQ in ConBD.SISM_REQUISICION on OC.Id_Requisicion equals REQ.Id_Requicision
-        //                         where DOC.ClaveMedicamento == ClaveMed
-        //                         select new
-        //                         {
-        //                             Identificador = OC.Id,
-        //                             FolioRequi = REQ.claveOLD,
-        //                             FolioOC = OC.Clave,
-        //                             FechaOC = OC.Fecha_HacerOC,
-        //                             ProveedorOC = OC.NombreProveedor,
-        //                             GranTotalOC = OC.Total_OC,
-        //                             UsuarioElaboraOC = OC.UsuarioNuevo,
-        //                             FechaAcuseOC = OC.Fecha_Acuse,
-        //                             FechaAutorizaOC = OC.Fecha_AutorizaOC,
-        //                             ContratoOC = OC.Contrato,
-        //                             ClaveMed = DOC.ClaveMedicamento,
-        //                             CantidadMed = DOC.Cantidad,
-        //                             PreUnitMed = DOC.PreUnit,
-        //                             SubTotalMed = DOC.Total,
-        //                             DescripcionMed = DOC.Descripcion,
-        //                             IdSustancia = DOC.Id_Sustencia
-        //                         }).ToList();
-
-        //            foreach (var q in query)
-        //            {
-        //                //Hacemos la misma consulta pero en la bd vieja para sacar la columna Pendiente
-        //                var BDvieja = (from oc in RequisicionDB.OrdenCompra
-        //                               join doc in RequisicionDB.DetalleOC on oc.Id equals doc.Id_OrdenCompra
-        //                               where oc.clave == q.FolioOC
-        //                               where doc.Id_Sustancia == q.IdSustancia
-        //                               select new
-        //                               {
-        //                                   Pendiente = doc.Pendiente
-        //                               }).FirstOrDefault();
-
-        //                var resultado = new ListCampos
-        //                {
-        //                    Identificador = q.Identificador,
-        //                    FolioRequisicion = q.FolioRequi,
-        //                    Folio = q.FolioOC,
-        //                    FechaOC = string.Format("{0:d/M/yyyy hh:mm tt}", q.FechaOC),
-        //                    NombreProveedor = q.ProveedorOC,
-        //                    GranT = q.GranTotalOC,
-        //                    Usuario = q.UsuarioElaboraOC,
-        //                    FechaAcuse = string.Format("{0:d/M/yyyy}", q.FechaAcuseOC),
-        //                    FechaAutorizaOC = string.Format("{0:d/M/yyyy}", q.FechaAutorizaOC),
-        //                    NumContrato = q.ContratoOC,
-        //                    Clave = q.ClaveMed,
-        //                    Cantidad = (int)q.CantidadMed,
-        //                    PrecioUnitario = (double)q.PreUnitMed,
-        //                    Subtotal = q.SubTotalMed,
-        //                    Descripcion = q.DescripcionMed.Trim(),
-        //                    Pendiente = BDvieja.Pendiente
-        //                };
-        //                results1.Add(resultado);
-        //            }
-        //        }
-
-        //        return Json(new { MENSAJE = "FOUND", REP = results1 }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-        #endregion
-
         //----------------------------------------------------------------------------------- Pantalla REPORTE   --------------  FIN
 
 
@@ -2874,6 +2717,7 @@ namespace UanlSISM.Controllers
             return View();
         }
 
+        //TBL PROVEEDOR NUEVO = ConDB
         public ActionResult ObtenerReporteProveedor(string FechaInicio, string FechaFin, string Proveedor)
         {
             try
@@ -2891,7 +2735,7 @@ namespace UanlSISM.Controllers
                             select a
                             ).FirstOrDefault();
 
-                var query = (from OC in ConBD.SISM_ORDEN_COMPRA
+                var query = (from OC in Copia.SISM_ORDEN_COMPRA
                              where OC.Fecha_HacerOC >= fechaIn
                              where OC.Fecha_HacerOC <= fechaFi && OC.Id_Proveedor == Prov.Id_Prov
                              select new
@@ -2921,23 +2765,6 @@ namespace UanlSISM.Controllers
                     results1.Add(resultado);
                 }
 
-                //// Calcular la sumatoria total de 'GranT'
-                //decimal totalGranT = (decimal)results1.Sum(item => item.GranT);
-
-                //// Crear un objeto anónimo que incluye la lista de resultados y la sumatoria total
-                //var jsonData = new
-                //{
-                //    Results = results1,
-                //    TotalGranT = totalGranT
-                //};
-
-                //// Crear JsonResult con el objeto anónimo
-                //var json = new JsonResult
-                //{
-                //    Data = jsonData,
-                //    JsonRequestBehavior = JsonRequestBehavior.AllowGet
-                //};
-
                 var json = new JsonResult { Data = results1, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
                 json.MaxJsonLength = 500000000;
 
@@ -2950,3 +2777,4 @@ namespace UanlSISM.Controllers
         }
     }
 }
+

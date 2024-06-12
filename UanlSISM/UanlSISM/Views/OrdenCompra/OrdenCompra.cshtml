@@ -89,12 +89,17 @@
 <div class="btn-toolbar">
     <button type="button" class="btn btn-primary btn-space" onclick="OCS()">ÓRDENES DE COMPRA <em>(Dpto. Compras)</em></button>
     <button type="button" class="btn btn-primary btn-space" onclick="Reporte()"><em>MEDICAMENTO EN O.C</em></button>
+    <button type="button" class="btn btn-primary btn-space" onclick="ReportePartidas()"><em>PARTIDAS PENDIENTES</em></button>
 </div>
 
 <div>
     <div class="row">
         <div class="col-12" style="text-align:center">
             <h5 class="font-weight-bold" style="color:blue; ">Listado Requisiciones Almacén</h5>
+        </div>
+        <br />
+        <div>
+            <a class="btn btn-success text-white" id="Xcel3">Descargar Excel</a>
         </div>
     </div>
     <div class="row">
@@ -135,8 +140,6 @@
                         @Html.DropDownList("Prov_Nombre", (IEnumerable<SelectListItem>)ViewBag.PROVEEDORES, "Catálogo Proveedores", htmlAttributes: new { @class = "dropdown-content", id = "IDD" })
                     </div>
                     <div class="col-md-9">
-                        @*<button type="button" style="width:100%; background-color:rgba(0,74,143,1);" class="btn btn-success imprimir">Imprimir</button>*@
-
                         <div>
                             <a class="btn btn-success text-white" id="Xcel2">Descargar Excel</a>
                         </div>
@@ -148,7 +151,7 @@
                         <thead>
 
                             <tr>
-                                <th COLSPAN="12">
+                                <th COLSPAN="14">
                                     <div class="input-group" id="LABEL">
                                         <span style="height:30px;" class="input-group-text">Proveedor:</span>
                                         <label style="height:30px;" type="text" class="form-control" id="PROV" name="PROV" />
@@ -167,12 +170,11 @@
                                 </th>
                                 <th COLSPAN="4">
                                     <h10 id="Contrato" style="color:green">Con Contrato </h10><br />
-                                    @*<a style="font-size: 13px" id="EstContrato"></a>*@
                                 </th>
                                 <th COLSPAN="2">
                                     <a style="font-size: 13px; display: none;" id="Estatus_OC_Parcial"></a>
                                 </th>
-                                <th COLSPAN="2"></th>
+                                <th COLSPAN="3"></th>
                             </tr>
                             <tr>
                                 <th></th>
@@ -182,13 +184,15 @@
                                 <th>Cant.<br />Solicitada</th>
                                 <th>Cant.<br />Pendiente</th>
                                 <th>Precio<br />Unitario</th>
-                                @*<th>Último<br />Precio</th>*@
-                                <th>Total</th>
+                                <th>Total</th> @*esta columna es la comentada en el datatable de cuando consultaba los precios licitados *@
                                 <th>Cant.<br />Autorizada</th>
                                 <th>Precio<br />Unitario</th>
-                                <th>Sub -<br />Total</th>
+                                @*<th>Total<br /></th>*@
+                                <th>Subtotal<br /></th>
                                 <th></th>
-                                <th>ST + iva</th>
+                                @*<th>Total<br />IVA</th>*@
+                                <th>Total</th>
+                                <th>IVA</th>
                                 <th>Incluir<br />en la OC</th>
                             </tr>
                         </thead>
@@ -212,15 +216,16 @@
 
                             <div class="row">
                                 <strong>
-                                    <a style="font-size:16px; display:inline-block;" id="GTiva"></a>
+                                    <a style="font-size:16px; display:inline-block;" id="Total_OC2"></a>
                                 </strong>
                             </div>
 
                             <div class="row">
                                 <strong>
-                                    <a style="font-size:16px; display:inline-block;" id="Total_OC2"></a>
+                                    <a style="font-size:16px; display:inline-block;" id="GTiva"></a>
                                 </strong>
                             </div>
+
                         </div>
                     </div>
 
@@ -251,6 +256,14 @@
         $("#tblDetalleRequi").table2excel({
             exclude: ".xls",
             filename: 'Requi-Orden.xls'
+        });
+    });
+
+    //tbl Requis (cuando recien entran para hacer la preorden)
+    $("#Xcel3").click(function () {
+        $("#Requis").table2excel({
+            exclude: ".xls",
+            filename: 'ReqParaPreorden.xls'
         });
     });
 </script>
@@ -476,6 +489,7 @@
                         item.TOTAL_NUEVA = 0;
 
                         item.ST_IVA = 0;
+                        item.IVA = 0;
                         DetRequi.push(item);
                     }
                 });
@@ -575,15 +589,6 @@
                             }
                         }
                     },
-                    //{
-                    //    "data": "UltimoPrecio", className: "text-center", render: function (data, type, row) {
-                    //        if (data == '' || data == null) {
-                    //            return '<a></a>';
-                    //        } else {
-                    //            return '$' +'<h8 style="color:black; ">' + data + '</h8>';
-                    //        }
-                    //    }
-                    //},
                     {
                         "data": "CANTIDAD_NUEVA", className: "text-center", render: function (data, type, row) {
                             if (row.PartidaPendiente == 1 || row.PartidaPendiente == true) {
@@ -611,7 +616,6 @@
                             }
                         }
                     },
-
                     {
                         'data': 'CB_IVA',
                         className: "text-center",
@@ -628,11 +632,19 @@
                             }
                         }
                     },
-
+                    {
+                        "data": "IVA", render: function (data, type, row) {
+                            if (row.PartidaPendiente == 1 || row.PartidaPendiente == true) {
+                                return '';
+                            } else {
+                                return '$' + '<input style="width: 70px; border: 0; border - bottom: 1px solid; background: transparent; " id="ORDEN4' + row.ORDEN + '" type="text" value="' + data + '" readonly/>';
+                            }
+                        }
+                    },
                     { 'data': 'CB_ELIMINAR', className: "text-center", render: function (data) { return "<input class='input3' id='input3' type='checkbox' ></input>" } }
                 ],
                 columnDefs: [
-                    { "visible": false, "targets": 13 },
+                    { "visible": false, "targets": 14 },
                 ]
             });
 
@@ -666,7 +678,7 @@
         $('#DetalleRequiModal').on('shown.bs.modal', function () {
             var EC = "";
             var TotalNuevo = 0;
-            var TextoTotal = "Gran Total $";
+            var TextoTotal = "Subtotal $"; //Gran Total (normal-sin iva)
 
             $(".input").keyup(function () {
                 var tr = $(this).closest('tr');
@@ -807,11 +819,12 @@
 
             // ***IVA***
             $("input[type=checkbox]").click(function (event) {
-                var TextoT = "G.T. más iva $";
+                var TextoT = "Total $"; //total+iva
                 var tr = $(this).closest('tr');
                 var row = $('#tblDetalleRequi').DataTable().row(tr);
                 var ST_IVA = 0;
                 var SubTotalIVA = 0;
+
                 // Obtén el elemento del checkbox (de la partida)
                 var checkbox = $('#ORDEN3' + row.data().ORDEN);
 
@@ -824,9 +837,13 @@
                     //Sí ingresaron la cantidad y el p.u.
                     if ((row.data().CANTIDAD_NUEVA > "0" || row.data().CANTIDAD_NUEVA > 0) && (row.data().PREUNIT_NUEVA > "0" || row.data().PREUNIT_NUEVA > 0)) {
 
-                        //Obtenemos cuanto es el puro iva del subtotal de la partida
+                        //Calculamos cuanto es el puro iva de la partida
                         ST_IVA = ((row.data().TOTAL_NUEVA * 16) / 100);
 
+                        //Columna en la tabla donde guardaremos el 'puro' iva
+                        $('#ORDEN4' + row.data().ORDEN).val(ST_IVA.toFixed(2));
+                        row.data().IVA = ST_IVA.toFixed(2);
+                        
                         //Convertimos de texto a número -> row.data().TOTAL_NUEVA;
                         var totalNuevaTexto = row.data().TOTAL_NUEVA;
                         var totalNuevaNumero = parseFloat(totalNuevaTexto);
@@ -840,9 +857,14 @@
                         //Establecemos en la columna del datatable el "dato(texto)" 
                         $('#ORDEN2' + row.data().ORDEN).val(SubTotalIVA.toFixed(2));
 
-                        var suma = $('#tblDetalleRequi').DataTable().column(12).data().sum();
+                        //Sumamos columna SubTotal + columna PuroIva
+                        var ST = $('#tblDetalleRequi').DataTable().column(10).data().sum();
+                        var iva = $('#tblDetalleRequi').DataTable().column(13).data().sum();
+                        var SubT_SubTiva = ST + iva;
+
+                        //Establecemos el monto total del SubTotal+iva que se va agregando(al seleccionar el check de cada partida)
                         const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
-                        document.getElementById("GTiva").innerHTML = TextoT + formato.format(suma);
+                        document.getElementById("GTiva").innerHTML = TextoT + formato.format(SubT_SubTiva);
 
                     } else {
                         Swal.fire({
@@ -855,19 +877,24 @@
                     }
                 } else { //Si desmarcan el checkbox (ya sea por error u otra cosa)
 
-                    //Le quitamos el valor a la columna subtotal+iva
+                    //Le quitamos el 'valor' a la columna subtotal+iva
                     row.data().ST_IVA = 0;
-
-                    //Volvemos a hacer la suma de toda la columna (lo que queda una vez quitando la que se está desmarcando)
-                    var suma = $('#tblDetalleRequi').DataTable().column(12).data().sum();
-                    const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
-                    document.getElementById("GTiva").innerHTML = TextoT + formato.format(suma);
+                    row.data().IVA = 0;
 
                     //Establecer en cero (0) el 'Subtotal+iva'
                     $('#ORDEN2' + row.data().ORDEN).val(0);
+                    $('#ORDEN4' + row.data().ORDEN).val(0);
+
+                    //Sumamos columna SubTotal + columna PuroIva
+                    var ST = $('#tblDetalleRequi').DataTable().column(10).data().sum();
+                    var iva = $('#tblDetalleRequi').DataTable().column(13).data().sum();
+                    var SubT_SubTiva = ST + iva;
+
+                    //Establecemos el monto total del SubTotal+iva que se va agregando(al seleccionar el check de cada partida)
+                    const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
+                    document.getElementById("GTiva").innerHTML = TextoT + formato.format(SubT_SubTiva);
                 }
             });
-
 
         });
     }
@@ -969,6 +996,10 @@
 
     function Reporte() {
         window.location.href = '../OrdenCompra/Reporte'
+    }
+
+    function ReportePartidas() {
+        window.location.href = '../Requisicion/PartidasPendientes'
     }
 
 </script>

@@ -103,6 +103,8 @@
           <Property Name="Total" Type="float" />
           <Property Name="Descripcion" Type="varchar" MaxLength="300" />
           <Property Name="ClaveMedicamento" Type="varchar" MaxLength="15" />
+          <Property Name="Total_iva" Type="float" />
+          <Property Name="iva" Type="float" />
         </EntityType>
         <EntityType Name="Tbl_DetalleRequi">
           <Key>
@@ -148,6 +150,7 @@
           <Property Name="Usuario_AutorizaOC" Type="varchar" MaxLength="30" />
           <Property Name="Fecha_HacerOC" Type="datetime" />
           <Property Name="Contrato" Type="varchar" MaxLength="100" />
+          <Property Name="Total_OC_iva" Type="float" />
         </EntityType>
         <EntityType Name="Tbl_Requisicion">
           <Key>
@@ -422,6 +425,8 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
           <Property Name="Descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="ClaveMedicamento" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Tbl_OrdenCompra" Relationship="SERVMEDNivel2.FK__Tbl_Detal__Id_Or__396E5EB4" FromRole="Tbl_DetalleOC" ToRole="Tbl_OrdenCompra" />
+          <Property Name="Total_iva" Type="Double" />
+          <Property Name="iva" Type="Double" />
         </EntityType>
         <EntityType Name="Tbl_OrdenCompra">
           <Key>
@@ -451,6 +456,7 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
           <Property Name="Fecha_HacerOC" Type="DateTime" Precision="3" />
           <Property Name="Contrato" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Tbl_DetalleOC" Relationship="SERVMEDNivel2.FK__Tbl_Detal__Id_Or__396E5EB4" FromRole="Tbl_OrdenCompra" ToRole="Tbl_DetalleOC" />
+          <Property Name="Total_OC_iva" Type="Double" />
         </EntityType>
         <Association Name="FK__Tbl_Detal__Id_Or__396E5EB4">
           <End Type="SERVMEDNivel2.Tbl_OrdenCompra" Role="Tbl_OrdenCompra" Multiplicity="1" />
@@ -896,6 +902,8 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
           <EntitySetMapping Name="Tbl_DetalleOC">
             <EntityTypeMapping TypeName="SERVMEDNivel2.Tbl_DetalleOC">
               <MappingFragment StoreEntitySet="Tbl_DetalleOC">
+                <ScalarProperty Name="iva" ColumnName="iva" />
+                <ScalarProperty Name="Total_iva" ColumnName="Total_iva" />
                 <ScalarProperty Name="ClaveMedicamento" ColumnName="ClaveMedicamento" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
@@ -914,6 +922,7 @@ advertencia 6002: La tabla o vista 'SERVMED.dbo.ReporteInventarios' no tiene def
           <EntitySetMapping Name="Tbl_OrdenCompra">
             <EntityTypeMapping TypeName="SERVMEDNivel2.Tbl_OrdenCompra">
               <MappingFragment StoreEntitySet="Tbl_OrdenCompra">
+                <ScalarProperty Name="Total_OC_iva" ColumnName="Total_OC_iva" />
                 <ScalarProperty Name="Contrato" ColumnName="Contrato" />
                 <ScalarProperty Name="Fecha_HacerOC" ColumnName="Fecha_HacerOC" />
                 <ScalarProperty Name="Usuario_AutorizaOC" ColumnName="Usuario_AutorizaOC" />

@@ -207,88 +207,6 @@
                 </div>
 
                 @* INFO: ACUSE - CONTRATO... *@
-                @*<div class="row" id="Moddal">
-
-                        <div class="col-4">
-                            <div class="row">
-                                <div class="alt-features-item align-center">
-                                    <h6 class="text-center" style="font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Datos del Proveedor</h6>
-                                    <div class="text" style="text-align:center;">
-                                        <a style="" id="ProvUanl"></a>
-                                        <a style="" id="ProvNom"></a><br />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <h10 id="LabelContrato" style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Contrato</h10><br />
-                                    <a style="" id="InputCon"></a>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <h10 style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Folio Req.</h10><br />
-                                    <a style="" id="FRequi"></a>
-                                </div>
-                                <div class="col-6">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <h10 id="InputFA1" style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Fecha Vencimiento</h10><br />
-                                    <a style="" id="InputFA"></a>
-                                </div>
-                                <div class="col-6">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-4">
-                            <div class="alt-features-item align-center">
-                                <div class="row">
-                                    <a style=""><span class="emphasized"><strong>FACTURAR A:</strong></span> UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</a><br />
-                                    <a style=""><span class="emphasized"><strong>RFC:</strong></span> UANL691126MK2</a>
-                                </div>
-                                <div class="row">
-                                    <a style=""><span class="emphasized"><strong>Embarcar:</strong></span> GONZALITOS Y HAITI, COLONIA VISTA HERMOSA. MONTERREY NUEVO LEÓN</a><br />
-                                </div>
-                                <div class="row">
-                                    <h6 class="text-center" style="font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Tiempo de Entrega</h6>
-                                    <div class="text" style="text-align:center;">
-                                        <a style="">5 DÍAS NATURALES</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-4">
-                            <div class="row" id="contenido">
-                                <div class="row">
-                                    <h5 id="TitutloModal" class="imprimirTitulo" style="text-align: right; color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;"></h5>
-                                </div>
-                                <div class="row">
-                                    <div class="row">
-                                        <div class="col-6">
-                                        </div>
-                                        <div class="col-6">
-                                            <h10 style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;" id="ClaveOC1">Folio</h10><br />
-                                            <a style="" id="ClaveOC"></a>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                        </div>
-                                        <div class="col-6">
-                                            <h10 style="color:green; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;" id="FechaOC1">Fecha Pre-Orden</h10><br />
-                                            <a style="" id="FechaOC"></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>*@
-
                 <div class="row" id="Moddal">
 
                     <div class="col-4">
@@ -414,8 +332,12 @@
                                     <a style="font-size:13px" id="InputConDT"></a>
                                 </th>
                                 <th>
-                                    <h10 style="color:green" hidden>Gran Total: $</h10><br />
+                                    <h10 style="color:green" hidden>Subtotal: $</h10><br />
                                     <a style="font-size:13px; display:inline-block;" id="Total_OC1" hidden></a>
+                                </th>
+                                <th>
+                                    <h10 style="color:green" hidden>Total $</h10><br />
+                                    <a style="font-size:13px; display:inline-block;" id="Total_OC1_iva" hidden></a>
                                 </th>
                             </tr>
                             <tr>
@@ -424,7 +346,9 @@
                                 <th>DESCRIPCIÓN</th>
                                 <th>CANTIDAD</th>
                                 <th>COSTO<br />UNITARIO</th>
-                                <th>COSTO<br />TOTAL</th>
+                                <th>COSTO<br />SUBTOTAL</th>
+                                <th>IVA</th>
+                                <th>COSTO TOTAL<br /></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -440,6 +364,10 @@
                         <div class="col-md-6" style="text-align:right;">
                             <strong>
                                 <a style="font-size:20px; display:inline-block;" id="Total_OC"></a>
+                            </strong>
+                            <br />
+                            <strong>
+                                <a style="font-size:20px; display:inline-block;" id="Total_OC_iva"></a>
                             </strong>
                         </div>
                     </div>
@@ -794,9 +722,6 @@
                 $("#pie").show();//Firmas Pre-Orden     Cuando no tiene Folio, es Pre-Orden y las Firmas que deben salir son Quien Realizo y Quien Autorizo
                 $("#pie1").hide();//Firmas Orden
 
-                //var FePre = response[0].Fecha;
-                //$('#FechaPreOC').val(FePre);
-
             } else {
                 $("#ClaveOC1").show();
                 $('#ClaveOC').html(response[0].Folio);
@@ -819,37 +744,35 @@
                 $('#FechaPreOC').val(FePre);
             }
 
-            //var FechaOC = response[0].FechaOC;
-            //if (FechaOC == null || FechaOC == '') {
-            //    document.getElementById("FechaOC1").innerHTML = "Fecha Pre-O.C";
-            //    $('#FechaOC').html(response[0].Fecha);
-            //} else {
-            //    document.getElementById("FechaOC1").innerHTML = "Fecha O.C";
-            //    $('#FechaOC').html(response[0].FechaOC);
-            //}
-
-            //$('#FechaOC').html(response[0].Fecha);
             $('#Fecha').html(response[0].Fecha1);
             $('#PROV').html(response[0].NombreProveedor);
             $('#UsElaboro').html(response[0].NombreUsu);
             $('#Us').html(response[0].Usuario);
             $('#Total_OC1').html(response[0].Total_OC);
-            //$('#Total_OC').html(response[0].Total_OC);
             $('#TXTdescripcion').html(response[0].DescripcionOC);
             $('#FRequi').html(response[0].FolioRequisicion);
             $('#ProvNom').html(response[0].NombreProveedor);
             $('#ProvDir').html(response[0].DirProv);
             $('#ProvTel').html(response[0].TelProv);
             $('#ProvUanl').html(response[0].UanlProv);
-
             $('#ProvUanl1').html(response[0].UanlProv);
             $('#ProvNom1').html(response[0].NombreProveedor);
 
             //Texto que se muestra debajo de la tabla del Detalle de la OC (con decimales)
             var GranTotalModal = response[0].Total_OC;
             const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
-            document.getElementById("Total_OC").innerHTML = "Gran Total $" + formato.format(GranTotalModal);
-            //document.getElementById("Total_OC").innerHTML = "Gran Total $" + GranTotalModal.toFixed(2);
+            document.getElementById("Total_OC").innerHTML = "Subtotal $" + formato.format(GranTotalModal); //GranTotal (normal-sin iva)
+            
+            //*IVA
+            if (response[0].Total_OC_iva > 0) {
+                //Este está en el header de la tabla (para exportar)
+                $('#Total_OC1_iva').html(response[0].Total_OC_iva);
+
+                //Este está debajo de la tabla al abrir el modal (detalle)
+                var GTModaliva = response[0].Total_OC_iva;
+                const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
+                document.getElementById("Total_OC_iva").innerHTML = "Total $" + formato.format(GTModaliva);//GranTotal (mas iva)
+            }
 
             $('#FRequiEncabezado').html(response[0].FolioRequisicion);
             $('#FechaEncabezado').html(response[0].Fecha1);
@@ -858,29 +781,23 @@
             if (FA == null || FA == "") {
                 $("#InputFA1").hide();
                 $("#InputFA111").hide();
-                //$("#divAcuse").show();
-
                 $("#TDacuse").css("display", "none");
             } else {
                 $("#InputFA1").show();
                 $("#InputFA11").show();
                 $('#InputFA').html(FA);
                 $('#InputFA11').html(FA);
-                //$("#divAcuse").hide();
             }
 
             var CON = response[0].NumContrato;
             if (CON == null || CON == "") {
                 $("#LabelContrato").hide();
                 $("#InputCon").hide();
-                //$("#divContrato").show();//Donde aparece en el Modal para poner el Contrato
                 $("#InputContratoDT").hide();//Label del Contrato del Datatable (solo se muestra al exportar a Excel)
             } else {
-                //$("#InputContrato").hide();//Donde aparece en el Modal para poner el Contrato (INPUT)
                 $("#LabelContrato").show();
                 $('#InputCon').html(CON);
                 $("#InputCon").show();
-                //$("#divContrato").hide();//Donde aparece en el Modal para poner el Contrato
                 $("#InputConDT").show();
                 $('#InputConDT').html(CON);//Dato del Contrato del Datatable (solo se muestra al exportar a Excel)
             }
@@ -888,7 +805,7 @@
             $('#FechaAutoriza').html(response[0].FechaAutorizaOC);
             $('#UsuAutoriza').html(response[0].UsuarioAutorizaOC);
 
-	    var CO = response[0].NumContrato;
+	        var CO = response[0].NumContrato;
             $('#Num_Contrato').val(CO);
 
             LlenDetalle(response);
@@ -932,6 +849,8 @@
                     { "data": "Cantidad", className: "text-center" },
                     { "data": "PrecioUnitario", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                     { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                    { "data": "iva", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                    { "data": "STiva", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                     {
                         "data": null, render: function (data, type, row) {
                             if (row.OC_PorValidar != "3" || row.OC_PorValidar != 3) {
@@ -959,11 +878,9 @@
             }).draw();
         }
 
-        //$('#DetalleOCModal').on('hidden.bs.modal', function () {
-        //    location.reload();
-        //})
     });
 
+    //Esta es una segunda función IGUAL a la de arriba, está se manda a llamar cuando se Crea/Elimina el Acuse,Contrato,etc (sustituye el location.reload())
     function VerDetalle(IdOC, ClaveRequi) {
 
         $('#DetalleOCModal').modal("show");
@@ -1032,7 +949,18 @@
             //Texto que se muestra debajo de la tabla del Detalle de la OC (con decimales)
             var GranTotalModal = response[0].Total_OC;
             const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
-            document.getElementById("Total_OC").innerHTML = "Gran Total $" + formato.format(GranTotalModal);
+            document.getElementById("Total_OC").innerHTML = "Subtotal $" + formato.format(GranTotalModal);//GranTotal (normal-sin iva)
+
+            //*IVA
+            if (response[0].Total_OC_iva > 0) {
+                //Este está en el header de la tabla (para exportar)
+                $('#Total_OC1_iva').html(response[0].Total_OC_iva);
+
+                //Este está debajo de la tabla al abrir el modal (detalle)
+                var GTModaliva = response[0].Total_OC_iva;
+                const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
+                document.getElementById("Total_OC_iva").innerHTML = "Total $" + formato.format(GTModaliva);//GranTotal (con iva)
+            }
 
             $('#FRequiEncabezado').html(response[0].FolioRequisicion);
             $('#FechaEncabezado').html(response[0].Fecha1);
@@ -1041,16 +969,13 @@
             if (FA == null || FA == "") {
                 $("#InputFA1").hide();
                 $("#InputFA111").hide();
-                //$("#divAcuse").show();
                 $("#InputFA").hide();//Se oculta el dato una vez que el usuario haya eliminado el Acuse con el boton
-
                 $("#TDacuse").css("display", "none");
             } else {
                 $("#InputFA1").show();
                 $("#InputFA11").show();
                 $('#InputFA').html(FA);
                 $('#InputFA11').html(FA);
-                //$("#divAcuse").hide();
             }
 
             var CON = response[0].NumContrato;
@@ -1112,6 +1037,8 @@
                     { "data": "Cantidad", className: "text-center" },
                     { "data": "PrecioUnitario", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                     { "data": "Total", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                    { "data": "iva", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                    { "data": "STiva", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                     {
                         "data": null, render: function (data, type, row) {
                             if (row.OC_PorValidar != "3" || row.OC_PorValidar != 3) {
@@ -1185,38 +1112,6 @@
         var row = $('#tbl_OCgeneradas').DataTable().row(tr);
         var Id = row.data().Id_OC;
 
-        @*$.ajax({
-            url: '@Url.Action("EliminarOC", "OrdenCompra")',
-            method: 'POST',
-            dataType: 'json',
-            data: { Id_OC: Id },
-            success: function (data) {
-                if (data.MENSAJE.substring(0, 6) == "Succe:") {
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Éxito!',
-                        text: data.MENSAJE.substring(7),
-                        willClose: () => {
-                            location.reload();
-                        }
-                    });
-                }
-                if (data.MENSAJE.substring(0, 6) == "Error:") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops... ¡Error!',
-                        text: data.MENSAJE.substring(7),
-                    });
-                }
-            },
-            error: function (ex) {
-                Swal.fire({
-                    icon: 'error',
-                    title: '¡Error!',
-                });
-            }
-        });*@
-        //-----------------------------------------------------------
         Swal.fire({
             title: '¿Desea eliminar?',
             icon: 'warning',
@@ -1261,7 +1156,6 @@
                 });
             }
         });
-
     });
 
     $('#btnGenerar_OC').on('click', function () {
@@ -1352,7 +1246,6 @@
                                 text: data.MENSAJE.substring(7),
                                 showConfirmButton: true,
                                 willClose: () => {
-                                    //location.reload();
                                     VerDetalle(Id_OC, Id_Requi);
                                 }
                             });
@@ -1413,7 +1306,6 @@
                                 text: data.MENSAJE.substring(7),
                                 showConfirmButton: true,
                                 willClose: () => {
-                                    //location.reload();
                                     VerDetalle(Id_OC, Id_Requi);
                                 }
                             });

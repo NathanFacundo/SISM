@@ -11,6 +11,9 @@ namespace UanlSISM.Models
         public double PREUNIT_NUEVA { get; set; }
         public float TOTAL_NUEVA { get; set; }
         public bool CB_ELIMINAR { get; set; }
+
+        public float ST_IVA { get; set; }
+        public float IVA { get; set; }
     }
 
     public partial class SISM_DETALLE_OC
@@ -19,9 +22,5 @@ namespace UanlSISM.Models
         public double PREUNIT_NUEVA { get; set; }
         public float TOTAL_NUEVA { get; set; }
         public bool CB_ELIMINAR { get; set; }
-
-
-        public float ST_IVA { get; set; }
-        //public bool CB_IVA { get; set; }
     }
 }

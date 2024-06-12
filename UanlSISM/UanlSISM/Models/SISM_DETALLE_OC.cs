@@ -26,6 +26,8 @@ namespace UanlSISM.Models
         public Nullable<double> Total { get; set; }
         public string Descripcion { get; set; }
         public string ClaveMedicamento { get; set; }
+        public Nullable<double> Total_iva { get; set; }
+        public Nullable<double> iva { get; set; }
     
         public virtual SISM_ORDEN_COMPRA SISM_ORDEN_COMPRA { get; set; }
     }

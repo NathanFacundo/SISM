@@ -43,6 +43,7 @@ namespace UanlSISM.Models
         public string Usuario_AutorizaOC { get; set; }
         public Nullable<System.DateTime> Fecha_HacerOC { get; set; }
         public string Contrato { get; set; }
+        public Nullable<double> Total_OC_iva { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SISM_DETALLE_OC> SISM_DETALLE_OC { get; set; }
