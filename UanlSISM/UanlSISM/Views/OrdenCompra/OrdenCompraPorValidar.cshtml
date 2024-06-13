@@ -565,9 +565,18 @@
                     },
                     { "data": "iva", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
                     { "data": "STiva", className: "text-center", render: $.fn.dataTable.render.number(',', '.', 2, '$  ', ' ') },
+                    //{
+                    //    "data": null, render: function (data, type, row) {
+                    //        return '<button title="Eliminar Partida" id="BtnDeletePartida" class="btn btn-danger btn-sm fa fa-times" data-toggle="modal"></button>';
+                    //    }
+                    //}
                     {
                         "data": null, render: function (data, type, row) {
-                            return '<button title="Eliminar Partida" id="BtnDeletePartida" class="btn btn-danger btn-sm fa fa-times" data-toggle="modal"></button>';
+                            if (row.OC_PorValidar == "3" || row.OC_PorValidar == 3) {
+                                return '<button title="Eliminar Partida" id="BtnDeletePartida" class="btn btn-danger btn-sm fa fa-times" data-toggle="modal"></button>';
+                            } else {
+                                return '';
+                            }
                         }
                     }
                 ],
@@ -599,6 +608,11 @@
                 var row = $('#tblDetalleOC').DataTable().row(tr);
                 row.data().PREUNIT_NUEVA = $(this).val();
             });
+
+            //Nueva Cantidad (ya que el proveedor no trajo todas las pzas)
+
+
+
         })
 
     });
