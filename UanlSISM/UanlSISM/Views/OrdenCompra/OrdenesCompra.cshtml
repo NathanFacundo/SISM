@@ -658,16 +658,26 @@
                 method: 'POST',
                 dataType: 'json',
                 success: function (data) {
-                    if (data.MENSAJE.substring(0, 6) == "Error:") {
+                    //if (data.MENSAJE.substring(0, 6) == "Error:") {
+                    //    Swal.fire({
+                    //        icon: 'error',
+                    //        title: 'Oops... ¡Error!',
+                    //        text: data.MENSAJE.substring(7),
+                    //    });
+                    //}
+                    //else {
+                    //    LlenaTablaOC(data.OCS);
+                    //}
+
+                    if (data.MENSAJE) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops... ¡Error!',
                             text: data.MENSAJE.substring(7),
                         });
                     }
-                    else {
-                        LlenaTablaOC(data.OCS);
-                    }
+
+                    LlenaTablaOC(data);
                 },
                 error: function (ex) {
                     Swal.fire({

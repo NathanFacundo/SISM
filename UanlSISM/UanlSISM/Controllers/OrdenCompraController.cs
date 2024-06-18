@@ -877,8 +877,10 @@ namespace UanlSISM.Controllers
         {
             try
             {
+                //.Take(1000)
                 var query = (from a in Copia.SISM_ORDEN_COMPRA
                              join req in Copia.SISM_REQUISICION on a.Id_Requisicion equals req.Id_Requicision
+                             //orderby a.Fecha descending
                              select new
                              {
                                  a.Id,
@@ -913,7 +915,12 @@ namespace UanlSISM.Controllers
                     };
                     results1.Add(resultado);
                 }
-                return Json(new { MENSAJE = "FOUND", OCS = results1 }, JsonRequestBehavior.AllowGet);
+
+                var json = new JsonResult { Data = results1, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+                json.MaxJsonLength = 500000000;
+
+                //return Json(new { MENSAJE = "FOUND", OCS = json }, JsonRequestBehavior.AllowGet);
+                return json;
             }
             catch (Exception ex)
             {
@@ -2442,6 +2449,115 @@ namespace UanlSISM.Controllers
                 return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public JsonResult ActualizarCantPartidaOC_PV(int Id_OC, int Id_DetOc, int NuevaCantidad)
+        {
+            try
+            {
+                //Obtener OC y su Detalle de la Partida que se actualizará su Cantidad
+                var OC = (from a in Copia.SISM_ORDEN_COMPRA
+                          join DetOC in Copia.SISM_DETALLE_OC on a.Id equals DetOC.Id_OrdenCompra
+                          where a.Id == Id_OC
+                          where DetOC.Id == Id_DetOc
+                          select new
+                          {
+                              Id_OC = a.Id,
+                              Total_OC = a.Total_OC,
+                              FolioReq = a.Id_Requisicion,
+                              FolioOC = a.Clave,
+                              GTiva = a.Total_OC_iva,
+                              IdDet_OC = DetOC.Id,
+                              Sustancia_OC = DetOC.Id_Sustencia,
+                              SubTotal_OC = DetOC.Total,
+                              STiva = DetOC.Total_iva,
+                              Cant = DetOC.Cantidad,
+                              PU = DetOC.PreUnit
+                          }).FirstOrDefault();
+
+                //Obtener REQUI y su Detalle de la Partida que se actualizará su Cantidad
+                var REQUI = (from Requi in Copia.SISM_REQUISICION
+                             join DetRequi in Copia.SISM_DET_REQUISICION on Requi.Id_Requicision equals DetRequi.Id_Requicision
+                             where OC.Sustancia_OC == DetRequi.Id_Sustancia
+                             where Requi.Id_Requicision == OC.FolioReq
+                             select new
+                             {
+                                 Id_Requi = Requi.Id_Requicision,
+                                 Estatus_Requi = Requi.Estatus_OC_Parcial,
+                                 IdDet_Requi = DetRequi.Id_Detalle_Req,
+                                 Sustancia_DetReq = DetRequi.Id_Sustancia,
+                                 CantidadOC_DetReq = DetRequi.Cantidad_OC,
+                                 CanPendienteOC_DetReq = DetRequi.CantidadPendiente_OC,
+                                 PartidaPteOC_DetReq = DetRequi.PartidaPendiente_OC,
+                                 Cantidad = DetRequi.Cantidad
+                             }).FirstOrDefault();
+
+                //***Vaciar/Liberar Requi
+                
+                double result = (double)(NuevaCantidad * OC.PU);
+                string resultadoFormateado = result.ToString("N2");
+                var NuevoSubTotal = double.Parse(resultadoFormateado);
+
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Total = '" + NuevoSubTotal + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
+
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET Cantidad_OC = '" + NuevaCantidad + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
+
+                var NuevaCantPendienteReq = OC.Cant - NuevaCantidad;
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + NuevaCantPendienteReq + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
+
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + false + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Estatus_OC_Parcial = '" + "Parcial" + "' WHERE Id_Requicision='" + REQUI.Id_Requi + "';");
+
+                //***Recalculo de Subtotal (tbl DetalleOc) y Total (tbl OC) y actualizar Cantidad - BD 206
+
+                //Nueva cantidad tbl DetalleOc
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_DETALLE_OC SET Cantidad = '" + NuevaCantidad + "' WHERE Id= '" + Id_DetOc + "';");
+
+                //Subtotal tbl DetalleOc
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_DETALLE_OC SET Total = '" + NuevoSubTotal + "' WHERE Id= '" + Id_DetOc + "';");
+
+                //Recalculo GranTotal tbl OC
+                var detallesOC = Copia.SISM_DETALLE_OC
+                    .Where(d => d.Id_OrdenCompra == Id_OC)
+                    .ToList();
+
+                foreach (var item in detallesOC)
+                {
+                    SubTotal_OC_Det += Decimal.Round((decimal)(item.Total), 2);
+
+                    var NuevoGranTotal = (double?)SubTotal_OC_Det;
+                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Total_OC = '" + NuevoGranTotal + "' WHERE Id= '" + Id_OC + "';");
+                }
+
+                //***Actualizar Cantidad en tbl DetalleOc - BD Viejita 205
+                #region
+                //var OC_VIEJA = (from OC_V in RequisicionDB.OrdenCompra
+                //                where OC_V.clave == OC.FolioOC
+                //                select OC_V).FirstOrDefault();
+
+                //if (OC_VIEJA != null)
+                //{
+                //    //Si existe la oc en la bd viejita, ahora buscamos el detalle/partida en la tabla DetalleOc viejita
+                //    var Detalle = (from D in RequisicionDB.DetalleOC
+                //                   where D.Id_OrdenCompra == OC_VIEJA.Id
+                //                   where D.Id_Sustancia == OC.Sustancia_OC
+                //                   select D).FirstOrDefault();
+
+                //    if (Detalle != null)
+                //    {
+                //        RequisicionDB.Database.ExecuteSqlCommand("UPDATE DetalleOC SET Cantidad = '" + NuevaCantidad + "' WHERE Id= '" + Detalle.Id + "';");
+                //    }
+                //}
+                #endregion
+
+                return Json(new { MENSAJE = "Succe: Se actualizó la cantidad de la partida de la O.C" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
 
         //----------------------------------------------------------------------------------- Pantalla ORDENES COMPRA POR VALIDAR   --------------  FIN
 
