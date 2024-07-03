@@ -110,6 +110,7 @@
                     <th>Fecha<br /> Req.</th>
                     <th>Usuario<br /> Req.</th>
                     <th>Contrato<br /> Req.</th>
+                    <th>Tipo<br /> Req.</th>
                     <th>Estatus<br /> Compras</th>
                     <th>Ver Detalle<br /> Req.</th>
                     <th></th>
@@ -381,7 +382,7 @@
                 },
             },
             data: DetRequi,
-            "order": [[6, 'desc']],
+            "order": [[7, 'desc']],
             columns: [
                 { 'data': 'Clave', className: "text-center" },
                 { 'data': 'Fecha', className: "text-center" },
@@ -395,6 +396,7 @@
                         }
                     }
                 },
+                { 'data': 'TipoReq', className: "text-center" },
                 {
                     "data": "Estatus_OC", className: "text-center", render: function (data) {
                         if (data == null) {
@@ -418,7 +420,7 @@
                 { "data": "FechaRequisicion" }
             ],
             columnDefs: [
-                { "visible": false, "targets": 6 },
+                { "visible": false, "targets": 7 },
             ]
         });
     }

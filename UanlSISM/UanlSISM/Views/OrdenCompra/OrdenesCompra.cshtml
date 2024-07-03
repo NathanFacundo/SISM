@@ -107,6 +107,7 @@
                     <th>Elaboró<br />O.C</th>
                     <th>Estatus<br /> O.C</th>
                     <th>Folio<br /> Req.</th>
+                    <th>Tipo<br /> Req.</th>
                     <th>Fecha<br /> Req.</th>
                     <th>Contrato<br /> Req.</th>
                     <th>Detalle<br /> O.C</th>
@@ -618,6 +619,7 @@
                     }
                 },
                 { 'data': 'Id_Requisicion', className: "text-center" },
+                { 'data': 'TipoReq', className: "text-center" },
                 { 'data': 'Fecha1', className: "text-center" },
                 {
                     "data": "EstatusContrato", className: "text-center", render: function (data) {
@@ -645,7 +647,7 @@
                 { "data": "FechaRequisicion" }
             ],
             columnDefs: [
-                { "visible": false, "targets": 12 },
+                { "visible": false, "targets": 13 },
             ]
         });
     }

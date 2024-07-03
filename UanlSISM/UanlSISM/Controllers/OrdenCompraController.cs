@@ -83,6 +83,7 @@ namespace UanlSISM.Controllers
             public double? Total_OC_iva { get; internal set; }
             public double? STiva { get; internal set; }
             public double? iva { get; internal set; }
+            public string TipoReq { get; internal set; }
         }
 
         //----------------------------------------------------- Pantalla ORDEN COMPRA   --------------  INICIO
@@ -114,7 +115,8 @@ namespace UanlSISM.Controllers
                         EstatusContrato = q.EstatusContrato,
                         Id_User = q.Id_User,
                         Estatus_OC = q.Estatus_OC_Parcial,
-                        FechaRequisicion = string.Format("{0:yyyy/MM/dd HH:mm tt}", q.Fecha, new CultureInfo("es-ES"))
+                        FechaRequisicion = string.Format("{0:yyyy/MM/dd HH:mm tt}", q.Fecha, new CultureInfo("es-ES")),
+                        TipoReq = q.Clave
                     };
                     results1.Add(resultado);
                 }
@@ -461,7 +463,7 @@ namespace UanlSISM.Controllers
                 OC.Fecha = fechaDT;
                 OC.FechaMod = fechaDT;
                 OC.Forma_Pago = "";
-                OC.Folio = "";
+                OC.Folio = Requi.Clave;
                 OC.Status = false;
                 OC.UsuarioId = UsuarioOLD.UsuarioId;
                 OC.Cerrado = false;
@@ -635,7 +637,7 @@ namespace UanlSISM.Controllers
                 //OC1.Fecha = fechaDT;
                 //OC1.FechaMod = fechaDT;
                 //OC1.Forma_Pago = "";
-                //OC1.Folio = "";
+                //OC1.Folio = Requi.Clave;
                 //OC1.Status = false;
                 //OC1.UsuarioId = UsuarioOLD.UsuarioId;
                 //OC1.Cerrado = false;
@@ -841,7 +843,8 @@ namespace UanlSISM.Controllers
                                  Cont = req.EstatusContrato,
                                  a.OC_PorValidar,
                                  a.Fecha_HacerOC,
-                                 a.NombreProveedor
+                                 a.NombreProveedor,
+                                 TipoReq = a.Folio
                              }).ToList();
 
                 var results1 = new List<ListCampos>();
@@ -860,7 +863,8 @@ namespace UanlSISM.Controllers
                         Validar = q.OC_PorValidar,
                         FechaRequisicion = string.Format("{0:yyyy/M/d hh:mm tt}", q.Fecha, new CultureInfo("es-ES")),
                         Fecha_OC = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha_HacerOC),
-                        NombreProveedor = q.NombreProveedor
+                        NombreProveedor = q.NombreProveedor,
+                        TipoReq = q.TipoReq
                     };
                     results1.Add(resultado);
                 }
@@ -892,7 +896,8 @@ namespace UanlSISM.Controllers
                                  Cont = req.EstatusContrato,
                                  a.OC_PorValidar,
                                  a.Fecha_HacerOC,
-                                 a.NombreProveedor
+                                 a.NombreProveedor,
+                                 TipoReq = a.Folio
                              }).ToList();
 
                 var results1 = new List<ListCampos>();
@@ -911,7 +916,8 @@ namespace UanlSISM.Controllers
                         Validar = q.OC_PorValidar,
                         FechaRequisicion = string.Format("{0:yyyy/M/d hh:mm tt}", q.Fecha, new CultureInfo("es-ES")),
                         Fecha_OC = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha_HacerOC),
-                        NombreProveedor = q.NombreProveedor
+                        NombreProveedor = q.NombreProveedor,
+                        TipoReq = q.TipoReq
                     };
                     results1.Add(resultado);
                 }
@@ -1155,6 +1161,7 @@ namespace UanlSISM.Controllers
                     OC1.Status = true;
                     OC1.OC_PorValidar = "3";// el usuario de Compras puede Aprobarla/Generarla y el Status en BD cambia a True y OC_PorValidar puede cambiar a 3
                     OC1.Fecha_HacerOC = fechaDT;// Esta es la Fecha cuando Compras hace la OC una vez que la Autoriza Coordinacion
+                    OC1.Folio = OC.Folio;
 
                     if (NumContrato != null || NumContrato != "")
                     {

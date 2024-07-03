@@ -52,6 +52,7 @@ namespace UanlSISM.Controllers
             public string FechaRequisicion { get; set; }
             public string Id_User { get; set; }
             public string EstatusContrato { get; set; }
+            public string TipoReq { get; internal set; }
         }
 
         public class InvAlmFarm
@@ -209,7 +210,8 @@ namespace UanlSISM.Controllers
                         Fecha = string.Format("{0:d/M/yyyy HH:mm tt}", q.Fecha),
                         Id_User = q.Id_User,
                         EstatusContrato = q.EstatusContrato,
-                        FechaRequisicion = string.Format("{0:yyyy/MM/dd HH:mm tt}", q.Fecha, new CultureInfo("es-ES"))
+                        FechaRequisicion = string.Format("{0:yyyy/MM/dd HH:mm tt}", q.Fecha, new CultureInfo("es-ES")),
+                        TipoReq = q.Clave
                     };
                     results1.Add(resultado);
                 }
@@ -312,7 +314,7 @@ namespace UanlSISM.Controllers
         }
 
         [HttpPost]
-        public JsonResult GenerarRequisiciondirecta(List<SustanciaM> ListaSustanciasRequiDirecta, string StatusContrato)
+        public JsonResult GenerarRequisiciondirecta(List<SustanciaM> ListaSustanciasRequiDirecta, string StatusContrato, string TipoReq)
         {
             var UsuarioRegistra = User.Identity.GetUserName();
             var fecha = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
@@ -349,27 +351,6 @@ namespace UanlSISM.Controllers
 
                     var AñoMes_Actual = string.Format("{0:yyMM}", fechaDT);
                     var UltimoConsecutivo_Clave = Convert.ToInt32(ClaveID.clave.Substring(4));
-
-                    //var ConsecutivoNuevo = ((UltimoConsecutivo_Clave) + 1);
-
-                    //var ConsecutivoNuevoTxt = "";
-
-                    //if (ConsecutivoNuevo < 100)
-                    //{
-                    //    if (ConsecutivoNuevo < 9)
-                    //    {
-                    //        ConsecutivoNuevoTxt = "00" + ConsecutivoNuevo;
-                    //    }
-                    //    else
-                    //    {
-                    //        ConsecutivoNuevoTxt = "0" + ConsecutivoNuevo;
-                    //    }
-
-                    //}
-                    //else
-                    //{
-                    //    ConsecutivoNuevoTxt = "" + ConsecutivoNuevo;
-                    //}
 
                     var ConsecutivoNuevo = 0;
                     if (UltimoConsecutivo_Clave >= 999)
@@ -414,8 +395,8 @@ namespace UanlSISM.Controllers
                     Copia.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
 
                     //ACTUALIZAMOS EL ID DE LA REQUI PARA CONCATENARLA LA NOMENCLATURA Y ASÍ GUARDAR EL FOLIO
-                    //Copia.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC-" + IdRequi.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
-                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC-" + ff + "-" + IdRequi.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
+                    //Copia.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC-" + ff + "-" + IdRequi.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
+                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = '" + TipoReq + "' WHERE Id_Requicision='" + IdRequi.Id_Requicision + "';");
 
                     //Recorremos que lista que recibimos como parámetro para guardar el detalle en la Requi
                     foreach (var item in ListaSustanciasRequiDirecta)
@@ -511,7 +492,7 @@ namespace UanlSISM.Controllers
                     //                select a).OrderByDescending(u => u.Id_Requicision).FirstOrDefault();
 
                     //Copia_SM.Database.ExecuteSqlCommand("UPDATE Tbl_Requisicion SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequi1.Id_Requicision + "';");
-                    //Copia_SM.Database.ExecuteSqlCommand("UPDATE Tbl_Requisicion SET Clave = 'RAC-" + ff + "-" + IdRequi.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi1.Id_Requicision + "';");
+                    //Copia_SM.Database.ExecuteSqlCommand("UPDATE Tbl_Requisicion SET Clave = '" + TipoReq + "' WHERE Id_Requicision='" + IdRequi1.Id_Requicision + "';");
 
                     //foreach (var item in ListaSustanciasRequiDirecta)
                     //{
