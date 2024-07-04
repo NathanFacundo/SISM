@@ -526,7 +526,17 @@ namespace UanlSISM.Controllers
                     //Req.Id_Tipo = 2;
                     //Req.Fecha = fechaDT;
                     //Req.Status = true;
-                    //Req.cerrado = false;
+                    ////Req.cerrado = false;
+
+                    ////IDENTIFICAR TIPO REQUI EN LA TBL VIEJITA
+                    ////Si es Requi de Almacen la columna 'cerrado' seguirá siendo false
+                    //if (TipoReq == "RAC")
+                    //{
+                    //    Req.cerrado = false;
+                    //}else//Si es Requi de Farmacia será true
+                    //{
+                    //    Req.cerrado = true;
+                    //}
 
                     //Req.UserId = IdUsuarioCifrado;
 
