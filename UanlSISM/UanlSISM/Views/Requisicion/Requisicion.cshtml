@@ -206,57 +206,36 @@
                 </button>
             </div>
             <div class="modal-body imprimir-content">
-
                 <div class="row m-0 text-center pt-4">
-
                     <div class="col-2 m-auto imprimirUanl">
-                        <img src="~/Imagenes/uanl.png" style="width:100px; height:100px"/>
+                        <img src="~/Imagenes/uanl.png" style="width:100px; height:100px" />
                     </div>
-
                     <div class="col-8 m-auto imprimirTitulo">
                         <h5>UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</h5>
                         <div style="border: 0.5px solid rgb(217, 220, 217);"></div>
                         <h5>SERVICIOS MÉDICOS</h5>
                     </div>
-
                     <div class="col-2 m-auto imprimirLogo">
                         <img src="~/Imagenes/Servicios Medicos_Mesa de trabajo 1.png" style="width:130px; height:66px" /><br />
                     </div>
-
                 </div>
-
                 <div class="row" id="contenido">
                     <h5 class="text-center imprimirTitulo" style="color: blue; font-weight: bold; font-family: Roboto, Helvetica, Arial, sans-serif;">Requisición</h5>
                 </div>
                 <br />
-
                 <div class="row" id="imprimir">
                     <div class="col-md-9">
                         <button type="button" style="width:100%; background-color:rgba(0,74,143,1);" class="btn btn-success imprimir">Imprimir</button>
                     </div>
-
                     <div class="col-md-3">
-
-                        @*<button type="button" class="btn btn-success" id="btnExcel1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
-                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z" />
-                        </svg> Generar Excel
-                    </button>*@
-
                         <div>
                             <a class="btn btn-success text-white" id="Xcel2">Descargar Excel</a>
                         </div>
-
                     </div>
-
                 </div>
-
                 <div>
-
                     <table id="tblDetalleRequi" class="table table-striped table-hover">
-
                         <thead>
-
                             <tr>
                                 <th>
                                     <h10 style="color:green">Folio:  </h10><br />
@@ -276,7 +255,6 @@
                                     <a style="font-size: 13px" id="EstContrato"></a>
                                 </th>
                             </tr>
-
                             <tr>
                                 <th style="width:10px"></th>
                                 <th>Compendio</th>
@@ -285,16 +263,14 @@
                                 <th>Descripción</th>
                                 <th>Cant. Solicitada</th>
                             </tr>
-
                         </thead>
                         <tbody>
                         </tbody>
                     </table>
-
                 </div>
 
+                @*FIRMAS ALMACEN*@
                 <div class="row m-0 pt-2 text-center" id="pie" style=" border-collapse: collapse; border-spacing: 0;">
-
                     <table id="firmas" align="center" BORDER="1">
                         <tbody>
                             <tr>
@@ -337,10 +313,56 @@
                                     </strong>
                                 </td>
                             </tr>
-
                         </tbody>
                     </table>
+                </div>
 
+                @*FIRMAS FARMACIA*@
+                <div class="row m-0 pt-2 text-center" id="pie1" style=" border-collapse: collapse; border-spacing: 0;">
+                    <table id="firmas" align="center" BORDER="1">
+                        <tbody>
+                            <tr>
+                                <td align="center">
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <strong>
+                                        <a><em>Elaboró.</em></a><br />
+                                        <a id="UsRequi"></a>
+                                        <br />
+                                        <br />
+                                    </strong>
+                                </td>
+                                <td align="center">
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <strong>
+                                        <a><em>Farmacia.</em></a><br />
+                                        <a>Héctor Alejandro<br />Peralta Santoyo</a>
+                                    </strong>
+                                </td>
+                                <td align="center">
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <strong>
+                                        <a><em>Adquisiciones.</em></a><br />
+                                        <a>Marcela Valdez<br /> Flores</a><br />
+                                    </strong>
+                                </td>
+                                <td align="center">
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <strong>
+                                        <a><em>Dirección.</em></a><br />
+                                        <a>Raúl Gabino<br /> Salazar Montalvo</a>
+                                    </strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
             </div>
@@ -1026,6 +1048,18 @@
             }
 
             $('#UsRequi').html(response[0].Usuario);
+
+            //Al ver el detalle de la requi, consultamos si es requi de Almacen (RAC) o de Farmacia (RFC)
+            var TipoReq = response[0].TipoReq;
+            //Si es de Almacen mostramos las firmas de Almacen
+            if (TipoReq == 'RAC') {
+                $("#pie").show();//Firmas Almacen
+                $("#pie1").hide();//Firmas Farmacia
+            } else { //Si es de Farmacia mostramos las firmas de Farmacia
+                $("#pie").hide();//Firmas Almacen
+                $("#pie1").show();//Firmas Farmacia
+            }
+            
             LlenDetalle(response);
 
             //var hoy = new Date();

@@ -83,6 +83,7 @@ namespace UanlSISM.Controllers
             public string EstatusContrato { get; set; }
             public string Compendio { get; set; }
             public string DescripcionGrupo { get; set; }
+            public string TipoReq { get; internal set; }
         }
 
         //----------------------------------------------------- Pantalla REQUISICION   --------------  INICIO
@@ -249,7 +250,8 @@ namespace UanlSISM.Controllers
                                  a.Fecha,
                                  a.Id_User,
                                  EstatusContrato = a.EstatusContrato,
-                                 det.Compendio
+                                 det.Compendio,
+                                 TipoReq = a.Clave
                              }).ToList();
 
                 var results1 = new List<Detalle>();
@@ -297,7 +299,8 @@ namespace UanlSISM.Controllers
                             Fecha1 = string.Format("{0:d/M/yy hh:mm tt}", fechaDT),
                             EstatusContrato = q.EstatusContrato,
                             Compendio = q.Compendio,
-                            DescripcionGrupo = res22.DescripcionGrupo
+                            DescripcionGrupo = res22.DescripcionGrupo,
+                            TipoReq = q.TipoReq
                         };
                         results1.Add(resultado);
                     }
@@ -866,7 +869,7 @@ namespace UanlSISM.Controllers
                 Copia.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequisicion.Id_Requicision + "';");
 
                 //ACTUALIZAMOS LA CLAVE DE LA REQUI PARA CONCATENARLA LA NOMENCLATURA Y ASÍ GUARDAR EL FOLIO
-                Copia.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC-" + ff + "-" + IdRequisicion.Id_Requicision + "' WHERE Id_Requicision='" + IdRequisicion.Id_Requicision + "';");
+                Copia.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Clave = 'RAC' WHERE Id_Requicision='" + IdRequisicion.Id_Requicision + "';");
 
                 foreach (var item in ListaSustanciasBorrador)
                 {
@@ -976,7 +979,7 @@ namespace UanlSISM.Controllers
                                 select a).OrderByDescending(u => u.Id_Requicision).FirstOrDefault();
 
                 Copia_SM.Database.ExecuteSqlCommand("UPDATE Tbl_Requisicion SET claveOLD = '" + AñoMes_Actual + ConsecutivoNuevoTxt + "' WHERE Id_Requicision='" + IdRequi1.Id_Requicision + "';");
-                Copia_SM.Database.ExecuteSqlCommand("UPDATE Tbl_Requisicion SET Clave = 'RAC-" + ff + "-" + IdRequisicion.Id_Requicision + "' WHERE Id_Requicision='" + IdRequi1.Id_Requicision + "';");
+                Copia_SM.Database.ExecuteSqlCommand("UPDATE Tbl_Requisicion SET Clave = 'RAC' WHERE Id_Requicision='" + IdRequi1.Id_Requicision + "';");
 
                 foreach (var item in ListaSustanciasBorrador)
                 {
