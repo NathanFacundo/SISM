@@ -93,7 +93,9 @@
 
 <div class="btn-toolbar">
     <button type="button" class="btn btn-primary btn-space" onclick="NuevaRequi()">NUEVA REQUISICIÓN/BORRADOR</button>
-    <button type="button" class="btn btn-outline-primary" onclick="TablaBorradores()">BORRADORES ELABORADOS</button>
+    <button type="button" class="btn btn-outline-primary btn-space" onclick="TablaBorradores()">BORRADORES ELABORADOS</button>
+
+    <button type="button" class="btn btn-outline-primary" onclick="ReporteReq()">REPORTE REQUISICIONES</button>
 </div>
 
 <div>
@@ -1217,6 +1219,10 @@
     });
 
     //---------------------------------------------------------------------------------------------------------
+
+    function ReporteReq() {
+        window.location.href = '../Requisicion/ReporteRequisiciones'
+    }
 
 </script>
 

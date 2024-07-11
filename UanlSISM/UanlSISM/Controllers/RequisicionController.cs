@@ -1297,5 +1297,92 @@ namespace UanlSISM.Controllers
             }
         }
 
+        //REPORTE REQUISICIONES
+
+        [Authorize]
+        public ActionResult ReporteRequisiciones()
+        {
+            return View();
+        }
+
+        public class NuevosCampos
+        {
+            public string Folio { get; internal set; }
+            public string Fecha { get; internal set; }
+            public string EstatusOC { get; internal set; }
+            public string Contrato { get; internal set; }
+            public string Usuario { get; internal set; }
+            public string Tipo { get; internal set; }
+            public int? Cantidad { get; internal set; }
+            public int? CantidadPend { get; internal set; }
+            public string Clave { get; internal set; }
+            public string Descripcion { get; internal set; }
+        }
+
+        public ActionResult ObtenerReporteReq(string FechaInicio, string FechaFin, string TipoReq)
+        {
+            try
+            {
+                #region Fechas
+                var fechaI = FechaInicio + " 00:00:00";
+                var fechaIn = DateTime.Parse(fechaI);
+
+                var fechaF = FechaFin + " 23:59:59";
+                var fechaFi = DateTime.Parse(fechaF);
+                #endregion
+
+                var query = (from R in ConBD.SISM_REQUISICION
+                             join DR in ConBD.SISM_DET_REQUISICION on R.Id_Requicision equals DR.Id_Requicision
+                             where R.Fecha >= fechaIn
+                             where R.Fecha <= fechaFi
+                             where R.Clave.Contains(TipoReq)
+                             select new
+                             {
+                                 Folio = R.claveOLD,
+                                 Fecha = R.Fecha,
+                                 EstatusOC = R.Estatus_OC_Parcial,
+                                 Contrato = R.EstatusContrato,
+                                 Usuario = R.Id_User,
+                                 Tipo = R.Clave,
+                                 Cantidad = DR.Cantidad,
+                                 CantidadPend = DR.CantidadPendiente_OC,
+                                 Clave = DR.Clave,
+                                 Descripcion = DR.Descripcion
+                             }).ToList();
+
+                var results1 = new List<NuevosCampos>();
+
+                foreach (var q in query)
+                {
+                    var resultado = new NuevosCampos
+                    {
+                        Folio = q.Folio,
+                        Fecha = string.Format("{0:dd/MM/yyyy hh:mm tt}", q.Fecha),
+                        EstatusOC = q.EstatusOC,
+                        Contrato = q.Contrato,
+                        Usuario = q.Usuario,
+                        Tipo = q.Tipo,
+                        Cantidad = q.Cantidad,
+                        CantidadPend = q.CantidadPend,
+                        Clave = q.Clave,
+                        Descripcion = q.Descripcion
+                    };
+                    results1.Add(resultado);
+                }
+
+                var json = new JsonResult { Data = results1, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+                json.MaxJsonLength = 500000000;
+
+                return json;
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+
+
     }
 }
