@@ -2481,6 +2481,21 @@ namespace UanlSISM.Controllers
                               PU = DetOC.PreUnit
                           }).FirstOrDefault();
 
+                //Obtener OC y DetOC de la tabla viejita para actualizar la 'cantidad pendiente'
+                var OC_TBL_VIEJA = (from orden in RequisicionDB.OrdenCompra
+                                    where orden.clave == OC.FolioOC
+                                    select orden).FirstOrDefault();
+
+                if (OC_TBL_VIEJA != null)
+                {
+                    var OC_TBL_VIEJA_DETALLE = (from D in RequisicionDB.DetalleOC
+                                                where D.Id_OrdenCompra == OC_TBL_VIEJA.Id
+                                                where D.Id_Sustancia == OC.Sustancia_OC
+                                                select D).FirstOrDefault();
+
+                    RequisicionDB.Database.ExecuteSqlCommand("UPDATE DetalleOC SET Pendiente = '" + 0 + "' WHERE Id='" + OC_TBL_VIEJA_DETALLE.Id + "';");
+                }
+
                 //Obtener REQUI y su Detalle de la Partida que se actualizará su Cantidad
                 var REQUI = (from Requi in Copia.SISM_REQUISICION
                              join DetRequi in Copia.SISM_DET_REQUISICION on Requi.Id_Requicision equals DetRequi.Id_Requicision
@@ -2510,8 +2525,9 @@ namespace UanlSISM.Controllers
 
                 var NuevaCantPendienteReq = OC.Cant - NuevaCantidad;
                 Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET CantidadPendiente_OC = '" + NuevaCantPendienteReq + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
-
+                
                 Copia.Database.ExecuteSqlCommand("UPDATE SISM_DET_REQUISICION SET PartidaPendiente_OC = '" + false + "' WHERE Id_Detalle_Req='" + REQUI.IdDet_Requi + "';");
+                
                 Copia.Database.ExecuteSqlCommand("UPDATE SISM_REQUISICION SET Estatus_OC_Parcial = '" + "Parcial" + "' WHERE Id_Requicision='" + REQUI.Id_Requi + "';");
 
                 //***Recalculo de Subtotal (tbl DetalleOc) y Total (tbl OC) y actualizar Cantidad - BD 206
