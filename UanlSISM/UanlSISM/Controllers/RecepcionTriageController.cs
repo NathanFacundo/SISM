@@ -866,6 +866,97 @@ namespace UanlSISM.Controllers
 
             var results = new List<ListCitasCU>();
 
+            //foreach (var item in query)
+            //{
+            //    var color = "";
+            //    var color2 = "";
+            //    var estatus = "";
+            //    var hora = "";
+            //    var consulta = "";
+
+            //    var medico_info = (from a in db.MEDICOS
+            //                       where a.Numero == item.MedicoLlama
+            //                       select a).FirstOrDefault();
+
+            //    var ip_consultorio = (from a in db0.INVENTARIO
+            //                          where a.DIRECCION_IP == item.ip_realizaMedico
+            //                          select a).FirstOrDefault();
+
+            //    var consultorio = "";
+            //    //if (ip_consultorio.num_cons == null)
+            //    //{
+            //    //    consultorio = "'sin número de consultorio'";
+            //    //}
+            //    //else
+            //    //{
+            //    //    consultorio = ip_consultorio.num_cons;
+            //    //}
+
+            //    if (ip_consultorio == null)
+            //    {
+            //        consultorio = "'sin número de consultorio'";
+            //    }
+            //    else
+            //    {
+            //        if (ip_consultorio.num_cons == null)
+            //        {
+            //            consultorio = "'sin número de consultorio'";
+            //        }
+            //        else
+            //        {
+            //            consultorio = ip_consultorio.num_cons;
+            //        }
+            //    }
+
+            //    if (medico_info == null)
+            //    {
+            //        //color = "#FBC43D";
+            //        if (item.ColorConsulta == "Rojo")
+            //            color = "#FF0000";
+            //        if (item.ColorConsulta == "Naranja")
+            //            color = "#FF5733";
+            //        if (item.ColorConsulta == "Amarrillo")
+            //            color = "#E1BB0F";
+            //        if (item.ColorConsulta == "Verde")
+            //            color = "#008000";
+            //        if (item.ColorConsulta == "Azul")
+            //            color = "#0000FF";
+
+            //        color2 = "#F5EDD9";
+            //        estatus = "EN ESPERA";
+            //        var fe = string.Format("{0:HH:mm:ss}", item.Fecha);
+            //        hora = "Hora de recepción: " + fe + "";
+            //        consulta = "";
+            //    }
+            //    else
+            //    {
+            //        //color = "green";
+            //        if (item.ColorConsulta == "Rojo")
+            //            color = "#FF0000";
+            //        if (item.ColorConsulta == "Naranja")
+            //            color = "#FF5733";
+            //        if (item.ColorConsulta == "Amarrillo")
+            //            color = "#E1BB0F";
+            //        if (item.ColorConsulta == "Verde")
+            //            color = "#008000";
+            //        if (item.ColorConsulta == "Azul")
+            //            color = "#0000FF";
+
+            //        color2 = "#ABE3AB";
+            //        estatus = "PASAR AL CONSULTORIO " + consultorio;
+            //        var fe1 = string.Format("{0:HH:mm:ss}", item.FechaLlamado);
+            //        hora = "Hora de llamado: " + fe1 + "";
+            //        consulta = "Médico: " + medico_info.Nombre + " " + medico_info.Apaterno;
+            //    }
+
+            //    var result = new ListCitasCU
+            //    {
+            //        info = item.NombrePaciente + "*" + hora + "*" + color + "*" + color2 + "*" + estatus + "*" + consulta,
+            //        //hora_recepcion = item.Fecha.ToString(),
+            //    };
+            //    results.Add(result);
+            //}
+
             foreach (var item in query)
             {
                 var color = "";
@@ -873,32 +964,20 @@ namespace UanlSISM.Controllers
                 var estatus = "";
                 var hora = "";
                 var consulta = "";
+                var consultorio = "";
 
                 var medico_info = (from a in db.MEDICOS
                                    where a.Numero == item.MedicoLlama
                                    select a).FirstOrDefault();
 
-                var ip_consultorio = (from a in db0.INVENTARIO
-                                      where a.DIRECCION_IP == item.ip_realizaMedico
-                                      select a).FirstOrDefault();
-
-                var consultorio = "";
-                //if (ip_consultorio.num_cons == null)
-                //{
-                //    consultorio = "'sin número de consultorio'";
-                //}
-                //else
-                //{
-                //    consultorio = ip_consultorio.num_cons;
-                //}
-
-                if (ip_consultorio == null)
+                // Manejo de posibles errores al consultar la base de datos db0.INVENTARIO
+                try
                 {
-                    consultorio = "'sin número de consultorio'";
-                }
-                else
-                {
-                    if(ip_consultorio.num_cons == null)
+                    var ip_consultorio = (from a in db0.INVENTARIO
+                                          where a.DIRECCION_IP == item.ip_realizaMedico
+                                          select a).FirstOrDefault();
+
+                    if (ip_consultorio == null || ip_consultorio.num_cons == null)
                     {
                         consultorio = "'sin número de consultorio'";
                     }
@@ -906,6 +985,14 @@ namespace UanlSISM.Controllers
                     {
                         consultorio = ip_consultorio.num_cons;
                     }
+                }
+                catch (Exception ex)
+                {
+                    // Manejar el error de conexión aquí (por ejemplo, registrarlo en un log)
+                    // y establecer un valor por defecto para consultorio
+                    consultorio = "'sin número de consultorio'";
+                    // Puedes también loguear el error si tienes un sistema de logging:
+                    // Log.Error("Error al consultar INVENTARIO: ", ex);
                 }
 
                 if (medico_info == null)
@@ -915,7 +1002,7 @@ namespace UanlSISM.Controllers
                         color = "#FF0000";
                     if (item.ColorConsulta == "Naranja")
                         color = "#FF5733";
-                    if (item.ColorConsulta == "Amarrillo")
+                    if (item.ColorConsulta == "Amarillo")
                         color = "#E1BB0F";
                     if (item.ColorConsulta == "Verde")
                         color = "#008000";
@@ -935,7 +1022,7 @@ namespace UanlSISM.Controllers
                         color = "#FF0000";
                     if (item.ColorConsulta == "Naranja")
                         color = "#FF5733";
-                    if (item.ColorConsulta == "Amarrillo")
+                    if (item.ColorConsulta == "Amarillo")
                         color = "#E1BB0F";
                     if (item.ColorConsulta == "Verde")
                         color = "#008000";
@@ -951,11 +1038,13 @@ namespace UanlSISM.Controllers
 
                 var result = new ListCitasCU
                 {
-                    info = item.NombrePaciente + "*" + hora + "*" + color + "*" + color2 + "*" + estatus  + "*" + consulta,
+                    info = item.NombrePaciente + "*" + hora + "*" + color + "*" + color2 + "*" + estatus + "*" + consulta,
                     //hora_recepcion = item.Fecha.ToString(),
                 };
                 results.Add(result);
             }
+
+
             return new JsonResult { Data = results, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
