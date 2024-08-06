@@ -60,9 +60,9 @@
         margin-right: 5px;
     }
 
-    table.dataTable {
+    /*table.dataTable {
         width: 100% !important;
-    }
+    }*/
 
     #NuevaRequiModal .modal-dialog {
         height: 100vh;
@@ -85,36 +85,51 @@
         margin: 0;
     }
 
+    /*#example_filter label input {
+        display: none;
+    }*/
+
 </style>
 
-<div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
-    <img src="~/Imagenes/Servicios Medicos_Mesa de trabajo 1.png" class="uanl-logo" />
-</div>
 
-<div class="btn-toolbar">
-    <button type="button" class="btn btn-primary btn-space" onclick="NuevaRequi()">NUEVA REQUISICIÓN/BORRADOR</button>
-    <button type="button" class="btn btn-outline-primary btn-space" onclick="TablaBorradores()">BORRADORES ELABORADOS</button>
-
-    <button type="button" class="btn btn-outline-primary" onclick="ReporteReq()">REPORTE REQUISICIONES</button>
-</div>
 
 <div>
-    <table class="table table-striped table-hover" id="example">
-        <thead>
 
-            <tr>
-                <th>Folio</th>
-                <th>Fecha</th>
-                <th>Usuario Elaboró</th>
-                <th>Estatus Contrato</th>
-                <th>Tipo Req.</th>
-                <th>Detalle</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+    <div>
+        <div class="col-md-12 text-center m-auto pl-3 pr-3 pt-1 pb-0 inputBarcode" id="msform">
+            <img src="~/Imagenes/Servicios Medicos_Mesa de trabajo 1.png" class="uanl-logo" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="btn-toolbar">
+            <button type="button" class="btn btn-primary btn-space" onclick="NuevaRequi()">NUEVA REQUISICIÓN/BORRADOR</button>
+            <button type="button" class="btn btn-outline-primary btn-space" onclick="TablaBorradores()">BORRADORES ELABORADOS</button>
+
+            <button type="button" class="btn btn-outline-primary" onclick="ReporteReq()">REPORTE REQUISICIONES</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <table class="table table-striped table-hover" id="example">
+            <thead>
+                <tr>
+                    <th>Folio</th>
+                    <th>Fecha</th>
+                    <th>Usuario Elaboró</th>
+                    <th>Estatus Contrato</th>
+                    <th>Tipo Req.</th>
+                    <th>Estatus OC.</th>
+                    <th>Editar</th>
+                    <th>Detalle</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
 </div>
 
 <div class="modal fade" id="NuevaRequiModal" tabindex="-1" role="dialog" aria-labelledby="NuevaRequiModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -372,6 +387,48 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="EditarRequiModal" tabindex="-1" role="dialog" aria-labelledby="EditarRequiModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <table id="tblEditarRequi" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th colspan="4">
+                                    <h10 style="color:green">Folio:  </h10><br />
+                                    <a style="font-size:13px" id="NoRequiEditar"></a>
+                                </th>
+                                <th colspan="3">
+                                    <h10 style="color:green">Fecha: </h10><br />
+                                    <a style="font-size:13px" id="FechaRequiEditar"></a>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="width:10px"></th>
+                                <th>Compendio</th>
+                                <th>Clave Med.</th>
+                                <th>Grupo</th>
+                                <th>Descripción</th>
+                                <th>Cant. Solicitada</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src='https://code.jquery.com/jquery-3.5.1.js'></script>
 <script type="text/javascript" src="~/Scripts/2023/jquery-3.5.1.js"></script>
 
@@ -452,64 +509,64 @@
         //    }
         //});
 
-        $('#example thead tr')
-            .clone(true)
-            .addClass('filters')
-            .appendTo('#example thead');
+        //$('#example thead tr')
+        //    .clone(true)
+        //    .addClass('filters')
+        //    .appendTo('#example thead');
 
-        var table = $('#example').DataTable({
-            orderCellsTop: true,
-            fixedHeader: true,
-            initComplete: function () {
-                var api = this.api();
+        //var table = $('#example').DataTable({
+        //    orderCellsTop: true,
+        //    fixedHeader: true,
+        //    initComplete: function () {
+        //        var api = this.api();
 
-                // For each column
-                api
-                    .columns()
-                    .eq(0)
-                    .each(function (colIdx) {
-                        // Set the header cell to contain the input element
-                        var cell = $('.filters th').eq(
-                            $(api.column(colIdx).header()).index()
-                        );
-                        var title = $(cell).text();
-                        $(cell).html('<input type="text" placeholder="' + title + '" />');
+        //        // For each column
+        //        api
+        //            .columns()
+        //            .eq(0)
+        //            .each(function (colIdx) {
+        //                // Set the header cell to contain the input element
+        //                var cell = $('.filters th').eq(
+        //                    $(api.column(colIdx).header()).index()
+        //                );
+        //                var title = $(cell).text();
+        //                $(cell).html('<input type="text" placeholder="' + title + '" />');
 
-                        // On every keypress in this input
-                        $(
-                            'input',
-                            $('.filters th').eq($(api.column(colIdx).header()).index())
-                        )
-                            .off('keyup change')
-                            .on('change', function (e) {
-                                // Get the search value
-                                $(this).attr('title', $(this).val());
-                                var regexr = '({search})'; //$(this).parents('th').find('select').val();
+        //                // On every keypress in this input
+        //                $(
+        //                    'input',
+        //                    $('.filters th').eq($(api.column(colIdx).header()).index())
+        //                )
+        //                    .off('keyup change')
+        //                    .on('change', function (e) {
+        //                        // Get the search value
+        //                        $(this).attr('title', $(this).val());
+        //                        var regexr = '({search})'; //$(this).parents('th').find('select').val();
 
-                                var cursorPosition = this.selectionStart;
-                                // Search the column for that value
-                                api
-                                    .column(colIdx)
-                                    .search(
-                                        this.value != ''
-                                            ? regexr.replace('{search}', '(((' + this.value + ')))')
-                                            : '',
-                                        this.value != '',
-                                        this.value == ''
-                                    )
-                                    .draw();
-                            })
-                            .on('keyup', function (e) {
-                                e.stopPropagation();
+        //                        var cursorPosition = this.selectionStart;
+        //                        // Search the column for that value
+        //                        api
+        //                            .column(colIdx)
+        //                            .search(
+        //                                this.value != ''
+        //                                    ? regexr.replace('{search}', '(((' + this.value + ')))')
+        //                                    : '',
+        //                                this.value != '',
+        //                                this.value == ''
+        //                            )
+        //                            .draw();
+        //                    })
+        //                    .on('keyup', function (e) {
+        //                        e.stopPropagation();
 
-                                $(this).trigger('change');
-                                $(this)
-                                    .focus()[0]
-                                    .setSelectionRange(cursorPosition, cursorPosition);
-                            });
-                    });
-            },
-        });
+        //                        $(this).trigger('change');
+        //                        $(this)
+        //                            .focus()[0]
+        //                            .setSelectionRange(cursorPosition, cursorPosition);
+        //                    });
+        //            });
+        //    },
+        //});
 
         $('#tblGenerarRequi2').DataTable({
             responsive: true,
@@ -923,7 +980,7 @@
             lengthChange: false,
             language: {
                 "zeroRecords": " ",
-                "search": "",
+                "search": "Buscar",
                 "info": "_TOTAL_  Requisiciones",
                 "infoEmpty": "",
                 "paginate": {
@@ -937,7 +994,7 @@
                 },
             },
             data: ListaRequis,
-            "order": [[6, 'desc']],
+            "order": [[8, 'desc']],
             columns: [
                 { 'data': 'Clave', className: "text-center" },
                 { 'data': 'Fecha', className: "text-center" },
@@ -954,6 +1011,28 @@
                 },
                 { 'data': 'TipoReq', className: "text-center" },
                 {
+                    "data": "EstatusOC", className: "text-center", render: function (data) {
+                        if (data == null) {
+                            return '<h8 style="color:white; background-color:red; font-family:Arial; font-size:14px">' + "PENDIENTE" + '</h8>';
+                        }
+                        if (data == "Parcial") {
+                            return '<h8 style="color:black; background-color:yellow; font-family:Arial; font-size:14px">' + "PARCIAL" + '</h8>';
+                        }
+                        if (data == "Completa") {
+                            return '<h8 style="color:white; background-color:green; font-family:Arial; font-size:14px">' + "COMPLETA" + '</h8>';
+                        }
+                    }
+                },
+                {
+                    "data": null, className: "text-center", render: function (data, type, row) {
+                        if (row.EstatusOC == null || row.EstatusOC == "PENDIENTE") {
+                            return '<button title="Editar Requisición" id="BtnEditarReq" class="btn btn-info btn-sm fa fa-pencil" data-toggle="modal"></button>';
+                        } else {
+                            return '';
+                        }
+                    }
+                },
+                {
                     "className": 'text-center',
                     "orderable": false,
                     "data": null,
@@ -963,59 +1042,59 @@
                 { "data": "FechaRequisicion" }
             ],
             columnDefs: [
-                { "visible": false, "targets": 6 },
+                { "visible": false, "targets": 8 },
             ],
-            orderCellsTop: true,
-            fixedHeader: true,
-            initComplete: function () {
-                var api = this.api();
+            //orderCellsTop: true,
+            //fixedHeader: true,
+            //initComplete: function () {
+            //    var api = this.api();
 
-                // For each column
-                api
-                    .columns()
-                    .eq(0)
-                    .each(function (colIdx) {
-                        // Set the header cell to contain the input element
-                        var cell = $('.filters th').eq(
-                            $(api.column(colIdx).header()).index()
-                        );
-                        var title = $(cell).text();
-                        $(cell).html('<input type="text" placeholder="' + title + '" />');
+            //    // For each column
+            //    api
+            //        .columns()
+            //        .eq(0)
+            //        .each(function (colIdx) {
+            //            // Set the header cell to contain the input element
+            //            var cell = $('.filters th').eq(
+            //                $(api.column(colIdx).header()).index()
+            //            );
+            //            var title = $(cell).text();
+            //            $(cell).html('<input type="text" placeholder="' + title + '" />');
 
-                        // On every keypress in this input
-                        $(
-                            'input',
-                            $('.filters th').eq($(api.column(colIdx).header()).index())
-                        )
-                            .off('keyup change')
-                            .on('change', function (e) {
-                                // Get the search value
-                                $(this).attr('title', $(this).val());
-                                var regexr = '({search})'; //$(this).parents('th').find('select').val();
+            //            // On every keypress in this input
+            //            $(
+            //                'input',
+            //                $('.filters th').eq($(api.column(colIdx).header()).index())
+            //            )
+            //                .off('keyup change')
+            //                .on('change', function (e) {
+            //                    // Get the search value
+            //                    $(this).attr('title', $(this).val());
+            //                    var regexr = '({search})'; //$(this).parents('th').find('select').val();
 
-                                var cursorPosition = this.selectionStart;
-                                // Search the column for that value
-                                api
-                                    .column(colIdx)
-                                    .search(
-                                        this.value != ''
-                                            ? regexr.replace('{search}', '(((' + this.value + ')))')
-                                            : '',
-                                        this.value != '',
-                                        this.value == ''
-                                    )
-                                    .draw();
-                            })
-                            .on('keyup', function (e) {
-                                e.stopPropagation();
+            //                    var cursorPosition = this.selectionStart;
+            //                    // Search the column for that value
+            //                    api
+            //                        .column(colIdx)
+            //                        .search(
+            //                            this.value != ''
+            //                                ? regexr.replace('{search}', '(((' + this.value + ')))')
+            //                                : '',
+            //                            this.value != '',
+            //                            this.value == ''
+            //                        )
+            //                        .draw();
+            //                })
+            //                .on('keyup', function (e) {
+            //                    e.stopPropagation();
 
-                                $(this).trigger('change');
-                                $(this)
-                                    .focus()[0]
-                                    .setSelectionRange(cursorPosition, cursorPosition);
-                            });
-                    });
-            },
+            //                    $(this).trigger('change');
+            //                    $(this)
+            //                        .focus()[0]
+            //                        .setSelectionRange(cursorPosition, cursorPosition);
+            //                });
+            //        });
+            //},
 
 
         });
@@ -1061,7 +1140,7 @@
                 $("#pie").hide();//Firmas Almacen
                 $("#pie1").show();//Firmas Farmacia
             }
-            
+
             LlenDetalle(response);
 
             //var hoy = new Date();
@@ -1134,6 +1213,152 @@
     });
 
     $('#DetalleRequiModal').on('hidden.bs.modal', function () {
+        location.reload();
+    })
+
+    //Eliminar Partida Requi - DETALLE
+    $('#example tbody').on('click', '#BtnEditarReq', function () {
+        var tr = $(this).closest('tr');
+        var row = $('#example').DataTable().row(tr);
+        var Id = row.data().Id_Requisicion;
+
+        $('#EditarRequiModal').modal("show");
+
+        ObtenerDetalleRequi(Id);
+    });
+
+    //Eliminar Partida Requi - DETALLE
+    function ObtenerDetalleRequi(Id) {
+        var array = { Id_Requi: Id };
+        var url = '@Url.Action("ObtenerDetalleRequi", "Requisicion")';
+        $.post(url, array).done(function (response) {
+            $('#NoRequiEditar').html(response[0].Folio);
+            $('#FechaRequiEditar').html(response[0].Fecha);
+
+            LlenEditar(response);
+
+        }).fail(function (response) {
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+            });
+        });
+    }
+
+    //Eliminar Partida Requi - DETALLE
+    function LlenEditar(Lista) {
+        var t = $('#tblEditarRequi').DataTable({
+            destroy: true,
+            searching: false,
+            responsive: true,
+            lengthChange: false,
+            paging: false,
+            data: Lista,
+            "order": [[2, 'asc']],
+            language: {
+                "zeroRecords": " ",
+                "search": "",
+                "info": " _TOTAL_ Medicamentos",
+                "infoEmpty": "",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior",
+                },
+                "select": {
+                    "rows": " %d filas seleccionadas"
+                },
+            },
+            columns: [
+                { "data": "Compendio", className: "text-center" },
+                { "data": "Compendio", className: "text-center", render: function (data) { return (data == null ? '<h8 style="color:black; ">' + "SIN COMPENDIO" + '</h8>' : '<a>' + data + '</a>'); } },
+                { "data": "Clave", className: "text-center" },
+                { "data": "DescripcionGrupo", className: "text-center" },
+                { "data": "Descripcion", className: "text-center" },
+                { "data": "Cantidad", className: "text-center" },
+                {
+                    "className": 'text-center',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": '<button title="Eliminar Partida" id="EliminarPartidaReq" class="btn btn-danger fa fa-times" data-toggle="modal" ></button>',
+                    "target": -2
+                },
+            ],
+            columnDefs: [
+                {
+                    searchable: false,
+                    orderable: false,
+                    targets: 0,
+                },
+            ],
+        });
+        t.on('order.dt search.dt', function () {
+            let i = 1;
+
+            t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                this.data(i++);
+            });
+        }).draw();
+    }
+
+    //Eliminar Partida Requi - ELIMINAR
+    $('#tblEditarRequi tbody').on('click', '#EliminarPartidaReq', function () {
+        var tr = $(this).closest('tr');
+        var row = $('#tblEditarRequi').DataTable().row(tr);
+        var Folio = row.data().Folio;
+        var Clave = row.data().Clave;
+        var IdReq = row.data().IdReq;
+
+        Swal.fire({
+            title: '¿Desea eliminar la partida?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                $.ajax({
+                    url: '@Url.Action("EliminarPartidaReq", "Requisicion")',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: { Folio: Folio, Clave: Clave },
+                    success: function (data) {
+                        if (data.MENSAJE.substring(0, 6) == "Succe:") {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '¡Éxito!',
+                                text: data.MENSAJE.substring(7),
+                                willClose: () => {
+                                    //location.reload();
+                                    ObtenerDetalleRequi(IdReq);
+                                }
+                            });
+                        }
+                        if (data.MENSAJE.substring(0, 6) == "Error:") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops... ¡Error!',
+                                text: data.MENSAJE.substring(7),
+                            });
+                        }
+                    },
+                    error: function (ex) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '¡Error!',
+                        });
+                    }
+                });
+
+            }
+        });
+    });
+
+    $('#EditarRequiModal').on('hidden.bs.modal', function () {
         location.reload();
     })
 

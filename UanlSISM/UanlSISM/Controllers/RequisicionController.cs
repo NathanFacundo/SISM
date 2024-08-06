@@ -53,6 +53,7 @@ namespace UanlSISM.Controllers
             public string Id_User { get; set; }
             public string EstatusContrato { get; set; }
             public string TipoReq { get; internal set; }
+            public string EstatusOC { get; internal set; }
         }
 
         public class InvAlmFarm
@@ -84,6 +85,7 @@ namespace UanlSISM.Controllers
             public string Compendio { get; set; }
             public string DescripcionGrupo { get; set; }
             public string TipoReq { get; internal set; }
+            public int IdReq { get; internal set; }
         }
 
         //----------------------------------------------------- Pantalla REQUISICION   --------------  INICIO
@@ -212,7 +214,8 @@ namespace UanlSISM.Controllers
                         Id_User = q.Id_User,
                         EstatusContrato = q.EstatusContrato,
                         FechaRequisicion = string.Format("{0:yyyy/MM/dd HH:mm tt}", q.Fecha, new CultureInfo("es-ES")),
-                        TipoReq = q.Clave
+                        TipoReq = q.Clave,
+                        EstatusOC = q.Estatus_OC_Parcial
                     };
                     results1.Add(resultado);
                 }
@@ -251,7 +254,8 @@ namespace UanlSISM.Controllers
                                  a.Id_User,
                                  EstatusContrato = a.EstatusContrato,
                                  det.Compendio,
-                                 TipoReq = a.Clave
+                                 TipoReq = a.Clave,
+                                 IdReq = a.Id_Requicision
                              }).ToList();
 
                 var results1 = new List<Detalle>();
@@ -300,7 +304,8 @@ namespace UanlSISM.Controllers
                             EstatusContrato = q.EstatusContrato,
                             Compendio = q.Compendio,
                             DescripcionGrupo = res22.DescripcionGrupo,
-                            TipoReq = q.TipoReq
+                            TipoReq = q.TipoReq,
+                            IdReq = q.IdReq
                         };
                         results1.Add(resultado);
                     }
@@ -647,6 +652,96 @@ namespace UanlSISM.Controllers
 
             return Json(new { SUSTANCIAS = medicamentos }, JsonRequestBehavior.AllowGet);
         }
+
+
+        public JsonResult EliminarPartidaReq(string Folio, string Clave)
+        {
+            try
+            {
+                //Buscar el detalle en la Requi que se quiere eliminar
+                var query = (from a in Copia.SISM_REQUISICION
+                             join det in Copia.SISM_DET_REQUISICION on a.Id_Requicision equals det.Id_Requicision
+                             where a.claveOLD == Folio
+                             where det.Clave == Clave
+                             select new
+                             {
+                                 det.Clave,
+                                 det.Descripcion,
+                                 det.Cantidad,
+                                 Folio = a.claveOLD,
+                                 a.Fecha,
+                                 a.Id_User,
+                                 TipoReq = a.Clave,
+                                 IdDet = det.Id_Detalle_Req,
+                                 IdSus = det.Id_Sustancia
+                             }).FirstOrDefault();
+
+                #region NUEVA BD SERVMED 205
+                //DE MOMENTO NO ELIMINAMOS DE AQUÍ PARA TENER RESPALDO
+
+                //var Req_Nueva = (from a in Copia_SM.Tbl_Requisicion
+                //                 join det in Copia_SM.Tbl_DetalleRequi on a.Id_Requicision equals det.Id_Requicision
+                //                 where a.claveOLD == Folio
+                //                 where det.Clave == Clave
+                //                 select new
+                //                 {
+                //                     det.Clave,
+                //                     det.Descripcion,
+                //                     det.Cantidad,
+                //                     Folio = a.claveOLD,
+                //                     a.Fecha,
+                //                     a.Id_User,
+                //                     TipoReq = a.Clave,
+                //                     IdDet = det.Id_Detalle_Req,
+                //                     IdSus = det.Id_Sustancia
+                //                 }).FirstOrDefault();
+
+                ////Si exite el detalle lo eliminamos *BD 205 Tbl Nueva*
+                //if (Req_Nueva != null)
+                //{
+                //    Copia_SM.Database.ExecuteSqlCommand("DELETE FROM Tbl_DetalleRequi WHERE Id_Detalle_Req= '" + Req_Nueva.IdDet + "';");
+                //}
+
+                #endregion
+
+                #region   BASE DE DATOS VIEJA 205
+
+                var Req_Vieja = (from a in RequisicionDB.Requisicion
+                                 join det in RequisicionDB.DetalleReq on a.id equals det.Id_Requisicion
+                                 where a.clave == Folio
+                                 where det.Id_Sustancia == query.IdSus
+                                 select new
+                                 {
+                                     det.C_Solicitada,
+                                     Folio = a.clave,
+                                     a.Fecha,
+                                     a.Id_Usuario,
+                                     IdDet = det.Id,
+                                     IdSus = det.Id_Sustancia
+                                 }).FirstOrDefault();
+
+                //Si exite el detalle lo eliminamos *BD 205 Tbl Nueva*
+                if (Req_Vieja != null)
+                {
+                    RequisicionDB.Database.ExecuteSqlCommand("DELETE FROM DetalleReq WHERE Id= '" + Req_Vieja.IdDet + "';");
+                }
+
+                #endregion
+
+                //Si exite el detalle lo eliminamos *BD 206*
+                if (query != null)
+                {
+                    Copia.Database.ExecuteSqlCommand("DELETE FROM SISM_DET_REQUISICION WHERE Id_Detalle_Req= '" + query.IdDet + "';");
+                }
+
+                return Json(new { MENSAJE = "Succe: Se eliminó la Partida de la Requisición" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
 
         //----------------------------------------------------- Pantalla REQUISICION   --------------  FIN
 
