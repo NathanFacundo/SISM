@@ -222,6 +222,9 @@
                             <div class="row">
                                 <a style=""><strong>SERVICIOS MÉDICOS DE LA U.A.N.L.</strong></a><br />
                             </div>
+                            <div class="row" id="TipoReq">
+                                <a style=""><strong>Farmacia Torre H.U.</strong></a><br />
+                            </div>
                         </div>
                     </div>
 
@@ -700,6 +703,16 @@
         var IdOC = row.data().Id_OC;
         var ClaveRequi = row.data().Id_Requisicion;
 
+        //Obtener el TIPO DE REQ para mostrar donde será entregado el medicamento (embarque)
+        var TipoReq = row.data().TipoReq;
+        if (TipoReq != "RAC") { // Si NO es orden para almacén (o sea, orden de compra para Farmacia)
+            //Mostrar embarque a Torre HU
+            $("#TipoReq").show();
+        } else {
+            //Ocultar embarque a Torre HU
+            $("#TipoReq").hide();
+        }
+
         if (row.data().Validar == "2") {
             document.getElementById("btnGenerar_OC").disabled = false;
         } else {
@@ -900,6 +913,16 @@
         var array = { Id_OC: IdOC, FolioRequi: ClaveRequi  };
         var url = '@Url.Action("ObtenerDetalleOC_Generada", "OrdenCompra")';
         $.post(url, array).done(function (response) {
+
+            //Obtener el TIPO DE REQ para mostrar donde será entregado el medicamento (embarque)
+            var TipReq = response[0].TipoReq;
+            if (TipReq != "RAC") { // Si NO es orden para almacén (o sea, orden de compra para Farmacia)
+                //Mostrar embarque a Torre HU
+                $("#TipoReq").show();
+            } else {
+                //Ocultar embarque a Torre HU
+                $("#TipoReq").hide();
+            }
 
             FolioOC = response[0].Folio;
             if (FolioOC == null || FolioOC == '') {

@@ -992,7 +992,8 @@ namespace UanlSISM.Controllers
                                  Contrato = a.Contrato,
                                  GTiva = a.Total_OC_iva,
                                  STiva = DetOC.Total_iva,
-                                 iva = DetOC.iva
+                                 iva = DetOC.iva,
+                                 TipoReq = Requi.Clave
                              }).ToList();
 
                 var results1 = new List<ListCampos>();
@@ -1028,7 +1029,8 @@ namespace UanlSISM.Controllers
                         NumContrato = q.Contrato,
                         Total_OC_iva = q.GTiva,
                         STiva = q.STiva,
-                        iva = q.iva
+                        iva = q.iva,
+                        TipoReq = q.TipoReq
                     };
                     results1.Add(resultado);
                 }
