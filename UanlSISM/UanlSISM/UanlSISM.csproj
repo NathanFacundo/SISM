@@ -1409,52 +1409,52 @@
       <DependentUpon>SISM-RH.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_BORRADOR_REQUI.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_CODIGOBARRAS.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_COSTEO_LICITACION.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_COTIZACIONES.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_DETALLE_BORRADOR_REQUI.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_DETALLE_OC.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_DETALLE_REQ_FARMACIA.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_DET_REQUISICION.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_DET_VALE_ENTRADA.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_INV_MED.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_MOV_INV.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_ORDEN_COMPRA.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_PROVEEDOR_COMPRAS.cs">
       <DependentUpon>BorradorRequisicion.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_REQUISICION.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_REQUISICION_FARMACIA.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SISM_VALE_ENTRADA.cs">
-      <DependentUpon>BorradorRequisicion.tt</DependentUpon>
+      <DependentUpon>BD_Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sis_areas.cs">
       <DependentUpon>Incidente.tt</DependentUpon>
@@ -1941,6 +1941,7 @@
     <Content Include="Imagenes\agregar.png" />
     <Content Include="Imagenes\amarillo.png" />
     <Content Include="Imagenes\amarillo1.png" />
+    <Content Include="Imagenes\ArchivosOrdenesCompra\1480-responsive.png" />
     <Content Include="Imagenes\avisos\aviso1.png" />
     <Content Include="Imagenes\avisos\aviso10.png" />
     <Content Include="Imagenes\avisos\aviso11.png" />

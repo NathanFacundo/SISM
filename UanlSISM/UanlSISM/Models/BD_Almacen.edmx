@@ -183,6 +183,7 @@
           <Property Name="Fecha_HacerOC" Type="datetime" />
           <Property Name="Contrato" Type="varchar" MaxLength="100" />
           <Property Name="Total_OC_iva" Type="float" />
+          <Property Name="Archivo" Type="varchar" MaxLength="700" />
         </EntityType>
         <EntityType Name="SISM_REQUISICION">
           <Key>
@@ -525,6 +526,7 @@
           <Property Name="Fecha_HacerOC" Type="DateTime" Precision="3" />
           <Property Name="Contrato" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Total_OC_iva" Type="Double" />
+          <Property Name="Archivo" Type="String" MaxLength="700" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="SISM_REQUISICION">
           <Key>
@@ -869,6 +871,7 @@
           <EntitySetMapping Name="SISM_ORDEN_COMPRA">
             <EntityTypeMapping TypeName="SISM_SIST_MED_MILTONModel.SISM_ORDEN_COMPRA">
               <MappingFragment StoreEntitySet="SISM_ORDEN_COMPRA">
+                <ScalarProperty Name="Archivo" ColumnName="Archivo" />
                 <ScalarProperty Name="Total_OC_iva" ColumnName="Total_OC_iva" />
                 <ScalarProperty Name="Contrato" ColumnName="Contrato" />
                 <ScalarProperty Name="Fecha_HacerOC" ColumnName="Fecha_HacerOC" />

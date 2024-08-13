@@ -3,7 +3,9 @@ using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using UanlSISM.Models;
@@ -84,6 +86,7 @@ namespace UanlSISM.Controllers
             public double? STiva { get; internal set; }
             public double? iva { get; internal set; }
             public string TipoReq { get; internal set; }
+            public string Archivo { get; internal set; }
         }
 
         //----------------------------------------------------- Pantalla ORDEN COMPRA   --------------  INICIO
@@ -844,7 +847,8 @@ namespace UanlSISM.Controllers
                                  a.OC_PorValidar,
                                  a.Fecha_HacerOC,
                                  a.NombreProveedor,
-                                 TipoReq = a.Folio
+                                 TipoReq = a.Folio,
+                                 Archivo = a.Archivo
                              }).ToList();
 
                 var results1 = new List<ListCampos>();
@@ -864,7 +868,8 @@ namespace UanlSISM.Controllers
                         FechaRequisicion = string.Format("{0:yyyy/M/d hh:mm tt}", q.Fecha, new CultureInfo("es-ES")),
                         Fecha_OC = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha_HacerOC),
                         NombreProveedor = q.NombreProveedor,
-                        TipoReq = q.TipoReq
+                        TipoReq = q.TipoReq,
+                        Archivo = q.Archivo
                     };
                     results1.Add(resultado);
                 }
@@ -897,7 +902,8 @@ namespace UanlSISM.Controllers
                                  a.OC_PorValidar,
                                  a.Fecha_HacerOC,
                                  a.NombreProveedor,
-                                 TipoReq = a.Folio
+                                 TipoReq = a.Folio,
+                                 Archivo = a.Archivo
                              }).ToList();
 
                 var results1 = new List<ListCampos>();
@@ -917,7 +923,8 @@ namespace UanlSISM.Controllers
                         FechaRequisicion = string.Format("{0:yyyy/M/d hh:mm tt}", q.Fecha, new CultureInfo("es-ES")),
                         Fecha_OC = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha_HacerOC),
                         NombreProveedor = q.NombreProveedor,
-                        TipoReq = q.TipoReq
+                        TipoReq = q.TipoReq,
+                        Archivo = q.Archivo
                     };
                     results1.Add(resultado);
                 }
@@ -933,6 +940,108 @@ namespace UanlSISM.Controllers
                 return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        [HttpPost]
+        public ActionResult UploadFile(int ocId, HttpPostedFileBase file)
+        {
+            try
+            {
+                if (file != null && file.ContentLength > 0)
+                {
+                    //Guardar el archivo en el servidor
+
+                    //Obtenemos el nombre original del archivo
+                    //var fileName = Path.GetFileName(file.FileName);
+
+                    //Al archivo que guardaremos le pondremos por nombre el Id de la OC donde se está guardando más el nombre original del archivo
+                    var fileName = ocId.ToString() + "-" + Path.GetFileName(file.FileName);
+
+                    var path = Path.Combine(Server.MapPath("~/Imagenes/ArchivosOrdenesCompra"), fileName);
+                    file.SaveAs(path);
+
+                    // Asocia el archivo con la orden de compra en la base de datos
+                    //Copia.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Archivo = '" + path + "' WHERE Id='" + ocId + "';");
+                    Copia.Database.ExecuteSqlCommand("UPDATE SISM_ORDEN_COMPRA SET Archivo = '" + fileName + "' WHERE Id='" + ocId + "';");
+
+                    return Json(new { success = true });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+
+            return Json(new { success = false, message = "No se pudo subir el archivo." });
+        }
+
+        //[HttpGet]
+        //public ActionResult DescargarArchivo(int id)
+        //{
+        //    try
+        //    {
+        //        var archivo = (from a in Copia.SISM_ORDEN_COMPRA
+        //                       where a.Id == id
+        //                       select a.Archivo).FirstOrDefault();
+
+        //        if (archivo == null)
+        //        {
+        //            return HttpNotFound("Archivo no encontrado");
+        //        }
+
+        //        //string rutaArchivo = Server.MapPath("~/Imagenes/ArchivosOrdenesCompra/" + archivo);
+
+        //        string rutaArchivo = Server.MapPath("http://148.234.143.203/SISM-Medico/Imagenes/ArchivosOrdenesCompra/" + archivo);
+
+        //        if (!System.IO.File.Exists(rutaArchivo))
+        //        {
+        //            return HttpNotFound("Archivo no encontrado en el servidor");
+        //        }
+
+        //        byte[] fileBytes = System.IO.File.ReadAllBytes(rutaArchivo);
+        //        string fileName = System.IO.Path.GetFileName(rutaArchivo);
+        //        return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Error al descargar el archivo: " + ex.Message);
+        //        return Json(new { success = false, message = ex.Message });
+        //    }
+        //}
+
+        [HttpGet]
+        public ActionResult DescargarArchivo(int id)
+        {
+            try
+            {
+                // Obtén la ruta del archivo desde la base de datos
+                var archivo = (from a in Copia.SISM_ORDEN_COMPRA
+                               where a.Id == id
+                               select a.Archivo).FirstOrDefault();
+
+                if (string.IsNullOrEmpty(archivo))
+                {
+                    return HttpNotFound("Archivo no encontrado");
+                }
+
+                // Construye la URL completa del archivo
+                string urlArchivo = "http://148.234.143.203/SISM-Medico/Imagenes/ArchivosOrdenesCompra/" + archivo;
+
+                // Descarga el archivo desde la URL
+                using (var client = new WebClient())
+                {
+                    byte[] fileBytes = client.DownloadData(urlArchivo);
+
+                    string fileName = Path.GetFileName(urlArchivo);
+                    return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Maneja el error y devuelve un mensaje de error en formato JSON
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Error al descargar el archivo: " + ex.Message);
+            }
+        }
+
 
         //TBL PROVEEDOR NUEVO = ConDB
         public JsonResult ObtenerDetalleOC_Generada(int Id_OC, int FolioRequi)

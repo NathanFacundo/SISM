@@ -112,6 +112,8 @@
                     <th>Contrato<br /> Req.</th>
                     <th>Detalle<br /> O.C</th>
                     <th>Eliminar<br />O.C</th>
+                    <th>Subir<br />Archivo</th>
+                    <th>Descargar<br />Archivo</th>
                     <th></th>
                 </tr>
             </thead>
@@ -452,6 +454,29 @@
     </div>
 </div>
 
+<div class="modal fade" id="fileUploadModal" tabindex="-1" role="dialog" aria-labelledby="fileUploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="fileUploadModalLabel">Subir Archivo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="fileUploadForm" enctype="multipart/form-data">
+                    <input type="hidden" id="ocId" name="ocId" value="" />
+                    <div class="form-group">
+                        <label for="fileInput">Selecciona un archivo:</label>
+                        <input type="file" class="form-control" id="fileInput" name="file" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Subir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.1/dist/jquery.table2excel.min.js"></script>
 <script type="text/javascript" src="~/Scripts/2023/jquery.table2excel.min.js"></script>
 
@@ -637,7 +662,7 @@
                     "className": 'text-center',
                     "orderable": false,
                     "data": null,
-                    "defaultContent": '<button title="Ver Detalle" id="VerDetalle" class="btn btn-primary fa fa-book" data-toggle="modal"></button>',
+                    "defaultContent": '<button title="Ver Detalle" id="VerDetalle" class="btn btn-primary btn-sm fa fa-book" data-toggle="modal"></button>',
                     "target": -2
                 },
                 {
@@ -647,13 +672,66 @@
                     "defaultContent": '<button title="Eliminar O.C" id="botonDelete" class="btn btn-danger btn-sm fa fa-times" data-toggle="modal"></button>',
                     "target": -2
                 },
+                {
+                    "className": 'text-center',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": '<button title="Subir Archivo" class="btn btn-success btn-sm fa fa-upload" onclick="openFileUploadModal(this)"></button>',
+                    "target": -1
+                },
+                {
+                    "data": "Archivo",
+                    "className": "text-center",
+                    "render": function (data, type, row) {
+                        if (data) {
+                            return '<a href="/OrdenCompra/DescargarArchivo/' + row.Id_OC + '" class="btn btn-info btn-sm fa fa-download" target="_blank" title="Ver/Descargar Archivo"></a>';
+                        } else {
+                            return '';
+                        }
+                    }
+                },
                 { "data": "FechaRequisicion" }
             ],
             columnDefs: [
-                { "visible": false, "targets": 13 },
+                { "visible": false, "targets": 15 },
             ]
         });
     }
+
+    function openFileUploadModal(button) {
+        var table = $('#tbl_OCgeneradas').DataTable();
+        var data = table.row($(button).closest('tr')).data();
+        $('#ocId').val(data.Id_OC);
+        $('#fileUploadModal').modal('show');
+    }
+
+    $('#fileUploadForm').submit(function (e) {
+        e.preventDefault();
+
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: '@Url.Action("UploadFile", "OrdenCompra")',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Archivo subido con éxito',
+                    willClose: () => {
+                        location.reload();
+                    }
+                });
+
+                $('#fileUploadModal').modal('hide');
+            },
+            error: function (error) {
+                alert('Error al subir el archivo');
+            }
+        });
+    });
 
     $("input[type=checkbox]").click(function (event) {
 
@@ -787,7 +865,7 @@
             var GranTotalModal = response[0].Total_OC;
             const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
             document.getElementById("Total_OC").innerHTML = "Subtotal $" + formato.format(GranTotalModal); //GranTotal (normal-sin iva)
-            
+
             //*IVA
             if (response[0].Total_OC_iva > 0) {
                 //Este está en el header de la tabla (para exportar)
