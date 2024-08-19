@@ -1014,7 +1014,7 @@ namespace UanlSISM.Controllers
             try
             {
                 // Obtén la ruta del archivo desde la base de datos
-                var archivo = (from a in Copia.SISM_ORDEN_COMPRA
+                var archivo = (from a in ConBD.SISM_ORDEN_COMPRA
                                where a.Id == id
                                select a.Archivo).FirstOrDefault();
 

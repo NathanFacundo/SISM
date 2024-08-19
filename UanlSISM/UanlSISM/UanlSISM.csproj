@@ -1941,7 +1941,6 @@
     <Content Include="Imagenes\agregar.png" />
     <Content Include="Imagenes\amarillo.png" />
     <Content Include="Imagenes\amarillo1.png" />
-    <Content Include="Imagenes\ArchivosOrdenesCompra\1480-responsive.png" />
     <Content Include="Imagenes\avisos\aviso1.png" />
     <Content Include="Imagenes\avisos\aviso10.png" />
     <Content Include="Imagenes\avisos\aviso11.png" />
@@ -3895,6 +3894,7 @@
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Imagenes\ArchivosOrdenesCompra\" />
     <Folder Include="Imagenes\proveedores\" />
     <Folder Include="Imagenes\tickets\" />
     <Folder Include="json\indicadores\consultas\" />

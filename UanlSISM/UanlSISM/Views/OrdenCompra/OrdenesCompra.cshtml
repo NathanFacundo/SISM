@@ -466,12 +466,14 @@
 <div class="modal fade" id="fileUploadModal" tabindex="-1" role="dialog" aria-labelledby="fileUploadModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
+
             <div class="modal-header">
                 <h5 class="modal-title" id="fileUploadModalLabel">Subir Archivo</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
             <div class="modal-body">
                 <form id="fileUploadForm" enctype="multipart/form-data">
                     <input type="hidden" id="ocId" name="ocId" value="" />
@@ -693,7 +695,8 @@
                     "className": "text-center",
                     "render": function (data, type, row) {
                         if (data) {
-                            return '<a href="/OrdenCompra/DescargarArchivo/' + row.Id_OC + '" class="btn btn-info btn-sm fa fa-download" target="_blank" title="Ver/Descargar Archivo"></a>';
+                            return '<a href="http://148.234.143.203/SISM-Medico/Imagenes/ArchivosOrdenesCompra/' + data + '" class="btn btn-info btn-sm fa fa-download" target="_blank" title="Ver/Descargar Archivo"></a>';
+                            //return '<a class="btn btn-info btn-sm fa fa-download" target="_blank" title="Ver/Descargar Archivo" id="DescargarArchivo" ></a>';
                         } else {
                             return '';
                         }
@@ -706,6 +709,15 @@
             ]
         });
     }
+
+    $('#tbl_OCgeneradas tbody').on('click', '#DescargarArchivo', function () {
+        var tr = $(this).closest('tr');
+        var row = $('#tbl_OCgeneradas').DataTable().row(tr);
+        var IdOC = row.data().Id_OC;
+
+        // Redirige al navegador a la URL de descarga
+        window.location.href = '/OrdenCompra/DescargarArchivo/' + IdOC;
+    });
 
     function openFileUploadModal(button) {
         var table = $('#tbl_OCgeneradas').DataTable();
