@@ -135,7 +135,10 @@ namespace UanlSISM.Controllers
                 var result = DAM.Database.SqlQuery<LstInv1>(query);
                 var res = result.ToList();
 
-                return Json(new { MENSAJE = "FOUND", SUSTANCIAS = res }, JsonRequestBehavior.AllowGet);
+                // Regresamos el usuario loguado (para la requi de farmacia)
+                var UsuarioRegistra = User.Identity.GetUserName();
+
+                return Json(new { MENSAJE = "FOUND", SUSTANCIAS = res, USUARIOREGISTRA = UsuarioRegistra }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

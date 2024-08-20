@@ -2691,7 +2691,37 @@ namespace UanlSISM.Controllers
             }
         }
 
+        public ActionResult ObtenerProveedores_OC()
+        {
+            try
+            {
+                var query = (from a in ConBD.SISM_PROVEEDOR_COMPRAS
+                             select new
+                             {
+                                 a.Id,
+                                 a.Prov_Nombre,
+                                 a.Prov_uanl,
+                             }).ToList();
 
+                var results1 = new List<ListCampos>();
+
+                foreach (var q in query)
+                {
+                    var resultado = new ListCampos
+                    {
+                        Id_OC = q.Id,
+                        NombreProveedor = q.Prov_Nombre,
+                        UanlProv = q.Prov_uanl,
+                    };
+                    results1.Add(resultado);
+                }
+                return Json(new { MENSAJE = "FOUND", PROV = results1 }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         //----------------------------------------------------------------------------------- Pantalla ORDENES COMPRA POR VALIDAR   --------------  FIN
 

@@ -658,6 +658,18 @@
                 }
                 else {
                     LlenaTablaSustanciaModal(data.SUSTANCIAS);
+
+                    // Ponemos el check de RequiDeFarmacia en true si es un usuario de Farmacia el logueado
+                    if (data.USUARIOREGISTRA == "Madia" || data.USUARIOREGISTRA == "milton") {
+                        // Marcar el checkbox
+                        $("#cbRFC").prop('checked', true);
+                        $('#btnGenerarBorrador').hide();
+                    } else {
+                        // Desmarcar el checkbox si es necesario
+                        $("#cbRFC").prop('checked', false);
+                        $('#btnGenerarBorrador').show();
+                    }
+
                 }
             },
             error: function (ex) {
