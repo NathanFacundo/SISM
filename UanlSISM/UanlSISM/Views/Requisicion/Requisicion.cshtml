@@ -350,7 +350,7 @@
                                     <br />
                                     <strong>
                                         <a><em>Elaboró.</em></a><br />
-                                        <a id="UsRequi"></a>
+                                        <a id="UsRequiFarmacia"></a>
                                         <br />
                                         <br />
                                     </strong>
@@ -1146,6 +1146,7 @@
             }
 
             $('#UsRequi').html(response[0].Usuario);
+            $('#UsRequiFarmacia').html(response[0].Usuario);
 
             //Al ver el detalle de la requi, consultamos si es requi de Almacen (RAC) o de Farmacia (RFC)
             var TipoReq = response[0].TipoReq;
