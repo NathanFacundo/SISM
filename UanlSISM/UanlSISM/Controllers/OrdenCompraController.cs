@@ -848,7 +848,11 @@ namespace UanlSISM.Controllers
                                  a.Fecha_HacerOC,
                                  a.NombreProveedor,
                                  TipoReq = a.Folio,
-                                 Archivo = a.Archivo
+                                 Archivo = a.Archivo,
+
+                                 a.Total_OC,
+                                 a.Fecha_Acuse,
+                                 a.Contrato
                              }).ToList();
 
                 var results1 = new List<ListCampos>();
@@ -869,7 +873,11 @@ namespace UanlSISM.Controllers
                         Fecha_OC = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha_HacerOC),
                         NombreProveedor = q.NombreProveedor,
                         TipoReq = q.TipoReq,
-                        Archivo = q.Archivo
+                        Archivo = q.Archivo,
+
+                        Total_OC = q.Total_OC.HasValue ? (double)q.Total_OC : 0.0,
+                        FechaAcuse = q.Fecha_Acuse.HasValue ? string.Format("{0:d/M/yyyy}", q.Fecha_Acuse) : "",
+                        NumContrato = q.Contrato ?? ""
                     };
                     results1.Add(resultado);
                 }
@@ -903,7 +911,11 @@ namespace UanlSISM.Controllers
                                  a.Fecha_HacerOC,
                                  a.NombreProveedor,
                                  TipoReq = a.Folio,
-                                 Archivo = a.Archivo
+                                 Archivo = a.Archivo,
+
+                                 a.Total_OC,
+                                 a.Fecha_Acuse,
+                                 a.Contrato
                              }).ToList();
 
                 var results1 = new List<ListCampos>();
@@ -924,7 +936,11 @@ namespace UanlSISM.Controllers
                         Fecha_OC = string.Format("{0:d/M/yyyy hh:mm tt}", q.Fecha_HacerOC),
                         NombreProveedor = q.NombreProveedor,
                         TipoReq = q.TipoReq,
-                        Archivo = q.Archivo
+                        Archivo = q.Archivo,
+
+                        Total_OC = q.Total_OC.HasValue ? (double)q.Total_OC : 0.0,
+                        FechaAcuse = q.Fecha_Acuse.HasValue ? string.Format("{0:d/M/yyyy}", q.Fecha_Acuse) : "",
+                        NumContrato = q.Contrato ?? ""
                     };
                     results1.Add(resultado);
                 }
