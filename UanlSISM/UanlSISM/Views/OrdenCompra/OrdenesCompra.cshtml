@@ -134,8 +134,8 @@
                     <th>Estatus<br /> O.C</th>
                     <th>Folio<br /> Req.</th>
                     <th>Tipo<br /> Req.</th>
-                    <th>Fecha<br /> Req.</th>
-                    <th>Contrato<br /> Req.</th>
+                    @*<th>Fecha<br /> Req.</th>
+                    <th>Contrato<br /> Req.</th>*@
                     <th>Detalle<br /> O.C</th>
                     <th>Eliminar<br />O.C</th>
                     <th>Subir<br />Archivo</th>
@@ -251,7 +251,8 @@
                                 <a style=""><strong>SERVICIOS MÉDICOS DE LA U.A.N.L.</strong></a><br />
                             </div>
                             <div class="row" id="TipoReq">
-                                <a style=""><strong>Farmacia Torre H.U.</strong></a><br />
+                                @*<a style=""><strong>Farmacia Torre H.U.</strong></a><br />*@
+                                <span style="color: green;"><strong>Farmacia Torre H.U.</strong></span><br />
                             </div>
                         </div>
                     </div>
@@ -682,16 +683,16 @@
                 },
                 { 'data': 'Id_Requisicion', className: "text-center" },
                 { 'data': 'TipoReq', className: "text-center" },
-                { 'data': 'Fecha1', className: "text-center" },
-                {
-                    "data": "EstatusContrato", className: "text-center", render: function (data) {
-                        if (data == 'Sin Contrato') {
-                            return '<h8 style="color:black; ">' + "NO" + '</h8>';
-                        } else {
-                            return '<h8 style="color:black; ">' + "SI" + '</h8>';
-                        }
-                    }
-                },
+                //{ 'data': 'Fecha1', className: "text-center" },
+                //{
+                //    "data": "EstatusContrato", className: "text-center", render: function (data) {
+                //        if (data == 'Sin Contrato') {
+                //            return '<h8 style="color:black; ">' + "NO" + '</h8>';
+                //        } else {
+                //            return '<h8 style="color:black; ">' + "SI" + '</h8>';
+                //        }
+                //    }
+                //},
                 {
                     "className": 'text-center',
                     "orderable": false,
@@ -728,7 +729,7 @@
                 { "data": "FechaRequisicion" }
             ],
             columnDefs: [
-                { "visible": false, "targets": 16 },
+                { "visible": false, "targets": 14 },
             ]
         });
     }
@@ -754,21 +755,32 @@
             '<tr id=detOC>' +
             '<th style=text-align:center;>Gran Total</th>' +
             '<th style=text-align:center;>Fecha Acuse</th>' +
-            '<th style=text-align:center;>Contrato</th>' +
+            '<th style=text-align:center;>Contrato OC.</th>' +
+            '<th style=text-align:center;>Fecha Req.</th>' +
+            '<th style=text-align:center;>Contrato Req.</th>' +
             '</tr>';
 
         // Verifica si los datos requeridos están presentes en 'd'
-        if (d.Total_OC || d.FechaAcuse || d.NumContrato) {
+        if (d.Total_OC || d.FechaAcuse || d.NumContrato || d.Fecha1 || d.EstatusContrato) {
 
             var GTo = d.Total_OC;
             const formato = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
             var G_T = "$ " + formato.format(GTo);
 
+            var ReqContrato;
+            if (d.EstatusContrato == 'Sin Contrato') {
+                ReqContrato = "NO";
+            } else {
+                ReqContrato = "SI";
+            }
+
             stringTabla += '<tr id=detOC><td style=text-align:center;font-weight:normal;>' + G_T + '</td>';
             stringTabla += '<td style=text-align:center;font-weight:normal;>' + d.FechaAcuse + '</td>';
-            stringTabla += '<td style=text-align:center;font-weight:normal;>' + d.NumContrato + '</td></tr>';
+            stringTabla += '<td style=text-align:center;font-weight:normal;>' + d.NumContrato + '</td>';
+            stringTabla += '<td style=text-align:center;font-weight:normal;>' + d.Fecha1 + '</td>';
+            stringTabla += '<td style=text-align:center;font-weight:normal;>' + ReqContrato + '</td></tr>';
         } else {
-            stringTabla += '<tr><td colspan="3" style="text-align:center;">No hay detalles disponibles</td></tr>';
+            stringTabla += '<tr><td colspan="5" style="text-align:center;">No hay detalles disponibles</td></tr>';
         }
 
         stringTabla += '</table></div></div>';
