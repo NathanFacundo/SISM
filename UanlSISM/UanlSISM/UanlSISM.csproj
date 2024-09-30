@@ -1960,6 +1960,14 @@
     <Content Include="Imagenes\cansultar_retardo.png" />
     <Content Include="Imagenes\capacitaciondesarrollo.png" />
     <Content Include="Imagenes\Capture.png" />
+    <Content Include="Imagenes\ComprasMedicamentos\AltaProveedor.png" />
+    <Content Include="Imagenes\ComprasMedicamentos\Compradores.png" />
+    <Content Include="Imagenes\ComprasMedicamentos\ComprasMedicamentos.png" />
+    <Content Include="Imagenes\ComprasMedicamentos\Coordinacion.png" />
+    <Content Include="Imagenes\ComprasMedicamentos\GenerarPreOrden.png" />
+    <Content Include="Imagenes\ComprasMedicamentos\PendienteComprar.png" />
+    <Content Include="Imagenes\ComprasMedicamentos\ReporteLinea.png" />
+    <Content Include="Imagenes\ComprasMedicamentos\ReporteProveedor.png" />
     <Content Include="Imagenes\COMUNICADO2-01.jpg" />
     <Content Include="Imagenes\ConsultaNotasPorMedico.png" />
     <Content Include="Imagenes\ConsultarAgenda.png" />
@@ -3880,6 +3888,8 @@
     <Content Include="Views\OrdenCompra\Proveedor.cshtml" />
     <Content Include="Views\Requisicion\PartidasPendientes.cshtml" />
     <Content Include="Views\Requisicion\ReporteRequisiciones.cshtml" />
+    <Content Include="Views\OrdenCompra\ComprasMenu.cshtml" />
+    <Content Include="Views\OrdenCompra\AltaProveedor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -987,6 +987,13 @@
         </div>
     }
 
+
+
+
+
+
+
+
     @if (HttpContext.Current.User.IsInRole("Compras") || HttpContext.Current.User.IsInRole("ComprasCoordinacion"))
     {
         <div class="col-lg-3 col-md-6 item text-center">
@@ -997,7 +1004,7 @@
                     <p class="card-text">
                         Depto. Compras
                     </p>
-                    <button class="card-link">Ver más</button>
+                    <button class="card-link"></button>
                 </div>
             </a>
         </div>
@@ -1013,11 +1020,39 @@
                     <p class="card-text">
                         Coordinación
                     </p>
-                    <button class="card-link">Ver más</button>
+                    <button class="card-link"></button>
                 </div>
             </a>
         </div>
     }
+
+
+    @if (HttpContext.Current.User.IsInRole("Compras") || HttpContext.Current.User.IsInRole("ComprasCoordinacion"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("ComprasMenu", "OrdenCompra")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/ComprasMedicamentos/Compradores.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">DEPTO. COMPRAS</h5>
+                    <p class="card-text">
+                        COMPRA MEDICAMENTO
+                    </p>
+                    <button class="card-link"></button>
+                </div>
+            </a>
+        </div>
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     @if (HttpContext.Current.User.IsInRole("TrazabilidadMedicamento"))
     {

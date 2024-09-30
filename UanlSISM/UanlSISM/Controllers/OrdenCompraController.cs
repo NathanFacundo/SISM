@@ -1387,6 +1387,7 @@ namespace UanlSISM.Controllers
                 ////Obtener la Requi de la BD VIEJITA
                 var RequiVieja = (from a in RequisicionDB.Requisicion
                                   where a.clave == Folio_Requi.ToString()
+                                  where a.Id_Tipo == 2
                                   select a).OrderByDescending(u => u.id).FirstOrDefault();
 
                 //Se crea una NUEVA O.C en la B.D VIEJA, en base a la O.C creada en la NUEVA B.D
@@ -3071,6 +3072,20 @@ namespace UanlSISM.Controllers
                 return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
+
+
+        public ActionResult ComprasMenu()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult AltaProveedor()
+        {
+            return View();
+        }
+
     }
 }
 

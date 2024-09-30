@@ -15,6 +15,7 @@ namespace UanlSISM.Controllers
         SISM_SIST_MEDEntities ConBD = new SISM_SIST_MEDEntities();   //BD NUEVA PRODUCTIVA
         SERVMEDEntities6 db3 = new SERVMEDEntities6();               //SP Temporales
 
+        [Authorize]
         public ActionResult Trazabilidad()
         {
             return View();
@@ -41,27 +42,27 @@ namespace UanlSISM.Controllers
             public int CantSurVE { get; set; }
         }
 
-        public ActionResult ObtenerReporte(string FechaInicio, string FechaFin, string ClaveMed)
-        {
-            try
-            {
-                #region Fechas
-                var fechaI = FechaInicio + " 00:00:00";
-                var fechaIn = DateTime.Parse(fechaI);
+        //public ActionResult ObtenerReporte(string FechaInicio, string FechaFin, string ClaveMed)
+        //{
+        //    try
+        //    {
+        //        #region Fechas
+        //        var fechaI = FechaInicio + " 00:00:00";
+        //        var fechaIn = DateTime.Parse(fechaI);
 
-                var fechaF = FechaFin + " 23:59:59";
-                var fechaFi = DateTime.Parse(fechaF);
-                #endregion
+        //        var fechaF = FechaFin + " 23:59:59";
+        //        var fechaFi = DateTime.Parse(fechaF);
+        //        #endregion
 
-                var query = db3.SP_Trazabilidad(FechaInicio, FechaFin, ClaveMed).ToList();
+        //        var query = db3.SP_Trazabilidad(FechaInicio, FechaFin, ClaveMed).ToList();
 
-                return Json(new { MENSAJE = "FOUND", REP = query }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        return Json(new { MENSAJE = "FOUND", REP = query }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
         public ActionResult ObtenerReporteOC(string FechaInicio, string FechaFin, string ClaveMed)
         {
@@ -100,26 +101,26 @@ namespace UanlSISM.Controllers
             }
         }
 
-        public ActionResult Trazabilidad_Completa(string FechaInicio, string FechaFin, string ClaveMed)
-        {
-            try
-            {
-                #region Fechas
-                var fechaI = FechaInicio + " 00:00:00";
-                var fechaIn = DateTime.Parse(fechaI);
+        //public ActionResult Trazabilidad_Completa(string FechaInicio, string FechaFin, string ClaveMed)
+        //{
+        //    try
+        //    {
+        //        #region Fechas
+        //        var fechaI = FechaInicio + " 00:00:00";
+        //        var fechaIn = DateTime.Parse(fechaI);
 
-                var fechaF = FechaFin + " 23:59:59";
-                var fechaFi = DateTime.Parse(fechaF);
-                #endregion
+        //        var fechaF = FechaFin + " 23:59:59";
+        //        var fechaFi = DateTime.Parse(fechaF);
+        //        #endregion
 
-                var query = db3.SP_Trazabilidad_Completa(FechaInicio, FechaFin, ClaveMed).ToList();
+        //        var query = db3.SP_Trazabilidad_Completa(FechaInicio, FechaFin, ClaveMed).ToList();
 
-                return Json(new { MENSAJE = "FOUND", REP = query }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        return Json(new { MENSAJE = "FOUND", REP = query }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { MENSAJE = "Error: Error de sistema: " + ex.Message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
     }
 }
