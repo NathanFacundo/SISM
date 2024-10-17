@@ -1968,6 +1968,7 @@
     <Content Include="Imagenes\ComprasMedicamentos\PendienteComprar.png" />
     <Content Include="Imagenes\ComprasMedicamentos\ReporteLinea.png" />
     <Content Include="Imagenes\ComprasMedicamentos\ReporteProveedor.png" />
+    <Content Include="Imagenes\ComprasMedicamentos\TriageMenu.png" />
     <Content Include="Imagenes\COMUNICADO2-01.jpg" />
     <Content Include="Imagenes\ConsultaNotasPorMedico.png" />
     <Content Include="Imagenes\ConsultarAgenda.png" />
@@ -3890,6 +3891,7 @@
     <Content Include="Views\Requisicion\ReporteRequisiciones.cshtml" />
     <Content Include="Views\OrdenCompra\ComprasMenu.cshtml" />
     <Content Include="Views\OrdenCompra\AltaProveedor.cshtml" />
+    <Content Include="Views\RecepcionTriage\TriageMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,0 +1,159 @@
+﻿
+@{
+    ViewBag.Title = "Menú Triage";
+}
+
+<style>
+
+    #home-seccion {
+        margin-top: 20px;
+    }
+
+    .icons {
+        height: 8vw;
+    }
+
+    .item {
+        padding: 10px;
+    }
+
+    .item-card {
+        transition: 0.5s;
+        cursor: pointer;
+        padding: 20px;
+    }
+
+    .card-link {
+        background-color: #FBC43D;
+        border-color: #FBC43D;
+        color: white;
+        padding: 5px 20px;
+    }
+
+        .card-link:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+    .item-card-title {
+        font-size: 15px;
+        transition: 1s;
+        cursor: pointer;
+    }
+
+        .item-card-title i {
+            font-size: 15px;
+            transition: 1s;
+            cursor: pointer;
+            color: #ffa710
+        }
+
+    .card-title i:hover {
+        transform: scale(1.25) rotate(20deg);
+        color: #18d4ca;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        /*box-shadow: 5px 5px 5px rgba(0,0,0,0.3);*/
+    }
+
+    .card::before, .card::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: scale3d(0, 0, 1);
+        transition: transform .3s ease-out 0s;
+        background: rgba(255, 255, 255, 0.1);
+        content: '';
+        pointer-events: none;
+    }
+
+    .card::before {
+        transform-origin: left top;
+    }
+
+    .card::after {
+        transform-origin: right bottom;
+    }
+
+    .card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
+        transform: scale3d(1, 1, 1);
+    }
+</style>
+
+<style type="text/css" media="screen and (max-width: 767px)">
+
+    .icons {
+        height: 20vw;
+    }
+</style>
+<!--link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'-->
+<link rel='stylesheet' href='~/Content/materialicons.css'>
+
+<div class="row">
+    <div class="col-md-12" id="menu">
+        <table>
+            <tr>
+                <td><a href="@Url.Action("Index", "Home")"><b>Inicio</b></a></td>
+                <td> <span class="material-icons">keyboard_arrow_right</span></td>
+                <td><a href="@Url.Action("Medico", "Manage")"><b>Médico</b></a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+
+    @if (HttpContext.Current.User.IsInRole("Triage"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("RecTriage", "RecepcionTriage")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/recepcion_triage.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">FILTRO TRIAGE</h5>
+                    <p class="card-text">
+                        Captura de datos del derechohabiente
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+    @if (HttpContext.Current.User.IsInRole("Triage"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("MedicoUrgenciasT2", "RecepcionTriage")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/urgencias_triage.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">MÉDICOS TRIAGE</h5>
+                    <p class="card-text">
+                        Ver y llamar al derechohabiente al consultorio
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+    @if (HttpContext.Current.User.IsInRole("Triage"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("ListaEsperaT", "RecepcionTriage")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/ListaEspera_Triage.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">RECEPCIÓN TRIAGE</h5>
+                    <p class="card-text">
+                        Pantalla derechohabientes triage
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }
+
+</div>
+

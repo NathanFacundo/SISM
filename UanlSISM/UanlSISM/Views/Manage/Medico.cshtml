@@ -853,7 +853,7 @@
         </div>
     }
 
-    @if (HttpContext.Current.User.IsInRole("Triage"))
+    @*@if (HttpContext.Current.User.IsInRole("Triage"))
     {
         <div class="col-lg-3 col-md-6 item text-center">
             <a href="@Url.Action("RecTriage", "RecepcionTriage")">
@@ -894,6 +894,22 @@
                     <h5 class="item-card-title mt-3 mb-3">RECEPCIÓN TRIAGE</h5>
                     <p class="card-text">
                         Pantalla derechohabientes triage
+                    </p>
+                    <button class="card-link">Ver más</button>
+                </div>
+            </a>
+        </div>
+    }*@
+
+    @if (HttpContext.Current.User.IsInRole("Triage"))
+    {
+        <div class="col-lg-3 col-md-6 item text-center">
+            <a href="@Url.Action("TriageMenu", "RecepcionTriage")">
+                <div class="card item-card card-block">
+                    <center><img class="icons" src="~/Imagenes/ComprasMedicamentos/TriageMenu.png" /></center>
+                    <h5 class="item-card-title mt-3 mb-3">TRIAGE</h5>
+                    <p class="card-text">
+                        Triage
                     </p>
                     <button class="card-link">Ver más</button>
                 </div>
@@ -994,7 +1010,7 @@
 
 
 
-    @if (HttpContext.Current.User.IsInRole("Compras") || HttpContext.Current.User.IsInRole("ComprasCoordinacion"))
+    @*@if (HttpContext.Current.User.IsInRole("Compras") || HttpContext.Current.User.IsInRole("ComprasCoordinacion"))
     {
         <div class="col-lg-3 col-md-6 item text-center">
             <a href="@Url.Action("OrdenCompra", "OrdenCompra")">
@@ -1024,7 +1040,7 @@
                 </div>
             </a>
         </div>
-    }
+    }*@
 
 
     @if (HttpContext.Current.User.IsInRole("Compras") || HttpContext.Current.User.IsInRole("ComprasCoordinacion"))
